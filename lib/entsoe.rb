@@ -167,7 +167,7 @@ class ENTSOE
     'LV': '10YLV-1001A00074',
     # 'MD': 'MD',
     'ME': '10YCS-CG-TSO---S',
-    'MK': '10YMK-MEPSO----8',
+    #'MK': '10YMK-MEPSO----8', # has bad load data
     #'MT': '10Y1001A1001A93C',
     'NL': '10YNL----------L',
     'NO': '10YNO-0--------C',
