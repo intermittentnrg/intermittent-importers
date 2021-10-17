@@ -5,12 +5,25 @@ endif
 
 .PHONY: backup
 backup:
-	mkdir -p backup
-	influxd backup -host $(INFLUXDB_HOST):8088 -db $(INFLUXDB_DATABASE) \
-		-portable backup/"$(date +%Y%m%d%H%M%S)"
+	rm -rf backup
+	influxd backup -portable -host $(INFLUXDB_HOST):8088 -database $(INFLUXDB_DATABASE) backup
 
-docker_backup:
-	docker build -t intermittency:latest -f Dockerfile.influx-restore .
+docker_restore:
+	docker-compose down
+	rm -rf docker/data
+	docker-compose up -d influxdb
+	docker-compose exec influxdb influxd restore -portable -host localhost:8088 /backup
+	docker-compose exec influxdb influx -host localhost -database intermittency -execute "CREATE USER grafana WITH PASSWORD 'grafana'"
+	docker-compose exec influxdb influx -host localhost -database intermittency -execute "GRANT READ ON intermittency TO grafana"
+	docker-compose down
+	sudo chmod -R a+rwX docker/data/
+
+docker_build:
+#	docker-compose build influxdb-preloaded
+	cd docker && docker buildx build --platform=linux/arm64 -f Dockerfile.influxdb-preloaded \
+		--build-arg INFLUXDB_VERSION \
+		-t $(DOCKER_REGISTRY)/influxdb-preloaded:latest -o type=registry \
+		.
 
 client:
 	influx -host $(INFLUXDB_HOST) -database $(INFLUXDB_DATABASE) -username $(INFLUXDB_USERNAME) -password $(INFLUXDB_PASSWORD) -precision rfc3339

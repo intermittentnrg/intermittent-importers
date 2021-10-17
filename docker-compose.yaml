@@ -1,0 +1,19 @@
+services:
+  influxdb:
+    image: influxdb:${INFLUXDB_VERSION}
+    volumes:
+      - ./docker/data:/var/lib/influxdb
+      - ./backup:/backup
+    ports:
+      - 8086:8086
+      - 8088:8088
+    environment:
+      INFLUXDB_BIND_ADDRESS: 127.0.0.1:8088
+
+  influxdb-preloaded:
+    image: ${DOCKER_REGISTRY}/influxdb-preloaded
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.influx-restore
+      args:
+        INFLUXDB_VERSION:
