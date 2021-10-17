@@ -8,4 +8,4 @@ repositories:
 releases:
   - name: influxdb-preloaded
     namespace: intermittency
-    chart: .
+    chart: ./influxdb-preloaded
