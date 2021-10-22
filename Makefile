@@ -3,6 +3,10 @@ ifneq (,$(wildcard ./.env))
     export
 endif
 
+fetch:
+	scripts/sincedb-generation.rb
+	scripts/sincedb-load.rb
+
 .PHONY: backup
 backup:
 	rm -rf backup
@@ -17,13 +21,13 @@ docker_restore:
 	docker-compose exec influxdb influx -host localhost -database intermittency -execute "CREATE USER grafana WITH PASSWORD 'grafana'"
 	docker-compose exec influxdb influx -host localhost -database intermittency -execute "GRANT READ ON intermittency TO grafana"
 
+TAG = $(shell TZ=UTC date +%Y%m%d-%H%M)
 docker_build:
 	docker-compose down
 	sudo chmod -R a+rwX docker/data/
-#	docker-compose build influxdb-preloaded
 	cd docker && docker buildx build --platform=linux/arm64 -f Dockerfile.influxdb-preloaded \
 		--build-arg INFLUXDB_VERSION \
-		-t $(DOCKER_REGISTRY)/influxdb-preloaded:latest -o type=registry \
+		-t $(DOCKER_REGISTRY)/influxdb-preloaded:$(TAG) -o type=registry \
 		.
 
 client:
