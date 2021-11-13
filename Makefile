@@ -3,6 +3,8 @@ ifneq (,$(wildcard ./.env))
     export
 endif
 
+refresh: fetch backup docker_restore docker_build helm_apply
+
 fetch:
 	scripts/sincedb-generation.rb
 	scripts/sincedb-load.rb
@@ -21,7 +23,7 @@ docker_restore:
 	docker-compose exec influxdb influx -host localhost -database intermittency -execute "CREATE USER grafana WITH PASSWORD 'grafana'"
 	docker-compose exec influxdb influx -host localhost -database intermittency -execute "GRANT READ ON intermittency TO grafana"
 
-TAG = $(shell TZ=UTC date +%Y%m%d-%H%M)
+TAG ?= $(shell TZ=UTC date +%Y%m%d-%H%M)
 docker_build:
 	docker-compose down
 	sudo chmod -R a+rwX docker/data/
@@ -29,6 +31,12 @@ docker_build:
 		--build-arg INFLUXDB_VERSION \
 		-t $(DOCKER_REGISTRY)/influxdb-preloaded:$(TAG) -o type=registry \
 		.
+
+helm_apply:
+	cd chart && helmfile apply --set image.tag=$(TAG)
+
+helm_diff:
+	cd chart && helmfile diff --set image.tag=$(TAG)
 
 client:
 	influx -host $(INFLUX_HOST) -database $(INFLUX_DATABASE) -username $(INFLUX_USERNAME) -password $(INFLUX_PASSWORD) -precision rfc3339
