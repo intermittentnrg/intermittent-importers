@@ -6,3 +6,5 @@ gem 'httparty'
 gem 'activesupport'
 gem 'dotenv'
 gem 'influxdb'
+
+gem 'rspec'
