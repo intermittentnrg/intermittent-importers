@@ -8,7 +8,11 @@ require 'yaml'
 require 'influxdb'
 influxdb = InfluxDB::Client.new 'intermittency', host: ENV['INFLUX_HOST'], async: true
 
-@state = ENTSOE::State.new 'sincedb-load.yaml'
+STATE_FILE = 'sincedb-load.yaml'
+SOURCE = ENTSOE::Load
+OUT_SERIES = 'entsoe_load'
+
+@state = ENTSOE::State.new STATE_FILE
 pass = false
 loop do
   pass = false
@@ -23,10 +27,10 @@ loop do
     end
     begin
       $stderr.puts "#{country} #{from} to #{to}"
-      e = ENTSOE::Load.new(country: country, from: from, to: to)
+      e = SOURCE.new(country: country, from: from, to: to)
       data = e.points.map do |p|
         {
-          series: 'entsoe_load',
+          series: OUT_SERIES,
           values: { value: p[:value] },
           tags:   { country: p[:country] },
           timestamp: p[:timestamp].to_i

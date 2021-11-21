@@ -8,7 +8,11 @@ require 'yaml'
 require 'influxdb'
 influxdb = InfluxDB::Client.new 'intermittency', host: ENV['INFLUX_HOST'], async: true
 
-@state = ENTSOE::State.new 'sincedb-generation.yaml'
+STATE_FILE = 'sincedb-generation.yaml'
+SOURCE = ENTSOE::Generation
+OUT_SERIES = 'entsoe_generation'
+
+@state = ENTSOE::State.new STATE_FILE
 
 #.select { |k| k.match /^DK/ }
 
@@ -22,11 +26,11 @@ ENTSOE::COUNTRIES.keys.each do |country|
   end
   begin
     $stderr.puts "#{country} #{from} to #{to}"
-    e = ENTSOE::Generation.new(country: country, from: from, to: to)
+    e = SOURCE.new(country: country, from: from, to: to)
     #puts e.points
     data = e.points.map do |p|
       {
-        series: 'entsoe_generation',
+        series: OUT_SERIES,
         values: { value: p[:value] },
         tags:   { country: p[:country], production_type: p[:production_type], process_type: p[:process_type] },
         timestamp: p[:timestamp].to_i

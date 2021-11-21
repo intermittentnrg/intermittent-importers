@@ -11,12 +11,24 @@ require 'active_support/core_ext'
 class ENTSOE
   DEFAULT_START = DateTime.parse('2014-01-01')
 
+  #4.4.5. Current Generation Forecasts for Wind and Solar [14.1.D]
+  #GET /api?documentType=A69&processType=A18&psrType=B16&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class WindSolar < ENTSOE
+    include HTTParty
+    base_uri 'https://transparency.entsoe.eu'
+    debug_output $stdout
+
     def initialize(*)
+      super
       @options[:documentType] = 'A69'
+      @options[:processType] = PROCESS_TYPES[:current]
+      @options[:in_Domain] = DOMAIN_MAPPINGS[@country.to_sym]
+      fetch
     end
   end
 
+  #4.4.8. Aggregated Generation per Type [16.1.B&C]
+  #GET /api?documentType=A75&processType=A16&psrType=B02&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Generation < ENTSOE
     include HTTParty
     base_uri 'https://transparency.entsoe.eu'
@@ -32,6 +44,7 @@ class ENTSOE
     end
   end
 
+  #4.1.1. Actual Total Load [6.1.A]
   #GET /api?documentType=A65&processType=A16&outBiddingZone_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Load < ENTSOE
     include HTTParty
