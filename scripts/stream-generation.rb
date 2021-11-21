@@ -9,7 +9,10 @@ require 'influxdb'
 influxdb = InfluxDB::Client.new 'intermittency', host: ENV['INFLUX_HOST'], async: true
 INFLUX_SERIES = 'entsoe_generation'
 
-raise if ARGV.length < 2
+if ARGV.length < 2
+  $stderr.puts "#{$0} <from> <to>"
+  exit 1
+end
 from = ARGV.shift
 to = ARGV.shift
 (ARGV.present? ? ARGV : ENTSOE::DOMAIN_MAPPINGS.keys).each do |country|
