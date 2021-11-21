@@ -1,6 +1,6 @@
 # coding: utf-8
 require 'bundler/setup'
-#require 'dotenv/load'
+require 'dotenv/load'
 
 require 'date'
 require 'httparty'
