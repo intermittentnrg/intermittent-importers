@@ -2,20 +2,13 @@
 require 'bundler/setup'
 require 'date'
 require './lib/entsoe'
-
+require './lib/entsoe/state'
 require 'yaml'
 
 require 'influxdb'
 influxdb = InfluxDB::Client.new 'intermittency', host: ENV['INFLUX_HOST'], async: true
 
-DEFAULT = DateTime.parse('2014-01-01')
-PATH = 'sincedb-generators.yaml'
-
-@state = YAML.load(File.read(PATH)) rescue {}
-@state.default = ENTSOE::DEFAULT_START
-def save_state
-  File.write PATH, @state.to_yaml
-end
+@state = ENTSOE::State.new 'sincedb-generation.yaml'
 
 #.select { |k| k.match /^DK/ }
 
@@ -52,7 +45,6 @@ ENTSOE::COUNTRIES.keys.each do |country|
     @state[country] = to
     $stderr.puts "skipped missing data until #{to}"
   ensure
-    save_state
+    @state.save!
   end
 end
-
