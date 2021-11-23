@@ -42,6 +42,10 @@ class ENTSOE
       @options[:in_Domain] = DOMAIN_MAPPINGS[@country.to_sym]
       fetch
     end
+
+    def points
+      super.select { |p| !(p[:country] == :NO && p[:production_type] == 'wind_onshore' && p[:value] > 10_000) }
+    end
   end
 
   #4.1.1. Actual Total Load [6.1.A]
