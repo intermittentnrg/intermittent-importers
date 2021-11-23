@@ -20,7 +20,7 @@ ENTSOE::COUNTRIES.keys.each do |country|
   next if country == :GB
   from = @state[country]
   to = [from + 1.months, DateTime.now.beginning_of_hour].min
-  if from > 10.hours.ago
+  if from > 4.hours.ago
     $stderr.puts "#{country} up to date"
     next
   end
