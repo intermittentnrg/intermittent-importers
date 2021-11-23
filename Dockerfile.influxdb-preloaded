@@ -1,0 +1,9 @@
+ARG INFLUXDB_VERSION
+FROM influxdb:${INFLUXDB_VERSION}
+
+COPY backup /backup
+RUN influxd & \
+    influxd restore -portable -db ${INFLUX_DATABASE} -newdb ${INFLUX_DATABASE} -host localhost:8088 /backup && \
+    influx -host localhost -database intermittency -execute "CREATE USER ${INFLUX_USERNAME} WITH PASSWORD '${INFLUX_PASSWORD}' WITH ALL PRIVILEGES" && \
+    influx -host localhost -database intermittency -execute "CREATE USER grafana WITH PASSWORD 'grafana'" && \
+    influx -host localhost -database intermittency -execute "GRANT READ ON intermittency TO grafana"
