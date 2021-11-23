@@ -16,9 +16,13 @@ services:
       INFLUXDB_BIND_ADDRESS: 127.0.0.1:8088
 
   influxdb-preloaded:
-    image: ${DOCKER_REGISTRY}/influxdb-preloaded
+    image: ${DOCKER_REGISTRY}/influxdb-preloaded:${TAG}
     build:
-      context: ./docker
-      dockerfile: Dockerfile.influx-restore
+      context: .
+      dockerfile: Dockerfile.influxdb-preloaded
       args:
+        INFLUX_DATABASE:
+        INFLUX_USERNAME:
+        INFLUX_PASSWORD:
+        INFLUX_HOST:
         INFLUXDB_VERSION:

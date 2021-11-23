@@ -6,37 +6,22 @@ endif
 TIMESTAMP := $(shell TZ=UTC date +%Y%m%d-%H%M)
 export TAG ?= $(TIMESTAMP)
 
-refresh: fetch backup docker_restore docker_build helm_apply
+refresh: fetch docker_build helm_apply
 
 ## load new data
 fetch:
 	scripts/sincedb-generation.rb
 	scripts/sincedb-load.rb
 
-.PHONY: backup
-## backup influxdb to backup/
-backup:
-	rm -rf backup
-	influxd backup -portable -host $(INFLUX_HOST):8088 -database $(INFLUX_DATABASE) backup
-
-## load backup/ into influxdb docker/data/
-docker_restore:
-	docker-compose down
-	sudo rm -rf docker/data
-	docker-compose up -d influxdb
-	docker-compose exec influxdb influxd restore -portable -db $(INFLUX_DATABASE) -newdb $(INFLUX_DATABASE) -host localhost:8088 /backup
-	docker-compose exec influxdb influx -host localhost -database intermittency -execute "CREATE USER $(INFLUX_USERNAME) WITH PASSWORD '$(INFLUX_PASSWORD)' WITH ALL PRIVILEGES"
-	docker-compose exec influxdb influx -host localhost -database intermittency -execute "CREATE USER grafana WITH PASSWORD 'grafana'"
-	docker-compose exec influxdb influx -host localhost -database intermittency -execute "GRANT READ ON intermittency TO grafana"
-
-## build data/ into influxdb-preloaded docker image
+## build influxdb-preloaded docker image
 docker_build:
-	docker-compose down
-	sudo chmod -R a+rwX docker/data/
-	cd docker && docker buildx build --platform=linux/arm64 -f Dockerfile.influxdb-preloaded \
+	docker buildx build --platform=linux/arm64 -f Dockerfile.influxdb-preloaded \
 		--build-arg INFLUXDB_VERSION \
+		--build-arg INFLUX_USERNAME \
+		--build-arg INFLUX_PASSWORD \
+		--build-arg INFLUX_DATABASE \
+		--build-arg INFLUX_HOST \
 		-t $(DOCKER_REGISTRY)/influxdb-preloaded:$(TAG) -o type=registry \
-		.
 
 ## helm apply
 helm_apply:

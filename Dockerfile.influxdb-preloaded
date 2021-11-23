@@ -1,9 +1,22 @@
 ARG INFLUXDB_VERSION
-FROM influxdb:${INFLUXDB_VERSION}
+FROM influxdb:${INFLUXDB_VERSION} AS builder
 
-COPY backup /backup
-RUN influxd & \
-    influxd restore -portable -db ${INFLUX_DATABASE} -newdb ${INFLUX_DATABASE} -host localhost:8088 /backup && \
+#COPY backup /backup
+ARG INFLUX_HOST
+ARG INFLUX_DATABASE
+RUN influxd backup -portable -host ${INFLUX_HOST}:8088 -database ${INFLUX_DATABASE} backup
+
+ARG INFLUX_DATABASE
+ARG INFLUX_USERNAME
+ARG INFLUX_PASSWORD
+RUN influxd & sleep 1 && \
+    influxd restore -portable -db ${INFLUX_DATABASE} -newdb ${INFLUX_DATABASE} -host localhost:8088 backup && \
     influx -host localhost -database intermittency -execute "CREATE USER ${INFLUX_USERNAME} WITH PASSWORD '${INFLUX_PASSWORD}' WITH ALL PRIVILEGES" && \
     influx -host localhost -database intermittency -execute "CREATE USER grafana WITH PASSWORD 'grafana'" && \
-    influx -host localhost -database intermittency -execute "GRANT READ ON intermittency TO grafana"
+    influx -host localhost -database intermittency -execute "GRANT READ ON intermittency TO grafana" && \
+    kill -15 -1 && sleep 1 && \
+    ls -l /var/lib/influxdb
+
+
+FROM influxdb:${INFLUXDB_VERSION}
+COPY --from=builder --chown=influxdb:influxdb /var/lib/influxdb /var/lib/influxdb
