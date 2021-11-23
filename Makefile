@@ -15,7 +15,9 @@ fetch:
 
 ## build influxdb-preloaded docker image
 docker_build:
-	docker buildx build --platform=linux/arm64 -f Dockerfile.influxdb-preloaded \
+	docker buildx build \
+		--no-cache \
+		--platform=linux/arm64 -f Dockerfile.influxdb-preloaded \
 		--build-arg INFLUXDB_VERSION \
 		--build-arg INFLUX_USERNAME \
 		--build-arg INFLUX_PASSWORD \
