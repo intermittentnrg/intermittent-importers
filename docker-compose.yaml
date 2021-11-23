@@ -1,4 +1,8 @@
 services:
+  app:
+    image: intermittency:latest
+    build:
+      context: .
   influxdb:
     image: influxdb:${INFLUXDB_VERSION}
     volumes:
