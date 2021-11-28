@@ -9,6 +9,6 @@ RSpec.describe ENTSOE::Load do
         ENTSOE::Load.new country: :FR, from: '2021-01-01', to: '2021-01-02'
       end
     end
-    it { expect(subject.points).to be }
+    it { expect(subject.points).to have_at_least(24).items }
   end
 end

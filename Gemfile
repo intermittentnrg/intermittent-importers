@@ -9,6 +9,7 @@ gem 'influxdb'
 
 group :test do
   gem 'rspec'
+  gem 'rspec-collection_matchers'
   gem 'vcr'
   gem 'webmock'
 end

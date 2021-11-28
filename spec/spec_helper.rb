@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rspec'
+require 'rspec/collection_matchers'
 require './lib/entsoe'
 require 'vcr'
 

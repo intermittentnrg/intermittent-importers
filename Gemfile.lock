@@ -42,6 +42,8 @@ GEM
       rspec-core (~> 3.10.0)
       rspec-expectations (~> 3.10.0)
       rspec-mocks (~> 3.10.0)
+    rspec-collection_matchers (1.2.0)
+      rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.10.1)
       rspec-support (~> 3.10.0)
     rspec-expectations (3.10.1)
@@ -71,6 +73,7 @@ DEPENDENCIES
   nokogiri
   pry
   rspec
+  rspec-collection_matchers
   vcr
   webmock
 
