@@ -150,7 +150,7 @@ class ENTSOE
     'ES': '10YES-REE------0',
     'FI': '10YFI-1--------U',
     'FR': '10YFR-RTE------C',
-    'GB': '10YGB----------A',
+    #'GB': '10YGB----------A', # exited dataset in 2021
     #'GB-NIR': '10Y1001A1001A016',
     'GR': '10YGR-HTSO-----Y',
     'HR': '10YHR-HEP------M',

@@ -14,10 +14,7 @@ OUT_SERIES = 'entsoe_generation'
 
 @state = ENTSOE::State.new STATE_FILE
 
-#.select { |k| k.match /^DK/ }
-
 ENTSOE::COUNTRIES.keys.each do |country|
-  next if country == :GB
   from = @state[country]
   to = [from + 1.months, DateTime.now.beginning_of_hour].min
   if from > 2.hours.ago
