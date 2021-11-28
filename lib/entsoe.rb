@@ -14,10 +14,6 @@ class ENTSOE
   #4.4.5. Current Generation Forecasts for Wind and Solar [14.1.D]
   #GET /api?documentType=A69&processType=A18&psrType=B16&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class WindSolar < ENTSOE
-    include HTTParty
-    base_uri 'https://transparency.entsoe.eu'
-    debug_output $stdout
-
     def initialize(*)
       super
       @options[:documentType] = 'A69'
@@ -30,10 +26,6 @@ class ENTSOE
   #4.4.8. Aggregated Generation per Type [16.1.B&C]
   #GET /api?documentType=A75&processType=A16&psrType=B02&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Generation < ENTSOE
-    include HTTParty
-    base_uri 'https://transparency.entsoe.eu'
-    #debug_output $stdout
-
     def initialize(*)
       super
       @process_type = :realised
@@ -51,10 +43,6 @@ class ENTSOE
   #4.1.1. Actual Total Load [6.1.A]
   #GET /api?documentType=A65&processType=A16&outBiddingZone_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Load < ENTSOE
-    include HTTParty
-    base_uri 'https://transparency.entsoe.eu'
-    #debug_output $stdout
-
     def initialize(*)
       super
       @process_type = :realised
@@ -85,7 +73,7 @@ class ENTSOE
   end
 
   def fetch
-    res = self.class.get("/api", query: @options)
+    res = HTTParty.get('https://transparency.entsoe.eu/api', query: @options)
     #puts res.body
     @doc = REXML::Document.new res.body
 
