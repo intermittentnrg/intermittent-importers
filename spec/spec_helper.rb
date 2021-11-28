@@ -1,8 +1,10 @@
 require 'rubygems'
 require 'rspec'
 require 'rspec/collection_matchers'
-require './lib/entsoe'
 require 'vcr'
+
+require './lib/entsoe'
+require './lib/svk'
 
 VCR.configure do |config|
   config.cassette_library_dir = "fixtures/vcr_cassettes"
