@@ -1,3 +1,4 @@
 docker/
 backup/
 data/
+.env*
