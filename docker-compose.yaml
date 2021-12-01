@@ -1,6 +1,6 @@
 services:
   app:
-    image: intermittency:latest
+    image: ${DOCKER_REGISTRY}/intermittency:latest
     build:
       context: .
   influxdb:
