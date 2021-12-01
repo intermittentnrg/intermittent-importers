@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'bundler/setup'
 require 'dotenv/load'
-require 'date'
+require 'time'
 require 'fastest-csv'
 
 require 'pp'
@@ -40,7 +40,7 @@ ARGV.each do |file|
     csv.shift
     csv.each_slice(BATCH_SIZE) do |slice|
       data = slice.map do |row|
-        time = InfluxDB.convert_timestamp(DateTime.parse(row[0]).to_time, 'ms')
+        time = InfluxDB.convert_timestamp(Time.strptime(row[0], '%Y-%m-%d %k:%M:%S.%L'), 'ms')
         {
           series: 'fingrid_frequency',
           values: { value: row[1].to_f },
