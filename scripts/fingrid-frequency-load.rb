@@ -2,7 +2,7 @@
 require 'bundler/setup'
 require 'dotenv/load'
 require 'date'
-require 'csv'
+require 'fastest-csv'
 
 require 'pp'
 
@@ -18,17 +18,20 @@ end
 
 ARGV.each do |file|
   $stderr.write "\n#{file}"
-  CSV.foreach(file, headers: true).each_slice(1000) do |slice|
-    data = slice.map do |row|
-      time = InfluxDB.convert_timestamp(DateTime.parse(row['Time']).to_time, 'ms')
-      {
-        series: 'fingrid_frequency',
-        values: { value: row["Value"].to_f },
-        timestamp: time
-      }
+  FastestCSV.open(file) do |csv|
+    csv.shift
+    csv.each_slice(1000) do |slice|
+      data = slice.map do |row|
+        time = InfluxDB.convert_timestamp(DateTime.parse(row[0]).to_time, 'ms')
+        {
+          series: 'fingrid_frequency',
+          values: { value: row[1].to_f },
+          timestamp: time
+        }
+      end
+      #pp data
+      influxdb.write_points(data, 'ms', '1d')
+      $stderr.write '.'
     end
-    #pp data
-    influxdb.write_points(data, 'ms', '1d')
-    $stderr.write '.'
   end
 end

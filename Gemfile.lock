@@ -15,6 +15,7 @@ GEM
       rexml
     diff-lcs (1.4.4)
     dotenv (2.7.6)
+    fastest-csv (0.0.4)
     hashdiff (1.0.1)
     httparty (0.19.0)
       mime-types (~> 3.0)
@@ -68,6 +69,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   dotenv
+  fastest-csv
   httparty
   influxdb
   nokogiri

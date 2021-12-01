@@ -6,6 +6,7 @@ gem 'httparty'
 gem 'activesupport'
 gem 'dotenv'
 gem 'influxdb'
+gem 'fastest-csv'
 
 group :test do
   gem 'rspec'
