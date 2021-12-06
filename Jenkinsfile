@@ -43,7 +43,8 @@ spec:
   ) {
     node(POD_LABEL) {
       container('app') {
-	sh "cd /app ; rspec spec -f d"
+        sh 'cd /app ; rspec spec -f d --format RspecJunitFormatter --out ${WORKSPACE}/rspec.xml'
+        junit 'rspec.xml'
       }
     }
   }
