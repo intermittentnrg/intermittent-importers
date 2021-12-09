@@ -1,0 +1,19 @@
+stage('sincedb-entsoe') {
+  podTemplate(yaml: """
+kind: Pod
+spec:
+  containers:
+    - name: app
+      image: docker-registry:5000/intermittency:${env.TAG}
+      command: ['/bin/cat']
+      tty: true
+"""
+  ) {
+    node(POD_LABEL) {
+      container('app') {
+        sh 'cd /app ; scripts/sincedb-generation.rb'
+        sh 'cd /app ; scripts/sincedb-load.rb'
+      }
+    }
+  }
+}

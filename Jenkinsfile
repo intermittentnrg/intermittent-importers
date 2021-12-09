@@ -12,6 +12,7 @@ spec:
       tty: true
       securityContext:
         runAsUser: 0
+        privileged: true
       resources:
         requests:
           memory: "3Gi"
@@ -24,7 +25,7 @@ spec:
     node(POD_LABEL) {
       checkout scm
       container('kaniko') {
-	sh "/kaniko/executor -f Dockerfile -c . --cache=true --insecure --destination=docker-registry.docker-registry:5000/intermittency:${env.TAG}"
+        sh "/kaniko/executor -f Dockerfile -c . --cache=true --insecure --destination=docker-registry.docker-registry:5000/intermittency:${env.TAG} --destination=docker-registry.docker-registry:5000/intermittency:latest"
       }
     }
   }
@@ -49,6 +50,15 @@ spec:
       container('app') {
         sh 'cd /app ; rspec spec -f d --format RspecJunitFormatter --out ${WORKSPACE}/rspec.xml'
         junit 'rspec.xml'
+
+        sh "cp /app/jobdsl.groovy ."
+        jobDsl(targets: 'jobdsl.groovy',
+               additionalParameters: [
+                   TAG: env.TAG,
+                   BRANCH_NAME: env.BRANCH_NAME
+               ],
+               removedJobAction: 'DELETE'
+        )
       }
     }
   }
@@ -71,10 +81,10 @@ spec:
 // '''
 //     ) {
 //       node(POD_LABEL) {
-// 	checkout scm
-// 	container('helmfile') {
-// 	  sh "cd kubernetes && helmfile ${env.BRANCH_NAME == "main" ? 'apply' : 'diff'}"
-// 	}
+//      checkout scm
+//      container('helmfile') {
+//        sh "cd kubernetes && helmfile ${env.BRANCH_NAME == "main" ? 'apply' : 'diff'}"
+//      }
 //       }
 //     }
 //   }
