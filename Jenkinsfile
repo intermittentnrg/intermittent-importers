@@ -39,6 +39,10 @@ spec:
       image: docker-registry:5000/intermittency:${env.TAG}
       command: ['/bin/cat']
       tty: true
+      resources:
+        requests:
+          cpu: "1"
+          memory: "0.5Gi"
 """
   ) {
     node(POD_LABEL) {
