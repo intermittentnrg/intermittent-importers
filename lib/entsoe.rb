@@ -21,6 +21,11 @@ class ENTSOE
       @options[:in_Domain] = DOMAIN_MAPPINGS[@country.to_sym]
       fetch
     end
+    def points
+      data = super
+      data.each { |p| p[:tags].slice!(:country) }
+      data
+    end
   end
 
   #4.4.8. Aggregated Generation per Type [16.1.B&C]
@@ -36,7 +41,7 @@ class ENTSOE
     end
 
     def points
-      super.select { |p| !(p[:country] == :NO && p[:production_type] == 'wind_onshore' && p[:value] > 10_000) }
+      super.select { |p| !(p[:tags][:country] == :NO && p[:tags][:production_type] == 'wind_onshore' && p[:value] > 10_000) }
     end
   end
 
@@ -50,6 +55,11 @@ class ENTSOE
       @options[:processType] = PROCESS_TYPES[:realised]
       @options[:outBiddingZone_Domain] = DOMAIN_MAPPINGS[@country.to_sym]
       fetch
+    end
+    def points
+      data = super
+      data.each { |p| p[:tags].slice!(:country) }
+      data
     end
   end
 
@@ -108,9 +118,11 @@ class ENTSOE
         t = start + ((p.elements.to_a('position').first.text.to_i - 1) * resolution).minutes
         @last_time = t
         r << {
-          country: @country,
-          process_type: @process_type,
-          production_type: production_type,
+          tags: {
+            country: @country,
+            process_type: @process_type,
+            production_type: production_type,
+          },
           timestamp: t,
           value: p.elements.to_a('quantity').first.text.to_i
         }
@@ -125,7 +137,7 @@ class ENTSOE
       require 'pry'
       binding.pry
     end
-    @last_time.beginning_of_hour + 1.hour
+    @last_time
   end
 
   PROCESS_TYPES = {

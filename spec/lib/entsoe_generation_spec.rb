@@ -8,8 +8,12 @@ RSpec.describe ENTSOE::Generation do
       end
     end
     describe "wind_onshore" do
-      subject(:wind_onshore) { e.points.select { |p| p[:production_type] == 'wind_onshore' } }
+      subject(:wind_onshore) { e.points.select { |p| p[:tags][:production_type] == 'wind_onshore' } }
+      #it { require 'pry' ; binding.pry }
       it { expect(subject).to have_at_least(24*4).items }
+    end
+    describe "tags" do
+      it { expect(e.points.first[:tags].keys).to eq [:country, :process_type, :production_type] }
     end
   end
 
@@ -20,7 +24,7 @@ RSpec.describe ENTSOE::Generation do
       end
     end
     describe "wind_onshore" do
-      subject(:wind_onshore) { e.points.select { |p| p[:production_type] == 'wind_onshore' } }
+      subject(:wind_onshore) { e.points.select { |p| p[:tags][:production_type] == 'wind_onshore' } }
       it { expect(wind_onshore).to have(24).items }
     end
   end
@@ -32,7 +36,7 @@ RSpec.describe ENTSOE::Generation do
       end
     end
     describe "wind_onshore" do
-      subject(:wind_onshore) { e.points.select { |p| p[:production_type] == 'wind_onshore' } }
+      subject(:wind_onshore) { e.points.select { |p| p[:tags][:production_type] == 'wind_onshore' } }
       it { expect(wind_onshore).to have_at_least(18).items }
       it "ignores values over 10GW" do
         expect(wind_onshore.map { |p| p[:value] }.max ).to be < 10_000

@@ -7,6 +7,7 @@ require 'yaml'
 require 'semantic_logger'
 SemanticLogger.default_level = :trace
 SemanticLogger.add_appender(io: $stderr, formatter: :color)
+logger = SemanticLogger['sincedb-generation.rb']
 
 require 'influxdb'
 influxdb = InfluxDB::Client.new 'intermittency', host: ENV['INFLUX_HOST'], async: true
@@ -14,41 +15,46 @@ influxdb = InfluxDB::Client.new 'intermittency', host: ENV['INFLUX_HOST'], async
 SOURCE = ENTSOE::Generation
 OUT_SERIES = 'entsoe_generation'
 
-logger = SemanticLogger['sincedb-generation.rb']
+require './lib/pump'
+Pump.new(SOURCE, OUT_SERIES, influxdb).run
+return
 
-ENTSOE::COUNTRIES.keys.each do |country|
-logger.tagged(country: country) do
-  r = influxdb.query("SELECT time,LAST(value) FROM #{OUT_SERIES} WHERE country = %{1}", params: [country])
-  from = DateTime.parse r[0]['values'][0]['time']
-  to = [from + 1.months, DateTime.now.beginning_of_hour].min
-  if from > 2.hours.ago
-    logger.info "up to date"
-    next
-  end
-  logger.measure_info "Load #{from} to #{to}" do
-  begin
-    e = SOURCE.new(country: country, from: from, to: to)
-    #puts e.points
-    data = e.points.map do |p|
-      {
-        series: OUT_SERIES,
-        values: { value: p[:value] },
-        tags:   { country: p[:country], production_type: p[:production_type], process_type: p[:process_type] },
-        timestamp: p[:timestamp].to_i
-      }
-    end
-    influxdb.write_points(data)
-    logger.info "#{data.length} points"
-  rescue ENTSOE::EmptyError
-    if to > 1.day.ago
-      puts "Error during processing: #{$!}"
-      puts "Backtrace:\n\t#{$!.backtrace.join("\n\t")}"
-      next
-    end
+pass = false
+loop do
+  pass = false
+  SOURCE::COUNTRIES.keys.each do |country|
+    logger.tagged(country: country) do
+      r = influxdb.query("SELECT time,LAST(value) FROM #{OUT_SERIES} WHERE country = %{1}", params: [country])
+      from = DateTime.parse r[0]['values'][0]['time']
+      to = [from + 1.months, DateTime.now.beginning_of_hour].min
+      if from > 2.hours.ago
+        logger.info "up to date"
+        next
+      end
+      logger.measure_info "Load #{from} to #{to}" do
+        begin
+          e = SOURCE.new(country: country, from: from, to: to)
+          data = e.points.map do |p|
+            {
+              series:    OUT_SERIES,
+              values:    { value: p[:value] },
+              tags:      p[:tags],
+              timestamp: p[:timestamp].to_i
+            }
+          end
+          influxdb.write_points(data)
+          logger.info "#{data.length} points"
+          pass = true if data.length>1
+        rescue ENTSOE::EmptyError
+          #require 'pry' ;binding.pry
+          raise if to < 1.day.ago
 
-    # skip missing historical data
-    $stderr.puts "skipped missing data until #{to}"
+          # skip missing historical data
+          logger.warn "skipped missing data until #{to}"
+        end
+      end
+    end
   end
-  end
-end
+  break unless pass
+  $stderr.puts "===== LOOP ====="
 end
