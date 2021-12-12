@@ -16,6 +16,7 @@ spec:
       container('app') {
         sh 'cd /app ; scripts/sincedb-generation.rb'
         sh 'cd /app ; scripts/sincedb-load.rb'
+        sh 'cd /app ; scripts/sincedb-windsolar.rb'
       }
     }
   }

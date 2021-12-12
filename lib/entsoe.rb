@@ -18,7 +18,7 @@ class ENTSOE
       super
       @options[:documentType] = 'A69'
       @options[:processType] = PROCESS_TYPES[:current]
-      @options[:in_Domain] = DOMAIN_MAPPINGS[@country.to_sym]
+      @options[:in_Domain] = COUNTRIES[@country.to_sym]
       fetch
     end
     def points
@@ -36,7 +36,7 @@ class ENTSOE
       @process_type = :realised
       @options[:documentType] = 'A75'
       @options[:processType] = PROCESS_TYPES[:realised]
-      @options[:in_Domain] = DOMAIN_MAPPINGS[@country.to_sym]
+      @options[:in_Domain] = COUNTRIES[@country.to_sym]
       fetch
     end
 
@@ -53,7 +53,7 @@ class ENTSOE
       @process_type = :realised
       @options[:documentType] = 'A65'
       @options[:processType] = PROCESS_TYPES[:realised]
-      @options[:outBiddingZone_Domain] = DOMAIN_MAPPINGS[@country.to_sym]
+      @options[:outBiddingZone_Domain] = COUNTRIES[@country.to_sym]
       fetch
     end
     def points
@@ -68,7 +68,9 @@ class ENTSOE
 
   def initialize country: nil, from: DateTime.now.beginning_of_day, to: DateTime.now.beginning_of_hour, psr_type: nil
     raise "#{from} == #{to}" if from==to
+    raise unless country.to_s.length >= 2
     @country = country
+    raise country unless COUNTRIES.include? country.to_sym
     @options = {
       #psrType: 'B16',
       #in_Domain: '10YCZ-CEPS-----N',
@@ -166,7 +168,7 @@ class ENTSOE
     'ES': '10YES-REE------0',
     'FI': '10YFI-1--------U',
     'FR': '10YFR-RTE------C',
-    #'GB': '10YGB----------A', # exited dataset in 2021
+    'GB': '10YGB----------A', # exited dataset in 2021
     #'GB-NIR': '10Y1001A1001A016',
     'GR': '10YGR-HTSO-----Y',
     'HR': '10YHR-HEP------M',

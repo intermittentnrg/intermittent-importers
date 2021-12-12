@@ -20,7 +20,7 @@ class Pump
     pass = false
     #require 'pry' ; binding.pry
     #@source::COUNTRIES.keys.each do |country|
-    @influxdb.query("SELECT time,country,LAST(value) FROM #{@out_series} GROUP BY country").each do |row|
+    @influxdb.query("SELECT time,country,LAST(value) FROM #{@out_series} WHERE time > '2021-06-01' GROUP BY country").each do |row|
       country = row['tags']['country']
       @@logger.tagged(country: country) do
         #row = @@logger.measure_info("sincedb query") { @influxdb.query("SELECT time,LAST(value) FROM #{@out_series} WHERE country = %{1}", params: [country]) }.first
@@ -30,7 +30,7 @@ class Pump
           @@logger.info "has data in last 4 hours. skipping"
           next
         end
-        @@logger.measure_info "Load #{from} to #{to}" do
+        @@logger.measure_info "download from #{from} to #{to}" do
           begin
             e = @source.new(country: country, from: from, to: to)
             data = e.points.map do |p|
