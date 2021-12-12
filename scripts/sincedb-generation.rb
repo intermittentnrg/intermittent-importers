@@ -2,20 +2,18 @@
 require 'bundler/setup'
 require 'date'
 require './lib/entsoe'
-require './lib/entsoe/state'
 require 'yaml'
 
 require 'influxdb'
 influxdb = InfluxDB::Client.new 'intermittency', host: ENV['INFLUX_HOST'], async: true
 
-STATE_FILE = 'sincedb-generation.yaml'
 SOURCE = ENTSOE::Generation
 OUT_SERIES = 'entsoe_generation'
 
-@state = ENTSOE::State.new STATE_FILE
 
 ENTSOE::COUNTRIES.keys.each do |country|
-  from = @state[country]
+  r = influxdb.query("SELECT time,LAST(value) FROM #{OUT_SERIES} WHERE country = %{1}", params: [country])
+  from = DateTime.parse r[0]['values'][0]['time']
   to = [from + 1.months, DateTime.now.beginning_of_hour].min
   if from > 2.hours.ago
     $stderr.puts "#{country} up to date"
@@ -34,7 +32,6 @@ ENTSOE::COUNTRIES.keys.each do |country|
       }
     end
     influxdb.write_points(data)
-    @state[country] = e.last_time
   rescue ENTSOE::EmptyError
     if to > 1.day.ago
       puts "Error during processing: #{$!}"
@@ -43,9 +40,6 @@ ENTSOE::COUNTRIES.keys.each do |country|
     end
 
     # skip missing historical data
-    @state[country] = to
     $stderr.puts "skipped missing data until #{to}"
-  ensure
-    @state.save!
   end
 end
