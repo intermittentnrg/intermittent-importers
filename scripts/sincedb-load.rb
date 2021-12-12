@@ -15,7 +15,6 @@ loop do
   pass = false
   #.select { |k| k.match /^DK/ }
   ENTSOE::DOMAIN_MAPPINGS.keys.each do |country|
-    next if country == :GB
     r = influxdb.query("SELECT time,LAST(value) FROM #{OUT_SERIES} WHERE country = %{1}", params: [country])
     from = DateTime.parse r[0]['values'][0]['time']
     to = [from + 5.months, DateTime.now.beginning_of_hour].min
