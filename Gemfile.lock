@@ -51,6 +51,8 @@ GEM
     rspec-support (3.10.3)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
+    semantic_logger (4.8.2)
+      concurrent-ruby (~> 1.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     vcr (6.0.0)
@@ -73,6 +75,7 @@ DEPENDENCIES
   rspec
   rspec-collection_matchers
   rspec_junit_formatter
+  semantic_logger
   vcr
   webmock
 

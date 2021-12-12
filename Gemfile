@@ -7,6 +7,8 @@ gem 'dotenv'
 gem 'influxdb'
 gem 'fastest-csv'
 
+gem 'semantic_logger'
+
 group :test do
   gem 'rspec'
   gem 'rspec-collection_matchers'
