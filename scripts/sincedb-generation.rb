@@ -32,6 +32,7 @@ ENTSOE::COUNTRIES.keys.each do |country|
       }
     end
     influxdb.write_points(data)
+    puts "#{data.length} points"
   rescue ENTSOE::EmptyError
     if to > 1.day.ago
       puts "Error during processing: #{$!}"

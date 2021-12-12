@@ -73,7 +73,11 @@ class ENTSOE
   end
 
   def fetch
-    res = HTTParty.get('https://transparency.entsoe.eu/api', query: @options)
+    res = HTTParty.get(
+      'https://transparency.entsoe.eu/api',
+      query: @options,
+      #debug_output: $stdout
+    )
     #puts res.body
     @doc = REXML::Document.new res.body
 
