@@ -18,11 +18,14 @@ class Pump
 
   def run
     pass = false
-    @source::COUNTRIES.keys.each do |country|
+    #require 'pry' ; binding.pry
+    #@source::COUNTRIES.keys.each do |country|
+    @influxdb.query("SELECT time,country,LAST(value) FROM #{@out_series} GROUP BY country").each do |row|
+      country = row['tags']['country']
       @@logger.tagged(country: country) do
-        r = @@logger.measure_info("sincedb query") { @influxdb.query("SELECT time,LAST(value) FROM #{@out_series} WHERE country = %{1}", params: [country]) }
-        from = DateTime.parse r[0]['values'][0]['time']
-        to = [from + 5.months, DateTime.now.beginning_of_hour].min
+        #row = @@logger.measure_info("sincedb query") { @influxdb.query("SELECT time,LAST(value) FROM #{@out_series} WHERE country = %{1}", params: [country]) }.first
+        from = DateTime.parse row['values'][0]['time'] rescue @source::DEFAULT_START + 7.years
+        to = [from + 1.year, DateTime.now.beginning_of_hour].min
         if from > 4.hours.ago
           @@logger.info "has data in last 4 hours. skipping"
           next
