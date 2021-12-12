@@ -33,6 +33,11 @@ helm_apply:
 helm_diff:
 	cd chart && helmfile diff --set image.tag=$(TAG)
 
+## update secret from .env
+update_secret:
+	kubectl create secret generic -n jenkins intermittency --from-env-file=.env --dry-run=true -o yaml | kubectl apply -f -
+	kubectl create secret generic -n intermittency intermittency --from-env-file=.env --dry-run=true -o yaml | kubectl apply -f -
+
 ## influxdb client
 client:
 	influx -host $(INFLUX_HOST) -database $(INFLUX_DATABASE) -username $(INFLUX_USERNAME) -password $(INFLUX_PASSWORD) -precision rfc3339

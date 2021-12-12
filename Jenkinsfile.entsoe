@@ -7,6 +7,9 @@ spec:
       image: docker-registry:5000/intermittency:${env.TAG}
       command: ['/bin/cat']
       tty: true
+      envFrom:
+        - secretRef:
+            name: intermittency
 """
   ) {
     node(POD_LABEL) {
