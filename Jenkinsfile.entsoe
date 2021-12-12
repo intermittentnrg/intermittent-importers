@@ -1,4 +1,4 @@
-stage('sincedb-entsoe') {
+stage('refresh') {
   podTemplate(yaml: """
 kind: Pod
 spec:
@@ -17,6 +17,60 @@ spec:
         sh 'cd /app ; scripts/sincedb-generation.rb'
         sh 'cd /app ; scripts/sincedb-load.rb'
         sh 'cd /app ; scripts/sincedb-windsolar.rb'
+      }
+    }
+  }
+}
+
+stage('build influxdb-preloaded') {
+  podTemplate(yaml: '''
+kind: Pod
+spec:
+  containers:
+    - name: kaniko
+      image: gcr.io/kaniko-project/executor:v1.6.0-debug
+      command: ['/busybox/cat']
+      tty: true
+      securityContext:
+        runAsUser: 0
+        privileged: true
+      resources:
+        requests:
+          memory: "3Gi"
+          cpu: "1"
+        limits:
+          # memory: "3Gi"
+          # cpu: "2.5"
+      envFrom:
+        - secretRef:
+            name: intermittency
+'''
+  ) {
+    node(POD_LABEL) {
+      checkout scm
+      container('kaniko') {
+	sh "/kaniko/executor -f Dockerfile.influxdb-preloaded -c . --cache=false --insecure --destination=docker-registry.docker-registry:5000/influxdb-preloaded:${env.TAG} --destination=docker-registry.docker-registry:5000/intermittency:latest"
+      }
+    }
+  }
+}
+
+stage('helmfile apply') {
+  podTemplate(yaml: '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+    - name: helmfile
+      image: quay.io/roboll/helmfile:helm3-v0.139.6
+      command: ['cat']
+      tty: true
+'''
+  ) {
+    node(POD_LABEL) {
+      checkout scm
+      container('helmfile') {
+	sh "cd chart && helmfile apply --set image.tag=${env.TAG}"
       }
     }
   }
