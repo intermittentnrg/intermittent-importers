@@ -35,7 +35,7 @@ loop do
       end
       influxdb.write_points(data)
       puts "#{data.length} points"
-      pass = true
+      pass = true if data.length>1
     rescue ENTSOE::EmptyError
       #require 'pry' ;binding.pry
       raise if to < 1.day.ago
