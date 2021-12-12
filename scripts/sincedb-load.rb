@@ -2,7 +2,6 @@
 require 'bundler/setup'
 require 'date'
 require './lib/entsoe'
-require 'yaml'
 
 require 'semantic_logger'
 SemanticLogger.default_level = :trace
