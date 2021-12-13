@@ -11,4 +11,7 @@ releases:
         value: {{ requiredEnv "TAG" }}
 
 helmDefaults:
+  wait: true
+{{ if not (env "JENKINS_URL") }}
   kubeContext: k3s
+{{ end }}
