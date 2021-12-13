@@ -64,28 +64,4 @@ spec:
   }
 }
 
-// stage('helm') {
-//   podTemplate(yaml: '''
-// apiVersion: v1
-// kind: Pod
-// metadata:
-//   annotations:
-//     iam.amazonaws.com/role: k8s-jenkins-admin
-// spec:
-//   containers:
-//     - name: helmfile
-//       image: quay.io/roboll/helmfile:helm3-v0.139.6
-//       imagePullPolicy: Always
-//       command: ['cat']
-//       tty: true
-// '''
-//     ) {
-//       node(POD_LABEL) {
-//      checkout scm
-//      container('helmfile') {
-//        sh "cd kubernetes && helmfile ${env.BRANCH_NAME == "main" ? 'apply' : 'diff'}"
-//      }
-//       }
-//     }
-//   }
-// }
+build wait: false, job: 'intermittency-entsoe'
