@@ -1,3 +1,5 @@
+env.DATESTAMP = new Date().format("yyyy-MM-dd-HHmm")
+
 stage('refresh') {
   podTemplate(yaml: """
 kind: Pod
@@ -54,7 +56,7 @@ spec:
 		 -c . \
 		 --cache=false \
 		 --insecure \
-		 --destination=docker-registry.docker-registry:5000/influxdb-preloaded:${env.TAG} \
+		 --destination=docker-registry.docker-registry:5000/influxdb-preloaded:${env.DATESTAMP} \
 		 --build-arg=INFLUX_DATABASE \
 		 --build-arg=INFLUX_USERNAME \
 		 --build-arg=INFLUX_PASSWORD \
@@ -87,7 +89,7 @@ spec:
     node(POD_LABEL) {
       checkout scm
       container('helmfile') {
-	sh "cd chart && helmfile apply --set image.tag=${env.TAG}"
+	sh "cd chart && helmfile apply --set image.tag=${env.DATESTAMP}"
       }
     }
   }
