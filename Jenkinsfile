@@ -51,17 +51,19 @@ spec:
         sh 'cd /app ; rspec spec -f d --format RspecJunitFormatter --out ${WORKSPACE}/rspec.xml'
         junit 'rspec.xml'
 
-        sh "cp /app/jobdsl.groovy ."
-        jobDsl(targets: 'jobdsl.groovy',
-               additionalParameters: [
-                   TAG: env.TAG,
-                   BRANCH_NAME: env.BRANCH_NAME
-               ],
-               removedJobAction: 'DELETE'
-        )
+        if (env.BRANCH_NAME == "master") {
+          sh "cp /app/jobdsl.groovy ."
+          jobDsl(targets: 'jobdsl.groovy',
+                 additionalParameters: [
+                     TAG: env.TAG,
+                     BRANCH_NAME: env.BRANCH_NAME
+                 ],
+                 removedJobAction: 'DELETE'
+          )
+          build wait: false, job: 'intermittency-entsoe'
+        }
       }
     }
   }
 }
 
-build wait: false, job: 'intermittency-entsoe'
