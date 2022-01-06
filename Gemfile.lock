@@ -1,6 +1,11 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activemodel (6.1.4.1)
+      activesupport (= 6.1.4.1)
+    activerecord (6.1.4.1)
+      activemodel (= 6.1.4.1)
+      activesupport (= 6.1.4.1)
     activesupport (6.1.4.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
@@ -29,6 +34,7 @@ GEM
     mime-types-data (3.2021.0901)
     minitest (5.14.4)
     multi_xml (0.6.0)
+    pg (1.2.3)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -66,11 +72,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord
   activesupport
   dotenv
   fastest-csv
   httparty
   influxdb
+  pg (>= 0.18, < 2.0)
   pry
   rspec
   rspec-collection_matchers
