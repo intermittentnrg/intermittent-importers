@@ -7,7 +7,16 @@ influxdb = InfluxDB::Client.new 'intermittency', host: ENV['INFLUX_HOST'], async
 
 require './lib/activerecord-connect'
 
-influxdb.query('SELECT * FROM entsoe_generation WHERE time > \'2020-01-01T00:00:00Z\'') do |name, tags, values|
+
+if ARGV.length != 2
+  $stderr.puts "#{$0} <from> <to>"
+  exit 1
+end
+from = ARGV.shift
+to = ARGV.shift
+
+
+influxdb.query("SELECT * FROM entsoe_generation WHERE time > '#{from}' AND time < '#{to}'") do |name, tags, values|
   $stderr.print "_"
   #require 'pry' ; binding.pry
   values.each do |v|

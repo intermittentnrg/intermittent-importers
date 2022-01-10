@@ -9,6 +9,14 @@ releases:
     set:
       - name: image.tag
         value: {{ requiredEnv "TAG" }}
+    labels:
+      app: influxdb-preloaded
+
+  - name: timescaledb
+    namespace: monitoring
+    chart: ./timescaledb
+    labels:
+      app: timescaledb
 
 helmDefaults:
   wait: true

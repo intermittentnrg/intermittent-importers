@@ -7,7 +7,7 @@ class AddEnumEntsoeProductionTypes < ActiveRecord::Migration[5.1]
   end
 
   def down
-    #update_column :entsoe_generation, :production_type, :string
+    update_column :entsoe_generation, :production_type, :string
     execute <<-SQL
       DROP TYPE entsoe_production_types;
     SQL

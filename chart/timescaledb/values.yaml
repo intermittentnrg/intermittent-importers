@@ -33,3 +33,19 @@ env:
 
 #securityContext:
 #  runAsUser: 999
+
+controller:
+  type: statefulset
+volumeClaimTemplates:
+  - name: data
+    mountPath: /var/lib/postgresql/data
+    accessMode: "ReadWriteOnce"
+    size: 1Gi
+
+resources:
+  limits:
+    cpu: 4000m
+    memory: 3.5Gi
+  requests:
+    cpu: 100m
+    memory: 2.7Gi

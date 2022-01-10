@@ -42,6 +42,14 @@ update_secret:
 client:
 	influx -host $(INFLUX_HOST) -database $(INFLUX_DATABASE) -username $(INFLUX_USERNAME) -password $(INFLUX_PASSWORD) -precision rfc3339
 
+psql:
+	psql intermittency
+
+.PHONY: outflux
+outflux:
+	./outflux schema-transfer intermittency
+	./outflux migrate intermittency
+
 setup_db:
 # CREATE RETENTION POLICY month ON intermittency DURATION 0s REPLICATION 1 SHARD DURATION 30d
 # CREATE RETENTION POLICY year ON intermittency DURATION 0s REPLICATION 1 SHARD DURATION 52w

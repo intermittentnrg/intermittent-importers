@@ -1,3 +1,5 @@
+version: '3.0'
+
 services:
   app:
     image: ${DOCKER_REGISTRY}/intermittency:latest
@@ -26,3 +28,11 @@ services:
         INFLUX_PASSWORD:
         INFLUX_HOST:
         INFLUXDB_VERSION:
+
+  timescaledb:
+    image: timescaledev/timescaledb-ha:pg12-latest
+    ports:
+      - 5432:5432/tcp
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
