@@ -3844,6 +3844,17 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: entsoe_load; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.entsoe_load (
+    country character varying NOT NULL,
+    value integer NOT NULL,
+    "time" timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -14404,6 +14415,13 @@ CREATE INDEX entsoe_generation_created_at_idx ON public.entsoe_generation USING 
 
 
 --
+-- Name: entsoe_load_time_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX entsoe_load_time_idx ON public.entsoe_load USING btree ("time" DESC);
+
+
+--
 -- Name: index_entsoe_generation_on_country; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -14425,10 +14443,24 @@ CREATE UNIQUE INDEX intermittency_unique ON public.entsoe_generation USING btree
 
 
 --
+-- Name: unique; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX "unique" ON public.entsoe_load USING btree ("time", country);
+
+
+--
 -- Name: entsoe_generation ts_insert_blocker; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER ts_insert_blocker BEFORE INSERT ON public.entsoe_generation FOR EACH ROW EXECUTE FUNCTION _timescaledb_internal.insert_blocker();
+
+
+--
+-- Name: entsoe_load ts_insert_blocker; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER ts_insert_blocker BEFORE INSERT ON public.entsoe_load FOR EACH ROW EXECUTE FUNCTION _timescaledb_internal.insert_blocker();
 
 
 --
@@ -14442,6 +14474,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('1'),
 ('2'),
 ('3'),
-('4');
+('4'),
+('5');
 
 
