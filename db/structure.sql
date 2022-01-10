@@ -51,6 +51,20 @@ CREATE TYPE public.entsoe_production_types AS ENUM (
 );
 
 
+--
+-- Name: trigger_set_updated_at(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trigger_set_updated_at() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -66,8 +80,8 @@ CREATE TABLE public.entsoe_generation (
     business_type character varying,
     value integer NOT NULL,
     "time" timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
     created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     CONSTRAINT no_wind_onshore CHECK ((NOT (((country)::text = 'NO'::text) AND (production_type = 'wind_onshore'::public.entsoe_production_types) AND (value > 10000))))
 );
 
@@ -3840,7 +3854,8 @@ CREATE TABLE public.entsoe_load (
     country character varying NOT NULL,
     value integer NOT NULL,
     "time" timestamp without time zone NOT NULL,
-    created_at timestamp without time zone
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -7600,6 +7615,16 @@ INHERITS (public.entsoe_load);
 
 CREATE TABLE _timescaledb_internal._hyper_2_752_chunk (
     CONSTRAINT constraint_752 CHECK ((("time" >= '2021-12-30 00:00:00'::timestamp without time zone) AND ("time" < '2022-01-06 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.entsoe_load);
+
+
+--
+-- Name: _hyper_2_753_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_2_753_chunk (
+    CONSTRAINT constraint_753 CHECK ((("time" >= '2022-01-06 00:00:00'::timestamp without time zone) AND ("time" < '2022-01-13 00:00:00'::timestamp without time zone)))
 )
 INHERITS (public.entsoe_load);
 
@@ -23434,6 +23459,20 @@ CREATE UNIQUE INDEX _hyper_2_752_chunk_unique ON _timescaledb_internal._hyper_2_
 
 
 --
+-- Name: _hyper_2_753_chunk_entsoe_load_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_2_753_chunk_entsoe_load_time_idx ON _timescaledb_internal._hyper_2_753_chunk USING btree ("time" DESC);
+
+
+--
+-- Name: _hyper_2_753_chunk_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE UNIQUE INDEX _hyper_2_753_chunk_unique ON _timescaledb_internal._hyper_2_753_chunk USING btree ("time", country);
+
+
+--
 -- Name: entsoe_generation_created_at_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -23476,6 +23515,5291 @@ CREATE UNIQUE INDEX "unique" ON public.entsoe_load USING btree ("time", country)
 
 
 --
+-- Name: _hyper_1_100_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_100_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_101_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_101_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_102_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_102_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_103_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_103_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_104_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_104_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_105_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_105_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_106_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_106_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_107_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_107_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_108_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_108_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_109_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_109_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_10_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_10_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_110_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_110_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_111_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_111_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_112_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_112_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_113_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_113_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_114_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_114_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_115_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_115_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_116_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_116_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_117_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_117_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_118_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_118_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_119_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_119_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_11_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_11_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_120_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_120_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_121_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_121_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_122_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_122_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_123_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_123_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_124_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_124_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_125_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_125_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_126_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_126_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_127_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_127_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_128_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_128_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_129_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_129_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_12_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_12_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_130_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_130_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_131_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_131_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_132_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_132_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_133_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_133_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_134_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_134_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_135_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_135_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_136_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_136_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_137_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_137_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_138_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_138_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_139_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_139_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_13_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_13_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_140_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_140_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_141_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_141_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_142_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_142_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_143_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_143_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_144_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_144_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_145_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_145_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_146_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_146_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_147_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_147_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_148_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_148_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_149_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_149_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_14_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_14_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_150_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_150_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_151_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_151_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_152_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_152_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_153_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_153_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_154_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_154_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_155_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_155_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_156_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_156_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_157_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_157_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_158_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_158_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_159_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_159_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_15_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_15_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_160_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_160_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_161_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_161_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_162_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_162_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_163_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_163_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_164_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_164_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_165_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_165_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_166_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_166_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_167_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_167_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_168_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_168_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_169_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_169_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_16_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_16_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_170_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_170_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_171_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_171_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_172_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_172_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_173_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_173_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_174_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_174_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_175_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_175_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_176_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_176_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_177_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_177_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_178_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_178_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_179_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_179_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_17_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_17_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_180_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_180_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_181_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_181_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_182_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_182_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_183_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_183_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_184_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_184_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_185_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_185_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_186_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_186_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_187_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_187_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_188_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_188_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_189_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_189_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_18_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_18_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_190_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_190_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_191_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_191_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_192_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_192_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_193_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_193_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_194_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_194_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_195_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_195_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_196_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_196_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_197_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_197_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_198_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_198_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_199_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_199_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_19_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_19_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_1_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_1_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_200_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_200_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_201_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_201_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_202_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_202_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_203_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_203_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_204_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_204_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_205_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_205_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_206_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_206_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_207_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_207_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_208_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_208_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_209_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_209_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_20_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_20_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_210_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_210_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_211_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_211_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_212_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_212_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_213_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_213_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_214_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_214_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_215_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_215_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_216_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_216_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_217_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_217_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_218_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_218_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_219_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_219_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_21_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_21_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_220_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_220_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_221_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_221_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_222_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_222_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_223_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_223_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_224_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_224_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_225_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_225_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_226_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_226_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_227_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_227_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_228_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_228_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_229_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_229_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_22_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_22_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_230_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_230_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_231_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_231_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_232_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_232_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_233_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_233_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_234_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_234_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_235_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_235_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_236_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_236_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_237_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_237_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_238_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_238_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_239_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_239_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_23_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_23_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_240_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_240_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_241_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_241_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_242_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_242_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_243_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_243_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_244_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_244_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_245_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_245_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_246_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_246_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_247_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_247_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_248_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_248_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_249_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_249_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_24_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_24_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_250_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_250_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_251_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_251_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_252_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_252_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_253_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_253_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_254_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_254_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_255_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_255_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_256_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_256_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_257_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_257_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_258_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_258_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_259_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_259_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_25_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_25_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_260_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_260_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_261_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_261_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_262_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_262_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_263_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_263_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_264_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_264_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_265_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_265_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_266_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_266_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_267_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_267_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_268_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_268_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_269_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_269_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_26_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_26_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_270_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_270_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_271_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_271_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_272_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_272_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_273_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_273_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_274_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_274_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_275_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_275_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_276_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_276_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_277_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_277_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_278_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_278_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_279_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_279_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_27_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_27_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_280_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_280_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_281_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_281_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_282_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_282_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_283_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_283_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_284_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_284_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_285_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_285_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_286_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_286_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_287_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_287_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_288_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_288_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_289_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_289_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_28_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_28_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_290_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_290_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_291_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_291_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_292_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_292_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_293_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_293_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_294_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_294_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_295_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_295_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_296_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_296_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_297_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_297_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_298_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_298_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_299_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_299_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_29_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_29_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_2_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_2_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_300_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_300_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_301_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_301_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_302_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_302_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_303_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_303_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_304_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_304_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_305_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_305_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_306_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_306_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_307_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_307_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_308_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_308_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_309_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_309_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_30_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_30_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_310_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_310_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_311_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_311_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_312_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_312_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_313_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_313_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_314_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_314_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_315_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_315_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_316_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_316_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_317_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_317_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_318_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_318_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_319_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_319_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_31_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_31_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_320_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_320_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_321_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_321_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_322_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_322_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_323_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_323_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_324_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_324_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_325_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_325_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_326_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_326_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_327_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_327_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_328_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_328_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_329_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_329_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_32_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_32_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_330_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_330_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_331_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_331_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_332_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_332_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_333_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_333_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_334_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_334_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_335_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_335_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_336_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_336_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_337_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_337_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_338_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_338_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_339_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_339_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_33_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_33_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_340_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_340_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_341_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_341_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_342_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_342_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_343_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_343_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_344_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_344_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_345_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_345_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_346_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_346_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_347_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_347_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_348_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_348_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_349_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_349_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_34_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_34_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_350_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_350_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_351_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_351_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_352_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_352_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_353_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_353_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_354_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_354_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_355_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_355_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_356_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_356_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_357_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_357_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_358_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_358_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_359_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_359_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_35_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_35_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_360_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_360_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_361_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_361_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_362_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_362_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_363_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_363_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_364_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_364_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_365_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_365_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_366_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_366_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_367_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_367_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_368_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_368_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_369_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_369_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_36_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_36_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_370_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_370_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_371_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_371_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_372_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_372_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_373_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_373_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_374_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_374_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_375_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_375_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_376_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_376_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_37_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_37_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_38_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_38_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_39_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_39_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_3_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_3_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_40_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_40_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_41_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_41_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_42_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_42_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_43_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_43_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_44_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_44_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_45_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_45_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_46_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_46_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_47_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_47_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_48_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_48_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_49_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_49_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_4_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_4_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_50_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_50_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_51_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_51_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_52_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_52_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_53_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_53_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_54_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_54_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_55_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_55_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_56_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_56_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_57_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_57_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_58_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_58_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_59_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_59_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_5_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_5_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_60_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_60_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_61_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_61_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_62_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_62_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_63_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_63_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_64_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_64_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_65_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_65_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_66_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_66_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_67_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_67_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_68_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_68_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_69_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_69_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_6_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_6_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_70_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_70_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_71_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_71_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_72_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_72_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_73_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_73_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_74_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_74_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_75_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_75_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_76_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_76_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_77_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_77_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_78_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_78_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_79_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_79_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_7_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_7_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_80_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_80_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_81_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_81_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_82_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_82_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_83_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_83_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_84_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_84_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_85_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_85_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_86_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_86_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_87_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_87_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_88_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_88_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_89_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_89_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_8_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_8_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_90_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_90_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_91_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_91_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_92_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_92_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_93_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_93_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_94_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_94_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_95_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_95_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_96_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_96_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_97_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_97_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_98_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_98_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_99_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_99_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_1_9_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_1_9_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_377_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_377_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_378_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_378_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_379_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_379_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_380_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_380_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_381_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_381_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_382_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_382_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_383_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_383_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_384_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_384_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_385_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_385_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_386_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_386_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_387_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_387_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_388_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_388_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_389_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_389_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_390_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_390_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_391_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_391_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_392_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_392_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_393_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_393_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_394_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_394_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_395_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_395_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_396_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_396_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_397_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_397_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_398_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_398_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_399_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_399_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_400_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_400_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_401_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_401_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_402_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_402_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_403_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_403_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_404_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_404_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_405_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_405_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_406_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_406_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_407_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_407_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_408_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_408_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_409_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_409_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_410_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_410_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_411_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_411_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_412_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_412_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_413_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_413_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_414_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_414_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_415_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_415_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_416_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_416_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_417_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_417_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_418_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_418_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_419_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_419_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_420_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_420_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_421_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_421_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_422_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_422_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_423_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_423_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_424_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_424_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_425_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_425_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_426_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_426_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_427_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_427_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_428_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_428_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_429_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_429_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_430_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_430_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_431_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_431_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_432_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_432_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_433_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_433_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_434_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_434_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_435_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_435_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_436_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_436_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_437_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_437_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_438_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_438_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_439_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_439_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_440_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_440_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_441_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_441_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_442_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_442_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_443_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_443_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_444_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_444_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_445_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_445_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_446_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_446_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_447_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_447_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_448_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_448_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_449_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_449_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_450_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_450_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_451_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_451_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_452_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_452_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_453_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_453_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_454_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_454_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_455_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_455_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_456_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_456_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_457_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_457_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_458_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_458_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_459_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_459_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_460_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_460_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_461_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_461_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_462_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_462_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_463_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_463_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_464_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_464_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_465_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_465_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_466_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_466_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_467_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_467_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_468_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_468_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_469_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_469_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_470_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_470_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_471_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_471_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_472_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_472_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_473_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_473_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_474_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_474_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_475_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_475_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_476_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_476_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_477_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_477_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_478_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_478_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_479_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_479_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_480_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_480_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_481_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_481_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_482_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_482_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_483_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_483_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_484_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_484_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_485_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_485_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_486_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_486_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_487_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_487_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_488_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_488_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_489_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_489_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_490_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_490_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_491_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_491_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_492_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_492_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_493_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_493_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_494_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_494_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_495_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_495_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_496_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_496_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_497_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_497_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_498_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_498_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_499_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_499_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_500_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_500_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_501_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_501_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_502_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_502_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_503_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_503_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_504_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_504_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_505_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_505_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_506_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_506_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_507_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_507_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_508_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_508_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_509_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_509_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_510_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_510_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_511_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_511_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_512_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_512_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_513_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_513_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_514_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_514_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_515_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_515_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_516_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_516_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_517_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_517_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_518_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_518_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_519_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_519_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_520_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_520_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_521_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_521_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_522_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_522_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_523_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_523_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_524_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_524_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_525_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_525_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_526_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_526_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_527_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_527_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_528_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_528_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_529_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_529_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_530_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_530_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_531_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_531_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_532_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_532_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_533_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_533_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_534_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_534_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_535_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_535_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_536_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_536_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_537_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_537_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_538_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_538_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_539_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_539_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_540_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_540_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_541_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_541_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_542_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_542_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_543_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_543_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_544_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_544_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_545_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_545_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_546_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_546_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_547_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_547_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_548_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_548_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_549_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_549_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_550_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_550_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_551_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_551_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_552_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_552_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_553_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_553_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_554_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_554_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_555_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_555_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_556_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_556_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_557_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_557_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_558_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_558_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_559_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_559_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_560_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_560_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_561_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_561_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_562_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_562_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_563_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_563_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_564_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_564_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_565_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_565_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_566_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_566_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_567_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_567_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_568_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_568_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_569_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_569_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_570_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_570_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_571_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_571_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_572_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_572_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_573_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_573_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_574_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_574_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_575_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_575_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_576_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_576_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_577_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_577_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_578_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_578_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_579_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_579_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_580_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_580_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_581_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_581_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_582_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_582_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_583_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_583_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_584_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_584_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_585_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_585_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_586_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_586_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_587_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_587_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_588_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_588_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_589_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_589_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_590_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_590_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_591_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_591_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_592_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_592_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_593_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_593_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_594_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_594_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_595_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_595_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_596_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_596_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_597_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_597_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_598_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_598_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_599_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_599_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_600_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_600_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_601_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_601_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_602_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_602_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_603_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_603_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_604_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_604_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_605_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_605_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_606_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_606_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_607_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_607_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_608_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_608_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_609_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_609_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_610_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_610_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_611_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_611_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_612_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_612_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_613_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_613_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_614_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_614_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_615_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_615_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_616_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_616_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_617_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_617_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_618_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_618_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_619_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_619_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_620_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_620_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_621_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_621_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_622_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_622_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_623_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_623_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_624_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_624_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_625_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_625_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_626_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_626_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_627_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_627_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_628_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_628_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_629_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_629_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_630_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_630_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_631_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_631_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_632_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_632_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_633_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_633_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_634_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_634_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_635_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_635_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_636_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_636_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_637_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_637_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_638_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_638_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_639_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_639_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_640_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_640_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_641_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_641_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_642_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_642_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_643_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_643_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_644_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_644_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_645_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_645_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_646_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_646_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_647_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_647_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_648_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_648_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_649_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_649_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_650_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_650_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_651_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_651_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_652_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_652_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_653_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_653_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_654_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_654_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_655_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_655_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_656_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_656_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_657_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_657_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_658_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_658_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_659_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_659_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_660_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_660_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_661_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_661_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_662_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_662_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_663_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_663_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_664_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_664_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_665_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_665_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_666_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_666_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_667_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_667_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_668_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_668_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_669_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_669_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_670_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_670_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_671_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_671_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_672_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_672_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_673_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_673_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_674_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_674_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_675_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_675_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_676_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_676_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_677_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_677_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_678_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_678_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_679_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_679_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_680_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_680_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_681_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_681_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_682_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_682_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_683_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_683_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_684_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_684_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_685_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_685_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_686_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_686_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_687_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_687_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_688_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_688_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_689_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_689_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_690_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_690_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_691_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_691_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_692_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_692_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_693_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_693_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_694_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_694_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_695_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_695_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_696_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_696_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_697_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_697_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_698_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_698_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_699_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_699_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_700_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_700_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_701_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_701_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_702_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_702_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_703_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_703_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_704_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_704_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_705_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_705_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_706_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_706_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_707_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_707_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_708_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_708_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_709_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_709_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_710_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_710_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_711_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_711_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_712_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_712_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_713_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_713_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_714_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_714_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_715_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_715_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_716_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_716_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_717_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_717_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_718_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_718_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_719_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_719_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_720_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_720_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_721_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_721_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_722_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_722_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_723_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_723_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_724_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_724_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_725_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_725_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_726_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_726_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_727_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_727_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_728_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_728_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_729_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_729_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_730_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_730_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_731_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_731_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_732_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_732_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_733_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_733_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_734_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_734_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_735_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_735_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_736_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_736_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_737_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_737_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_738_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_738_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_739_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_739_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_740_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_740_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_741_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_741_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_742_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_742_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_743_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_743_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_744_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_744_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_745_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_745_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_746_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_746_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_747_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_747_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_748_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_748_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_749_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_749_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_750_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_750_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_751_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_751_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_752_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_752_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: _hyper_2_753_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_2_753_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: entsoe_generation trigger_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON public.entsoe_generation FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
+-- Name: entsoe_load trigger_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON public.entsoe_load FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at('updated_at');
+
+
+--
 -- Name: entsoe_generation ts_insert_blocker; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -23502,6 +28826,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('3'),
 ('4'),
 ('5'),
-('6');
+('6'),
+('7');
 
 
