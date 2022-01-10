@@ -23,7 +23,7 @@ class ENTSOE
     end
     def points
       data = super
-      data.each { |p| p[:tags].slice!(:country) }
+      data.each { |p| p.slice!(:country) }
       data
     end
   end
@@ -41,7 +41,7 @@ class ENTSOE
     end
 
     def points
-      super.select { |p| !(p[:tags][:country] == :NO && p[:tags][:production_type] == 'wind_onshore' && p[:value] > 10_000) }
+      super.select { |p| !(p[:country] == :NO && p[:production_type] == 'wind_onshore' && p[:value] > 10_000) }
     end
   end
 
@@ -58,7 +58,7 @@ class ENTSOE
     end
     def points
       data = super
-      data.each { |p| p[:tags].slice!(:country) }
+      data.each { |p| p.slice!(:country) }
       data
     end
   end
@@ -120,12 +120,10 @@ class ENTSOE
         t = start + ((p.elements.to_a('position').first.text.to_i - 1) * resolution).minutes
         @last_time = t
         r << {
-          tags: {
-            country: @country,
-            process_type: @process_type,
-            production_type: production_type,
-          },
-          timestamp: t,
+          country: @country,
+          process_type: @process_type,
+          production_type: production_type,
+          created_at: t,
           value: p.elements.to_a('quantity').first.text.to_i
         }
       end

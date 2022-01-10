@@ -5,10 +5,6 @@ require 'dotenv/load'
 
 require './lib/entsoe'
 
-require 'influxdb'
-influxdb = InfluxDB::Client.new 'intermittency', host: ENV['INFLUX_HOST'], async: true
-
-#
 ENTSOE::DOMAIN_MAPPINGS.keys.select { |k| k.match /^DK/ }.each do |country|
   path = "data/generator/#{country}-2021.json"
   $stderr.puts path

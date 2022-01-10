@@ -1,10 +1,9 @@
 class Pump
   @@logger = SemanticLogger[Pump]
 
-  def initialize(source, out_series, influxdb)
+  def initialize(source, out_model)
     @source = source
-    @out_series = out_series
-    @influxdb = influxdb
+    @out_model = out_model
   end
 
   def run_loop
@@ -20,11 +19,9 @@ class Pump
     pass = false
     #require 'pry' ; binding.pry
     #@source::COUNTRIES.keys.each do |country|
-    @influxdb.query("SELECT time,country,LAST(value) FROM #{@out_series} WHERE time > '2021-06-01' GROUP BY country").each do |row|
-      country = row['tags']['country']
+    @out_model.group(:country).maximum(:created_at).each do |country, from|
       @@logger.tagged(country: country) do
-        #row = @@logger.measure_info("sincedb query") { @influxdb.query("SELECT time,LAST(value) FROM #{@out_series} WHERE country = %{1}", params: [country]) }.first
-        from = DateTime.parse row['values'][0]['time'] rescue @source::DEFAULT_START + 7.years
+        from = DateTime.parse from rescue @source::DEFAULT_START + 7.years
         to = [from + 1.year, DateTime.now.beginning_of_hour].min
         if from > 4.hours.ago
           @@logger.info "has data in last 4 hours. skipping"

@@ -24,15 +24,5 @@ influxdb.query("SELECT * FROM entsoe_generation WHERE time > '#{from}' AND time 
     v['updated_at'] = Time.now.to_s
   end
   EntsoeGeneration.insert_all values
-  #values.each do |row|
-  #  EntsoeGeneration.create(
-  #    created_at: row['time'],
-  #    country: row['country'],
-  #    process_type: row['process_type'],
-  #    production_type: row['production_type'],
-  #    value: row['value']
-  #  )
-  #  $stderr.print "."
-  #end
 end
 puts "Done!"
