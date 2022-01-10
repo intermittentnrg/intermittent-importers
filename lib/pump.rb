@@ -18,7 +18,7 @@ class Pump
   def run
     pass = false
     #@source::COUNTRIES.keys.each do |country|
-    @out_model.group(:country).where("created_at > ?", 1.month.ago).pluck(:country, Arel.sql("LAST(created_at, created_at)")).each do |country, from|
+    @out_model.group(:country).where("time > ?", 1.month.ago).pluck(:country, Arel.sql("LAST(time, time)")).each do |country, from|
       @@logger.tagged(country: country) do
         #require 'pry' ; binding.pry
         from = from.to_datetime rescue @source::DEFAULT_START + 7.years
@@ -30,14 +30,12 @@ class Pump
         @@logger.measure_info "download from #{from} to #{to}" do
           begin
             e = @source.new(country: country, from: from, to: to)
-            data = e.points.each do |p|
-              p['updated_at'] = Time.now
-            end
+            data = e.points
+            #require 'pry' ;binding.pry
             @out_model.insert_all(data)
             @@logger.info "#{data.length} points"
             pass if e.last_time > from
           rescue ENTSOE::EmptyError
-            #require 'pry' ;binding.pry
             raise if to < 1.day.ago
 
             # skip missing historical data

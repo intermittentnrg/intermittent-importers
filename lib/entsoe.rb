@@ -58,7 +58,7 @@ class ENTSOE
     end
     def points
       data = super
-      data.each { |p| p.slice!(:country) }
+      data.each { |p| p.except!(:process_type, :production_type) }
       data
     end
   end
@@ -123,7 +123,7 @@ class ENTSOE
           country: @country,
           process_type: @process_type,
           production_type: production_type,
-          created_at: t,
+          time: t,
           value: p.elements.to_a('quantity').first.text.to_i
         }
       end
