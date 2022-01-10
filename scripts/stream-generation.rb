@@ -9,7 +9,7 @@ require './lib/activerecord-connect'
 require './app/models/entsoe_generation'
 
 if ARGV.length < 2
-  $stderr.puts "#{$0} <from> <to>"
+  $stderr.puts "#{$0} <from> <to> [country ...]"
   exit 1
 end
 from = ARGV.shift

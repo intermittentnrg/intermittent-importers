@@ -17,11 +17,11 @@ class Pump
 
   def run
     pass = false
-    #require 'pry' ; binding.pry
     #@source::COUNTRIES.keys.each do |country|
-    @out_model.group(:country).maximum(:created_at).each do |country, from|
+    @out_model.group(:country).where("created_at > ?", 1.month.ago).pluck(:country, Arel.sql("LAST(created_at, created_at)")).each do |country, from|
       @@logger.tagged(country: country) do
-        from = DateTime.parse from rescue @source::DEFAULT_START + 7.years
+        #require 'pry' ; binding.pry
+        from = from.to_datetime rescue @source::DEFAULT_START + 7.years
         to = [from + 1.year, DateTime.now.beginning_of_hour].min
         if from > 4.hours.ago
           @@logger.info "has data in last 4 hours. skipping"
@@ -30,15 +30,10 @@ class Pump
         @@logger.measure_info "download from #{from} to #{to}" do
           begin
             e = @source.new(country: country, from: from, to: to)
-            data = e.points.map do |p|
-              {
-                series:    @out_series,
-                values:    { value: p[:value] },
-                tags:      p[:tags],
-                timestamp: p[:timestamp].to_i
-              }
+            data = e.points.each do |p|
+              p['updated_at'] = Time.now
             end
-            @influxdb.write_points(data)
+            @out_model.insert_all(data)
             @@logger.info "#{data.length} points"
             pass if e.last_time > from
           rescue ENTSOE::EmptyError
