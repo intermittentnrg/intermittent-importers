@@ -32,8 +32,8 @@ class Pump
             e = @source.new(country: country, from: from, to: to)
             data = e.points
             #require 'pry' ;binding.pry
-            @out_model.insert_all(data)
             @@logger.info "#{data.length} points"
+            @out_model.insert_all(data) if data.present?
             pass if e.last_time > from
           rescue ENTSOE::EmptyError
             raise if to < 1.day.ago
