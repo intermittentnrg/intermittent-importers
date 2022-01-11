@@ -22,13 +22,13 @@ class Svk
     'KK': :nuclear
   }
   class Generation < Svk
-    def initialize(area: nil, production: 'VI', from: nil, to: nil)
-      @area = area
+    def initialize(country: nil, production: 'VI', from: nil, to: nil)
+      @country = country
       @production = production
       @options = {
-        PeriodFrom: DateTime.parse(from).strftime('%m/%d/%Y %H:%M:%S'), # 11/21/2021 00:00:00
-        PeriodTo: DateTime.parse(to).strftime('%m/%d/%Y %H:%M:%S'), # 11/28/2021 00:00:00
-        ConstraintAreaId: area,
+        PeriodFrom: from.strftime('%m/%d/%Y %H:%M:%S'), # 11/21/2021 00:00:00
+        PeriodTo: to.strftime('%m/%d/%Y %H:%M:%S'), # 11/28/2021 00:00:00
+        ConstraintAreaId: country,
         ProductionSortId: production
       }
       puts @options.inspect
@@ -38,6 +38,7 @@ class Svk
         #debug_output: $stdout
       )
     end
+
     def points
       data = CSV.parse(@r.response.body.to_s, col_sep: ';')
       data.shift
@@ -45,9 +46,9 @@ class Svk
       r=[]
       data.each do |row|
         r << {
-          country: @area,
+          country: @country,
           production_type: @production,
-          timestamp: DateTime.parse(row[0]),
+          time: DateTime.parse(row[0]),
           value: row[1].to_f,
         }
       end

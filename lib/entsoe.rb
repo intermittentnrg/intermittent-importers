@@ -63,6 +63,22 @@ class ENTSOE
     end
   end
 
+  class Price < ENTSOE
+    def initialize(**)
+      super
+      @options[:documentType] = 'A44'
+      @options[:in_domain] = @options[:out_Domain] = COUNTRIES[@country.to_sym]
+      fetch
+    end
+    def point(p)
+      {
+        country: @country,
+        time: @time,
+        value: p.elements.to_a('price.amount').first.text.to_i
+      }
+    end
+  end
+
   class EmptyError < StandardError
   end
 
@@ -107,29 +123,34 @@ class ENTSOE
       #unless ts.elements.to_a('inBiddingZone_Domain.mRID').first
       #  require 'pry' ; binding.pry
       #end
-      start = DateTime.parse(ts.elements.to_a('Period/timeInterval/start').first.text)
-
+      #start = DateTime.parse(ts.elements.to_a('Period/timeInterval/start').first.text)
+      start = DateTime.strptime(ts.elements.to_a('Period/timeInterval/start').first.text, '%Y-%m-%dT%H:%M%z')
+      #2020-12-31T23:00Z
       resolution = ts.elements.to_a('Period/resolution').first.text.match(/^PT(\d+)M$/) { |m| m[1].to_i }
 
       #business_type = ts.css('businessType').text
 
       psr = ts.elements.to_a('MktPSRType/psrType').first.try :text
-      production_type = PARAMETER_DESC[psr.to_sym].downcase.tr_s(' ', '_') if psr
+      @production_type = PARAMETER_DESC[psr.to_sym].downcase.tr_s(' ', '_') if psr
 
       data = ts.elements.each('Period/Point') do |p|
-        t = start + ((p.elements.to_a('position').first.text.to_i - 1) * resolution).minutes
-        @last_time = t
-        r << {
-          country: @country,
-          process_type: @process_type,
-          production_type: production_type,
-          time: t,
-          value: p.elements.to_a('quantity').first.text.to_i
-        }
+        @time = start + ((p.elements.to_a('position').first.text.to_i - 1) * resolution).minutes
+        @last_time = @time
+        r << point(p)
       end
     end
 
     r
+  end
+
+  def point
+    {
+      country: @country,
+      process_type: @process_type,
+      production_type: @production_type,
+      time: @time,
+      value: p.elements.to_a('quantity').first.text.to_i
+    }
   end
 
   def last_time
