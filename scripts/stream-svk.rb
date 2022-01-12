@@ -9,8 +9,8 @@ require 'influxdb'
 influxdb = InfluxDB::Client.new 'intermittency', host: ENV['INFLUX_HOST'], async: true
 INFLUX_SERIES = 'svk_generation'
 
-if ARGV.length != 2
-  $stderr.puts "#{$0} <from> <to>"
+if ARGV.length < 2
+  $stderr.puts "#{$0} <from> <to> [country ...]"
   exit 1
 end
 from = ARGV.shift
