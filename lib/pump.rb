@@ -18,31 +18,16 @@ class Pump
   def run
     pass = false
     #@source::COUNTRIES.keys.each do |country|
-    @out_model.group(:country).where("time > ?", 1.month.ago).pluck(:country, Arel.sql("LAST(time, time)")).each do |country, from|
-      @@logger.tagged(country: country) do
-        #require 'pry' ; binding.pry
-        from = from.to_datetime rescue @source::DEFAULT_START + 7.years
-        to = [from + 1.year, DateTime.now.beginning_of_hour].min
-        if from > 4.hours.ago
-          @@logger.info "has data in last 4 hours. skipping"
-          next
-        end
-        @@logger.measure_info "download from #{from} to #{to}" do
-          begin
-            e = @source.new(country: country, from: from, to: to)
-            data = e.points
+    @out_model.parsers_each do |e|
+      data = e.points
             #require 'pry' ;binding.pry
-            @@logger.info "#{data.length} points"
-            @out_model.insert_all(data) if data.present?
-            pass if e.last_time > from
-          rescue ENTSOE::EmptyError
-            raise if to < 1.day.ago
+      @@logger.info "#{data.length} points"
+      @out_model.insert_all(data) if data.present?
+      #pass if e.last_time > from
+    rescue ENTSOE::EmptyError
+      raise if to < 1.day.ago # raise if within 24hrs
 
-            # skip missing historical data
-            @@logger.warn "skipped missing data until #{to}"
-          end
-        end
-      end
+      @@logger.warn "skipped missing data until #{to}"
     end
 
     pass

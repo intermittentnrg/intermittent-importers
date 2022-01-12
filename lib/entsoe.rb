@@ -143,7 +143,7 @@ class ENTSOE
     r
   end
 
-  def point
+  def point(p)
     {
       country: @country,
       process_type: @process_type,

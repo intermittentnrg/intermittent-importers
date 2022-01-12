@@ -22,14 +22,14 @@ class Svk
     'KK': :nuclear
   }
   class Generation < Svk
-    def initialize(country: nil, production: 'VI', from: nil, to: nil)
+    def initialize(country: nil, production_type: 'VI', from: nil, to: nil)
       @country = country
-      @production = production
+      @production_type = production_type
       @options = {
         PeriodFrom: from.strftime('%m/%d/%Y %H:%M:%S'), # 11/21/2021 00:00:00
         PeriodTo: to.strftime('%m/%d/%Y %H:%M:%S'), # 11/28/2021 00:00:00
         ConstraintAreaId: country,
-        ProductionSortId: production
+        ProductionSortId: production_type
       }
       puts @options.inspect
       @r = HTTParty.get(
@@ -45,16 +45,22 @@ class Svk
       data.pop
       r=[]
       data.each do |row|
+        time = DateTime.parse(row[0])
+        @last_time = time
         r << {
           country: @country,
-          production_type: @production,
-          time: DateTime.parse(row[0]),
+          production_type: @production_type,
+          time: time,
           value: row[1].to_f,
         }
       end
       #require 'pry' ; binding.pry
 
       r
+    end
+
+    def last_time
+      @last_time
     end
   end
 end
