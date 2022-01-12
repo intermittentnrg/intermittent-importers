@@ -1,6 +1,6 @@
 pipelineJob('intermittency-entsoe') {
   triggers {
-    cron('45 */4 * * *')
+    cron('45 */3 * * *')
   }
   environmentVariables(TAG: TAG)
   definition {
