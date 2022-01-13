@@ -16,9 +16,12 @@ spec:
   ) {
     node(POD_LABEL) {
       container('app') {
-        sh 'cd /app ; scripts/sincedb-generation.rb'
-        sh 'cd /app ; scripts/sincedb-load.rb'
-        sh 'cd /app ; scripts/sincedb-windsolar.rb'
+        sh 'cd /app ; scripts/sincedb-entsoe-generation.rb'
+        sh 'cd /app ; scripts/sincedb-entsoe-load.rb'
+        #sh 'cd /app ; scripts/sincedb-entsoe-windsolar.rb'
+        sh 'cd /app ; scripts/sincedb-entsoe-price.rb'
+        sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'
+        sh 'cd /app ; scripts/sincedb-svk-controlroom.rb'
       }
     }
   }

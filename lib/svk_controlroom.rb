@@ -7,7 +7,7 @@ require 'active_support'
 require 'active_support/core_ext'
 
 
-class SvkControlroom
+class SvkControlroomParser
   NAMES = {
     2 => 'nuclear',
     4 => 'thermal',
@@ -36,7 +36,7 @@ class SvkControlroom
       type = NAMES[row['name']]
       row['data'].each do |point|
         r << {
-          timestamp: Time.at(point['x']/1000),
+          time: Time.at(point['x']/1000),
           production_type: type,
           value: point['y']
         }
