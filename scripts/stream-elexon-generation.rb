@@ -10,6 +10,7 @@ require 'active_support/core_ext'
 require './lib/activerecord-connect'
 require './app/models/elexon_generation'
 
+require './lib/elexon'
 if ARGV.length < 2
   $stderr.puts "#{$0} <from> <to> [country]"
   exit 1
@@ -20,6 +21,7 @@ to = DateTime.parse ARGV.shift
 require 'httparty'
 @report = 'B1620'
 ELEXON_ENDPOINT = "https://api.bmreports.com/BMRS/#{@report}/v1"
+
 
 (from...to).each do |time|
   @options = {}

@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 1
+
+development:
+  <<: *default
+  database: <%= ENV['TIMESCALEDB_DATABASE'] %>
+  host: <%= ENV['TIMESCALEDB_HOST'] %>
+  port: 5432
+  user: <%= ENV['TIMESCALEDB_USERNAME'] %>
+  password: <%= ENV['TIMESCALEDB_PASSWORD'] %>
+
+questdb:
+  <<: *default
+  database: default
+  host: <%= ENV['QUESTDB_HOST'] %>
+  port: 8812
+  user: admin
+  password: quest
+  pool: 4

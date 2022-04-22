@@ -7,6 +7,7 @@ require './lib/entsoe'
 
 require './lib/activerecord-connect'
 require './app/models/entsoe_generation'
+require './app/models/generation'
 
 if ARGV.length < 2
   $stderr.puts "#{$0} <from> <to> [country ...]"
@@ -20,7 +21,7 @@ to = ARGV.shift
   e = ENTSOE::Generation.new country: country, from: from, to: to
   puts e.points
   #require 'pry' ; binding.pry
-  EntsoeGeneration.insert_all e.points.each { |p| p[:updated_at] = p[:created_at] }
+  Generation.insert_all e.points.each { |p| p[:updated_at] = p[:created_at] }
 rescue
   puts $!
   puts $!.backtrace
