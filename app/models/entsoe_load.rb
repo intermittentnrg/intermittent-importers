@@ -2,7 +2,7 @@ class EntsoeLoad < ActiveRecord::Base
   @@logger = SemanticLogger[EntsoeLoad]
   self.table_name = 'entsoe_load'
 
-  def self.parsers_each
+  def self.parsers_each(source)
     self.group(:country).where("time > ?", 2.months.ago).pluck(:country, Arel.sql("LAST(time, time)")).each do |country, from|
       from = from.to_datetime
       to = [from + 1.year, DateTime.now.beginning_of_hour].min

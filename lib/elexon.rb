@@ -7,6 +7,11 @@ require 'active_support/core_ext'
 
 module Elexon
   class Base
+
+    def self.source_id
+      "elexon"
+    end
+
     def initialize(date)
       @options = {}
       @options[:ServiceType] = 'xml'
@@ -33,6 +38,7 @@ module Elexon
       r = []
       @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
         r << {
+          country: 'UK',
           production_type: item['powerSystemResourceType'].gsub(/"/,'').downcase.tr_s(' ', '_'),
           time: DateTime.strptime(item['settlementDate'], '%Y-%m-%d') + (item['settlementPeriod'].to_i * 30).minutes,
           value: item['quantity'].to_i

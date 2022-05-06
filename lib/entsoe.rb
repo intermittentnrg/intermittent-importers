@@ -82,6 +82,10 @@ class ENTSOE
   class EmptyError < StandardError
   end
 
+  def self.source_id
+    "entsoe"
+  end
+
   def initialize country: nil, from: DateTime.now.beginning_of_day, to: DateTime.now.beginning_of_hour, psr_type: nil
     raise "#{from} == #{to}" if from==to
     raise unless country.to_s.length >= 2
