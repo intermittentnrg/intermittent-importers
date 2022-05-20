@@ -8,6 +8,7 @@ require './lib/entsoe'
 require './lib/activerecord-connect'
 require './app/models/entsoe_generation'
 require './app/models/generation'
+require './app/models/area'
 
 if ARGV.length < 2
   $stderr.puts "#{$0} <from> <to> [country ...]"
@@ -18,10 +19,18 @@ to = ARGV.shift
 
 (ARGV.present? ? ARGV : ENTSOE::DOMAIN_MAPPINGS.keys).each do |country|
   puts country
+  area_id = Area.where(source: ENTSOE::Generation.source_id, code: country).pluck(:id).first
   e = ENTSOE::Generation.new country: country, from: from, to: to
-  puts e.points
+  points = e.points
+  puts points
   #require 'pry' ; binding.pry
-  Generation.insert_all e.points.each { |p| p[:updated_at] = p[:created_at] }
+  points.map do |p|
+    p.delete :country
+    p.delete :process_type
+    p[:area_id] = area_id
+    #p[:updated_at] = p[:created_at]
+  end
+  Generation.insert_all points
 rescue
   puts $!
   puts $!.backtrace

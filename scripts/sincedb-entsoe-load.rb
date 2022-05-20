@@ -8,7 +8,7 @@ logger = SemanticLogger['sincedb-load.rb']
 
 require './lib/entsoe'
 require './lib/activerecord-connect'
-require './app/models/entsoe_load'
+require './app/models/load'
 
 require './lib/pump'
-Pump.new(ENTSOE::Load, EntsoeLoad).run
+Pump.new(ENTSOE::Load, Load).run

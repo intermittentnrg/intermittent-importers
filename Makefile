@@ -6,53 +6,30 @@ endif
 TIMESTAMP := $(shell TZ=UTC date +%Y%m%d-%H%M)
 export TAG ?= $(TIMESTAMP)
 
-refresh: fetch docker_build helm_apply
-
 ## load new data
 fetch:
 	scripts/sincedb-generation.rb
 	scripts/sincedb-load.rb
-
-## build influxdb-preloaded docker image
-docker_build:
-	docker buildx build \
-		--no-cache \
-		--platform=linux/arm64 -f Dockerfile.influxdb-preloaded \
-		--build-arg INFLUXDB_VERSION \
-		--build-arg INFLUX_USERNAME \
-		--build-arg INFLUX_PASSWORD \
-		--build-arg INFLUX_DATABASE \
-		--build-arg INFLUX_HOST \
-		-t $(DOCKER_REGISTRY)/influxdb-preloaded:$(TAG) -o type=registry \
-
-## helm apply
-helm_apply:
-	cd chart && helmfile apply --set image.tag=$(TAG)
-
-## helm diff
-helm_diff:
-	cd chart && helmfile diff --set image.tag=$(TAG)
 
 ## update secret from .env
 update_secret:
 	kubectl create secret generic -n jenkins intermittency --from-env-file=.env --dry-run=true -o yaml | kubectl apply -f -
 	kubectl create secret generic -n intermittency intermittency --from-env-file=.env --dry-run=true -o yaml | kubectl apply -f -
 
-## influxdb client
-client:
-	influx -host $(INFLUX_HOST) -database $(INFLUX_DATABASE) -username $(INFLUX_USERNAME) -password $(INFLUX_PASSWORD) -precision rfc3339
-
 psql:
 	psql intermittency
 
-.PHONY: outflux
-outflux:
-	./outflux schema-transfer intermittency
-	./outflux migrate intermittency
+pgdump:
+	pg_dump -Fc -f intermittency.bak intermittency
 
-setup_db:
-# CREATE RETENTION POLICY month ON intermittency DURATION 0s REPLICATION 1 SHARD DURATION 30d
-# CREATE RETENTION POLICY year ON intermittency DURATION 0s REPLICATION 1 SHARD DURATION 52w
+psql2:
+	psql intermittency
+dropdb2:
+	dropdb --force intermittency
+createdb2:
+	createdb intermittency
+pgrestore:
+	pg_restore -d intermittency intermittency.bak
 
 ## Prints this help
 help:
