@@ -1,4 +1,4 @@
-pipelineJob('intermittency-entsoe') {
+pipelineJob('intermittency-refresh') {
   triggers {
     cron('45 */3 * * *')
   }
@@ -12,7 +12,7 @@ pipelineJob('intermittency-entsoe') {
 	    credentials('gitolite-jenkins')
 	  }
 	  branches(BRANCH_NAME)
-	  scriptPath('Jenkinsfile.entsoe')
+	  scriptPath('Jenkinsfile.refresh')
 	}
       }
     }

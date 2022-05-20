@@ -1,0 +1,28 @@
+stage('refresh') {
+  podTemplate(yaml: """
+kind: Pod
+spec:
+  containers:
+    - name: app
+      image: docker-registry:5000/intermittency:${env.TAG}
+      command: ['/bin/cat']
+      tty: true
+      envFrom:
+        - secretRef:
+            name: intermittency
+"""
+  ) {
+    node(POD_LABEL) {
+      container('app') {
+        sh 'cd /app ; scripts/sincedb-entsoe-generation.rb'
+        sh 'cd /app ; scripts/sincedb-entsoe-load.rb'
+        sh 'cd /app ; scripts/sincedb-elexon-generation.rb'
+        sh 'cd /app ; scripts/sincedb-elexon-load.rb'
+        //sh 'cd /app ; scripts/sincedb-entsoe-windsolar.rb'
+        //sh 'cd /app ; scripts/sincedb-entsoe-price.rb'
+        //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'
+        //sh 'cd /app ; scripts/sincedb-svk-controlroom.rb'
+      }
+    }
+  }
+}

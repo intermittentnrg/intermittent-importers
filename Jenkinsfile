@@ -60,7 +60,7 @@ spec:
                  ],
                  removedJobAction: 'DELETE'
           )
-          build wait: false, job: 'intermittency-entsoe'
+          build wait: false, job: 'intermittency-refresh'
         }
       }
     }
