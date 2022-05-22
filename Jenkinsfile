@@ -49,7 +49,7 @@ spec:
     node(POD_LABEL) {
       container('app') {
         sh 'cd /app ; rspec spec -f d --format RspecJunitFormatter --out ${WORKSPACE}/rspec.xml'
-        junit 'rspec.xml'
+        junit allowEmptyResults: true, testResults: 'rspec.xml'
 
         if (env.BRANCH_NAME == "master") {
           sh "cp /app/jobdsl.groovy ."
