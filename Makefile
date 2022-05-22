@@ -8,13 +8,15 @@ export TAG ?= $(TIMESTAMP)
 
 ## load new data
 fetch:
-	scripts/sincedb-generation.rb
-	scripts/sincedb-load.rb
+	scripts/sincedb-entsoe-generation.rb
+	scripts/sincedb-entsoe-load.rb
+	scripts/sincedb-elexon-generation.rb
+	scripts/sincedb-elexon-load.rb
 
 ## update secret from .env
 update_secret:
-	kubectl create secret generic -n jenkins intermittency --from-env-file=.env --dry-run=true -o yaml | kubectl apply -f -
-	kubectl create secret generic -n intermittency intermittency --from-env-file=.env --dry-run=true -o yaml | kubectl apply -f -
+	grep -v export .env | kubectl create secret generic -n jenkins intermittency --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
+	grep -v export .env | kubectl create secret generic -n intermittency intermittency --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
 
 psql:
 	psql intermittency
