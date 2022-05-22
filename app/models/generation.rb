@@ -1,6 +1,8 @@
+require 'semantic_logger'
 require './lib/elexon'
 
 class Generation < ActiveRecord::Base
+  @@logger = SemanticLogger[Generation]
   self.table_name = 'generation'
   belongs_to :area
 

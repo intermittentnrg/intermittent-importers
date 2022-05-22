@@ -1,6 +1,8 @@
+require 'semantic_logger'
 require './lib/elexon'
 
 class Load < ActiveRecord::Base
+  @@logger = SemanticLogger[Load]
   self.table_name = 'load'
   belongs_to :area
 
