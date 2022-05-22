@@ -1,6 +1,12 @@
 pipelineJob('intermittency-refresh') {
-  triggers {
-    cron('45 */3 * * *')
+  properties {
+    pipelineTriggers {
+      triggers {
+        cron {
+          spec('45 */3 * * *')
+	}
+      }
+    }
   }
   environmentVariables(TAG: TAG)
   definition {
