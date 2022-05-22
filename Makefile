@@ -1,3 +1,5 @@
+SHELL=/bin/bash
+
 ifneq (,$(wildcard ./.env))
     include .env
     export
@@ -13,11 +15,18 @@ fetch:
 	scripts/sincedb-elexon-generation.rb
 	scripts/sincedb-elexon-load.rb
 
+fetch2:
+	. ./.env-production ; scripts/sincedb-entsoe-generation.rb
+	. ./.env-production ; scripts/sincedb-entsoe-load.rb
+	. ./.env-production ; scripts/sincedb-elexon-generation.rb
+	. ./.env-production ; scripts/sincedb-elexon-load.rb
+
 ## update secret from .env
 update_secret:
-	grep -v export .env | kubectl create secret generic -n jenkins intermittency --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
-	grep -v export .env | kubectl create secret generic -n intermittency intermittency --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
+	grep -v export .env | kubectl create secret generic -n jenkins intermittency-master --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
 
+update_secret2:
+	grep -v export .env-production | kubectl create secret generic -n jenkins intermittency-production --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
 psql:
 	psql intermittency
 

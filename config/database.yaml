@@ -5,11 +5,11 @@ default: &default
 
 development:
   <<: *default
-  database: <%= ENV['TIMESCALEDB_DATABASE'] %>
-  host: <%= ENV['TIMESCALEDB_HOST'] %>
+  host: <%= ENV['PGHOST'] %>
   port: 5432
-  user: <%= ENV['TIMESCALEDB_USERNAME'] %>
-  password: <%= ENV['TIMESCALEDB_PASSWORD'] %>
+  user: <%= ENV['PGUSER'] %>
+  password: <%= ENV['PGPASSWORD'] %>
+  database: <%= ENV['PGDATABASE'] %>
 
 questdb:
   <<: *default

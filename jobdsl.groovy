@@ -1,4 +1,4 @@
-pipelineJob('intermittency-refresh') {
+pipelineJob("intermittency-${BRANCH_NAME}-refresh") {
   properties {
     pipelineTriggers {
       triggers {
@@ -8,7 +8,7 @@ pipelineJob('intermittency-refresh') {
       }
     }
   }
-  environmentVariables(TAG: TAG)
+  environmentVariables(TAG: TAG, BRANCH_NAME: BRANCH_NAME)
   definition {
     cpsScm {
       scm {

@@ -51,7 +51,7 @@ spec:
         sh 'cd /app ; rspec spec -f d --format RspecJunitFormatter --out ${WORKSPACE}/rspec.xml'
         junit allowEmptyResults: true, testResults: 'rspec.xml'
 
-        if (env.BRANCH_NAME == "master") {
+        if (env.BRANCH_NAME == "master" || env.BRANCH_NAME == "production") {
           sh "cp /app/jobdsl.groovy ."
           jobDsl(targets: 'jobdsl.groovy',
                  additionalParameters: [
@@ -60,10 +60,9 @@ spec:
                  ],
                  removedJobAction: 'DELETE'
           )
-          build wait: false, job: 'intermittency-refresh'
+          build wait: false, job: "intermittency-${env.BRANCH_NAME}-refresh"
         }
       }
     }
   }
 }
-

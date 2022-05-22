@@ -9,7 +9,7 @@ spec:
       tty: true
       envFrom:
         - secretRef:
-            name: intermittency
+            name: intermittency-${env.BRANCH_NAME}
 """
   ) {
     node(POD_LABEL) {
