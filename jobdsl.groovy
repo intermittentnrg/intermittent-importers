@@ -3,7 +3,7 @@ pipelineJob("intermittency-${BRANCH_NAME}-refresh") {
     pipelineTriggers {
       triggers {
         cron {
-          spec('45 */3 * * *')
+          spec('45 */2 * * *')
 	}
       }
     }
