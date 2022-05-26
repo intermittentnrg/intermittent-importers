@@ -40,6 +40,9 @@ spec:
       image: docker-registry:5000/intermittency:${env.TAG}
       command: ['/bin/cat']
       tty: true
+      envFrom:
+        - secretRef:
+            name: intermittency-${env.BRANCH_NAME}
       resources:
         requests:
           cpu: "1"
@@ -52,6 +55,7 @@ spec:
         junit allowEmptyResults: true, testResults: 'rspec.xml'
 
         if (env.BRANCH_NAME == "master" || env.BRANCH_NAME == "production") {
+          sh "RAILS_ENV=development cd /app && rake db:migrate"
           sh "cp /app/jobdsl.groovy ."
           jobDsl(targets: 'jobdsl.groovy',
                  additionalParameters: [
