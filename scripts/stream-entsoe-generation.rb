@@ -24,7 +24,7 @@ to = ARGV.shift
   points = e.points
   puts points
   #require 'pry' ; binding.pry
-  points.map do |p|
+  points.each do |p|
     p.delete :country
     p.delete :process_type
     p[:area_id] = area_id

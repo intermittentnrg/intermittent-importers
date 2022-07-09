@@ -4,7 +4,7 @@ require 'bundler/setup'
 require 'semantic_logger'
 SemanticLogger.default_level = :trace
 SemanticLogger.add_appender(io: $stderr, formatter: :color)
-logger = SemanticLogger['sincedb-load.rb']
+logger = SemanticLogger['sincedb-entsoe-load.rb']
 
 require './lib/entsoe'
 require './lib/activerecord-connect'

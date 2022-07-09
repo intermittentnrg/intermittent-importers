@@ -4181,6 +4181,66 @@ INHERITS (public.load);
 
 
 --
+-- Name: _hyper_15_3526_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_15_3526_chunk (
+    CONSTRAINT constraint_3526 CHECK ((("time" >= '2022-06-02 00:00:00'::timestamp without time zone) AND ("time" < '2022-06-09 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.load);
+
+
+--
+-- Name: _hyper_15_3527_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_15_3527_chunk (
+    CONSTRAINT constraint_3527 CHECK ((("time" >= '2022-06-09 00:00:00'::timestamp without time zone) AND ("time" < '2022-06-16 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.load);
+
+
+--
+-- Name: _hyper_15_3528_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_15_3528_chunk (
+    CONSTRAINT constraint_3528 CHECK ((("time" >= '2022-06-16 00:00:00'::timestamp without time zone) AND ("time" < '2022-06-23 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.load);
+
+
+--
+-- Name: _hyper_15_3529_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_15_3529_chunk (
+    CONSTRAINT constraint_3529 CHECK ((("time" >= '2022-06-23 00:00:00'::timestamp without time zone) AND ("time" < '2022-06-30 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.load);
+
+
+--
+-- Name: _hyper_15_3530_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_15_3530_chunk (
+    CONSTRAINT constraint_3530 CHECK ((("time" >= '2014-12-25 00:00:00'::timestamp without time zone) AND ("time" < '2015-01-01 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.load);
+
+
+--
+-- Name: _hyper_15_3531_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_15_3531_chunk (
+    CONSTRAINT constraint_3531 CHECK ((("time" >= '2022-06-30 00:00:00'::timestamp without time zone) AND ("time" < '2022-07-07 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.load);
+
+
+--
 -- Name: entsoe_prices; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4189,7 +4249,8 @@ CREATE TABLE public.entsoe_prices (
     value integer NOT NULL,
     "time" timestamp without time zone NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    area_id integer
 );
 
 
@@ -12225,6 +12286,20 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: transmission; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.transmission (
+    from_area_id integer NOT NULL,
+    to_area_id integer NOT NULL,
+    value integer NOT NULL,
+    "time" timestamp without time zone NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: _hyper_14_2676_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
 --
 
@@ -17920,6 +17995,90 @@ ALTER TABLE ONLY _timescaledb_internal._hyper_15_3525_chunk ALTER COLUMN created
 --
 
 ALTER TABLE ONLY _timescaledb_internal._hyper_15_3525_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3526_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3526_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3526_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3526_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3527_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3527_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3527_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3527_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3528_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3528_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3528_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3528_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3529_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3529_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3529_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3529_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3530_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3530_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3530_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3530_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3531_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3531_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3531_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3531_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
 
 
 --
@@ -32003,6 +32162,48 @@ CREATE UNIQUE INDEX _hyper_15_3525_chunk_index_load_on_time_and_area_id ON _time
 
 
 --
+-- Name: _hyper_15_3526_chunk_index_load_on_time_and_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE UNIQUE INDEX _hyper_15_3526_chunk_index_load_on_time_and_area_id ON _timescaledb_internal._hyper_15_3526_chunk USING btree ("time", area_id);
+
+
+--
+-- Name: _hyper_15_3527_chunk_index_load_on_time_and_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE UNIQUE INDEX _hyper_15_3527_chunk_index_load_on_time_and_area_id ON _timescaledb_internal._hyper_15_3527_chunk USING btree ("time", area_id);
+
+
+--
+-- Name: _hyper_15_3528_chunk_index_load_on_time_and_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE UNIQUE INDEX _hyper_15_3528_chunk_index_load_on_time_and_area_id ON _timescaledb_internal._hyper_15_3528_chunk USING btree ("time", area_id);
+
+
+--
+-- Name: _hyper_15_3529_chunk_index_load_on_time_and_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE UNIQUE INDEX _hyper_15_3529_chunk_index_load_on_time_and_area_id ON _timescaledb_internal._hyper_15_3529_chunk USING btree ("time", area_id);
+
+
+--
+-- Name: _hyper_15_3530_chunk_index_load_on_time_and_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE UNIQUE INDEX _hyper_15_3530_chunk_index_load_on_time_and_area_id ON _timescaledb_internal._hyper_15_3530_chunk USING btree ("time", area_id);
+
+
+--
+-- Name: _hyper_15_3531_chunk_index_load_on_time_and_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE UNIQUE INDEX _hyper_15_3531_chunk_index_load_on_time_and_area_id ON _timescaledb_internal._hyper_15_3531_chunk USING btree ("time", area_id);
+
+
+--
 -- Name: _hyper_3_1000_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
@@ -43182,6 +43383,27 @@ CREATE UNIQUE INDEX index_load_on_time_and_area_id ON public.load USING btree ("
 
 
 --
+-- Name: index_transmission_on_from_area_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_transmission_on_from_area_id ON public.transmission USING btree (from_area_id);
+
+
+--
+-- Name: index_transmission_on_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_transmission_on_time ON public.transmission USING btree ("time");
+
+
+--
+-- Name: index_transmission_on_to_area_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_transmission_on_to_area_id ON public.transmission USING btree (to_area_id);
+
+
+--
 -- Name: svk_controlroom_time_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -46056,6 +46278,48 @@ CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hy
 --
 
 CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_15_3525_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_15_3526_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_15_3526_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_15_3527_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_15_3527_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_15_3528_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_15_3528_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_15_3529_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_15_3529_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_15_3530_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_15_3530_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_15_3531_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_15_3531_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
 
 
 --
@@ -51659,6 +51923,13 @@ CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON public.svk_mimer_generati
 
 
 --
+-- Name: transmission trigger_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON public.transmission FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
 -- Name: entsoe_prices ts_insert_blocker; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -51691,6 +51962,13 @@ CREATE TRIGGER ts_insert_blocker BEFORE INSERT ON public.svk_controlroom FOR EAC
 --
 
 CREATE TRIGGER ts_insert_blocker BEFORE INSERT ON public.svk_mimer_generation FOR EACH ROW EXECUTE FUNCTION _timescaledb_internal.insert_blocker();
+
+
+--
+-- Name: transmission ts_insert_blocker; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER ts_insert_blocker BEFORE INSERT ON public.transmission FOR EACH ROW EXECUTE FUNCTION _timescaledb_internal.insert_blocker();
 
 
 --
@@ -51804,6 +52082,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20'),
 ('21'),
 ('22'),
+('23'),
+('24'),
 ('3'),
 ('4'),
 ('5'),

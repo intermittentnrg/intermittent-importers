@@ -14,11 +14,12 @@ class ENTSOE
   #4.4.5. Current Generation Forecasts for Wind and Solar [14.1.D]
   #GET /api?documentType=A69&processType=A18&psrType=B16&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class WindSolar < ENTSOE
-    def initialize(**)
-      super
+    def initialize(country: nil, **kwargs)
+      super(**kwargs)
+      @country = country
       @options[:documentType] = 'A69'
       @options[:processType] = PROCESS_TYPES[:current]
-      @options[:in_Domain] = COUNTRIES[@country.to_sym]
+      @options[:in_Domain] = COUNTRIES[country.to_sym]
       fetch
     end
     def points
@@ -31,12 +32,13 @@ class ENTSOE
   #4.4.8. Aggregated Generation per Type [16.1.B&C]
   #GET /api?documentType=A75&processType=A16&psrType=B02&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Generation < ENTSOE
-    def initialize(**)
-      super
+    def initialize(country: nil, **kwargs)
+      super(**kwargs)
+      @country = country
       @process_type = :realised
       @options[:documentType] = 'A75'
       @options[:processType] = PROCESS_TYPES[:realised]
-      @options[:in_Domain] = COUNTRIES[@country.to_sym]
+      @options[:in_Domain] = COUNTRIES[country.to_sym]
       fetch
     end
 
@@ -48,12 +50,13 @@ class ENTSOE
   #4.1.1. Actual Total Load [6.1.A]
   #GET /api?documentType=A65&processType=A16&outBiddingZone_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Load < ENTSOE
-    def initialize(**)
-      super
+    def initialize(country:, **kwargs)
+      super(**kwargs)
+      @country = country
       @process_type = :realised
       @options[:documentType] = 'A65'
       @options[:processType] = PROCESS_TYPES[:realised]
-      @options[:outBiddingZone_Domain] = COUNTRIES[@country.to_sym]
+      @options[:outBiddingZone_Domain] = COUNTRIES[country.to_sym]
       fetch
     end
     def points
@@ -64,10 +67,11 @@ class ENTSOE
   end
 
   class Price < ENTSOE
-    def initialize(**)
-      super
+    def initialize(country:, **kwargs)
+      super(**kwargs)
+      @country = country
       @options[:documentType] = 'A44'
-      @options[:in_domain] = @options[:out_Domain] = COUNTRIES[@country.to_sym]
+      @options[:in_domain] = @options[:out_Domain] = COUNTRIES[country.to_sym]
       fetch
     end
     def point(p)
@@ -79,6 +83,58 @@ class ENTSOE
     end
   end
 
+  #4.2.15. Physical Flows [12.1.G]
+  #GET /api?documentType=A11&in_Domain=10YCZ-CEPS-----N&out_Domain=10YSK-SEPS-----K&periodStart=201512312300&periodEnd=201612312300
+  class Transmission < ENTSOE
+    def initialize(from_area:, to_area:, **kwargs)
+      super(**kwargs)
+      @from_area, @to_area = from_area, to_area
+      @options[:documentType] = 'A11'
+      @options[:out_Domain] = COUNTRIES[from_area.to_sym]
+      @options[:in_Domain] = COUNTRIES[to_area.to_sym]
+      puts @options.inspect
+      fetch
+      @doc1 = @doc
+
+      @options[:out_Domain] = COUNTRIES[to_area.to_sym]
+      @options[:in_Domain] = COUNTRIES[from_area.to_sym]
+      fetch
+    end
+
+    def points
+      r={}
+      @doc1.elements.each('*/TimeSeries') do |ts|
+        start = DateTime.strptime(ts.elements.to_a('Period/timeInterval/start').first.text, '%Y-%m-%dT%H:%M%z')
+        resolution = ts.elements.to_a('Period/resolution').first.text.match(/^PT(\d+)M$/) { |m| m[1].to_i }
+
+        data = ts.elements.each('Period/Point') do |p|
+          @time = start + ((p.elements.to_a('position').first.text.to_i - 1) * resolution).minutes
+          @last_time = @time
+          r[@time] = p.elements.to_a('quantity').first.text.to_i
+        end
+      end
+      @doc.elements.each('*/TimeSeries') do |ts|
+        start = DateTime.strptime(ts.elements.to_a('Period/timeInterval/start').first.text, '%Y-%m-%dT%H:%M%z')
+        resolution = ts.elements.to_a('Period/resolution').first.text.match(/^PT(\d+)M$/) { |m| m[1].to_i }
+
+        data = ts.elements.each('Period/Point') do |p|
+          @time = start + ((p.elements.to_a('position').first.text.to_i - 1) * resolution).minutes
+          @last_time = @time
+          r[@time] -= p.elements.to_a('quantity').first.text.to_i
+        end
+      end
+
+      r.map do |k,v|
+        {
+          time: k,
+          value: v
+          #from_area: @from_area,
+          #to_area: @to_area
+        }
+      end
+    end
+  end
+
   class EmptyError < StandardError
   end
 
@@ -86,11 +142,8 @@ class ENTSOE
     "entsoe"
   end
 
-  def initialize country: nil, from: DateTime.now.beginning_of_day, to: DateTime.now.beginning_of_hour, psr_type: nil
+  def initialize from: DateTime.now.beginning_of_day, to: DateTime.now.beginning_of_hour, psr_type: nil
     raise "#{from} == #{to}" if from==to
-    raise unless country.to_s.length >= 2
-    @country = country
-    raise country unless COUNTRIES.include? country.to_sym
     @options = {
       #psrType: 'B16',
       #in_Domain: '10YCZ-CEPS-----N',
@@ -127,7 +180,6 @@ class ENTSOE
       #unless ts.elements.to_a('inBiddingZone_Domain.mRID').first
       #  require 'pry' ; binding.pry
       #end
-      #start = DateTime.parse(ts.elements.to_a('Period/timeInterval/start').first.text)
       start = DateTime.strptime(ts.elements.to_a('Period/timeInterval/start').first.text, '%Y-%m-%dT%H:%M%z')
       #2020-12-31T23:00Z
       resolution = ts.elements.to_a('Period/resolution').first.text.match(/^PT(\d+)M$/) { |m| m[1].to_i }
@@ -183,10 +235,10 @@ class ENTSOE
     'CH': '10YCH-SWISSGRIDZ',
     'CZ': '10YCZ-CEPS-----N',
     'DE': '10Y1001A1001A83F',
-    # 'DE-LU': '10Y1001A1001A82H', # duplicate of DE
+    'DE-LU': '10Y1001A1001A82H', # duplicate of DE
     'DK': '10Y1001A1001A65H',
-    #'DK-DK1': '10YDK-1--------W',
-    #'DK-DK2': '10YDK-2--------M',
+    'DK-DK1': '10YDK-1--------W',
+    'DK-DK2': '10YDK-2--------M',
     'EE': '10Y1001A1001A39I',
     'ES': '10YES-REE------0',
     'FI': '10YFI-1--------U',
@@ -217,11 +269,11 @@ class ENTSOE
     #'MT': '10Y1001A1001A93C',
     'NL': '10YNL----------L',
     'NO': '10YNO-0--------C',
-    #'NO-NO1': '10YNO-1--------2',
-    #'NO-NO2': '10YNO-2--------T',
-    #'NO-NO3': '10YNO-3--------J',
-    #'NO-NO4': '10YNO-4--------9',
-    #'NO-NO5': '10Y1001A1001A48H',
+    'NO-NO1': '10YNO-1--------2',
+    'NO-NO2': '10YNO-2--------T',
+    'NO-NO3': '10YNO-3--------J',
+    'NO-NO4': '10YNO-4--------9',
+    'NO-NO5': '10Y1001A1001A48H',
     'PL': '10YPL-AREA-----S',
     'PT': '10YPT-REN------W',
     'RO': '10YRO-TEL------P',
@@ -267,11 +319,3 @@ class ENTSOE
     "#<ENTSO-E>"
   end
 end
-
-# unless ARGV.length == 3
-#   $stderr.puts "ARGS!"
-#   exit 1
-# end
-# e = ENTSOE.new country: ARGV[0], from: ARGV[1], to: ARGV[2]
-# e.points.each { |p| puts p.to_json }
-# 
