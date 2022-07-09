@@ -27,9 +27,13 @@ class Pump
       @@logger.info "#{data.length} points"
 
       data.each do |p|
-        p[:area_id] = (areas[p[:country]] ||= Area.where(source: @source.source_id, code: p[:country]).pluck(:id).first)
+        p[:area_id] = (areas[p[:country]] ||= Area.where(source: @source.source_id, code: p[:country]).pluck(:id).first) if p[:country]
+        p[:from_area_id] = (areas[p[:from_area]] ||= Area.where(source: @source.source_id, code: p[:from_area]).pluck(:id).first) if p[:from_area]
+        p[:to_area_id] = (areas[p[:to_area]] ||= Area.where(source: @source.source_id, code: p[:to_area]).pluck(:id).first) if p[:to_area]
         #require 'pry' ;binding.pry
         p.delete :country
+        p.delete :from_area
+        p.delete :to_area
         p.delete :process_type
       end
 

@@ -7,7 +7,7 @@ class Load < ActiveRecord::Base
   belongs_to :area
 
   def self.parsers_each(source)
-    self.joins(:area).group(:'area.code').where("time > ?", 4.months.ago).where(area: {source: source.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+    self.joins(:area).group(:'area.code').where("time > ?", 12.months.ago).where(area: {source: source.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
       from = from.to_datetime
       to = [from + 1.year, DateTime.now.beginning_of_hour].min
       if from > 4.hours.ago

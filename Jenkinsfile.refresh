@@ -16,6 +16,8 @@ spec:
       container('app') {
         sh 'cd /app ; scripts/sincedb-entsoe-generation.rb'
         sh 'cd /app ; scripts/sincedb-entsoe-load.rb'
+        sh 'cd /app ; scripts/sincedb-entsoe-price.rb'
+        sh 'cd /app ; scripts/sincedb-entsoe-transmission.rb'
         sh 'cd /app ; scripts/sincedb-elexon-generation.rb'
         sh 'cd /app ; scripts/sincedb-elexon-load.rb'
         //sh 'cd /app ; scripts/sincedb-entsoe-windsolar.rb'

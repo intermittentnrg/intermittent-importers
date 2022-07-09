@@ -127,9 +127,9 @@ class ENTSOE
       r.map do |k,v|
         {
           time: k,
+          from_area: @from_area,
+          to_area: @to_area,
           value: v
-          #from_area: @from_area,
-          #to_area: @to_area
         }
       end
     end
