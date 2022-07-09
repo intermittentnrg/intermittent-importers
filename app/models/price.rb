@@ -1,4 +1,7 @@
+require 'semantic_logger'
+
 class Price < ActiveRecord::Base
+  @@logger = SemanticLogger[Price]
   belongs_to :area
 
   def self.parsers_each(source)
