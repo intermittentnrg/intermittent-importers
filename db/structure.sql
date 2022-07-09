@@ -4241,16 +4241,309 @@ INHERITS (public.load);
 
 
 --
--- Name: entsoe_prices; Type: TABLE; Schema: public; Owner: -
+-- Name: _hyper_15_3561_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
 --
 
-CREATE TABLE public.entsoe_prices (
-    country character varying NOT NULL,
+CREATE TABLE _timescaledb_internal._hyper_15_3561_chunk (
+    CONSTRAINT constraint_3561 CHECK ((("time" >= '2022-07-07 00:00:00'::timestamp without time zone) AND ("time" < '2022-07-14 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.load);
+
+
+--
+-- Name: transmission; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.transmission (
+    from_area_id integer NOT NULL,
+    to_area_id integer NOT NULL,
+    value integer NOT NULL,
+    "time" timestamp without time zone NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: _hyper_17_3534_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3534_chunk (
+    CONSTRAINT constraint_3534 CHECK ((("time" >= '2021-12-30 00:00:00'::timestamp without time zone) AND ("time" < '2022-01-06 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3535_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3535_chunk (
+    CONSTRAINT constraint_3535 CHECK ((("time" >= '2022-01-06 00:00:00'::timestamp without time zone) AND ("time" < '2022-01-13 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3536_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3536_chunk (
+    CONSTRAINT constraint_3536 CHECK ((("time" >= '2022-01-13 00:00:00'::timestamp without time zone) AND ("time" < '2022-01-20 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3537_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3537_chunk (
+    CONSTRAINT constraint_3537 CHECK ((("time" >= '2022-01-20 00:00:00'::timestamp without time zone) AND ("time" < '2022-01-27 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3538_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3538_chunk (
+    CONSTRAINT constraint_3538 CHECK ((("time" >= '2022-01-27 00:00:00'::timestamp without time zone) AND ("time" < '2022-02-03 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3539_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3539_chunk (
+    CONSTRAINT constraint_3539 CHECK ((("time" >= '2022-02-03 00:00:00'::timestamp without time zone) AND ("time" < '2022-02-10 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3540_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3540_chunk (
+    CONSTRAINT constraint_3540 CHECK ((("time" >= '2022-02-10 00:00:00'::timestamp without time zone) AND ("time" < '2022-02-17 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3541_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3541_chunk (
+    CONSTRAINT constraint_3541 CHECK ((("time" >= '2022-02-17 00:00:00'::timestamp without time zone) AND ("time" < '2022-02-24 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3542_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3542_chunk (
+    CONSTRAINT constraint_3542 CHECK ((("time" >= '2022-02-24 00:00:00'::timestamp without time zone) AND ("time" < '2022-03-03 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3543_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3543_chunk (
+    CONSTRAINT constraint_3543 CHECK ((("time" >= '2022-03-03 00:00:00'::timestamp without time zone) AND ("time" < '2022-03-10 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3544_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3544_chunk (
+    CONSTRAINT constraint_3544 CHECK ((("time" >= '2022-03-10 00:00:00'::timestamp without time zone) AND ("time" < '2022-03-17 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3545_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3545_chunk (
+    CONSTRAINT constraint_3545 CHECK ((("time" >= '2022-03-17 00:00:00'::timestamp without time zone) AND ("time" < '2022-03-24 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3546_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3546_chunk (
+    CONSTRAINT constraint_3546 CHECK ((("time" >= '2022-03-24 00:00:00'::timestamp without time zone) AND ("time" < '2022-03-31 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3547_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3547_chunk (
+    CONSTRAINT constraint_3547 CHECK ((("time" >= '2022-03-31 00:00:00'::timestamp without time zone) AND ("time" < '2022-04-07 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3548_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3548_chunk (
+    CONSTRAINT constraint_3548 CHECK ((("time" >= '2022-04-07 00:00:00'::timestamp without time zone) AND ("time" < '2022-04-14 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3549_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3549_chunk (
+    CONSTRAINT constraint_3549 CHECK ((("time" >= '2022-04-14 00:00:00'::timestamp without time zone) AND ("time" < '2022-04-21 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3550_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3550_chunk (
+    CONSTRAINT constraint_3550 CHECK ((("time" >= '2022-04-21 00:00:00'::timestamp without time zone) AND ("time" < '2022-04-28 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3551_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3551_chunk (
+    CONSTRAINT constraint_3551 CHECK ((("time" >= '2022-04-28 00:00:00'::timestamp without time zone) AND ("time" < '2022-05-05 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3552_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3552_chunk (
+    CONSTRAINT constraint_3552 CHECK ((("time" >= '2022-05-05 00:00:00'::timestamp without time zone) AND ("time" < '2022-05-12 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3553_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3553_chunk (
+    CONSTRAINT constraint_3553 CHECK ((("time" >= '2022-05-12 00:00:00'::timestamp without time zone) AND ("time" < '2022-05-19 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3554_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3554_chunk (
+    CONSTRAINT constraint_3554 CHECK ((("time" >= '2022-05-19 00:00:00'::timestamp without time zone) AND ("time" < '2022-05-26 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3555_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3555_chunk (
+    CONSTRAINT constraint_3555 CHECK ((("time" >= '2022-05-26 00:00:00'::timestamp without time zone) AND ("time" < '2022-06-02 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3556_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3556_chunk (
+    CONSTRAINT constraint_3556 CHECK ((("time" >= '2022-06-02 00:00:00'::timestamp without time zone) AND ("time" < '2022-06-09 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3557_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3557_chunk (
+    CONSTRAINT constraint_3557 CHECK ((("time" >= '2022-06-09 00:00:00'::timestamp without time zone) AND ("time" < '2022-06-16 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3558_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3558_chunk (
+    CONSTRAINT constraint_3558 CHECK ((("time" >= '2022-06-16 00:00:00'::timestamp without time zone) AND ("time" < '2022-06-23 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3559_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3559_chunk (
+    CONSTRAINT constraint_3559 CHECK ((("time" >= '2022-06-23 00:00:00'::timestamp without time zone) AND ("time" < '2022-06-30 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: _hyper_17_3560_chunk; Type: TABLE; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TABLE _timescaledb_internal._hyper_17_3560_chunk (
+    CONSTRAINT constraint_3560 CHECK ((("time" >= '2022-06-30 00:00:00'::timestamp without time zone) AND ("time" < '2022-07-07 00:00:00'::timestamp without time zone)))
+)
+INHERITS (public.transmission);
+
+
+--
+-- Name: prices; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.prices (
     value integer NOT NULL,
     "time" timestamp without time zone NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    area_id integer
+    area_id integer NOT NULL
 );
 
 
@@ -4261,7 +4554,7 @@ CREATE TABLE public.entsoe_prices (
 CREATE TABLE _timescaledb_internal._hyper_3_1000_chunk (
     CONSTRAINT constraint_1000 CHECK ((("time" >= '2019-06-27 00:00:00'::timestamp without time zone) AND ("time" < '2019-07-04 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4271,7 +4564,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1001_chunk (
     CONSTRAINT constraint_1001 CHECK ((("time" >= '2019-07-04 00:00:00'::timestamp without time zone) AND ("time" < '2019-07-11 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4281,7 +4574,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1002_chunk (
     CONSTRAINT constraint_1002 CHECK ((("time" >= '2019-07-11 00:00:00'::timestamp without time zone) AND ("time" < '2019-07-18 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4291,7 +4584,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1003_chunk (
     CONSTRAINT constraint_1003 CHECK ((("time" >= '2019-07-18 00:00:00'::timestamp without time zone) AND ("time" < '2019-07-25 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4301,7 +4594,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1004_chunk (
     CONSTRAINT constraint_1004 CHECK ((("time" >= '2019-07-25 00:00:00'::timestamp without time zone) AND ("time" < '2019-08-01 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4311,7 +4604,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1005_chunk (
     CONSTRAINT constraint_1005 CHECK ((("time" >= '2019-08-01 00:00:00'::timestamp without time zone) AND ("time" < '2019-08-08 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4321,7 +4614,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1006_chunk (
     CONSTRAINT constraint_1006 CHECK ((("time" >= '2019-08-08 00:00:00'::timestamp without time zone) AND ("time" < '2019-08-15 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4331,7 +4624,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1007_chunk (
     CONSTRAINT constraint_1007 CHECK ((("time" >= '2019-08-15 00:00:00'::timestamp without time zone) AND ("time" < '2019-08-22 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4341,7 +4634,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1008_chunk (
     CONSTRAINT constraint_1008 CHECK ((("time" >= '2019-08-22 00:00:00'::timestamp without time zone) AND ("time" < '2019-08-29 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4351,7 +4644,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1009_chunk (
     CONSTRAINT constraint_1009 CHECK ((("time" >= '2019-08-29 00:00:00'::timestamp without time zone) AND ("time" < '2019-09-05 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4361,7 +4654,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1010_chunk (
     CONSTRAINT constraint_1010 CHECK ((("time" >= '2019-09-05 00:00:00'::timestamp without time zone) AND ("time" < '2019-09-12 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4371,7 +4664,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1011_chunk (
     CONSTRAINT constraint_1011 CHECK ((("time" >= '2019-09-12 00:00:00'::timestamp without time zone) AND ("time" < '2019-09-19 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4381,7 +4674,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1012_chunk (
     CONSTRAINT constraint_1012 CHECK ((("time" >= '2019-09-19 00:00:00'::timestamp without time zone) AND ("time" < '2019-09-26 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4391,7 +4684,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1013_chunk (
     CONSTRAINT constraint_1013 CHECK ((("time" >= '2019-09-26 00:00:00'::timestamp without time zone) AND ("time" < '2019-10-03 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4401,7 +4694,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1014_chunk (
     CONSTRAINT constraint_1014 CHECK ((("time" >= '2019-10-03 00:00:00'::timestamp without time zone) AND ("time" < '2019-10-10 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4411,7 +4704,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1015_chunk (
     CONSTRAINT constraint_1015 CHECK ((("time" >= '2019-10-10 00:00:00'::timestamp without time zone) AND ("time" < '2019-10-17 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4421,7 +4714,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1016_chunk (
     CONSTRAINT constraint_1016 CHECK ((("time" >= '2019-10-17 00:00:00'::timestamp without time zone) AND ("time" < '2019-10-24 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4431,7 +4724,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1017_chunk (
     CONSTRAINT constraint_1017 CHECK ((("time" >= '2019-10-24 00:00:00'::timestamp without time zone) AND ("time" < '2019-10-31 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4441,7 +4734,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1018_chunk (
     CONSTRAINT constraint_1018 CHECK ((("time" >= '2019-10-31 00:00:00'::timestamp without time zone) AND ("time" < '2019-11-07 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4451,7 +4744,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1019_chunk (
     CONSTRAINT constraint_1019 CHECK ((("time" >= '2019-11-07 00:00:00'::timestamp without time zone) AND ("time" < '2019-11-14 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4461,7 +4754,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1020_chunk (
     CONSTRAINT constraint_1020 CHECK ((("time" >= '2019-11-14 00:00:00'::timestamp without time zone) AND ("time" < '2019-11-21 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4471,7 +4764,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1021_chunk (
     CONSTRAINT constraint_1021 CHECK ((("time" >= '2019-11-21 00:00:00'::timestamp without time zone) AND ("time" < '2019-11-28 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4481,7 +4774,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1022_chunk (
     CONSTRAINT constraint_1022 CHECK ((("time" >= '2019-11-28 00:00:00'::timestamp without time zone) AND ("time" < '2019-12-05 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4491,7 +4784,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1023_chunk (
     CONSTRAINT constraint_1023 CHECK ((("time" >= '2019-12-05 00:00:00'::timestamp without time zone) AND ("time" < '2019-12-12 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4501,7 +4794,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1024_chunk (
     CONSTRAINT constraint_1024 CHECK ((("time" >= '2019-12-12 00:00:00'::timestamp without time zone) AND ("time" < '2019-12-19 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4511,7 +4804,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1025_chunk (
     CONSTRAINT constraint_1025 CHECK ((("time" >= '2019-12-19 00:00:00'::timestamp without time zone) AND ("time" < '2019-12-26 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4521,7 +4814,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1026_chunk (
     CONSTRAINT constraint_1026 CHECK ((("time" >= '2019-12-26 00:00:00'::timestamp without time zone) AND ("time" < '2020-01-02 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4531,7 +4824,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1027_chunk (
     CONSTRAINT constraint_1027 CHECK ((("time" >= '2020-01-02 00:00:00'::timestamp without time zone) AND ("time" < '2020-01-09 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4541,7 +4834,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1028_chunk (
     CONSTRAINT constraint_1028 CHECK ((("time" >= '2020-01-09 00:00:00'::timestamp without time zone) AND ("time" < '2020-01-16 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4551,7 +4844,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1029_chunk (
     CONSTRAINT constraint_1029 CHECK ((("time" >= '2020-01-16 00:00:00'::timestamp without time zone) AND ("time" < '2020-01-23 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4561,7 +4854,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1030_chunk (
     CONSTRAINT constraint_1030 CHECK ((("time" >= '2020-01-23 00:00:00'::timestamp without time zone) AND ("time" < '2020-01-30 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4571,7 +4864,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1031_chunk (
     CONSTRAINT constraint_1031 CHECK ((("time" >= '2020-01-30 00:00:00'::timestamp without time zone) AND ("time" < '2020-02-06 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4581,7 +4874,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1032_chunk (
     CONSTRAINT constraint_1032 CHECK ((("time" >= '2020-02-06 00:00:00'::timestamp without time zone) AND ("time" < '2020-02-13 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4591,7 +4884,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1033_chunk (
     CONSTRAINT constraint_1033 CHECK ((("time" >= '2020-02-13 00:00:00'::timestamp without time zone) AND ("time" < '2020-02-20 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4601,7 +4894,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1034_chunk (
     CONSTRAINT constraint_1034 CHECK ((("time" >= '2020-02-20 00:00:00'::timestamp without time zone) AND ("time" < '2020-02-27 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4611,7 +4904,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1035_chunk (
     CONSTRAINT constraint_1035 CHECK ((("time" >= '2020-02-27 00:00:00'::timestamp without time zone) AND ("time" < '2020-03-05 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4621,7 +4914,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1036_chunk (
     CONSTRAINT constraint_1036 CHECK ((("time" >= '2020-03-05 00:00:00'::timestamp without time zone) AND ("time" < '2020-03-12 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4631,7 +4924,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1037_chunk (
     CONSTRAINT constraint_1037 CHECK ((("time" >= '2020-03-12 00:00:00'::timestamp without time zone) AND ("time" < '2020-03-19 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4641,7 +4934,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1038_chunk (
     CONSTRAINT constraint_1038 CHECK ((("time" >= '2020-03-19 00:00:00'::timestamp without time zone) AND ("time" < '2020-03-26 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4651,7 +4944,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1039_chunk (
     CONSTRAINT constraint_1039 CHECK ((("time" >= '2020-03-26 00:00:00'::timestamp without time zone) AND ("time" < '2020-04-02 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4661,7 +4954,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1040_chunk (
     CONSTRAINT constraint_1040 CHECK ((("time" >= '2020-04-02 00:00:00'::timestamp without time zone) AND ("time" < '2020-04-09 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4671,7 +4964,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1041_chunk (
     CONSTRAINT constraint_1041 CHECK ((("time" >= '2020-04-09 00:00:00'::timestamp without time zone) AND ("time" < '2020-04-16 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4681,7 +4974,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1042_chunk (
     CONSTRAINT constraint_1042 CHECK ((("time" >= '2020-04-16 00:00:00'::timestamp without time zone) AND ("time" < '2020-04-23 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4691,7 +4984,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1043_chunk (
     CONSTRAINT constraint_1043 CHECK ((("time" >= '2020-04-23 00:00:00'::timestamp without time zone) AND ("time" < '2020-04-30 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4701,7 +4994,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1044_chunk (
     CONSTRAINT constraint_1044 CHECK ((("time" >= '2020-04-30 00:00:00'::timestamp without time zone) AND ("time" < '2020-05-07 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4711,7 +5004,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1045_chunk (
     CONSTRAINT constraint_1045 CHECK ((("time" >= '2020-05-07 00:00:00'::timestamp without time zone) AND ("time" < '2020-05-14 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4721,7 +5014,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1046_chunk (
     CONSTRAINT constraint_1046 CHECK ((("time" >= '2020-05-14 00:00:00'::timestamp without time zone) AND ("time" < '2020-05-21 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4731,7 +5024,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1047_chunk (
     CONSTRAINT constraint_1047 CHECK ((("time" >= '2020-05-21 00:00:00'::timestamp without time zone) AND ("time" < '2020-05-28 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4741,7 +5034,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1048_chunk (
     CONSTRAINT constraint_1048 CHECK ((("time" >= '2020-05-28 00:00:00'::timestamp without time zone) AND ("time" < '2020-06-04 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4751,7 +5044,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1049_chunk (
     CONSTRAINT constraint_1049 CHECK ((("time" >= '2020-06-04 00:00:00'::timestamp without time zone) AND ("time" < '2020-06-11 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4761,7 +5054,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1050_chunk (
     CONSTRAINT constraint_1050 CHECK ((("time" >= '2020-06-11 00:00:00'::timestamp without time zone) AND ("time" < '2020-06-18 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4771,7 +5064,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1051_chunk (
     CONSTRAINT constraint_1051 CHECK ((("time" >= '2020-06-18 00:00:00'::timestamp without time zone) AND ("time" < '2020-06-25 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4781,7 +5074,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1052_chunk (
     CONSTRAINT constraint_1052 CHECK ((("time" >= '2020-06-25 00:00:00'::timestamp without time zone) AND ("time" < '2020-07-02 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4791,7 +5084,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1053_chunk (
     CONSTRAINT constraint_1053 CHECK ((("time" >= '2020-07-02 00:00:00'::timestamp without time zone) AND ("time" < '2020-07-09 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4801,7 +5094,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1054_chunk (
     CONSTRAINT constraint_1054 CHECK ((("time" >= '2020-07-09 00:00:00'::timestamp without time zone) AND ("time" < '2020-07-16 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4811,7 +5104,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1055_chunk (
     CONSTRAINT constraint_1055 CHECK ((("time" >= '2020-07-16 00:00:00'::timestamp without time zone) AND ("time" < '2020-07-23 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4821,7 +5114,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1056_chunk (
     CONSTRAINT constraint_1056 CHECK ((("time" >= '2020-07-23 00:00:00'::timestamp without time zone) AND ("time" < '2020-07-30 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4831,7 +5124,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1057_chunk (
     CONSTRAINT constraint_1057 CHECK ((("time" >= '2020-07-30 00:00:00'::timestamp without time zone) AND ("time" < '2020-08-06 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4841,7 +5134,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1058_chunk (
     CONSTRAINT constraint_1058 CHECK ((("time" >= '2020-08-06 00:00:00'::timestamp without time zone) AND ("time" < '2020-08-13 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4851,7 +5144,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1059_chunk (
     CONSTRAINT constraint_1059 CHECK ((("time" >= '2020-08-13 00:00:00'::timestamp without time zone) AND ("time" < '2020-08-20 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4861,7 +5154,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1060_chunk (
     CONSTRAINT constraint_1060 CHECK ((("time" >= '2020-08-20 00:00:00'::timestamp without time zone) AND ("time" < '2020-08-27 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4871,7 +5164,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1061_chunk (
     CONSTRAINT constraint_1061 CHECK ((("time" >= '2020-08-27 00:00:00'::timestamp without time zone) AND ("time" < '2020-09-03 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4881,7 +5174,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1062_chunk (
     CONSTRAINT constraint_1062 CHECK ((("time" >= '2020-09-03 00:00:00'::timestamp without time zone) AND ("time" < '2020-09-10 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4891,7 +5184,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1063_chunk (
     CONSTRAINT constraint_1063 CHECK ((("time" >= '2020-09-10 00:00:00'::timestamp without time zone) AND ("time" < '2020-09-17 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4901,7 +5194,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1064_chunk (
     CONSTRAINT constraint_1064 CHECK ((("time" >= '2020-09-17 00:00:00'::timestamp without time zone) AND ("time" < '2020-09-24 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4911,7 +5204,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1065_chunk (
     CONSTRAINT constraint_1065 CHECK ((("time" >= '2020-09-24 00:00:00'::timestamp without time zone) AND ("time" < '2020-10-01 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4921,7 +5214,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1066_chunk (
     CONSTRAINT constraint_1066 CHECK ((("time" >= '2020-10-01 00:00:00'::timestamp without time zone) AND ("time" < '2020-10-08 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4931,7 +5224,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1067_chunk (
     CONSTRAINT constraint_1067 CHECK ((("time" >= '2020-10-08 00:00:00'::timestamp without time zone) AND ("time" < '2020-10-15 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4941,7 +5234,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1068_chunk (
     CONSTRAINT constraint_1068 CHECK ((("time" >= '2020-10-15 00:00:00'::timestamp without time zone) AND ("time" < '2020-10-22 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4951,7 +5244,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1069_chunk (
     CONSTRAINT constraint_1069 CHECK ((("time" >= '2020-10-22 00:00:00'::timestamp without time zone) AND ("time" < '2020-10-29 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4961,7 +5254,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1070_chunk (
     CONSTRAINT constraint_1070 CHECK ((("time" >= '2020-10-29 00:00:00'::timestamp without time zone) AND ("time" < '2020-11-05 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4971,7 +5264,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1071_chunk (
     CONSTRAINT constraint_1071 CHECK ((("time" >= '2020-11-05 00:00:00'::timestamp without time zone) AND ("time" < '2020-11-12 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4981,7 +5274,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1072_chunk (
     CONSTRAINT constraint_1072 CHECK ((("time" >= '2020-11-12 00:00:00'::timestamp without time zone) AND ("time" < '2020-11-19 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -4991,7 +5284,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1073_chunk (
     CONSTRAINT constraint_1073 CHECK ((("time" >= '2020-11-19 00:00:00'::timestamp without time zone) AND ("time" < '2020-11-26 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5001,7 +5294,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1074_chunk (
     CONSTRAINT constraint_1074 CHECK ((("time" >= '2020-11-26 00:00:00'::timestamp without time zone) AND ("time" < '2020-12-03 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5011,7 +5304,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1075_chunk (
     CONSTRAINT constraint_1075 CHECK ((("time" >= '2020-12-03 00:00:00'::timestamp without time zone) AND ("time" < '2020-12-10 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5021,7 +5314,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1076_chunk (
     CONSTRAINT constraint_1076 CHECK ((("time" >= '2020-12-10 00:00:00'::timestamp without time zone) AND ("time" < '2020-12-17 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5031,7 +5324,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1077_chunk (
     CONSTRAINT constraint_1077 CHECK ((("time" >= '2020-12-17 00:00:00'::timestamp without time zone) AND ("time" < '2020-12-24 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5041,7 +5334,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1078_chunk (
     CONSTRAINT constraint_1078 CHECK ((("time" >= '2020-12-24 00:00:00'::timestamp without time zone) AND ("time" < '2020-12-31 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5051,7 +5344,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1079_chunk (
     CONSTRAINT constraint_1079 CHECK ((("time" >= '2020-12-31 00:00:00'::timestamp without time zone) AND ("time" < '2021-01-07 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5061,7 +5354,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1080_chunk (
     CONSTRAINT constraint_1080 CHECK ((("time" >= '2021-01-07 00:00:00'::timestamp without time zone) AND ("time" < '2021-01-14 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5071,7 +5364,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1081_chunk (
     CONSTRAINT constraint_1081 CHECK ((("time" >= '2021-01-14 00:00:00'::timestamp without time zone) AND ("time" < '2021-01-21 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5081,7 +5374,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1082_chunk (
     CONSTRAINT constraint_1082 CHECK ((("time" >= '2021-01-21 00:00:00'::timestamp without time zone) AND ("time" < '2021-01-28 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5091,7 +5384,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1083_chunk (
     CONSTRAINT constraint_1083 CHECK ((("time" >= '2021-01-28 00:00:00'::timestamp without time zone) AND ("time" < '2021-02-04 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5101,7 +5394,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1084_chunk (
     CONSTRAINT constraint_1084 CHECK ((("time" >= '2021-02-04 00:00:00'::timestamp without time zone) AND ("time" < '2021-02-11 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5111,7 +5404,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1085_chunk (
     CONSTRAINT constraint_1085 CHECK ((("time" >= '2021-02-11 00:00:00'::timestamp without time zone) AND ("time" < '2021-02-18 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5121,7 +5414,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1086_chunk (
     CONSTRAINT constraint_1086 CHECK ((("time" >= '2021-02-18 00:00:00'::timestamp without time zone) AND ("time" < '2021-02-25 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5131,7 +5424,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1087_chunk (
     CONSTRAINT constraint_1087 CHECK ((("time" >= '2021-02-25 00:00:00'::timestamp without time zone) AND ("time" < '2021-03-04 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5141,7 +5434,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1088_chunk (
     CONSTRAINT constraint_1088 CHECK ((("time" >= '2021-03-04 00:00:00'::timestamp without time zone) AND ("time" < '2021-03-11 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5151,7 +5444,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1089_chunk (
     CONSTRAINT constraint_1089 CHECK ((("time" >= '2021-03-11 00:00:00'::timestamp without time zone) AND ("time" < '2021-03-18 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5161,7 +5454,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1090_chunk (
     CONSTRAINT constraint_1090 CHECK ((("time" >= '2021-03-18 00:00:00'::timestamp without time zone) AND ("time" < '2021-03-25 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5171,7 +5464,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1091_chunk (
     CONSTRAINT constraint_1091 CHECK ((("time" >= '2021-03-25 00:00:00'::timestamp without time zone) AND ("time" < '2021-04-01 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5181,7 +5474,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1092_chunk (
     CONSTRAINT constraint_1092 CHECK ((("time" >= '2021-04-01 00:00:00'::timestamp without time zone) AND ("time" < '2021-04-08 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5191,7 +5484,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1093_chunk (
     CONSTRAINT constraint_1093 CHECK ((("time" >= '2021-04-08 00:00:00'::timestamp without time zone) AND ("time" < '2021-04-15 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5201,7 +5494,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1094_chunk (
     CONSTRAINT constraint_1094 CHECK ((("time" >= '2021-04-15 00:00:00'::timestamp without time zone) AND ("time" < '2021-04-22 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5211,7 +5504,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1095_chunk (
     CONSTRAINT constraint_1095 CHECK ((("time" >= '2021-04-22 00:00:00'::timestamp without time zone) AND ("time" < '2021-04-29 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5221,7 +5514,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1096_chunk (
     CONSTRAINT constraint_1096 CHECK ((("time" >= '2021-04-29 00:00:00'::timestamp without time zone) AND ("time" < '2021-05-06 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5231,7 +5524,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1097_chunk (
     CONSTRAINT constraint_1097 CHECK ((("time" >= '2021-05-06 00:00:00'::timestamp without time zone) AND ("time" < '2021-05-13 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5241,7 +5534,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1098_chunk (
     CONSTRAINT constraint_1098 CHECK ((("time" >= '2021-05-13 00:00:00'::timestamp without time zone) AND ("time" < '2021-05-20 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5251,7 +5544,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1099_chunk (
     CONSTRAINT constraint_1099 CHECK ((("time" >= '2021-05-20 00:00:00'::timestamp without time zone) AND ("time" < '2021-05-27 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5261,7 +5554,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1100_chunk (
     CONSTRAINT constraint_1100 CHECK ((("time" >= '2021-05-27 00:00:00'::timestamp without time zone) AND ("time" < '2021-06-03 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5271,7 +5564,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1101_chunk (
     CONSTRAINT constraint_1101 CHECK ((("time" >= '2021-06-03 00:00:00'::timestamp without time zone) AND ("time" < '2021-06-10 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5281,7 +5574,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1102_chunk (
     CONSTRAINT constraint_1102 CHECK ((("time" >= '2021-06-10 00:00:00'::timestamp without time zone) AND ("time" < '2021-06-17 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5291,7 +5584,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1103_chunk (
     CONSTRAINT constraint_1103 CHECK ((("time" >= '2021-06-17 00:00:00'::timestamp without time zone) AND ("time" < '2021-06-24 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5301,7 +5594,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1104_chunk (
     CONSTRAINT constraint_1104 CHECK ((("time" >= '2021-06-24 00:00:00'::timestamp without time zone) AND ("time" < '2021-07-01 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5311,7 +5604,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1105_chunk (
     CONSTRAINT constraint_1105 CHECK ((("time" >= '2021-07-01 00:00:00'::timestamp without time zone) AND ("time" < '2021-07-08 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5321,7 +5614,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1106_chunk (
     CONSTRAINT constraint_1106 CHECK ((("time" >= '2021-07-08 00:00:00'::timestamp without time zone) AND ("time" < '2021-07-15 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5331,7 +5624,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1107_chunk (
     CONSTRAINT constraint_1107 CHECK ((("time" >= '2021-07-15 00:00:00'::timestamp without time zone) AND ("time" < '2021-07-22 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5341,7 +5634,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1108_chunk (
     CONSTRAINT constraint_1108 CHECK ((("time" >= '2021-07-22 00:00:00'::timestamp without time zone) AND ("time" < '2021-07-29 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5351,7 +5644,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1109_chunk (
     CONSTRAINT constraint_1109 CHECK ((("time" >= '2021-07-29 00:00:00'::timestamp without time zone) AND ("time" < '2021-08-05 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5361,7 +5654,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1110_chunk (
     CONSTRAINT constraint_1110 CHECK ((("time" >= '2021-08-05 00:00:00'::timestamp without time zone) AND ("time" < '2021-08-12 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5371,7 +5664,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1111_chunk (
     CONSTRAINT constraint_1111 CHECK ((("time" >= '2021-08-12 00:00:00'::timestamp without time zone) AND ("time" < '2021-08-19 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5381,7 +5674,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1112_chunk (
     CONSTRAINT constraint_1112 CHECK ((("time" >= '2021-08-19 00:00:00'::timestamp without time zone) AND ("time" < '2021-08-26 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5391,7 +5684,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1113_chunk (
     CONSTRAINT constraint_1113 CHECK ((("time" >= '2021-08-26 00:00:00'::timestamp without time zone) AND ("time" < '2021-09-02 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5401,7 +5694,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1114_chunk (
     CONSTRAINT constraint_1114 CHECK ((("time" >= '2021-09-02 00:00:00'::timestamp without time zone) AND ("time" < '2021-09-09 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5411,7 +5704,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1115_chunk (
     CONSTRAINT constraint_1115 CHECK ((("time" >= '2021-09-09 00:00:00'::timestamp without time zone) AND ("time" < '2021-09-16 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5421,7 +5714,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1116_chunk (
     CONSTRAINT constraint_1116 CHECK ((("time" >= '2021-09-16 00:00:00'::timestamp without time zone) AND ("time" < '2021-09-23 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5431,7 +5724,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1117_chunk (
     CONSTRAINT constraint_1117 CHECK ((("time" >= '2021-09-23 00:00:00'::timestamp without time zone) AND ("time" < '2021-09-30 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5441,7 +5734,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1118_chunk (
     CONSTRAINT constraint_1118 CHECK ((("time" >= '2021-09-30 00:00:00'::timestamp without time zone) AND ("time" < '2021-10-07 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5451,7 +5744,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1119_chunk (
     CONSTRAINT constraint_1119 CHECK ((("time" >= '2021-10-07 00:00:00'::timestamp without time zone) AND ("time" < '2021-10-14 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5461,7 +5754,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1120_chunk (
     CONSTRAINT constraint_1120 CHECK ((("time" >= '2021-10-14 00:00:00'::timestamp without time zone) AND ("time" < '2021-10-21 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5471,7 +5764,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1121_chunk (
     CONSTRAINT constraint_1121 CHECK ((("time" >= '2021-10-21 00:00:00'::timestamp without time zone) AND ("time" < '2021-10-28 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5481,7 +5774,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1122_chunk (
     CONSTRAINT constraint_1122 CHECK ((("time" >= '2021-10-28 00:00:00'::timestamp without time zone) AND ("time" < '2021-11-04 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5491,7 +5784,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1123_chunk (
     CONSTRAINT constraint_1123 CHECK ((("time" >= '2021-11-04 00:00:00'::timestamp without time zone) AND ("time" < '2021-11-11 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5501,7 +5794,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1124_chunk (
     CONSTRAINT constraint_1124 CHECK ((("time" >= '2021-11-11 00:00:00'::timestamp without time zone) AND ("time" < '2021-11-18 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5511,7 +5804,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1125_chunk (
     CONSTRAINT constraint_1125 CHECK ((("time" >= '2021-11-18 00:00:00'::timestamp without time zone) AND ("time" < '2021-11-25 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5521,7 +5814,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1126_chunk (
     CONSTRAINT constraint_1126 CHECK ((("time" >= '2021-11-25 00:00:00'::timestamp without time zone) AND ("time" < '2021-12-02 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5531,7 +5824,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1127_chunk (
     CONSTRAINT constraint_1127 CHECK ((("time" >= '2021-12-02 00:00:00'::timestamp without time zone) AND ("time" < '2021-12-09 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5541,7 +5834,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1128_chunk (
     CONSTRAINT constraint_1128 CHECK ((("time" >= '2021-12-09 00:00:00'::timestamp without time zone) AND ("time" < '2021-12-16 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5551,7 +5844,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1129_chunk (
     CONSTRAINT constraint_1129 CHECK ((("time" >= '2021-12-16 00:00:00'::timestamp without time zone) AND ("time" < '2021-12-23 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5561,7 +5854,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1130_chunk (
     CONSTRAINT constraint_1130 CHECK ((("time" >= '2021-12-23 00:00:00'::timestamp without time zone) AND ("time" < '2021-12-30 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5571,7 +5864,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_1920_chunk (
     CONSTRAINT constraint_1920 CHECK ((("time" >= '2022-01-13 00:00:00'::timestamp without time zone) AND ("time" < '2022-01-20 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5581,7 +5874,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_2684_chunk (
     CONSTRAINT constraint_2684 CHECK ((("time" >= '2022-01-20 00:00:00'::timestamp without time zone) AND ("time" < '2022-01-27 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5591,7 +5884,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_2685_chunk (
     CONSTRAINT constraint_2685 CHECK ((("time" >= '2022-01-27 00:00:00'::timestamp without time zone) AND ("time" < '2022-02-03 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5601,7 +5894,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_2686_chunk (
     CONSTRAINT constraint_2686 CHECK ((("time" >= '2022-02-03 00:00:00'::timestamp without time zone) AND ("time" < '2022-02-10 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5611,7 +5904,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_2687_chunk (
     CONSTRAINT constraint_2687 CHECK ((("time" >= '2022-02-10 00:00:00'::timestamp without time zone) AND ("time" < '2022-02-17 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5621,7 +5914,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_2688_chunk (
     CONSTRAINT constraint_2688 CHECK ((("time" >= '2022-02-17 00:00:00'::timestamp without time zone) AND ("time" < '2022-02-24 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5631,7 +5924,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_2689_chunk (
     CONSTRAINT constraint_2689 CHECK ((("time" >= '2022-02-24 00:00:00'::timestamp without time zone) AND ("time" < '2022-03-03 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5641,7 +5934,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_761_chunk (
     CONSTRAINT constraint_761 CHECK ((("time" >= '2021-12-30 00:00:00'::timestamp without time zone) AND ("time" < '2022-01-06 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5651,7 +5944,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_762_chunk (
     CONSTRAINT constraint_762 CHECK ((("time" >= '2022-01-06 00:00:00'::timestamp without time zone) AND ("time" < '2022-01-13 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5661,7 +5954,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_763_chunk (
     CONSTRAINT constraint_763 CHECK ((("time" >= '2014-12-11 00:00:00'::timestamp without time zone) AND ("time" < '2014-12-18 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5671,7 +5964,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_764_chunk (
     CONSTRAINT constraint_764 CHECK ((("time" >= '2014-12-18 00:00:00'::timestamp without time zone) AND ("time" < '2014-12-25 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5681,7 +5974,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_765_chunk (
     CONSTRAINT constraint_765 CHECK ((("time" >= '2014-12-25 00:00:00'::timestamp without time zone) AND ("time" < '2015-01-01 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5691,7 +5984,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_766_chunk (
     CONSTRAINT constraint_766 CHECK ((("time" >= '2015-01-01 00:00:00'::timestamp without time zone) AND ("time" < '2015-01-08 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5701,7 +5994,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_767_chunk (
     CONSTRAINT constraint_767 CHECK ((("time" >= '2015-01-08 00:00:00'::timestamp without time zone) AND ("time" < '2015-01-15 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5711,7 +6004,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_768_chunk (
     CONSTRAINT constraint_768 CHECK ((("time" >= '2015-01-15 00:00:00'::timestamp without time zone) AND ("time" < '2015-01-22 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5721,7 +6014,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_769_chunk (
     CONSTRAINT constraint_769 CHECK ((("time" >= '2015-01-22 00:00:00'::timestamp without time zone) AND ("time" < '2015-01-29 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5731,7 +6024,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_770_chunk (
     CONSTRAINT constraint_770 CHECK ((("time" >= '2015-01-29 00:00:00'::timestamp without time zone) AND ("time" < '2015-02-05 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5741,7 +6034,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_771_chunk (
     CONSTRAINT constraint_771 CHECK ((("time" >= '2015-02-05 00:00:00'::timestamp without time zone) AND ("time" < '2015-02-12 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5751,7 +6044,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_772_chunk (
     CONSTRAINT constraint_772 CHECK ((("time" >= '2015-02-12 00:00:00'::timestamp without time zone) AND ("time" < '2015-02-19 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5761,7 +6054,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_773_chunk (
     CONSTRAINT constraint_773 CHECK ((("time" >= '2015-02-19 00:00:00'::timestamp without time zone) AND ("time" < '2015-02-26 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5771,7 +6064,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_774_chunk (
     CONSTRAINT constraint_774 CHECK ((("time" >= '2015-02-26 00:00:00'::timestamp without time zone) AND ("time" < '2015-03-05 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5781,7 +6074,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_775_chunk (
     CONSTRAINT constraint_775 CHECK ((("time" >= '2015-03-05 00:00:00'::timestamp without time zone) AND ("time" < '2015-03-12 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5791,7 +6084,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_776_chunk (
     CONSTRAINT constraint_776 CHECK ((("time" >= '2015-03-12 00:00:00'::timestamp without time zone) AND ("time" < '2015-03-19 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5801,7 +6094,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_777_chunk (
     CONSTRAINT constraint_777 CHECK ((("time" >= '2015-03-19 00:00:00'::timestamp without time zone) AND ("time" < '2015-03-26 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5811,7 +6104,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_778_chunk (
     CONSTRAINT constraint_778 CHECK ((("time" >= '2015-03-26 00:00:00'::timestamp without time zone) AND ("time" < '2015-04-02 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5821,7 +6114,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_779_chunk (
     CONSTRAINT constraint_779 CHECK ((("time" >= '2015-04-02 00:00:00'::timestamp without time zone) AND ("time" < '2015-04-09 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5831,7 +6124,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_780_chunk (
     CONSTRAINT constraint_780 CHECK ((("time" >= '2015-04-09 00:00:00'::timestamp without time zone) AND ("time" < '2015-04-16 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5841,7 +6134,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_781_chunk (
     CONSTRAINT constraint_781 CHECK ((("time" >= '2015-04-16 00:00:00'::timestamp without time zone) AND ("time" < '2015-04-23 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5851,7 +6144,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_782_chunk (
     CONSTRAINT constraint_782 CHECK ((("time" >= '2015-04-23 00:00:00'::timestamp without time zone) AND ("time" < '2015-04-30 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5861,7 +6154,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_783_chunk (
     CONSTRAINT constraint_783 CHECK ((("time" >= '2015-04-30 00:00:00'::timestamp without time zone) AND ("time" < '2015-05-07 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5871,7 +6164,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_784_chunk (
     CONSTRAINT constraint_784 CHECK ((("time" >= '2015-05-07 00:00:00'::timestamp without time zone) AND ("time" < '2015-05-14 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5881,7 +6174,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_785_chunk (
     CONSTRAINT constraint_785 CHECK ((("time" >= '2015-05-14 00:00:00'::timestamp without time zone) AND ("time" < '2015-05-21 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5891,7 +6184,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_786_chunk (
     CONSTRAINT constraint_786 CHECK ((("time" >= '2015-05-21 00:00:00'::timestamp without time zone) AND ("time" < '2015-05-28 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5901,7 +6194,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_787_chunk (
     CONSTRAINT constraint_787 CHECK ((("time" >= '2015-05-28 00:00:00'::timestamp without time zone) AND ("time" < '2015-06-04 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5911,7 +6204,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_788_chunk (
     CONSTRAINT constraint_788 CHECK ((("time" >= '2015-06-04 00:00:00'::timestamp without time zone) AND ("time" < '2015-06-11 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5921,7 +6214,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_789_chunk (
     CONSTRAINT constraint_789 CHECK ((("time" >= '2015-06-11 00:00:00'::timestamp without time zone) AND ("time" < '2015-06-18 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5931,7 +6224,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_790_chunk (
     CONSTRAINT constraint_790 CHECK ((("time" >= '2015-06-18 00:00:00'::timestamp without time zone) AND ("time" < '2015-06-25 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5941,7 +6234,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_791_chunk (
     CONSTRAINT constraint_791 CHECK ((("time" >= '2015-06-25 00:00:00'::timestamp without time zone) AND ("time" < '2015-07-02 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5951,7 +6244,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_792_chunk (
     CONSTRAINT constraint_792 CHECK ((("time" >= '2015-07-02 00:00:00'::timestamp without time zone) AND ("time" < '2015-07-09 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5961,7 +6254,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_793_chunk (
     CONSTRAINT constraint_793 CHECK ((("time" >= '2015-07-09 00:00:00'::timestamp without time zone) AND ("time" < '2015-07-16 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5971,7 +6264,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_794_chunk (
     CONSTRAINT constraint_794 CHECK ((("time" >= '2015-07-16 00:00:00'::timestamp without time zone) AND ("time" < '2015-07-23 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5981,7 +6274,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_795_chunk (
     CONSTRAINT constraint_795 CHECK ((("time" >= '2015-07-23 00:00:00'::timestamp without time zone) AND ("time" < '2015-07-30 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -5991,7 +6284,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_796_chunk (
     CONSTRAINT constraint_796 CHECK ((("time" >= '2015-07-30 00:00:00'::timestamp without time zone) AND ("time" < '2015-08-06 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6001,7 +6294,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_797_chunk (
     CONSTRAINT constraint_797 CHECK ((("time" >= '2015-08-06 00:00:00'::timestamp without time zone) AND ("time" < '2015-08-13 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6011,7 +6304,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_798_chunk (
     CONSTRAINT constraint_798 CHECK ((("time" >= '2015-08-13 00:00:00'::timestamp without time zone) AND ("time" < '2015-08-20 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6021,7 +6314,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_799_chunk (
     CONSTRAINT constraint_799 CHECK ((("time" >= '2015-08-20 00:00:00'::timestamp without time zone) AND ("time" < '2015-08-27 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6031,7 +6324,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_800_chunk (
     CONSTRAINT constraint_800 CHECK ((("time" >= '2015-08-27 00:00:00'::timestamp without time zone) AND ("time" < '2015-09-03 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6041,7 +6334,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_801_chunk (
     CONSTRAINT constraint_801 CHECK ((("time" >= '2015-09-03 00:00:00'::timestamp without time zone) AND ("time" < '2015-09-10 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6051,7 +6344,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_802_chunk (
     CONSTRAINT constraint_802 CHECK ((("time" >= '2015-09-10 00:00:00'::timestamp without time zone) AND ("time" < '2015-09-17 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6061,7 +6354,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_803_chunk (
     CONSTRAINT constraint_803 CHECK ((("time" >= '2015-09-17 00:00:00'::timestamp without time zone) AND ("time" < '2015-09-24 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6071,7 +6364,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_804_chunk (
     CONSTRAINT constraint_804 CHECK ((("time" >= '2015-09-24 00:00:00'::timestamp without time zone) AND ("time" < '2015-10-01 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6081,7 +6374,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_805_chunk (
     CONSTRAINT constraint_805 CHECK ((("time" >= '2015-10-01 00:00:00'::timestamp without time zone) AND ("time" < '2015-10-08 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6091,7 +6384,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_806_chunk (
     CONSTRAINT constraint_806 CHECK ((("time" >= '2015-10-08 00:00:00'::timestamp without time zone) AND ("time" < '2015-10-15 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6101,7 +6394,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_807_chunk (
     CONSTRAINT constraint_807 CHECK ((("time" >= '2015-10-15 00:00:00'::timestamp without time zone) AND ("time" < '2015-10-22 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6111,7 +6404,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_808_chunk (
     CONSTRAINT constraint_808 CHECK ((("time" >= '2015-10-22 00:00:00'::timestamp without time zone) AND ("time" < '2015-10-29 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6121,7 +6414,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_809_chunk (
     CONSTRAINT constraint_809 CHECK ((("time" >= '2015-10-29 00:00:00'::timestamp without time zone) AND ("time" < '2015-11-05 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6131,7 +6424,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_810_chunk (
     CONSTRAINT constraint_810 CHECK ((("time" >= '2015-11-05 00:00:00'::timestamp without time zone) AND ("time" < '2015-11-12 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6141,7 +6434,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_811_chunk (
     CONSTRAINT constraint_811 CHECK ((("time" >= '2015-11-12 00:00:00'::timestamp without time zone) AND ("time" < '2015-11-19 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6151,7 +6444,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_812_chunk (
     CONSTRAINT constraint_812 CHECK ((("time" >= '2015-11-19 00:00:00'::timestamp without time zone) AND ("time" < '2015-11-26 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6161,7 +6454,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_813_chunk (
     CONSTRAINT constraint_813 CHECK ((("time" >= '2015-11-26 00:00:00'::timestamp without time zone) AND ("time" < '2015-12-03 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6171,7 +6464,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_814_chunk (
     CONSTRAINT constraint_814 CHECK ((("time" >= '2015-12-03 00:00:00'::timestamp without time zone) AND ("time" < '2015-12-10 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6181,7 +6474,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_815_chunk (
     CONSTRAINT constraint_815 CHECK ((("time" >= '2015-12-10 00:00:00'::timestamp without time zone) AND ("time" < '2015-12-17 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6191,7 +6484,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_816_chunk (
     CONSTRAINT constraint_816 CHECK ((("time" >= '2015-12-17 00:00:00'::timestamp without time zone) AND ("time" < '2015-12-24 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6201,7 +6494,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_817_chunk (
     CONSTRAINT constraint_817 CHECK ((("time" >= '2015-12-24 00:00:00'::timestamp without time zone) AND ("time" < '2015-12-31 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6211,7 +6504,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_818_chunk (
     CONSTRAINT constraint_818 CHECK ((("time" >= '2015-12-31 00:00:00'::timestamp without time zone) AND ("time" < '2016-01-07 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6221,7 +6514,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_819_chunk (
     CONSTRAINT constraint_819 CHECK ((("time" >= '2016-01-07 00:00:00'::timestamp without time zone) AND ("time" < '2016-01-14 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6231,7 +6524,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_820_chunk (
     CONSTRAINT constraint_820 CHECK ((("time" >= '2016-01-14 00:00:00'::timestamp without time zone) AND ("time" < '2016-01-21 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6241,7 +6534,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_821_chunk (
     CONSTRAINT constraint_821 CHECK ((("time" >= '2016-01-21 00:00:00'::timestamp without time zone) AND ("time" < '2016-01-28 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6251,7 +6544,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_822_chunk (
     CONSTRAINT constraint_822 CHECK ((("time" >= '2016-01-28 00:00:00'::timestamp without time zone) AND ("time" < '2016-02-04 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6261,7 +6554,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_823_chunk (
     CONSTRAINT constraint_823 CHECK ((("time" >= '2016-02-04 00:00:00'::timestamp without time zone) AND ("time" < '2016-02-11 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6271,7 +6564,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_824_chunk (
     CONSTRAINT constraint_824 CHECK ((("time" >= '2016-02-11 00:00:00'::timestamp without time zone) AND ("time" < '2016-02-18 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6281,7 +6574,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_825_chunk (
     CONSTRAINT constraint_825 CHECK ((("time" >= '2016-02-18 00:00:00'::timestamp without time zone) AND ("time" < '2016-02-25 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6291,7 +6584,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_826_chunk (
     CONSTRAINT constraint_826 CHECK ((("time" >= '2016-02-25 00:00:00'::timestamp without time zone) AND ("time" < '2016-03-03 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6301,7 +6594,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_827_chunk (
     CONSTRAINT constraint_827 CHECK ((("time" >= '2016-03-03 00:00:00'::timestamp without time zone) AND ("time" < '2016-03-10 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6311,7 +6604,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_828_chunk (
     CONSTRAINT constraint_828 CHECK ((("time" >= '2016-03-10 00:00:00'::timestamp without time zone) AND ("time" < '2016-03-17 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6321,7 +6614,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_829_chunk (
     CONSTRAINT constraint_829 CHECK ((("time" >= '2016-03-17 00:00:00'::timestamp without time zone) AND ("time" < '2016-03-24 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6331,7 +6624,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_830_chunk (
     CONSTRAINT constraint_830 CHECK ((("time" >= '2016-03-24 00:00:00'::timestamp without time zone) AND ("time" < '2016-03-31 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6341,7 +6634,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_831_chunk (
     CONSTRAINT constraint_831 CHECK ((("time" >= '2016-03-31 00:00:00'::timestamp without time zone) AND ("time" < '2016-04-07 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6351,7 +6644,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_832_chunk (
     CONSTRAINT constraint_832 CHECK ((("time" >= '2016-04-07 00:00:00'::timestamp without time zone) AND ("time" < '2016-04-14 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6361,7 +6654,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_833_chunk (
     CONSTRAINT constraint_833 CHECK ((("time" >= '2016-04-14 00:00:00'::timestamp without time zone) AND ("time" < '2016-04-21 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6371,7 +6664,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_834_chunk (
     CONSTRAINT constraint_834 CHECK ((("time" >= '2016-04-21 00:00:00'::timestamp without time zone) AND ("time" < '2016-04-28 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6381,7 +6674,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_835_chunk (
     CONSTRAINT constraint_835 CHECK ((("time" >= '2016-04-28 00:00:00'::timestamp without time zone) AND ("time" < '2016-05-05 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6391,7 +6684,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_836_chunk (
     CONSTRAINT constraint_836 CHECK ((("time" >= '2016-05-05 00:00:00'::timestamp without time zone) AND ("time" < '2016-05-12 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6401,7 +6694,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_837_chunk (
     CONSTRAINT constraint_837 CHECK ((("time" >= '2016-05-12 00:00:00'::timestamp without time zone) AND ("time" < '2016-05-19 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6411,7 +6704,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_838_chunk (
     CONSTRAINT constraint_838 CHECK ((("time" >= '2016-05-19 00:00:00'::timestamp without time zone) AND ("time" < '2016-05-26 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6421,7 +6714,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_839_chunk (
     CONSTRAINT constraint_839 CHECK ((("time" >= '2016-05-26 00:00:00'::timestamp without time zone) AND ("time" < '2016-06-02 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6431,7 +6724,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_840_chunk (
     CONSTRAINT constraint_840 CHECK ((("time" >= '2016-06-02 00:00:00'::timestamp without time zone) AND ("time" < '2016-06-09 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6441,7 +6734,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_841_chunk (
     CONSTRAINT constraint_841 CHECK ((("time" >= '2016-06-09 00:00:00'::timestamp without time zone) AND ("time" < '2016-06-16 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6451,7 +6744,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_842_chunk (
     CONSTRAINT constraint_842 CHECK ((("time" >= '2016-06-16 00:00:00'::timestamp without time zone) AND ("time" < '2016-06-23 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6461,7 +6754,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_843_chunk (
     CONSTRAINT constraint_843 CHECK ((("time" >= '2016-06-23 00:00:00'::timestamp without time zone) AND ("time" < '2016-06-30 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6471,7 +6764,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_844_chunk (
     CONSTRAINT constraint_844 CHECK ((("time" >= '2016-06-30 00:00:00'::timestamp without time zone) AND ("time" < '2016-07-07 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6481,7 +6774,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_845_chunk (
     CONSTRAINT constraint_845 CHECK ((("time" >= '2016-07-07 00:00:00'::timestamp without time zone) AND ("time" < '2016-07-14 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6491,7 +6784,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_846_chunk (
     CONSTRAINT constraint_846 CHECK ((("time" >= '2016-07-14 00:00:00'::timestamp without time zone) AND ("time" < '2016-07-21 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6501,7 +6794,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_847_chunk (
     CONSTRAINT constraint_847 CHECK ((("time" >= '2016-07-21 00:00:00'::timestamp without time zone) AND ("time" < '2016-07-28 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6511,7 +6804,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_848_chunk (
     CONSTRAINT constraint_848 CHECK ((("time" >= '2016-07-28 00:00:00'::timestamp without time zone) AND ("time" < '2016-08-04 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6521,7 +6814,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_849_chunk (
     CONSTRAINT constraint_849 CHECK ((("time" >= '2016-08-04 00:00:00'::timestamp without time zone) AND ("time" < '2016-08-11 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6531,7 +6824,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_850_chunk (
     CONSTRAINT constraint_850 CHECK ((("time" >= '2016-08-11 00:00:00'::timestamp without time zone) AND ("time" < '2016-08-18 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6541,7 +6834,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_851_chunk (
     CONSTRAINT constraint_851 CHECK ((("time" >= '2016-08-18 00:00:00'::timestamp without time zone) AND ("time" < '2016-08-25 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6551,7 +6844,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_852_chunk (
     CONSTRAINT constraint_852 CHECK ((("time" >= '2016-08-25 00:00:00'::timestamp without time zone) AND ("time" < '2016-09-01 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6561,7 +6854,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_853_chunk (
     CONSTRAINT constraint_853 CHECK ((("time" >= '2016-09-01 00:00:00'::timestamp without time zone) AND ("time" < '2016-09-08 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6571,7 +6864,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_854_chunk (
     CONSTRAINT constraint_854 CHECK ((("time" >= '2016-09-08 00:00:00'::timestamp without time zone) AND ("time" < '2016-09-15 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6581,7 +6874,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_855_chunk (
     CONSTRAINT constraint_855 CHECK ((("time" >= '2016-09-15 00:00:00'::timestamp without time zone) AND ("time" < '2016-09-22 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6591,7 +6884,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_856_chunk (
     CONSTRAINT constraint_856 CHECK ((("time" >= '2016-09-22 00:00:00'::timestamp without time zone) AND ("time" < '2016-09-29 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6601,7 +6894,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_857_chunk (
     CONSTRAINT constraint_857 CHECK ((("time" >= '2016-09-29 00:00:00'::timestamp without time zone) AND ("time" < '2016-10-06 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6611,7 +6904,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_858_chunk (
     CONSTRAINT constraint_858 CHECK ((("time" >= '2016-10-06 00:00:00'::timestamp without time zone) AND ("time" < '2016-10-13 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6621,7 +6914,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_859_chunk (
     CONSTRAINT constraint_859 CHECK ((("time" >= '2016-10-13 00:00:00'::timestamp without time zone) AND ("time" < '2016-10-20 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6631,7 +6924,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_860_chunk (
     CONSTRAINT constraint_860 CHECK ((("time" >= '2016-10-20 00:00:00'::timestamp without time zone) AND ("time" < '2016-10-27 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6641,7 +6934,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_861_chunk (
     CONSTRAINT constraint_861 CHECK ((("time" >= '2016-10-27 00:00:00'::timestamp without time zone) AND ("time" < '2016-11-03 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6651,7 +6944,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_862_chunk (
     CONSTRAINT constraint_862 CHECK ((("time" >= '2016-11-03 00:00:00'::timestamp without time zone) AND ("time" < '2016-11-10 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6661,7 +6954,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_863_chunk (
     CONSTRAINT constraint_863 CHECK ((("time" >= '2016-11-10 00:00:00'::timestamp without time zone) AND ("time" < '2016-11-17 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6671,7 +6964,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_864_chunk (
     CONSTRAINT constraint_864 CHECK ((("time" >= '2016-11-17 00:00:00'::timestamp without time zone) AND ("time" < '2016-11-24 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6681,7 +6974,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_865_chunk (
     CONSTRAINT constraint_865 CHECK ((("time" >= '2016-11-24 00:00:00'::timestamp without time zone) AND ("time" < '2016-12-01 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6691,7 +6984,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_866_chunk (
     CONSTRAINT constraint_866 CHECK ((("time" >= '2016-12-01 00:00:00'::timestamp without time zone) AND ("time" < '2016-12-08 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6701,7 +6994,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_867_chunk (
     CONSTRAINT constraint_867 CHECK ((("time" >= '2016-12-08 00:00:00'::timestamp without time zone) AND ("time" < '2016-12-15 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6711,7 +7004,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_868_chunk (
     CONSTRAINT constraint_868 CHECK ((("time" >= '2016-12-15 00:00:00'::timestamp without time zone) AND ("time" < '2016-12-22 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6721,7 +7014,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_869_chunk (
     CONSTRAINT constraint_869 CHECK ((("time" >= '2016-12-22 00:00:00'::timestamp without time zone) AND ("time" < '2016-12-29 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6731,7 +7024,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_870_chunk (
     CONSTRAINT constraint_870 CHECK ((("time" >= '2016-12-29 00:00:00'::timestamp without time zone) AND ("time" < '2017-01-05 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6741,7 +7034,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_871_chunk (
     CONSTRAINT constraint_871 CHECK ((("time" >= '2017-01-05 00:00:00'::timestamp without time zone) AND ("time" < '2017-01-12 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6751,7 +7044,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_872_chunk (
     CONSTRAINT constraint_872 CHECK ((("time" >= '2017-01-12 00:00:00'::timestamp without time zone) AND ("time" < '2017-01-19 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6761,7 +7054,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_873_chunk (
     CONSTRAINT constraint_873 CHECK ((("time" >= '2017-01-19 00:00:00'::timestamp without time zone) AND ("time" < '2017-01-26 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6771,7 +7064,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_874_chunk (
     CONSTRAINT constraint_874 CHECK ((("time" >= '2017-01-26 00:00:00'::timestamp without time zone) AND ("time" < '2017-02-02 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6781,7 +7074,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_875_chunk (
     CONSTRAINT constraint_875 CHECK ((("time" >= '2017-02-02 00:00:00'::timestamp without time zone) AND ("time" < '2017-02-09 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6791,7 +7084,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_876_chunk (
     CONSTRAINT constraint_876 CHECK ((("time" >= '2017-02-09 00:00:00'::timestamp without time zone) AND ("time" < '2017-02-16 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6801,7 +7094,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_877_chunk (
     CONSTRAINT constraint_877 CHECK ((("time" >= '2017-02-16 00:00:00'::timestamp without time zone) AND ("time" < '2017-02-23 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6811,7 +7104,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_878_chunk (
     CONSTRAINT constraint_878 CHECK ((("time" >= '2017-02-23 00:00:00'::timestamp without time zone) AND ("time" < '2017-03-02 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6821,7 +7114,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_879_chunk (
     CONSTRAINT constraint_879 CHECK ((("time" >= '2017-03-02 00:00:00'::timestamp without time zone) AND ("time" < '2017-03-09 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6831,7 +7124,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_880_chunk (
     CONSTRAINT constraint_880 CHECK ((("time" >= '2017-03-09 00:00:00'::timestamp without time zone) AND ("time" < '2017-03-16 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6841,7 +7134,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_881_chunk (
     CONSTRAINT constraint_881 CHECK ((("time" >= '2017-03-16 00:00:00'::timestamp without time zone) AND ("time" < '2017-03-23 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6851,7 +7144,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_882_chunk (
     CONSTRAINT constraint_882 CHECK ((("time" >= '2017-03-23 00:00:00'::timestamp without time zone) AND ("time" < '2017-03-30 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6861,7 +7154,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_883_chunk (
     CONSTRAINT constraint_883 CHECK ((("time" >= '2017-03-30 00:00:00'::timestamp without time zone) AND ("time" < '2017-04-06 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6871,7 +7164,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_884_chunk (
     CONSTRAINT constraint_884 CHECK ((("time" >= '2017-04-06 00:00:00'::timestamp without time zone) AND ("time" < '2017-04-13 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6881,7 +7174,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_885_chunk (
     CONSTRAINT constraint_885 CHECK ((("time" >= '2017-04-13 00:00:00'::timestamp without time zone) AND ("time" < '2017-04-20 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6891,7 +7184,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_886_chunk (
     CONSTRAINT constraint_886 CHECK ((("time" >= '2017-04-20 00:00:00'::timestamp without time zone) AND ("time" < '2017-04-27 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6901,7 +7194,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_887_chunk (
     CONSTRAINT constraint_887 CHECK ((("time" >= '2017-04-27 00:00:00'::timestamp without time zone) AND ("time" < '2017-05-04 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6911,7 +7204,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_888_chunk (
     CONSTRAINT constraint_888 CHECK ((("time" >= '2017-05-04 00:00:00'::timestamp without time zone) AND ("time" < '2017-05-11 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6921,7 +7214,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_889_chunk (
     CONSTRAINT constraint_889 CHECK ((("time" >= '2017-05-11 00:00:00'::timestamp without time zone) AND ("time" < '2017-05-18 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6931,7 +7224,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_890_chunk (
     CONSTRAINT constraint_890 CHECK ((("time" >= '2017-05-18 00:00:00'::timestamp without time zone) AND ("time" < '2017-05-25 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6941,7 +7234,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_891_chunk (
     CONSTRAINT constraint_891 CHECK ((("time" >= '2017-05-25 00:00:00'::timestamp without time zone) AND ("time" < '2017-06-01 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6951,7 +7244,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_892_chunk (
     CONSTRAINT constraint_892 CHECK ((("time" >= '2017-06-01 00:00:00'::timestamp without time zone) AND ("time" < '2017-06-08 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6961,7 +7254,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_893_chunk (
     CONSTRAINT constraint_893 CHECK ((("time" >= '2017-06-08 00:00:00'::timestamp without time zone) AND ("time" < '2017-06-15 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6971,7 +7264,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_894_chunk (
     CONSTRAINT constraint_894 CHECK ((("time" >= '2017-06-15 00:00:00'::timestamp without time zone) AND ("time" < '2017-06-22 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6981,7 +7274,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_895_chunk (
     CONSTRAINT constraint_895 CHECK ((("time" >= '2017-06-22 00:00:00'::timestamp without time zone) AND ("time" < '2017-06-29 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -6991,7 +7284,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_896_chunk (
     CONSTRAINT constraint_896 CHECK ((("time" >= '2017-06-29 00:00:00'::timestamp without time zone) AND ("time" < '2017-07-06 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7001,7 +7294,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_897_chunk (
     CONSTRAINT constraint_897 CHECK ((("time" >= '2017-07-06 00:00:00'::timestamp without time zone) AND ("time" < '2017-07-13 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7011,7 +7304,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_898_chunk (
     CONSTRAINT constraint_898 CHECK ((("time" >= '2017-07-13 00:00:00'::timestamp without time zone) AND ("time" < '2017-07-20 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7021,7 +7314,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_899_chunk (
     CONSTRAINT constraint_899 CHECK ((("time" >= '2017-07-20 00:00:00'::timestamp without time zone) AND ("time" < '2017-07-27 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7031,7 +7324,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_900_chunk (
     CONSTRAINT constraint_900 CHECK ((("time" >= '2017-07-27 00:00:00'::timestamp without time zone) AND ("time" < '2017-08-03 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7041,7 +7334,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_901_chunk (
     CONSTRAINT constraint_901 CHECK ((("time" >= '2017-08-03 00:00:00'::timestamp without time zone) AND ("time" < '2017-08-10 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7051,7 +7344,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_902_chunk (
     CONSTRAINT constraint_902 CHECK ((("time" >= '2017-08-10 00:00:00'::timestamp without time zone) AND ("time" < '2017-08-17 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7061,7 +7354,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_903_chunk (
     CONSTRAINT constraint_903 CHECK ((("time" >= '2017-08-17 00:00:00'::timestamp without time zone) AND ("time" < '2017-08-24 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7071,7 +7364,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_904_chunk (
     CONSTRAINT constraint_904 CHECK ((("time" >= '2017-08-24 00:00:00'::timestamp without time zone) AND ("time" < '2017-08-31 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7081,7 +7374,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_905_chunk (
     CONSTRAINT constraint_905 CHECK ((("time" >= '2017-08-31 00:00:00'::timestamp without time zone) AND ("time" < '2017-09-07 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7091,7 +7384,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_906_chunk (
     CONSTRAINT constraint_906 CHECK ((("time" >= '2017-09-07 00:00:00'::timestamp without time zone) AND ("time" < '2017-09-14 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7101,7 +7394,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_907_chunk (
     CONSTRAINT constraint_907 CHECK ((("time" >= '2017-09-14 00:00:00'::timestamp without time zone) AND ("time" < '2017-09-21 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7111,7 +7404,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_908_chunk (
     CONSTRAINT constraint_908 CHECK ((("time" >= '2017-09-21 00:00:00'::timestamp without time zone) AND ("time" < '2017-09-28 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7121,7 +7414,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_909_chunk (
     CONSTRAINT constraint_909 CHECK ((("time" >= '2017-09-28 00:00:00'::timestamp without time zone) AND ("time" < '2017-10-05 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7131,7 +7424,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_910_chunk (
     CONSTRAINT constraint_910 CHECK ((("time" >= '2017-10-05 00:00:00'::timestamp without time zone) AND ("time" < '2017-10-12 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7141,7 +7434,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_911_chunk (
     CONSTRAINT constraint_911 CHECK ((("time" >= '2017-10-12 00:00:00'::timestamp without time zone) AND ("time" < '2017-10-19 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7151,7 +7444,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_912_chunk (
     CONSTRAINT constraint_912 CHECK ((("time" >= '2017-10-19 00:00:00'::timestamp without time zone) AND ("time" < '2017-10-26 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7161,7 +7454,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_913_chunk (
     CONSTRAINT constraint_913 CHECK ((("time" >= '2017-10-26 00:00:00'::timestamp without time zone) AND ("time" < '2017-11-02 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7171,7 +7464,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_914_chunk (
     CONSTRAINT constraint_914 CHECK ((("time" >= '2017-11-02 00:00:00'::timestamp without time zone) AND ("time" < '2017-11-09 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7181,7 +7474,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_915_chunk (
     CONSTRAINT constraint_915 CHECK ((("time" >= '2017-11-09 00:00:00'::timestamp without time zone) AND ("time" < '2017-11-16 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7191,7 +7484,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_916_chunk (
     CONSTRAINT constraint_916 CHECK ((("time" >= '2017-11-16 00:00:00'::timestamp without time zone) AND ("time" < '2017-11-23 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7201,7 +7494,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_917_chunk (
     CONSTRAINT constraint_917 CHECK ((("time" >= '2017-11-23 00:00:00'::timestamp without time zone) AND ("time" < '2017-11-30 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7211,7 +7504,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_918_chunk (
     CONSTRAINT constraint_918 CHECK ((("time" >= '2017-11-30 00:00:00'::timestamp without time zone) AND ("time" < '2017-12-07 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7221,7 +7514,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_919_chunk (
     CONSTRAINT constraint_919 CHECK ((("time" >= '2017-12-07 00:00:00'::timestamp without time zone) AND ("time" < '2017-12-14 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7231,7 +7524,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_920_chunk (
     CONSTRAINT constraint_920 CHECK ((("time" >= '2017-12-14 00:00:00'::timestamp without time zone) AND ("time" < '2017-12-21 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7241,7 +7534,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_921_chunk (
     CONSTRAINT constraint_921 CHECK ((("time" >= '2017-12-21 00:00:00'::timestamp without time zone) AND ("time" < '2017-12-28 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7251,7 +7544,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_922_chunk (
     CONSTRAINT constraint_922 CHECK ((("time" >= '2017-12-28 00:00:00'::timestamp without time zone) AND ("time" < '2018-01-04 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7261,7 +7554,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_923_chunk (
     CONSTRAINT constraint_923 CHECK ((("time" >= '2018-01-04 00:00:00'::timestamp without time zone) AND ("time" < '2018-01-11 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7271,7 +7564,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_924_chunk (
     CONSTRAINT constraint_924 CHECK ((("time" >= '2018-01-11 00:00:00'::timestamp without time zone) AND ("time" < '2018-01-18 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7281,7 +7574,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_925_chunk (
     CONSTRAINT constraint_925 CHECK ((("time" >= '2018-01-18 00:00:00'::timestamp without time zone) AND ("time" < '2018-01-25 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7291,7 +7584,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_926_chunk (
     CONSTRAINT constraint_926 CHECK ((("time" >= '2018-01-25 00:00:00'::timestamp without time zone) AND ("time" < '2018-02-01 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7301,7 +7594,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_927_chunk (
     CONSTRAINT constraint_927 CHECK ((("time" >= '2018-02-01 00:00:00'::timestamp without time zone) AND ("time" < '2018-02-08 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7311,7 +7604,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_928_chunk (
     CONSTRAINT constraint_928 CHECK ((("time" >= '2018-02-08 00:00:00'::timestamp without time zone) AND ("time" < '2018-02-15 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7321,7 +7614,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_929_chunk (
     CONSTRAINT constraint_929 CHECK ((("time" >= '2018-02-15 00:00:00'::timestamp without time zone) AND ("time" < '2018-02-22 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7331,7 +7624,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_930_chunk (
     CONSTRAINT constraint_930 CHECK ((("time" >= '2018-02-22 00:00:00'::timestamp without time zone) AND ("time" < '2018-03-01 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7341,7 +7634,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_931_chunk (
     CONSTRAINT constraint_931 CHECK ((("time" >= '2018-03-01 00:00:00'::timestamp without time zone) AND ("time" < '2018-03-08 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7351,7 +7644,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_932_chunk (
     CONSTRAINT constraint_932 CHECK ((("time" >= '2018-03-08 00:00:00'::timestamp without time zone) AND ("time" < '2018-03-15 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7361,7 +7654,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_933_chunk (
     CONSTRAINT constraint_933 CHECK ((("time" >= '2018-03-15 00:00:00'::timestamp without time zone) AND ("time" < '2018-03-22 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7371,7 +7664,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_934_chunk (
     CONSTRAINT constraint_934 CHECK ((("time" >= '2018-03-22 00:00:00'::timestamp without time zone) AND ("time" < '2018-03-29 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7381,7 +7674,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_935_chunk (
     CONSTRAINT constraint_935 CHECK ((("time" >= '2018-03-29 00:00:00'::timestamp without time zone) AND ("time" < '2018-04-05 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7391,7 +7684,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_936_chunk (
     CONSTRAINT constraint_936 CHECK ((("time" >= '2018-04-05 00:00:00'::timestamp without time zone) AND ("time" < '2018-04-12 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7401,7 +7694,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_937_chunk (
     CONSTRAINT constraint_937 CHECK ((("time" >= '2018-04-12 00:00:00'::timestamp without time zone) AND ("time" < '2018-04-19 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7411,7 +7704,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_938_chunk (
     CONSTRAINT constraint_938 CHECK ((("time" >= '2018-04-19 00:00:00'::timestamp without time zone) AND ("time" < '2018-04-26 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7421,7 +7714,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_939_chunk (
     CONSTRAINT constraint_939 CHECK ((("time" >= '2018-04-26 00:00:00'::timestamp without time zone) AND ("time" < '2018-05-03 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7431,7 +7724,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_940_chunk (
     CONSTRAINT constraint_940 CHECK ((("time" >= '2018-05-03 00:00:00'::timestamp without time zone) AND ("time" < '2018-05-10 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7441,7 +7734,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_941_chunk (
     CONSTRAINT constraint_941 CHECK ((("time" >= '2018-05-10 00:00:00'::timestamp without time zone) AND ("time" < '2018-05-17 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7451,7 +7744,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_942_chunk (
     CONSTRAINT constraint_942 CHECK ((("time" >= '2018-05-17 00:00:00'::timestamp without time zone) AND ("time" < '2018-05-24 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7461,7 +7754,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_943_chunk (
     CONSTRAINT constraint_943 CHECK ((("time" >= '2018-05-24 00:00:00'::timestamp without time zone) AND ("time" < '2018-05-31 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7471,7 +7764,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_944_chunk (
     CONSTRAINT constraint_944 CHECK ((("time" >= '2018-05-31 00:00:00'::timestamp without time zone) AND ("time" < '2018-06-07 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7481,7 +7774,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_945_chunk (
     CONSTRAINT constraint_945 CHECK ((("time" >= '2018-06-07 00:00:00'::timestamp without time zone) AND ("time" < '2018-06-14 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7491,7 +7784,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_946_chunk (
     CONSTRAINT constraint_946 CHECK ((("time" >= '2018-06-14 00:00:00'::timestamp without time zone) AND ("time" < '2018-06-21 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7501,7 +7794,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_947_chunk (
     CONSTRAINT constraint_947 CHECK ((("time" >= '2018-06-21 00:00:00'::timestamp without time zone) AND ("time" < '2018-06-28 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7511,7 +7804,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_948_chunk (
     CONSTRAINT constraint_948 CHECK ((("time" >= '2018-06-28 00:00:00'::timestamp without time zone) AND ("time" < '2018-07-05 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7521,7 +7814,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_949_chunk (
     CONSTRAINT constraint_949 CHECK ((("time" >= '2018-07-05 00:00:00'::timestamp without time zone) AND ("time" < '2018-07-12 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7531,7 +7824,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_950_chunk (
     CONSTRAINT constraint_950 CHECK ((("time" >= '2018-07-12 00:00:00'::timestamp without time zone) AND ("time" < '2018-07-19 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7541,7 +7834,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_951_chunk (
     CONSTRAINT constraint_951 CHECK ((("time" >= '2018-07-19 00:00:00'::timestamp without time zone) AND ("time" < '2018-07-26 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7551,7 +7844,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_952_chunk (
     CONSTRAINT constraint_952 CHECK ((("time" >= '2018-07-26 00:00:00'::timestamp without time zone) AND ("time" < '2018-08-02 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7561,7 +7854,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_953_chunk (
     CONSTRAINT constraint_953 CHECK ((("time" >= '2018-08-02 00:00:00'::timestamp without time zone) AND ("time" < '2018-08-09 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7571,7 +7864,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_954_chunk (
     CONSTRAINT constraint_954 CHECK ((("time" >= '2018-08-09 00:00:00'::timestamp without time zone) AND ("time" < '2018-08-16 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7581,7 +7874,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_955_chunk (
     CONSTRAINT constraint_955 CHECK ((("time" >= '2018-08-16 00:00:00'::timestamp without time zone) AND ("time" < '2018-08-23 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7591,7 +7884,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_956_chunk (
     CONSTRAINT constraint_956 CHECK ((("time" >= '2018-08-23 00:00:00'::timestamp without time zone) AND ("time" < '2018-08-30 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7601,7 +7894,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_957_chunk (
     CONSTRAINT constraint_957 CHECK ((("time" >= '2018-08-30 00:00:00'::timestamp without time zone) AND ("time" < '2018-09-06 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7611,7 +7904,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_958_chunk (
     CONSTRAINT constraint_958 CHECK ((("time" >= '2018-09-06 00:00:00'::timestamp without time zone) AND ("time" < '2018-09-13 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7621,7 +7914,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_959_chunk (
     CONSTRAINT constraint_959 CHECK ((("time" >= '2018-09-13 00:00:00'::timestamp without time zone) AND ("time" < '2018-09-20 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7631,7 +7924,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_960_chunk (
     CONSTRAINT constraint_960 CHECK ((("time" >= '2018-09-20 00:00:00'::timestamp without time zone) AND ("time" < '2018-09-27 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7641,7 +7934,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_961_chunk (
     CONSTRAINT constraint_961 CHECK ((("time" >= '2018-09-27 00:00:00'::timestamp without time zone) AND ("time" < '2018-10-04 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7651,7 +7944,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_962_chunk (
     CONSTRAINT constraint_962 CHECK ((("time" >= '2018-10-04 00:00:00'::timestamp without time zone) AND ("time" < '2018-10-11 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7661,7 +7954,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_963_chunk (
     CONSTRAINT constraint_963 CHECK ((("time" >= '2018-10-11 00:00:00'::timestamp without time zone) AND ("time" < '2018-10-18 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7671,7 +7964,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_964_chunk (
     CONSTRAINT constraint_964 CHECK ((("time" >= '2018-10-18 00:00:00'::timestamp without time zone) AND ("time" < '2018-10-25 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7681,7 +7974,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_965_chunk (
     CONSTRAINT constraint_965 CHECK ((("time" >= '2018-10-25 00:00:00'::timestamp without time zone) AND ("time" < '2018-11-01 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7691,7 +7984,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_966_chunk (
     CONSTRAINT constraint_966 CHECK ((("time" >= '2018-11-01 00:00:00'::timestamp without time zone) AND ("time" < '2018-11-08 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7701,7 +7994,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_967_chunk (
     CONSTRAINT constraint_967 CHECK ((("time" >= '2018-11-08 00:00:00'::timestamp without time zone) AND ("time" < '2018-11-15 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7711,7 +8004,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_968_chunk (
     CONSTRAINT constraint_968 CHECK ((("time" >= '2018-11-15 00:00:00'::timestamp without time zone) AND ("time" < '2018-11-22 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7721,7 +8014,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_969_chunk (
     CONSTRAINT constraint_969 CHECK ((("time" >= '2018-11-22 00:00:00'::timestamp without time zone) AND ("time" < '2018-11-29 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7731,7 +8024,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_970_chunk (
     CONSTRAINT constraint_970 CHECK ((("time" >= '2018-11-29 00:00:00'::timestamp without time zone) AND ("time" < '2018-12-06 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7741,7 +8034,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_971_chunk (
     CONSTRAINT constraint_971 CHECK ((("time" >= '2018-12-06 00:00:00'::timestamp without time zone) AND ("time" < '2018-12-13 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7751,7 +8044,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_972_chunk (
     CONSTRAINT constraint_972 CHECK ((("time" >= '2018-12-13 00:00:00'::timestamp without time zone) AND ("time" < '2018-12-20 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7761,7 +8054,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_973_chunk (
     CONSTRAINT constraint_973 CHECK ((("time" >= '2018-12-20 00:00:00'::timestamp without time zone) AND ("time" < '2018-12-27 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7771,7 +8064,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_974_chunk (
     CONSTRAINT constraint_974 CHECK ((("time" >= '2018-12-27 00:00:00'::timestamp without time zone) AND ("time" < '2019-01-03 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7781,7 +8074,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_975_chunk (
     CONSTRAINT constraint_975 CHECK ((("time" >= '2019-01-03 00:00:00'::timestamp without time zone) AND ("time" < '2019-01-10 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7791,7 +8084,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_976_chunk (
     CONSTRAINT constraint_976 CHECK ((("time" >= '2019-01-10 00:00:00'::timestamp without time zone) AND ("time" < '2019-01-17 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7801,7 +8094,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_977_chunk (
     CONSTRAINT constraint_977 CHECK ((("time" >= '2019-01-17 00:00:00'::timestamp without time zone) AND ("time" < '2019-01-24 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7811,7 +8104,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_978_chunk (
     CONSTRAINT constraint_978 CHECK ((("time" >= '2019-01-24 00:00:00'::timestamp without time zone) AND ("time" < '2019-01-31 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7821,7 +8114,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_979_chunk (
     CONSTRAINT constraint_979 CHECK ((("time" >= '2019-01-31 00:00:00'::timestamp without time zone) AND ("time" < '2019-02-07 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7831,7 +8124,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_980_chunk (
     CONSTRAINT constraint_980 CHECK ((("time" >= '2019-02-07 00:00:00'::timestamp without time zone) AND ("time" < '2019-02-14 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7841,7 +8134,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_981_chunk (
     CONSTRAINT constraint_981 CHECK ((("time" >= '2019-02-14 00:00:00'::timestamp without time zone) AND ("time" < '2019-02-21 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7851,7 +8144,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_982_chunk (
     CONSTRAINT constraint_982 CHECK ((("time" >= '2019-02-21 00:00:00'::timestamp without time zone) AND ("time" < '2019-02-28 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7861,7 +8154,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_983_chunk (
     CONSTRAINT constraint_983 CHECK ((("time" >= '2019-02-28 00:00:00'::timestamp without time zone) AND ("time" < '2019-03-07 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7871,7 +8164,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_984_chunk (
     CONSTRAINT constraint_984 CHECK ((("time" >= '2019-03-07 00:00:00'::timestamp without time zone) AND ("time" < '2019-03-14 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7881,7 +8174,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_985_chunk (
     CONSTRAINT constraint_985 CHECK ((("time" >= '2019-03-14 00:00:00'::timestamp without time zone) AND ("time" < '2019-03-21 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7891,7 +8184,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_986_chunk (
     CONSTRAINT constraint_986 CHECK ((("time" >= '2019-03-21 00:00:00'::timestamp without time zone) AND ("time" < '2019-03-28 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7901,7 +8194,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_987_chunk (
     CONSTRAINT constraint_987 CHECK ((("time" >= '2019-03-28 00:00:00'::timestamp without time zone) AND ("time" < '2019-04-04 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7911,7 +8204,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_988_chunk (
     CONSTRAINT constraint_988 CHECK ((("time" >= '2019-04-04 00:00:00'::timestamp without time zone) AND ("time" < '2019-04-11 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7921,7 +8214,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_989_chunk (
     CONSTRAINT constraint_989 CHECK ((("time" >= '2019-04-11 00:00:00'::timestamp without time zone) AND ("time" < '2019-04-18 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7931,7 +8224,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_990_chunk (
     CONSTRAINT constraint_990 CHECK ((("time" >= '2019-04-18 00:00:00'::timestamp without time zone) AND ("time" < '2019-04-25 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7941,7 +8234,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_991_chunk (
     CONSTRAINT constraint_991 CHECK ((("time" >= '2019-04-25 00:00:00'::timestamp without time zone) AND ("time" < '2019-05-02 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7951,7 +8244,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_992_chunk (
     CONSTRAINT constraint_992 CHECK ((("time" >= '2019-05-02 00:00:00'::timestamp without time zone) AND ("time" < '2019-05-09 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7961,7 +8254,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_993_chunk (
     CONSTRAINT constraint_993 CHECK ((("time" >= '2019-05-09 00:00:00'::timestamp without time zone) AND ("time" < '2019-05-16 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7971,7 +8264,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_994_chunk (
     CONSTRAINT constraint_994 CHECK ((("time" >= '2019-05-16 00:00:00'::timestamp without time zone) AND ("time" < '2019-05-23 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7981,7 +8274,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_995_chunk (
     CONSTRAINT constraint_995 CHECK ((("time" >= '2019-05-23 00:00:00'::timestamp without time zone) AND ("time" < '2019-05-30 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -7991,7 +8284,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_996_chunk (
     CONSTRAINT constraint_996 CHECK ((("time" >= '2019-05-30 00:00:00'::timestamp without time zone) AND ("time" < '2019-06-06 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -8001,7 +8294,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_997_chunk (
     CONSTRAINT constraint_997 CHECK ((("time" >= '2019-06-06 00:00:00'::timestamp without time zone) AND ("time" < '2019-06-13 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -8011,7 +8304,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_998_chunk (
     CONSTRAINT constraint_998 CHECK ((("time" >= '2019-06-13 00:00:00'::timestamp without time zone) AND ("time" < '2019-06-20 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -8021,7 +8314,7 @@ INHERITS (public.entsoe_prices);
 CREATE TABLE _timescaledb_internal._hyper_3_999_chunk (
     CONSTRAINT constraint_999 CHECK ((("time" >= '2019-06-20 00:00:00'::timestamp without time zone) AND ("time" < '2019-06-27 00:00:00'::timestamp without time zone)))
 )
-INHERITS (public.entsoe_prices);
+INHERITS (public.prices);
 
 
 --
@@ -12282,20 +12575,6 @@ ALTER SEQUENCE public.areas_id_seq OWNED BY public.areas.id;
 
 CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
-);
-
-
---
--- Name: transmission; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.transmission (
-    from_area_id integer NOT NULL,
-    to_area_id integer NOT NULL,
-    value integer NOT NULL,
-    "time" timestamp without time zone NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -18079,6 +18358,398 @@ ALTER TABLE ONLY _timescaledb_internal._hyper_15_3531_chunk ALTER COLUMN created
 --
 
 ALTER TABLE ONLY _timescaledb_internal._hyper_15_3531_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3561_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3561_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_15_3561_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_15_3561_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3534_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3534_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3534_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3534_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3535_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3535_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3535_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3535_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3536_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3536_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3536_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3536_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3537_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3537_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3537_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3537_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3538_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3538_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3538_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3538_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3539_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3539_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3539_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3539_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3540_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3540_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3540_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3540_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3541_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3541_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3541_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3541_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3542_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3542_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3542_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3542_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3543_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3543_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3543_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3543_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3544_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3544_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3544_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3544_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3545_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3545_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3545_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3545_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3546_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3546_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3546_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3546_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3547_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3547_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3547_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3547_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3548_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3548_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3548_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3548_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3549_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3549_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3549_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3549_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3550_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3550_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3550_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3550_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3551_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3551_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3551_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3551_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3552_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3552_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3552_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3552_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3553_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3553_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3553_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3553_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3554_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3554_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3554_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3554_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3555_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3555_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3555_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3555_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3556_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3556_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3556_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3556_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3557_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3557_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3557_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3557_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3558_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3558_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3558_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3558_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3559_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3559_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3559_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3559_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3560_chunk created_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3560_chunk ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+--
+-- Name: _hyper_17_3560_chunk updated_at; Type: DEFAULT; Schema: _timescaledb_internal; Owner: -
+--
+
+ALTER TABLE ONLY _timescaledb_internal._hyper_17_3560_chunk ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
 
 
 --
@@ -32204,17 +32875,584 @@ CREATE UNIQUE INDEX _hyper_15_3531_chunk_index_load_on_time_and_area_id ON _time
 
 
 --
+-- Name: _hyper_15_3561_chunk_index_load_on_time_and_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE UNIQUE INDEX _hyper_15_3561_chunk_index_load_on_time_and_area_id ON _timescaledb_internal._hyper_15_3561_chunk USING btree ("time", area_id);
+
+
+--
+-- Name: _hyper_17_3534_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3534_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3534_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3534_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3534_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3534_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3534_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3534_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3534_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3535_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3535_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3535_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3535_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3535_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3535_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3535_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3535_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3535_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3536_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3536_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3536_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3536_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3536_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3536_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3536_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3536_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3536_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3537_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3537_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3537_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3537_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3537_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3537_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3537_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3537_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3537_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3538_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3538_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3538_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3538_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3538_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3538_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3538_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3538_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3538_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3539_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3539_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3539_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3539_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3539_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3539_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3539_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3539_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3539_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3540_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3540_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3540_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3540_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3540_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3540_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3540_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3540_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3540_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3541_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3541_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3541_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3541_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3541_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3541_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3541_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3541_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3541_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3542_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3542_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3542_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3542_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3542_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3542_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3542_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3542_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3542_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3543_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3543_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3543_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3543_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3543_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3543_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3543_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3543_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3543_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3544_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3544_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3544_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3544_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3544_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3544_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3544_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3544_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3544_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3545_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3545_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3545_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3545_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3545_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3545_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3545_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3545_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3545_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3546_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3546_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3546_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3546_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3546_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3546_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3546_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3546_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3546_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3547_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3547_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3547_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3547_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3547_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3547_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3547_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3547_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3547_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3548_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3548_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3548_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3548_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3548_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3548_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3548_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3548_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3548_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3549_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3549_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3549_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3549_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3549_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3549_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3549_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3549_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3549_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3550_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3550_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3550_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3550_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3550_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3550_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3550_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3550_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3550_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3551_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3551_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3551_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3551_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3551_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3551_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3551_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3551_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3551_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3552_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3552_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3552_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3552_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3552_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3552_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3552_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3552_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3552_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3553_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3553_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3553_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3553_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3553_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3553_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3553_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3553_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3553_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3554_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3554_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3554_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3554_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3554_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3554_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3554_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3554_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3554_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3555_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3555_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3555_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3555_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3555_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3555_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3555_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3555_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3555_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3556_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3556_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3556_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3556_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3556_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3556_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3556_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3556_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3556_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3557_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3557_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3557_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3557_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3557_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3557_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3557_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3557_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3557_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3558_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3558_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3558_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3558_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3558_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3558_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3558_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3558_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3558_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3559_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3559_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3559_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3559_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3559_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3559_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3559_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3559_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3559_chunk USING btree (to_area_id);
+
+
+--
+-- Name: _hyper_17_3560_chunk_index_transmission_on_from_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3560_chunk_index_transmission_on_from_area_id ON _timescaledb_internal._hyper_17_3560_chunk USING btree (from_area_id);
+
+
+--
+-- Name: _hyper_17_3560_chunk_index_transmission_on_time; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3560_chunk_index_transmission_on_time ON _timescaledb_internal._hyper_17_3560_chunk USING btree ("time");
+
+
+--
+-- Name: _hyper_17_3560_chunk_index_transmission_on_to_area_id; Type: INDEX; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE INDEX _hyper_17_3560_chunk_index_transmission_on_to_area_id ON _timescaledb_internal._hyper_17_3560_chunk USING btree (to_area_id);
+
+
+--
 -- Name: _hyper_3_1000_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1000_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1000_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1000_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1000_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1000_chunk USING btree ("time", country);
 
 
 --
@@ -32225,24 +33463,10 @@ CREATE INDEX _hyper_3_1001_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1001_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1001_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1001_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1002_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1002_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1002_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1002_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1002_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1002_chunk USING btree ("time", country);
 
 
 --
@@ -32253,24 +33477,10 @@ CREATE INDEX _hyper_3_1003_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1003_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1003_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1003_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1004_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1004_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1004_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1004_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1004_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1004_chunk USING btree ("time", country);
 
 
 --
@@ -32281,24 +33491,10 @@ CREATE INDEX _hyper_3_1005_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1005_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1005_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1005_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1006_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1006_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1006_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1006_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1006_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1006_chunk USING btree ("time", country);
 
 
 --
@@ -32309,24 +33505,10 @@ CREATE INDEX _hyper_3_1007_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1007_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1007_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1007_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1008_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1008_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1008_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1008_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1008_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1008_chunk USING btree ("time", country);
 
 
 --
@@ -32337,24 +33519,10 @@ CREATE INDEX _hyper_3_1009_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1009_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1009_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1009_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1010_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1010_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1010_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1010_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1010_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1010_chunk USING btree ("time", country);
 
 
 --
@@ -32365,24 +33533,10 @@ CREATE INDEX _hyper_3_1011_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1011_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1011_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1011_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1012_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1012_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1012_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1012_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1012_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1012_chunk USING btree ("time", country);
 
 
 --
@@ -32393,24 +33547,10 @@ CREATE INDEX _hyper_3_1013_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1013_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1013_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1013_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1014_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1014_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1014_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1014_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1014_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1014_chunk USING btree ("time", country);
 
 
 --
@@ -32421,24 +33561,10 @@ CREATE INDEX _hyper_3_1015_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1015_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1015_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1015_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1016_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1016_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1016_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1016_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1016_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1016_chunk USING btree ("time", country);
 
 
 --
@@ -32449,24 +33575,10 @@ CREATE INDEX _hyper_3_1017_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1017_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1017_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1017_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1018_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1018_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1018_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1018_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1018_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1018_chunk USING btree ("time", country);
 
 
 --
@@ -32477,24 +33589,10 @@ CREATE INDEX _hyper_3_1019_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1019_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1019_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1019_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1020_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1020_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1020_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1020_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1020_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1020_chunk USING btree ("time", country);
 
 
 --
@@ -32505,24 +33603,10 @@ CREATE INDEX _hyper_3_1021_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1021_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1021_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1021_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1022_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1022_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1022_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1022_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1022_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1022_chunk USING btree ("time", country);
 
 
 --
@@ -32533,24 +33617,10 @@ CREATE INDEX _hyper_3_1023_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1023_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1023_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1023_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1024_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1024_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1024_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1024_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1024_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1024_chunk USING btree ("time", country);
 
 
 --
@@ -32561,24 +33631,10 @@ CREATE INDEX _hyper_3_1025_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1025_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1025_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1025_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1026_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1026_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1026_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1026_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1026_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1026_chunk USING btree ("time", country);
 
 
 --
@@ -32589,24 +33645,10 @@ CREATE INDEX _hyper_3_1027_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1027_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1027_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1027_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1028_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1028_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1028_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1028_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1028_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1028_chunk USING btree ("time", country);
 
 
 --
@@ -32617,24 +33659,10 @@ CREATE INDEX _hyper_3_1029_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1029_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1029_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1029_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1030_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1030_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1030_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1030_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1030_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1030_chunk USING btree ("time", country);
 
 
 --
@@ -32645,24 +33673,10 @@ CREATE INDEX _hyper_3_1031_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1031_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1031_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1031_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1032_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1032_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1032_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1032_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1032_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1032_chunk USING btree ("time", country);
 
 
 --
@@ -32673,24 +33687,10 @@ CREATE INDEX _hyper_3_1033_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1033_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1033_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1033_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1034_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1034_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1034_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1034_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1034_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1034_chunk USING btree ("time", country);
 
 
 --
@@ -32701,24 +33701,10 @@ CREATE INDEX _hyper_3_1035_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1035_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1035_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1035_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1036_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1036_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1036_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1036_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1036_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1036_chunk USING btree ("time", country);
 
 
 --
@@ -32729,24 +33715,10 @@ CREATE INDEX _hyper_3_1037_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1037_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1037_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1037_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1038_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1038_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1038_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1038_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1038_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1038_chunk USING btree ("time", country);
 
 
 --
@@ -32757,24 +33729,10 @@ CREATE INDEX _hyper_3_1039_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1039_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1039_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1039_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1040_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1040_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1040_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1040_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1040_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1040_chunk USING btree ("time", country);
 
 
 --
@@ -32785,24 +33743,10 @@ CREATE INDEX _hyper_3_1041_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1041_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1041_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1041_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1042_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1042_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1042_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1042_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1042_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1042_chunk USING btree ("time", country);
 
 
 --
@@ -32813,24 +33757,10 @@ CREATE INDEX _hyper_3_1043_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1043_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1043_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1043_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1044_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1044_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1044_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1044_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1044_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1044_chunk USING btree ("time", country);
 
 
 --
@@ -32841,24 +33771,10 @@ CREATE INDEX _hyper_3_1045_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1045_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1045_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1045_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1046_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1046_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1046_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1046_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1046_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1046_chunk USING btree ("time", country);
 
 
 --
@@ -32869,24 +33785,10 @@ CREATE INDEX _hyper_3_1047_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1047_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1047_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1047_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1048_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1048_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1048_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1048_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1048_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1048_chunk USING btree ("time", country);
 
 
 --
@@ -32897,24 +33799,10 @@ CREATE INDEX _hyper_3_1049_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1049_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1049_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1049_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1050_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1050_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1050_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1050_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1050_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1050_chunk USING btree ("time", country);
 
 
 --
@@ -32925,24 +33813,10 @@ CREATE INDEX _hyper_3_1051_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1051_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1051_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1051_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1052_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1052_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1052_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1052_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1052_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1052_chunk USING btree ("time", country);
 
 
 --
@@ -32953,24 +33827,10 @@ CREATE INDEX _hyper_3_1053_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1053_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1053_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1053_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1054_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1054_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1054_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1054_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1054_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1054_chunk USING btree ("time", country);
 
 
 --
@@ -32981,24 +33841,10 @@ CREATE INDEX _hyper_3_1055_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1055_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1055_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1055_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1056_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1056_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1056_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1056_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1056_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1056_chunk USING btree ("time", country);
 
 
 --
@@ -33009,24 +33855,10 @@ CREATE INDEX _hyper_3_1057_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1057_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1057_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1057_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1058_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1058_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1058_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1058_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1058_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1058_chunk USING btree ("time", country);
 
 
 --
@@ -33037,24 +33869,10 @@ CREATE INDEX _hyper_3_1059_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1059_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1059_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1059_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1060_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1060_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1060_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1060_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1060_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1060_chunk USING btree ("time", country);
 
 
 --
@@ -33065,24 +33883,10 @@ CREATE INDEX _hyper_3_1061_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1061_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1061_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1061_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1062_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1062_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1062_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1062_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1062_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1062_chunk USING btree ("time", country);
 
 
 --
@@ -33093,24 +33897,10 @@ CREATE INDEX _hyper_3_1063_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1063_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1063_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1063_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1064_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1064_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1064_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1064_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1064_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1064_chunk USING btree ("time", country);
 
 
 --
@@ -33121,24 +33911,10 @@ CREATE INDEX _hyper_3_1065_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1065_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1065_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1065_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1066_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1066_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1066_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1066_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1066_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1066_chunk USING btree ("time", country);
 
 
 --
@@ -33149,24 +33925,10 @@ CREATE INDEX _hyper_3_1067_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1067_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1067_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1067_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1068_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1068_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1068_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1068_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1068_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1068_chunk USING btree ("time", country);
 
 
 --
@@ -33177,24 +33939,10 @@ CREATE INDEX _hyper_3_1069_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1069_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1069_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1069_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1070_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1070_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1070_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1070_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1070_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1070_chunk USING btree ("time", country);
 
 
 --
@@ -33205,24 +33953,10 @@ CREATE INDEX _hyper_3_1071_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1071_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1071_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1071_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1072_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1072_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1072_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1072_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1072_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1072_chunk USING btree ("time", country);
 
 
 --
@@ -33233,24 +33967,10 @@ CREATE INDEX _hyper_3_1073_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1073_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1073_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1073_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1074_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1074_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1074_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1074_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1074_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1074_chunk USING btree ("time", country);
 
 
 --
@@ -33261,24 +33981,10 @@ CREATE INDEX _hyper_3_1075_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1075_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1075_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1075_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1076_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1076_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1076_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1076_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1076_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1076_chunk USING btree ("time", country);
 
 
 --
@@ -33289,24 +33995,10 @@ CREATE INDEX _hyper_3_1077_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1077_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1077_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1077_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1078_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1078_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1078_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1078_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1078_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1078_chunk USING btree ("time", country);
 
 
 --
@@ -33317,24 +34009,10 @@ CREATE INDEX _hyper_3_1079_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1079_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1079_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1079_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1080_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1080_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1080_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1080_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1080_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1080_chunk USING btree ("time", country);
 
 
 --
@@ -33345,24 +34023,10 @@ CREATE INDEX _hyper_3_1081_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1081_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1081_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1081_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1082_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1082_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1082_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1082_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1082_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1082_chunk USING btree ("time", country);
 
 
 --
@@ -33373,24 +34037,10 @@ CREATE INDEX _hyper_3_1083_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1083_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1083_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1083_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1084_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1084_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1084_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1084_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1084_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1084_chunk USING btree ("time", country);
 
 
 --
@@ -33401,24 +34051,10 @@ CREATE INDEX _hyper_3_1085_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1085_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1085_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1085_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1086_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1086_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1086_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1086_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1086_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1086_chunk USING btree ("time", country);
 
 
 --
@@ -33429,24 +34065,10 @@ CREATE INDEX _hyper_3_1087_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1087_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1087_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1087_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1088_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1088_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1088_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1088_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1088_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1088_chunk USING btree ("time", country);
 
 
 --
@@ -33457,24 +34079,10 @@ CREATE INDEX _hyper_3_1089_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1089_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1089_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1089_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1090_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1090_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1090_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1090_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1090_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1090_chunk USING btree ("time", country);
 
 
 --
@@ -33485,24 +34093,10 @@ CREATE INDEX _hyper_3_1091_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1091_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1091_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1091_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1092_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1092_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1092_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1092_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1092_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1092_chunk USING btree ("time", country);
 
 
 --
@@ -33513,24 +34107,10 @@ CREATE INDEX _hyper_3_1093_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1093_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1093_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1093_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1094_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1094_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1094_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1094_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1094_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1094_chunk USING btree ("time", country);
 
 
 --
@@ -33541,24 +34121,10 @@ CREATE INDEX _hyper_3_1095_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1095_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1095_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1095_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1096_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1096_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1096_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1096_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1096_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1096_chunk USING btree ("time", country);
 
 
 --
@@ -33569,24 +34135,10 @@ CREATE INDEX _hyper_3_1097_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1097_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1097_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1097_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1098_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1098_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1098_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1098_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1098_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1098_chunk USING btree ("time", country);
 
 
 --
@@ -33597,24 +34149,10 @@ CREATE INDEX _hyper_3_1099_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1099_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1099_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1099_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1100_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1100_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1100_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1100_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1100_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1100_chunk USING btree ("time", country);
 
 
 --
@@ -33625,24 +34163,10 @@ CREATE INDEX _hyper_3_1101_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1101_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1101_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1101_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1102_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1102_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1102_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1102_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1102_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1102_chunk USING btree ("time", country);
 
 
 --
@@ -33653,24 +34177,10 @@ CREATE INDEX _hyper_3_1103_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1103_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1103_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1103_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1104_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1104_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1104_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1104_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1104_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1104_chunk USING btree ("time", country);
 
 
 --
@@ -33681,24 +34191,10 @@ CREATE INDEX _hyper_3_1105_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1105_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1105_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1105_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1106_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1106_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1106_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1106_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1106_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1106_chunk USING btree ("time", country);
 
 
 --
@@ -33709,24 +34205,10 @@ CREATE INDEX _hyper_3_1107_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1107_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1107_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1107_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1108_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1108_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1108_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1108_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1108_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1108_chunk USING btree ("time", country);
 
 
 --
@@ -33737,24 +34219,10 @@ CREATE INDEX _hyper_3_1109_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1109_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1109_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1109_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1110_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1110_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1110_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1110_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1110_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1110_chunk USING btree ("time", country);
 
 
 --
@@ -33765,24 +34233,10 @@ CREATE INDEX _hyper_3_1111_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1111_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1111_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1111_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1112_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1112_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1112_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1112_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1112_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1112_chunk USING btree ("time", country);
 
 
 --
@@ -33793,24 +34247,10 @@ CREATE INDEX _hyper_3_1113_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1113_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1113_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1113_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1114_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1114_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1114_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1114_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1114_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1114_chunk USING btree ("time", country);
 
 
 --
@@ -33821,24 +34261,10 @@ CREATE INDEX _hyper_3_1115_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1115_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1115_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1115_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1116_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1116_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1116_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1116_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1116_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1116_chunk USING btree ("time", country);
 
 
 --
@@ -33849,24 +34275,10 @@ CREATE INDEX _hyper_3_1117_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1117_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1117_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1117_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1118_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1118_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1118_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1118_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1118_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1118_chunk USING btree ("time", country);
 
 
 --
@@ -33877,24 +34289,10 @@ CREATE INDEX _hyper_3_1119_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1119_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1119_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1119_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1120_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1120_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1120_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1120_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1120_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1120_chunk USING btree ("time", country);
 
 
 --
@@ -33905,24 +34303,10 @@ CREATE INDEX _hyper_3_1121_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1121_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1121_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1121_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1122_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1122_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1122_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1122_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1122_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1122_chunk USING btree ("time", country);
 
 
 --
@@ -33933,24 +34317,10 @@ CREATE INDEX _hyper_3_1123_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1123_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1123_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1123_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1124_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1124_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1124_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1124_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1124_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1124_chunk USING btree ("time", country);
 
 
 --
@@ -33961,24 +34331,10 @@ CREATE INDEX _hyper_3_1125_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1125_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1125_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1125_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1126_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1126_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1126_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1126_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1126_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1126_chunk USING btree ("time", country);
 
 
 --
@@ -33989,24 +34345,10 @@ CREATE INDEX _hyper_3_1127_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1127_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1127_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1127_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1128_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1128_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1128_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1128_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1128_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1128_chunk USING btree ("time", country);
 
 
 --
@@ -34017,24 +34359,10 @@ CREATE INDEX _hyper_3_1129_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1129_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1129_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1129_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_1130_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_1130_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_1130_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_1130_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1130_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1130_chunk USING btree ("time", country);
 
 
 --
@@ -34045,24 +34373,10 @@ CREATE INDEX _hyper_3_1920_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_1920_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_1920_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_1920_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_2684_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_2684_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_2684_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_2684_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_2684_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_2684_chunk USING btree ("time", country);
 
 
 --
@@ -34073,24 +34387,10 @@ CREATE INDEX _hyper_3_2685_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_2685_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_2685_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_2685_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_2686_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_2686_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_2686_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_2686_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_2686_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_2686_chunk USING btree ("time", country);
 
 
 --
@@ -34101,24 +34401,10 @@ CREATE INDEX _hyper_3_2687_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_2687_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_2687_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_2687_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_2688_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_2688_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_2688_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_2688_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_2688_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_2688_chunk USING btree ("time", country);
 
 
 --
@@ -34129,24 +34415,10 @@ CREATE INDEX _hyper_3_2689_chunk_entsoe_prices_time_idx ON _timescaledb_internal
 
 
 --
--- Name: _hyper_3_2689_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_2689_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_2689_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_761_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_761_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_761_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_761_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_761_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_761_chunk USING btree ("time", country);
 
 
 --
@@ -34157,24 +34429,10 @@ CREATE INDEX _hyper_3_762_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_762_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_762_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_762_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_763_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_763_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_763_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_763_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_763_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_763_chunk USING btree ("time", country);
 
 
 --
@@ -34185,24 +34443,10 @@ CREATE INDEX _hyper_3_764_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_764_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_764_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_764_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_765_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_765_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_765_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_765_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_765_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_765_chunk USING btree ("time", country);
 
 
 --
@@ -34213,24 +34457,10 @@ CREATE INDEX _hyper_3_766_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_766_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_766_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_766_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_767_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_767_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_767_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_767_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_767_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_767_chunk USING btree ("time", country);
 
 
 --
@@ -34241,24 +34471,10 @@ CREATE INDEX _hyper_3_768_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_768_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_768_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_768_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_769_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_769_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_769_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_769_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_769_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_769_chunk USING btree ("time", country);
 
 
 --
@@ -34269,24 +34485,10 @@ CREATE INDEX _hyper_3_770_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_770_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_770_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_770_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_771_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_771_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_771_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_771_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_771_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_771_chunk USING btree ("time", country);
 
 
 --
@@ -34297,24 +34499,10 @@ CREATE INDEX _hyper_3_772_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_772_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_772_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_772_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_773_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_773_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_773_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_773_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_773_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_773_chunk USING btree ("time", country);
 
 
 --
@@ -34325,24 +34513,10 @@ CREATE INDEX _hyper_3_774_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_774_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_774_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_774_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_775_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_775_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_775_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_775_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_775_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_775_chunk USING btree ("time", country);
 
 
 --
@@ -34353,24 +34527,10 @@ CREATE INDEX _hyper_3_776_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_776_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_776_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_776_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_777_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_777_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_777_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_777_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_777_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_777_chunk USING btree ("time", country);
 
 
 --
@@ -34381,24 +34541,10 @@ CREATE INDEX _hyper_3_778_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_778_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_778_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_778_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_779_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_779_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_779_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_779_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_779_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_779_chunk USING btree ("time", country);
 
 
 --
@@ -34409,24 +34555,10 @@ CREATE INDEX _hyper_3_780_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_780_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_780_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_780_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_781_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_781_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_781_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_781_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_781_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_781_chunk USING btree ("time", country);
 
 
 --
@@ -34437,24 +34569,10 @@ CREATE INDEX _hyper_3_782_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_782_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_782_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_782_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_783_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_783_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_783_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_783_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_783_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_783_chunk USING btree ("time", country);
 
 
 --
@@ -34465,24 +34583,10 @@ CREATE INDEX _hyper_3_784_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_784_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_784_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_784_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_785_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_785_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_785_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_785_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_785_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_785_chunk USING btree ("time", country);
 
 
 --
@@ -34493,24 +34597,10 @@ CREATE INDEX _hyper_3_786_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_786_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_786_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_786_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_787_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_787_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_787_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_787_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_787_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_787_chunk USING btree ("time", country);
 
 
 --
@@ -34521,24 +34611,10 @@ CREATE INDEX _hyper_3_788_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_788_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_788_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_788_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_789_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_789_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_789_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_789_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_789_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_789_chunk USING btree ("time", country);
 
 
 --
@@ -34549,24 +34625,10 @@ CREATE INDEX _hyper_3_790_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_790_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_790_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_790_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_791_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_791_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_791_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_791_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_791_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_791_chunk USING btree ("time", country);
 
 
 --
@@ -34577,24 +34639,10 @@ CREATE INDEX _hyper_3_792_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_792_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_792_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_792_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_793_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_793_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_793_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_793_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_793_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_793_chunk USING btree ("time", country);
 
 
 --
@@ -34605,24 +34653,10 @@ CREATE INDEX _hyper_3_794_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_794_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_794_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_794_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_795_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_795_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_795_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_795_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_795_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_795_chunk USING btree ("time", country);
 
 
 --
@@ -34633,24 +34667,10 @@ CREATE INDEX _hyper_3_796_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_796_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_796_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_796_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_797_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_797_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_797_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_797_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_797_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_797_chunk USING btree ("time", country);
 
 
 --
@@ -34661,24 +34681,10 @@ CREATE INDEX _hyper_3_798_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_798_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_798_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_798_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_799_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_799_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_799_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_799_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_799_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_799_chunk USING btree ("time", country);
 
 
 --
@@ -34689,24 +34695,10 @@ CREATE INDEX _hyper_3_800_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_800_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_800_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_800_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_801_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_801_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_801_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_801_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_801_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_801_chunk USING btree ("time", country);
 
 
 --
@@ -34717,24 +34709,10 @@ CREATE INDEX _hyper_3_802_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_802_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_802_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_802_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_803_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_803_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_803_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_803_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_803_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_803_chunk USING btree ("time", country);
 
 
 --
@@ -34745,24 +34723,10 @@ CREATE INDEX _hyper_3_804_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_804_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_804_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_804_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_805_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_805_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_805_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_805_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_805_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_805_chunk USING btree ("time", country);
 
 
 --
@@ -34773,24 +34737,10 @@ CREATE INDEX _hyper_3_806_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_806_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_806_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_806_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_807_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_807_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_807_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_807_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_807_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_807_chunk USING btree ("time", country);
 
 
 --
@@ -34801,24 +34751,10 @@ CREATE INDEX _hyper_3_808_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_808_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_808_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_808_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_809_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_809_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_809_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_809_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_809_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_809_chunk USING btree ("time", country);
 
 
 --
@@ -34829,24 +34765,10 @@ CREATE INDEX _hyper_3_810_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_810_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_810_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_810_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_811_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_811_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_811_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_811_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_811_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_811_chunk USING btree ("time", country);
 
 
 --
@@ -34857,24 +34779,10 @@ CREATE INDEX _hyper_3_812_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_812_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_812_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_812_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_813_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_813_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_813_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_813_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_813_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_813_chunk USING btree ("time", country);
 
 
 --
@@ -34885,24 +34793,10 @@ CREATE INDEX _hyper_3_814_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_814_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_814_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_814_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_815_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_815_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_815_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_815_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_815_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_815_chunk USING btree ("time", country);
 
 
 --
@@ -34913,24 +34807,10 @@ CREATE INDEX _hyper_3_816_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_816_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_816_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_816_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_817_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_817_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_817_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_817_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_817_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_817_chunk USING btree ("time", country);
 
 
 --
@@ -34941,24 +34821,10 @@ CREATE INDEX _hyper_3_818_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_818_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_818_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_818_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_819_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_819_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_819_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_819_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_819_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_819_chunk USING btree ("time", country);
 
 
 --
@@ -34969,24 +34835,10 @@ CREATE INDEX _hyper_3_820_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_820_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_820_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_820_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_821_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_821_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_821_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_821_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_821_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_821_chunk USING btree ("time", country);
 
 
 --
@@ -34997,24 +34849,10 @@ CREATE INDEX _hyper_3_822_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_822_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_822_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_822_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_823_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_823_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_823_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_823_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_823_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_823_chunk USING btree ("time", country);
 
 
 --
@@ -35025,24 +34863,10 @@ CREATE INDEX _hyper_3_824_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_824_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_824_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_824_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_825_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_825_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_825_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_825_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_825_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_825_chunk USING btree ("time", country);
 
 
 --
@@ -35053,24 +34877,10 @@ CREATE INDEX _hyper_3_826_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_826_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_826_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_826_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_827_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_827_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_827_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_827_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_827_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_827_chunk USING btree ("time", country);
 
 
 --
@@ -35081,24 +34891,10 @@ CREATE INDEX _hyper_3_828_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_828_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_828_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_828_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_829_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_829_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_829_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_829_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_829_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_829_chunk USING btree ("time", country);
 
 
 --
@@ -35109,24 +34905,10 @@ CREATE INDEX _hyper_3_830_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_830_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_830_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_830_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_831_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_831_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_831_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_831_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_831_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_831_chunk USING btree ("time", country);
 
 
 --
@@ -35137,24 +34919,10 @@ CREATE INDEX _hyper_3_832_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_832_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_832_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_832_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_833_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_833_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_833_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_833_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_833_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_833_chunk USING btree ("time", country);
 
 
 --
@@ -35165,24 +34933,10 @@ CREATE INDEX _hyper_3_834_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_834_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_834_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_834_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_835_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_835_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_835_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_835_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_835_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_835_chunk USING btree ("time", country);
 
 
 --
@@ -35193,24 +34947,10 @@ CREATE INDEX _hyper_3_836_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_836_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_836_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_836_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_837_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_837_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_837_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_837_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_837_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_837_chunk USING btree ("time", country);
 
 
 --
@@ -35221,24 +34961,10 @@ CREATE INDEX _hyper_3_838_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_838_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_838_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_838_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_839_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_839_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_839_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_839_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_839_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_839_chunk USING btree ("time", country);
 
 
 --
@@ -35249,24 +34975,10 @@ CREATE INDEX _hyper_3_840_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_840_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_840_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_840_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_841_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_841_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_841_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_841_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_841_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_841_chunk USING btree ("time", country);
 
 
 --
@@ -35277,24 +34989,10 @@ CREATE INDEX _hyper_3_842_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_842_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_842_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_842_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_843_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_843_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_843_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_843_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_843_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_843_chunk USING btree ("time", country);
 
 
 --
@@ -35305,24 +35003,10 @@ CREATE INDEX _hyper_3_844_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_844_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_844_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_844_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_845_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_845_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_845_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_845_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_845_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_845_chunk USING btree ("time", country);
 
 
 --
@@ -35333,24 +35017,10 @@ CREATE INDEX _hyper_3_846_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_846_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_846_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_846_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_847_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_847_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_847_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_847_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_847_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_847_chunk USING btree ("time", country);
 
 
 --
@@ -35361,24 +35031,10 @@ CREATE INDEX _hyper_3_848_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_848_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_848_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_848_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_849_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_849_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_849_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_849_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_849_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_849_chunk USING btree ("time", country);
 
 
 --
@@ -35389,24 +35045,10 @@ CREATE INDEX _hyper_3_850_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_850_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_850_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_850_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_851_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_851_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_851_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_851_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_851_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_851_chunk USING btree ("time", country);
 
 
 --
@@ -35417,24 +35059,10 @@ CREATE INDEX _hyper_3_852_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_852_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_852_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_852_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_853_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_853_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_853_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_853_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_853_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_853_chunk USING btree ("time", country);
 
 
 --
@@ -35445,24 +35073,10 @@ CREATE INDEX _hyper_3_854_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_854_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_854_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_854_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_855_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_855_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_855_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_855_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_855_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_855_chunk USING btree ("time", country);
 
 
 --
@@ -35473,24 +35087,10 @@ CREATE INDEX _hyper_3_856_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_856_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_856_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_856_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_857_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_857_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_857_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_857_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_857_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_857_chunk USING btree ("time", country);
 
 
 --
@@ -35501,24 +35101,10 @@ CREATE INDEX _hyper_3_858_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_858_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_858_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_858_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_859_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_859_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_859_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_859_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_859_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_859_chunk USING btree ("time", country);
 
 
 --
@@ -35529,24 +35115,10 @@ CREATE INDEX _hyper_3_860_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_860_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_860_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_860_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_861_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_861_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_861_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_861_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_861_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_861_chunk USING btree ("time", country);
 
 
 --
@@ -35557,24 +35129,10 @@ CREATE INDEX _hyper_3_862_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_862_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_862_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_862_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_863_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_863_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_863_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_863_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_863_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_863_chunk USING btree ("time", country);
 
 
 --
@@ -35585,24 +35143,10 @@ CREATE INDEX _hyper_3_864_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_864_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_864_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_864_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_865_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_865_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_865_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_865_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_865_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_865_chunk USING btree ("time", country);
 
 
 --
@@ -35613,24 +35157,10 @@ CREATE INDEX _hyper_3_866_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_866_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_866_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_866_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_867_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_867_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_867_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_867_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_867_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_867_chunk USING btree ("time", country);
 
 
 --
@@ -35641,24 +35171,10 @@ CREATE INDEX _hyper_3_868_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_868_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_868_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_868_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_869_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_869_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_869_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_869_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_869_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_869_chunk USING btree ("time", country);
 
 
 --
@@ -35669,24 +35185,10 @@ CREATE INDEX _hyper_3_870_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_870_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_870_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_870_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_871_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_871_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_871_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_871_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_871_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_871_chunk USING btree ("time", country);
 
 
 --
@@ -35697,24 +35199,10 @@ CREATE INDEX _hyper_3_872_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_872_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_872_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_872_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_873_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_873_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_873_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_873_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_873_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_873_chunk USING btree ("time", country);
 
 
 --
@@ -35725,24 +35213,10 @@ CREATE INDEX _hyper_3_874_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_874_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_874_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_874_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_875_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_875_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_875_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_875_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_875_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_875_chunk USING btree ("time", country);
 
 
 --
@@ -35753,24 +35227,10 @@ CREATE INDEX _hyper_3_876_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_876_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_876_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_876_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_877_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_877_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_877_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_877_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_877_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_877_chunk USING btree ("time", country);
 
 
 --
@@ -35781,24 +35241,10 @@ CREATE INDEX _hyper_3_878_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_878_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_878_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_878_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_879_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_879_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_879_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_879_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_879_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_879_chunk USING btree ("time", country);
 
 
 --
@@ -35809,24 +35255,10 @@ CREATE INDEX _hyper_3_880_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_880_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_880_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_880_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_881_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_881_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_881_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_881_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_881_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_881_chunk USING btree ("time", country);
 
 
 --
@@ -35837,24 +35269,10 @@ CREATE INDEX _hyper_3_882_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_882_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_882_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_882_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_883_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_883_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_883_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_883_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_883_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_883_chunk USING btree ("time", country);
 
 
 --
@@ -35865,24 +35283,10 @@ CREATE INDEX _hyper_3_884_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_884_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_884_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_884_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_885_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_885_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_885_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_885_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_885_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_885_chunk USING btree ("time", country);
 
 
 --
@@ -35893,24 +35297,10 @@ CREATE INDEX _hyper_3_886_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_886_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_886_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_886_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_887_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_887_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_887_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_887_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_887_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_887_chunk USING btree ("time", country);
 
 
 --
@@ -35921,24 +35311,10 @@ CREATE INDEX _hyper_3_888_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_888_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_888_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_888_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_889_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_889_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_889_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_889_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_889_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_889_chunk USING btree ("time", country);
 
 
 --
@@ -35949,24 +35325,10 @@ CREATE INDEX _hyper_3_890_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_890_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_890_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_890_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_891_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_891_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_891_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_891_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_891_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_891_chunk USING btree ("time", country);
 
 
 --
@@ -35977,24 +35339,10 @@ CREATE INDEX _hyper_3_892_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_892_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_892_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_892_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_893_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_893_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_893_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_893_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_893_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_893_chunk USING btree ("time", country);
 
 
 --
@@ -36005,24 +35353,10 @@ CREATE INDEX _hyper_3_894_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_894_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_894_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_894_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_895_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_895_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_895_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_895_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_895_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_895_chunk USING btree ("time", country);
 
 
 --
@@ -36033,24 +35367,10 @@ CREATE INDEX _hyper_3_896_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_896_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_896_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_896_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_897_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_897_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_897_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_897_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_897_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_897_chunk USING btree ("time", country);
 
 
 --
@@ -36061,24 +35381,10 @@ CREATE INDEX _hyper_3_898_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_898_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_898_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_898_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_899_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_899_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_899_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_899_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_899_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_899_chunk USING btree ("time", country);
 
 
 --
@@ -36089,24 +35395,10 @@ CREATE INDEX _hyper_3_900_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_900_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_900_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_900_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_901_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_901_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_901_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_901_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_901_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_901_chunk USING btree ("time", country);
 
 
 --
@@ -36117,24 +35409,10 @@ CREATE INDEX _hyper_3_902_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_902_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_902_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_902_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_903_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_903_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_903_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_903_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_903_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_903_chunk USING btree ("time", country);
 
 
 --
@@ -36145,24 +35423,10 @@ CREATE INDEX _hyper_3_904_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_904_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_904_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_904_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_905_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_905_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_905_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_905_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_905_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_905_chunk USING btree ("time", country);
 
 
 --
@@ -36173,24 +35437,10 @@ CREATE INDEX _hyper_3_906_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_906_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_906_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_906_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_907_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_907_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_907_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_907_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_907_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_907_chunk USING btree ("time", country);
 
 
 --
@@ -36201,24 +35451,10 @@ CREATE INDEX _hyper_3_908_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_908_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_908_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_908_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_909_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_909_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_909_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_909_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_909_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_909_chunk USING btree ("time", country);
 
 
 --
@@ -36229,24 +35465,10 @@ CREATE INDEX _hyper_3_910_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_910_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_910_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_910_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_911_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_911_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_911_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_911_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_911_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_911_chunk USING btree ("time", country);
 
 
 --
@@ -36257,24 +35479,10 @@ CREATE INDEX _hyper_3_912_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_912_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_912_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_912_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_913_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_913_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_913_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_913_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_913_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_913_chunk USING btree ("time", country);
 
 
 --
@@ -36285,24 +35493,10 @@ CREATE INDEX _hyper_3_914_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_914_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_914_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_914_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_915_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_915_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_915_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_915_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_915_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_915_chunk USING btree ("time", country);
 
 
 --
@@ -36313,24 +35507,10 @@ CREATE INDEX _hyper_3_916_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_916_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_916_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_916_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_917_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_917_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_917_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_917_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_917_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_917_chunk USING btree ("time", country);
 
 
 --
@@ -36341,24 +35521,10 @@ CREATE INDEX _hyper_3_918_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_918_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_918_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_918_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_919_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_919_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_919_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_919_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_919_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_919_chunk USING btree ("time", country);
 
 
 --
@@ -36369,24 +35535,10 @@ CREATE INDEX _hyper_3_920_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_920_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_920_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_920_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_921_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_921_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_921_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_921_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_921_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_921_chunk USING btree ("time", country);
 
 
 --
@@ -36397,24 +35549,10 @@ CREATE INDEX _hyper_3_922_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_922_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_922_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_922_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_923_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_923_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_923_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_923_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_923_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_923_chunk USING btree ("time", country);
 
 
 --
@@ -36425,24 +35563,10 @@ CREATE INDEX _hyper_3_924_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_924_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_924_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_924_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_925_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_925_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_925_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_925_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_925_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_925_chunk USING btree ("time", country);
 
 
 --
@@ -36453,24 +35577,10 @@ CREATE INDEX _hyper_3_926_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_926_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_926_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_926_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_927_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_927_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_927_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_927_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_927_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_927_chunk USING btree ("time", country);
 
 
 --
@@ -36481,24 +35591,10 @@ CREATE INDEX _hyper_3_928_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_928_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_928_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_928_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_929_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_929_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_929_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_929_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_929_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_929_chunk USING btree ("time", country);
 
 
 --
@@ -36509,24 +35605,10 @@ CREATE INDEX _hyper_3_930_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_930_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_930_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_930_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_931_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_931_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_931_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_931_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_931_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_931_chunk USING btree ("time", country);
 
 
 --
@@ -36537,24 +35619,10 @@ CREATE INDEX _hyper_3_932_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_932_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_932_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_932_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_933_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_933_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_933_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_933_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_933_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_933_chunk USING btree ("time", country);
 
 
 --
@@ -36565,24 +35633,10 @@ CREATE INDEX _hyper_3_934_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_934_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_934_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_934_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_935_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_935_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_935_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_935_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_935_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_935_chunk USING btree ("time", country);
 
 
 --
@@ -36593,24 +35647,10 @@ CREATE INDEX _hyper_3_936_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_936_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_936_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_936_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_937_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_937_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_937_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_937_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_937_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_937_chunk USING btree ("time", country);
 
 
 --
@@ -36621,24 +35661,10 @@ CREATE INDEX _hyper_3_938_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_938_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_938_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_938_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_939_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_939_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_939_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_939_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_939_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_939_chunk USING btree ("time", country);
 
 
 --
@@ -36649,24 +35675,10 @@ CREATE INDEX _hyper_3_940_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_940_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_940_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_940_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_941_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_941_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_941_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_941_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_941_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_941_chunk USING btree ("time", country);
 
 
 --
@@ -36677,24 +35689,10 @@ CREATE INDEX _hyper_3_942_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_942_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_942_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_942_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_943_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_943_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_943_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_943_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_943_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_943_chunk USING btree ("time", country);
 
 
 --
@@ -36705,24 +35703,10 @@ CREATE INDEX _hyper_3_944_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_944_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_944_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_944_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_945_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_945_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_945_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_945_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_945_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_945_chunk USING btree ("time", country);
 
 
 --
@@ -36733,24 +35717,10 @@ CREATE INDEX _hyper_3_946_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_946_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_946_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_946_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_947_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_947_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_947_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_947_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_947_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_947_chunk USING btree ("time", country);
 
 
 --
@@ -36761,24 +35731,10 @@ CREATE INDEX _hyper_3_948_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_948_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_948_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_948_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_949_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_949_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_949_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_949_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_949_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_949_chunk USING btree ("time", country);
 
 
 --
@@ -36789,24 +35745,10 @@ CREATE INDEX _hyper_3_950_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_950_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_950_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_950_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_951_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_951_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_951_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_951_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_951_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_951_chunk USING btree ("time", country);
 
 
 --
@@ -36817,24 +35759,10 @@ CREATE INDEX _hyper_3_952_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_952_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_952_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_952_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_953_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_953_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_953_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_953_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_953_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_953_chunk USING btree ("time", country);
 
 
 --
@@ -36845,24 +35773,10 @@ CREATE INDEX _hyper_3_954_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_954_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_954_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_954_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_955_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_955_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_955_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_955_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_955_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_955_chunk USING btree ("time", country);
 
 
 --
@@ -36873,24 +35787,10 @@ CREATE INDEX _hyper_3_956_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_956_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_956_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_956_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_957_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_957_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_957_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_957_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_957_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_957_chunk USING btree ("time", country);
 
 
 --
@@ -36901,24 +35801,10 @@ CREATE INDEX _hyper_3_958_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_958_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_958_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_958_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_959_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_959_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_959_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_959_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_959_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_959_chunk USING btree ("time", country);
 
 
 --
@@ -36929,24 +35815,10 @@ CREATE INDEX _hyper_3_960_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_960_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_960_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_960_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_961_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_961_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_961_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_961_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_961_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_961_chunk USING btree ("time", country);
 
 
 --
@@ -36957,24 +35829,10 @@ CREATE INDEX _hyper_3_962_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_962_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_962_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_962_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_963_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_963_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_963_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_963_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_963_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_963_chunk USING btree ("time", country);
 
 
 --
@@ -36985,24 +35843,10 @@ CREATE INDEX _hyper_3_964_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_964_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_964_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_964_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_965_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_965_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_965_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_965_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_965_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_965_chunk USING btree ("time", country);
 
 
 --
@@ -37013,24 +35857,10 @@ CREATE INDEX _hyper_3_966_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_966_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_966_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_966_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_967_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_967_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_967_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_967_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_967_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_967_chunk USING btree ("time", country);
 
 
 --
@@ -37041,24 +35871,10 @@ CREATE INDEX _hyper_3_968_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_968_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_968_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_968_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_969_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_969_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_969_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_969_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_969_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_969_chunk USING btree ("time", country);
 
 
 --
@@ -37069,24 +35885,10 @@ CREATE INDEX _hyper_3_970_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_970_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_970_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_970_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_971_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_971_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_971_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_971_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_971_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_971_chunk USING btree ("time", country);
 
 
 --
@@ -37097,24 +35899,10 @@ CREATE INDEX _hyper_3_972_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_972_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_972_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_972_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_973_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_973_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_973_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_973_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_973_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_973_chunk USING btree ("time", country);
 
 
 --
@@ -37125,24 +35913,10 @@ CREATE INDEX _hyper_3_974_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_974_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_974_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_974_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_975_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_975_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_975_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_975_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_975_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_975_chunk USING btree ("time", country);
 
 
 --
@@ -37153,24 +35927,10 @@ CREATE INDEX _hyper_3_976_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_976_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_976_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_976_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_977_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_977_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_977_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_977_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_977_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_977_chunk USING btree ("time", country);
 
 
 --
@@ -37181,24 +35941,10 @@ CREATE INDEX _hyper_3_978_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_978_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_978_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_978_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_979_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_979_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_979_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_979_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_979_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_979_chunk USING btree ("time", country);
 
 
 --
@@ -37209,24 +35955,10 @@ CREATE INDEX _hyper_3_980_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_980_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_980_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_980_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_981_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_981_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_981_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_981_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_981_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_981_chunk USING btree ("time", country);
 
 
 --
@@ -37237,24 +35969,10 @@ CREATE INDEX _hyper_3_982_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_982_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_982_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_982_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_983_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_983_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_983_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_983_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_983_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_983_chunk USING btree ("time", country);
 
 
 --
@@ -37265,24 +35983,10 @@ CREATE INDEX _hyper_3_984_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_984_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_984_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_984_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_985_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_985_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_985_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_985_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_985_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_985_chunk USING btree ("time", country);
 
 
 --
@@ -37293,24 +35997,10 @@ CREATE INDEX _hyper_3_986_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_986_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_986_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_986_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_987_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_987_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_987_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_987_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_987_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_987_chunk USING btree ("time", country);
 
 
 --
@@ -37321,24 +36011,10 @@ CREATE INDEX _hyper_3_988_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_988_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_988_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_988_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_989_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_989_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_989_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_989_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_989_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_989_chunk USING btree ("time", country);
 
 
 --
@@ -37349,24 +36025,10 @@ CREATE INDEX _hyper_3_990_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_990_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_990_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_990_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_991_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_991_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_991_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_991_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_991_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_991_chunk USING btree ("time", country);
 
 
 --
@@ -37377,24 +36039,10 @@ CREATE INDEX _hyper_3_992_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_992_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_992_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_992_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_993_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_993_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_993_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_993_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_993_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_993_chunk USING btree ("time", country);
 
 
 --
@@ -37405,24 +36053,10 @@ CREATE INDEX _hyper_3_994_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_994_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_994_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_994_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_995_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_995_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_995_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_995_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_995_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_995_chunk USING btree ("time", country);
 
 
 --
@@ -37433,24 +36067,10 @@ CREATE INDEX _hyper_3_996_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_996_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_996_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_996_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_997_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_997_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_997_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_997_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_997_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_997_chunk USING btree ("time", country);
 
 
 --
@@ -37461,24 +36081,10 @@ CREATE INDEX _hyper_3_998_chunk_entsoe_prices_time_idx ON _timescaledb_internal.
 
 
 --
--- Name: _hyper_3_998_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_998_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_998_chunk USING btree ("time", country);
-
-
---
 -- Name: _hyper_3_999_chunk_entsoe_prices_time_idx; Type: INDEX; Schema: _timescaledb_internal; Owner: -
 --
 
 CREATE INDEX _hyper_3_999_chunk_entsoe_prices_time_idx ON _timescaledb_internal._hyper_3_999_chunk USING btree ("time" DESC);
-
-
---
--- Name: _hyper_3_999_chunk_entsoe_prices_unique; Type: INDEX; Schema: _timescaledb_internal; Owner: -
---
-
-CREATE UNIQUE INDEX _hyper_3_999_chunk_entsoe_prices_unique ON _timescaledb_internal._hyper_3_999_chunk USING btree ("time", country);
 
 
 --
@@ -43337,14 +41943,7 @@ CREATE UNIQUE INDEX _hyper_8_1919_chunk_svk_controlroom_unique ON _timescaledb_i
 -- Name: entsoe_prices_time_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX entsoe_prices_time_idx ON public.entsoe_prices USING btree ("time" DESC);
-
-
---
--- Name: entsoe_prices_unique; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX entsoe_prices_unique ON public.entsoe_prices USING btree ("time", country);
+CREATE INDEX entsoe_prices_time_idx ON public.prices USING btree ("time" DESC);
 
 
 --
@@ -46320,6 +44919,202 @@ CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hy
 --
 
 CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_15_3531_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_15_3561_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_15_3561_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3534_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3534_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3535_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3535_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3536_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3536_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3537_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3537_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3538_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3538_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3539_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3539_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3540_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3540_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3541_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3541_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3542_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3542_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3543_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3543_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3544_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3544_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3545_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3545_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3546_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3546_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3547_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3547_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3548_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3548_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3549_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3549_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3550_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3550_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3551_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3551_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3552_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3552_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3553_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3553_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3554_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3554_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3555_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3555_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3556_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3556_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3557_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3557_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3558_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3558_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3559_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3559_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: _hyper_17_3560_chunk trigger_set_updated_at; Type: TRIGGER; Schema: _timescaledb_internal; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hyper_17_3560_chunk FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
 
 
 --
@@ -51888,13 +50683,6 @@ CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON _timescaledb_internal._hy
 
 
 --
--- Name: entsoe_prices trigger_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON public.entsoe_prices FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
-
-
---
 -- Name: generation trigger_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -51906,6 +50694,13 @@ CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON public.generation FOR EAC
 --
 
 CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON public.load FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
+
+
+--
+-- Name: prices trigger_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON public.prices FOR EACH ROW EXECUTE FUNCTION public.trigger_set_updated_at();
 
 
 --
@@ -51930,13 +50725,6 @@ CREATE TRIGGER trigger_set_updated_at BEFORE UPDATE ON public.transmission FOR E
 
 
 --
--- Name: entsoe_prices ts_insert_blocker; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER ts_insert_blocker BEFORE INSERT ON public.entsoe_prices FOR EACH ROW EXECUTE FUNCTION _timescaledb_internal.insert_blocker();
-
-
---
 -- Name: generation ts_insert_blocker; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -51948,6 +50736,13 @@ CREATE TRIGGER ts_insert_blocker BEFORE INSERT ON public.generation FOR EACH ROW
 --
 
 CREATE TRIGGER ts_insert_blocker BEFORE INSERT ON public.load FOR EACH ROW EXECUTE FUNCTION _timescaledb_internal.insert_blocker();
+
+
+--
+-- Name: prices ts_insert_blocker; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER ts_insert_blocker BEFORE INSERT ON public.prices FOR EACH ROW EXECUTE FUNCTION _timescaledb_internal.insert_blocker();
 
 
 --
@@ -52084,6 +50879,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('22'),
 ('23'),
 ('24'),
+('25'),
+('26'),
+('27'),
 ('3'),
 ('4'),
 ('5'),

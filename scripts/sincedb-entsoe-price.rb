@@ -8,7 +8,7 @@ logger = SemanticLogger['sincedb-entsoe-price.rb']
 
 require './lib/entsoe'
 require './lib/activerecord-connect'
-require './app/models/entsoe_price'
+require './app/models/price'
 
 require './lib/pump'
-Pump.new(ENTSOE::Price, EntsoePrice).run
+Pump.new(ENTSOE::Price, Price).run

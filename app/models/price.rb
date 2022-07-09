@@ -1,7 +1,8 @@
-class EntsoePrice < ActiveRecord::Base
+class Price < ActiveRecord::Base
+  belongs_to :area
 
-  def self.parsers_each
-    self.group(:country).where("time > ?", 1.month.ago).pluck(:country, Arel.sql("LAST(time, time)")).each do |country, from|
+  def self.parsers_each(source)
+    self.joins(:area).group(:'area.code').where("time > ?", 6.month.ago).where(area: {source: source.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
       from = from.to_datetime
       to = [from + 1.year, DateTime.now.beginning_of_hour].min
       if from > 4.hours.ago
