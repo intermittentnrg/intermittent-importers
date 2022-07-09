@@ -1,4 +1,3 @@
-env.ENV = env.ENV ?: 'nonprod'
 env.TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
 
 stage('kaniko') {
