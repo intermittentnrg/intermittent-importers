@@ -5,29 +5,6 @@ services:
     image: ${DOCKER_REGISTRY}/intermittency:latest
     build:
       context: .
-  influxdb:
-    image: influxdb:${INFLUXDB_VERSION}
-    volumes:
-      - ./docker/data:/var/lib/influxdb
-      - ./backup:/backup
-    #network_mode: host
-    ports:
-      - 8086:8086
-      - 8088:8088
-    environment:
-      INFLUXDB_BIND_ADDRESS: 127.0.0.1:8088
-
-  influxdb-preloaded:
-    image: ${DOCKER_REGISTRY}/influxdb-preloaded:${TAG}
-    build:
-      context: .
-      dockerfile: Dockerfile.influxdb-preloaded
-      args:
-        INFLUX_DATABASE:
-        INFLUX_USERNAME:
-        INFLUX_PASSWORD:
-        INFLUX_HOST:
-        INFLUXDB_VERSION:
 
   timescaledb:
     image: timescaledev/timescaledb-ha:pg12-latest
