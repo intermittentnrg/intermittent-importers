@@ -29,6 +29,8 @@ begin
   points.each do |p|
     p[:from_area_id] = from_area_id
     p[:to_area_id] = to_area_id
+    p.delete :from_area
+    p.delete :to_area
   end
   #require 'pry' ; binding.pry
   Transmission.insert_all points
