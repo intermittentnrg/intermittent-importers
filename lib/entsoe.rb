@@ -161,6 +161,7 @@ class ENTSOE
     res = HTTParty.get(
       'https://transparency.entsoe.eu/api',
       query: @options,
+      read_timeout: 120,
       #debug_output: $stdout
     )
     #puts res.body
