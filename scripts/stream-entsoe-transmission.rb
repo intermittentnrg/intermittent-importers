@@ -24,8 +24,7 @@ begin
   to_area_id = Area.where(source: ENTSOE::Transmission.source_id, code: to_area).pluck(:id).first
   e = ENTSOE::Transmission.new from_area: from_area, to_area: to_area, from: from, to: to
   points = e.points
-  require 'pp'
-  pp points
+  puts points
   points.each do |p|
     p[:from_area_id] = from_area_id
     p[:to_area_id] = to_area_id

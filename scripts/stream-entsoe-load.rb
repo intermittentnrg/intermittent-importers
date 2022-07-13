@@ -26,15 +26,12 @@ to = ARGV.shift
   area_id = Area.where(source: ENTSOE::Generation.source_id, code: country).pluck(:id).first
   e = ENTSOE::Load.new country: country, from: from, to: to
   points = e.points
-  #puts points
-  #require 'pry' ; binding.pry
   points.each do |p|
-    p.delete :country
     p[:area_id] = area_id
-    #p[:updated_at] = p[:created_at]
+    p.delete :country
   end
-  puts points
   #require 'pry' ; binding.pry
+  puts points
   Load.insert_all points
 rescue
   puts $!
