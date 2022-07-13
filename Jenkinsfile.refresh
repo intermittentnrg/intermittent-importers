@@ -1,6 +1,7 @@
-properties([parameters([
-  text(name: 'CMD', defaultValue: '', description: '')
-])])
+properties([
+  disableConcurrentBuilds(),
+  parameters([text('CMD')])
+])
 
 currentBuild.description = params.CMD
 
