@@ -1,6 +1,15 @@
 properties([
   disableConcurrentBuilds(),
-  parameters([text('CMD')])
+  parameters([text('CMD')]),
+  pipelineTriggers([cron('H */2 * * *')]),
+  [$class: 'EnvInjectJobProperty', info: [
+    loadFilesFromMaster: false,
+    propertiesContent: "TAG=${env.TAG}\nBRANCH_NAME=${env.BRANCH_NAME}",
+    secureGroovyScript: [classpath: [], oldScript: '', sandbox: false, script: '']],
+    keepBuildVariables: true,
+    keepJenkinsSystemVariables: true,
+    on: true
+  ]
 ])
 
 currentBuild.description = params.CMD
