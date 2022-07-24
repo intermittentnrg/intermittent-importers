@@ -15,6 +15,11 @@ gem 'influxdb'
 gem 'activerecord'
 gem 'pg', '>= 0.18', '< 2.0'
 
+# Tweet screenshot
+gem 'selenium-webdriver'
+gem 'oauth'
+gem 'typhoeus'
+
 group :test do
   gem 'rspec'
   gem 'rspec-collection_matchers'
