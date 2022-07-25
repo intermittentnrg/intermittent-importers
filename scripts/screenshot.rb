@@ -7,9 +7,9 @@ client.read_timeout = 180 # seconds
 driver = Selenium::WebDriver.for :remote, url: "http://localhost:4444/wd/hub", capabilities: :firefox, http_client: client
 
 begin
-  driver.manage.window.resize_to(3840, 2160) # <- resizes the window
+  driver.manage.window.resize_to(1920, 1080+85) # <- resizes the window
 
-  driver.navigate.to "https://intermittent.energy/d/3sj6qwA7z/load-solar-wind-nuclear?orgId=1&from=now-6y&to=now&kiosk=tv"
+  driver.navigate.to "https://intermittent.energy/d/3sj6qwA7z/demand-solar-wind-nuclear?from=now%2Fd-15d&to=now%2Fd-1d&orgId=1&kiosk"
 
   wait = Selenium::WebDriver::Wait.new(:timeout => 120) # seconds
   wait.until do
