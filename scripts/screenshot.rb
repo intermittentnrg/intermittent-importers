@@ -7,18 +7,30 @@ require "selenium-webdriver"
 #driver = Selenium::WebDriver.for :remote, url: 'http://localhost:4444', desired_capabilities: :chrome, http_client: client
 
 driver = Selenium::WebDriver.for :remote, url: "http://localhost:4444/wd/hub", capabilities: :firefox
-driver.manage.window.resize_to(3840, 2160) # <- resizes the window
+begin
+  driver.manage.window.resize_to(3840, 2160) # <- resizes the window
 
-driver.navigate.to "https://intermittent.energy/d/3sj6qwA7z/load-solar-wind-nuclear?orgId=1&from=now-1y&to=now&kiosk=tv"
+  driver.navigate.to "https://intermittent.energy/d/3sj6qwA7z/load-solar-wind-nuclear?orgId=1&from=now-6y&to=now&kiosk=tv"
 
-width  = driver.execute_script("return Math.max(document.body.scrollWidth,document.body.offsetWidth,document.documentElement.clientWidth,document.documentElement.scrollWidth,document.documentElement.offsetWidth);")
-height = driver.execute_script("return Math.max(document.body.scrollHeight,document.body.offsetHeight,document.documentElement.clientHeight,document.documentElement.scrollHeight,document.documentElement.offsetHeight);")
+  wait = Selenium::WebDriver::Wait.new(:timeout => 120) # seconds
+  wait.until do
+    loading_size = driver.find_elements(:class, 'panel-loading').size
+    content_size = driver.find_elements(:class, 'panel-content').size
+    puts "loading_size=#{loading_size}"
+    puts "content_size=#{content_size}"
 
-driver.manage.window.resize_to(width, height) # <- resizes the window
-picture = driver.screenshot_as(:png)
+    loading_size == 0 && content_size > 0
+  end
 
-File.open('picture2.png', 'w+') do |fh|
-  fh.write picture
+  width  = driver.execute_script("return Math.max(document.body.scrollWidth,document.body.offsetWidth,document.documentElement.clientWidth,document.documentElement.scrollWidth,document.documentElement.offsetWidth);")
+  height = driver.execute_script("return Math.max(document.body.scrollHeight,document.body.offsetHeight,document.documentElement.clientHeight,document.documentElement.scrollHeight,document.documentElement.offsetHeight);")
+
+  driver.manage.window.resize_to(width, height) # <- resizes the window
+  picture = driver.screenshot_as(:png)
+
+  File.open('picture2.png', 'w+') do |fh|
+    fh.write picture
+  end
+ensure
+  driver.quit
 end
-
-driver.quit
