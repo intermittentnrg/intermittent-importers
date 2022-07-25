@@ -2,11 +2,10 @@
 require 'bundler/setup'
 require "selenium-webdriver"
 
-#client = Selenium::WebDriver::Remote::Http::Default.new
-#client.read_timeout = 180 # seconds
-#driver = Selenium::WebDriver.for :remote, url: 'http://localhost:4444', desired_capabilities: :chrome, http_client: client
+client = Selenium::WebDriver::Remote::Http::Default.new
+client.read_timeout = 180 # seconds
+driver = Selenium::WebDriver.for :remote, url: "http://localhost:4444/wd/hub", capabilities: :firefox, http_client: client
 
-driver = Selenium::WebDriver.for :remote, url: "http://localhost:4444/wd/hub", capabilities: :firefox
 begin
   driver.manage.window.resize_to(3840, 2160) # <- resizes the window
 
