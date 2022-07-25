@@ -2,3 +2,4 @@ docker/
 backup/
 data/
 .env*
+Jenkinsfile*
