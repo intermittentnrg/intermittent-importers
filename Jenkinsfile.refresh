@@ -9,7 +9,8 @@ properties([
     keepBuildVariables: true,
     keepJenkinsSystemVariables: true,
     on: true
-  ]
+  ],
+  buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '50'))
 ])
 
 currentBuild.description = params.CMD

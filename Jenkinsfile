@@ -1,5 +1,9 @@
 env.TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
 
+properties([
+  buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '50'))
+])
+
 stage('kaniko') {
   podTemplate(yaml: '''
 kind: Pod
