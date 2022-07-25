@@ -1,9 +1,11 @@
 pipelineJob("intermittency-${BRANCH_NAME}-refresh") {
-  properties {
-    pipelineTriggers {
-      triggers {
-        cron {
-          spec('H */2 * * *')
+  if (BRANCH_NAME == "master" || BRANCH_NAME == "production") {
+    properties {
+      pipelineTriggers {
+	triggers {
+	  cron {
+	    spec('H */2 * * *')
+	  }
 	}
       }
     }
