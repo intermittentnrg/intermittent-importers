@@ -22,8 +22,9 @@ fetch2:
 	. ./.env-production ; scripts/sincedb-elexon-load.rb
 
 ## update secret from .env
+BRANCH ?= master
 update_secret:
-	grep -v export .env | kubectl create secret generic -n jenkins intermittency-master --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
+	grep -v export .env | kubectl create secret generic -n jenkins intermittency-$(BRANCH) --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
 
 update_secret2:
 	grep -v export .env-production | kubectl create secret generic -n jenkins intermittency-production --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
