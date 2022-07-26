@@ -45,6 +45,6 @@ ELEXON_ENDPOINT = "https://api.bmreports.com/BMRS/#{@report}/v1"
     }
   end
   puts r
-  ElexonGeneration.insert_all r
+  ElexonGeneration.upsert_all r
   #require 'pry'  ;binding.pry
 end

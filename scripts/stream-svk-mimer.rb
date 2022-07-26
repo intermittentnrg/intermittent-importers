@@ -22,7 +22,7 @@ to = ARGV.shift
     values = e.points
     puts values
     #require 'pry' ; binding.pry
-    SvkMimerGeneration.insert_all values
+    SvkMimerGeneration.upsert_all values
   rescue
     puts $!
     puts $!.backtrace

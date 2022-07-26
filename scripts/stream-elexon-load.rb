@@ -30,5 +30,5 @@ area_id = Area.where(source: Elexon::Load.source_id, code: 'GB').pluck(:id).firs
   end
   puts points
   require 'pry' ; binding.pry
-  Load.insert_all points
+  Load.upsert_all points
 end

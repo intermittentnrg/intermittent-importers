@@ -27,7 +27,7 @@ to = ARGV.shift
   end
   #require 'pry' ; binding.pry
   puts points
-  Price.insert_all points
+  Price.upsert_all points
 rescue
   puts $!
   puts $!.backtrace

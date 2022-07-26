@@ -32,7 +32,7 @@ begin
     p.delete :to_area
   end
   #require 'pry' ; binding.pry
-  Transmission.insert_all points
+  Transmission.upsert_all points
 rescue
   puts $!
   puts $!.backtrace

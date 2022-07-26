@@ -21,5 +21,5 @@ area_id = Area.where(source: 'eirgrid', code: 'IE').pluck(:id).first
 points = e.points
 puts points
 points.each { |p| p[:area_id] = area_id }
-Generation.insert_all points
+Generation.upsert_all points
 

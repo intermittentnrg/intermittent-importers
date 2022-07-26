@@ -30,7 +30,7 @@ to = ARGV.shift
     p[:area_id] = area_id
     #p[:updated_at] = p[:created_at]
   end
-  Generation.insert_all points
+  Generation.upsert_all points
 rescue
   puts $!
   puts $!.backtrace

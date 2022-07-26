@@ -32,7 +32,7 @@ to = ARGV.shift
   end
   #require 'pry' ; binding.pry
   puts points
-  Load.insert_all points
+  Load.upsert_all points
 rescue
   puts $!
   puts $!.backtrace
