@@ -37,9 +37,14 @@ spec:
     node(POD_LABEL) {
       container('app') {
         sh "until nc -z localhost 4444; do sleep 0.5 ; done"
-        sh "cd /app && scripts/screenshot.rb"
-        sh "cp /app/*.png ."
-        archiveArtifacts '*.png'
+        try {
+          sh "cd /app && scripts/screenshot.rb"
+          sh "cp /app/*.png ."
+          archiveArtifacts '*.png'
+        } catch(err) {
+          containerLog('selenium')
+          throw err
+        }
       }
     }
   }
