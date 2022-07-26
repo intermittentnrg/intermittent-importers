@@ -21,10 +21,10 @@ begin
     loading_size == 0 && content_size > 0
   end
 
-  width  = driver.execute_script("return Math.max(document.body.scrollWidth,document.body.offsetWidth,document.documentElement.clientWidth,document.documentElement.scrollWidth,document.documentElement.offsetWidth);")
-  height = driver.execute_script("return Math.max(document.body.scrollHeight,document.body.offsetHeight,document.documentElement.clientHeight,document.documentElement.scrollHeight,document.documentElement.offsetHeight);")
+  #width  = driver.execute_script("return Math.max(document.body.scrollWidth,document.body.offsetWidth,document.documentElement.clientWidth,document.documentElement.scrollWidth,document.documentElement.offsetWidth);")
+  #height = driver.execute_script("return Math.max(document.body.scrollHeight,document.body.offsetHeight,document.documentElement.clientHeight,document.documentElement.scrollHeight,document.documentElement.offsetHeight);")
+  #driver.manage.window.resize_to(width, height) # <- resizes the window
 
-  driver.manage.window.resize_to(width, height) # <- resizes the window
   picture = driver.screenshot_as(:png)
 
   File.open('picture2.png', 'w+') do |fh|
