@@ -50,6 +50,7 @@ spec:
         }
       }
       stage('tweet') {
+        input 'Tweet?'
         sh "cd /app && scripts/create_tweet.rb"
       }
     }
