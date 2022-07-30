@@ -37,7 +37,7 @@ class Pump
         p.delete :process_type
       end
 
-      @out_model.upsert_all(data) if data.present?
+      @out_model.insert_all(data) if data.present?
       #pass if e.last_time > from
     rescue ENTSOE::EmptyError
       raise if to < 1.day.ago # raise if within 24hrs
