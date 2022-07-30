@@ -8,38 +8,27 @@ require 'active_support'
 require 'active_support/core_ext'
 
 require './lib/activerecord-connect'
-require './app/models/elexon_load'
+require './app/models/load'
+require './app/models/area'
 
 if ARGV.length < 2
-  $stderr.puts "#{$0} <from> <to> [country]"
+  $stderr.puts "#{$0} <from> <to>"
   exit 1
 end
 from = DateTime.parse ARGV.shift
 to = DateTime.parse ARGV.shift
 
-require 'httparty'
-@report = 'B0610'
-ELEXON_ENDPOINT = "https://api.bmreports.com/BMRS/#{@report}/v1"
+area_id = Area.where(source: Elexon::Load.source_id, code: 'GB').pluck(:id).first
 
 (from...to).each do |time|
-  @options = {}
-  @options[:ServiceType] = 'xml'
-  @options[:APIKey] = ENV['ELEXON_TOKEN']
-  @options[:Period] = '*'
-  @options[:SettlementDate] = time.strftime('%Y-%m-%d')
-  res = HTTParty.get(
-    ELEXON_ENDPOINT,
-    query: @options,
-    debug_output: $stdout
-  )
+  e = Elexon::Load.new(time)
 
-  r = []
-  res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
-    r << {
-      time: DateTime.strptime(item['settlementDate'], '%Y-%m-%d') + (item['settlementPeriod'].to_i * 30).minutes,
-      value: item['quantity'].to_i
-    }
+  points = e.points
+  points.each do |p|
+    p[:area_id] = area_id
+    p.delete :country
   end
-  puts r
-  ElexonLoad.insert_all r
+  puts points
+  require 'pry' ; binding.pry
+  Load.insert_all points
 end
