@@ -14,6 +14,7 @@ gem 'influxdb'
 # Timescaledb
 gem 'activerecord'
 gem 'pg', '>= 0.18', '< 2.0'
+gem 'composite_primary_keys'
 
 # Tweet screenshot
 gem 'selenium-webdriver'

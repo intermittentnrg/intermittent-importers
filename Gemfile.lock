@@ -16,6 +16,8 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     childprocess (4.1.0)
     coderay (1.1.3)
+    composite_primary_keys (13.0.3)
+      activerecord (~> 6.1.0)
     concurrent-ruby (1.1.9)
     crack (0.4.5)
       rexml
@@ -88,6 +90,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   activesupport
+  composite_primary_keys
   dotenv
   fastest-csv
   httparty

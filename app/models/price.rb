@@ -1,4 +1,5 @@
 require 'semantic_logger'
+require 'composite_primary_keys'
 
 class Price < ActiveRecord::Base
   @@logger = SemanticLogger[Price]
