@@ -15,10 +15,6 @@ class Transmission < ActiveRecord::Base
       #require 'pry' ; binding.pry
       from = from.to_datetime
       to = [from + 1.year, DateTime.now.beginning_of_hour].min
-      if from > 4.hours.ago
-        @@logger.info "has data in last 4 hours. skipping"
-        next
-      end
       SemanticLogger.tagged("#{from_country} > #{to_country}") do
         # support source per day and date-range
         #require 'pry' ; binding.pry

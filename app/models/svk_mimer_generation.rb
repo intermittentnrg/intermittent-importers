@@ -7,10 +7,6 @@ class SvkMimerGeneration < ActiveRecord::Base
       #require 'pry' ; binding.pry
       from = from.to_datetime
       to = [from + 1.year, DateTime.now.beginning_of_hour].min
-      if from > 4.hours.ago
-        @@logger.info "has data in last 4 hours. skipping"
-        next
-      end
 
       yield Svk::Generation.new(country: country, production_type: production_type, from: from, to: to)
     end

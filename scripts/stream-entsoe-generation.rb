@@ -6,7 +6,6 @@ require 'dotenv/load'
 require './lib/entsoe'
 
 require './lib/activerecord-connect'
-require './app/models/entsoe_generation'
 require './app/models/generation'
 require './app/models/area'
 
