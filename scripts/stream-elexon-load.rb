@@ -29,6 +29,6 @@ area_id = Area.where(source: Elexon::Load.source_id, code: 'GB').pluck(:id).firs
     p.delete :country
   end
   puts points
-  require 'pry' ; binding.pry
+  #require 'pry' ; binding.pry
   Load.upsert_all points
 end
