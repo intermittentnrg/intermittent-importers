@@ -34,8 +34,7 @@ spec:
   }
 }
 
-stage('test app') {
-  podTemplate(yaml: """
+podTemplate(yaml: """
 kind: Pod
 spec:
   containers:
@@ -51,12 +50,14 @@ spec:
           cpu: "1"
           memory: "0.5Gi"
 """
-  ) {
-    node(POD_LABEL) {
-      container('app') {
+) {
+  node(POD_LABEL) {
+    container('app') {
+      stage('test app') {
         sh 'cd /app ; rspec spec -f d --format RspecJunitFormatter --out ${WORKSPACE}/rspec.xml'
         junit allowEmptyResults: true, testResults: 'rspec.xml'
-
+      }
+      stage('deploy') {
 	sh "cp /app/jobdsl.groovy ."
 	jobDsl(targets: 'jobdsl.groovy',
 	       additionalParameters: [
