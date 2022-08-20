@@ -17,6 +17,7 @@ DatabaseTasks.migrations_paths = File.join(db_dir, 'migrate')
 task :environment do
   ActiveRecord::Base.configurations = DatabaseTasks.database_configuration
   ActiveRecord::Base.schema_format = :sql
+  ActiveRecord::Base.dump_schema_after_migration = false
   ActiveRecord::Base.establish_connection DatabaseTasks.env.to_sym
 end
 
