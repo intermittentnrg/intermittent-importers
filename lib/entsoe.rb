@@ -11,9 +11,91 @@ require 'active_support/core_ext'
 class ENTSOE
   DEFAULT_START = DateTime.parse('2014-01-01')
 
+  class Base
+    def self.source_id
+      "entsoe"
+    end
+
+    def initialize from: DateTime.now.beginning_of_day, to: DateTime.now.beginning_of_hour, psr_type: nil
+      raise "#{from} == #{to}" if from==to
+      @options = {
+        #psrType: 'B16',
+        #in_Domain: '10YCZ-CEPS-----N',
+        #periodStart:'202109200000',
+        #periodEnd:  '202109220000',
+        securityToken: ENV['ENTSOE_TOKEN']
+      }
+      @options[:psrType] = psr_type if psr_type.present?
+      #@options[:periodStart] = options[:start] || '202109202300'
+      #@options[:periodEnd] = options[:end] || '202109222300'
+      @options[:TimeInterval] = "#{from}/#{to}"
+    end
+
+    def fetch
+      res = HTTParty.get(
+        'https://transparency.entsoe.eu/api',
+        query: @options,
+        read_timeout: 120,
+        #debug_output: $stdout
+      )
+      puts res.body
+      @doc = REXML::Document.new res.body
+
+      code, reason = @doc.elements.to_a("*/Reason/*").map(&:text)
+      if reason.present?
+        raise EmptyError if reason =~ /No matching data found/
+        raise reason
+      end
+    end
+
+    def points
+      r=[]
+      @doc.elements.each('*/TimeSeries') do |ts|
+        next if is_a?(Generation) && ts.elements.to_a('outBiddingZone_Domain.mRID').first
+        #unless ts.elements.to_a('inBiddingZone_Domain.mRID').first
+        #  require 'pry' ; binding.pry
+        #end
+        start = DateTime.strptime(ts.elements.to_a('Period/timeInterval/start').first.text, '%Y-%m-%dT%H:%M%z')
+        #2020-12-31T23:00Z
+        resolution = ts.elements.to_a('Period/resolution').first.text.match(/^PT(\d+)M$/) { |m| m[1].to_i }
+
+        #business_type = ts.css('businessType').text
+
+        psr = ts.elements.to_a('MktPSRType/psrType').first.try :text
+        @production_type = PARAMETER_DESC[psr.to_sym].downcase.tr_s(' ', '_') if psr
+
+        data = ts.elements.each('Period/Point') do |p|
+          @time = start + ((p.elements.to_a('position').first.text.to_i - 1) * resolution).minutes
+          @last_time = @time
+          r << point(p)
+        end
+      end
+
+      r
+    end
+
+    def point(p)
+      {
+        country: @country,
+        process_type: @process_type,
+        production_type: @production_type,
+        time: @time,
+        value: p.elements.to_a('quantity').first.text.to_i
+      }
+    end
+
+    def last_time
+      unless @last_time
+        require 'pry'
+        binding.pry
+      end
+      @last_time
+    end
+  end
+
   #4.4.5. Current Generation Forecasts for Wind and Solar [14.1.D]
   #GET /api?documentType=A69&processType=A18&psrType=B16&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
-  class WindSolar < ENTSOE
+  class WindSolar < Base
     def initialize(country: nil, **kwargs)
       super(**kwargs)
       @country = country
@@ -31,7 +113,7 @@ class ENTSOE
 
   #4.4.8. Aggregated Generation per Type [16.1.B&C]
   #GET /api?documentType=A75&processType=A16&psrType=B02&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
-  class Generation < ENTSOE
+  class Generation < Base
     def initialize(country: nil, **kwargs)
       super(**kwargs)
       @country = country
@@ -49,7 +131,7 @@ class ENTSOE
 
   #4.1.1. Actual Total Load [6.1.A]
   #GET /api?documentType=A65&processType=A16&outBiddingZone_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
-  class Load < ENTSOE
+  class Load < Base
     def initialize(country:, **kwargs)
       super(**kwargs)
       @country = country
@@ -66,7 +148,7 @@ class ENTSOE
     end
   end
 
-  class Price < ENTSOE
+  class Price < Base
     def initialize(country:, **kwargs)
       super(**kwargs)
       @country = country
@@ -85,7 +167,7 @@ class ENTSOE
 
   #4.2.15. Physical Flows [12.1.G]
   #GET /api?documentType=A11&in_Domain=10YCZ-CEPS-----N&out_Domain=10YSK-SEPS-----K&periodStart=201512312300&periodEnd=201612312300
-  class Transmission < ENTSOE
+  class Transmission < Base
     def initialize(from_area:, to_area:, **kwargs)
       super(**kwargs)
       @from_area, @to_area = from_area, to_area
@@ -136,86 +218,6 @@ class ENTSOE
   end
 
   class EmptyError < StandardError
-  end
-
-  def self.source_id
-    "entsoe"
-  end
-
-  def initialize from: DateTime.now.beginning_of_day, to: DateTime.now.beginning_of_hour, psr_type: nil
-    raise "#{from} == #{to}" if from==to
-    @options = {
-      #psrType: 'B16',
-      #in_Domain: '10YCZ-CEPS-----N',
-      #periodStart:'202109200000',
-      #periodEnd:  '202109220000',
-      securityToken: ENV['ENTSOE_TOKEN']
-    }
-    @options[:psrType] = psr_type if psr_type.present?
-    #@options[:periodStart] = options[:start] || '202109202300'
-    #@options[:periodEnd] = options[:end] || '202109222300'
-    @options[:TimeInterval] = "#{from}/#{to}"
-  end
-
-  def fetch
-    res = HTTParty.get(
-      'https://transparency.entsoe.eu/api',
-      query: @options,
-      read_timeout: 120,
-      #debug_output: $stdout
-    )
-    #puts res.body
-    @doc = REXML::Document.new res.body
-
-    code, reason = @doc.elements.to_a("*/Reason/*").map(&:text)
-    if reason.present?
-      raise EmptyError if reason =~ /No matching data found/
-      raise reason
-    end
-  end
-
-  def points
-    r=[]
-    @doc.elements.each('*/TimeSeries') do |ts|
-      next if is_a?(Generation) && ts.elements.to_a('outBiddingZone_Domain.mRID').first
-      #unless ts.elements.to_a('inBiddingZone_Domain.mRID').first
-      #  require 'pry' ; binding.pry
-      #end
-      start = DateTime.strptime(ts.elements.to_a('Period/timeInterval/start').first.text, '%Y-%m-%dT%H:%M%z')
-      #2020-12-31T23:00Z
-      resolution = ts.elements.to_a('Period/resolution').first.text.match(/^PT(\d+)M$/) { |m| m[1].to_i }
-
-      #business_type = ts.css('businessType').text
-
-      psr = ts.elements.to_a('MktPSRType/psrType').first.try :text
-      @production_type = PARAMETER_DESC[psr.to_sym].downcase.tr_s(' ', '_') if psr
-
-      data = ts.elements.each('Period/Point') do |p|
-        @time = start + ((p.elements.to_a('position').first.text.to_i - 1) * resolution).minutes
-        @last_time = @time
-        r << point(p)
-      end
-    end
-
-    r
-  end
-
-  def point(p)
-    {
-      country: @country,
-      process_type: @process_type,
-      production_type: @production_type,
-      time: @time,
-      value: p.elements.to_a('quantity').first.text.to_i
-    }
-  end
-
-  def last_time
-    unless @last_time
-      require 'pry'
-      binding.pry
-    end
-    @last_time
   end
 
   PROCESS_TYPES = {
