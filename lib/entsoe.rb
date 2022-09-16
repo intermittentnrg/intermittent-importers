@@ -48,9 +48,12 @@ class ENTSOE
       end
     end
 
+    def points_selector(&block)
+      @doc.elements.each('*/TimeSeries', &block)
+    end
     def points
       r=[]
-      @doc.elements.each('*/TimeSeries') do |ts|
+      points_selector do |ts|
         next if is_a?(Generation) && ts.elements.to_a('outBiddingZone_Domain.mRID').first
         #unless ts.elements.to_a('inBiddingZone_Domain.mRID').first
         #  require 'pry' ; binding.pry
@@ -157,6 +160,10 @@ class ENTSOE
       @options[:documentType] = 'A44'
       @options[:in_domain] = @options[:out_Domain] = COUNTRIES[country.to_sym]
       fetch
+    end
+
+    def points_selector(&block)
+      @doc.elements.each('*/TimeSeries[.//Period/resolution[contains(text(),"PT60M")]]', &block)
     end
     def point(p)
       {
