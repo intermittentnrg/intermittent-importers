@@ -15,8 +15,7 @@ properties([
 
 currentBuild.description = params.CMD
 
-stage('refresh') {
-  podTemplate(yaml: """
+podTemplate(yaml: """
 kind: Pod
 spec:
   containers:
@@ -28,22 +27,33 @@ spec:
         - secretRef:
             name: intermittency-${env.BRANCH_NAME}
 """
-  ) {
-    node(POD_LABEL) {
-      container('app') {
-        if (params.CMD) {
-          sh "cd /app ; ${params.CMD}"
-        } else {
-          sh 'cd /app ; scripts/sincedb-entsoe-generation.rb'
+) {
+  node(POD_LABEL) {
+    container('app') {
+      if (params.CMD) {
+        sh "cd /app ; ${params.CMD}"
+      } else {
+        stage('entsoe-generation') {
+         sh 'cd /app ; scripts/sincedb-entsoe-generation.rb'
+        }
+        stage('entsoe-load') {
           sh 'cd /app ; scripts/sincedb-entsoe-load.rb'
+        }
+        stage('entsoe-price') {
           sh 'cd /app ; scripts/sincedb-entsoe-price.rb'
+        }
+        stage('entsoe-transmission') {
           sh 'cd /app ; scripts/sincedb-entsoe-transmission.rb'
+        }
+        stage('elexon-generation') {
           sh 'cd /app ; scripts/sincedb-elexon-generation.rb'
+        }
+        stage('elexon-load') {
           sh 'cd /app ; scripts/sincedb-elexon-load.rb'
+        }
           //sh 'cd /app ; scripts/sincedb-entsoe-windsolar.rb'
           //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'
           //sh 'cd /app ; scripts/sincedb-svk-controlroom.rb'
-        }
       }
     }
   }
