@@ -55,16 +55,26 @@ module Elexon
       super
     end
     def points
-      r = []
+      r = {}
       @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
-        r << {
+        time = DateTime.strptime(item['settlementDate'], '%Y-%m-%d') + (item['settlementPeriod'].to_i * 30).minutes
+        value = item['quantity'].to_i
+        next if value < 10000
+        if r[time]
+          require 'pry' ; binding.pry
+          next
+        end
+
+        r[time] = {
+          time: time,
           country: 'GB',
-          time: DateTime.strptime(item['settlementDate'], '%Y-%m-%d') + (item['settlementPeriod'].to_i * 30).minutes,
-          value: item['quantity'].to_i
+          value: value
         }
       end
+      #r.filter! { |r2| r2[:value] > 10000 }
+      #require 'pry' ; binding.pry
 
-      r
+      r.values
     end
   end
 end
