@@ -1,5 +1,3 @@
-require './app/models/area'
-
 class Pump
   @@logger = SemanticLogger[Pump]
 
@@ -20,6 +18,7 @@ class Pump
   def run
     pass = false
     areas = {}
+    production_types = {}
     #@source::COUNTRIES.keys.each do |country|
     @out_model.parsers_each(@source) do |e|
       data = e.points
@@ -30,6 +29,7 @@ class Pump
         p[:area_id] = (areas[p[:country]] ||= Area.where(source: @source.source_id, code: p[:country]).pluck(:id).first) if p[:country]
         p[:from_area_id] = (areas[p[:from_area]] ||= Area.where(source: @source.source_id, code: p[:from_area]).pluck(:id).first) if p[:from_area]
         p[:to_area_id] = (areas[p[:to_area]] ||= Area.where(source: @source.source_id, code: p[:to_area]).pluck(:id).first) if p[:to_area]
+        p[:production_type_id] = (production_types[p[:production_type]] ||= ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
         #require 'pry' ;binding.pry
         p.delete :country
         p.delete :from_area

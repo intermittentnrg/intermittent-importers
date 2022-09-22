@@ -4,7 +4,6 @@ require 'dotenv/load'
 require 'semantic_logger'
 SemanticLogger.default_level = :trace
 SemanticLogger.add_appender(io: $stderr, formatter: :color)
-logger = SemanticLogger['sincedb-entsoe-price.rb']
 
 require 'date'
 require 'active_support'
@@ -18,7 +17,7 @@ def Object.const_missing(name)
   str_name = name.to_s
   raise "Class not found: #{name}" if @looked_for[str_name]
   @looked_for[str_name] = 1
-  file = str_name.downcase
+  file = str_name.underscore
   require file
   klass = const_get(name)
   return klass if klass
