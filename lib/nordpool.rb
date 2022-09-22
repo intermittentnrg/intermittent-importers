@@ -1,3 +1,5 @@
+require 'httparty'
+
 Time.zone = "Europe/Stockholm"
 class Nordpool
   class Base
