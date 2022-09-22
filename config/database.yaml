@@ -10,12 +10,4 @@ development:
   user: <%= ENV['PGUSER'] %>
   password: <%= ENV['PGPASSWORD'] %>
   database: <%= ENV['PGDATABASE'] %>
-
-questdb:
-  <<: *default
-  database: default
-  host: <%= ENV['QUESTDB_HOST'] %>
-  port: 8812
-  user: admin
-  password: quest
-  pool: 4
+  schema_search_path: intermittency,public

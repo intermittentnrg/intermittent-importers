@@ -21,15 +21,16 @@ fetch2:
 	. ./.env-production ; scripts/sincedb-elexon-generation.rb
 	. ./.env-production ; scripts/sincedb-elexon-load.rb
 
-## update secret from .env
 BRANCH ?= master
+## Update jenkins/intermittency-$(BRANCH) secret from .env
 update_secret:
 	grep -v export .env | kubectl create secret generic -n jenkins intermittency-$(BRANCH) --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
 
+## Update jenkins/intermittency-production secret from .env-production
 update_secret2:
 	grep -v export .env-production | kubectl create secret generic -n jenkins intermittency-production --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
 psql:
-	psql intermittency
+	psql postgres
 
 pgdump:
 	pg_dump -Fc -f intermittency.bak intermittency
