@@ -1,17 +1,8 @@
 #!/usr/bin/env ruby
 # coding: utf-8
-require 'bundler/setup'
-require 'dotenv/load'
-
-require 'date'
-require 'active_support'
-require 'active_support/core_ext'
-
+require './lib/init'
 require './lib/activerecord-connect'
-require './app/models/generation'
-require './app/models/area'
 
-require './lib/elexon'
 if ARGV.length < 2
   $stderr.puts "#{$0} <from> <to> [country]"
   exit 1

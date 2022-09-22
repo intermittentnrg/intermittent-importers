@@ -35,17 +35,21 @@ module Elexon
       super
     end
     def points
-      r = []
+      r = {}
       @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
-        r << {
+        time = DateTime.strptime(item['settlementDate'], '%Y-%m-%d') + (item['settlementPeriod'].to_i * 30).minutes
+        if r[time]
+          next
+        end
+        r[time] = {
           country: 'GB',
           production_type: item['powerSystemResourceType'].gsub(/"/,'').downcase.tr_s(' ', '_'),
-          time: DateTime.strptime(item['settlementDate'], '%Y-%m-%d') + (item['settlementPeriod'].to_i * 30).minutes,
+          time: time,
           value: item['quantity'].to_i
         }
       end
 
-      r
+      r.values
     end
   end
 
@@ -61,7 +65,6 @@ module Elexon
         value = item['quantity'].to_i
         next if value < 10000
         if r[time]
-          require 'pry' ; binding.pry
           next
         end
 
