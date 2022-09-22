@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
-require 'bundler/setup'
-require 'dotenv/load'
-
+require './lib/init'
 require './lib/activerecord-connect'
 
 require 'pry'
