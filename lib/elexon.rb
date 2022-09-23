@@ -38,12 +38,14 @@ module Elexon
       r = {}
       @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
         time = DateTime.strptime(item['settlementDate'], '%Y-%m-%d') + (item['settlementPeriod'].to_i * 30).minutes
-        if r[time]
+        production_type = item['powerSystemResourceType'].gsub(/"/,'').downcase.tr_s(' ', '_')
+        key = "#{time}-#{production_type}"
+        if r[key]
           next
         end
-        r[time] = {
+        r[key] = {
           country: 'GB',
-          production_type: item['powerSystemResourceType'].gsub(/"/,'').downcase.tr_s(' ', '_'),
+          production_type: production_type,
           time: time,
           value: item['quantity'].to_i
         }
