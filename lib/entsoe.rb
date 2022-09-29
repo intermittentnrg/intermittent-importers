@@ -38,7 +38,7 @@ class ENTSOE
         read_timeout: 120,
         #debug_output: $stdout
       )
-      puts res.body
+      #puts res.body
       @doc = REXML::Document.new res.body
 
       code, reason = @doc.elements.to_a("*/Reason/*").map(&:text)
