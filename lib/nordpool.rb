@@ -1,6 +1,5 @@
 require 'httparty'
 
-Time.zone = "Europe/Stockholm"
 class Nordpool
   class Base
     def initialize(date)
@@ -14,6 +13,7 @@ class Nordpool
       "nordpool_sek"
     end
     def initialize(date)
+      Time.zone = "Europe/Stockholm"
       @options = {}
       @options[:endDate] = date.strftime('%d-%m-%Y')
       @options[:currency] = ',SEK,SEK,EUR'
