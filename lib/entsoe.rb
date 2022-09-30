@@ -185,44 +185,30 @@ class ENTSOE
       @options[:in_Domain] = COUNTRIES[to_area.to_sym]
       puts @options.inspect
       fetch
-      @doc1 = @doc
-
-      @options[:out_Domain] = COUNTRIES[to_area.to_sym]
-      @options[:in_Domain] = COUNTRIES[from_area.to_sym]
-      fetch
     end
 
-    def points
-      r={}
-      @doc1.elements.each('*/TimeSeries') do |ts|
-        start = DateTime.strptime(ts.elements.to_a('Period/timeInterval/start').first.text, '%Y-%m-%dT%H:%M%z')
-        resolution = ts.elements.to_a('Period/resolution').first.text.match(/^PT(\d+)M$/) { |m| m[1].to_i }
+    # def points
+    #   r=[]
+    #   points_selector do |ts|
+    #     start = DateTime.strptime(ts.elements.to_a('Period/timeInterval/start').first.text, '%Y-%m-%dT%H:%M%z')
+    #     resolution = ts.elements.to_a('Period/resolution').first.text.match(/^PT(\d+)M$/) { |m| m[1].to_i }
 
-        data = ts.elements.each('Period/Point') do |p|
-          @time = start + ((p.elements.to_a('position').first.text.to_i - 1) * resolution).minutes
-          @last_time = @time
-          r[@time] = p.elements.to_a('quantity').first.text.to_i
-        end
-      end
-      @doc.elements.each('*/TimeSeries') do |ts|
-        start = DateTime.strptime(ts.elements.to_a('Period/timeInterval/start').first.text, '%Y-%m-%dT%H:%M%z')
-        resolution = ts.elements.to_a('Period/resolution').first.text.match(/^PT(\d+)M$/) { |m| m[1].to_i }
+    #     data = ts.elements.each('Period/Point') do |p|
+    #       @time = start + ((p.elements.to_a('position').first.text.to_i - 1) * resolution).minutes
+    #       @last_time = @time
+    #       r << point(p)
+    #     end
+    #   end
 
-        data = ts.elements.each('Period/Point') do |p|
-          @time = start + ((p.elements.to_a('position').first.text.to_i - 1) * resolution).minutes
-          @last_time = @time
-          r[@time] -= p.elements.to_a('quantity').first.text.to_i
-        end
-      end
-
-      r.map do |k,v|
-        {
-          time: k,
-          from_area: @from_area,
-          to_area: @to_area,
-          value: v
-        }
-      end
+    #   r
+    # end
+    def point(p)
+      {
+        time: @time,
+        from_area: @from_area,
+        to_area: @to_area,
+        value: p.elements.to_a('quantity').first.text.to_i
+      }
     end
   end
 
