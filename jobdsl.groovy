@@ -1,6 +1,7 @@
 pipelineJob("intermittency-${BRANCH_NAME}-refresh") {
   if (BRANCH_NAME == "master" || BRANCH_NAME == "production") {
     properties {
+      disableConcurrentBuilds()
       pipelineTriggers {
 	triggers {
 	  cron {
