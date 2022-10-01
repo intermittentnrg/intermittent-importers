@@ -2,7 +2,7 @@ require 'bundler/setup'
 require 'dotenv/load'
 
 require 'semantic_logger'
-SemanticLogger.default_level = :trace
+SemanticLogger.default_level = :info
 SemanticLogger.add_appender(io: $stderr, formatter: :color)
 
 require 'date'
