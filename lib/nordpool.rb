@@ -21,9 +21,9 @@ class Nordpool
       @res = HTTParty.get(
         "https://www.nordpoolgroup.com/api/marketdata/page/29",
         query: @options,
-        debug_output: $stdout
+        #debug_output: $stdout
       )
-      puts @res.body
+      #puts @res.body
     end
     def points
       r = []
@@ -53,19 +53,18 @@ class Nordpool
       @options = {}
       @options[:endDate] = date.strftime('%d-%m-%Y')
       @res = HTTParty.get(
-        URL,
+        self.class::URL,
         query: @options,
         #headers: {"User-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36 Edge/15.15063"},
         headers: {"User-Agent" => "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0"},
-        debug_output: $stdout
+        #debug_output: $stdout
       )
       #puts @res.body
     end
     def points
+      raise @res.body if @res.parsed_response["ExceptionMessage"]
+
       r = []
-      if @res.parsed_response["ExceptionMessage"]
-        raise @res.body
-      end
       rows = @res.parsed_response["data"]["Rows"].filter { |row| !row["IsNtcRow"] && !row["IsExtraRow"] }
       leap=0
       rows.each do |row|
@@ -77,7 +76,7 @@ class Nordpool
         end
         row["Columns"].each do |c|
           next if c["Name"].include? '+'
-          next if c["Value"] == "-"
+          next if c["Value"].start_with?("-")
           from,to = c["Name"].split(/ ?> /)
           r << {
             :time => time,

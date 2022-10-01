@@ -66,7 +66,7 @@ end
 class Pump::NordpoolTransmission < Pump
   def parsers_each(&block)
     from = Transmission.joins(:from_area).group(:'from_area.code').where('value IS NOT NULL').where(from_area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
-    from ||= Date.parse("2021-10-02")
+    from ||= Date.parse("2021-10-01")
     to = 2.days.from_now
     (from..to).each do |date|
       #require 'pry' ; binding.pry
@@ -77,7 +77,7 @@ end
 class Pump::NordpoolCapacity < Pump
   def parsers_each(&block)
     from = Transmission.joins(:from_area).group(:'from_area.code').where('capacity IS NOT NULL').where(from_area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
-    from ||= Date.parse("2021-10-02")
+    from ||= Date.parse("2021-10-01")
     to = 2.days.from_now
     (from..to).each do |date|
       #require 'pry' ; binding.pry
