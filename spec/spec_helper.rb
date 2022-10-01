@@ -3,8 +3,7 @@ require 'rspec'
 require 'rspec/collection_matchers'
 require 'vcr'
 
-require './lib/entsoe'
-require './lib/svk'
+require './lib/init'
 
 ENV['ENTSOE_TOKEN'] ||= 'DUMMYTOKEN'
 VCR.configure do |config|

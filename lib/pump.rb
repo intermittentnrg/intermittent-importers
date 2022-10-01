@@ -15,12 +15,15 @@ class Pump
     end
   end
 
+  def parsers_each(&block)
+    @out_model.parsers_each(@source, &block)
+  end
+
   def run
     pass = false
     areas = {}
     production_types = {}
-    #@source::COUNTRIES.keys.each do |country|
-    @out_model.parsers_each(@source) do |e|
+    parsers_each do |e|
       data = e.points
       #require 'pry' ;binding.pry
       @@logger.info "#{data.length} points"
@@ -46,5 +49,39 @@ class Pump
     end
 
     pass
+  end
+end
+
+class Pump::NordpoolPrice < Pump
+  def parsers_each(&block)
+    from = Price.joins(:area).group(:'area.code').where("time > ?", 6.month.ago).where(area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.to_datetime
+    from = from.next_day.beginning_of_day
+    to = 2.days.from_now
+    #require 'pry' ; binding.pry
+    (from..to).each do |date|
+      yield @source.new date
+    end
+  end
+end
+class Pump::NordpoolTransmission < Pump
+  def parsers_each(&block)
+    from = Transmission.joins(:from_area).group(:'from_area.code').where('value IS NOT NULL').where(from_area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
+    from ||= Date.parse("2021-10-02")
+    to = 2.days.from_now
+    (from..to).each do |date|
+      #require 'pry' ; binding.pry
+      yield Nordpool::Transmission.new(date)
+    end
+  end
+end
+class Pump::NordpoolCapacity < Pump
+  def parsers_each(&block)
+    from = Transmission.joins(:from_area).group(:'from_area.code').where('capacity IS NOT NULL').where(from_area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
+    from ||= Date.parse("2021-10-02")
+    to = 2.days.from_now
+    (from..to).each do |date|
+      #require 'pry' ; binding.pry
+      yield Nordpool::Capacity.new(date)
+    end
   end
 end

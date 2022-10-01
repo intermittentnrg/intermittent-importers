@@ -14,7 +14,7 @@ class Price < ActiveRecord::Base
           next
         end
 
-        if source == Nordpool::Price
+        if source == Nordpool::PriceSEK
           (from..to).each do |date|
             yield source.new date
           end
