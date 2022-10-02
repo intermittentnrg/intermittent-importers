@@ -21,10 +21,9 @@ class Nordpool
         #debug_output: $stdout
       )
       #puts @res.body
+      raise @res.body if @res.parsed_response["ExceptionMessage"]
     end
     def points
-      raise @res.body if @res.parsed_response["ExceptionMessage"]
-
       r = []
       rows = @res.parsed_response["data"]["Rows"].filter { |row| !row["IsNtcRow"] && !row["IsExtraRow"] }
       #require 'pry' ; binding.pry
@@ -80,10 +79,9 @@ class Nordpool
         #debug_output: $stdout
       )
       #puts @res.body
+      raise @res.body if @res.parsed_response["ExceptionMessage"]
     end
     def points
-      raise @res.body if @res.parsed_response["ExceptionMessage"]
-
       r = []
       rows = @res.parsed_response["data"]["Rows"].filter { |row| !row["IsNtcRow"] && !row["IsExtraRow"] }
       leap=0

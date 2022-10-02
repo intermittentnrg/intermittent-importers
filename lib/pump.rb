@@ -26,7 +26,7 @@ class Pump
     parsers_each do |e|
       data = e.points
       #require 'pry' ;binding.pry
-      @@logger.info "#{data.first[:time]} #{data.length} points"
+      @@logger.info "#{data.first.try(:[], :time)} #{data.length} points"
 
       data.each do |p|
         p[:area_id] = (areas[p[:country]] ||= Area.where(source: @source.source_id, code: p[:country]).pluck(:id).first) if p[:country]
