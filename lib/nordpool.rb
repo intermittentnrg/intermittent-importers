@@ -10,7 +10,46 @@ class Nordpool
       "nordpool"
     end
   end
-  class PriceSEK < Base
+  class Price < Base
+    def initialize(date)
+      @options = {}
+      @options[:endDate] = date.strftime('%d-%m-%Y')
+      @options[:currency] = ',SEK,SEK,EUR'
+      @res = HTTParty.get(
+        "https://www.nordpoolgroup.com/api/marketdata/page/29",
+        query: @options,
+        #debug_output: $stdout
+      )
+      #puts @res.body
+    end
+    def points
+      raise @res.body if @res.parsed_response["ExceptionMessage"]
+
+      r = []
+      rows = @res.parsed_response["data"]["Rows"].filter { |row| !row["IsNtcRow"] && !row["IsExtraRow"] }
+      #require 'pry' ; binding.pry
+      leap=0
+      rows.each do |row|
+        time = DateTime.strptime row["StartTime"], '%Y-%m-%dT%H:%M:%S'
+        begin
+          time = TZ.local_to_utc(time) { |periods| periods[leap].tap { leap += 1 } }
+        rescue TZInfo::PeriodNotFound
+          next
+        end
+        #puts "#{row["StartTime"]} = #{time}"
+        row["Columns"].each do |c|
+          r << {
+            time: time,
+            country: c["Name"],
+            value: c["Value"].gsub(/\s/, '').gsub(/,/,'.').to_f
+          }
+        end
+      end
+
+      r
+    end
+  end
+  class PriceSEK < Price
     def self.source_id
       "nordpool_sek"
     end
@@ -25,27 +64,8 @@ class Nordpool
       )
       #puts @res.body
     end
-    def points
-      r = []
-      rows = @res.parsed_response["data"]["Rows"].filter { |row| !row["IsNtcRow"] && !row["IsExtraRow"] }
-      #require 'pry' ; binding.pry
-      leap=0
-      rows.each do |row|
-        time = DateTime.strptime row["StartTime"], '%Y-%m-%dT%H:%M:%S'
-        TZ.local_to_utc(time) { |periods| periods[leap].tap { leap += 1 } }
-        #puts "#{row["StartTime"]} = #{time}"
-        row["Columns"].each do |c|
-          r << {
-            time: time,
-            country: c["Name"],
-            value: c["Value"].gsub(/\s/, '').gsub(/,/,'.').to_f
-          }
-        end
-      end
-
-      r
-    end
   end
+
   class Transmission < Base
     URL = 'https://www.nordpoolgroup.com/api/marketdata/page/169'
     FIELD = :value

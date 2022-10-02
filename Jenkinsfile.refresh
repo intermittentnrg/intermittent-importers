@@ -55,6 +55,10 @@ spec:
           sh 'cd /app ; scripts/sincedb-nordpool-transmission.rb'
           sh 'cd /app ; scripts/sincedb-nordpool-capacity.rb'
         }
+	stage('nordpool-price') {
+          sh 'cd /app ; scripts/sincedb-nordpool-price.rb'
+          sh 'cd /app ; scripts/sincedb-nordpool-price-sek.rb'
+	}
           //sh 'cd /app ; scripts/sincedb-entsoe-windsolar.rb'
           //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'
           //sh 'cd /app ; scripts/sincedb-svk-controlroom.rb'
