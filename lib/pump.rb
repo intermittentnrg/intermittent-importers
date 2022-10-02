@@ -26,7 +26,7 @@ class Pump
     parsers_each do |e|
       data = e.points
       #require 'pry' ;binding.pry
-      @@logger.info "#{data.length} points"
+      @@logger.info "#{data.first[:time]} #{data.length} points"
 
       data.each do |p|
         p[:area_id] = (areas[p[:country]] ||= Area.where(source: @source.source_id, code: p[:country]).pluck(:id).first) if p[:country]
@@ -76,7 +76,8 @@ class Pump::NordpoolTransmission < Pump
 end
 class Pump::NordpoolCapacity < Pump
   def parsers_each(&block)
-    from = Transmission.joins(:from_area).group(:'from_area.code').where('capacity IS NOT NULL').where(from_area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
+    from = Transmission.joins(:from_area).group(:'from_area.code').where('capacity IS NOT NULL').where(:'from_area.enabled' => true).where(from_area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
+    #require 'pry' ; binding.pry
     from ||= Date.parse("2021-10-01")
     to = 2.days.from_now
     (from..to).each do |date|
