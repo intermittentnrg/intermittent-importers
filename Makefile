@@ -37,15 +37,17 @@ psql2:
 ## Dump db to intermittency.bak
 pgdump:
 	pg_dump -Fc -f intermittency.bak postgres
+
+TARGETDB=intermittency_prod
 ## Restore db to intermittency_prod and drop telegraf schema
 pgrestore:
-	psql intermittency_prod -c "ALTER EXTENSION timescaledb UPDATE;"
-	psql intermittency_prod -c "SELECT timescaledb_pre_restore();"
-	pg_restore -Fc -d intermittency_prod intermittency.bak
-	psql intermittency_prod -c "SELECT timescaledb_post_restore();"
-	psql intermittency_prod -c "DROP SCHEMA telegraf CASCADE;"
-	psql intermittency_prod -c "DELETE FROM prices WHERE area_id IN (SELECT id FROM areas WHERE source='nordpool_sek');"
-	psql intermittency_prod -c "DELETE FROM areas WHERE source='nordpool_sek';"
+	psql $(TARGETDB) -c "ALTER EXTENSION timescaledb UPDATE;"
+	psql $(TARGETDB) -c "SELECT timescaledb_pre_restore();"
+	pg_restore -Fc -d $(TARGETDB) intermittency.bak
+	psql $(TARGETDB) -c "SELECT timescaledb_post_restore();"
+	psql $(TARGETDB) -c "DROP SCHEMA telegraf CASCADE;"
+	psql $(TARGETDB) -c "DELETE FROM prices WHERE area_id IN (SELECT id FROM areas WHERE source='nordpool_sek');"
+	psql $(TARGETDB) -c "DELETE FROM areas WHERE source='nordpool_sek';"
 
 dropdb2:
 	dropdb --force intermittency
