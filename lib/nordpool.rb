@@ -78,6 +78,7 @@ class Nordpool
           next if c["Name"].include? '+'
           next if c["Value"].start_with?("-")
           from,to = c["Name"].split(/ ?> /)
+          raise if from=='PLC' || to=='PLC'
           r << {
             :time => time,
             :from_area => from,
