@@ -51,6 +51,10 @@ spec:
         stage('elexon-load') {
           sh 'cd /app ; scripts/sincedb-elexon-load.rb'
         }
+        stage('nordpool-transmission') {
+          sh 'cd /app ; scripts/sincedb-nordpool-transmission.rb'
+          sh 'cd /app ; scripts/sincedb-nordpool-capacity.rb'
+        }
           //sh 'cd /app ; scripts/sincedb-entsoe-windsolar.rb'
           //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'
           //sh 'cd /app ; scripts/sincedb-svk-controlroom.rb'
