@@ -3,6 +3,7 @@ require 'httparty'
 class Nordpool
   class Base
     TZ = TZInfo::Timezone.get('Europe/Stockholm')
+    CURRENCY = 'EUR'
 
     def initialize(date)
     end
@@ -14,7 +15,7 @@ class Nordpool
     def initialize(date)
       @options = {}
       @options[:endDate] = date.strftime('%d-%m-%Y')
-      @options[:currency] = ',SEK,SEK,EUR'
+      @options[:currency] = ',#{self.class::CURRENCY},#{self.class::CURRENCY},EUR'
       @res = HTTParty.get(
         "https://www.nordpoolgroup.com/api/marketdata/page/29",
         query: @options,
@@ -37,6 +38,7 @@ class Nordpool
         end
         #puts "#{row["StartTime"]} = #{time}"
         row["Columns"].each do |c|
+          next if c["Value"] == "-"
           r << {
             time: time,
             country: c["Name"],
@@ -49,19 +51,9 @@ class Nordpool
     end
   end
   class PriceSEK < Price
+    CURRENCY = 'SEK'
     def self.source_id
       "nordpool_sek"
-    end
-    def initialize(date)
-      @options = {}
-      @options[:endDate] = date.strftime('%d-%m-%Y')
-      @options[:currency] = ',SEK,SEK,EUR'
-      @res = HTTParty.get(
-        "https://www.nordpoolgroup.com/api/marketdata/page/29",
-        query: @options,
-        #debug_output: $stdout
-      )
-      #puts @res.body
     end
   end
 

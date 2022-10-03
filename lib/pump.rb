@@ -54,7 +54,7 @@ end
 
 class Pump::NordpoolPrice < Pump
   def parsers_each(&block)
-    from = Price.joins(:area).group(:'area.code').where(area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.to_datetime.next_day
+    from = Price.joins(:area).group(:'area.code').where(area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
     from ||= Date.parse("2021-10-01")
     to = 2.days.from_now
     #require 'pry' ; binding.pry
