@@ -15,11 +15,12 @@ class Nordpool
     def initialize(date)
       @options = {}
       @options[:endDate] = date.strftime('%d-%m-%Y')
-      @options[:currency] = ',#{self.class::CURRENCY},#{self.class::CURRENCY},EUR'
+      @options[:currency] = ",#{self.class::CURRENCY},#{self.class::CURRENCY},EUR"
       @res = HTTParty.get(
         "https://www.nordpoolgroup.com/api/marketdata/page/29",
         query: @options,
-        #debug_output: $stdout
+        headers: {"User-Agent" => "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0"},
+        debug_output: $stdout
       )
       #puts @res.body
       raise @res.body if @res.parsed_response["ExceptionMessage"]
@@ -66,7 +67,6 @@ class Nordpool
       @res = HTTParty.get(
         self.class::URL,
         query: @options,
-        #headers: {"User-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36 Edge/15.15063"},
         headers: {"User-Agent" => "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0"},
         #debug_output: $stdout
       )
@@ -87,7 +87,7 @@ class Nordpool
         row["Columns"].each do |c|
           next if c["Name"].include? '+'
           next if c["Value"].start_with?("-")
-          from,to = c["Name"].split(/ ?> /)
+          from,to = c["Name"].split(/ *> /)
           raise if from=='PLC' || to=='PLC'
           r << {
             :time => time,
