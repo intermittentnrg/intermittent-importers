@@ -2,7 +2,6 @@
 # coding: utf-8
 require './lib/init'
 require './lib/activerecord-connect'
-require './app/models/price'
 
 if ARGV.length != 2
   $stderr.puts "#{$0} <from> <to>"

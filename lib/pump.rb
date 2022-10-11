@@ -75,6 +75,7 @@ class Pump::NordpoolTransmission < Pump
   end
 end
 class Pump::NordpoolCapacity < Pump
+  #The available trading capacities for the next day are published on Nord Pool’s website at 10:00 CET
   def parsers_each(&block)
     from = Transmission.joins(:from_area).group(:'from_area.code').where('capacity IS NOT NULL').where(:'from_area.enabled' => true).where(from_area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
     #require 'pry' ; binding.pry
