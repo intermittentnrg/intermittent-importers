@@ -14,7 +14,7 @@ class Ree
       @res = HTTParty.get(
         "https://demanda.ree.es/WSvisionaMoviles#{@system}Rest/resources/demandaGeneracion#{@system}",
         query: @options,
-        debug_output: $stdout
+        #debug_output: $stdout
       )
       #require 'pry' ; binding.pry
     end
