@@ -2,6 +2,7 @@ require 'httparty'
 
 class Ree
   class Generation
+    TZ = TZInfo::Timezone.get('Atlantic/Canary')
     def self.source_id
       "ree"
     end
@@ -29,7 +30,18 @@ class Ree
     def points
       r = []
       JSON.parse(@res.body.gsub(/^\w+\(|[^}]+$/,'\1'))["valoresHorariosGeneracion"].each do |row|
-        time = DateTime.strptime(row.delete("ts"), '%Y-%m-%d %H:%M')
+        leap = 0
+        time = row.delete("ts")
+        if time.include?('1A')
+          leap = 0
+          time.gsub!(/1A/,'01')
+        elsif time.include?('1B')
+          leap = 1
+          time.gsub!(/1B/,'01')
+        end
+        time = DateTime.strptime(time, '%Y-%m-%d %H:%M')
+        time = TZ.local_to_utc(time) { |periods| periods[leap] }
+
         row.delete "dem"
         row.delete "vap"
         row.delete "cc"
