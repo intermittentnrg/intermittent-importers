@@ -1,3 +1,8 @@
 *~
 .env*
 *.rbe
+*.csv
+*.svg
+*.png
+*.bak
+*.txt
