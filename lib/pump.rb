@@ -34,6 +34,7 @@ class Pump
         p[:to_area_id] = (areas[p[:to_area]] ||= Area.where(source: @source.source_id, code: p[:to_area]).pluck(:id).first) if p[:to_area]
         p[:production_type_id] = (production_types[p[:production_type]] ||= ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
         #require 'pry' ;binding.pry
+        p.delete :production_type
         p.delete :country
         p.delete :from_area
         p.delete :to_area
@@ -75,7 +76,7 @@ class Pump::NordpoolTransmission < Pump
   end
 end
 class Pump::NordpoolCapacity < Pump
-  #The available trading capacities for the next day are published on Nord Pool’s website at 10:00 CET
+  #The available trading capacities for the next day are published on Nord Pools website at 10:00 CET
   def parsers_each(&block)
     from = Transmission.joins(:from_area).group(:'from_area.code').where('capacity IS NOT NULL').where(:'from_area.enabled' => true).where(from_area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
     #require 'pry' ; binding.pry
