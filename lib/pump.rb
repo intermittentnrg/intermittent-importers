@@ -53,6 +53,16 @@ class Pump
   end
 end
 
+class Pump::EiaGeneration < Pump
+  def parsers_each(&block)
+    from = Generation.joins(:area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min
+    #from = from.to_datetime
+    require 'pry' ; binding.pry
+    to = [from + 1.year, DateTime.now.beginning_of_hour].min
+    yield @source.new(from: from, to: to)
+  end
+end
+
 class Pump::NordpoolPrice < Pump
   def parsers_each(&block)
     from = Price.joins(:area).group(:'area.code').where(area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
