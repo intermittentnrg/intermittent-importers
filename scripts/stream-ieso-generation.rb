@@ -20,6 +20,7 @@ production_types = {}
     area_id = areas[p[:country]] ||= Area.where(source: Ieso::Generation.source_id, code: p[:country]).pluck(:id).first
     p[:area_id] = area_id
     p[:production_type_id] = (production_types[p[:production_type]] ||= ProductionType.where(name: p[:production_type]).pluck(:id).first)
+    p.delete :production_type
     p.delete :country
   end
   puts points
