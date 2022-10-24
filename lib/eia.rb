@@ -28,6 +28,7 @@ module Eia
         #'facets[fueltype][]': '{}',
         'facets[type][]': 'D'
       }
+      @@logger.info("from: #{query[:start]} to: #{query[:end]}")
       query['facets[respondent][]'] = country if country
       query[:offset] = 0
       @res = []
@@ -80,7 +81,7 @@ module Eia
         'data[]': 'value',
         #'facets[fueltype][]': '{}',
       }
-      @@logger.info("from: #{query[:start]} to #{query[:end]}")
+      @@logger.info("from: #{query[:start]} to: #{query[:end]}")
       query['facets[respondent][]'] = country if country
       query[:offset] = 0
       @res = []
