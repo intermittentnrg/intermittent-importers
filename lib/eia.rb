@@ -16,19 +16,72 @@ module Eia
     }
   end
 
+  class Load < Base
+    @@logger = SemanticLogger[Load]
+    def initialize(country: nil, from: nil, to: nil)
+      query = {
+        api_key: ENV['EIA_TOKEN'],
+        frequency: 'hourly',
+        start: from.strftime("%Y-%m-%d"),
+        end: to.strftime("%Y-%m-%d"),
+        'data[]': 'value',
+        #'facets[fueltype][]': '{}',
+        'facets[type][]': 'D'
+      }
+      query['facets[respondent][]'] = country if country
+      query[:offset] = 0
+      @res = []
+      loop do
+        res = HTTParty.get(
+          "https://api.eia.gov/v2/electricity/rto/region-data/data/",
+          query: query,
+          #debug_output: $stdout
+        )
+        @@logger.info "eia.gov query execution: #{res.parsed_response['response']['query execution']}"
+        @@logger.info "eia.gov count query execution: #{res.parsed_response['response']['count query execution']}"
+        @res << res
+        #require 'pry' ; binding.pry
+        if query[:offset] + res.parsed_response['response']['data'].length >= res.parsed_response['response']['total']
+          break
+        end
+        query[:offset] += res.parsed_response['response']['data'].length
+      end
+    end
+    def points
+      r = []
+      @res.each do |res|
+        res.parsed_response['response']['data'].each do |row|
+          if row['value'].nil?
+            @@logger.warn "Skip #{row.inspect}"
+            next
+          end
+          time = DateTime.strptime(row['period'], '%Y-%m-%dT%H')
+          r << {
+            time: time,
+            country: "US-#{row['respondent']}",
+            value: row['value']
+          }
+        end
+      end
+      #require 'pry' ; binding.pry
+
+      r
+    end
+  end
+
   class Generation < Base
     @@logger = SemanticLogger[Generation]
     def initialize(country: nil, from: nil, to: nil)
       query = {
         api_key: ENV['EIA_TOKEN'],
-        #length: 50000,
+        frequency: 'hourly',
+        start: from.strftime("%Y-%m-%d"),
+        end: to.strftime("%Y-%m-%d"),
         'data[]': 'value',
         #'facets[fueltype][]': '{}',
       }
-      query[:frequency] = 'hourly'
+      @@logger.info("from: #{query[:start]} to #{query[:end]}")
       query['facets[respondent][]'] = country if country
-      query[:start] = from.strftime("%Y-%m-%d")
-      query[:end] = to.strftime("%Y-%m-%d")
       query[:offset] = 0
       @res = []
       loop do
@@ -37,6 +90,8 @@ module Eia
           query: query,
           #debug_output: $stdout
         )
+        @@logger.info "eia.gov query execution: #{res.parsed_response['response']['query execution']}"
+        @@logger.info "eia.gov count query execution: #{res.parsed_response['response']['count query execution']}"
         @res << res
         #require 'pry' ; binding.pry
         if query[:offset] + res.parsed_response['response']['data'].length >= res.parsed_response['response']['total']
