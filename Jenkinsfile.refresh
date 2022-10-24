@@ -33,37 +33,43 @@ spec:
       if (params.CMD) {
         sh "cd /app ; ${params.CMD}"
       } else {
-        stage('entsoe-generation') {
-         sh 'cd /app ; scripts/sincedb-entsoe-generation.rb'
-        }
-        stage('entsoe-load') {
-          sh 'cd /app ; scripts/sincedb-entsoe-load.rb'
-        }
-        stage('entsoe-price') {
-          sh 'cd /app ; scripts/sincedb-entsoe-price.rb'
-        }
-        stage('entsoe-transmission') {
-          sh 'cd /app ; scripts/sincedb-entsoe-transmission.rb'
-        }
-        stage('elexon-generation') {
-          sh 'cd /app ; scripts/sincedb-elexon-generation.rb'
-        }
-        stage('elexon-load') {
-          sh 'cd /app ; scripts/sincedb-elexon-load.rb'
-        }
-        stage('nordpool-transmission') {
-          sh 'cd /app ; scripts/sincedb-nordpool-transmission.rb'
-          sh 'cd /app ; scripts/sincedb-nordpool-capacity.rb'
-        }
-        stage('nordpool-price') {
-          sh 'cd /app ; scripts/sincedb-nordpool-price.rb'
-          if (env.BRANCH_NAME == "master") {
-            sh 'cd /app ; scripts/sincedb-nordpool-price-sek.rb'
-          }
-        }
-          //sh 'cd /app ; scripts/sincedb-entsoe-windsolar.rb'
-          //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'
-          //sh 'cd /app ; scripts/sincedb-svk-controlroom.rb'
+        parallel entsoe: {
+	  stage('entsoe-generation') {
+	   sh 'cd /app ; scripts/sincedb-entsoe-generation.rb'
+	  }
+	  stage('entsoe-load') {
+	    sh 'cd /app ; scripts/sincedb-entsoe-load.rb'
+	  }
+	  stage('entsoe-price') {
+	    sh 'cd /app ; scripts/sincedb-entsoe-price.rb'
+	  }
+	  stage('entsoe-transmission') {
+	    sh 'cd /app ; scripts/sincedb-entsoe-transmission.rb'
+	  }
+	  //sh 'cd /app ; scripts/sincedb-entsoe-windsolar.rb'
+	},
+	elexon: {
+	  stage('elexon-generation') {
+	    sh 'cd /app ; scripts/sincedb-elexon-generation.rb'
+	  }
+	  stage('elexon-load') {
+	    sh 'cd /app ; scripts/sincedb-elexon-load.rb'
+	  }
+	},
+	nordpool: {
+	  stage('nordpool-transmission') {
+	    sh 'cd /app ; scripts/sincedb-nordpool-transmission.rb'
+	    sh 'cd /app ; scripts/sincedb-nordpool-capacity.rb'
+	  }
+	  stage('nordpool-price') {
+	    sh 'cd /app ; scripts/sincedb-nordpool-price.rb'
+	    if (env.BRANCH_NAME == "master") {
+	      sh 'cd /app ; scripts/sincedb-nordpool-price-sek.rb'
+	    }
+	  }
+	}
+	  //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'
+	  //sh 'cd /app ; scripts/sincedb-svk-controlroom.rb'
       }
     }
   }
