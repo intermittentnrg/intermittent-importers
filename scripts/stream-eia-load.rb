@@ -23,5 +23,5 @@ areas = {}
   puts points
   #require 'pry' ; binding.pry
 
-  Load.upsert_all points
+  Load.upsert_all(points) if points.present?
 end
