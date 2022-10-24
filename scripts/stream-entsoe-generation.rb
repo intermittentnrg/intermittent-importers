@@ -19,10 +19,11 @@ to = ARGV.shift
   puts points
   #require 'pry' ; binding.pry
   points.each do |p|
-    p.delete :country
-    p.delete :process_type
     p[:area_id] = area_id
     p[:production_type_id] = (production_types[p[:production_type]] ||= ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
+    p.delete :country
+    p.delete :process_type
+    p.delete :production_type
     #p[:updated_at] = p[:created_at]
   end
   Generation.upsert_all points

@@ -1,18 +1,11 @@
 #!/usr/bin/env ruby
 # coding: utf-8
-require 'bundler/setup'
-require 'dotenv/load'
+require './lib/init'
+require './lib/activerecord-connect'
 
-require 'semantic_logger'
 SemanticLogger.default_level = :trace
 SemanticLogger.add_appender(io: $stderr, formatter: :color)
 logger = SemanticLogger['stream-load.rb']
-
-require './lib/entsoe'
-
-require './lib/activerecord-connect'
-require './app/models/load'
-require './app/models/area'
 
 if ARGV.length < 2
   $stderr.puts "#{$0} <from> <to> [country ...]"
