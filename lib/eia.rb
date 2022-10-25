@@ -14,6 +14,17 @@ module Eia
       'WAT' => 'hydro',
       'WND' => 'wind_onshore'
     }
+    def httparty_retry(&block)
+      retries = 0
+      loop do
+        r = yield
+        return r if r.ok?
+
+        retries += 1
+        raise if retries >= 5
+        sleep 5
+      end
+    end
   end
 
   class Load < Base
@@ -33,11 +44,13 @@ module Eia
       query[:offset] = 0
       @res = []
       loop do
-        res = HTTParty.get(
-          "https://api.eia.gov/v2/electricity/rto/region-data/data/",
-          query: query,
-          #debug_output: $stdout
-        )
+        res = httparty_retry do
+          HTTParty.get(
+            "https://api.eia.gov/v2/electricity/rto/region-data/data/",
+            query: query,
+            #debug_output: $stdout
+          )
+        end
         @@logger.info "eia.gov query execution: #{res.parsed_response['response']['query execution']}"
         @@logger.info "eia.gov count query execution: #{res.parsed_response['response']['count query execution']}"
         @res << res
@@ -86,11 +99,13 @@ module Eia
       query[:offset] = 0
       @res = []
       loop do
-        res = HTTParty.get(
-          "https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/",
-          query: query,
-          #debug_output: $stdout
-        )
+        res = httparty_retry do
+          HTTParty.get(
+            "https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/",
+            query: query,
+            #debug_output: $stdout
+          )
+        end
         @@logger.info "eia.gov query execution: #{res.parsed_response['response']['query execution']}"
         @@logger.info "eia.gov count query execution: #{res.parsed_response['response']['count query execution']}"
         @res << res
