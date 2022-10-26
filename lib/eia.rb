@@ -22,12 +22,15 @@ module Eia
 
         retries += 1
         raise if retries >= 5
+        @@logger.warn "Retrying in 5: #{r.inspect}"
         sleep 5
       end
     end
   end
 
   class Load < Base
+    URL = "https://api.eia.gov/v2/electricity/rto/region-data/data/"
+    QUERY_PARAMS = {}
     @@logger = SemanticLogger[Load]
     def initialize(country: nil, from: nil, to: nil)
       query = {
@@ -35,21 +38,22 @@ module Eia
         frequency: 'hourly',
         start: from.strftime("%Y-%m-%d"),
         end: to.strftime("%Y-%m-%d"),
+        offset: 0,
         'data[]': 'value',
-        #'facets[fueltype][]': '{}',
         'facets[type][]': 'D'
       }
-      @@logger.info("from: #{query[:start]} to: #{query[:end]}")
       query['facets[respondent][]'] = country if country
-      query[:offset] = 0
+      @@logger.info("from: #{query[:start]} to: #{query[:end]}")
       @res = []
       loop do
-        res = httparty_retry do
-          HTTParty.get(
-            "https://api.eia.gov/v2/electricity/rto/region-data/data/",
-            query: query,
-            #debug_output: $stdout
-          )
+        res = @@logger.benchmark_info(URL) do
+          httparty_retry do
+            HTTParty.get(
+              URL,
+              query: query,
+              #debug_output: $stdout
+            )
+          end
         end
         @@logger.info "eia.gov query execution: #{res.parsed_response['response']['query execution']}"
         @@logger.info "eia.gov count query execution: #{res.parsed_response['response']['count query execution']}"
@@ -85,6 +89,7 @@ module Eia
 
   class Generation < Base
     @@logger = SemanticLogger[Generation]
+    URL = "https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/"
     def initialize(country: nil, from: nil, to: nil)
       query = {
         api_key: ENV['EIA_TOKEN'],
@@ -101,7 +106,7 @@ module Eia
       loop do
         res = httparty_retry do
           HTTParty.get(
-            "https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/",
+            URL,
             query: query,
             #debug_output: $stdout
           )
