@@ -12,7 +12,7 @@ module Eia
       'OTH' => 'other',
       'SUN' => 'solar',
       'WAT' => 'hydro',
-      'WND' => 'wind_onshore'
+      'WND' => 'wind'
     }
     def httparty_retry(&block)
       retries = 0
@@ -58,7 +58,7 @@ module Eia
         @@logger.info "eia.gov query execution: #{res.parsed_response['response']['query execution']}"
         @@logger.info "eia.gov count query execution: #{res.parsed_response['response']['count query execution']}"
         @res << res
-        #require 'pry' ; binding.pry
+
         if query[:offset] + res.parsed_response['response']['data'].length >= res.parsed_response['response']['total']
           break
         end
@@ -70,13 +70,17 @@ module Eia
       @res.each do |res|
         res.parsed_response['response']['data'].each do |row|
           if row['value'].nil?
-            @@logger.warn "Skip #{row.inspect}"
+            @@logger.warn "Null value #{row.inspect}"
+            next
+          end
+          if row['value'] < 0
+            @@logger.warn("Negative load #{row.inspect}")
             next
           end
           time = DateTime.strptime(row['period'], '%Y-%m-%dT%H')
           r << {
             time: time,
-            country: "US-#{row['respondent']}",
+            country: row['respondent'],
             value: row['value']
           }
         end
@@ -128,13 +132,13 @@ module Eia
         res.parsed_response['response']['data'].each do |row|
           raise row['fueltype'] if FUEL_MAP[row['fueltype']].nil?
           if row['value'].nil?
-            @@logger.warn "Skip #{row.inspect}"
+            @@logger.warn "Null value #{row.inspect}"
             next
           end
           time = DateTime.strptime(row['period'], '%Y-%m-%dT%H')
           r << {
             time: time,
-            country: "US-#{row['respondent']}",
+            country: row['respondent'],
             production_type: FUEL_MAP[row['fueltype']],
             value: row['value']
           }
