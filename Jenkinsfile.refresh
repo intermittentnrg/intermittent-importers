@@ -67,6 +67,14 @@ spec:
 	      sh 'cd /app ; scripts/sincedb-nordpool-price-sek.rb'
 	    }
 	  }
+	},
+	eia: {
+	  stage('eia-generation') {
+	    sh 'cd /app ; scripts/sincedb-eia-generation.rb'
+	  }
+	  stage('eia-load') {
+	    sh 'cd /app ; scripts/sincedb-eia-load.rb'
+	  }	
 	}
 	  //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'
 	  //sh 'cd /app ; scripts/sincedb-svk-controlroom.rb'
