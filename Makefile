@@ -36,20 +36,41 @@ psql2:
 
 ## Dump db to intermittency.bak
 pgdump:
-	pg_dump -Fc -f intermittency.bak postgres
+	pg_dump --no-privileges -Fc -f intermittency.bak postgres
 
 TARGETDB=intermittency_prod
-## Restore db to intermittency_prod and drop telegraf schema
-pgrestore:
+## Restore db to $TARGETDB (intermittency_prod)
+pgrestore: pgrestore_import pgrestore_clean
+pgrestore_import:
 	createdb $(TARGETDB)
 	psql $(TARGETDB) -c "ALTER EXTENSION timescaledb UPDATE;"
 	psql $(TARGETDB) -c "SELECT timescaledb_pre_restore();"
 	pg_restore -Fc -d $(TARGETDB) intermittency.bak
 	psql $(TARGETDB) -c "SELECT timescaledb_post_restore();"
-	psql $(TARGETDB) -c "DROP SCHEMA telegraf CASCADE;"
-	psql $(TARGETDB) -c "DROP SCHEMA ellevio CASCADE;"
-	psql $(TARGETDB) -c "DELETE FROM prices WHERE area_id IN (SELECT id FROM areas WHERE source='nordpool_sek');"
-	psql $(TARGETDB) -c "DELETE FROM areas WHERE source='nordpool_sek';"
+
+.ONESHELL:
+## Clean $TARGETDB (intermittency_prod)
+pgrestore_clean:
+	psql $(TARGETDB) <<EOF
+	DROP SCHEMA IF EXISTS telegraf CASCADE;
+	DROP SCHEMA IF EXISTS ellevio CASCADE;
+	DELETE FROM prices WHERE area_id IN (SELECT id FROM areas WHERE source='nordpool_sek');
+	DELETE FROM areas WHERE source='nordpool_sek';
+
+	ALTER DATABASE intermittency_prod SET search_path TO intermittency, public;
+
+	GRANT CONNECT ON DATABASE intermittency_prod TO intermittency_prod;
+
+	GRANT USAGE ON SCHEMA intermittency TO PUBLIC;
+
+	GRANT SELECT ON TABLE intermittency.areas TO intermittency_prod;
+	GRANT SELECT ON TABLE intermittency.generation TO intermittency_prod;
+	GRANT SELECT ON TABLE intermittency.load TO intermittency_prod;
+	GRANT SELECT ON TABLE intermittency.prices TO intermittency_prod;
+	GRANT SELECT ON TABLE intermittency.production_types TO intermittency_prod;
+	GRANT SELECT ON TABLE intermittency.transmission TO intermittency_prod;
+
+	EOF
 #GRANTS for intermittency_prod
 #ALTER DATABASE intermittency_prod SET search_path = intermittency, public;
 
