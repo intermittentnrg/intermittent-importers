@@ -77,6 +77,10 @@ module Eia
             @@logger.warn("Negative load #{row.inspect}")
             next
           end
+          if row['respondent'] == 'BANC' && row['value'] > 6000
+            @@logger.warn("Ignoring load #{row['value']} from #{row['respondent']}")
+            next
+          end
           time = DateTime.strptime(row['period'], '%Y-%m-%dT%H')
           r << {
             time: time,
