@@ -20,7 +20,7 @@ module Caiso
       "Natural Gas" => "fossil_gas",
       "Large Hydro" => "hydro",
       "Other" => "other",
-      "Batteries" => "batteries",
+      "Batteries" => "battery",
     }
   end
   class Generation < Base
