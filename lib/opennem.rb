@@ -41,7 +41,12 @@ module Opennem
       "pumps" => "hydro_pumped_storage",
     }
   end
-  class Generation < Base
+  class Latest < Base
+    def initialize
+      @res = HTTParty.get("https://data.opennem.org.au/v3/clients/em/latest.json")
+    end
+  end
+  class GenerationMonth < Base
     def initialize(country: nil, date: nil)
       @logger = SemanticLogger[Generation]
       @country = country
