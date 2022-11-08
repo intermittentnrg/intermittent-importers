@@ -88,7 +88,7 @@ class Nordpool
           next if c["Name"].include? '+'
           next if c["Value"].start_with?("-")
           from,to = c["Name"].split(/ *> /)
-          raise if from=='PLC' || to=='PLC'
+          #raise if from=='PLC' || to=='PLC'
           r << {
             :time => time,
             :from_area => from,
@@ -104,5 +104,8 @@ class Nordpool
   class Capacity < Transmission
     URL = "https://www.nordpoolgroup.com/api/marketdata/page/484060"
     FIELD = :capacity
+  end
+  class CapacityChart < Capacity
+    URL = "https://www.nordpoolgroup.com/api/marketdata/chart/503617"
   end
 end
