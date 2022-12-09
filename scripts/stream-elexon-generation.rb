@@ -3,8 +3,8 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-if ARGV.length < 2
-  $stderr.puts "#{$0} <from> <to> [country]"
+if ARGV.length != 2
+  $stderr.puts "#{$0} <from> <to>"
   exit 1
 end
 from = DateTime.parse ARGV.shift
@@ -25,6 +25,7 @@ ELEXON_ENDPOINT = "https://api.bmreports.com/BMRS/#{@report}/v1"
   points.each do |p|
     p[:area_id] = area_id
     p[:production_type_id] = (production_types[p[:production_type]] ||= ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
+    p.delete :production_type
     p.delete :country
   end
   puts points
