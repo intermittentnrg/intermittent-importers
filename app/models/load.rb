@@ -18,6 +18,10 @@ class Load < ActiveRecord::Base
           (from..to).each do |date|
             yield source.new date
           end
+        elsif source == Ieso::Load
+          (from.year..to.year).each do |year|
+            yield source.new(DateTime.strptime(year.to_s, '%Y'))
+          end
         else
           yield source.new(country: country, from: from, to: to)
         end

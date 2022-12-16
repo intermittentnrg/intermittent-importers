@@ -75,6 +75,14 @@ spec:
 	  stage('eia-load') {
 	    sh 'cd /app ; scripts/sincedb-eia-load.rb'
 	  }	
+	},
+	ieso: {
+	  stage('ieso-generation') {
+	      sh 'cd /app ; scripts/sincedb-ieso-generation.rb'
+	  }
+	  stage('ieso-load') {
+	      sh 'cd /app ; scripts/sincedb-ieso-load.rb'
+	  }
 	}
 	  //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'
 	  //sh 'cd /app ; scripts/sincedb-svk-controlroom.rb'

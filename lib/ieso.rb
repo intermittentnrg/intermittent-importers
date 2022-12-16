@@ -5,7 +5,7 @@ module Ieso
     FUEL_MAP = {
       "NUCLEAR" => "nuclear",
       "GAS" => "fossil_gas",
-      "HYDRO" => "hydro_run-of-river_and_poundage",
+      "HYDRO" => "hydro",
       "WIND" => "wind_onshore",
       "SOLAR" => "solar",
       "BIOFUEL" => "biomass",
@@ -29,6 +29,35 @@ module Ieso
       r
     end
   end
+
+  class Load
+    def self.source_id
+      "ieso"
+    end
+    def initialize(date)
+      @res = HTTParty.get(
+        "http://reports.ieso.ca/public/Demand/PUB_Demand_#{date.strftime('%Y')}.csv",
+        #debug_output: $stdout
+      )
+    end
+    def points
+      r = []
+      CSV.parse(@res.body, skip_lines: /^(\\|Date)/, headers: false) do |row|
+        time = DateTime.strptime("#{row[0]} #{row[1]}", '%Y-%m-%d %H')
+        time = Ieso::Base::TZ.local_to_utc(time)
+        value = row[3]
+        r << {
+          time: time,
+          country: 'CA-ON',
+          value: value
+        }
+      end
+      #require 'pry' ; binding.pry
+
+      r
+    end
+  end
+
   class GenerationMonth < Base
     def initialize(date)
       @res = HTTParty.get(
