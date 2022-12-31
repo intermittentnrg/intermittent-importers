@@ -78,10 +78,15 @@ spec:
 	},
 	ieso: {
 	  stage('ieso-generation') {
-	      sh 'cd /app ; scripts/sincedb-ieso-generation.rb'
+	    sh 'cd /app ; scripts/sincedb-ieso-generation.rb'
 	  }
 	  stage('ieso-load') {
-	      sh 'cd /app ; scripts/sincedb-ieso-load.rb'
+	    sh 'cd /app ; scripts/sincedb-ieso-load.rb'
+	  }
+	},
+	opennem: {
+	  stage('opennem') {
+	    sh 'cd /app ; scripts/stream-opennem-latest.rb'
 	  }
 	}
 	  //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'

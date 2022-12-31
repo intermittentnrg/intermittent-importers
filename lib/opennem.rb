@@ -41,15 +41,10 @@ module Opennem
       "pumps" => "hydro_pumped_storage",
     }
   end
-  class Latest < Base
-    def initialize
-      @res = HTTParty.get("https://data.opennem.org.au/v3/clients/em/latest.json")
-    end
-  end
+
   class GenerationMonth < Base
     def initialize(country: nil, date: nil)
-      @logger = SemanticLogger[Generation]
-      @country = country
+      @logger = SemanticLogger[GenerationMonth]
       network, region = country.split(/-/)
       query = {
         month: date.strftime('%Y-%m-%d')
@@ -77,9 +72,12 @@ module Opennem
       r = []
       @res['data'].each do |blob|
         next if blob['type'] == 'price'
+        next if blob['code'].include? '>'
         raise blob['units'] unless blob['units'] == 'MW'
+        country = "#{blob['network']}-#{blob['region']}".upcase
         type = FUEL_MAP[blob['fuel_tech']]
         raise blob['fuel_tech'] if type.nil?
+
         start = DateTime.strptime(blob['history']['start'], '%Y-%m-%dT%H:%M:%S%:z')
         interval = parse_interval(blob['history']['interval'])
 
@@ -93,14 +91,22 @@ module Opennem
           r << {
             time: time,
             production_type: type,
-            country: @country,
+            country: country,
             value: value.to_f
           }
         end
       end
 
+      #require 'pry' ; binding.pry
       @logger.info("#{r.length} points")
       r
+    end
+  end
+
+  class Latest < GenerationMonth
+    def initialize
+      @logger = SemanticLogger[Latest]
+      @res = HTTParty.get("https://data.opennem.org.au/v3/clients/em/latest.json")
     end
   end
 end
