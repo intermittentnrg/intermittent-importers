@@ -1,3 +1,22 @@
+if (BRANCH_NAME == "production") {
+  pipelineJob("intermittency-copydb") {
+    definition {
+      cpsScm {
+	scm {
+	  git {
+	    remote {
+	      url('git@git-server:intermittency.git')
+	      credentials('gitolite-jenkins')
+	    }
+	    branches(BRANCH_NAME)
+	    scriptPath('Jenkinsfile.copydb')
+	  }
+	}
+      }
+    }
+  }
+}
+
 pipelineJob("intermittency-${BRANCH_NAME}-refresh") {
   if (BRANCH_NAME == "master" || BRANCH_NAME == "production") {
     properties {

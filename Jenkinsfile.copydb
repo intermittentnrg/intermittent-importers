@@ -1,0 +1,21 @@
+podTemplate(yaml: """
+kind: Pod
+spec:
+  containers:
+    - name: app
+      image: docker-registry:5000/intermittency:${env.TAG}
+      command: ['/bin/cat']
+      tty: true
+      envFrom:
+        - secretRef:
+            name: intermittency-${env.BRANCH_NAME}
+"""
+) {
+  node(POD_LABEL) {
+    container('app') {
+      stage('copydb') {
+        sh "make pgdump pgrestore"
+      }
+    }
+  }
+}
