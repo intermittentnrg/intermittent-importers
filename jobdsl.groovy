@@ -1,5 +1,6 @@
-if (BRANCH_NAME == "production") {
+if (BRANCH_NAME == "master") {
   pipelineJob("intermittency-copydb") {
+    environmentVariables(TAG: TAG, BRANCH_NAME: BRANCH_NAME)
     definition {
       cpsScm {
 	scm {

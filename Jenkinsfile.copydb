@@ -14,7 +14,7 @@ spec:
   node(POD_LABEL) {
     container('app') {
       stage('copydb') {
-        sh "make pgdump pgrestore"
+        sh 'cd /app ; make pgdump pgrestore'
       }
     }
   }
