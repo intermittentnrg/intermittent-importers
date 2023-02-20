@@ -33,7 +33,7 @@ class ENTSOE
 
     def fetch
       res = HTTParty.get(
-        'https://transparency.entsoe.eu/api',
+        'https://web-api.tp.entsoe.eu/api',
         query: @options,
         read_timeout: 120,
         #debug_output: $stdout
