@@ -58,7 +58,7 @@ class ENTSOE
         #unless ts.elements.to_a('inBiddingZone_Domain.mRID').first
         #  require 'pry' ; binding.pry
         #end
-        start = DateTime.strptime(ts.elements.to_a('Period/timeInterval/start').first.text, '%Y-%m-%dT%H:%M%z')
+        start = Time.strptime(ts.elements.to_a('Period/timeInterval/start').first.text, '%Y-%m-%dT%H:%M%z')
         #2020-12-31T23:00Z
         resolution = ts.elements.to_a('Period/resolution').first.text.match(/^PT(\d+)M$/) { |m| m[1].to_i }
 

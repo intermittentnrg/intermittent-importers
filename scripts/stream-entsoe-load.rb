@@ -1,11 +1,7 @@
 #!/usr/bin/env ruby
-# coding: utf-8
 require './lib/init'
 require './lib/activerecord-connect'
-
-SemanticLogger.default_level = :trace
-SemanticLogger.add_appender(io: $stderr, formatter: :color)
-logger = SemanticLogger['stream-load.rb']
+logger = SemanticLogger['stream-entsoe-load.rb']
 
 if ARGV.length < 2
   $stderr.puts "#{$0} <from> <to> [country ...]"

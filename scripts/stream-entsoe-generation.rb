@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
-# coding: utf-8
 require './lib/init'
 require './lib/activerecord-connect'
+logger = SemanticLogger['stream-entsoe-generation.rb']
 
 if ARGV.length < 2
   $stderr.puts "#{$0} <from> <to> [country ...]"
@@ -26,6 +26,21 @@ to = ARGV.shift
     p.delete :production_type
     #p[:updated_at] = p[:created_at]
   end
+
+  #Generation.where(time: from..to).where(area_id: area_id)
+  rows=Generation.where(time: from...to).where(area_id: area_id).order(:time, :production_type_id)
+  rows=rows.map { |r| r=r.attributes ; r.delete("created_at") ; r.delete("updated_at") ; r.symbolize_keys }
+
+  diff = points-rows
+  if diff
+    diff.each do |d|
+      logger.warn "new or updated", event: {duration: Time.now-d[:time]}, generation: d
+    end
+  end
+  #points-rows # NEW & UPDATED ROWS
+  #rows-points # OLD BAD VALUES
+  #require 'pry' ; binding.pry
+
   Generation.upsert_all points
 rescue
   puts $!
