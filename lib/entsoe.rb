@@ -147,6 +147,7 @@ class ENTSOE
     def points
       data = super
       data.each { |p| p.except!(:process_type, :production_type) }
+      data.select { |p| p[:value] < 800_000 }
       data
     end
   end
