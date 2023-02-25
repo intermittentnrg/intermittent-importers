@@ -1,4 +1,4 @@
-SHELL=/bin/bash
+SHELL=/bin/sh
 
 ifneq (,$(wildcard ./.env))
     include .env
