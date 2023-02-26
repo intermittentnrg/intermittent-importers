@@ -59,6 +59,9 @@ module Ieso
   end
 
   class GenerationMonth < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
+
     def initialize(date)
       @res = HTTParty.get(
         "http://reports.ieso.ca/public/GenOutputCapabilityMonth/PUB_GenOutputCapabilityMonth_#{date.strftime('%Y%m')}.csv",
@@ -68,7 +71,7 @@ module Ieso
     def fuel_sums
       fuel_sums = {}
       CSV.parse(@res.body, skip_lines: /^(\\|Delivery Date)/, headers: false) do |row|
-        date = DateTime.strptime(row.shift, '%Y-%m-%d')
+        date = Time.strptime(row.shift, '%Y-%m-%d')
         plant_name = row.shift
         type = FUEL_MAP[row.shift]
         measurement = row.shift
@@ -79,8 +82,8 @@ module Ieso
           next if value.nil?
           time = date + hour.to_i.hours
           time = TZ.local_to_utc(time)
-          out_sum[time] ||= 0.0
-          out_sum[time] += value.to_f
+          out_sum[time] ||= 0
+          out_sum[time] += value.to_i
         end
       end
       #require 'pry' ; binding.pry
@@ -88,6 +91,9 @@ module Ieso
     end
   end
   class Generation < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
+
     def initialize(date)
       @res = HTTParty.get(
         "http://reports.ieso.ca/public/GenOutputCapability/PUB_GenOutputCapability_#{date.strftime('%Y%m%d')}.xml",
@@ -96,7 +102,7 @@ module Ieso
     end
     def fuel_sums
       doc = @res.parsed_response["IMODocument"]["IMODocBody"]
-      date = DateTime.strptime(doc["Date"], '%Y-%m-%d')
+      date = Time.strptime(doc["Date"], '%Y-%m-%d')
       fuel_sums = {}
       doc["Generators"]["Generator"].each do |g|
         type = FUEL_MAP[g["FuelType"]]
@@ -104,8 +110,8 @@ module Ieso
         g["Outputs"]["Output"].each do |o|
           time = date + (o["Hour"].to_i - 1).hours
           time = TZ.local_to_utc(time)
-          out_sum[time] ||= 0.0
-          out_sum[time] += o["EnergyMW"].to_f
+          out_sum[time] ||= 0
+          out_sum[time] += o["EnergyMW"].to_i
         end
       end
 

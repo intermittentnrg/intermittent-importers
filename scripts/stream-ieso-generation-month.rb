@@ -10,19 +10,5 @@ end
 time = DateTime.parse ARGV.shift
 #to = DateTime.parse ARGV.shift
 
-areas = {}
-production_types = {}
-#(from...to).each do |time|
-  e = Ieso::GenerationMonth.new(time)
-
-  points = e.points
-  points.each do |p|
-    area_id = areas[p[:country]] ||= Area.where(source: Ieso::GenerationMonth.source_id, code: p[:country]).pluck(:id).first
-    p[:area_id] = area_id
-    p[:production_type_id] = (production_types[p[:production_type]] ||= ProductionType.where(name: p[:production_type]).pluck(:id).first)
-    p.delete :country
-  end
-  puts points
-  #require 'pry' ; binding.pry
-  Generation.upsert_all points
-#end
+e = Ieso::GenerationMonth.new(time)
+e.process
