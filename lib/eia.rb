@@ -96,8 +96,13 @@ module Eia
   end
 
   class Generation < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
+
     URL = "https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/"
     def initialize(country: nil, from: nil, to: nil)
+      @from = from
+      @to = to + 1.hour
       @logger = SemanticLogger[Generation]
       query = {
         api_key: ENV['EIA_TOKEN'],
@@ -119,10 +124,7 @@ module Eia
             #debug_output: $stdout
           )
         end
-        @logger.info "eia.gov query execution: #{res.parsed_response['response']['query execution']}"
-        @logger.info "eia.gov count query execution: #{res.parsed_response['response']['count query execution']}"
         @res << res
-        #require 'pry' ; binding.pry
         if query[:offset] + res.parsed_response['response']['data'].length >= res.parsed_response['response']['total']
           break
         end
@@ -139,7 +141,7 @@ module Eia
             @logger.warn "Null value #{row.inspect}"
             next
           end
-          time = DateTime.strptime(row['period'], '%Y-%m-%dT%H')
+          time = Time.strptime(row['period'], '%Y-%m-%dT%H')
           r << {
             time: time,
             country: row['respondent'],

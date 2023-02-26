@@ -1,3 +1,5 @@
+ENV['TZ'] = 'UTC'
+
 require 'bundler/setup'
 require 'dotenv/load'
 
