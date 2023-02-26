@@ -13,6 +13,8 @@ module Elexon
     end
 
     def initialize(date)
+      @from = date + 30.minutes
+      @to = date.tomorrow + 30.minutes
       @options = {}
       @options[:ServiceType] = 'xml'
       @options[:APIKey] = ENV['ELEXON_TOKEN']
@@ -30,6 +32,8 @@ module Elexon
   end
 
   class Generation < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
     def initialize(date)
       @report = 'B1620'
       super
@@ -37,7 +41,7 @@ module Elexon
     def points
       r = {}
       @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
-        time = DateTime.strptime(item['settlementDate'], '%Y-%m-%d') + (item['settlementPeriod'].to_i * 30).minutes
+        time = (Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes)
         production_type = item['powerSystemResourceType'].gsub(/"/,'').downcase.tr_s(' ', '_')
         key = "#{time}-#{production_type}"
         if r[key]

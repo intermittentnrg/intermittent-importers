@@ -18,6 +18,8 @@ class ENTSOE
 
     def initialize from: DateTime.now.beginning_of_day, to: DateTime.now.beginning_of_hour, psr_type: nil
       raise "#{from} == #{to}" if from==to
+      @from = from
+      @to = to
       @options = {
         #psrType: 'B16',
         #in_Domain: '10YCZ-CEPS-----N',
@@ -117,6 +119,9 @@ class ENTSOE
   #4.4.8. Aggregated Generation per Type [16.1.B&C]
   #GET /api?documentType=A75&processType=A16&psrType=B02&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Generation < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
+
     def initialize(country: nil, **kwargs)
       super(**kwargs)
       @country = country
