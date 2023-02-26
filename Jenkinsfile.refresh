@@ -30,67 +30,69 @@ spec:
 ) {
   node(POD_LABEL) {
     container('app') {
-      if (params.CMD) {
-        sh "cd /app ; ${params.CMD}"
-      } else {
-        parallel entsoe: {
-	  stage('entsoe-generation') {
-	   sh 'cd /app ; scripts/sincedb-entsoe-generation.rb'
-	  }
-	  stage('entsoe-load') {
-	    sh 'cd /app ; scripts/sincedb-entsoe-load.rb'
-	  }
-	  stage('entsoe-price') {
-	    sh 'cd /app ; scripts/sincedb-entsoe-price.rb'
-	  }
-	  stage('entsoe-transmission') {
-	    sh 'cd /app ; scripts/sincedb-entsoe-transmission.rb'
-	  }
-	  //sh 'cd /app ; scripts/sincedb-entsoe-windsolar.rb'
-	},
-	elexon: {
-	  stage('elexon-generation') {
-	    sh 'cd /app ; scripts/sincedb-elexon-generation.rb'
-	  }
-	  stage('elexon-load') {
-	    sh 'cd /app ; scripts/sincedb-elexon-load.rb'
-	  }
-	},
-	nordpool: {
-	  stage('nordpool-transmission') {
-	    sh 'cd /app ; scripts/sincedb-nordpool-transmission.rb'
-	    sh 'cd /app ; scripts/sincedb-nordpool-capacity.rb'
-	  }
-	  stage('nordpool-price') {
-	    sh 'cd /app ; scripts/sincedb-nordpool-price.rb'
-	    if (env.BRANCH_NAME == "master") {
-	      sh 'cd /app ; scripts/sincedb-nordpool-price-sek.rb'
+      logstash {
+	if (params.CMD) {
+	  sh "cd /app ; ${params.CMD}"
+	} else {
+	  parallel entsoe: {
+	    stage('entsoe-generation') {
+	     sh 'cd /app ; scripts/sincedb-entsoe-generation.rb'
+	    }
+	    stage('entsoe-load') {
+	      sh 'cd /app ; scripts/sincedb-entsoe-load.rb'
+	    }
+	    stage('entsoe-price') {
+	      sh 'cd /app ; scripts/sincedb-entsoe-price.rb'
+	    }
+	    stage('entsoe-transmission') {
+	      sh 'cd /app ; scripts/sincedb-entsoe-transmission.rb'
+	    }
+	    //sh 'cd /app ; scripts/sincedb-entsoe-windsolar.rb'
+	  },
+	  elexon: {
+	    stage('elexon-generation') {
+	      sh 'cd /app ; scripts/sincedb-elexon-generation.rb'
+	    }
+	    stage('elexon-load') {
+	      sh 'cd /app ; scripts/sincedb-elexon-load.rb'
+	    }
+	  },
+	  nordpool: {
+	    stage('nordpool-transmission') {
+	      sh 'cd /app ; scripts/sincedb-nordpool-transmission.rb'
+	      sh 'cd /app ; scripts/sincedb-nordpool-capacity.rb'
+	    }
+	    stage('nordpool-price') {
+	      sh 'cd /app ; scripts/sincedb-nordpool-price.rb'
+	      if (env.BRANCH_NAME == "master") {
+		sh 'cd /app ; scripts/sincedb-nordpool-price-sek.rb'
+	      }
+	    }
+	  },
+	  eia: {
+	    stage('eia-generation') {
+	      sh 'cd /app ; scripts/sincedb-eia-generation.rb'
+	    }
+	    stage('eia-load') {
+	      sh 'cd /app ; scripts/sincedb-eia-load.rb'
+	    }
+	  },
+	  ieso: {
+	    stage('ieso-generation') {
+	      sh 'cd /app ; scripts/sincedb-ieso-generation.rb'
+	    }
+	    stage('ieso-load') {
+	      sh 'cd /app ; scripts/sincedb-ieso-load.rb'
+	    }
+	  },
+	  opennem: {
+	    stage('opennem') {
+	      sh 'cd /app ; scripts/stream-opennem-latest.rb'
 	    }
 	  }
-	},
-	eia: {
-	  stage('eia-generation') {
-	    sh 'cd /app ; scripts/sincedb-eia-generation.rb'
-	  }
-	  stage('eia-load') {
-	    sh 'cd /app ; scripts/sincedb-eia-load.rb'
-	  }	
-	},
-	ieso: {
-	  stage('ieso-generation') {
-	    sh 'cd /app ; scripts/sincedb-ieso-generation.rb'
-	  }
-	  stage('ieso-load') {
-	    sh 'cd /app ; scripts/sincedb-ieso-load.rb'
-	  }
-	},
-	opennem: {
-	  stage('opennem') {
-	    sh 'cd /app ; scripts/stream-opennem-latest.rb'
-	  }
+	    //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'
+	    //sh 'cd /app ; scripts/sincedb-svk-controlroom.rb'
 	}
-	  //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'
-	  //sh 'cd /app ; scripts/sincedb-svk-controlroom.rb'
       }
     }
   }
