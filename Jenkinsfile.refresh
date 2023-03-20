@@ -26,6 +26,10 @@ spec:
       envFrom:
         - secretRef:
             name: intermittency-${env.BRANCH_NAME}
+      resources:
+        requests:
+          memory: "1Gi"
+          cpu: "1"
 """
 ) {
   node(POD_LABEL) {
