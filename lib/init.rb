@@ -5,7 +5,11 @@ require 'dotenv/load'
 
 require 'semantic_logger'
 SemanticLogger.default_level = :info
-SemanticLogger.add_appender(io: $stderr, formatter: :color)
+if ENV['CI']
+  SemanticLogger.add_appender(io: $stderr, formatter: :json)
+else
+  SemanticLogger.add_appender(io: $stderr, formatter: :color)
+end
 
 require 'date'
 require 'active_support'
