@@ -2,4 +2,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Pump.new(Ieso::Generation, Generation).run
+Pump::Process.new(Ieso::Generation, Generation).run

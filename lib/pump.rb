@@ -53,6 +53,17 @@ class Pump
   end
 end
 
+class Pump::Process < Pump
+  def run
+    parsers_each do |e|
+      e.process
+    rescue ENTSOE::EmptyError
+      raise if to < 1.day.ago # raise if within 24hrs
+      @@logger.warn "skipped missing data until #{to}"
+    end
+  end
+end
+
 class Pump::NordpoolPrice < Pump
   def parsers_each(&block)
     from = Price.joins(:area).group(:'area.code').where(area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)

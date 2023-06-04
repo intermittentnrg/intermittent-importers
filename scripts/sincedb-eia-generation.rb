@@ -2,4 +2,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Pump.new(Eia::Generation, Generation).run
+Pump::Process.new(Eia::Generation, Generation).run
