@@ -31,15 +31,17 @@ module Out
   end
   module Load
     def process
-      area_id = Area.where(source: self.class.source_id, code: @country).pluck(:id).first
+      #area_id = Area.where(source: self.class.source_id, code: @country).pluck(:id).first
+      areas = {}
       data = points
       logger.info "#{points.length} points"
       data.each do |p|
-        p[:area_id] = area_id
+        #p[:area_id] = area_id
+        p[:area_id] = (areas[p[:country]] ||= Area.where(source: self.class.source_id, code: p[:country]).pluck(:id).first) if p[:country]
         p.delete :country
       end
 
-      rows=::Load.where(time: @from...@to).where(area_id: area_id).order(:time)
+      rows=::Load.where(time: @from...@to).where(area_id: areas.values).order(:time)
       rows=rows.map { |r| r=r.attributes ; r.delete("created_at") ; r.delete("updated_at") ; r.symbolize_keys }
 
       diff = data-rows

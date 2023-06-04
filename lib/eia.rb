@@ -22,17 +22,21 @@ module Eia
 
         retries += 1
         raise if retries >= 5
-        @logger.warn "Retrying in 5: #{r.inspect}"
+        logger.warn "Retrying in 5: #{r.inspect}"
         sleep 5
       end
     end
   end
 
   class Load < Base
+    include SemanticLogger::Loggable
+    include Out::Load
+
     URL = "https://api.eia.gov/v2/electricity/rto/region-data/data/"
     QUERY_PARAMS = {}
     def initialize(country: nil, from: nil, to: nil)
-      @logger = SemanticLogger[Load]
+      @from = from
+      @to = to
       query = {
         api_key: ENV['EIA_TOKEN'],
         frequency: 'hourly',
@@ -43,10 +47,10 @@ module Eia
         'facets[type][]': 'D'
       }
       query['facets[respondent][]'] = country if country
-      @logger.info("from: #{query[:start]} to: #{query[:end]}")
+      logger.info("from: #{query[:start]} to: #{query[:end]}")
       @res = []
       loop do
-        res = @logger.benchmark_info(URL) do
+        res = logger.benchmark_info(URL) do
           httparty_retry do
             HTTParty.get(
               URL,
@@ -55,8 +59,8 @@ module Eia
             )
           end
         end
-        @logger.info "eia.gov query execution: #{res.parsed_response['response']['query execution']}"
-        @logger.info "eia.gov count query execution: #{res.parsed_response['response']['count query execution']}"
+        logger.info "eia.gov query execution: #{res.parsed_response['response']['query execution']}"
+        logger.info "eia.gov count query execution: #{res.parsed_response['response']['count query execution']}"
         @res << res
 
         if query[:offset] + res.parsed_response['response']['data'].length >= res.parsed_response['response']['total']
@@ -70,15 +74,15 @@ module Eia
       @res.each do |res|
         res.parsed_response['response']['data'].each do |row|
           if row['value'].nil?
-            @logger.warn "Null value #{row.inspect}"
+            logger.warn "Null value #{row.inspect}"
             next
           end
           if row['value'] < 0
-            @logger.warn("Negative load #{row.inspect}")
+            logger.warn("Negative load #{row.inspect}")
             next
           end
           if row['respondent'] == 'BANC' && row['value'] > 6000
-            @logger.warn("Ignoring load #{row['value']} from #{row['respondent']}")
+            logger.warn("Ignoring load #{row['value']} from #{row['respondent']}")
             next
           end
           time = DateTime.strptime(row['period'], '%Y-%m-%dT%H')
@@ -103,7 +107,6 @@ module Eia
     def initialize(country: nil, from: nil, to: nil)
       @from = from
       @to = to + 1.hour
-      @logger = SemanticLogger[Generation]
       query = {
         api_key: ENV['EIA_TOKEN'],
         frequency: 'hourly',
@@ -112,7 +115,7 @@ module Eia
         'data[]': 'value',
         #'facets[fueltype][]': '{}',
       }
-      @logger.info("from: #{query[:start]} to: #{query[:end]}")
+      logger.info("from: #{query[:start]} to: #{query[:end]}")
       query['facets[respondent][]'] = country if country
       query[:offset] = 0
       @res = []
@@ -138,7 +141,7 @@ module Eia
         res.parsed_response['response']['data'].each do |row|
           raise row['fueltype'] if FUEL_MAP[row['fueltype']].nil?
           if row['value'].nil?
-            @logger.warn "Null value #{row.inspect}"
+            logger.warn "Null value #{row.inspect}"
             next
           end
           time = Time.strptime(row['period'], '%Y-%m-%dT%H')
