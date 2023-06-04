@@ -40,23 +40,7 @@ module Opennem
       "battery_discharging" => "battery",
       "pumps" => "hydro_pumped_storage",
     }
-  end
 
-  class GenerationMonth < Base
-    def initialize(country: nil, date: nil)
-      @logger = SemanticLogger[GenerationMonth]
-      network, region = country.split(/-/)
-      query = {
-        month: date.strftime('%Y-%m-%d')
-      }
-      @logger.info("month: #{query[:month]}")
-      @res = HTTParty.get(
-        "https://api.opennem.org.au/stats/power/network/fueltech/#{network}/#{region}",
-        query: query,
-        timeout: 120,
-        #debug_output: $stdout
-      )
-    end
     def parse_interval(interval)
       case interval
       when "5m"
@@ -78,7 +62,7 @@ module Opennem
         type = FUEL_MAP[blob['fuel_tech']]
         raise blob['fuel_tech'] if type.nil?
 
-        start = DateTime.strptime(blob['history']['start'], '%Y-%m-%dT%H:%M:%S%:z')
+        start = Time.strptime(blob['history']['start'], '%Y-%m-%dT%H:%M:%S%:z')
         interval = parse_interval(blob['history']['interval'])
 
         #require 'pry' ; binding.pry
@@ -92,20 +76,42 @@ module Opennem
             time: time,
             production_type: type,
             country: country,
-            value: value.to_f
+            value: value.round
           }
         end
       end
 
       #require 'pry' ; binding.pry
-      @logger.info("#{r.length} points")
+      logger.info("#{r.length} points")
       r
     end
   end
 
-  class Latest < GenerationMonth
+  class GenerationMonth < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
+
+    def initialize(country: nil, date: nil)
+      @from = date
+      @to = date + 1.month
+      network, region = country.split(/-/)
+      query = {
+        month: date.strftime('%Y-%m-%d')
+      }
+      logger.info("month: #{query[:month]}")
+      @res = HTTParty.get(
+        "https://api.opennem.org.au/stats/power/network/fueltech/#{network}/#{region}",
+        query: query,
+        timeout: 180,
+        #debug_output: $stdout
+      )
+    end
+  end
+
+  class Latest < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
     def initialize
-      @logger = SemanticLogger[Latest]
       @res = HTTParty.get("https://data.opennem.org.au/v3/clients/em/latest.json")
     end
   end
