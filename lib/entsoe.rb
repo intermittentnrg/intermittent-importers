@@ -189,7 +189,7 @@ class ENTSOE
       @options[:documentType] = 'A11'
       @options[:out_Domain] = COUNTRIES[from_area.to_sym]
       @options[:in_Domain] = COUNTRIES[to_area.to_sym]
-      puts @options.inspect
+      #puts @options.inspect
       fetch
     end
 

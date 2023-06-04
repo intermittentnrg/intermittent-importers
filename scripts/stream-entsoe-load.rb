@@ -20,7 +20,6 @@ to = ARGV.shift
     p.delete :country
   end
   #require 'pry' ; binding.pry
-  puts points
   logger.info "#{points.length} points"
   Load.upsert_all points
 rescue

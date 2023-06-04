@@ -5,6 +5,7 @@ require 'dotenv/load'
 
 require 'semantic_logger'
 SemanticLogger.default_level = :info
+SemanticLogger.application = "intermittency"
 if ENV['CI']
   SemanticLogger.add_appender(io: $stderr, formatter: :json)
 else
