@@ -3,4 +3,4 @@ require './lib/init'
 require './lib/activerecord-connect'
 logger = SemanticLogger['sincedb-entsoe-load.rb']
 
-Pump.new(ENTSOE::Load, Load).run
+Pump::Process.new(ENTSOE::Load, Load).run

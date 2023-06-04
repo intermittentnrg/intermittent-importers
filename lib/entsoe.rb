@@ -140,6 +140,9 @@ class ENTSOE
   #4.1.1. Actual Total Load [6.1.A]
   #GET /api?documentType=A65&processType=A16&outBiddingZone_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Load < Base
+    include SemanticLogger::Loggable
+    include Out::Load
+
     def initialize(country:, **kwargs)
       super(**kwargs)
       @country = country
