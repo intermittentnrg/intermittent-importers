@@ -31,6 +31,9 @@ module Ieso
   end
 
   class Load
+    include SemanticLogger::Loggable
+    include Out::Load
+
     def self.source_id
       "ieso"
     end
@@ -43,9 +46,9 @@ module Ieso
     def points
       r = []
       CSV.parse(@res.body, skip_lines: /^(\\|Date)/, headers: false) do |row|
-        time = DateTime.strptime("#{row[0]} #{row[1]}", '%Y-%m-%d %H')
+        time = Time.strptime("#{row[0]} #{row[1]}", '%Y-%m-%d %H')
         time = Ieso::Base::TZ.local_to_utc(time)
-        value = row[3]
+        value = row[3].to_i
         r << {
           time: time,
           country: 'CA-ON',
