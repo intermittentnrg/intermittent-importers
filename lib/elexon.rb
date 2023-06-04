@@ -60,6 +60,9 @@ module Elexon
   end
 
   class Load < Base
+    include SemanticLogger::Loggable
+    include Out::Load
+
     def initialize(date)
       @report = 'B0610'
       super
@@ -67,7 +70,7 @@ module Elexon
     def points
       r = {}
       @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
-        time = DateTime.strptime(item['settlementDate'], '%Y-%m-%d') + (item['settlementPeriod'].to_i * 30).minutes
+        time = Time.strptime(item['settlementDate'], '%Y-%m-%d') + (item['settlementPeriod'].to_i * 30).minutes
         value = item['quantity'].to_i
         next if value < 10000
         if r[time]
