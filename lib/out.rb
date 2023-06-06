@@ -14,7 +14,7 @@ module Out
       end
 
       rows=::Generation.where(time: @from...@to).where(area_id: areas.values).order(:time, :production_type_id)
-      rows=rows.map { |r| r=r.attributes ; r.delete("created_at") ; r.delete("updated_at") ; r.symbolize_keys }
+      rows=rows.map { |r| r.attributes.symbolize_keys }
 
       diff = data-rows
       if diff
@@ -42,7 +42,7 @@ module Out
       end
 
       rows=::Load.where(time: @from...@to).where(area_id: areas.values).order(:time)
-      rows=rows.map { |r| r=r.attributes ; r.delete("created_at") ; r.delete("updated_at") ; r.symbolize_keys }
+      rows=rows.map { |r| r.attributes.symbolize_keys }
 
       diff = data-rows
       if diff
