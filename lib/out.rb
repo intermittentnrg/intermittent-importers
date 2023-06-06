@@ -52,7 +52,7 @@ module Out
       end
 
       #require 'pry' ; binding.pry
-      ::Load.upsert_all data
+      ::Load.upsert_all data if data.present?
     end
   end
 end
