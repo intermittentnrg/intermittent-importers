@@ -11,9 +11,10 @@ from = ARGV.shift
 to = ARGV.shift
 
 (ARGV.present? ? ARGV : ENTSOE::DOMAIN_MAPPINGS.keys).each do |country|
-  puts country
-  e = ENTSOE::Generation.new country: country, from: from, to: to
-  e.process
+  SemanticLogger.tagged(country: country) do
+    e = ENTSOE::Generation.new(country: country, from: from, to: to)
+    e.process
+  end
 rescue
   puts $!
   puts $!.backtrace
