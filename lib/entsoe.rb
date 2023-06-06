@@ -34,12 +34,14 @@ class ENTSOE
     end
 
     def fetch
-      res = HTTParty.get(
-        'https://web-api.tp.entsoe.eu/api',
-        query: @options,
-        read_timeout: 120,
-        #debug_output: $stdout
-      )
+      res = logger.benchmark_info('https://web-api.tp.entsoe.eu/api') do
+        HTTParty.get(
+          'https://web-api.tp.entsoe.eu/api',
+          query: @options,
+          read_timeout: 120,
+          #debug_output: $stdout
+        )
+      end
       #puts res.body
       @doc = REXML::Document.new res.body
 
