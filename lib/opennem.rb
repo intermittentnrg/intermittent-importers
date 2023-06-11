@@ -55,11 +55,17 @@ module Opennem
     def points
       r = []
       @res['data'].each do |blob|
-        next if blob['type'] == 'price'
+        next if blob['type'] == 'price' #FIXME ingest price data
+        next if blob['type'] == 'temperature'
+        next if blob['type'].starts_with? 'emissions'
         next if blob['code'].include? '>'
+        next if blob['code'] == 'demand' #FIXME ingest demand data
+        next if blob['code'] == 'imports' || blob['code'] == 'exports'
         raise blob['units'] unless blob['units'] == 'MW'
         country = "#{blob['network']}-#{blob['region']}".upcase
+        country = "WEM-WEM" if blob['network'] == 'WEM'
         type = FUEL_MAP[blob['fuel_tech']]
+        require 'pry' ; binding.pry if type.nil?
         raise blob['fuel_tech'] if type.nil?
 
         start = Time.strptime(blob['history']['start'], '%Y-%m-%dT%H:%M:%S%:z')
@@ -72,6 +78,7 @@ module Opennem
           if blob['fuel_tech'] == 'battery_charging' || blob['fuel_tech'] == 'pumps'
             value = -value
           end
+          next if value.nil?
           r << {
             time: time,
             production_type: type,
@@ -87,7 +94,7 @@ module Opennem
     end
   end
 
-  class GenerationMonth < Base
+  class Month < Base
     include SemanticLogger::Loggable
     include Out::Generation
 
@@ -98,13 +105,51 @@ module Opennem
       query = {
         month: date.strftime('%Y-%m-%d')
       }
-      logger.info("month: #{query[:month]}")
-      @res = HTTParty.get(
-        "https://api.opennem.org.au/stats/power/network/fueltech/#{network}/#{region}",
-        query: query,
-        timeout: 180,
-        #debug_output: $stdout
-      )
+      @res = logger.benchmark_info("https://api.opennem.org.au/stats/power/network/fueltech/#{network}/#{region}") do
+        HTTParty.get(
+          "https://api.opennem.org.au/stats/power/network/fueltech/#{network}/#{region}",
+          query: query,
+          timeout: 180,
+          #debug_output: $stdout
+        )
+      end
+    end
+  end
+
+
+  class Week < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
+
+    def initialize(country: nil, date: nil)
+      @from = date.beginning_of_week
+      @to = @from + 1.week
+      network, region = country.split(/-/)
+      url = "https://data.opennem.org.au/v3/stats/historic/weekly/#{network}/#{region}/year/#{date.strftime('%Y')}/week/#{date.strftime('%U').to_i + 1}.json"
+      @res = logger.benchmark_info(url) do
+        HTTParty.get(
+          url,
+          timeout: 180,
+          #debug_output: $stdout
+        )
+      end
+    end
+  end
+
+  class Year < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
+
+    def initialize(country: nil, date: nil)
+      network, region = country.split(/-/)
+      url = "https://data.opennem.org.au/v3/stats/au/#{network}/#{region}/energy/#{date.strftime('%Y')}.json"
+      @res = logger.benchmark_info(url) do
+        HTTParty.get(
+          url,
+          timeout: 180,
+          debug_output: $stdout
+        )
+      end
     end
   end
 
