@@ -13,17 +13,19 @@ module Out
         p.delete :process_type
       end
 
-      rows=::Generation.where(time: @from...@to).where(area_id: areas.values).order(:time, :production_type_id)
-      rows=rows.map { |r| r.attributes.symbolize_keys }
+      logger.benchmark_info("diff calculation") do
+        rows=::Generation.where(time: @from...@to).where(area_id: areas.values).order(:time, :production_type_id)
+        rows=rows.map { |r| r.attributes.symbolize_keys }
 
-      diff = data-rows
-      if diff
-        diff.each do |d|
-          logger.warn "new or updated", event: {duration: Time.now-d[:time]}, generation: d
+        diff = data-rows
+        if diff
+          diff.each do |d|
+            logger.warn "new or updated", event: {duration: Time.now-d[:time]}, generation: d
+          end
         end
+        #data-rows # NEW & UPDATED ROWS
+        #rows-data # OLD BAD VALUES
       end
-      #data-rows # NEW & UPDATED ROWS
-      #rows-data # OLD BAD VALUES
       #require 'pry' ; binding.pry
 
       ::Generation.upsert_all(data) if data.present?
