@@ -165,6 +165,8 @@ class ENTSOE
   #4.2.10. Day Ahead Prices [12.1.D]
   #GET /api?documentType=A44&in_Domain=10YCZ-CEPS-----N&out_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Price < Base
+    include SemanticLogger::Loggable
+
     def initialize(country:, **kwargs)
       super(**kwargs)
       @country = country
