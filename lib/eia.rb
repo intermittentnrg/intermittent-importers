@@ -95,7 +95,7 @@ module Eia
       end
       #require 'pry' ; binding.pry
 
-      r
+      r.select { |p| p[:value] < 800_000 }
     end
   end
 
