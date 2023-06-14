@@ -43,17 +43,20 @@ module Out
         p.delete :country
       end
 
-      rows=::Load.where(time: @from...@to).where(area_id: areas.values).order(:time)
-      rows=rows.map { |r| r.attributes.symbolize_keys }
+      logger.benchmark_info("diff calculation") do
+        rows=::Load.where(time: @from...@to).where(area_id: areas.values).order(:time)
+        rows=rows.map { |r| r.attributes.symbolize_keys }
 
-      diff = data-rows
-      if diff
-        diff.each do |d|
-          logger.warn "new or updated", event: {duration: Time.now-d[:time]}, load: d
+        diff = data-rows
+        if diff
+          diff.each do |d|
+            logger.warn "new or updated", event: {duration: Time.now-d[:time]}, load: d
+          end
         end
+
+        #require 'pry' ; binding.pry
       end
 
-      #require 'pry' ; binding.pry
       ::Load.upsert_all data if data.present?
     end
   end
