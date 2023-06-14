@@ -14,8 +14,7 @@ to = ARGV.shift
   SemanticLogger.tagged(country: country) do
     e = ENTSOE::Generation.new(country: country, from: from, to: to)
     e.process
+  rescue
+    logger.error "Exception processing #{country}", $!
   end
-rescue
-  puts $!
-  puts $!.backtrace
 end
