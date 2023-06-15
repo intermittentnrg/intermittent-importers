@@ -13,8 +13,11 @@ spec:
 ) {
   node(POD_LABEL) {
     container('app') {
-      stage('copydb') {
-        sh 'cd /app ; make pgdump pgrestore'
+      stage('pgdump') {
+        sh 'cd /app ; make pgdump'
+      }
+      stage('pgrestore') {
+        sh 'cd /app ; make pgrestore'
       }
     }
   }
