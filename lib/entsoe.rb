@@ -190,6 +190,8 @@ class ENTSOE
   #4.2.15. Physical Flows [12.1.G]
   #GET /api?documentType=A11&in_Domain=10YCZ-CEPS-----N&out_Domain=10YSK-SEPS-----K&periodStart=201512312300&periodEnd=201612312300
   class Transmission < Base
+    include SemanticLogger::Loggable
+
     def initialize(from_area:, to_area:, **kwargs)
       super(**kwargs)
       @from_area, @to_area = from_area, to_area
