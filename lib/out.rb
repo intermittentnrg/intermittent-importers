@@ -13,6 +13,7 @@ module Out
         p.delete :process_type
       end
 
+      raise if @from.nil? || @to.nil?
       logger.benchmark_info("diff calculation") do
         rows=::Generation.where(time: @from...@to).where(area_id: areas.values).order(:time, :production_type_id)
         rows=rows.map { |r| r.attributes.symbolize_keys }

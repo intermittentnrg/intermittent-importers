@@ -2,20 +2,28 @@ require 'httparty'
 
 class Ree
   class Generation
+    include SemanticLogger::Loggable
+    include Out::Generation
+
     TZ = TZInfo::Timezone.get('Atlantic/Canary')
     def self.source_id
       "ree"
     end
     def initialize(date)
+      @from = date - 6.hours
+      @to = date + 1.day
       @options = {}
       @options[:curva] = "LZ_FV5M"
       @options[:fecha] = date.strftime('%Y-%m-%d')
       @system = "Canarias"
-      @res = HTTParty.get(
-        "https://demanda.ree.es/WSvisionaMoviles#{@system}Rest/resources/demandaGeneracion#{@system}",
-        query: @options,
-        #debug_output: $stdout
-      )
+      url = "https://demanda.ree.es/WSvisionaMoviles#{@system}Rest/resources/demandaGeneracion#{@system}"
+      @res = logger.benchmark_info(url) do
+        HTTParty.get(
+          url,
+          query: @options,
+          #debug_output: $stdout
+        )
+      end
       #require 'pry' ; binding.pry
     end
     PRODUCTION_TYPES = {
@@ -29,7 +37,8 @@ class Ree
     }
     def points
       r = []
-      JSON.parse(@res.body.gsub(/^\w+\(|[^}]+$/,'\1'))["valoresHorariosGeneracion"].each do |row|
+      json = JSON.parse(@res.body.gsub(/^\w+\(|[^}]+$/,'\1'))
+      json["valoresHorariosGeneracion"].each do |row|
         leap = 0
         time = row.delete("ts")
         if time.include?('1A')

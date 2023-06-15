@@ -10,19 +10,7 @@ end
 from = DateTime.parse ARGV.shift
 to = DateTime.parse ARGV.shift
 
-areas = {}
-production_types = {}
 (from...to).each do |time|
   e = Ree::Generation.new(time)
-
-  points = e.points
-  points.each do |p|
-    area_id = areas[p[:country]] ||= Area.where(source: Ree::Generation.source_id, code: p[:country]).pluck(:id).first
-    p[:area_id] = area_id
-    p[:production_type_id] = (production_types[p[:production_type]] ||= ProductionType.where(name: p[:production_type]).pluck(:id).first)
-    p.delete :country
-  end
-  puts points
-  #require 'pry' ; binding.pry
-  Generation.upsert_all points
+  e.process
 end

@@ -73,6 +73,11 @@ spec:
           stage('opennem') {
             sh 'cd /app ; scripts/stream-opennem-latest.rb'
           }
+        },
+        ree: {
+          stage('ree') {
+            sh 'cd /app ; scripts/sincedb-ree-generation.rb'
+          }
         }
           //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'
           //sh 'cd /app ; scripts/sincedb-svk-controlroom.rb'

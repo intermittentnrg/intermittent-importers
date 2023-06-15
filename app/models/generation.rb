@@ -12,7 +12,7 @@ class Generation < ActiveRecord::Base
       SemanticLogger.tagged(country) do
         # support source per day and date-range
         #require 'pry' ; binding.pry
-        if source == Elexon::Generation || source == Ieso::Generation
+        if source == Elexon::Generation || source == Ieso::Generation || source == Ree::Generation
           (from..to).each do |date|
             yield source.new date
           end
