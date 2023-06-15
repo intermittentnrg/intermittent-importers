@@ -41,7 +41,7 @@ module Eia
         api_key: ENV['EIA_TOKEN'],
         frequency: 'hourly',
         start: from.strftime("%Y-%m-%d"),
-        end: to.strftime("%Y-%m-%d"),
+        end: (to - 1.hour).strftime("%Y-%m-%d"),
         offset: 0,
         'data[]': 'value',
         'facets[type][]': 'D'
@@ -85,7 +85,7 @@ module Eia
             logger.warn("Ignoring load #{row['value']} from #{row['respondent']}")
             next
           end
-          time = DateTime.strptime(row['period'], '%Y-%m-%dT%H')
+          time = Time.strptime(row['period'], '%Y-%m-%dT%H')
           r << {
             time: time,
             country: row['respondent'],
@@ -111,7 +111,7 @@ module Eia
         api_key: ENV['EIA_TOKEN'],
         frequency: 'hourly',
         start: from.strftime("%Y-%m-%d"),
-        end: to.strftime("%Y-%m-%d"),
+        end: (to - 1.hour).strftime("%Y-%m-%d"),
         'data[]': 'value',
         #'facets[fueltype][]': '{}',
       }
