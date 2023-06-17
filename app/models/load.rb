@@ -1,6 +1,4 @@
-require 'semantic_logger'
 require 'composite_primary_keys'
-require './lib/elexon'
 
 class Load < ActiveRecord::Base
   @@logger = SemanticLogger[Load]

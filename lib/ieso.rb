@@ -38,10 +38,16 @@ module Ieso
       "ieso"
     end
     def initialize(date)
-      @res = HTTParty.get(
-        "http://reports.ieso.ca/public/Demand/PUB_Demand_#{date.strftime('%Y')}.csv",
-        #debug_output: $stdout
-      )
+      @from = date.beginning_of_year
+      @to = date.end_of_year
+
+      url = "http://reports.ieso.ca/public/Demand/PUB_Demand_#{date.strftime('%Y')}.csv"
+      @res = logger.benchmark_info(url) do
+        HTTParty.get(
+          url,
+          #debug_output: $stdout
+        )
+      end
     end
     def points
       r = []
@@ -98,10 +104,16 @@ module Ieso
     include Out::Generation
 
     def initialize(date)
-      @res = HTTParty.get(
-        "http://reports.ieso.ca/public/GenOutputCapability/PUB_GenOutputCapability_#{date.strftime('%Y%m%d')}.xml",
-        #debug_output: $stdout
-      )
+      @from = date
+      @to = date + 1.day
+
+      url = "http://reports.ieso.ca/public/GenOutputCapability/PUB_GenOutputCapability_#{date.strftime('%Y%m%d')}.xml"
+      @res = logger.benchmark_info(url) do
+        HTTParty.get(
+          url,
+          #debug_output: $stdout
+        )
+      end
     end
     def fuel_sums
       doc = @res.parsed_response["IMODocument"]["IMODocBody"]

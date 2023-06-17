@@ -44,6 +44,7 @@ module Out
         p.delete :country
       end
 
+      raise if @from.nil? || @to.nil?
       logger.benchmark_info("diff calculation") do
         rows=::Load.where(time: @from...@to).where(area_id: areas.values).order(:time)
         rows=rows.map { |r| r.attributes.symbolize_keys }
