@@ -11,17 +11,23 @@ class Nordpool
       "nordpool"
     end
   end
+
   class Price < Base
+    include SemanticLogger::Loggable
+
     def initialize(date)
       @options = {}
       @options[:endDate] = date.strftime('%d-%m-%Y')
       @options[:currency] = ",#{self.class::CURRENCY},#{self.class::CURRENCY},EUR"
-      @res = HTTParty.get(
-        "https://www.nordpoolgroup.com/api/marketdata/page/29",
-        query: @options,
-        headers: {"User-Agent" => "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0"},
-        debug_output: $stdout
-      )
+      url = "https://www.nordpoolgroup.com/api/marketdata/page/29"
+      @res = logger.benchmark_info(url) do
+        HTTParty.get(
+          url,
+          query: @options,
+          headers: {"User-Agent" => "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0"},
+          #debug_output: $stdout
+        )
+      end
       #puts @res.body
       raise @res.body if @res.parsed_response["ExceptionMessage"]
     end
@@ -51,7 +57,10 @@ class Nordpool
       r
     end
   end
+
   class PriceSEK < Price
+    include SemanticLogger::Loggable
+
     CURRENCY = 'SEK'
     def self.source_id
       "nordpool_sek"
@@ -59,17 +68,21 @@ class Nordpool
   end
 
   class Transmission < Base
+    include SemanticLogger::Loggable
+
     URL = 'https://www.nordpoolgroup.com/api/marketdata/page/169'
     FIELD = :value
     def initialize(date)
       @options = {}
       @options[:endDate] = date.strftime('%d-%m-%Y')
-      @res = HTTParty.get(
-        self.class::URL,
-        query: @options,
-        headers: {"User-Agent" => "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0"},
-        #debug_output: $stdout
-      )
+      @res = logger.benchmark_info(self.class::URL) do
+        HTTParty.get(
+          self.class::URL,
+          query: @options,
+          headers: {"User-Agent" => "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0"},
+          #debug_output: $stdout
+        )
+      end
       #puts @res.body
       raise @res.body if @res.parsed_response["ExceptionMessage"]
     end
@@ -101,11 +114,17 @@ class Nordpool
       r
     end
   end
+
   class Capacity < Transmission
+    include SemanticLogger::Loggable
+
     URL = "https://www.nordpoolgroup.com/api/marketdata/page/484060"
     FIELD = :capacity
   end
+
   class CapacityChart < Capacity
+    include SemanticLogger::Loggable
+
     URL = "https://www.nordpoolgroup.com/api/marketdata/chart/503617"
   end
 end
