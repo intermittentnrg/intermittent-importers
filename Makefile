@@ -38,7 +38,10 @@ psql2:
 pgdump:
 	pg_dump --clean --no-privileges -Fc -f intermittency.bak $(DUMPARGS) postgres
 
-TARGETDB=intermittency_prod
+TARGETDB=intermittency_prod_new
+createdb_copy:
+	createdb -T postgres $(TARGETDB)
+
 ## Restore db to $TARGETDB (intermittency_prod)
 pgrestore: pgrestore_import pgrestore_clean
 pgrestore_import:
@@ -71,6 +74,14 @@ pgrestore_clean:
 	GRANT SELECT ON TABLE intermittency.transmission TO intermittency_prod;
 
 	EOF
+
+.ONESHELL:
+pgrestore_swap:
+	psql --single-transaction $(TARGETDB) <<EOF
+	ALTER DATABASE intermittency_prod RENAME TO intermittency_prod_old;
+	ALTER DATABASE $(TARGETDB) RENAME TO intermittency_prod;
+	EOF
+
 #GRANTS for intermittency_prod
 #ALTER DATABASE intermittency_prod SET search_path = intermittency, public;
 
