@@ -36,7 +36,7 @@ psql2:
 
 ## Dump db to intermittency.bak
 pgdump:
-	pg_dump --no-privileges -Fc -f intermittency.bak postgres
+	pg_dump --clean --no-privileges -Fc -f intermittency.bak postgres
 
 TARGETDB=intermittency_prod
 ## Restore db to $TARGETDB (intermittency_prod)
@@ -45,7 +45,7 @@ pgrestore_import:
 	createdb $(TARGETDB)
 	psql $(TARGETDB) -c "ALTER EXTENSION timescaledb UPDATE;"
 	psql $(TARGETDB) -c "SELECT timescaledb_pre_restore();"
-	pg_restore -Fc -d $(TARGETDB) intermittency.bak
+	pg_restore --clean -Fc -d $(TARGETDB) intermittency.bak
 	psql $(TARGETDB) -c "SELECT timescaledb_post_restore();"
 
 .ONESHELL:
