@@ -1,5 +1,8 @@
 if (BRANCH_NAME == "master") {
   pipelineJob("intermittency-copydb") {
+    parameters {
+      stringParam('DUMPARGS', '')
+    }
     environmentVariables(TAG: TAG, BRANCH_NAME: BRANCH_NAME)
     definition {
       cpsScm {

@@ -36,7 +36,7 @@ psql2:
 
 ## Dump db to intermittency.bak
 pgdump:
-	pg_dump --clean --no-privileges -Fc -f intermittency.bak postgres
+	pg_dump --clean --no-privileges -Fc -f intermittency.bak $(DUMPARGS) postgres
 
 TARGETDB=intermittency_prod
 ## Restore db to $TARGETDB (intermittency_prod)
