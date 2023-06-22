@@ -31,6 +31,8 @@ module Elexon
           #debug_output: $stdout
         )
       end
+      error_type = @res.parsed_response['response']['responseMetadata']['errorType']
+      raise error_type if @res.parsed_response['response']['responseBody'].empty?
     end
   end
 
