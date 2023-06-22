@@ -23,11 +23,14 @@ module Elexon
       fetch
     end
     def fetch
-      @res = HTTParty.get(
-        "https://api.bmreports.com/BMRS/#{@report}/v1",
-        query: @options,
-        #debug_output: $stdout
-      )
+      url = "https://api.bmreports.com/BMRS/#{@report}/v1"
+      @res = logger.benchmark_info(url) do
+        HTTParty.get(
+          url,
+          query: @options,
+          #debug_output: $stdout
+        )
+      end
     end
   end
 
