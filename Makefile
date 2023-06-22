@@ -39,8 +39,14 @@ pgdump:
 	pg_dump --clean --no-privileges -Fc -f intermittency.bak $(DUMPARGS) postgres
 
 TARGETDB=intermittency_prod_new
+.ONESHELL:
 createdb_copy:
-	createdb -T postgres $(TARGETDB)
+	psql <<EOF
+	SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity
+	WHERE pg_stat_activity.datname = 'postgres' AND pid <> pg_backend_pid();
+
+	CREATE DATABASE $(TARGETDB) WITH TEMPLATE postgres OWNER postgres;
+	EOF
 
 ## Restore db to $TARGETDB (intermittency_prod)
 pgrestore: pgrestore_import pgrestore_clean
@@ -76,11 +82,16 @@ pgrestore_clean:
 	EOF
 
 .ONESHELL:
+## Rename intermittency_prod to _prod_old and swap in $(TARGETDB)
 pgrestore_swap:
-	psql --single-transaction $(TARGETDB) <<EOF
+	psql --single-transaction <<EOF
 	ALTER DATABASE intermittency_prod RENAME TO intermittency_prod_old;
 	ALTER DATABASE $(TARGETDB) RENAME TO intermittency_prod;
+	SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'intermittency_prod';
 	EOF
+
+pgrestore_deleteold:
+	dropdb intermittency_prod_old
 
 #GRANTS for intermittency_prod
 #ALTER DATABASE intermittency_prod SET search_path = intermittency, public;
