@@ -5,10 +5,12 @@ module Out
     end
 
     module ClassMethods
-      REFETCH = 0
+      def refetch
+        0
+      end
       def parsers_each
-         ::Generation.joins(:area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
-          from = from.to_datetime - self::REFETCH
+        ::Generation.joins(:area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+          from = from.to_datetime - refetch
           to = [from + 1.year, DateTime.now.beginning_of_hour].min
           SemanticLogger.tagged(country) do
             # support source per day and date-range
@@ -64,9 +66,12 @@ module Out
     end
 
     module ClassMethods
+      def refetch
+        0
+      end
       def parsers_each
         ::Load.joins(:area).group(:'area.code').where("time > ?", 12.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
-          from = from.to_datetime
+          from = from.to_datetime - refetch
           to = [from + 1.year, DateTime.now.beginning_of_hour].min
           SemanticLogger.tagged(country) do
             # support source per day and date-range
@@ -244,7 +249,13 @@ module Out
     module ClassMethods
       #The available trading capacities for the next day are published on Nord Pools website at 10:00 CET
       def parsers_each(&block)
-        from = Transmission.joins(:from_area).group(:'from_area.code').where('capacity IS NOT NULL').where(:'from_area.enabled' => true).where(from_area: {source: @source.source_id}).where("time > '2022-10-05'").pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
+        from = ::Transmission.joins(:from_area) \
+                 .group(:'from_area.code') \
+                 .where('capacity IS NOT NULL') \
+                 .where(:'from_area.enabled' => true) \
+                 .where(from_area: {source: self.source_id}) \
+                 .where("time > '2022-10-05'") \
+                 .pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
         #require 'pry' ; binding.pry
         from ||= Date.parse("2021-10-01")
         to = 2.days.from_now
