@@ -10,7 +10,7 @@ end
 from = ARGV.shift
 to = ARGV.shift
 
-(ARGV.present? ? ARGV : ENTSOE::DOMAIN_MAPPINGS.keys).each do |country|
+(ARGV.present? ? ARGV : ENTSOE::COUNTRIES.keys).each do |country|
   SemanticLogger.tagged(country: country) do
     e = ENTSOE::Generation.new(country: country, from: from, to: to)
     e.process

@@ -2,4 +2,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Pump::NordpoolPrice.new(Nordpool::Price, Price).run
+Pump::Process.new(Nordpool::Price, Price).run

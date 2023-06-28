@@ -16,7 +16,7 @@ class Pump
   end
 
   def parsers_each(&block)
-    @out_model.parsers_each(@source, &block)
+    @source.parsers_each(&block)
   end
 
   def run
@@ -60,42 +60,6 @@ class Pump::Process < Pump
     rescue ENTSOE::EmptyError
       raise if to < 1.day.ago # raise if within 24hrs
       @@logger.warn "skipped missing data until #{to}"
-    end
-  end
-end
-
-class Pump::NordpoolPrice < Pump
-  def parsers_each(&block)
-    from = Price.joins(:area).group(:'area.code').where(area: {source: @source.source_id}).pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
-    from ||= Date.parse("2021-10-01")
-    to = 2.days.from_now
-    #require 'pry' ; binding.pry
-    (from..to).each do |date|
-      yield @source.new date
-    end
-  end
-end
-class Pump::NordpoolTransmission < Pump
-  def parsers_each(&block)
-    from = Transmission.joins(:from_area).group(:'from_area.code').where('value IS NOT NULL').where(from_area: {source: @source.source_id}).where("time > '2022-10-05'").pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
-    from ||= Date.parse("2021-10-01")
-    to = 2.days.from_now
-    (from..to).each do |date|
-      #require 'pry' ; binding.pry
-      yield Nordpool::Transmission.new(date)
-    end
-  end
-end
-class Pump::NordpoolCapacity < Pump
-  #The available trading capacities for the next day are published on Nord Pools website at 10:00 CET
-  def parsers_each(&block)
-    from = Transmission.joins(:from_area).group(:'from_area.code').where('capacity IS NOT NULL').where(:'from_area.enabled' => true).where(from_area: {source: @source.source_id}).where("time > '2022-10-05'").pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
-    #require 'pry' ; binding.pry
-    from ||= Date.parse("2021-10-01")
-    to = 2.days.from_now
-    (from..to).each do |date|
-      #require 'pry' ; binding.pry
-      yield Nordpool::Capacity.new(date)
     end
   end
 end

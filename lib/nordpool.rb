@@ -14,8 +14,21 @@ class Nordpool
 
   class Price < Base
     include SemanticLogger::Loggable
+    include Out::Price
+
+    def self.parsers_each(&block)
+      from = ::Price.joins(:area).group(:'area.code').where(area: {source: self.source_id}).pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
+      from ||= Date.parse("2021-10-01")
+      to = 2.days.from_now
+      #require 'pry' ; binding.pry
+      (from..to).each do |date|
+        yield self.new date
+      end
+    end
 
     def initialize(date)
+      @from = TZ.local_to_utc(date)
+      @to = @from + 1.day
       @options = {}
       @options[:endDate] = date.strftime('%d-%m-%Y')
       @options[:currency] = ",#{self.class::CURRENCY},#{self.class::CURRENCY},EUR"
@@ -37,7 +50,7 @@ class Nordpool
       #require 'pry' ; binding.pry
       leap=0
       rows.each do |row|
-        time = DateTime.strptime row["StartTime"], '%Y-%m-%dT%H:%M:%S'
+        time = Time.strptime row["StartTime"], '%Y-%m-%dT%H:%M:%S'
         begin
           time = TZ.local_to_utc(time) { |periods| periods[leap].tap { leap += 1 } }
         rescue TZInfo::PeriodNotFound
@@ -69,10 +82,23 @@ class Nordpool
 
   class Transmission < Base
     include SemanticLogger::Loggable
+    include Out::Transmission
+
+    def self.parsers_each(&block)
+      from = ::Transmission.joins(:from_area).group(:'from_area.code').where('value IS NOT NULL').where(from_area: {source: self.source_id}).where("time > '2022-10-05'").pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
+      from ||= Date.parse("2021-10-01")
+      to = 2.days.from_now
+      (from..to).each do |date|
+        #require 'pry' ; binding.pry
+        yield Nordpool::Transmission.new(date)
+      end
+    end
 
     URL = 'https://www.nordpoolgroup.com/api/marketdata/page/169'
     FIELD = :value
     def initialize(date)
+      @from = TZ.local_to_utc(date)
+      @to = @from + 1.day
       @options = {}
       @options[:endDate] = date.strftime('%d-%m-%Y')
       @res = logger.benchmark_info(self.class::URL) do
@@ -91,7 +117,7 @@ class Nordpool
       rows = @res.parsed_response["data"]["Rows"].filter { |row| !row["IsNtcRow"] && !row["IsExtraRow"] }
       leap=0
       rows.each do |row|
-        time = DateTime.strptime row["StartTime"], '%Y-%m-%dT%H:%M:%S'
+        time = Time.strptime row["StartTime"], '%Y-%m-%dT%H:%M:%S'
         begin
           time = TZ.local_to_utc(time) { |periods| periods[leap].tap { leap += 1 } }
         rescue TZInfo::PeriodNotFound
@@ -117,6 +143,7 @@ class Nordpool
 
   class Capacity < Transmission
     include SemanticLogger::Loggable
+    include Out::Capacity
 
     URL = "https://www.nordpoolgroup.com/api/marketdata/page/484060"
     FIELD = :capacity

@@ -48,7 +48,7 @@ class Ree
           leap = 1
           time.gsub!(/1B/,'01')
         end
-        time = DateTime.strptime(time, '%Y-%m-%d %H:%M')
+        time = Time.strptime(time, '%Y-%m-%d %H:%M')
         time = TZ.local_to_utc(time) { |periods| periods[leap] }
 
         row.delete "dem"

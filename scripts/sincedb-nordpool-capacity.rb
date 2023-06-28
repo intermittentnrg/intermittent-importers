@@ -3,4 +3,4 @@ require './lib/init'
 require './lib/activerecord-connect'
 logger = SemanticLogger['sincedb-nordpool-capacity.rb']
 
-Pump::NordpoolCapacity.new(Nordpool::Capacity, Transmission).run
+Pump::Process.new(Nordpool::Capacity, Transmission).run

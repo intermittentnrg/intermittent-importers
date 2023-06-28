@@ -166,6 +166,7 @@ class ENTSOE
   #GET /api?documentType=A44&in_Domain=10YCZ-CEPS-----N&out_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Price < Base
     include SemanticLogger::Loggable
+    include Out::Price
 
     def initialize(country:, **kwargs)
       super(**kwargs)
@@ -191,6 +192,7 @@ class ENTSOE
   #GET /api?documentType=A11&in_Domain=10YCZ-CEPS-----N&out_Domain=10YSK-SEPS-----K&periodStart=201512312300&periodEnd=201612312300
   class Transmission < Base
     include SemanticLogger::Loggable
+    include Out::Transmission
 
     def initialize(from_area:, to_area:, **kwargs)
       super(**kwargs)

@@ -11,7 +11,7 @@ RSpec.describe Nordpool::Price do
   describe 'dst day 2021-10-31' do
     subject :e do
       VCR.use_cassette("nordpool_price_2021-10-31") do
-        Nordpool::Price.new(Date.parse("2021-10-31"))
+        Nordpool::Price.new(DateTime.parse("2021-10-31"))
       end
     end
     it { expect(points_se).to have(25).items }
@@ -30,7 +30,7 @@ RSpec.describe Nordpool::Transmission do
   describe 'regular day 2021-10-30' do
     subject :e do
       VCR.use_cassette("nordpool_2021-10-30") do
-        Nordpool::Transmission.new(Date.parse("2021-10-30"))
+        Nordpool::Transmission.new(DateTime.parse("2021-10-30"))
       end
     end
     it { expect(points_se).to have(24).items }
@@ -39,7 +39,7 @@ RSpec.describe Nordpool::Transmission do
   describe 'dst day 2021-10-31' do
     subject :e do
       VCR.use_cassette("nordpool_2021-10-31") do
-        Nordpool::Transmission.new(Date.parse("2021-10-31"))
+        Nordpool::Transmission.new(DateTime.parse("2021-10-31"))
       end
     end
     it { expect(points_se).to have(25).items }
@@ -48,7 +48,7 @@ RSpec.describe Nordpool::Transmission do
   describe 'dst day 2022-03-27' do
     subject :e do
       VCR.use_cassette("nordpool_2022-03-27") do
-        Nordpool::Transmission.new(Date.parse("2022-03-27"))
+        Nordpool::Transmission.new(DateTime.parse("2022-03-27"))
       end
     end
     it { expect(points_se).to have(23).items }

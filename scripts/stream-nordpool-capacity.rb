@@ -13,15 +13,5 @@ to = DateTime.parse ARGV.shift
 areas = {}
 (from...to).each do |time|
   e = Nordpool::Capacity.new(time)
-
-  points = e.points
-  points.each do |p|
-    p[:from_area_id] = areas[p[:from_area]] ||= Area.find_or_create_by(source: Nordpool::Capacity.source_id, code: p[:from_area]).id
-    p[:to_area_id] = areas[p[:to_area]] ||= Area.find_or_create_by(source: Nordpool::Capacity.source_id, code: p[:to_area]).id
-    p.delete :from_area
-    p.delete :to_area
-  end
-  puts points
-  #require 'pry' ; binding.pry
-  Transmission.upsert_all points
+  e.process
 end
