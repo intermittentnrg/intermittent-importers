@@ -15,6 +15,5 @@ to = ARGV.shift
   e = ENTSOE::Load.new country: country, from: from, to: to
   e.process
 rescue
-  puts $!
-  puts $!.backtrace
+  logger.error "Exception processing #{country}", $!
 end
