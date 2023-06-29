@@ -32,7 +32,7 @@ module Elexon
         )
       end
       error_type = @res.parsed_response['response']['responseMetadata']['errorType']
-      raise error_type if @res.parsed_response['response']['responseBody'].empty?
+      raise error_type if @res.parsed_response['response'].try(:[], 'responseBody').empty?
     end
   end
 

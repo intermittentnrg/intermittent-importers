@@ -38,6 +38,7 @@ class Ree
     def points
       r = []
       json = JSON.parse(@res.body.gsub(/^\w+\(|[^}]+$/,'\1'))
+      raise @res.body unless json["valoresHorariosGeneracion"]
       json["valoresHorariosGeneracion"].each do |row|
         leap = 0
         time = row.delete("ts")
