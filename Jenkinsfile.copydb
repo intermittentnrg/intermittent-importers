@@ -13,14 +13,17 @@ spec:
 ) {
   node(POD_LABEL) {
     container('app') {
-      stage('createdb_copy') {
-        sh 'cd /app ; make createdb_copy'
+      stage('pgdump') {
+        sh 'cd /app ; make pgdump'
+      }
+      stage('pgrestore_import') {
+        sh 'cd /app ; make pgrestore_import'
       }
       stage('pgrestore_clean') {
         sh 'cd /app ; make pgrestore_clean'
       }
       stage('pgrestore_swap') {
-        sh 'cd /app ; make pgrestore_swap'
+        sh 'cd /app ; make pgrestore_swap pgrestore_deleteold'
       }
     }
   }

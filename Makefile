@@ -48,7 +48,7 @@ createdb_copy:
 	CREATE DATABASE $(TARGETDB) WITH TEMPLATE postgres OWNER postgres;
 	EOF
 
-## Restore db to $TARGETDB (intermittency_prod)
+## Restore db to $TARGETDB
 pgrestore: pgrestore_import pgrestore_clean
 pgrestore_import:
 	createdb $(TARGETDB)
@@ -58,7 +58,7 @@ pgrestore_import:
 	psql $(TARGETDB) -c "SELECT timescaledb_post_restore();"
 
 .ONESHELL:
-## Clean $TARGETDB (intermittency_prod)
+## Clean $TARGETDB
 pgrestore_clean:
 	psql $(TARGETDB) <<EOF
 	DROP SCHEMA IF EXISTS telegraf CASCADE;
