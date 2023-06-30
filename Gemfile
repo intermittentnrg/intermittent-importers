@@ -8,9 +8,6 @@ gem 'fastest-csv'
 
 gem 'semantic_logger'
 
-# InfluxDB
-gem 'influxdb'
-
 # Timescaledb
 gem 'activerecord'
 gem 'pg', '>= 0.18', '< 2.0'

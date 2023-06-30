@@ -33,7 +33,6 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
-    influxdb (0.8.1)
     method_source (1.0.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
@@ -94,7 +93,6 @@ DEPENDENCIES
   dotenv
   fastest-csv
   httparty
-  influxdb
   oauth
   pg (>= 0.18, < 2.0)
   pry
@@ -108,4 +106,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   2.2.32
+   2.2.33

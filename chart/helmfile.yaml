@@ -3,15 +3,6 @@ repositories:
 - name: common
   url: https://library-charts.k8s-at-home.com
 releases:
-  - name: influxdb-preloaded
-    namespace: intermittency
-    chart: ./influxdb-preloaded
-    set:
-      - name: image.tag
-        value: {{ requiredEnv "TAG" }}
-    labels:
-      app: influxdb-preloaded
-
   - name: timescaledb
     namespace: monitoring
     chart: ./timescaledb
