@@ -13,6 +13,8 @@ gem 'activerecord'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'composite_primary_keys'
 
+gem 'pgsync'
+
 # Tweet screenshot
 gem 'selenium-webdriver'
 gem 'oauth'
