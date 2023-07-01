@@ -36,12 +36,12 @@ module Eia
     QUERY_PARAMS = {}
     def initialize(country: nil, from: nil, to: nil)
       @from = from
-      @to = to
+      @to = to + 1.hour
       query = {
         api_key: ENV['EIA_TOKEN'],
         frequency: 'hourly',
         start: from.strftime("%Y-%m-%d"),
-        end: (to - 1.hour).strftime("%Y-%m-%d"),
+        end: to.strftime("%Y-%m-%d"),
         offset: 0,
         'data[]': 'value',
         'facets[type][]': 'D'
@@ -111,7 +111,7 @@ module Eia
         api_key: ENV['EIA_TOKEN'],
         frequency: 'hourly',
         start: from.strftime("%Y-%m-%d"),
-        end: (to - 1.hour).strftime("%Y-%m-%d"),
+        end: to.strftime("%Y-%m-%d"),
         'data[]': 'value',
         #'facets[fueltype][]': '{}',
       }
