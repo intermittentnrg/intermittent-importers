@@ -155,7 +155,7 @@ module Eia
       end
       #require 'pry' ; binding.pry
 
-      r
+      r.select { |p| !(p[:production_type] == 'wind' && p[:value] > 10_000) }
     end
   end
 end
