@@ -84,7 +84,6 @@ class ENTSOE
     def point(p)
       {
         country: @country,
-        process_type: @process_type,
         production_type: @production_type,
         time: @time,
         value: p.elements.to_a('quantity').first.text.to_i

@@ -7,7 +7,6 @@ require 'active_support/core_ext'
 
 module Elexon
   class Base
-
     def self.source_id
       "elexon"
     end
@@ -36,9 +35,75 @@ module Elexon
     end
   end
 
+  class FuelInst < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
+
+    def initialize(from, to)
+      @from = from
+      @to = to
+      @report = 'FUELINST'
+      @options = {}
+      @options[:FromDateTime] = Time.parse(from).strftime('%Y-%m-%d %H:%M:%S')
+      @options[:ToDateTime] = Time.parse(to).strftime('%Y-%m-%d %H:%M:%S')
+      @options[:Period] = "*"
+      @options[:ServiceType] = 'xml'
+      @options[:APIKey] = ENV['ELEXON_TOKEN']
+      fetch
+    end
+    def points
+      r = {}
+      @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
+        time = (Time.strptime("#{item['startTimeOfHalfHrPeriod']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes)
+
+        r[time] = r2 = []
+        r2 << {
+          country: 'GB_fuelinst',
+          production_type: 'wind',
+          time: time,
+          value: item['wind'].to_f
+        }
+      end
+      #require 'pry' ; binding.pry
+
+      r.values.flatten
+    end
+  end
+
+  class WindSolar < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
+
+    def initialize(date)
+      @report = 'B1630'
+      super
+    end
+    def points
+      r = {}
+      @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
+        time = (Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes)
+        production_type = item['powerSystemResourceType'].gsub(/"/,'').downcase.tr_s(' ', '_')
+        key = "#{time}-#{production_type}"
+        if r[key]
+          next
+        end
+        r[key] = {
+          country: 'GB_B1630',
+          production_type: production_type,
+          time: time,
+          value: item['quantity'].to_f
+        }
+      end
+      #require 'pry' ; binding.pry
+
+      r.values
+    end
+  end
+
   class Generation < Base
     include SemanticLogger::Loggable
     include Out::Generation
+
     def initialize(date)
       @report = 'B1620'
       super
@@ -56,7 +121,7 @@ module Elexon
           country: 'GB',
           production_type: production_type,
           time: time,
-          value: item['quantity'].to_i
+          value: item['quantity'].to_f
         }
       end
 

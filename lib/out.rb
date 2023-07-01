@@ -28,8 +28,8 @@ module Out
     end
 
     def process
-      raise if @from.nil? || @to.nil?
       data = points
+      raise if @from.nil? || @to.nil?
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
       areas = {}
       production_types = {}
@@ -38,7 +38,6 @@ module Out
         p[:production_type_id] = (production_types[p[:production_type]] ||= ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
         p.delete :production_type
         p.delete :country
-        p.delete :process_type
       end
 
       logger.benchmark_info("diff calculation") do
