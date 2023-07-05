@@ -32,7 +32,7 @@ module Out
     end
     def process_generation
       data = points_generation
-      raise if @from.nil? || @to.nil?
+      raise unless @from && @to
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
       areas = {}
       production_types = {}
@@ -98,7 +98,7 @@ module Out
       process_load
     end
     def process_load
-      raise if @from.nil? || @to.nil?
+      raise unless @from && @to
       areas = {}
       data = points_load
       logger.info "#{data.length} points"
@@ -153,7 +153,7 @@ module Out
     end
 
     def process
-      raise if @from.nil? || @to.nil?
+      raise unless @from && @to
       areas = {}
       data = points
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
@@ -214,7 +214,7 @@ module Out
     end
 
     def process
-      raise if @from.nil? || @to.nil?
+      raise unless @from && @to
       areas = {}
       data = points
       #require 'pry' ;binding.pry
@@ -271,7 +271,7 @@ module Out
     end
 
     def process
-      raise if @from.nil? || @to.nil?
+      raise unless @from && @to
       areas = {}
       data = points
       #require 'pry' ;binding.pry
