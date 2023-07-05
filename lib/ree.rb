@@ -35,7 +35,7 @@ class Ree
       "fot" => "solar",
       "hid" => "hydro_pumped_storage"
     }
-    def points
+    def points_generation
       r = []
       json = JSON.parse(@res.body.gsub(/^\w+\(|[^}]+$/,'\1'))
       raise @res.body unless json["valoresHorariosGeneracion"]

@@ -137,8 +137,8 @@ class ENTSOE
       fetch
     end
 
-    def points
-      super.select { |p| !(p[:country] == :NO && p[:production_type] == 'wind_onshore' && p[:value] > 10_000) }
+    def points_generation
+      points.select { |p| !(p[:country] == :NO && p[:production_type] == 'wind_onshore' && p[:value] > 10_000) }
     end
   end
 
@@ -161,8 +161,8 @@ class ENTSOE
       @options[:outBiddingZone_Domain] = COUNTRIES[country.to_sym]
       fetch
     end
-    def points
-      data = super
+    def points_load
+      data = points
       data.each { |p| p.except!(:process_type, :production_type) }
       data.select { |p| p[:value] < 800_000 }
       data

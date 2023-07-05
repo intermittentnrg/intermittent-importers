@@ -51,7 +51,7 @@ module Elexon
       @options[:APIKey] = ENV['ELEXON_TOKEN']
       fetch
     end
-    def points
+    def points_generation
       r = {}
       @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
         time = (Time.strptime("#{item['startTimeOfHalfHrPeriod']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes)
@@ -108,7 +108,7 @@ module Elexon
       @report = 'B1620'
       super
     end
-    def points
+    def points_generation
       r = {}
       @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
         time = (Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes)
@@ -137,7 +137,7 @@ module Elexon
       @report = 'B0610'
       super
     end
-    def points
+    def points_load
       r = {}
       @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
         time = Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes

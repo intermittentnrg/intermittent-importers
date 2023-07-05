@@ -49,7 +49,7 @@ module Ieso
         )
       end
     end
-    def points
+    def points_load
       r = []
       CSV.parse(@res.body, skip_lines: /^(\\|Date)/, headers: false) do |row|
         time = Time.strptime("#{row[0]} #{row[1]}", '%Y-%m-%d %H')
@@ -98,6 +98,10 @@ module Ieso
       #require 'pry' ; binding.pry
       fuel_sums
     end
+
+    def points_generation
+      points
+    end
   end
   class Generation < Base
     include SemanticLogger::Loggable
@@ -132,6 +136,9 @@ module Ieso
 
       fuel_sums
     end
-      # TODO: capability, available capacity
+    def points_generation
+      points
+    end
+    # TODO: capability, available capacity
   end
 end

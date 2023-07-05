@@ -31,7 +31,8 @@ module Aeso
       "GAS" => :fossil_gas,
       "COAL" => :fossil_hard_coal
     }
-    def points
+
+    def points_generation
       r = []
       csv = FastestCSV.parse(@chunks[3])
       csv.each do |row|

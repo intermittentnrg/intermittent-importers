@@ -69,7 +69,7 @@ module Eia
         query[:offset] += res.parsed_response['response']['data'].length
       end
     end
-    def points
+    def points_load
       r = []
       @res.each do |res|
         res.parsed_response['response']['data'].each do |row|
@@ -135,7 +135,7 @@ module Eia
       end
     end
 
-    def points
+    def points_generation
       r = []
       @res.each do |res|
         res.parsed_response['response']['data'].each do |row|

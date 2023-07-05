@@ -35,7 +35,7 @@ module HydroQuebec
       "eolien" => :wind,
       "autres" => :biomass
     }
-    def points
+    def points_generation
       r=[]
       @json["details"].each do |row|
         time = Time.parse(row["date"])

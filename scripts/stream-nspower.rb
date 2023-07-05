@@ -3,5 +3,5 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-e = Nspower::Generation.new
+e = Nspower::Combined.new
 e.process

@@ -74,11 +74,8 @@ spec:
           stage('hydroquebec-generation') {
             sh 'cd /app ; scripts/stream-hydroquebec-generation.rb'
           }
-          stage('nspower-generation') {
-            sh 'cd /app ; scripts/stream-nspower-generation.rb'
-          }
-          stage('nspower-load') {
-            sh 'cd /app ; scripts/stream-nspower-load.rb'
+          stage('nspower-combined') {
+            sh 'cd /app ; scripts/stream-nspower.rb'
           }
         },
         opennem: {

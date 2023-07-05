@@ -7,77 +7,44 @@ module Nspower
     end
   end
 
-  class Generation < Base
+  class Combined < Base
     include SemanticLogger::Loggable
     include Out::Generation
-
-    def initialize
-      url = "https://www.nspower.ca/library/CurrentLoad/CurrentMix.json"
-      @res = logger.benchmark_info(url) do
-        HTTParty.get(
-          url,
-          query: {contentType: :csv},
-          #debug_output: $stdout
-        )
-      end
-
-      @from = Time.at(@res.first['datetime'][6...-5].to_i)
-      @to = Time.at(@res.last['datetime'][6...-5].to_i)
-      #require 'pry' ; binding.pry
-    end
-    MAPPINGS = {
-      "Solid Fuel" => :coal,
-      "HFO/Natural Gas" => :fossil_gas
-    }
-    def points
-      r = []
-      @res.each do |row|
-        time = Time.at(row.delete('datetime')[6...-5].to_i)
-        row.delete "Imports"
-        r << {
-          time: time,
-          country: 'CA-NS',
-          production_type: :fossil_hard_coal,
-          value: row.delete("Solid Fuel") + row.delete("CT's") + row.delete("LM 6000's")
-        }
-        row.each do |k,v|
-          production_type = MAPPINGS[k] || k.downcase
-          r << {
-            time: time,
-            country: 'CA-NS',
-            production_type: production_type,
-            value: v
-          }
-        end
-      end
-      #require 'pry' ; binding.pry
-
-      r
-    end
-  end
-
-  class Load < Base
-    include SemanticLogger::Loggable
     include Out::Load
 
     def initialize
-      url = "https://www.nspower.ca/library/CurrentLoad/CurrentLoad.json"
-      @res = logger.benchmark_info(url) do
+      load_url = "https://www.nspower.ca/library/CurrentLoad/CurrentLoad.json"
+      @load = logger.benchmark_info(load_url) do
         HTTParty.get(
-          url,
+          load_url,
           query: {contentType: :csv},
           #debug_output: $stdout
         )
       end
 
-      @from = Time.at(@res.first['datetime'][6...-5].to_i)
-      @to = Time.at(@res.last['datetime'][6...-5].to_i)
+      gen_url = "https://www.nspower.ca/library/CurrentLoad/CurrentMix.json"
+      @gen = logger.benchmark_info(gen_url) do
+        HTTParty.get(
+          gen_url,
+          query: {contentType: :csv},
+          #debug_output: $stdout
+        )
+      end
+
+      @from = Time.at(@load.first['datetime'][6...-5].to_i)
+      @to = Time.at(@load.last['datetime'][6...-5].to_i)
+      #require 'pry' ; binding.pry
     end
-    def points
-      r = []
-      @res.each do |row|
+    GEN_MAPPINGS = {
+      "Solid Fuel" => :coal,
+      "HFO/Natural Gas" => :fossil_gas
+    }
+
+    def points_load
+      @load_r = {}
+      @load.each do |row|
         time = Time.at(row.delete('datetime')[6...-5].to_i)
-        r << {
+        @load_r[time] = {
           time: time,
           country: 'CA-NS',
           value: row['Base Load']
@@ -85,7 +52,40 @@ module Nspower
       end
       #require 'pry' ; binding.pry
 
+      @load_r.values
+    end
+
+    def points_generation
+      r = []
+      @gen.each do |row|
+        time = Time.at(row.delete('datetime')[6...-5].to_i)
+
+        load = @load_r[time][:value]
+        row.delete "Imports"
+        r << {
+          time: time,
+          country: 'CA-NS',
+          production_type: :fossil_hard_coal,
+          value: load * (row.delete("Solid Fuel") + row.delete("CT's") + row.delete("LM 6000's")) / 100.0
+        }
+        row.each do |k,v|
+          production_type = GEN_MAPPINGS[k] || k.downcase
+          r << {
+            time: time,
+            country: 'CA-NS',
+            production_type: production_type,
+            value: load * v / 100.0
+          }
+        end
+      end
+      #require 'pry' ; binding.pry
+
       r
+    end
+
+    def process
+      process_load
+      process_generation
     end
   end
 end

@@ -28,7 +28,10 @@ module Out
     end
 
     def process
-      data = points
+      process_generation
+    end
+    def process_generation
+      data = points_generation
       raise if @from.nil? || @to.nil?
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
       areas = {}
@@ -92,9 +95,12 @@ module Out
     end
 
     def process
+      process_load
+    end
+    def process_load
       raise if @from.nil? || @to.nil?
       areas = {}
-      data = points
+      data = points_load
       logger.info "#{data.length} points"
       data.each do |p|
         p[:area_id] = (areas[p[:country]] ||= Area.where(source: self.class.source_id, code: p[:country]).pluck(:id).first) if p[:country]
@@ -111,7 +117,6 @@ module Out
             logger.warn "new or updated", event: {duration: Time.now-d[:time]}, load: d
           end
         end
-
         #require 'pry' ; binding.pry
       end
 
