@@ -95,7 +95,7 @@ module Out
       raise if @from.nil? || @to.nil?
       areas = {}
       data = points
-      logger.info "#{points.length} points"
+      logger.info "#{data.length} points"
       data.each do |p|
         p[:area_id] = (areas[p[:country]] ||= Area.where(source: self.class.source_id, code: p[:country]).pluck(:id).first) if p[:country]
         p.delete :country
