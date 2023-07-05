@@ -53,44 +53,66 @@ module Opennem
     end
 
     def points
-      r = []
+      return if @load_r
+
+      @load_r = []
+      @gen_r = []
       @res['data'].each do |blob|
         next if blob['type'] == 'price' #FIXME ingest price data
         next if blob['type'] == 'temperature'
         next if blob['type'].starts_with? 'emissions'
         next if blob['code'].include? '>'
-        next if blob['code'] == 'demand' #FIXME ingest demand data
         next if blob['code'] == 'imports' || blob['code'] == 'exports'
         raise blob['units'] unless blob['units'] == 'MW'
         country = "#{blob['network']}-#{blob['region']}".upcase
         country = "WEM-WEM" if blob['network'] == 'WEM'
-        type = FUEL_MAP[blob['fuel_tech']]
-        require 'pry' ; binding.pry if type.nil?
-        raise blob['fuel_tech'] if type.nil?
-
         start = Time.strptime(blob['history']['start'], '%Y-%m-%dT%H:%M:%S%:z')
         interval = parse_interval(blob['history']['interval'])
 
-        #require 'pry' ; binding.pry
-        blob['history']['data'].each_with_index do |value,index|
-          time = start + interval * index
-
-          if blob['fuel_tech'] == 'battery_charging' || blob['fuel_tech'] == 'pumps'
-            value = -value
+        if blob['code'] == 'demand'
+          blob['history']['data'].each_with_index do |value,index|
+            time = start + interval * index
+            @load_r << {
+              time: time,
+              country: country,
+              value: value
+            }
           end
-          next if value.nil?
-          r << {
-            time: time,
-            production_type: type,
-            country: country,
-            value: value.round
-          }
+        else
+          type = FUEL_MAP[blob['fuel_tech']]
+          require 'pry' ; binding.pry if type.nil?
+          raise blob['fuel_tech'] if type.nil?
+
+          blob['history']['data'].each_with_index do |value,index|
+            time = start + interval * index
+            next if value.nil?
+
+            if blob['fuel_tech'] == 'battery_charging' || blob['fuel_tech'] == 'pumps'
+              value = -value
+            end
+            @gen_r << {
+              time: time,
+              production_type: type,
+              country: country,
+              value: value.round
+            }
+          end
         end
       end
 
       #require 'pry' ; binding.pry
-      logger.info("#{r.length} points")
-      r
+    end
+    def points_load
+      points
+      logger.info("#{@load_r.length} points")
+
+      @load_r
+    end
+    def points_generation
+      points
+      logger.info("#{@gen_r.length} points")
+
+      @gen_r
     end
   end
 
@@ -105,9 +127,10 @@ module Opennem
       query = {
         month: date.strftime('%Y-%m-%d')
       }
-      @res = logger.benchmark_info("https://api.opennem.org.au/stats/power/network/fueltech/#{network}/#{region}") do
+      url = "https://api.opennem.org.au/stats/power/network/fueltech/#{network}/#{region}"
+      @res = logger.benchmark_info(url) do
         HTTParty.get(
-          "https://api.opennem.org.au/stats/power/network/fueltech/#{network}/#{region}",
+          url,
           query: query,
           timeout: 180,
           #debug_output: $stdout
@@ -115,7 +138,6 @@ module Opennem
       end
     end
   end
-
 
   class Week < Base
     include SemanticLogger::Loggable
@@ -157,7 +179,33 @@ module Opennem
     include SemanticLogger::Loggable
     include Out::Generation
     def initialize
-      @res = HTTParty.get("https://data.opennem.org.au/v3/clients/em/latest.json")
+      url = "https://data.opennem.org.au/v3/clients/em/latest.json"
+      @res = logger.benchmark_info(url) do
+        HTTParty.get(url)
+      end
+      @from = @res['data'][0]['history']['start']
+      @to = @res['data'][0]['history']['last']
+    end
+  end
+
+  # NOTE: Missing WEM-WEM data
+  class LatestWeek < Base
+    include SemanticLogger::Loggable
+    include Out::Load
+    include Out::Generation
+
+    def initialize(country)
+      network, region = country.split(/-/)
+      url = "https://data.opennem.org.au/v3/stats/au/#{network}/#{region}/power/7d.json"
+      @res = logger.benchmark_info(url) do
+        HTTParty.get(url)
+      end
+      @from = @res['data'][0]['history']['start']
+      @to = @res['data'][0]['history']['last']
+    end
+    def process
+      process_load
+      process_generation
     end
   end
 end
