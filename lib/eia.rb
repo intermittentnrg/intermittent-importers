@@ -120,12 +120,14 @@ module Eia
       query[:offset] = 0
       @res = []
       loop do
-        res = httparty_retry do
-          HTTParty.get(
-            URL,
-            query: query,
-            #debug_output: $stdout
-          )
+        res = logger.benchmark_info(URL) do
+          httparty_retry do
+            HTTParty.get(
+              URL,
+              query: query,
+              #debug_output: $stdout
+            )
+          end
         end
         @res << res
         if query[:offset] + res.parsed_response['response']['data'].length >= res.parsed_response['response']['total']
