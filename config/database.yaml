@@ -1,7 +1,9 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: 1
+  pool: 5
+  checkout_timeout: 30000
+  timeout: 5000
 
 development:
   <<: *default
