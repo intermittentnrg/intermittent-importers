@@ -5,7 +5,7 @@ gem 'httparty'
 gem 'activesupport'
 gem 'dotenv'
 gem 'fastest-csv'
-
+gem 'rake'
 gem 'semantic_logger'
 
 # Timescaledb
