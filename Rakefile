@@ -23,90 +23,46 @@ end
 
 load 'active_record/railties/databases.rake'
 
+def pump_task(name, source, model)
+  task name do
+    Pump::Process.new(source, model).run
+  rescue
+    logger.error "Exception", $!
+  end
+end
+
 multitask all: ["ieso:all", "iea:all", "elexon:all", "entsoe:all", "nordpool:all", :opennem, :ree, :aeso, :hydroquebec, :nspower]
 namespace :ieso do
   task all: [:generation, :load]
-  task :generation do
-    Pump::Process.new(Ieso::Generation, Generation).run
-  rescue
-    logger.error "Exception", $!
-  end
-  task :load do
-    Pump::Process.new(Ieso::Load, Load).run
-  rescue
-    logger.error "Exception", $!
-  end
+  pump_task :generation, Ieso::Generation, Generation
+  pump_task :load, Ieso::Load, Load
 end
 
 namespace :iea do
   task all: [:generation, :load]
-  task :generation do
-    Pump::Process.new(Eia::Generation, Generation).run
-  rescue
-    logger.error "Exception", $!
-  end
-  task :load do
-    Pump::Process.new(Eia::Load, Load).run
-  rescue
-    logger.error "Exception", $!
-  end
+  pump_task :generation, Eia::Generation, Generation
+  pump_task :load, Eia::Load, Load
 end
 
 namespace :elexon do
   task all: [:generation, :load]
-  task :generation do
-    Pump::Process.new(Elexon::Generation, Generation).run
-  rescue
-    logger.error "Exception", $!
-  end
-  task :load do
-    Pump::Process.new(Elexon::Load, Load).run
-  rescue
-    logger.error "Exception", $!
-  end
+  pump_task :generation, Elexon::Generation, Generation
+  pump_task :load, Elexon::Load, Load
 end
 
 namespace :entsoe do
   task all: [:generation, :load, :transmission, :price]
-  task :generation do
-    Pump::Process.new(ENTSOE::Generation, Generation).run
-  rescue
-    logger.error "Exception", $!
-  end
-  task :load do
-    Pump::Process.new(ENTSOE::Load, Load).run
-  rescue
-    logger.error "Exception", $!
-  end
-  task :transmission do
-    Pump::Process.new(ENTSOE::Transmission, Transmission).run
-  rescue
-    logger.error "Exception", $!
-  end
-  task :price do
-    Pump::Process.new(ENTSOE::Price, Price).run
-  rescue
-    logger.error "Exception", $!
-  end
+  pump_task :generation, ENTSOE::Generation, Generation
+  pump_task :load, ENTSOE::Load, Load
+  pump_task :transmission, ENTSOE::Transmission, Transmission
+  pump_task :price, ENTSOE::Price, Price
 end
 
 namespace :nordpool do
   task all: [:transmission, :capacity, :price]
-  task :transmission do
-    Pump::Process.new(Nordpool::Transmission, Transmission).run
-  rescue
-    logger.error "Exception", $!
-  end
-  task :capacity do
-    Pump::Process.new(Nordpool::Capacity, Transmission).run
-  rescue
-    logger.error "Exception", $!
-  end
-  task :price do
-    Pump::Process.new(Nordpool::Price, Price).run
-  rescue
-    logger.error "Exception", $!
-  end
+  pump_task :transmission, Nordpool::Transmission, Transmission
+  pump_task :capacity, Nordpool::Capacity, Transmission
+  pump_task :price, Nordpool::Price, Price
 end
 
 task :opennem do
@@ -115,11 +71,7 @@ rescue
   logger.error "Exception", $!
 end
 
-task :ree do
-  Pump::Process.new(Ree::Generation, Generation).run
-rescue
-  logger.error "Exception", $!
-end
+pump_task :ree, Ree::Generation, Generation
 
 task :aeso do
   Aeso::Generation.new.process
