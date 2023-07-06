@@ -28,9 +28,13 @@ namespace :ieso do
   task all: [:generation, :load]
   task :generation do
     Pump::Process.new(Ieso::Generation, Generation).run
+  rescue
+    logger.error "Exception", $!
   end
   task :load do
     Pump::Process.new(Ieso::Load, Load).run
+  rescue
+    logger.error "Exception", $!
   end
 end
 
@@ -38,9 +42,13 @@ namespace :iea do
   task all: [:generation, :load]
   task :generation do
     Pump::Process.new(Eia::Generation, Generation).run
+  rescue
+    logger.error "Exception", $!
   end
   task :load do
     Pump::Process.new(Eia::Load, Load).run
+  rescue
+    logger.error "Exception", $!
   end
 end
 
@@ -48,9 +56,13 @@ namespace :elexon do
   task all: [:generation, :load]
   task :generation do
     Pump::Process.new(Elexon::Generation, Generation).run
+  rescue
+    logger.error "Exception", $!
   end
   task :load do
     Pump::Process.new(Elexon::Load, Load).run
+  rescue
+    logger.error "Exception", $!
   end
 end
 
@@ -58,22 +70,34 @@ namespace :entsoe do
   task all: [:generation, :load, :transmission, :price]
   task :generation do
     Pump::Process.new(ENTSOE::Generation, Generation).run
+  rescue
+    logger.error "Exception", $!
   end
   task :load do
     Pump::Process.new(ENTSOE::Load, Load).run
+  rescue
+    logger.error "Exception", $!
   end
   task :transmission do
     Pump::Process.new(ENTSOE::Transmission, Transmission).run
+  rescue
+    logger.error "Exception", $!
   end
   task :price do
     Pump::Process.new(ENTSOE::Price, Price).run
+  rescue
+    logger.error "Exception", $!
   end
 end
 
 task :opennem do
   Opennem::Latest.new.process
+rescue
+  logger.error "Exception", $!
 end
 
 task :ree do
   Pump::Process.new(Ree::Generation, Generation).run
+rescue
+  logger.error "Exception", $!
 end
