@@ -10,7 +10,7 @@ gem 'semantic_logger'
 
 # Timescaledb
 gem 'activerecord'
-gem 'pg', '>= 0.18', '< 2.0'
+gem 'pg'
 gem 'composite_primary_keys'
 
 gem 'pgsync'

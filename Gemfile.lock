@@ -109,7 +109,7 @@ DEPENDENCIES
   fastest-csv
   httparty
   oauth
-  pg (>= 0.18, < 2.0)
+  pg
   pgsync
   pry
   rake
