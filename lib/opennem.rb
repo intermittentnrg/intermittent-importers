@@ -158,23 +158,6 @@ module Opennem
     end
   end
 
-  class Year < Base
-    include SemanticLogger::Loggable
-    include Out::Generation
-
-    def initialize(country: nil, date: nil)
-      network, region = country.split(/-/)
-      url = "https://data.opennem.org.au/v3/stats/au/#{network}/#{region}/energy/#{date.strftime('%Y')}.json"
-      @res = logger.benchmark_info(url) do
-        HTTParty.get(
-          url,
-          timeout: 180,
-          debug_output: $stdout
-        )
-      end
-    end
-  end
-
   class Latest < Base
     include SemanticLogger::Loggable
     include Out::Generation
