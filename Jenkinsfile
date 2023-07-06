@@ -44,7 +44,7 @@ spec:
       tty: true
       envFrom:
         - secretRef:
-            name: intermittency-${env.BRANCH_NAME}
+            name: intermittency-${env.BRANCH_NAME == 'production' ? 'production' : 'master'}
       resources:
         requests:
           cpu: "1"
