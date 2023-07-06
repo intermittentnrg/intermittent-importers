@@ -20,7 +20,7 @@ spec:
       logstash {
         parallel all: {
           stage('all') {
-            sh 'cd /app ; rake all'
+            sh 'cd /app ; bundle exec rake all'
           }
         },
         nordpool: {
