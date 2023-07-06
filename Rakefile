@@ -4,6 +4,7 @@ require './lib/activerecord-connect'
 #require 'erb'
 #require 'active_record'
 
+logger = SemanticLogger['Rakefile']
 
 db_dir = File.expand_path('../db', __FILE__)
 config_dir = File.expand_path('../config', __FILE__)
