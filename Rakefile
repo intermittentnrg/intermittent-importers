@@ -23,7 +23,7 @@ end
 
 load 'active_record/railties/databases.rake'
 
-multitask all: ["ieso:all", "iea:all", "elexon:all", "entsoe:all", "opennem", "ree"]
+multitask all: ["ieso:all", "iea:all", "elexon:all", "entsoe:all", "nordpool:all", :opennem, :ree, :aeso, :hydroquebec, :nspower]
 namespace :ieso do
   task all: [:generation, :load]
   task :generation do
@@ -90,6 +90,25 @@ namespace :entsoe do
   end
 end
 
+namespace :nordpool do
+  task all: [:transmission, :capacity, :price]
+  task :transmission do
+    Pump::Process.new(Nordpool::Transmission, Transmission).run
+  rescue
+    logger.error "Exception", $!
+  end
+  task :capacity do
+    Pump::Process.new(Nordpool::Capacity, Transmission).run
+  rescue
+    logger.error "Exception", $!
+  end
+  task :price do
+    Pump::Process.new(Nordpool::Price, Price).run
+  rescue
+    logger.error "Exception", $!
+  end
+end
+
 task :opennem do
   Opennem::Latest.new.process
 rescue
@@ -98,6 +117,24 @@ end
 
 task :ree do
   Pump::Process.new(Ree::Generation, Generation).run
+rescue
+  logger.error "Exception", $!
+end
+
+task :aeso do
+  Aeso::Generation.new.process
+rescue
+  logger.error "Exception", $!
+end
+
+task :hydroquebec do
+  HydroQuebec::Generation.new.process
+rescue
+  logger.error "Exception", $!
+end
+
+task :nspower do
+  Nspower::Combined.new.process
 rescue
   logger.error "Exception", $!
 end

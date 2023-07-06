@@ -24,30 +24,12 @@ spec:
           }
         },
         nordpool: {
-          stage('nordpool-transmission') {
-            sh 'cd /app ; scripts/sincedb-nordpool-transmission.rb'
-            sh 'cd /app ; scripts/sincedb-nordpool-capacity.rb'
-          }
-          stage('nordpool-price') {
-            sh 'cd /app ; scripts/sincedb-nordpool-price.rb'
-            if (env.BRANCH_NAME == "master") {
+          if (env.BRANCH_NAME == "master") {
+            stage('nordpool-price-sek') {
               sh 'cd /app ; scripts/sincedb-nordpool-price-sek.rb'
             }
           }
-        },
-        canada: {
-          stage('aeso-generation') {
-             sh 'cd /app ; scripts/stream-aeso-generation.rb'
-          }
-          stage('hydroquebec-generation') {
-            sh 'cd /app ; scripts/stream-hydroquebec-generation.rb'
-          }
-          stage('nspower-combined') {
-            sh 'cd /app ; scripts/stream-nspower.rb'
-          }
         }
-          //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'
-          //sh 'cd /app ; scripts/sincedb-svk-controlroom.rb'
       }
     }
   }
