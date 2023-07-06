@@ -37,8 +37,8 @@ module Out
       areas = {}
       production_types = {}
       data.each do |p|
-        p[:area_id] = (areas[p[:country]] ||= Area.where(source: self.class.source_id, code: p[:country]).pluck(:id).first) if p[:country]
-        p[:production_type_id] = (production_types[p[:production_type]] ||= ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
+        p[:area_id] = (areas[p[:country]] ||= ::Area.where(source: self.class.source_id, code: p[:country]).pluck(:id).first) if p[:country]
+        p[:production_type_id] = (production_types[p[:production_type]] ||= ::ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
         p.delete :production_type
         p.delete :country
       end
@@ -103,7 +103,7 @@ module Out
       data = points_load
       logger.info "#{data.length} points"
       data.each do |p|
-        p[:area_id] = (areas[p[:country]] ||= Area.where(source: self.class.source_id, code: p[:country]).pluck(:id).first) if p[:country]
+        p[:area_id] = (areas[p[:country]] ||= ::Area.where(source: self.class.source_id, code: p[:country]).pluck(:id).first) if p[:country]
         p.delete :country
       end
 
@@ -159,7 +159,7 @@ module Out
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
 
       data.each do |p|
-        p[:area_id] = (areas[p[:country]] ||= Area.where(source: self.class.source_id, code: p[:country]).pluck(:id).first) if p[:country]
+        p[:area_id] = (areas[p[:country]] ||= ::Area.where(source: self.class.source_id, code: p[:country]).pluck(:id).first) if p[:country]
         p.delete :country
       end
 
@@ -221,8 +221,8 @@ module Out
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
 
       data.each do |p|
-        p[:from_area_id] = (areas[p[:from_area]] ||= Area.where(source: self.class.source_id, code: p[:from_area]).pluck(:id).first)
-        p[:to_area_id] = (areas[p[:to_area]] ||= Area.where(source: self.class.source_id, code: p[:to_area]).pluck(:id).first)
+        p[:from_area_id] = (areas[p[:from_area]] ||= ::Area.where(source: self.class.source_id, code: p[:from_area]).pluck(:id).first)
+        p[:to_area_id] = (areas[p[:to_area]] ||= ::Area.where(source: self.class.source_id, code: p[:to_area]).pluck(:id).first)
         p.delete :from_area
         p.delete :to_area
       end
@@ -278,8 +278,8 @@ module Out
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
 
       data.each do |p|
-        p[:from_area_id] = (areas[p[:from_area]] ||= Area.where(source: self.class.source_id, code: p[:from_area]).pluck(:id).first)
-        p[:to_area_id] = (areas[p[:to_area]] ||= Area.where(source: self.class.source_id, code: p[:to_area]).pluck(:id).first)
+        p[:from_area_id] = (areas[p[:from_area]] ||= ::Area.where(source: self.class.source_id, code: p[:from_area]).pluck(:id).first)
+        p[:to_area_id] = (areas[p[:to_area]] ||= ::Area.where(source: self.class.source_id, code: p[:to_area]).pluck(:id).first)
         p.delete :from_area
         p.delete :to_area
       end
