@@ -12,7 +12,7 @@ config_dir = File.expand_path('../config', __FILE__)
 include ActiveRecord::Tasks
 DatabaseTasks.env = ENV['ENV'] || 'development'
 DatabaseTasks.db_dir = db_dir
-DatabaseTasks.database_configuration = YAML.load(ERB.new(File.read(File.join(config_dir, 'database.yaml'))).result)
+DatabaseTasks.database_configuration = YAML.unsafe_load(ERB.new(File.read(File.join(config_dir, 'database.yaml'))).result)
 DatabaseTasks.migrations_paths = File.join(db_dir, 'migrate')
 
 task :environment do
