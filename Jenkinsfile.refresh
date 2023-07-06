@@ -18,27 +18,9 @@ spec:
   node(POD_LABEL) {
     container('app') {
       logstash {
-        parallel entsoe: {
-          stage('entsoe-generation') {
-           sh 'cd /app ; scripts/sincedb-entsoe-generation.rb'
-          }
-          stage('entsoe-load') {
-            sh 'cd /app ; scripts/sincedb-entsoe-load.rb'
-          }
-          stage('entsoe-price') {
-            sh 'cd /app ; scripts/sincedb-entsoe-price.rb'
-          }
-          stage('entsoe-transmission') {
-            sh 'cd /app ; scripts/sincedb-entsoe-transmission.rb'
-          }
-          //sh 'cd /app ; scripts/sincedb-entsoe-windsolar.rb'
-        },
-        elexon: {
-          stage('elexon-generation') {
-            sh 'cd /app ; scripts/sincedb-elexon-generation.rb'
-          }
-          stage('elexon-load') {
-            sh 'cd /app ; scripts/sincedb-elexon-load.rb'
+        parallel all: {
+          stage('all') {
+            sh 'cd /app ; rake all'
           }
         },
         nordpool: {
@@ -53,21 +35,7 @@ spec:
             }
           }
         },
-        eia: {
-          stage('eia-generation') {
-            sh 'cd /app ; scripts/sincedb-eia-generation.rb'
-          }
-          stage('eia-load') {
-            sh 'cd /app ; scripts/sincedb-eia-load.rb'
-          }
-        },
         canada: {
-          stage('ieso-generation') {
-            sh 'cd /app ; scripts/sincedb-ieso-generation.rb'
-          }
-          stage('ieso-load') {
-            sh 'cd /app ; scripts/sincedb-ieso-load.rb'
-          }
           stage('aeso-generation') {
              sh 'cd /app ; scripts/stream-aeso-generation.rb'
           }
@@ -76,16 +44,6 @@ spec:
           }
           stage('nspower-combined') {
             sh 'cd /app ; scripts/stream-nspower.rb'
-          }
-        },
-        opennem: {
-          stage('opennem') {
-            sh 'cd /app ; scripts/stream-opennem-latest.rb'
-          }
-        },
-        ree: {
-          stage('ree') {
-            sh 'cd /app ; scripts/sincedb-ree-generation.rb'
           }
         }
           //sh 'cd /app ; scripts/sincedb-svk-mimer-generation.rb'

@@ -55,7 +55,7 @@ namespace :elexon do
 end
 
 namespace :entsoe do
-  task all: [:generation, :load]
+  task all: [:generation, :load, :transmission, :price]
   task :generation do
     Pump::Process.new(ENTSOE::Generation, Generation).run
   end
