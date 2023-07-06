@@ -28,7 +28,7 @@ module Eirgrid
       @res = HTTParty.get(
         "https://www.smartgriddashboard.com/DashboardService.svc/data",
         query: @options,
-        debug_output: $stdout
+        #debug_output: $stdout
       )
     end
 

@@ -22,7 +22,7 @@ module NationalGridESO
       @res = logger.benchmark_info(url) do
         HTTParty.get(
           url,
-          debug_output: $stdout
+          #debug_output: $stdout
         )
       end
     end

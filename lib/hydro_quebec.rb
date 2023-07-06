@@ -21,7 +21,7 @@ module HydroQuebec
           url,
           http_proxyaddr: PROXY[0],
           http_proxyport: PROXY[1],
-          debug_output: $stdout
+          #debug_output: $stdout
         )
       end
 
