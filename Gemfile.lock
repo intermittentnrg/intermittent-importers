@@ -21,8 +21,20 @@ GEM
       rexml
     diff-lcs (1.5.0)
     dotenv (2.8.1)
+    elastic-transport (8.2.2)
+      faraday (< 3)
+      multi_json
+    elasticsearch (8.8.0)
+      elastic-transport (~> 8)
+      elasticsearch-api (= 8.8.0)
+    elasticsearch-api (8.8.0)
+      multi_json
     ethon (0.16.0)
       ffi (>= 1.15.0)
+    faraday (2.7.10)
+      faraday-net_http (>= 2.0, < 3.1)
+      ruby2_keywords (>= 0.0.4)
+    faraday-net_http (3.0.2)
     fastest-csv (0.0.4)
     ffi (1.15.5)
     hashdiff (1.0.1)
@@ -35,6 +47,7 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.18.1)
+    multi_json (1.15.0)
     multi_xml (0.6.0)
     oauth (1.1.0)
       oauth-tty (~> 1.0, >= 1.0.1)
@@ -72,6 +85,7 @@ GEM
     rspec-support (3.12.1)
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
+    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     selenium-webdriver (4.10.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -106,6 +120,7 @@ DEPENDENCIES
   activesupport
   composite_primary_keys
   dotenv
+  elasticsearch
   fastest-csv
   httparty
   oauth

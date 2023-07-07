@@ -7,6 +7,7 @@ gem 'dotenv'
 gem 'fastest-csv'
 gem 'rake'
 gem 'semantic_logger'
+gem 'elasticsearch'
 
 # Timescaledb
 gem 'activerecord'

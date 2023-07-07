@@ -32,6 +32,10 @@ def pump_task(name, source, model)
   end
 end
 
+task :ping do
+  logger.info "ping"
+end
+
 multitask all: ["ieso:all", "iea:all", "elexon:all", "entsoe:all", "nordpool:all", :opennem, :ree, :aeso, :hydroquebec, :nspower]
 namespace :ieso do
   task all: [:generation, :load]
