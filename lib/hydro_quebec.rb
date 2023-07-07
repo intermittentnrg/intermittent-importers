@@ -2,7 +2,8 @@ require 'httparty'
 module HydroQuebec
   #PROXY = ["167.99.184.232", 3128]
   #PROXY = ["173.176.14.246", 3128]
-  PROXY = ["142.93.108.171", 3128]
+  #PROXY = ["142.93.108.171", 3128]
+  PROXY = ["192.99.154.187", 3128]
 
   class Base
     def self.source_id
