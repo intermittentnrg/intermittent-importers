@@ -1,3 +1,4 @@
+timeout(time: 30, unit: 'MINUTES') {
 podTemplate(yaml: """
 kind: Pod
 spec:
@@ -33,4 +34,5 @@ spec:
       }
     }
   }
+}
 }
