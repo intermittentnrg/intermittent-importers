@@ -10,7 +10,7 @@ module Elexon
     def self.source_id
       "elexon"
     end
-
+    @@api_version = "v1"
     def initialize(date)
       @from = date + 30.minutes
       @to = date.tomorrow + 30.minutes
@@ -22,7 +22,7 @@ module Elexon
       fetch
     end
     def fetch
-      url = "https://api.bmreports.com/BMRS/#{@report}/v1"
+      url = "https://api.bmreports.com/BMRS/#{@report}/#{@@api_version}"
       @res = logger.benchmark_info(url) do
         HTTParty.get(
           url,
@@ -31,6 +31,8 @@ module Elexon
         )
       end
       error_type = @res.parsed_response['response']['responseMetadata']['errorType']
+      raise ENTSOE::EmptyError if error_type == 'No Content'
+      binding.pry unless @res.parsed_response['response'].try(:[], 'responseBody')
       raise error_type if @res.parsed_response['response'].try(:[], 'responseBody').empty?
     end
   end
@@ -84,9 +86,7 @@ module Elexon
         time = (Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes)
         production_type = item['powerSystemResourceType'].gsub(/"/,'').downcase.tr_s(' ', '_')
         key = "#{time}-#{production_type}"
-        if r[key]
-          next
-        end
+        next if r[key]
         r[key] = {
           country: 'GB_B1630',
           production_type: production_type,
@@ -114,9 +114,7 @@ module Elexon
         time = (Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes)
         production_type = item['powerSystemResourceType'].gsub(/"/,'').downcase.tr_s(' ', '_')
         key = "#{time}-#{production_type}"
-        if r[key]
-          next
-        end
+        next if r[key]
         r[key] = {
           country: 'GB',
           production_type: production_type,
@@ -143,9 +141,7 @@ module Elexon
         time = Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes
         value = item['quantity'].to_i
         next if value < 10000
-        if r[time]
-          next
-        end
+        next if r[time]
 
         r[time] = {
           time: time,
@@ -157,6 +153,60 @@ module Elexon
       #require 'pry' ; binding.pry
 
       r.values
+    end
+  end
+
+  class Unit < Base
+    include SemanticLogger::Loggable
+    #include Out::Load
+
+    @@api_version = "v2"
+    #def initialize()
+    #  @report = 'B1610'
+    #  super
+    #end
+    def initialize(date, unit)
+      @from = date + 30.minutes
+      @to = date.tomorrow + 30.minutes
+      @unit = unit
+      @report = 'B1610'
+      @options = {}
+      @options[:ServiceType] = 'xml'
+      @options[:APIKey] = ENV['ELEXON_TOKEN']
+      @options[:Period] = '*'
+      @options[:SettlementDate] = date.strftime('%Y-%m-%d')
+      @options[:NGCBMUnitID] = unit
+      fetch
+    end
+
+    def points
+      item = @res.parsed_response['response']['responseBody']['responseList']['item']
+      start = Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z')
+      r = {}
+      #require 'pry' ; binding.pry
+      Array.wrap(item["Period"]["Point"]).each do |point|
+        period = point['settlementPeriod'].to_i
+        next if r[period]
+        r[period] = {
+          time: start + (period * 30.minutes),
+          value: (point['quantity'].to_f*1000).to_i
+        }
+      end
+      require 'pry' ; binding.pry
+
+      r.values
+    end
+
+    def process
+      data = points
+      area = Area.where(source: self.class.source_id, code: 'GB').first
+      unit = ::Unit.find_or_create_by(area_id: area.id, internal_id: @unit)
+      data.each do |p|
+        p[:unit_id] = unit.id
+      end
+      logger.info "#{data.first.try(:[], :time)} #{data.length} points"
+      #require 'pry' ; binding.pry
+      ::GenerationUnit.upsert_all(data)
     end
   end
 end
