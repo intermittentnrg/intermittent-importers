@@ -38,7 +38,9 @@ class ENTSOE
         faraday.get('https://web-api.tp.entsoe.eu/api', @options)
       end
       #puts res.body
-      @doc = REXML::Document.new res.body
+      @doc = logger.benchmark_info("REXML::Document.new") do
+        REXML::Document.new res.body
+      end
 
       code, reason = @doc.elements.to_a("*/Reason/*").map(&:text)
       if reason.present?
