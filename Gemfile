@@ -10,6 +10,8 @@ gem 'rake'
 gem 'semantic_logger'
 gem 'elasticsearch'
 
+gem 'chronic'
+
 # Timescaledb
 gem 'activerecord'
 gem 'pg'

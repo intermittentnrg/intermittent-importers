@@ -20,10 +20,11 @@ spec:
       logstash {
         parallel entsoe: {
           stage('entsoe-generation') {
-            sh 'cd /app ; scripts/stream-entsoe-generation.rb $(date -d @$(( $(date +%s) - 31556926 )) +%Y-%m-%d) $(date -d @$(( $(date +%s) + 86400)) +%Y-%m-%d)'
+            sh 'cd /app ; scripts/stream-entsoe-generation.rb "1 year ago" "6 months ago"'
+            sh 'cd /app ; scripts/stream-entsoe-generation.rb "6 months ago" "tomorrow"'
           }
           stage('entsoe-load') {
-            sh 'cd /app ; scripts/stream-entsoe-load.rb $(date -d @$(( $(date +%s) - 31556926 )) +%Y-%m-%d) $(date -d @$(( $(date +%s) + 86400)) +%Y-%m-%d)'
+            sh 'cd /app ; scripts/stream-entsoe-load.rb "1 year ago" tomorrow'
           }
         }
       }

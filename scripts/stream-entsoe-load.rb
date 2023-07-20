@@ -7,8 +7,8 @@ if ARGV.length < 2
   $stderr.puts "#{$0} <from> <to> [country ...]"
   exit 1
 end
-from = ARGV.shift
-to = ARGV.shift
+from = Chronic.parse(ARGV.shift)
+to = Chronic.parse(ARGV.shift)
 
 (ARGV.present? ? ARGV : ENTSOE::DOMAIN_MAPPINGS.keys).each do |country|
   logger.info country

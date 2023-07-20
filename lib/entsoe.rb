@@ -17,6 +17,8 @@ class ENTSOE
 
     def initialize from: DateTime.now.beginning_of_day, to: DateTime.now.beginning_of_hour, psr_type: nil
       raise "#{from} == #{to}" if from==to
+      from = from.strftime('%Y-%m-%d') unless from.is_a? String
+      to = to.strftime('%Y-%m-%d') unless to.is_a? String
       @from = from
       @to = to
       @options = {
