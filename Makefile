@@ -63,7 +63,7 @@ pgrestore_clean:
 	psql $(TARGETDB) <<EOF
 	DROP SCHEMA IF EXISTS telegraf CASCADE;
 	DROP SCHEMA IF EXISTS ellevio CASCADE;
-	DELETE FROM prices WHERE area_id IN (SELECT id FROM areas WHERE source='nordpool_sek');
+	DELETE FROM prices WHERE area_id IN (SELECT id FROM areas WHERE source IN('nordpool','nordpool_sek');
 	DELETE FROM areas WHERE source='nordpool_sek';
 
 	ALTER DATABASE intermittency_prod SET search_path TO intermittency, public;
@@ -78,7 +78,6 @@ pgrestore_clean:
 	GRANT SELECT ON TABLE intermittency.prices TO intermittency_prod;
 	GRANT SELECT ON TABLE intermittency.production_types TO intermittency_prod;
 	GRANT SELECT ON TABLE intermittency.transmission TO intermittency_prod;
-
 	EOF
 
 .ONESHELL:
