@@ -3,7 +3,6 @@ require 'bundler/setup'
 require 'dotenv/load'
 
 require 'date'
-require 'httparty'
 require 'rexml/document'
 require 'active_support'
 require 'active_support/core_ext'
@@ -35,12 +34,8 @@ class ENTSOE
 
     def fetch
       res = logger.benchmark_info('https://web-api.tp.entsoe.eu/api') do
-        HTTParty.get(
-          'https://web-api.tp.entsoe.eu/api',
-          query: @options,
-          read_timeout: 120,
-          #debug_output: $stdout
-        )
+        faraday = Faraday.new(request: {timeout: 120})
+        faraday.get('https://web-api.tp.entsoe.eu/api', @options)
       end
       #puts res.body
       @doc = REXML::Document.new res.body

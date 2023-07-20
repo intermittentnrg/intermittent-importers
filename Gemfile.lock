@@ -121,6 +121,7 @@ DEPENDENCIES
   composite_primary_keys
   dotenv
   elasticsearch
+  faraday
   fastest-csv
   httparty
   oauth

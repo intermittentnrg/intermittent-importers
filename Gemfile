@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'pry'
 gem 'httparty'
+gem 'faraday'
 gem 'activesupport'
 gem 'dotenv'
 gem 'fastest-csv'
