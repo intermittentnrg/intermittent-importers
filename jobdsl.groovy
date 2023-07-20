@@ -1,3 +1,5 @@
+folder("intermittency-${BRANCH_NAME}")
+
 if (BRANCH_NAME == "master") {
   pipelineJob("intermittency-copydb") {
     parameters {
@@ -21,7 +23,8 @@ if (BRANCH_NAME == "master") {
   }
 }
 
-pipelineJob("intermittency-${BRANCH_NAME}-refresh") {
+pipelineJob("intermittency-${BRANCH_NAME}/refresh") {
+  previousNames("intermittency-${BRANCH_NAME}-refresh")
   if (BRANCH_NAME == "master" || BRANCH_NAME == "production") {
     properties {
       disableConcurrentBuilds()
@@ -54,7 +57,8 @@ pipelineJob("intermittency-${BRANCH_NAME}-refresh") {
   }
 }
 
-pipelineJob("intermittency-${BRANCH_NAME}-manual") {
+pipelineJob("intermittency-${BRANCH_NAME}/manual") {
+  previousNames("intermittency-${BRANCH_NAME}-manual")
   parameters {
     stringParam('CMD', '')
   }
@@ -78,7 +82,8 @@ pipelineJob("intermittency-${BRANCH_NAME}-manual") {
   }
 }
 
-pipelineJob("intermittency-${BRANCH_NAME}-tweet") {
+pipelineJob("intermittency-${BRANCH_NAME}/tweet") {
+  previousNames("intermittency-${BRANCH_NAME}-tweet")
   environmentVariables(TAG: TAG, BRANCH_NAME: BRANCH_NAME)
   definition {
     cpsScm {

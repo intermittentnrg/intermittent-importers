@@ -71,7 +71,7 @@ spec:
         )
         if (env.BRANCH_NAME == "master" || env.BRANCH_NAME == "production") {
           sh "RAILS_ENV=development cd /app && rake db:migrate"
-          build wait: false, job: "intermittency-${env.BRANCH_NAME}-refresh"
+          build wait: false, job: "intermittency-${env.BRANCH_NAME}/refresh"
         }
       }
     }
