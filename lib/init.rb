@@ -8,7 +8,7 @@ SemanticLogger.default_level = :info
 SemanticLogger.application = "intermittency"
 if ENV['CI']
   SemanticLogger.add_appender(io: $stderr, formatter: :json)
-else
+elsif ENV['ENV'] != 'test'
   SemanticLogger.add_appender(
     appender:    :elasticsearch,
     url:         ENV['ES_URL'],

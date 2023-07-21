@@ -40,11 +40,11 @@ class ENTSOE
         faraday.get('https://web-api.tp.entsoe.eu/api', @options)
       end
       #puts res.body
-      @doc = logger.benchmark_info("REXML::Document.new") do
-        REXML::Document.new res.body
+      @doc = logger.benchmark_info("xml parse") do
+        Ox.parse(res.body)
       end
 
-      code, reason = @doc.elements.to_a("*/Reason/*").map(&:text)
+      code, reason = @doc.locate("*/Reason/*/^String")
       if reason.present?
         raise EmptyError if reason =~ /No matching data found/
         raise reason
@@ -52,26 +52,25 @@ class ENTSOE
     end
 
     def points_selector(&block)
-      @doc.elements.each('*/TimeSeries', &block)
+      @doc.locate('*/TimeSeries').each(&block)
     end
     def points
       r=[]
       points_selector do |ts|
-        next if is_a?(Generation) && ts.elements.to_a('outBiddingZone_Domain.mRID').first
-        #unless ts.elements.to_a('inBiddingZone_Domain.mRID').first
+        next if is_a?(Generation) && ts.locate('outBiddingZone_Domain.mRID').first
+        #unless ts.locate('inBiddingZone_Domain.mRID').first
         #  require 'pry' ; binding.pry
         #end
-        start = Time.strptime(ts.elements.to_a('Period/timeInterval/start').first.text, '%Y-%m-%dT%H:%M%z')
+
         #2020-12-31T23:00Z
-        resolution = ts.elements.to_a('Period/resolution').first.text.match(/^PT(\d+)M$/) { |m| m[1].to_i }
+        start = Time.strptime(ts.locate('Period/timeInterval/start/^String').first, '%Y-%m-%dT%H:%M%z')
+        resolution = ts.locate('Period/resolution/^String').first.match(/^PT(\d+)M$/) { |m| m[1].to_i }
 
-        #business_type = ts.css('businessType').text
-
-        psr = ts.elements.to_a('MktPSRType/psrType').first.try :text
+        psr = ts.locate('MktPSRType/psrType/^String').first
         @production_type = PARAMETER_DESC[psr.to_sym].downcase.tr_s(' ', '_') if psr
 
-        data = ts.elements.each('Period/Point') do |p|
-          @time = start + ((p.elements.to_a('position').first.text.to_i - 1) * resolution).minutes
+        data = ts.locate('Period/Point').each do |p|
+          @time = start + ((p.locate('position/^String').first.to_i - 1) * resolution).minutes
           @last_time = @time
           r << point(p)
         end
@@ -85,14 +84,13 @@ class ENTSOE
         country: @country,
         production_type: @production_type,
         time: @time,
-        value: p.elements.to_a('quantity').first.text.to_i
+        value: p.locate('quantity/^String').first.to_i
       }
     end
 
     def last_time
       unless @last_time
-        require 'pry'
-        binding.pry
+        require 'pry' ; binding.pry
       end
       @last_time
     end
@@ -166,6 +164,13 @@ class ENTSOE
       data.select { |p| p[:value] < 800_000 }
       data
     end
+    def point(p)
+      {
+        country: @country,
+        time: @time,
+        value: p.locate('quantity/^String').first.to_i
+      }
+    end
   end
 
   #4.2.10. Day Ahead Prices [12.1.D]
@@ -182,14 +187,17 @@ class ENTSOE
       fetch
     end
 
-    def points_selector(&block)
-      @doc.elements.each('*/TimeSeries[.//Period/resolution[contains(text(),"PT60M")]]', &block)
+    def points_selector
+      @doc.locate('*/TimeSeries').each do |ts|
+        next unless ts.locate('Period/resolution/^String') == ['PT60M']
+        yield ts
+      end
     end
     def point(p)
       {
         country: @country,
         time: @time,
-        value: p.elements.to_a('price.amount').first.text.to_i
+        value: p.locate('price.amount/^String').first.to_i
       }
     end
   end
@@ -213,11 +221,11 @@ class ENTSOE
     # def points
     #   r=[]
     #   points_selector do |ts|
-    #     start = DateTime.strptime(ts.elements.to_a('Period/timeInterval/start').first.text, '%Y-%m-%dT%H:%M%z')
-    #     resolution = ts.elements.to_a('Period/resolution').first.text.match(/^PT(\d+)M$/) { |m| m[1].to_i }
+    #     start = DateTime.strptime(ts.locate('Period/timeInterval/start/^String').first, '%Y-%m-%dT%H:%M%z')
+    #     resolution = ts.locate('Period/resolution/^String').first.match(/^PT(\d+)M$/) { |m| m[1].to_i }
 
-    #     data = ts.elements.each('Period/Point') do |p|
-    #       @time = start + ((p.elements.to_a('position').first.text.to_i - 1) * resolution).minutes
+    #     data = ts.locate('Period/Point') do |p|
+    #       @time = start + ((p.locate('position/^String').first.to_i - 1) * resolution).minutes
     #       @last_time = @time
     #       r << point(p)
     #     end
@@ -230,7 +238,7 @@ class ENTSOE
         time: @time,
         from_area: @from_area,
         to_area: @to_area,
-        value: p.elements.to_a('quantity').first.text.to_i
+        value: p.locate('quantity/^String').first.to_i
       }
     end
   end

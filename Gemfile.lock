@@ -56,6 +56,7 @@ GEM
       version_gem (~> 1.1)
     oauth-tty (1.0.5)
       version_gem (~> 1.1, >= 1.1.1)
+    ox (2.14.17)
     parallel (1.23.0)
     pg (1.5.3)
     pgsync (0.7.4)
@@ -127,6 +128,7 @@ DEPENDENCIES
   fastest-csv
   httparty
   oauth
+  ox
   pg
   pgsync
   pry

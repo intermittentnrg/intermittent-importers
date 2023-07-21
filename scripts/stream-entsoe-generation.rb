@@ -11,8 +11,8 @@ from = Chronic.parse(ARGV.shift)
 to = Chronic.parse(ARGV.shift)
 
 (ARGV.present? ? ARGV : ENTSOE::COUNTRIES.keys).each do |country|
-  SemanticLogger.tagged(country: country) do
-    e = ENTSOE::Generation.new(country: country, from: from, to: to)
+  SemanticLogger.tagged(country:) do
+    e = ENTSOE::Generation.new(country:, from:, to:)
     e.process
   rescue
     logger.error "Exception processing #{country}", $!

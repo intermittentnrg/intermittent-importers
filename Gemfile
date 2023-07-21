@@ -11,6 +11,7 @@ gem 'semantic_logger'
 gem 'elasticsearch'
 
 gem 'chronic'
+gem 'ox'
 
 # Timescaledb
 gem 'activerecord'

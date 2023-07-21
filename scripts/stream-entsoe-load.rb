@@ -11,9 +11,10 @@ from = Chronic.parse(ARGV.shift)
 to = Chronic.parse(ARGV.shift)
 
 (ARGV.present? ? ARGV : ENTSOE::DOMAIN_MAPPINGS.keys).each do |country|
-  logger.info country
-  e = ENTSOE::Load.new country: country, from: from, to: to
-  e.process
+  SemanticLogger.tagged(country:) do
+    e = ENTSOE::Load.new(country:, from:, to:)
+    e.process
+  end
 rescue
   logger.error "Exception processing #{country}", $!
 end

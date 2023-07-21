@@ -3,6 +3,7 @@ require 'rspec'
 require 'rspec/collection_matchers'
 require 'vcr'
 
+ENV['ENV']='test'
 require './lib/init'
 
 ENV['ENTSOE_TOKEN'] ||= 'DUMMYTOKEN'

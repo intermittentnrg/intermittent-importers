@@ -1,17 +1,23 @@
 require './spec/spec_helper'
 
 RSpec.describe ENTSOE::Load do
-#  it { expect(ENTSOE::COUNTRIES[:FR]).to be }
-#
-#  describe 'FR' do
-#    subject(:e) do
-#      VCR.use_cassette("load_fr") do
-#        ENTSOE::Load.new country: :FR, from: '2021-01-01', to: '2021-01-02'
-#      end
-#    end
-#    it { expect(subject.points).to have_at_least(24).items }
-#    describe "tags" do
-#      it { expect(e.points.first[:tags].keys).to eq [:country] }
-#    end
-#  end
+  let(:from) { '2021-01-01' }
+  let(:to) { '2021-01-02' }
+  subject(:e) do
+    VCR.use_cassette("load_#{country}_#{from}_#{to}") do
+      ENTSOE::Load.new country:, from:, to:
+    end
+  end
+
+  describe 'FR' do
+    let(:country) { 'FR' }
+    it { expect(subject.points).to have(24).items }
+    it { expect(e.points.first.keys).to eq [:country, :time, :value] }
+
+    describe 'error' do
+      let(:from) { '2050-01-01' }
+      let(:to) { '2050-01-02' }
+      it { expect { e.points }.to raise_error(ENTSOE::EmptyError)  }
+    end
+  end
 end
