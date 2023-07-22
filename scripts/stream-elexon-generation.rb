@@ -7,8 +7,8 @@ if ARGV.length != 2
   $stderr.puts "#{$0} <from> <to>"
   exit 1
 end
-from = DateTime.parse "#{ARGV.shift} UTC"
-to = DateTime.parse "#{ARGV.shift} UTC"
+from = Chronic.parse(ARGV.shift).to_date
+to = Chronic.parse(ARGV.shift).to_date
 
 (from...to).each do |time|
   e = Elexon::Generation.new(time)
