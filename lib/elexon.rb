@@ -10,7 +10,9 @@ module Elexon
     def self.source_id
       "elexon"
     end
-    @@api_version = "v1"
+    def self.api_version
+      "v1"
+    end
     def initialize(date)
       @from = date + 30.minutes
       @to = date.tomorrow + 30.minutes
@@ -22,18 +24,15 @@ module Elexon
       fetch
     end
     def fetch
-      url = "https://api.bmreports.com/BMRS/#{@report}/#{@@api_version}"
+      url = "https://api.bmreports.com/BMRS/#{@report}/#{self.class.api_version}"
       @res = logger.benchmark_info(url) do
-        HTTParty.get(
-          url,
-          query: @options,
-          #debug_output: $stdout
-        )
+        res = Faraday.get(url, @options)
+        Ox.load(res.body, mode: :hash, symbolize_keys: false)
       end
-      error_type = @res.parsed_response['response']['responseMetadata']['errorType']
+      error_type = @res['response']['responseMetadata']['errorType']
       raise ENTSOE::EmptyError if error_type == 'No Content'
-      binding.pry unless @res.parsed_response['response'].try(:[], 'responseBody')
-      raise error_type if @res.parsed_response['response'].try(:[], 'responseBody').empty?
+      binding.pry unless @res['response'].try(:[], 'responseBody')
+      raise error_type if @res['response'].try(:[], 'responseBody').empty?
     end
   end
 
@@ -55,7 +54,7 @@ module Elexon
     end
     def points_generation
       r = {}
-      @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
+      @res['response']['responseBody']['responseList']['item'].each do |item|
         time = (Time.strptime("#{item['startTimeOfHalfHrPeriod']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes)
 
         r[time] = r2 = []
@@ -82,7 +81,7 @@ module Elexon
     end
     def points
       r = {}
-      @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
+      @res['response']['responseBody']['responseList']['item'].each do |item|
         time = (Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes)
         production_type = item['powerSystemResourceType'].gsub(/"/,'').downcase.tr_s(' ', '_')
         key = "#{time}-#{production_type}"
@@ -91,7 +90,7 @@ module Elexon
           country: 'GB_B1630',
           production_type: production_type,
           time: time,
-          value: item['quantity'].to_f
+          value: item['quantity'].to_f.round
         }
       end
       #require 'pry' ; binding.pry
@@ -110,7 +109,7 @@ module Elexon
     end
     def points_generation
       r = {}
-      @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
+      @res['response']['responseBody']['responseList']['item'].each do |item|
         time = (Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes)
         production_type = item['powerSystemResourceType'].gsub(/"/,'').downcase.tr_s(' ', '_')
         key = "#{time}-#{production_type}"
@@ -119,7 +118,7 @@ module Elexon
           country: 'GB',
           production_type: production_type,
           time: time,
-          value: item['quantity'].to_f
+          value: item['quantity'].to_f.round
         }
       end
 
@@ -137,9 +136,9 @@ module Elexon
     end
     def points_load
       r = {}
-      @res.parsed_response['response']['responseBody']['responseList']['item'].each do |item|
+      @res['response']['responseBody']['responseList']['item'].each do |item|
         time = Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes
-        value = item['quantity'].to_i
+        value = item['quantity'].to_f.round
         next if value < 10000
         next if r[time]
 
@@ -160,7 +159,9 @@ module Elexon
     include SemanticLogger::Loggable
     #include Out::Load
 
-    @@api_version = "v2"
+    def self.api_version
+      "v2"
+    end
     #def initialize()
     #  @report = 'B1610'
     #  super
@@ -180,7 +181,7 @@ module Elexon
     end
 
     def points
-      item = @res.parsed_response['response']['responseBody']['responseList']['item']
+      item = @res['response']['responseBody']['responseList']['item']
       start = Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z')
       r = {}
       #require 'pry' ; binding.pry
