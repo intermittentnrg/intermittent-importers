@@ -40,13 +40,25 @@ module Elexon
     include SemanticLogger::Loggable
     include Out::Generation
 
+    MAP = {
+      "ccgt" => "fossil_gas_ccgt",
+      "oil" => "fossil_oil",
+      "coal" => "fossil_hard_coal",
+      "nuclear" => "nuclear",
+      "wind" => "wind",
+      "ps" => "solar",
+      "npshyd" => "hydro",
+      "ocgt" => "fossil_gas_ocgt",
+      "other" => "other",
+      "biomass" => "biomass"
+    }
     def initialize(from, to)
       @from = from
       @to = to
       @report = 'FUELINST'
       @options = {}
-      @options[:FromDateTime] = Time.parse(from).strftime('%Y-%m-%d %H:%M:%S')
-      @options[:ToDateTime] = Time.parse(to).strftime('%Y-%m-%d %H:%M:%S')
+      @options[:FromDateTime] = from.strftime('%Y-%m-%d %H:%M:%S')
+      @options[:ToDateTime] = to.strftime('%Y-%m-%d %H:%M:%S')
       @options[:Period] = "*"
       @options[:ServiceType] = 'xml'
       @options[:APIKey] = ENV['ELEXON_TOKEN']
@@ -58,12 +70,14 @@ module Elexon
         time = (Time.strptime("#{item['startTimeOfHalfHrPeriod']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes)
 
         r[time] = r2 = []
-        r2 << {
-          country: 'GB_fuelinst',
-          production_type: 'wind',
-          time: time,
-          value: item['wind'].to_f
-        }
+        MAP.each do |k,v|
+          r2 << {
+            country: 'GB_fuelinst',
+            production_type: v,
+            time: time,
+            value: item[k].to_f.round
+          }
+        end
       end
       #require 'pry' ; binding.pry
 
