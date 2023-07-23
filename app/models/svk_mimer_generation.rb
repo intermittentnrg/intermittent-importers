@@ -1,5 +1,4 @@
 class SvkMimerGeneration < ActiveRecord::Base
-  @@logger = SemanticLogger[SvkMimerGeneration]
   self.table_name = 'svk_mimer_generation'
 
   def self.parsers_each
