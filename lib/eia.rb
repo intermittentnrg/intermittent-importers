@@ -1,4 +1,5 @@
-require 'httparty'
+require 'faraday/retry'
+
 module Eia
   class Base
     def self.source_id
@@ -49,30 +50,33 @@ module Eia
       query['facets[respondent][]'] = country if country
       logger.info("from: #{query[:start]} to: #{query[:end]}")
       @res = []
+      faraday = Faraday.new do |f|
+        f.request :retry, {
+          max: 5
+        }
+      end
       loop do
         res = logger.benchmark_info(URL) do
-          httparty_retry do
-            HTTParty.get(
-              URL,
-              query: query,
-              #debug_output: $stdout
-            )
-          end
+          faraday.get(URL, query)
         end
-        logger.info "eia.gov query execution: #{res.parsed_response['response']['query execution']}"
-        logger.info "eia.gov count query execution: #{res.parsed_response['response']['count query execution']}"
+        res = logger.benchmark_info("json parse") do
+          FastJsonparser.parse(res.body, symbolize_keys: false)
+        end
+        logger.info "eia.gov query execution: #{res['response']['query execution']}"
+        logger.info "eia.gov count query execution: #{res['response']['count query execution']}"
+
         @res << res
 
-        if query[:offset] + res.parsed_response['response']['data'].length >= res.parsed_response['response']['total']
+        if query[:offset] + res['response']['data'].length >= res['response']['total']
           break
         end
-        query[:offset] += res.parsed_response['response']['data'].length
+        query[:offset] += res['response']['data'].length
       end
     end
     def points_load
       r = []
       @res.each do |res|
-        res.parsed_response['response']['data'].each do |row|
+        res['response']['data'].each do |row|
           if row['value'].nil?
             logger.warn "Null value #{row.inspect}"
             next
@@ -119,28 +123,30 @@ module Eia
       query['facets[respondent][]'] = country if country
       query[:offset] = 0
       @res = []
+      faraday = Faraday.new do |f|
+        f.request :retry, {
+          max: 5
+        }
+      end
       loop do
         res = logger.benchmark_info(URL) do
-          httparty_retry do
-            HTTParty.get(
-              URL,
-              query: query,
-              #debug_output: $stdout
-            )
-          end
+          faraday.get(URL, query)
+        end
+        res = logger.benchmark_info("json parse") do
+          FastJsonparser.parse(res.body, symbolize_keys: false)
         end
         @res << res
-        if query[:offset] + res.parsed_response['response']['data'].length >= res.parsed_response['response']['total']
+        if query[:offset] + res['response']['data'].length >= res['response']['total']
           break
         end
-        query[:offset] += res.parsed_response['response']['data'].length
+        query[:offset] += res['response']['data'].length
       end
     end
 
     def points_generation
       r = []
       @res.each do |res|
-        res.parsed_response['response']['data'].each do |row|
+        res['response']['data'].each do |row|
           raise row['fueltype'] if FUEL_MAP[row['fueltype']].nil?
           if row['value'].nil?
             logger.warn "Null value #{row.inspect}"

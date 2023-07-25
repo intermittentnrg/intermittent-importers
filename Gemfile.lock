@@ -36,6 +36,9 @@ GEM
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.2)
+    faraday-retry (2.2.0)
+      faraday (~> 2.0)
+    fast_jsonparser (0.6.0)
     fastest-csv (0.0.4)
     ffi (1.15.5)
     hashdiff (1.0.1)
@@ -125,6 +128,8 @@ DEPENDENCIES
   dotenv
   elasticsearch
   faraday
+  faraday-retry
+  fast_jsonparser
   fastest-csv
   httparty
   oauth
