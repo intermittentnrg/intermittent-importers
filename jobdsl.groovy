@@ -25,9 +25,9 @@ if (BRANCH_NAME == "master") {
 
 pipelineJob("intermittency-${BRANCH_NAME}/refresh") {
   previousNames("intermittency-${BRANCH_NAME}-refresh")
-  if (BRANCH_NAME == "master" || BRANCH_NAME == "production") {
-    properties {
-      disableConcurrentBuilds()
+  properties {
+    disableConcurrentBuilds()
+    if (BRANCH_NAME == "master" || BRANCH_NAME == "production") {
       pipelineTriggers {
         triggers {
           cron {
@@ -60,11 +60,13 @@ pipelineJob("intermittency-${BRANCH_NAME}/refresh") {
 pipelineJob("intermittency-${BRANCH_NAME}/deep-refresh") {
   properties {
     disableConcurrentBuilds()
-    pipelineTriggers {
-      triggers {
-	cron {
-	  spec('H 3 * * *')
-	}
+    if (BRANCH_NAME == "master" || BRANCH_NAME == "production") {
+      pipelineTriggers {
+        triggers {
+          cron {
+            spec('H 3 * * *')
+          }
+        }
       }
     }
   }
