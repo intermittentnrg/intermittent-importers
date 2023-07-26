@@ -1,9 +1,7 @@
 # coding: utf-8
-require 'date'
-require 'httparty'
-require 'rexml/document'
 require 'active_support'
 require 'active_support/core_ext'
+require 'faraday/retry'
 
 module Elexon
   class Base
@@ -25,8 +23,13 @@ module Elexon
     end
     def fetch
       url = "https://api.bmreports.com/BMRS/#{@report}/#{self.class.api_version}"
+      faraday = Faraday.new do |f|
+        f.request :retry, {
+          max: 2
+        }
+      end
       @res = logger.benchmark_info(url) do
-        res = Faraday.get(url, @options)
+        res = faraday.get(url, @options)
         Ox.load(res.body, mode: :hash, symbolize_keys: false)
       end
       error_type = @res['response']['responseMetadata']['errorType']
