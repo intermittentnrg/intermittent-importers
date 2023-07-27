@@ -35,6 +35,9 @@ GEM
     faraday (2.7.10)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
+    faraday-gzip (2.0.0)
+      faraday (>= 1.0)
+      zlib (~> 3.0)
     faraday-net_http (3.0.2)
     faraday-retry (2.2.0)
       faraday (~> 2.0)
@@ -116,6 +119,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     websocket (1.2.9)
+    zlib (3.0.0)
 
 PLATFORMS
   ruby
@@ -128,6 +132,7 @@ DEPENDENCIES
   dotenv
   elasticsearch
   faraday
+  faraday-gzip
   faraday-retry
   fast_jsonparser
   fastest-csv
