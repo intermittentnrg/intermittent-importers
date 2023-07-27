@@ -47,18 +47,18 @@ module Out
         rows=::Generation.where(time: @from...@to).where(area_id: areas.values).order(:time, :production_type_id)
         rows=rows.map { |r| r.attributes.symbolize_keys }
 
-        diff = data-rows
-        if diff
-          diff.each do |d|
-            logger.warn "new or updated", event: {duration: Time.now-d[:time]}, generation: d
+        index = Hash[rows.map { |r| [[r[:time], r[:production_type_id]], r] }]
+        data.each do |p|
+          old = index[[p[:time], p[:production_type_id]]]
+          if old && old[:value] != p[:value]
+            logger.warn "updated", event: {duration: Time.now-p[:time]}, generation: p
           end
         end
-        #data-rows # NEW & UPDATED ROWS
-        #rows-data # OLD BAD VALUES
       end
-      #require 'pry' ; binding.pry
 
-      ::Generation.upsert_all(data) if data.present?
+      logger.benchmark_info("upsert") do
+        ::Generation.upsert_all(data) if data.present?
+      end
     end
   end
 
