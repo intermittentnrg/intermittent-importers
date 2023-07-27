@@ -31,6 +31,9 @@ module Elexon
       @res = logger.benchmark_info(url) do
         res = faraday.get(url, @options)
         Ox.load(res.body, mode: :hash, symbolize_keys: false)
+      rescue
+        logger.error "Failed to parse body: #{res.body}"
+        raise
       end
       error_type = @res['response']['responseMetadata']['errorType']
       raise ENTSOE::EmptyError if error_type == 'No Content'
