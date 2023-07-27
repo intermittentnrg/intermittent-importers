@@ -7,11 +7,9 @@ if ARGV.length != 2
   $stderr.puts "#{$0} <from> <to>"
   exit 1
 end
-from = Date.parse ARGV.shift
-to = Date.parse ARGV.shift
+from = Chronic.parse(ARGV.shift).to_date
+to = Chronic.parse(ARGV.shift).to_date
 
-areas = {}
-production_types = {}
 (from...to).each do |time|
   e = Caiso::Generation.new(time)
   e.process
