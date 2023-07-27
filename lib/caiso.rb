@@ -1,5 +1,4 @@
-#require 'httparty'
-require 'open-uri'
+#require 'faraday/gzip'
 
 module Caiso
   TZ = TZInfo::Timezone.get('US/Pacific')
@@ -51,11 +50,15 @@ module Caiso
 
     def points_generation
       r = []
+      last_time = @from
       @csv.each do |row|
         #require 'pry' ; binding.pry
+        next if row[1..].compact.blank?
         #time = DateTime.strptime(@date.strftime("%Y-%m-%d ") + row[0], "%Y-%m-%d %H:%M")
         time = @date.to_time + Time.parse(row[0]).seconds_since_midnight.seconds
         time = TZ.local_to_utc(time) { |periods| periods.first }
+        next if time < last_time
+        last_time = time
         row.each_with_index do |value, type|
           next if type == 0 || type == 12
           raise type.to_s unless FUEL_MAP[type]
