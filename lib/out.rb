@@ -15,7 +15,7 @@ module Out
           SemanticLogger.tagged(country) do
             # support source per day and date-range
             #require 'pry' ; binding.pry
-            if [Elexon::Generation, Elexon::Fuelinst, Ieso::Generation, Ree::Generation].include? self
+            if [Elexon::Generation, Elexon::Fuelinst, ::Ieso::Generation, ::Ree::Generation].include? self
               (from..to).each do |date|
                 yield self.new date
               end
