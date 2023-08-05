@@ -140,7 +140,7 @@ module Out
               next
             end
 
-            if self == Nordpool::PriceSEK
+            if self == ::Nordpool::PriceSEK
               (from..to).each do |date|
                 yield self.new date
               end
@@ -167,17 +167,20 @@ module Out
         rows=::Price.where(time: @from...@to).where(area_id: areas.values).order(:time)
         rows=rows.map { |r| r.attributes.symbolize_keys }
 
-        diff = data-rows
-        if diff
-          diff.each do |d|
-            logger.warn "new or updated", event: {duration: Time.now-d[:time]}, price: d
+        index = Hash[rows.map { |r| [r[:time], r] }]
+        data.each do |p|
+          old = index[p[:time]]
+          if old && old[:value] != p[:value]
+            logger.warn "updated", event: {duration: Time.now-p[:time]}, price: p
           end
         end
 
         #require 'pry' ; binding.pry
       end
 
-      ::Price.upsert_all(data) if data.present?
+      logger.benchmark_info("upsert") do
+        ::Price.upsert_all(data) if data.present?
+      end
     end
   end
 
