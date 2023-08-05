@@ -1,10 +1,7 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-#require 'erb'
-#require 'active_record'
-
-logger = SemanticLogger['Rakefile']
+@logger = logger = SemanticLogger['Rakefile']
 
 db_dir = File.expand_path('../db', __FILE__)
 config_dir = File.expand_path('../config', __FILE__)
@@ -28,7 +25,7 @@ def pump_task(name, source, model)
   task name do
     Pump::Process.new(source, model).run
   rescue
-    logger.error "Exception", $!
+    @logger.error "Exception", $!
   end
 end
 
