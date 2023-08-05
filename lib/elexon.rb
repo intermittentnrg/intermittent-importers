@@ -78,7 +78,7 @@ module Elexon
         r[time] = r2 = []
         MAP.each do |k,v|
           r2 << {
-            country: 'GB_fuelinst',
+            country: 'GB',
             production_type: v,
             time: time,
             value: item[k].to_f.round
@@ -135,7 +135,7 @@ module Elexon
         key = "#{time}-#{production_type}"
         next if r[key]
         r[key] = {
-          country: 'GB',
+          country: 'GB_B1620',
           production_type: production_type,
           time: time,
           value: item['quantity'].to_f.round
