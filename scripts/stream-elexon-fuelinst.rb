@@ -13,7 +13,7 @@ from = Chronic.parse(ARGV.shift).to_date
 to = Chronic.parse(ARGV.shift).to_date
 
 (from...to).each do |time|
-  e = Elexon::FuelInst.new(time, time + 1.day)
+  e = Elexon::Fuelinst.new(time, time + 1.day)
   e.process
 rescue ENTSOE::EmptyError
   logger.warn "EmptyError #{time}"

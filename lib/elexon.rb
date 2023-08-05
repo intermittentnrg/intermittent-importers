@@ -42,7 +42,7 @@ module Elexon
     end
   end
 
-  class FuelInst < Base
+  class Fuelinst < Base
     include SemanticLogger::Loggable
     include Out::Generation
 
@@ -58,7 +58,8 @@ module Elexon
       "other" => "other",
       "biomass" => "biomass"
     }
-    def initialize(from, to)
+    def initialize(from, to = nil)
+      to = from + 1.day unless to
       @from = from
       @to = to
       @report = 'FUELINST'

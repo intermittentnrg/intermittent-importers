@@ -50,8 +50,9 @@ namespace :iea do
 end
 
 namespace :elexon do
-  task all: [:generation, :load]
+  task all: [:generation, :fuelinst, :load]
   pump_task :generation, Elexon::Generation, Generation
+  pump_task :fuelinst, Elexon::Fuelinst, Generation
   pump_task :load, Elexon::Load, Load
 end
 
