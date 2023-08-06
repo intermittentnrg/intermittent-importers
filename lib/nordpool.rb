@@ -97,7 +97,7 @@ class Nordpool
     URL = 'https://www.nordpoolgroup.com/api/marketdata/page/169'
     FIELD = :value
     def initialize(date)
-      @from = TZ.local_to_utc(date)
+      @from = TZ.local_to_utc(date.to_time)
       @to = @from + 1.day
       @options = {}
       @options[:endDate] = date.strftime('%d-%m-%Y')
