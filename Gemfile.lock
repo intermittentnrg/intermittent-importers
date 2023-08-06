@@ -35,9 +35,13 @@ GEM
     faraday (2.7.10)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
+    faraday-follow_redirects (0.3.0)
+      faraday (>= 1, < 3)
     faraday-gzip (2.0.0)
       faraday (>= 1.0)
       zlib (~> 3.0)
+    faraday-http-cache (2.5.0)
+      faraday (>= 0.8)
     faraday-net_http (3.0.2)
     faraday-retry (2.2.0)
       faraday (~> 2.0)
@@ -132,7 +136,9 @@ DEPENDENCIES
   dotenv
   elasticsearch
   faraday
+  faraday-follow_redirects
   faraday-gzip
+  faraday-http-cache
   faraday-retry
   fast_jsonparser
   fastest-csv
