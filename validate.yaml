@@ -1,0 +1,30 @@
+europe:
+  all:
+    load:
+      max: 800000
+  #FR:
+  #  nuclear:
+  #    max:
+  "NO":
+    wind_onshore:
+      max: 10000
+  RS:
+    hydro_run-of-river_and_poundage:
+      max: 5000
+    hydro_pumped_storage:
+      #seen: 1GW
+      max: 3000
+#  XK:
+#    load:
+#      max: 2000
+usa:
+  all:
+    load:
+      max: 800000
+    wind:
+      min: -100000
+      max: 100000
+    fossil_gas:
+      max: 400000
+    other:
+      max: 20000

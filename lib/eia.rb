@@ -98,7 +98,7 @@ module Eia
       end
       #require 'pry' ; binding.pry
 
-      r.select { |p| p[:value] < 800_000 }
+      Validate.validate_load(r)
     end
   end
 
@@ -161,7 +161,7 @@ module Eia
       end
       #require 'pry' ; binding.pry
 
-      r.select { |p| !(p[:production_type] == 'wind' && p[:value] > 100_000) && !(p[:production_type] == 'wind' && p[:value] < -100_000) }
+      Validate.validate_generation(r)
     end
   end
 end

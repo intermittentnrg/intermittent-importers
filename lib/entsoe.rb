@@ -134,7 +134,7 @@ class ENTSOE
     end
 
     def points_generation
-      points.select { |p| !(p[:country] == :NO && p[:production_type] == 'wind_onshore' && p[:value] > 10_000) }
+      Validate.validate_generation(points)
     end
   end
 
@@ -160,8 +160,8 @@ class ENTSOE
     def points_load
       data = points
       data.each { |p| p.except!(:process_type, :production_type) }
-      data.select { |p| p[:value] < 800_000 }
-      data
+
+      Validate.validate_load(data)
     end
     def point(p)
       {

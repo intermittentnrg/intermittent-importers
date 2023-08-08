@@ -19,7 +19,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 20 Jul 2023 23:49:02 GMT
+      - Thu, 10 Aug 2023 02:38:31 GMT
       Server:
       - Apache
       Strict-Transport-Security:
@@ -32,9 +32,9 @@ http_interactions:
       - text/xml
     body:
       encoding: UTF-8
-      string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<GL_MarketDocument xmlns=\"urn:iec62325.351:tc57wg16:451-6:generationloaddocument:3:0\">\n\t<mRID>04c64506ba464941a3bcd2308316faef</mRID>\n\t<revisionNumber>1</revisionNumber>\n\t<type>A75</type>\n\t<process.processType>A16</process.processType>\n\t<sender_MarketParticipant.mRID
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<GL_MarketDocument xmlns=\"urn:iec62325.351:tc57wg16:451-6:generationloaddocument:3:0\">\n\t<mRID>73ae3005385b46ae94a00c3f7f925673</mRID>\n\t<revisionNumber>1</revisionNumber>\n\t<type>A75</type>\n\t<process.processType>A16</process.processType>\n\t<sender_MarketParticipant.mRID
         codingScheme=\"A01\">10X1001A1001A450</sender_MarketParticipant.mRID>\n\t<sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>\n\t<receiver_MarketParticipant.mRID
-        codingScheme=\"A01\">10X1001A1001A450</receiver_MarketParticipant.mRID>\n\t<receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>\n\t<createdDateTime>2023-07-20T23:49:03Z</createdDateTime>\n\t<time_Period.timeInterval>\n\t\t<start>2021-01-01T00:00Z</start>\n\t\t<end>2021-01-02T00:00Z</end>\n\t</time_Period.timeInterval>\n\t<TimeSeries>\n\t\t<mRID>1</mRID>\n\t\t<businessType>A01</businessType>\n\t\t<objectAggregation>A08</objectAggregation>\n\t\t<inBiddingZone_Domain.mRID
+        codingScheme=\"A01\">10X1001A1001A450</receiver_MarketParticipant.mRID>\n\t<receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>\n\t<createdDateTime>2023-08-10T02:38:31Z</createdDateTime>\n\t<time_Period.timeInterval>\n\t\t<start>2021-01-01T00:00Z</start>\n\t\t<end>2021-01-02T00:00Z</end>\n\t</time_Period.timeInterval>\n\t<TimeSeries>\n\t\t<mRID>1</mRID>\n\t\t<businessType>A01</businessType>\n\t\t<objectAggregation>A08</objectAggregation>\n\t\t<inBiddingZone_Domain.mRID
         codingScheme=\"A01\">10Y1001A1001A83F</inBiddingZone_Domain.mRID>\n\t\t<quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>\n\t\t<curveType>A01</curveType>\n\t\t<MktPSRType>\n\t\t\t<psrType>B01</psrType>\n\t\t</MktPSRType>\n\t\t<Period>\n\t\t\t<timeInterval>\n\t\t\t\t<start>2021-01-01T00:00Z</start>\n\t\t\t\t<end>2021-01-02T00:00Z</end>\n\t\t\t</timeInterval>\n\t\t\t<resolution>PT15M</resolution>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>1</position>\n
         \                       <quantity>4583</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>2</position>\n
         \                       <quantity>4580</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>3</position>\n
@@ -1781,5 +1781,5 @@ http_interactions:
         \                       <quantity>4518</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>95</position>\n
         \                       <quantity>4512</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>96</position>\n
         \                       <quantity>4497</quantity>\n\t\t\t\t</Point>\n\t\t</Period>\n\t</TimeSeries>\n</GL_MarketDocument>"
-  recorded_at: Thu, 20 Jul 2023 23:49:03 GMT
+  recorded_at: Thu, 10 Aug 2023 02:38:31 GMT
 recorded_with: VCR 6.2.0
