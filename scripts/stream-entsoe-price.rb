@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require './lib/init'
 require './lib/activerecord-connect'
+logger = SemanticLogger['stream-entsoe-generation.rb']
 
 if ARGV.length < 2
   $stderr.puts "#{$0} <from> <to> [country ...]"
@@ -14,8 +15,7 @@ to = Chronic.parse(ARGV.shift)
     area_id = Area.where(source: ENTSOE::Generation.source_id, code: country).pluck(:id).first
     e = ENTSOE::Price.new(country:, from:, to:)
     e.process
+  rescue
+    logger.error "Exception processing #{country}", $!
   end
-rescue
-  puts $!
-  puts $!.backtrace
 end
