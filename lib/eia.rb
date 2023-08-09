@@ -48,7 +48,6 @@ module Eia
         'facets[type][]': 'D'
       }
       query['facets[respondent][]'] = country if country
-      logger.info("from: #{query[:start]} to: #{query[:end]}")
       @res = []
       faraday = Faraday.new do |f|
         f.request :retry, {
@@ -56,7 +55,7 @@ module Eia
         }
       end
       loop do
-        res = logger.benchmark_info(URL) do
+        res = logger.benchmark_info("#{URL} #{query[:start]} #{query[:end]}") do
           faraday.get(URL, query)
         end
         res = logger.benchmark_info("json parse") do
@@ -119,7 +118,6 @@ module Eia
         'data[]': 'value',
         #'facets[fueltype][]': '{}',
       }
-      logger.info("from: #{query[:start]} to: #{query[:end]}")
       query['facets[respondent][]'] = country if country
       query[:offset] = 0
       @res = []
@@ -129,7 +127,7 @@ module Eia
         }
       end
       loop do
-        res = logger.benchmark_info(URL) do
+        res = logger.benchmark_info("#{URL} #{query[:start]} #{query[:end]}") do
           faraday.get(URL, query)
         end
         res = logger.benchmark_info("json parse") do
