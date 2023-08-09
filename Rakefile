@@ -33,7 +33,7 @@ task :ping do
   logger.info "ping"
 end
 
-multitask all: ["ieso:all", "eia:all", "elexon:all", "entsoe:all", "nordpool:all", :opennem, :ree, :aeso, :hydroquebec, :nspower]
+multitask all: ["ieso:all", "eia:all", "caiso:generation", "elexon:all", "entsoe:all", "nordpool:all", :opennem, :ree, :aeso, :hydroquebec, :nspower]
 namespace :ieso do
   task all: [:generation, :load]
   pump_task :generation, Ieso::Generation, Generation
@@ -44,6 +44,10 @@ namespace :eia do
   task all: [:generation, :load]
   pump_task :generation, Eia::Generation, Generation
   pump_task :load, Eia::Load, Load
+end
+
+namespace :caiso do
+  pump_task :generation, Caiso::Generation, Generation
 end
 
 namespace :elexon do

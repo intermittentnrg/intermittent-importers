@@ -15,7 +15,7 @@ module Out
           SemanticLogger.tagged(country) do
             # support source per day and date-range
             #require 'pry' ; binding.pry
-            if [Elexon::Generation, Elexon::Fuelinst, ::Ieso::Generation, ::Ree::Generation].include? self
+            if [::Caiso::Generation, ::Elexon::Generation, ::Elexon::Fuelinst, ::Ieso::Generation, ::Ree::Generation].include? self
               (from..to).each do |date|
                 yield self.new date
               end
@@ -78,11 +78,11 @@ module Out
           SemanticLogger.tagged(country) do
             # support source per day and date-range
             #require 'pry' ; binding.pry
-            if self == Elexon::Load
+            if self == ::Elexon::Load
               (from..to).each do |date|
                 yield self.new date
               end
-            elsif self == Ieso::Load
+            elsif self == ::Ieso::Load
               (from.year..to.year).each do |year|
                 yield self.new(DateTime.strptime(year.to_s, '%Y'))
               end
