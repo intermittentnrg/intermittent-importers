@@ -11,7 +11,7 @@ module Out
       def parsers_each
         ::Generation.joins(:area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
           from = from.to_datetime - refetch
-          to = [from + 1.year, DateTime.now.beginning_of_hour].min
+          to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
           SemanticLogger.tagged(country) do
             # support source per day and date-range
             #require 'pry' ; binding.pry
@@ -74,7 +74,7 @@ module Out
       def parsers_each
         ::Load.joins(:area).group(:'area.code').where("time > ?", 12.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
           from = from.to_datetime - refetch
-          to = [from + 1.year, DateTime.now.beginning_of_hour].min
+          to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
           SemanticLogger.tagged(country) do
             # support source per day and date-range
             #require 'pry' ; binding.pry
