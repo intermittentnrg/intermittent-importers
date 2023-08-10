@@ -32,7 +32,7 @@ class ENTSOE
 
     def fetch
       res = logger.benchmark_info("https://web-api.tp.entsoe.eu/api #{@from} #{@to}") do
-        faraday = Faraday.new(request: {timeout: 120}) do |f|
+        faraday = Faraday.new(request: {timeout: 600}) do |f|
           #f.request :gzip
           #f.response :logger, logger
         end
