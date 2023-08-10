@@ -111,10 +111,11 @@ module Out
         rows=::Load.where(time: @from...@to).where(area_id: areas.values).order(:time)
         rows=rows.map { |r| r.attributes.symbolize_keys }
 
-        diff = data-rows
-        if diff
-          diff.each do |d|
-            logger.warn "new or updated", event: {duration: Time.now-d[:time]}, load: d
+        index = Hash[rows.map { |r| [r[:time], r] }]
+        data.each do |p|
+          old = index[p[:time]]
+          if old && old[:value] != p[:value]
+            logger.warn "updated", event: {duration: Time.now-p[:time]}, load: p
           end
         end
         #require 'pry' ; binding.pry
