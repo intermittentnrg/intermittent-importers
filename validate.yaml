@@ -25,6 +25,34 @@ usa:
       min: -100000
       max: 100000
     fossil_gas:
+      min: -10000
       max: 400000
+    solar:
+      min: -1000
     other:
       max: 20000
+  AVRN:
+    wind:
+      min: -800
+      max: 3000
+  AZPS:
+    load:
+      max: 10000
+    other:
+      max: 600
+    #nuclear:
+  BANC:
+    hydro:
+      max: 10000
+  FMPP:
+    fossil_oil:
+      max: 10000
+  SRP:
+    fossil_gas:
+      max: 30000
+  WALC:
+    fossil_gas:
+      max: 1000
+    hydro:
+      min: -10000
+      max: 10000
