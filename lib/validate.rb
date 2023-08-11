@@ -47,25 +47,15 @@ class Validate
   def self.validate_db(delete=false)
     @@rules.each do |region, areas|
       areas.each do |area_code, production_types|
-        area = Area.where(region: region, code: area_code).first if area_code != 'all'
+        area = Area.find_by!(region: region, code: area_code) if area_code != 'all'
         production_types.each do |production_type_name, rules|
+          #TODO skip if check constraint in place
           if production_type_name == "load"
             query = Load
             if area
-              query = query.where(area_id: area.id) if area
+              query = query.where(area_id: area.id)
             else
               query = query.joins(:area).where("area.region" => region)
-            end
-
-            if rules[:max]
-              query = query.where.not(value: rules[:min]..rules[:max])
-              query_count = query.count
-              if query_count > 0
-                puts "#{region} #{area_code}/#{production_type_name} #{query_count} invalid records"
-                pp query
-                #require 'pry' ; binding.pry
-              end
-              query.delete_all if delete
             end
           else
             production_type = ProductionType.where(name: production_type_name).first
@@ -75,20 +65,87 @@ class Validate
             else
               query = query.joins(:area).where("area.region" => region)
             end
+          end
 
-            if rules[:max]
-              query = query.where.not(value: rules[:min]..rules[:max])
-              query_count = query.count
-              if query_count > 0
-                puts "#{region} #{area_code}/#{production_type_name} #{query_count} invalid records"
-                pp query
-                #require 'pry' ; binding.pry
+          if rules[:min] || rules[:max]
+            query = query.where.not(value: rules[:min]...rules[:max])
+            query_count = query.count
+            if query_count > 0
+              puts "#{region} #{area_code}/#{production_type_name} #{query_count} invalid records"
+              puts query.to_sql
+              pp query
+              #require 'pry' ; binding.pry
+              if delete
+                logger.warn "DELETE"
+                query.delete_all
               end
-              query.delete_all if delete
+            else
+              logger.info "#{region} #{area_code}/#{production_type_name} GOOD"
             end
           end
         end
       end
     end
+  end
+
+  def self.check_constraints
+    gen_check_constraints = Hash[ActiveRecord::Base.connection.check_constraints(:generation).map { |c| [c.options[:name], c.expression] }]
+    load_check_constraints = Hash[ActiveRecord::Base.connection.check_constraints(:load).map { |c| [c.options[:name], c.expression] }]
+    #areas = {}
+    #production_types = {}
+    @@rules.each do |region, areas|
+      areas.each do |area_code, production_types|
+        area = Area.find_by!(region: region, code: area_code).first if area_code != 'all'
+        if area
+          area_expression = "area_id = #{area.id}".freeze
+        else
+          area_ids = Area.where(region:).pluck(:id)
+          area_expression = "(area_id = ANY (ARRAY[#{area_ids.join(', ')}]))".freeze
+        end
+
+        production_types.each do |production_type_name, rules|
+          if production_type_name == "load"
+            check_constraints = load_check_constraints
+            table = :load
+            name = "auto_#{region}_#{area_code}".downcase
+            expression = area_expression
+          else
+            check_constraints = gen_check_constraints
+            table = :generation
+            production_type = ProductionType.where(name: production_type_name).first
+            name = "auto_#{region}_#{area_code}_#{production_type_name.gsub(/-/,'_')}".downcase
+            expression = "#{area_expression} AND production_type_id = #{production_type.id}"
+          end
+          if rules[:min] && rules[:max]
+            expression = "NOT (#{expression} AND (value <= '#{rules[:min]}'::integer OR value >= #{rules[:max]}))"
+          elsif rules[:min]
+            expression = "NOT (#{expression} AND value <= '#{rules[:min]}'::integer)"
+          elsif rules[:max]
+            expression = "NOT (#{expression} AND value >= #{rules[:max]})"
+          end
+          ActiveRecord::Base.connection.transaction do
+            # TODO use has_check_constraint?
+            if check_constraints[name] && expression == check_constraints[name]
+              logger.info("#{table} #{name} GOOD")
+              check_constraints.delete(name)
+              next
+            elsif check_constraints[name] && expression != check_constraints[name]
+              #require 'pry' ; binding.pry
+              logger.info("remove_check_constraint #{table} #{name}")
+              ActiveRecord::Base.connection.remove_check_constraint(table, name: name)
+            end
+            logger.info("add_check_constraint #{table} #{name} #{expression}")
+            ActiveRecord::Base.connection.add_check_constraint(table, expression, name: name)
+            check_constraints.delete(name)
+          end
+        end
+      end
+    end
+    logger.warn("Unmanaged generation check constraints: #{gen_check_constraints.keys}")
+    pp gen_check_constraints
+    logger.warn("Unmanaged load check constraints: #{load_check_constraints.keys}")
+    pp load_check_constraints
+  end
+  def self.has_check_constraint?
   end
 end
