@@ -1,6 +1,3 @@
-require 'bundler/setup'
-require 'dotenv/load'
-
 require 'date'
 require 'httparty'
 require 'active_support'

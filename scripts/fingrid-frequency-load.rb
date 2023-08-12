@@ -1,6 +1,4 @@
 #!/usr/bin/env ruby
-require 'bundler/setup'
-require 'dotenv/load'
 require 'time'
 require 'fastest-csv'
 

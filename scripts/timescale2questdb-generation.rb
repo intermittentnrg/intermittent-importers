@@ -1,7 +1,4 @@
 #!/usr/bin/env ruby
-require 'bundler/setup'
-require 'dotenv/load'
-
 require './lib/activerecord-connect'
 
 require './app/models/entsoe_generation'
