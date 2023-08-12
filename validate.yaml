@@ -35,6 +35,9 @@ usa:
     wind:
       min: -800
       max: 3000
+  AVA:
+    other:
+      max: 9000
   AZPS:
     load:
       max: 10000
