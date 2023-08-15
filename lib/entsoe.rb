@@ -316,7 +316,7 @@ class ENTSOE
     'SI': '10YSI-ELES-----O',
     'SK': '10YSK-SEPS-----K',
     #'TR': '10YTR-TEIAS----W',
-    #'UA': '10YUA-WEPS-----0',
+    'UA': '10YUA-WEPS-----0',
     'XK': '10Y1001C--00100H'
   }
   PARAMETER_DESC = {
