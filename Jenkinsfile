@@ -1,7 +1,14 @@
 env.TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
 
 properties([
-  buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '50'))
+  buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '50')),
+  [
+    $class         : 'BuildBlockerProperty',
+    blockingJobs   : "intermittency-${env.BRANCH_NAME}/.*",
+    blockLevel     : 'GLOBAL',
+    scanQueueFor   : 'ALL',
+    useBuildBlocker: true
+  ]
 ])
 
 stage('kaniko') {

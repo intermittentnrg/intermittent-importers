@@ -2,6 +2,10 @@ folder("intermittency-${BRANCH_NAME}")
 
 pipelineJob("intermittency-${BRANCH_NAME}/refresh") {
   previousNames("intermittency-${BRANCH_NAME}-refresh")
+  blockOn("intermittency/${BRANCH_NAME}") {
+    blockLevel('GLOBAL')
+    scanQueueFor('ALL')
+  }
   properties {
     disableConcurrentBuilds()
     if (BRANCH_NAME == "master" || BRANCH_NAME == "production") {
@@ -35,6 +39,10 @@ pipelineJob("intermittency-${BRANCH_NAME}/refresh") {
 }
 
 pipelineJob("intermittency-${BRANCH_NAME}/deep-refresh") {
+  blockOn("intermittency/${BRANCH_NAME}") {
+    blockLevel('GLOBAL')
+    scanQueueFor('ALL')
+  }
   properties {
     disableConcurrentBuilds()
     if (BRANCH_NAME == "master" || BRANCH_NAME == "production") {
