@@ -41,6 +41,9 @@ usa:
   AZPS:
     load:
       max: 10000
+    nuclear:
+      # Palo Verde is double reported in SRP and AZPS until 2019-12-05
+      max: 0
     other:
       max: 600
     #nuclear:
