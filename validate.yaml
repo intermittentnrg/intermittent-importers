@@ -58,7 +58,8 @@ usa:
       max: 30000
   WALC:
     fossil_gas:
-      max: 1000
+      #source: https://github.com/electricitymaps/electricitymaps-contrib/blob/master/config/zones/US-SW-WALC.yaml#L10
+      max: 2777
     hydro:
       min: -10000
       max: 10000
