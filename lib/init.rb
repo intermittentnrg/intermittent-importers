@@ -2,7 +2,13 @@ ENV['TZ'] = 'UTC'
 
 require 'bundler/setup'
 require 'dotenv'
-Dotenv.load ENV['ENV'] ? ".env-#{ENV['ENV']}" : '.env'
+
+envfile = ".env-#{ENV['ENV']}"
+if ENV['ENV'] && File.exist?(envfile)
+  Dotenv.load envfile
+else
+  Dotenv.load
+end
 
 require 'semantic_logger'
 SemanticLogger.default_level = :info
