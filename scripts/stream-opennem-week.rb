@@ -9,7 +9,7 @@ if ARGV.length < 1
 end
 year = Date.parse "#{ARGV.shift} +10:00"
 
-countries = ARGV.present? ? ARGV : Area.where(source: Opennem::Year.source_id).pluck(:code)
+countries = ARGV.present? ? ARGV : Area.where(source: Opennem::Week.source_id).pluck(:code)
 countries.each do |country|
   SemanticLogger.tagged(country: country) do
     e = Opennem::Week.new(country: country, date: year)

@@ -139,6 +139,7 @@ module Opennem
     end
   end
 
+  # 5 minute resolution
   class Week < Base
     include SemanticLogger::Loggable
     include Out::Generation
