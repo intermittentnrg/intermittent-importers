@@ -95,7 +95,7 @@ class Validate
     #production_types = {}
     @@rules.each do |region, areas|
       areas.each do |area_code, production_types|
-        area = Area.find_by!(region: region, code: area_code).first if area_code != 'all'
+        area = Area.find_by!(region: region, code: area_code) if area_code != 'all'
         if area
           area_expression = "area_id = #{area.id}".freeze
         else
@@ -131,7 +131,7 @@ class Validate
               next
             elsif check_constraints[name] && expression != check_constraints[name]
               #require 'pry' ; binding.pry
-              logger.info("remove_check_constraint #{table} #{name}")
+              logger.info("remove_check_constraint #{table} #{name} #{check_constraints[name]}")
               ActiveRecord::Base.connection.remove_check_constraint(table, name: name)
             end
             logger.info("add_check_constraint #{table} #{name} #{expression}")
