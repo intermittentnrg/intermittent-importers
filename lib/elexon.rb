@@ -214,7 +214,7 @@ module Elexon
           value: (point['quantity'].to_f*1000).to_i
         }
       end
-      require 'pry' ; binding.pry
+      #require 'pry' ; binding.pry
 
       r.values
     end
