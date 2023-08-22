@@ -132,6 +132,9 @@ module Eia
         end
         res = logger.benchmark_info("json parse") do
           FastJsonparser.parse(res.body, symbolize_keys: false)
+        rescue
+          logger.error "Response body: #{res.body}"
+          raise
         end
         @res << res
         if query[:offset] + res['response']['data'].length >= res['response']['total']
