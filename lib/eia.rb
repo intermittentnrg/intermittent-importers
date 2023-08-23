@@ -51,6 +51,7 @@ module Eia
       @res = []
       faraday = Faraday.new do |f|
         f.request :retry, {
+          retry_statuses: [500, 502],
           max: 5
         }
       end
@@ -123,6 +124,7 @@ module Eia
       @res = []
       faraday = Faraday.new do |f|
         f.request :retry, {
+          retry_statuses: [500, 502],
           max: 5
         }
       end
