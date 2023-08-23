@@ -179,7 +179,7 @@ module Elexon
 
   class Unit < Base
     include SemanticLogger::Loggable
-    #include Out::Load
+    include Out::Unit
 
     def self.api_version
       "v2"

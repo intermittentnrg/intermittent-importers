@@ -62,6 +62,33 @@ module Out
     end
   end
 
+  module Unit
+    def self.included(klass)
+      klass.extend(ClassMethods)
+    end
+
+    module ClassMethods
+      def refetch
+        0
+      end
+      def parsers_each
+        ::GenerationUnit.group(:unit_id).pluck(:unit_id, Arel.sql("LAST(time, time)")).each do |unit_id, from|
+          unit = ::Unit.find(unit_id)
+          from = from.to_datetime - refetch
+          to = DateTime.now
+          SemanticLogger.tagged(unit.internal_id) do
+            if [Elexon::Unit].include? self
+              (from..to).each do |date|
+                yield self.new(date, unit.internal_id)
+              end
+            end
+          end
+          require 'pry' ; binding.pry
+        end
+      end
+    end
+  end
+
   module Load
     def self.included(klass)
       klass.extend(ClassMethods)
