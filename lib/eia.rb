@@ -136,6 +136,9 @@ module Eia
           logger.error "Response body: #{res.body}"
           raise
         end
+        unless res['response']['data']
+          logger.error "Response body (missing response.data): #{res.body}"
+        end
         @res << res
         if query[:offset] + res['response']['data'].length >= res['response']['total']
           break
