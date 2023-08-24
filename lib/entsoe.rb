@@ -1,7 +1,5 @@
 # coding: utf-8
 require 'faraday/gzip'
-require 'active_support'
-require 'active_support/core_ext'
 
 class ENTSOE
   DEFAULT_START = DateTime.parse('2014-01-01')
@@ -74,6 +72,7 @@ class ENTSOE
           r << point(p)
         end
       end
+      #require 'pry' ; binding.pry
 
       r
     end
@@ -137,6 +136,53 @@ class ENTSOE
       Validate.validate_generation(points)
     end
   end
+
+  class Unit < Base
+    include SemanticLogger::Loggable
+    include Out::Unit
+
+    def initialize(area, **kwargs)
+      super(**kwargs)
+      @area = area
+      @options[:documentType] = 'A73'
+      @options[:processType] = PROCESS_TYPES[:realised]
+      @options[:in_Domain] = area.internal_id
+      fetch
+    end
+    def points
+      r=[]
+      points_selector do |ts|
+        next if ts.locate('outBiddingZone_Domain.mRID').first
+
+        start = Time.strptime(ts.locate('Period/timeInterval/start/^String').first, '%Y-%m-%dT%H:%M%z')
+        resolution = ts.locate('Period/resolution/^String').first.match(/^PT(\d+)M$/) { |m| m[1].to_i }
+
+        psr = ts.locate('MktPSRType/psrType/^String').first
+        @production_type = PARAMETER_DESC[psr.to_sym].downcase.tr_s(' ', '_') if psr
+        production_type = ProductionType.find_by!(name: @production_type)
+        unit_name = ts.locate('MktPSRType/PowerSystemResources/name/^String').first
+        unit_eic = ts.locate('MktPSRType/PowerSystemResources/mRID/^String').first
+        @unit = ::Unit.find_or_create_by!(area: @area, production_type:, internal_id: unit_eic, code: unit_name)
+
+        data = ts.locate('Period/Point').each do |p|
+          @time = start + ((p.locate('position/^String').first.to_i - 1) * resolution).minutes
+          @last_time = @time
+          r << point(p)
+        end
+      end
+      #require 'pry' ; binding.pry
+
+      r
+    end
+    def point(p)
+      {
+        time: @time,
+        unit_id: @unit.id,
+        value: p.locate('quantity/^String').first.to_i
+      }
+    end
+  end
+
 
   #4.1.1. Actual Total Load [6.1.A]
   #GET /api?documentType=A65&processType=A16&outBiddingZone_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300

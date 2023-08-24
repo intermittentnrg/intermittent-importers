@@ -87,6 +87,18 @@ module Out
         end
       end
     end
+    def process
+      data = points
+
+      #FIXME diff calculation
+      #raise unless @from && @to
+
+      logger.info "#{data.first.try(:[], :time)} #{data.length} points"
+
+      logger.benchmark_info("upsert") do
+        ::GenerationUnit.upsert_all(data) if data.present?
+      end
+    end
   end
 
   module Load
