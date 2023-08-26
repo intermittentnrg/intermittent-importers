@@ -14,7 +14,7 @@ class Validate
       min = rule[:min] || rule_all[:min]
       max = rule[:max] || rule_all[:max]
 
-      r = max.nil? || (min...max).include?(p[:value])
+      r = (min.nil? && max.nil?) || (min...max).include?(p[:value])
       logger.warn "skipped invalid generation", generation: p unless r
 
       r
@@ -35,7 +35,7 @@ class Validate
       min = rule[:min] || rule_all[:min]
       max = rule[:max] || rule_all[:max]
 
-      r = max.nil? || (min...max).include?(p[:value])
+      r = (min.nil? && max.nil?) || (min...max).include?(p[:value])
       logger.warn "skipped invalid load", load: p unless r
 
       r
