@@ -72,7 +72,7 @@ module Out
         0
       end
       def parsers_each
-        ::GenerationUnit.group(:unit_id).pluck(:unit_id, Arel.sql("LAST(time, time)")).each do |unit_id, from|
+        ::GenerationUnit.group(:unit_id).joins(:unit => :area).where("area.source" => self.source_id).where("time > ?", 2.months.ago).pluck(:unit_id, Arel.sql("LAST(time, time)")).each do |unit_id, from|
           unit = ::Unit.find(unit_id)
           from = from.to_datetime - refetch
           to = DateTime.now
@@ -80,10 +80,12 @@ module Out
             if [::Elexon::Unit].include? self
               (from..to).each do |date|
                 yield self.new(date, unit.internal_id)
+              rescue ENTSOE::EmptyError
+                logger.error "Exception processing #{date}", $!
               end
             end
           end
-          require 'pry' ; binding.pry
+          #require 'pry' ; binding.pry
         end
       end
     end

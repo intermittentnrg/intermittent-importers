@@ -51,10 +51,11 @@ namespace :caiso do
 end
 
 namespace :elexon do
-  task all: [:generation, :fuelinst, :load]
+  task all: [:generation, :fuelinst, :load, :unit]
   pump_task :generation, Elexon::Generation, Generation
   pump_task :fuelinst, Elexon::Fuelinst, Generation
   pump_task :load, Elexon::Load, Load
+  pump_task :unit, Elexon::Unit, GenerationUnit
 end
 
 namespace :entsoe do
