@@ -185,6 +185,77 @@ class ENTSOE
     end
   end
 
+  class UnitSFTP < Base
+    include SemanticLogger::Loggable
+    include Out::Unit
+
+    def initialize(file)
+      @file = file
+    end
+    AREA_CODE_OVERRIDE = {
+      'DE_Amprion' => 'DE',
+      'DE_TenneT_GER' => 'DE',
+      'DE_TransnetBW' => 'DE',
+      'DE_50HzT' => 'DE'
+    }
+    def points
+      r = []
+      units = {}
+      csv = CSV.foreach(@file,
+                        col_sep: "\t",
+                        return_headers: false, #always returns headers regardless
+                        headers: [
+                          :time, #DateTime
+                          :resolution, #ResolutionCode
+                          :area_internal_id, #AreaCode
+                          :_area_type, #AreaTypeCode
+                          :_area_name, #AreaName
+                          :area_code, #MapCode
+                          :unit_internal_id, #GenerationUnitEIC
+                          :unit_name, #PowerSystemResourceName
+                          :unit_production_type, #ProductionType
+                          :value, #ActualGenerationOutput
+                          :value_negative, #ActualConsumption
+                          :_capacity, #InstalledGenCapacity
+                          :_update_time #UpdateTime
+                        ])
+      csv.next
+      loop do
+        row = csv.next
+        time = Time.strptime(row[:time], '%Y-%m-%d %H:%M:%S.%L')
+
+        unit_id = units[row[:unit_internal_id]]
+        unless unit_id
+          production_type = ProductionType.find_by!(name: row[:unit_production_type].gsub(/ /,'_').downcase)
+          unit = ::Unit.find_or_create_by!(
+            internal_id: row[:unit_internal_id],
+            name: row[:unit_name],
+            production_type:
+          )
+          unit_id = units[row[:unit_internal_id]] = unit.id
+
+          # Populate area unless set
+          unless unit.area
+            unit.area = ::Area.find_by(
+              code: AREA_CODE_OVERRIDE[row[:area_code]] || row[:area_code],
+              source: self.class.source_id
+            )
+            raise "Missing area #{row[:area_code]} / #{row}" unless unit.area
+            unit.save
+          end
+        end
+
+        value = (row[:value].to_f*1000).to_i - (row[:value_negative].to_f*1000).to_i
+        r << {
+          unit_id:,
+          time:,
+          value:
+        }
+      end
+
+      r
+    end
+  end
 
   #4.1.1. Actual Total Load [6.1.A]
   #GET /api?documentType=A65&processType=A16&outBiddingZone_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
@@ -321,6 +392,7 @@ class ENTSOE
     'FR': '10YFR-RTE------C',
     'GB': '10YGB----------A', # exited dataset in 2021
     #'GB-NIR': '10Y1001A1001A016',
+    'GE': '10Y1001A1001B012',
     'GR': '10YGR-HTSO-----Y',
     'HR': '10YHR-HEP------M',
     'HU': '10YHU-MAVIR----U',
