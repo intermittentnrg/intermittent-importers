@@ -4,6 +4,7 @@ default: &default
   pool: 5
   checkout_timeout: 30000
   timeout: 5000
+  #query_cache: 100
 
 development:
   <<: *default
