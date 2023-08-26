@@ -1,24 +1,28 @@
 source 'https://rubygems.org'
 
 gem 'pry'
+# Network protocols
 gem 'httparty'
 gem 'faraday'
 gem 'faraday-gzip'
 gem 'faraday-follow_redirects'
 gem 'faraday-retry'
 gem 'faraday-http-cache'
+
 gem 'activesupport'
 gem 'dotenv'
-gem 'fastest-csv'
-gem 'fast_jsonparser'
 gem 'rake'
 gem 'semantic_logger'
 gem 'elasticsearch'
 
+
+# Parsers
 gem 'chronic'
+gem 'fastest-csv'
+gem 'fast_jsonparser'
 gem 'ox'
 
-# Timescaledb
+# Database
 gem 'activerecord'
 gem 'pg'
 gem 'composite_primary_keys'
