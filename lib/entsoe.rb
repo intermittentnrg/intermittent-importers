@@ -185,48 +185,115 @@ class ENTSOE
     end
   end
 
-  class UnitSFTP < Base
+  class SFTP < Base
+    def initialize(file)
+      logger.info "Processing #{file}"
+
+      m = /^(\d{4})_(\d{2})_/.match(File.basename(file))
+      @from = Date.new m[1].to_i, m[2].to_i
+      @to = @from + 1.month
+
+      if file =~ /\.zip$/i
+        zip_file = Zip::File.open(file)
+        @file = zip_file.first.get_input_stream
+      else
+        @file = file
+      end
+    end
+
+    def parse_time(row)
+      Time.strptime(row[:time], '%Y-%m-%d %H:%M:%S.%L')
+    end
+    def parse_production_type(row)
+      row[:production_type].gsub(/ /,'_').downcase
+    end
+    def parse_value(row)
+      (row[:value].to_f*1000).to_i - (row[:value_negative].to_f*1000).to_i
+    end
+  end
+
+  class GenerationSFTP < SFTP
+    include SemanticLogger::Loggable
+    include Out::Generation
+
+    def points_generation
+      r = {}
+      csv = CSV.new(
+        @file,
+        col_sep: "\t",
+        headers: [
+          :time, #DateTime
+          :_resolution, #ResolutionCode
+          :area_internal_id, #AreaCode
+          :_area_type, #AreaTypeCode
+          :_area_name, #AreaName
+          :area_code, #MapCode
+          :production_type, #ProductionType
+          :value, #ActualGenerationOutput
+          :value_negative, #ActualConsumption
+          :_update_time #UpdateTime
+        ]
+      ).each
+      csv.next
+      require 'pry'
+      loop do
+        row = csv.next
+        time = parse_time(row)
+        country = row[:area_code]
+        production_type = parse_production_type(row)
+        value = parse_value(row)
+
+        k = [time,country,production_type]
+        binding.pry if r[k] && r[k][:value] != value
+        r[k] = {time:, country:, production_type:, value:}
+      end
+      require 'pry' ; binding.pry
+
+      r.values
+    end
+  end
+
+  class UnitSFTP < SFTP
     include SemanticLogger::Loggable
     include Out::Unit
 
-    def initialize(file)
-      @file = file
-    end
     AREA_CODE_OVERRIDE = {
       'DE_Amprion' => 'DE',
       'DE_TenneT_GER' => 'DE',
       'DE_TransnetBW' => 'DE',
-      'DE_50HzT' => 'DE'
+      'DE_50HzT' => 'DE',
+      'NIE' => 'GB'
     }
+
     def points
       r = []
       units = {}
-      csv = CSV.foreach(@file,
+      csv = CSV.new(@file,
                         col_sep: "\t",
                         return_headers: false, #always returns headers regardless
                         headers: [
                           :time, #DateTime
-                          :resolution, #ResolutionCode
+                          :_resolution, #ResolutionCode
                           :area_internal_id, #AreaCode
                           :_area_type, #AreaTypeCode
                           :_area_name, #AreaName
                           :area_code, #MapCode
                           :unit_internal_id, #GenerationUnitEIC
                           :unit_name, #PowerSystemResourceName
-                          :unit_production_type, #ProductionType
+                          :production_type, #ProductionType
                           :value, #ActualGenerationOutput
                           :value_negative, #ActualConsumption
                           :_capacity, #InstalledGenCapacity
                           :_update_time #UpdateTime
-                        ])
+                        ]).each
       csv.next
       loop do
         row = csv.next
-        time = Time.strptime(row[:time], '%Y-%m-%d %H:%M:%S.%L')
+        time = parse_time(row)
 
         unit_id = units[row[:unit_internal_id]]
         unless unit_id
-          production_type = ProductionType.find_by!(name: row[:unit_production_type].gsub(/ /,'_').downcase)
+          production_type = ProductionType.find_by!(name: parse_production_type(row))
           unit = ::Unit.find_or_create_by!(
             internal_id: row[:unit_internal_id],
             name: row[:unit_name],
@@ -245,7 +312,7 @@ class ENTSOE
           end
         end
 
-        value = (row[:value].to_f*1000).to_i - (row[:value_negative].to_f*1000).to_i
+        value = parse_value(row)
         r << {
           unit_id:,
           time:,

@@ -12,6 +12,7 @@ gem 'faraday-http-cache'
 gem 'activesupport'
 gem 'dotenv'
 gem 'rake'
+
 gem 'semantic_logger'
 gem 'elasticsearch'
 
@@ -21,6 +22,8 @@ gem 'chronic'
 gem 'fastest-csv'
 gem 'fast_jsonparser'
 gem 'ox'
+
+gem 'rubyzip'
 
 # Database
 gem 'activerecord'

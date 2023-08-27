@@ -152,6 +152,7 @@ DEPENDENCIES
   rspec
   rspec-collection_matchers
   rspec_junit_formatter
+  rubyzip
   selenium-webdriver
   semantic_logger
   typhoeus

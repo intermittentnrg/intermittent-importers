@@ -1,9 +1,14 @@
 #!/usr/bin/env ruby
 require './lib/init'
 require './lib/activerecord-connect'
-logger = SemanticLogger['stream-entsoe-generation.rb']
+logger = SemanticLogger[$0]
 
-while file = ARGV.shift
+if ARGV.empty?
+  $stderr.puts "#{$0} [file]"
+  exit 1
+end
+
+ARGV.each do |file|
   e = ENTSOE::UnitSFTP.new(file)
   e.process
 end
