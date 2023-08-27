@@ -38,7 +38,7 @@ module Aeso
       csv.each do |row|
         production_type = MAPPING[row[0]] || row[0].downcase.gsub(/ /, '_')
         next if production_type == 'total'
-        value = row[2]
+        value = row[2]*1000
 
         r << {
           time: @time,

@@ -83,7 +83,7 @@ module Elexon
             country: 'GB',
             production_type: v,
             time: time,
-            value: item[k].to_f.round
+            value: (item[k].to_f*1000).to_i
           }
         end
       end
@@ -112,7 +112,7 @@ module Elexon
           country: 'GB_B1630',
           production_type: production_type,
           time: time,
-          value: item['quantity'].to_f.round
+          value: (item['quantity'].to_f*1000).to_i
         }
       end
       #require 'pry' ; binding.pry
@@ -140,7 +140,7 @@ module Elexon
           country: 'GB_B1620',
           production_type: production_type,
           time: time,
-          value: item['quantity'].to_f.round
+          value: (item['quantity'].to_f*1000).to_i
         }
       end
 
@@ -160,7 +160,7 @@ module Elexon
       r = {}
       @res['response']['responseBody']['responseList']['item'].each do |item|
         time = Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes
-        value = item['quantity'].to_f.round
+        value = (item['quantity'].to_f*1000).to_i
         next if value < 10000
         next if r[time]
 

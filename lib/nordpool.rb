@@ -132,7 +132,7 @@ class Nordpool
             :time => time,
             :from_area => from,
             :to_area => to,
-            self.class::FIELD => c["Value"].gsub(/\s/, '').gsub(/,/,'.')
+            self.class::FIELD => c["Value"].gsub(/\s/, '').gsub(/,/,'.').to_i*1000
           }
         end
       end

@@ -41,7 +41,7 @@ module HydroQuebec
             time: time,
             country: "CA-QC",
             production_type: ENGLISH[k],
-            value: v
+            value: v*1000
           }
         end
       end

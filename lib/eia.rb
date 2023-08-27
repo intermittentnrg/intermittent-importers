@@ -93,7 +93,7 @@ module Eia
           r << {
             time: time,
             country: row['respondent'],
-            value: row['value']
+            value: row['value']*1000
           }
         end
       end
@@ -163,7 +163,7 @@ module Eia
             time: time,
             country: row['respondent'],
             production_type: FUEL_MAP[row['fueltype']],
-            value: row['value']
+            value: row['value']*1000
           }
         end
       end

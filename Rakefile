@@ -33,7 +33,7 @@ task :ping do
   logger.info "ping"
 end
 
-multitask all: ["ieso:all", "eia:all", "caiso:generation", "elexon:all", "entsoe:all", "nordpool:all", :opennem, :ree, :aeso, :hydroquebec, :nspower]
+multitask all: ["ieso:all", "eia:all", "caiso:generation", "elexon:all", "entsoe:all", "nordpool:all", :opennem, :ree, :aeso, :hydroquebec]
 namespace :ieso do
   task all: [:generation, :load]
   pump_task :generation, Ieso::Generation, Generation
@@ -92,8 +92,8 @@ rescue
   logger.error "Exception", $!
 end
 
-task :nspower do
-  Nspower::Combined.new.process
-rescue
-  logger.error "Exception", $!
-end
+# task :nspower do
+#   Nspower::Combined.new.process
+# rescue
+#   logger.error "Exception", $!
+# end

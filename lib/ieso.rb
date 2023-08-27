@@ -54,11 +54,11 @@ module Ieso
       CSV.parse(@res.body, skip_lines: /^(\\|Date)/, headers: false) do |row|
         time = Time.strptime("#{row[0]} #{row[1]}", '%Y-%m-%d %H')
         time = Ieso::Base::TZ.local_to_utc(time)
-        value = row[3].to_i
+        value = row[3].to_i*1000
         r << {
-          time: time,
+          time:,
           country: 'CA-ON',
-          value: value
+          value:
         }
       end
       #require 'pry' ; binding.pry
@@ -92,7 +92,7 @@ module Ieso
           time = date + hour.to_i.hours
           time = TZ.local_to_utc(time)
           out_sum[time] ||= 0
-          out_sum[time] += value.to_i
+          out_sum[time] += value.to_i*1000
         end
       end
       #require 'pry' ; binding.pry
@@ -103,6 +103,7 @@ module Ieso
       points
     end
   end
+
   class Generation < Base
     include SemanticLogger::Loggable
     include Out::Generation
@@ -130,7 +131,7 @@ module Ieso
           time = date + (o["Hour"].to_i - 1).hours
           time = TZ.local_to_utc(time)
           out_sum[time] ||= 0
-          out_sum[time] += o["EnergyMW"].to_i
+          out_sum[time] += o["EnergyMW"].to_i*1000
         end
       end
 

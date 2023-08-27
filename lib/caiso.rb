@@ -67,7 +67,7 @@ module Caiso
           r << {
             time: time,
             production_type: type,
-            value: value.to_f.round,
+            value: (value.to_f*1000).to_i,
             country: 'CAISO'
           }
         end

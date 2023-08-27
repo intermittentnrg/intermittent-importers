@@ -75,7 +75,7 @@ module Opennem
             @load_r << {
               time: time,
               country: country,
-              value: value
+              value: value*1000
             }
           end
         else
@@ -94,7 +94,7 @@ module Opennem
               time: time,
               production_type: type,
               country: country,
-              value: value.round
+              value: (value.to_f*1000).to_i
             }
           end
         end

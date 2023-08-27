@@ -82,7 +82,7 @@ class ENTSOE
         country: @country,
         production_type: @production_type,
         time: @time,
-        value: p.locate('quantity/^String').first.to_i
+        value: p.locate('quantity/^String').first.to_i*1000
       }
     end
 
@@ -178,7 +178,7 @@ class ENTSOE
       {
         time: @time,
         unit_id: @unit.id,
-        value: p.locate('quantity/^String').first.to_i
+        value: p.locate('quantity/^String').first.to_i*1000
       }
     end
   end
@@ -213,7 +213,7 @@ class ENTSOE
       {
         country: @country,
         time: @time,
-        value: p.locate('quantity/^String').first.to_i
+        value: p.locate('quantity/^String').first.to_i*1000
       }
     end
   end
@@ -283,7 +283,7 @@ class ENTSOE
         time: @time,
         from_area: @from_area,
         to_area: @to_area,
-        value: p.locate('quantity/^String').first.to_i
+        value: p.locate('quantity/^String').first.to_i*1000
       }
     end
   end

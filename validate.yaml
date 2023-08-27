@@ -1,65 +1,76 @@
 europe:
   all:
     load:
-      max: 800000
+      min: 0
+      max: 800000000
+  GB:
+    min: 10000000
   #FR:
   #  nuclear:
   #    max:
   "NO":
     wind_onshore:
-      max: 10000
+      max: 10000000
   RS:
     hydro_run-of-river_and_poundage:
-      max: 5000
+      max: 5000000
     hydro_pumped_storage:
       #seen: 1GW
-      max: 3000
+      max: 3000000
 #  XK:
 #    load:
-#      max: 2000
+#      max: 2000000
 usa:
   all:
     load:
-      max: 800000
+      max: 800000000
     wind:
-      min: -100000
-      max: 100000
+      min: -100000000
+      max: 100000000
     fossil_gas:
-      min: -10000
-      max: 400000
+      min: -10000000
+      max: 400000000
     solar:
-      min: -1000
+      min: -1000000
     other:
-      max: 20000
+      max: 20000000
   AVRN:
     wind:
-      min: -800
-      max: 3000
+      min: -800000
+      max: 3000000
   AVA:
     other:
-      max: 9000
+      max: 9000000
   AZPS:
     load:
-      max: 10000
+      max: 10000000
     nuclear:
       # Palo Verde is double reported in SRP and AZPS until 2019-12-05
       max: 0
     other:
-      max: 600
+      max: 600000
     #nuclear:
   BANC:
+    load:
+      max: 800000000
     hydro:
-      max: 10000
+      max: 10000000
   FMPP:
     fossil_oil:
-      max: 10000
+      max: 10000000
+  FPC:
+    solar:
+      max: 3000000
+  PJM:
+    nuclear:
+      max: 36000000
   SRP:
     fossil_gas:
-      max: 30000
+      max: 30000000
   WALC:
     fossil_gas:
       #source: https://github.com/electricitymaps/electricitymaps-contrib/blob/master/config/zones/US-SW-WALC.yaml#L10
-      max: 2777
+      max: 2777000
     hydro:
-      min: -10000
-      max: 10000
+      min: -10000000
+      max: 10000000
