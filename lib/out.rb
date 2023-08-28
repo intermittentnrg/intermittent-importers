@@ -37,7 +37,8 @@ module Out
       areas = {}
       production_types = {}
       data.each do |p|
-        p[:area_id] = (areas[p[:country]] ||= ::Area.where(source: self.class.source_id, code: p[:country]).pluck(:id).first) if p[:country]
+        p[:area_id] ||= (areas[p[:country]] ||= ::Area.where(source: self.class.source_id, code: p[:country]).pluck(:id).first) if p[:country]
+        raise p.inspect unless p[:area_id]
         p[:production_type_id] = (production_types[p[:production_type]] ||= ::ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
         p.delete :production_type
         p.delete :country

@@ -218,6 +218,7 @@ class ENTSOE
 
     def points_generation
       r = {}
+      areas = {}
       csv = CSV.new(
         @file,
         col_sep: "\t",
@@ -225,8 +226,8 @@ class ENTSOE
           :time, #DateTime
           :_resolution, #ResolutionCode
           :area_internal_id, #AreaCode
-          :_area_type, #AreaTypeCode
-          :_area_name, #AreaName
+          :area_type, #AreaTypeCode
+          :area_name, #AreaName
           :area_code, #MapCode
           :production_type, #ProductionType
           :value, #ActualGenerationOutput
@@ -238,16 +239,23 @@ class ENTSOE
       require 'pry'
       loop do
         row = csv.next
+        next if row[:area_type] == 'CTA'
         time = parse_time(row)
-        country = row[:area_code]
+        #area_code = row[:area_code]
         production_type = parse_production_type(row)
         value = parse_value(row)
+        area_id = areas[row[:area_internal_id]] ||= ::Area.where(internal_id: row[:area_internal_id], source: self.class.source_id).pluck(:id).first
+        unless area_id
+          require 'pry' ; binding.pry
+        end
 
-        k = [time,country,production_type]
-        binding.pry if r[k] && r[k][:value] != value
-        r[k] = {time:, country:, production_type:, value:}
+        k = [time,area_id,production_type]
+        if r[k] && r[k][:value] != value
+          logger.warn("#{row[:area_internal_id]} #{row[:area_name]} different values #{r[k][:value]} != #{value}")
+        end
+        r[k] = {time:, area_id:, production_type:, value:}
       end
-      require 'pry' ; binding.pry
+      #require 'pry' ; binding.pry
 
       r.values
     end
@@ -452,8 +460,9 @@ class ENTSOE
     #'BY': '10Y1001A1001A51S',
     'CH': '10YCH-SWISSGRIDZ',
     'CZ': '10YCZ-CEPS-----N',
+    'CY': '10YCY-1001A0003J',
     'DE': '10Y1001A1001A83F',
-    'DE-LU': '10Y1001A1001A82H', # duplicate of DE
+    'DE-LU': '10Y1001A1001A82H', # DE-Luxembourg
     'DK': '10Y1001A1001A65H',
     'DK1': '10YDK-1--------W',
     'DK2': '10YDK-2--------M',
@@ -461,6 +470,7 @@ class ENTSOE
     'ES': '10YES-REE------0',
     'FI': '10YFI-1--------U',
     'FR': '10YFR-RTE------C',
+    #'GB': '10Y1001A1001A92E',
     'GB': '10YGB----------A', # exited dataset in 2021
     #'GB-NIR': '10Y1001A1001A016',
     'GE': '10Y1001A1001B012',
@@ -468,14 +478,15 @@ class ENTSOE
     'HR': '10YHR-HEP------M',
     'HU': '10YHU-MAVIR----U',
     'IE': '10YIE-1001A00010',
+    'IE(SEM)': '10Y1001A1001A59C',
     'IT': '10YIT-GRTN-----B',
-    #'IT-BR': '10Y1001A1001A699',
-    #'IT-CA': '10Y1001C--00096J',
+    'IT-BR': '10Y1001A1001A699',
+    'IT-CA': '10Y1001C--00096J',
     'IT-CNO': '10Y1001A1001A70O',
     'IT-CSO': '10Y1001A1001A71M',
-    #'IT-FO': '10Y1001A1001A72K',
+    'IT-FO': '10Y1001A1001A72K',
     'IT-NO': '10Y1001A1001A73I',
-    #'IT-PR': '10Y1001A1001A76C',
+    'IT-PR': '10Y1001A1001A76C',
     'IT-SAR': '10Y1001A1001A74G',
     'IT-SIC': '10Y1001A1001A75E',
     'IT-SO': '10Y1001A1001A788',
