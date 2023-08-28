@@ -197,7 +197,7 @@ class ENTSOE
         zip_file = Zip::File.open(file)
         @file = zip_file.first.get_input_stream
       else
-        @file = file
+        @file = File.new(file, 'r')
       end
     end
 
