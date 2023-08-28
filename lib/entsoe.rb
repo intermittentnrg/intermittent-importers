@@ -162,7 +162,7 @@ class ENTSOE
         production_type = ProductionType.find_by!(name: @production_type)
         unit_name = ts.locate('MktPSRType/PowerSystemResources/name/^String').first
         unit_eic = ts.locate('MktPSRType/PowerSystemResources/mRID/^String').first
-        @unit = ::Unit.find_or_create_by!(area: @area, production_type:, internal_id: unit_eic, code: unit_name)
+        @unit = ::Unit.find_or_create_by!(area: @area, production_type:, internal_id: unit_eic, name: unit_name)
 
         data = ts.locate('Period/Point').each do |p|
           @time = start + ((p.locate('position/^String').first.to_i - 1) * resolution).minutes
