@@ -296,20 +296,18 @@ class ENTSOE
           production_type = ProductionType.find_by!(name: parse_production_type(row))
           unit = ::Unit.find_or_create_by!(
             internal_id: row[:unit_internal_id],
-            name: row[:unit_name],
             production_type:
           )
           unit_id = units[row[:unit_internal_id]] = unit.id
 
           # Populate area unless set
-          unless unit.area
-            unit.area = ::Area.find_by(
-              code: AREA_CODE_OVERRIDE[row[:area_code]] || row[:area_code],
-              source: self.class.source_id
-            )
-            raise "Missing area #{row[:area_code]} / #{row}" unless unit.area
-            unit.save
-          end
+          unit.name ||= row[:unit_name]
+          unit.area ||= ::Area.find_by(
+            code: AREA_CODE_OVERRIDE[row[:area_code]] || row[:area_code],
+            source: self.class.source_id
+          )
+          raise "Missing area #{row[:area_code]} / #{row}" unless unit.area
+          unit.save
         end
 
         value = parse_value(row)
