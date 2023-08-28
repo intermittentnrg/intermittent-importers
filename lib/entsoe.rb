@@ -218,44 +218,46 @@ class ENTSOE
 
     def points_generation
       r = {}
-      areas = {}
-      csv = CSV.new(
-        @file,
-        col_sep: "\t",
-        headers: [
-          :time, #DateTime
-          :_resolution, #ResolutionCode
-          :area_internal_id, #AreaCode
-          :area_type, #AreaTypeCode
-          :area_name, #AreaName
-          :area_code, #MapCode
-          :production_type, #ProductionType
-          :value, #ActualGenerationOutput
-          :value_negative, #ActualConsumption
-          :_update_time #UpdateTime
-        ]
-      ).each
-      csv.next
-      require 'pry'
-      loop do
-        row = csv.next
-        next if row[:area_type] == 'CTA'
-        time = parse_time(row)
-        #area_code = row[:area_code]
-        production_type = parse_production_type(row)
-        value = parse_value(row)
-        area_id = areas[row[:area_internal_id]] ||= ::Area.where(internal_id: row[:area_internal_id], source: self.class.source_id).pluck(:id).first
-        unless area_id
-          require 'pry' ; binding.pry
-        end
+      logger.benchmark_info("csv parse") do
+        areas = {}
+        csv = CSV.new(
+          @file,
+          col_sep: "\t",
+          headers: [
+            :time, #DateTime
+            :_resolution, #ResolutionCode
+            :area_internal_id, #AreaCode
+            :area_type, #AreaTypeCode
+            :area_name, #AreaName
+            :area_code, #MapCode
+            :production_type, #ProductionType
+            :value, #ActualGenerationOutput
+            :value_negative, #ActualConsumption
+            :_update_time #UpdateTime
+          ]
+        ).each
+        csv.next
 
-        k = [time,area_id,production_type]
-        if r[k] && r[k][:value] != value
-          logger.warn("#{row[:area_internal_id]} #{row[:area_name]} different values #{r[k][:value]} != #{value}")
+        loop do
+          row = csv.next
+          next if row[:area_type] == 'CTA'
+          time = parse_time(row)
+          #area_code = row[:area_code]
+          production_type = parse_production_type(row)
+          value = parse_value(row)
+          area_id = areas[row[:area_internal_id]] ||= ::Area.where(internal_id: row[:area_internal_id], source: self.class.source_id).pluck(:id).first
+          unless area_id
+            require 'pry' ; binding.pry
+          end
+
+          k = [time,area_id,production_type]
+          if r[k] && r[k][:value] != value
+            logger.warn("#{row[:area_internal_id]} #{row[:area_name]} different values #{r[k][:value]} != #{value}")
+          end
+          r[k] = {time:, area_id:, production_type:, value:}
         end
-        r[k] = {time:, area_id:, production_type:, value:}
+        #require 'pry' ; binding.pry
       end
-      #require 'pry' ; binding.pry
 
       r.values
     end
@@ -277,59 +279,61 @@ class ENTSOE
 
     def points
       r = []
-      units = {}
-      csv = CSV.new(@file,
-                        col_sep: "\t",
-                        return_headers: false, #always returns headers regardless
-                        headers: [
-                          :time, #DateTime
-                          :_resolution, #ResolutionCode
-                          :area_internal_id, #AreaCode
-                          :_area_type, #AreaTypeCode
-                          :_area_name, #AreaName
-                          :area_code, #MapCode
-                          :unit_internal_id, #GenerationUnitEIC
-                          :unit_name, #PowerSystemResourceName
-                          :production_type, #ProductionType
-                          :value, #ActualGenerationOutput
-                          :value_negative, #ActualConsumption
-                          :_capacity, #InstalledGenCapacity
-                          :_update_time #UpdateTime
-                        ]).each
-      csv.next
-      loop do
-        row = csv.next
-        time = parse_time(row)
-        unit_name = row[:unit_name].force_encoding('UTF-8')
-        unit_id = units[row[:unit_internal_id]]
+      logger.benchmark_info("csv parse") do
+        units = {}
+        csv = CSV.new(@file,
+                          col_sep: "\t",
+                          return_headers: false, #always returns headers regardless
+                          headers: [
+                            :time, #DateTime
+                            :_resolution, #ResolutionCode
+                            :area_internal_id, #AreaCode
+                            :_area_type, #AreaTypeCode
+                            :_area_name, #AreaName
+                            :area_code, #MapCode
+                            :unit_internal_id, #GenerationUnitEIC
+                            :unit_name, #PowerSystemResourceName
+                            :production_type, #ProductionType
+                            :value, #ActualGenerationOutput
+                            :value_negative, #ActualConsumption
+                            :_capacity, #InstalledGenCapacity
+                            :_update_time #UpdateTime
+                          ]).each
+        csv.next
+        loop do
+          row = csv.next
+          time = parse_time(row)
+          unit_name = row[:unit_name].force_encoding('UTF-8')
+          unit_id = units[row[:unit_internal_id]]
 
-        unless unit_id
-          production_type = ProductionType.find_by!(name: parse_production_type(row))
-          unit = ::Unit.find_or_create_by!(internal_id: row[:unit_internal_id]) do |unit|
-            unit.name = unit_name
-            unit.production_type = production_type
-            unit.area = ::Area.find_by(
-              code: AREA_CODE_OVERRIDE[row[:area_code]] || row[:area_code],
-              source: self.class.source_id
-            )
-            raise "Missing area #{row[:area_code]} / #{row}" unless unit.area
-          end
-          unit_id = units[row[:unit_internal_id]] = unit.id
+          unless unit_id
+            production_type = ProductionType.find_by!(name: parse_production_type(row))
+            unit = ::Unit.find_or_create_by!(internal_id: row[:unit_internal_id]) do |unit|
+              unit.name = unit_name
+              unit.production_type = production_type
+              unit.area = ::Area.find_by(
+                code: AREA_CODE_OVERRIDE[row[:area_code]] || row[:area_code],
+                source: self.class.source_id
+              )
+              raise "Missing area #{row[:area_code]} / #{row}" unless unit.area
+            end
+            unit_id = units[row[:unit_internal_id]] = unit.id
 
-          if unit.name != unit_name
-            logger.warn "#{unit.internal_id} Mismatched name #{unit.name} != #{unit_name}"
+            if unit.name != unit_name
+              logger.warn "#{unit.internal_id} Mismatched name #{unit.name} != #{unit_name}"
+            end
+            if unit.production_type != production_type
+              logger.warn "#{unit.name} #{unit.internal_id} Mismatched production_type: #{unit.production_type.name} != #{production_type.name}"
+            end
           end
-          if unit.production_type != production_type
-            logger.warn "#{unit.name} #{unit.internal_id} Mismatched production_type: #{unit.production_type.name} != #{production_type.name}"
-          end
+
+          value = parse_value(row)
+          r << {
+            unit_id:,
+            time:,
+            value:
+          }
         end
-
-        value = parse_value(row)
-        r << {
-          unit_id:,
-          time:,
-          value:
-        }
       end
 
       r
