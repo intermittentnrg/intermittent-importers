@@ -52,15 +52,15 @@ class Ree
         time = Time.strptime(time, '%Y-%m-%d %H:%M')
         time = TZ.local_to_utc(time) { |periods| periods[leap] }
 
-        row.delete "dem"
+        row.delete "dem" #FIXME demand
         row.delete "vap"
         row.delete "cc"
-        row.each do |k,v|
+        row.each do |k,value|
           r << {
             time: time,
             country: 'ES-CN-FVLZ',
             production_type: PRODUCTION_TYPES[k],
-            value: v
+            value: (value*1000).to_i
           }
         end
       end
