@@ -262,7 +262,9 @@ class ENTSOE
       'DE_TenneT_GER' => 'DE',
       'DE_TransnetBW' => 'DE',
       'DE_50HzT' => 'DE',
-      'NIE' => 'GB'
+      'NIE' => 'GB',
+      'UA_IPS' => 'UA',
+      'UA_BEI' => 'UA'
     }
 
     def points
@@ -290,24 +292,28 @@ class ENTSOE
       loop do
         row = csv.next
         time = parse_time(row)
-
+        unit_name = row[:unit_name].force_encoding('UTF-8')
         unit_id = units[row[:unit_internal_id]]
+
         unless unit_id
           production_type = ProductionType.find_by!(name: parse_production_type(row))
-          unit = ::Unit.find_or_create_by!(
-            internal_id: row[:unit_internal_id],
-            production_type:
-          )
+          unit = ::Unit.find_or_create_by!(internal_id: row[:unit_internal_id]) do |unit|
+            unit.name = unit_name
+            unit.production_type = production_type
+            unit.area = ::Area.find_by(
+              code: AREA_CODE_OVERRIDE[row[:area_code]] || row[:area_code],
+              source: self.class.source_id
+            )
+            raise "Missing area #{row[:area_code]} / #{row}" unless unit.area
+          end
           unit_id = units[row[:unit_internal_id]] = unit.id
 
-          # Populate area unless set
-          unit.name ||= row[:unit_name]
-          unit.area ||= ::Area.find_by(
-            code: AREA_CODE_OVERRIDE[row[:area_code]] || row[:area_code],
-            source: self.class.source_id
-          )
-          raise "Missing area #{row[:area_code]} / #{row}" unless unit.area
-          unit.save
+          if unit.name != unit_name
+            logger.warn "#{unit.internal_id} Mismatched name #{unit.name} != #{unit_name}"
+          end
+          if unit.production_type != production_type
+            logger.warn "#{unit.name} #{unit.internal_id} Mismatched production_type: #{unit.production_type.name} != #{production_type.name}"
+          end
         end
 
         value = parse_value(row)
@@ -437,7 +443,7 @@ class ENTSOE
   }
 
   COUNTRIES = {
-    #'AL': '10YAL-KESH-----5',
+    'AL': '10YAL-KESH-----5',
     'AT': '10YAT-APG------L',
     #'AX': '10Y1001A1001A46L',  # for price only; Åland has SE-SE3 area price
     'BA': '10YBA-JPCC-----D',
