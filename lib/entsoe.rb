@@ -185,7 +185,7 @@ class ENTSOE
     end
   end
 
-  class SFTP < Base
+  class BaseCSV < Base
     def initialize(file)
       logger.info "Processing #{file}"
 
@@ -212,7 +212,7 @@ class ENTSOE
     end
   end
 
-  class GenerationSFTP < SFTP
+  class GenerationCSV < BaseCSV
     include SemanticLogger::Loggable
     include Out::Generation
 
@@ -253,7 +253,7 @@ class ENTSOE
     end
   end
 
-  class UnitSFTP < SFTP
+  class UnitCSV < BaseCSV
     include SemanticLogger::Loggable
     include Out::Unit
 
