@@ -53,17 +53,17 @@ module Opennem
     end
 
     def points
-      return if @load_r
+      return if @gen_r
 
       @load_r = []
       @gen_r = []
+      @price_r = []
       @res['data'].each do |blob|
-        next if blob['type'] == 'price' #FIXME ingest price data
         next if blob['type'] == 'temperature'
         next if blob['type'].starts_with? 'emissions'
         next if blob['code'].include? '>'
         next if blob['code'] == 'imports' || blob['code'] == 'exports'
-        raise blob['units'] unless blob['units'] == 'MW'
+        raise blob['units'] unless ['MW', 'AUD/MWh'].include?(blob['units'])
         country = "#{blob['network']}-#{blob['region']}".upcase
         country = "WEM-WEM" if blob['network'] == 'WEM'
         start = Time.strptime(blob['history']['start'], '%Y-%m-%dT%H:%M:%S%:z')
@@ -78,6 +78,16 @@ module Opennem
               value: value*1000
             }
           end
+        elsif blob['type'] == 'price'
+          blob['history']['data'].each_with_index do |value,index|
+            time = start + interval * index
+            @price_r << {
+              time:,
+              country:,
+              value: value
+            }
+          end
+          #require 'pry' ; binding.pry
         else
           type = FUEL_MAP[blob['fuel_tech']]
           require 'pry' ; binding.pry if type.nil?
@@ -102,17 +112,23 @@ module Opennem
 
       #require 'pry' ; binding.pry
     end
+    def points_generation
+      points
+      logger.info("#{@gen_r.length} points")
+
+      @gen_r
+    end
     def points_load
       points
       logger.info("#{@load_r.length} points")
 
       @load_r
     end
-    def points_generation
+    def points_price
       points
       logger.info("#{@gen_r.length} points")
 
-      @gen_r
+      @price_r
     end
   end
 
@@ -128,6 +144,26 @@ module Opennem
         month: date.strftime('%Y-%m-%d')
       }
       url = "https://api.opennem.org.au/stats/power/network/fueltech/#{network}/#{region}"
+      @res = logger.benchmark_info(url) do
+        HTTParty.get(
+          url,
+          query: query,
+          timeout: 180,
+          #debug_output: $stdout
+        )
+      end
+    end
+  end
+
+  class Price < Base
+    def initialize(country: nil, date: nil)
+      @from = date
+      @to = date + 1.month
+      network, region = country.split(/-/)
+      query = {
+        month: date.strftime('%Y-%m-%d')
+      }
+      url = "https://api.opennem.org.au/stats/price/#{network}/#{region}"
       @res = logger.benchmark_info(url) do
         HTTParty.get(
           url,
@@ -159,9 +195,13 @@ module Opennem
     end
   end
 
+  #includes generation, price
+  #missing demand
   class Latest < Base
     include SemanticLogger::Loggable
     include Out::Generation
+    include Out::Price
+
     def initialize
       url = "https://data.opennem.org.au/v3/clients/em/latest.json"
       @res = logger.benchmark_info(url) do

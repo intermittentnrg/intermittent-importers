@@ -44,7 +44,7 @@ class Nordpool
       #puts @res.body
       raise @res.body if @res.parsed_response["ExceptionMessage"]
     end
-    def points
+    def points_price
       r = []
       rows = @res.parsed_response["data"]["Rows"].filter { |row| !row["IsNtcRow"] && !row["IsExtraRow"] }
       #require 'pry' ; binding.pry

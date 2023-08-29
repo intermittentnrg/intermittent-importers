@@ -195,31 +195,39 @@ module Out
       end
     end
 
-    def process
-      raise unless @from && @to
+    def price
+      process_price
+    end
+    def process_price
+      #raise unless @from && @to
       areas = {}
-      data = points
+      data = points_price
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
 
       data.each do |p|
         p[:area_id] = (areas[p[:country]] ||= ::Area.where(source: self.class.source_id, code: p[:country]).pluck(:id).first) if p[:country]
+        unless p[:area_id]
+          require 'pry' ; binding.pry
+        end
         p.delete :country
       end
 
-      logger.benchmark_info("diff calculation") do
-        rows=::Price.where(time: @from...@to).where(area_id: areas.values).order(:time)
-        rows=rows.map { |r| r.attributes.symbolize_keys }
+      if @from && @to
+        logger.benchmark_info("diff calculation") do
+          rows=::Price.where(time: @from...@to).where(area_id: areas.values).order(:time)
+          rows=rows.map { |r| r.attributes.symbolize_keys }
 
-        index = Hash[rows.map { |r| [r[:time], r] }]
-        data.each do |p|
-          old = index[p[:time]]
-          if old && old[:value] != p[:value]
-            logger.warn "updated", event: {duration: Time.now-p[:time]}, price: p
+          index = Hash[rows.map { |r| [r[:time], r] }]
+          data.each do |p|
+            old = index[p[:time]]
+            if old && old[:value] != p[:value]
+              logger.warn "updated", event: {duration: Time.now-p[:time]}, price: p
+            end
           end
-        end
 
-        #require 'pry' ; binding.pry
+        end
       end
+      #require 'pry' ; binding.pry
 
       logger.benchmark_info("upsert") do
         ::Price.upsert_all(data) if data.present?

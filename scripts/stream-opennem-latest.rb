@@ -9,4 +9,5 @@ if ARGV.length != 0
 end
 
 e = Opennem::Latest.new
-e.process
+e.process_generation
+e.process_price

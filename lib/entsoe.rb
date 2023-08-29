@@ -388,6 +388,9 @@ class ENTSOE
       fetch
     end
 
+    def points_price
+      points
+    end
     def points_selector
       @doc.locate('*/TimeSeries').each do |ts|
         next unless ts.locate('Period/resolution/^String') == ['PT60M']
