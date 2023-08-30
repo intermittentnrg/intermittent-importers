@@ -59,7 +59,11 @@ module Out
 
       logger.benchmark_info("upsert") do
         ::Generation.upsert_all(data) if data.present?
+        done!
       end
+    end
+    def done!
+      super
     end
   end
 
@@ -96,11 +100,18 @@ module Out
       #FIXME diff calculation
       #raise unless @from && @to
 
+      unless data.present?
+        require 'pry' ; binding.pry
+      end
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
 
       logger.benchmark_info("upsert") do
         ::GenerationUnit.upsert_all(data) if data.present?
+        done!
       end
+    end
+    def done!
+      super
     end
   end
 
@@ -231,6 +242,7 @@ module Out
 
       logger.benchmark_info("upsert") do
         ::Price.upsert_all(data) if data.present?
+        done!
       end
     end
   end

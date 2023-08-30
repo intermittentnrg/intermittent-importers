@@ -4,6 +4,7 @@ gem 'pry'
 # Network protocols
 gem 'httparty'
 gem 'faraday'
+gem 'faraday-net_http_persistent', '~> 2.0'
 gem 'faraday-gzip'
 gem 'faraday-follow_redirects'
 gem 'faraday-retry'

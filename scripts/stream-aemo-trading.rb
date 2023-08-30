@@ -3,5 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Aemo::Trading.new.process_price
-
+Aemo::Trading.each &:process_price
