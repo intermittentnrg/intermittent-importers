@@ -1,0 +1,48 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://nemweb.com.au/Reports/Current/TradingIS_Reports/PUBLIC_TRADINGIS_202308301800_0000000395916754.zip
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.10
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/x-zip-compressed
+      Date:
+      - Fri, 01 Sep 2023 04:42:33 GMT
+      Etag:
+      - '"5427505817dbd91:0"'
+      Last-Modified:
+      - Wed, 30 Aug 2023 07:55:29 GMT
+      Server:
+      - Microsoft-IIS/8.5
+      Content-Length:
+      - '737'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        UEsDBBQAAAAIAOSOHleI4m93GwIAAIcIAAAyAAAAUFVCTElDX1RSQURJTkdJU18yMDIzMDgzMDE4MDBfMDAwMDAwMDM5NTkxNjc1NC5DU1bNVMuO4yAQvEeaf4hybjM8jDG5sTbJItngAZIc9///YvHbGU0i7SgrTbAKSDWuomlTgdVth27ONzVEr2pjzyaA0q2D7vKrMRVQTNk7Lt8ZBiKOnB9xCXj8McklKQTPN0s/UextZ2YWjI3aV85aXUXnvQ5AIegYG91qG2sVNfiLte5ToKmh0964Og1anRhdt7dT426wdI0LIb2uUSFWv5U96/ptVz/VPaz72pPyiHF6DkDAZh9Za0NHgJICMlkglpAgIUAgye7Xjfmgh2+LhRvJPpp6EmOUo77DApWQCcToa+Vidt3sLSf93vJcIimBSETla9WuWdio4aG9WkCNieMMFbxPHBLptDDCL07c1VQk6w9rkBOMoIJCwTEqOfT544/k1trvvKk0sK/r3euzcXZb5953oHWXXF5VY+pTo87b6gbvOvDKBF0EXfXB62Rh8B2FtxxvjV2oYTIzycpC9OP0f/rEtJ911snC4DsKb7lZZ53MzKSzjGd9sjVNtu8iW5mZGdL6J0QVL2F7unO6H51oUONZ0oKi/HFpTjxhFDE5dzlBJZ0wlUA5AhE5ohOmCiQLsBlYOQJJDU/tZHz7L76XIqRy+G6fOB8Dfo715Z6jskScPbU+BPwc61GF0TrP+0v5sfORvzdO0mbEhP1KihEVE672vgKBOB3hu8b7i2uqc4ZK8rTQh4D/nfMKDtrWe3fae905H5NJ/rb7C1BLAQItABQAAAAIAOSOHleI4m93GwIAAIcIAAAyAAAAAAAAAAAAAAAAAAAAAABQVUJMSUNfVFJBRElOR0lTXzIwMjMwODMwMTgwMF8wMDAwMDAwMzk1OTE2NzU0LkNTVlBLBQYAAAAAAQABAGAAAABrAgAAAAA=
+  recorded_at: Fri, 01 Sep 2023 04:42:34 GMT
+recorded_with: VCR 6.2.0

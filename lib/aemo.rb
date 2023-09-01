@@ -3,7 +3,8 @@ require 'faraday/net_http_persistent'
 
 module Aemo
   class Base
-    TZ = TZInfo::Timezone.get('Etc/GMT+10')
+    TZ = TZInfo::Timezone.get('Etc/GMT-10')
+    #TZ = TZInfo::Timezone.get('Australia/Brisbane')
     URL_BASE = "https://nemweb.com.au"
 
     @@store = ActiveSupport::Cache::FileStore.new "tmp/"
