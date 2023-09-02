@@ -1,0 +1,99 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://nemweb.com.au/Reports/ARCHIVE/TradingIS_Reports/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.10
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Sat, 02 Sep 2023 06:03:06 GMT
+      Server:
+      - Microsoft-IIS/8.5
+      Content-Length:
+      - '10441'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: "<html><head><title>nemweb.com.au - /Reports/ARCHIVE/TradingIS_Reports/</title></head><body><H1>nemweb.com.au
+        - /Reports/ARCHIVE/TradingIS_Reports/</H1><hr>\r\n\r\n<pre><A HREF=\"/Reports/ARCHIVE/\">[To
+        Parent Directory]</A><br><br>       Sunday, August 7, 2022  1:02 AM      1682182
+        <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20220724_20220730.zip\">PUBLIC_TRADINGIS_20220724_20220730.zip</A><br>
+        \     Sunday, August 14, 2022  1:01 AM      1663099 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20220731_20220806.zip\">PUBLIC_TRADINGIS_20220731_20220806.zip</A><br>
+        \     Sunday, August 21, 2022  1:02 AM      1662815 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20220807_20220813.zip\">PUBLIC_TRADINGIS_20220807_20220813.zip</A><br>
+        \     Sunday, August 28, 2022  1:02 AM      1667090 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20220814_20220820.zip\">PUBLIC_TRADINGIS_20220814_20220820.zip</A><br>
+        \   Sunday, September 4, 2022  1:01 AM      1657816 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20220821_20220827.zip\">PUBLIC_TRADINGIS_20220821_20220827.zip</A><br>
+        \  Sunday, September 11, 2022  1:01 AM      1655644 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20220828_20220903.zip\">PUBLIC_TRADINGIS_20220828_20220903.zip</A><br>
+        \  Sunday, September 25, 2022  9:51 AM      1651646 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20220904_20220910.zip\">PUBLIC_TRADINGIS_20220904_20220910.zip</A><br>
+        \  Sunday, September 25, 2022  9:51 AM      1656112 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20220911_20220917.zip\">PUBLIC_TRADINGIS_20220911_20220917.zip</A><br>
+        \     Sunday, October 2, 2022  1:03 AM      1651332 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20220918_20220924.zip\">PUBLIC_TRADINGIS_20220918_20220924.zip</A><br>
+        \     Sunday, October 9, 2022  1:01 AM      1653473 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20220925_20221001.zip\">PUBLIC_TRADINGIS_20220925_20221001.zip</A><br>
+        \    Sunday, October 16, 2022  1:02 AM      1662718 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20221002_20221008.zip\">PUBLIC_TRADINGIS_20221002_20221008.zip</A><br>
+        \    Sunday, October 23, 2022  1:02 AM      1651733 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20221009_20221015.zip\">PUBLIC_TRADINGIS_20221009_20221015.zip</A><br>
+        \    Sunday, October 30, 2022  1:02 AM      1653026 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20221016_20221022.zip\">PUBLIC_TRADINGIS_20221016_20221022.zip</A><br>
+        \   Sunday, November 13, 2022  9:29 AM      1644343 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20221023_20221029.zip\">PUBLIC_TRADINGIS_20221023_20221029.zip</A><br>
+        \   Sunday, November 13, 2022  9:29 AM      1648519 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20221030_20221105.zip\">PUBLIC_TRADINGIS_20221030_20221105.zip</A><br>
+        \   Sunday, November 20, 2022  1:02 AM      1645420 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20221106_20221112.zip\">PUBLIC_TRADINGIS_20221106_20221112.zip</A><br>
+        \   Sunday, November 27, 2022  1:02 AM      1706209 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20221113_20221119.zip\">PUBLIC_TRADINGIS_20221113_20221119.zip</A><br>
+        \    Sunday, December 4, 2022  1:01 AM      1646541 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20221120_20221126.zip\">PUBLIC_TRADINGIS_20221120_20221126.zip</A><br>
+        \   Sunday, December 11, 2022  1:01 AM      1643075 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20221127_20221203.zip\">PUBLIC_TRADINGIS_20221127_20221203.zip</A><br>
+        \   Sunday, December 18, 2022  1:02 AM      1662382 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20221204_20221210.zip\">PUBLIC_TRADINGIS_20221204_20221210.zip</A><br>
+        \   Sunday, December 25, 2022  1:01 AM      1669078 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20221211_20221217.zip\">PUBLIC_TRADINGIS_20221211_20221217.zip</A><br>
+        \     Sunday, January 1, 2023  1:06 AM      1658401 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20221218_20221224.zip\">PUBLIC_TRADINGIS_20221218_20221224.zip</A><br>
+        \     Sunday, January 8, 2023  1:01 AM      1658462 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20221225_20221231.zip\">PUBLIC_TRADINGIS_20221225_20221231.zip</A><br>
+        \    Sunday, January 15, 2023  1:01 AM      1657276 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230101_20230107.zip\">PUBLIC_TRADINGIS_20230101_20230107.zip</A><br>
+        \    Sunday, January 22, 2023  1:01 AM      1658320 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230108_20230114.zip\">PUBLIC_TRADINGIS_20230108_20230114.zip</A><br>
+        \    Sunday, January 29, 2023  1:02 AM      1663910 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230115_20230121.zip\">PUBLIC_TRADINGIS_20230115_20230121.zip</A><br>
+        \    Sunday, February 5, 2023  1:02 AM      1660788 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230122_20230128.zip\">PUBLIC_TRADINGIS_20230122_20230128.zip</A><br>
+        \   Sunday, February 12, 2023  1:01 AM      1662648 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230129_20230204.zip\">PUBLIC_TRADINGIS_20230129_20230204.zip</A><br>
+        \   Sunday, February 19, 2023  1:02 AM      1652831 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230205_20230211.zip\">PUBLIC_TRADINGIS_20230205_20230211.zip</A><br>
+        \   Sunday, February 26, 2023  1:01 AM      1654486 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230212_20230218.zip\">PUBLIC_TRADINGIS_20230212_20230218.zip</A><br>
+        \       Sunday, March 5, 2023  1:02 AM      1648225 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230219_20230225.zip\">PUBLIC_TRADINGIS_20230219_20230225.zip</A><br>
+        \      Sunday, March 12, 2023  1:01 AM      1641918 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230226_20230304.zip\">PUBLIC_TRADINGIS_20230226_20230304.zip</A><br>
+        \      Sunday, March 19, 2023  1:01 AM      1039892 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230305_20230311.zip\">PUBLIC_TRADINGIS_20230305_20230311.zip</A><br>
+        \      Sunday, March 26, 2023  1:02 AM      1526042 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230312_20230318.zip\">PUBLIC_TRADINGIS_20230312_20230318.zip</A><br>
+        \       Sunday, April 2, 2023  1:03 AM      1648301 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230319_20230325.zip\">PUBLIC_TRADINGIS_20230319_20230325.zip</A><br>
+        \       Sunday, April 9, 2023  1:02 AM      1645038 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230326_20230401.zip\">PUBLIC_TRADINGIS_20230326_20230401.zip</A><br>
+        \      Sunday, April 16, 2023  1:02 AM      1646066 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230402_20230408.zip\">PUBLIC_TRADINGIS_20230402_20230408.zip</A><br>
+        \      Sunday, April 23, 2023  1:02 AM      1653376 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230409_20230415.zip\">PUBLIC_TRADINGIS_20230409_20230415.zip</A><br>
+        \      Sunday, April 30, 2023  1:02 AM      1653697 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230416_20230422.zip\">PUBLIC_TRADINGIS_20230416_20230422.zip</A><br>
+        \         Sunday, May 7, 2023  1:02 AM      1665365 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230423_20230429.zip\">PUBLIC_TRADINGIS_20230423_20230429.zip</A><br>
+        \        Sunday, May 14, 2023  1:02 AM      1665597 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230430_20230506.zip\">PUBLIC_TRADINGIS_20230430_20230506.zip</A><br>
+        \      Thursday, May 25, 2023 10:21 AM      1651910 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230507_20230513.zip\">PUBLIC_TRADINGIS_20230507_20230513.zip</A><br>
+        \        Sunday, May 28, 2023  1:02 AM      1657242 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230514_20230520.zip\">PUBLIC_TRADINGIS_20230514_20230520.zip</A><br>
+        \        Sunday, June 4, 2023  1:02 AM      1661915 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230521_20230527.zip\">PUBLIC_TRADINGIS_20230521_20230527.zip</A><br>
+        \       Sunday, June 11, 2023  1:02 AM      1657484 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230528_20230603.zip\">PUBLIC_TRADINGIS_20230528_20230603.zip</A><br>
+        \       Sunday, June 18, 2023  1:01 AM      1654410 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230604_20230610.zip\">PUBLIC_TRADINGIS_20230604_20230610.zip</A><br>
+        \       Sunday, June 25, 2023  1:02 AM      1654572 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230611_20230617.zip\">PUBLIC_TRADINGIS_20230611_20230617.zip</A><br>
+        \        Sunday, July 2, 2023  1:04 AM      1657948 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230618_20230624.zip\">PUBLIC_TRADINGIS_20230618_20230624.zip</A><br>
+        \        Sunday, July 9, 2023  1:02 AM      1652302 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230625_20230701.zip\">PUBLIC_TRADINGIS_20230625_20230701.zip</A><br>
+        \       Sunday, July 16, 2023  1:02 AM      1657665 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230702_20230708.zip\">PUBLIC_TRADINGIS_20230702_20230708.zip</A><br>
+        \       Sunday, July 23, 2023  1:02 AM      1668628 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230709_20230715.zip\">PUBLIC_TRADINGIS_20230709_20230715.zip</A><br>
+        \       Sunday, July 30, 2023  1:02 AM      1680542 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230716_20230722.zip\">PUBLIC_TRADINGIS_20230716_20230722.zip</A><br>
+        \      Sunday, August 6, 2023  1:01 AM      1683447 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230723_20230729.zip\">PUBLIC_TRADINGIS_20230723_20230729.zip</A><br>
+        \     Sunday, August 13, 2023  1:03 AM      1692158 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230730_20230805.zip\">PUBLIC_TRADINGIS_20230730_20230805.zip</A><br>
+        \     Sunday, August 20, 2023  1:02 AM      1685754 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230806_20230812.zip\">PUBLIC_TRADINGIS_20230806_20230812.zip</A><br>
+        \     Sunday, August 27, 2023  1:03 AM      1684043 <A HREF=\"/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20230813_20230819.zip\">PUBLIC_TRADINGIS_20230813_20230819.zip</A><br></pre><hr></body></html>"
+  recorded_at: Sat, 02 Sep 2023 06:03:06 GMT
+recorded_with: VCR 6.2.0

@@ -64,6 +64,7 @@ module Out
     end
     def done!
       super
+    rescue NoMethodError
     end
   end
 
@@ -112,6 +113,7 @@ module Out
     end
     def done!
       super
+    rescue NoMethodError
     end
   end
 
@@ -206,7 +208,7 @@ module Out
       end
     end
 
-    def price
+    def process
       process_price
     end
     def process_price
@@ -244,6 +246,10 @@ module Out
         ::Price.upsert_all(data) if data.present?
         done!
       end
+    end
+    def done!
+      super
+    rescue NoMethodError
     end
   end
 

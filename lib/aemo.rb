@@ -21,6 +21,7 @@ module Aemo
     def self.select_file? url
       url =~ /.zip$/i
     end
+
     def self.each
       logger.info("Fetch #{self::URL}")
       http = @@faraday.get(self::URL)
@@ -36,6 +37,8 @@ module Aemo
         end
         yield self.new(url)
       end
+
+      nil
     end
 
     def initialize(url_or_io, name_if_io = nil)
@@ -88,11 +91,13 @@ module Aemo
         file = StringIO.new(http.body)
       end
 
-      logger.benchmark_info("parse whole scada archive") do
+      logger.benchmark_info("parse archive zip") do
         zip = Zip::InputStream.new(file)
         loop do
           zip_entry = zip.get_next_entry
           break if zip_entry.nil?
+          next unless self.class::TARGET.select_file? zip_entry.name
+
           if FileList.where(path: zip_entry.name, source: self.class.source_id).exists?
             logger.info "already processed #{zip_entry.name}"
             next
@@ -100,10 +105,11 @@ module Aemo
 
           #zip_entry.get_input_stream doesn't respond to seek
           nested_zip = StringIO.new(zip_entry.get_input_stream.read)
-          TARGET.new(nested_zip, zip_entry.name).process
+          self.class::TARGET.new(nested_zip, zip_entry.name).process
         end
       end
     end
+
     def process
       done!
     end
@@ -256,6 +262,31 @@ module Aemo
     TARGET = Trading
   end
 
+  class TradingMMS < Trading
+    include SemanticLogger::Loggable
+
+    def self.cli(args)
+      if args.length != 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      end
+
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      (from...to).select {|d| d.day==1}.each do |date|
+        Aemo::TradingMMS.new(date).process_price
+      end
+    end
+
+    def initialize(date)
+      url = date.strftime("https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/%Y/MMSDM_%Y_%m/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_TRADINGPRICE_%Y%m010000.zip")
+      @from = date
+      @to = date + 1.month
+      super(url)
+    end
+  end
+
   class Scada < Base
     include SemanticLogger::Loggable
     include Out::Unit
@@ -302,6 +333,17 @@ module Aemo
     TARGET = Scada
   end
 
+  class ScadaMMS < Scada
+    include SemanticLogger::Loggable
+
+    def initialize(date)
+      url = date.strftime("https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/%Y/MMSDM_%Y_%m/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_DISPATCH_UNIT_SCADA_%Y%m010000.zip")
+      @from = date
+      @to = date + 1.month
+      super(url)
+    end
+  end
+
   class RooftopPv < Base
     include SemanticLogger::Loggable
     include Out::Generation
@@ -313,7 +355,7 @@ module Aemo
     end
     def process_rows(all)
       r = {}
-      all.select { |row| row[0..2] == ['D','ROOFTOP','ACTUAL'] }.map do |row|
+      all.select { |row| row[0..2] == ['D','ROOFTOP','ACTUAL'] && row[8] == 'MEASUREMENT' }.map do |row|
         # I
         # ROOFTOP
         # ACTUAL
@@ -333,7 +375,6 @@ module Aemo
       end.compact
     end
     def points_generation
-      puts @r
       @r
     end
   end
@@ -346,6 +387,31 @@ module Aemo
 
     def self.select_file? url
       super && url =~ /PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_/
+    end
+  end
+
+  class RooftopPvMMS < RooftopPv
+    include SemanticLogger::Loggable
+
+    def self.cli(args)
+      if args.length != 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      end
+
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      (from...to).select {|d| d.day==1}.each do |date|
+        Aemo::RooftopPvMMS.new(date).process
+      end
+    end
+
+    def initialize(date)
+      url = date.strftime("https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/%Y/MMSDM_%Y_%m/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_ROOFTOP_PV_ACTUAL_%Y%m010000.zip")
+      @from = date
+      @to = date + 1.month
+      super(url)
     end
   end
 end

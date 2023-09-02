@@ -1,0 +1,48 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/PUBLIC_ROOFTOP_PV_ACTUAL_SATELLITE_20230902183000_0000000396168830.zip
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.10
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/x-zip-compressed
+      Date:
+      - Sat, 02 Sep 2023 08:41:05 GMT
+      Etag:
+      - '"5dd666b277ddd91:0"'
+      Last-Modified:
+      - Sat, 02 Sep 2023 08:30:14 GMT
+      Server:
+      - Microsoft-IIS/8.5
+      Content-Length:
+      - '502'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        UEsDBBQAAAAIAMGTIlc4Bo7YCAEAAFAEAABGAAAAUFVCTElDX1JPT0ZUT1BfUFZfQUNUVUFMX1NBVEVMTElURV8yMDIzMDkwMjE4MzAwMF8wMDAwMDAwMzk2MTY4ODMwLmNzdrWQQW7DIBBF95FyB8vrEZmB2LGzo0BSJAwEk1hd+f63KGlURUo3rUQRixEavf/4CryZIltCchpSCKcc4hpvq1T5Kt06y2ycs9mANFOAeH1zVgFHLnY47pADDUeBxzLg44ixp34YBII2k/T65Z2P2439zoFHCHCwPpt0K3m65GU7GUjmbIO3GmJYTIKLhfwRDTg5Z/Uu/dno7Ub/BLVPtaaoYVHDFvy8EHSM4wjIenh+6mWdY7ntH8AXpwmoZ4RdfbIqSPEfYA/Usf1B1CfPd2V+qAyeZSkZBSO+r0zOcqaC3POhPth/dUH1wfeSCWuXfLOKgI+so18qK2iN1004NcnEkHILJLabT1BLAQItABQAAAAIAMGTIlc4Bo7YCAEAAFAEAABGAAAAAAAAAAAAAAAAAAAAAABQVUJMSUNfUk9PRlRPUF9QVl9BQ1RVQUxfU0FURUxMSVRFXzIwMjMwOTAyMTgzMDAwXzAwMDAwMDAzOTYxNjg4MzAuY3N2UEsFBgAAAAABAAEAdAAAAGwBAAAAAA==
+  recorded_at: Sat, 02 Sep 2023 08:41:06 GMT
+recorded_with: VCR 6.2.0

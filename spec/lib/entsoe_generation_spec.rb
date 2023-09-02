@@ -18,6 +18,12 @@ RSpec.describe ENTSOE::Generation do
     describe "tags" do
       it { expect(e.points.first.keys).to eq [:country, :production_type, :time, :value] }
     end
+    describe :process do
+      it do
+        expect(Generation).to receive(:upsert_all)
+        e.process_generation
+      end
+    end
   end
 
   describe 'FR 2021-01-01' do
