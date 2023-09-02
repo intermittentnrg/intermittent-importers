@@ -500,7 +500,7 @@ class ENTSOE
     'LT': '10YLT-1001A0008Q',
     'LU': '10YLU-CEGEDEL-NQ',
     'LV': '10YLV-1001A00074',
-    # 'MD': 'MD',
+    'MD': '10Y1001A1001A990',
     'ME': '10YCS-CG-TSO---S',
     'MK': '10YMK-MEPSO----8', # has bad load data
     #'MT': '10Y1001A1001A93C',
