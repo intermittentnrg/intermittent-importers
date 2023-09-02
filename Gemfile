@@ -30,6 +30,7 @@ gem 'rubyzip'
 gem 'activerecord'
 gem 'pg'
 gem 'composite_primary_keys'
+gem 'database_cleaner-active_record'
 
 gem 'pgsync'
 

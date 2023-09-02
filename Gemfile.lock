@@ -21,6 +21,10 @@ GEM
     connection_pool (2.4.1)
     crack (0.4.5)
       rexml
+    database_cleaner-active_record (2.1.0)
+      activerecord (>= 5.a)
+      database_cleaner-core (~> 2.0.0)
+    database_cleaner-core (2.0.1)
     diff-lcs (1.5.0)
     dotenv (2.8.1)
     elastic-transport (8.2.2)
@@ -139,6 +143,7 @@ DEPENDENCIES
   activesupport
   chronic
   composite_primary_keys
+  database_cleaner-active_record
   dotenv
   elasticsearch
   faraday
