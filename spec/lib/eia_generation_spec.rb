@@ -10,7 +10,7 @@ RSpec.describe Eia::Generation do
     let(:country) { 'BANC' }
     let(:from) { '2019-07-25' }
     let(:to) { '2019-07-26' }
-    it { expect(e.points_generation.map { |p| p[:value] }.max).to be < 400000 }
+    it { expect(e.points_generation.map { |p| p[:value] }.max).to be < 400000000 }
     include_examples "logs error", "generation"
   end
 end

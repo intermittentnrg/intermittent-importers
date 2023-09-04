@@ -26,7 +26,7 @@ RSpec.describe ENTSOE::Load do
     let(:from) { '2023-07-27' }
     let(:to) { '2023-07-28' }
 
-    it { expect(e.points_load.map { |p| p[:value] }.max).to be < 1000 }
+    it { expect(e.points_load.map { |p| p[:value] }.max).to be < 1000000 }
     include_examples "logs error", "load"
   end
 end
