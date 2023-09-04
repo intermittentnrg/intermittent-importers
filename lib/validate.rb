@@ -120,7 +120,7 @@ class Validate
           elsif rules[:max]
             expression = "NOT (#{expression} AND value >= #{rules[:max]})"
           end
-          ActiveRecord::Base.connection.transaction do
+          ActiveRecord::Base.connection.change_table(table) do |t|
             # TODO use has_check_constraint?
             if check_constraints[name] && expression == check_constraints[name]
               logger.info("#{table} #{name} GOOD")
@@ -129,10 +129,10 @@ class Validate
             elsif check_constraints[name] && expression != check_constraints[name]
               #require 'pry' ; binding.pry
               logger.info("remove_check_constraint #{table} #{name} #{check_constraints[name]}")
-              ActiveRecord::Base.connection.remove_check_constraint(table, name: name)
+              t.remove_check_constraint(name: name)
             end
             logger.info("add_check_constraint #{table} #{name} #{expression}")
-            ActiveRecord::Base.connection.add_check_constraint(table, expression, name: name)
+            t.check_constraint(expression, name: name)
             check_constraints.delete(name)
           end
         end
