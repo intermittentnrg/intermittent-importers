@@ -10,6 +10,8 @@ gem 'faraday-follow_redirects'
 gem 'faraday-retry'
 gem 'faraday-http-cache'
 
+gem 'net-sftp'
+
 gem 'activesupport'
 gem 'dotenv'
 gem 'rake'

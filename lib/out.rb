@@ -59,14 +59,10 @@ module Out
 
       if data.present?
         logger.benchmark_info("upsert") do
-          data.each_slice(100_000) do |data2|
-            logger.benchmark_debug("chunk done") do
-              #require 'pry' ; binding.pry
-              ::Generation.upsert_all(data2)
-            end
-          end
-          done!
+          #require 'pry' ; binding.pry
+          ::Generation.upsert_all(data)
         end
+        done!
       end
     end
     def done!
@@ -116,7 +112,6 @@ module Out
       if data.present?
         logger.benchmark_info("upsert") do
           data.each_slice(1_000_000) do |data2|
-            $stderr.puts "chunk"
             ::GenerationUnit.upsert_all(data2)
           end
         end
@@ -188,7 +183,16 @@ module Out
         #require 'pry' ; binding.pry
       end
 
-      ::Load.upsert_all data if data.present?
+      if data.present?
+        logger.benchmark_info("upsert") do
+          ::Load.upsert_all data if data.present?
+        end
+        done!
+      end
+    end
+    def done!
+      super
+    rescue NoMethodError
     end
   end
 
@@ -258,8 +262,10 @@ module Out
       end
       #require 'pry' ; binding.pry
 
-      logger.benchmark_info("upsert") do
-        ::Price.upsert_all(data) if data.present?
+      if data.present?
+        logger.benchmark_info("upsert") do
+          ::Price.upsert_all(data) if data.present?
+        end
         done!
       end
     end

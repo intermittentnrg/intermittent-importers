@@ -29,6 +29,12 @@ def pump_task(name, source, model)
   end
 end
 
+def loop_task(name, clazz)
+  task name do
+    clazz.each &:process
+  end
+end
+
 task :ping do
   logger.info "ping"
 end
@@ -60,10 +66,14 @@ end
 
 namespace :entsoe do
   task all: [:generation, :load, :transmission, :price]
-  pump_task :generation, ENTSOE::Generation, Generation
-  pump_task :load, ENTSOE::Load, Load
+  loop_task :generation, EntsoeSFTP::Generation
+  loop_task :unit, EntsoeSFTP::Unit
+  loop_task :load, EntsoeSFTP::Load
+  loop_task :price, EntsoeSFTP::Price
+  #pump_task :generation, ENTSOE::Generation, Generation
+  #pump_task :load, ENTSOE::Load, Load
   pump_task :transmission, ENTSOE::Transmission, Transmission
-  pump_task :price, ENTSOE::Price, Price
+  #pump_task :price, ENTSOE::Price, Price
 end
 
 namespace :nordpool do

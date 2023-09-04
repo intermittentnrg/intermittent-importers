@@ -27,7 +27,11 @@ class Validate
     areas = {}
 
     points.select! do |p|
-      area = areas[p[:area_id]] ||= Area.where(code: p[:country]).first
+      if p[:area_id]
+        area = areas[p[:area_id]] ||= Area.find p[:area_id]
+      else
+        area = areas[p[:country]] ||= Area.find_by(code: p[:country])
+      end
 
       rule = @@rules[area.region][p[:country]].try(:[], :load) || {}
       rule_all = @@rules[area.region]['all'].try(:[], :load) || {}

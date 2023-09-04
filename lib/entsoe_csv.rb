@@ -4,23 +4,55 @@ module EntsoeCSV
       "entsoe"
     end
 
-    def initialize(file)
-      logger.info "Processing #{file}"
+    def initialize(file_or_io, name_if_io = nil, time_if_io = nil)
+      @areas = {}
+      if file_or_io.is_a?(String) # url
+        raise if name_if_io || time_if_io
+        logger.info "Processing #{file_or_io}"
 
-      m = /^(\d{4})_(\d{2})_/.match(File.basename(file))
+        @filename = File.basename(file_or_io)
+        @filedate = File.mtime(file_or_io)
+
+        if @filenamefile =~ /\.zip$/i
+          zip_file = Zip::File.open(file_or_io)
+          @file = zip_file.first.get_input_stream
+        else
+          @file = File.new(file_or_io, 'r')
+        end
+      else
+        @filename = name_if_io
+        @filedate = time_if_io
+
+        if @filename =~ /\.zip$/i
+          zip = Zip::File.open_buffer(file_or_io) do |io|
+            @file = io.entries.first.get_input_stream.read
+          end
+        else
+          raise
+        end
+      end
+      #require 'pry' ; binding.pry
+
+      m = /^(\d{4})_(\d{2})_/.match(@filename)
       @from = Date.new m[1].to_i, m[2].to_i
       @to = @from + 1.month
 
-      if file =~ /\.zip$/i
-        zip_file = Zip::File.open(file)
-        @file = zip_file.first.get_input_stream
-      else
-        @file = File.new(file, 'r')
-      end
+      @csv = CSV.new(@file,
+                     col_sep: "\t",
+                     headers: self.class::HEADERS).each
+      @csv.next
     end
 
     def parse_time(row)
       Time.strptime(row[:time], '%Y-%m-%d %H:%M:%S.%L')
+    end
+    def parse_area(row)
+      area_id = @areas[row[:area_internal_id]] ||= ::Area.where(internal_id: row[:area_internal_id], source: self.class.source_id).pluck(:id).first
+      unless area_id
+        require 'pry' ; binding.pry
+      end
+
+      area_id
     end
     def parse_production_type(row)
       row[:production_type].gsub(/ /,'_').downcase
@@ -28,45 +60,40 @@ module EntsoeCSV
     def parse_value(row)
       (row[:value].to_f*1000).to_i - (row[:value_negative].to_f*1000).to_i
     end
+    def done!
+      FileList.upsert({path: @filename, source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
+      logger.info "done! #{@filename}"
+    end
   end
 
   class GenerationCSV < BaseCSV
     include SemanticLogger::Loggable
     include Out::Generation
 
+    HEADERS = [
+      :time, #DateTime
+      :_resolution, #ResolutionCode
+      :area_internal_id, #AreaCode
+      :area_type, #AreaTypeCode
+      :area_name, #AreaName
+      :area_code, #MapCode
+      :production_type, #ProductionType
+      :value, #ActualGenerationOutput
+      :value_negative, #ActualConsumption
+      :_update_time #UpdateTime
+    ]
+
     def points_generation
       r = {}
       logger.benchmark_info("csv parse") do
-        areas = {}
-        csv = CSV.new(
-          @file,
-          col_sep: "\t",
-          headers: [
-            :time, #DateTime
-            :_resolution, #ResolutionCode
-            :area_internal_id, #AreaCode
-            :area_type, #AreaTypeCode
-            :area_name, #AreaName
-            :area_code, #MapCode
-            :production_type, #ProductionType
-            :value, #ActualGenerationOutput
-            :value_negative, #ActualConsumption
-            :_update_time #UpdateTime
-          ]
-        ).each
-        csv.next
-
         loop do
-          row = csv.next
+          row = @csv.next
           next if row[:area_type] == 'CTA'
           time = parse_time(row)
           #area_code = row[:area_code]
           production_type = parse_production_type(row)
           value = parse_value(row)
-          area_id = areas[row[:area_internal_id]] ||= ::Area.where(internal_id: row[:area_internal_id], source: self.class.source_id).pluck(:id).first
-          unless area_id
-            require 'pry' ; binding.pry
-          end
+          area_id = parse_area(row)
 
           k = [time,area_id,production_type]
           if r[k] && r[k][:value] != value
@@ -95,31 +122,28 @@ module EntsoeCSV
       'UA_BEI' => 'UA'
     }
 
+    HEADERS = [
+      :time, #DateTime
+      :_resolution, #ResolutionCode
+      :area_internal_id, #AreaCode
+      :_area_type, #AreaTypeCode
+      :_area_name, #AreaName
+      :area_code, #MapCode
+      :unit_internal_id, #GenerationUnitEIC
+      :unit_name, #PowerSystemResourceName
+      :production_type, #ProductionType
+      :value, #ActualGenerationOutput
+      :value_negative, #ActualConsumption
+      :_capacity, #InstalledGenCapacity
+      :_update_time #UpdateTime
+    ]
+
     def points
       r = []
       logger.benchmark_info("csv parse") do
         units = {}
-        csv = CSV.new(@file,
-                          col_sep: "\t",
-                          return_headers: false, #always returns headers regardless
-                          headers: [
-                            :time, #DateTime
-                            :_resolution, #ResolutionCode
-                            :area_internal_id, #AreaCode
-                            :_area_type, #AreaTypeCode
-                            :_area_name, #AreaName
-                            :area_code, #MapCode
-                            :unit_internal_id, #GenerationUnitEIC
-                            :unit_name, #PowerSystemResourceName
-                            :production_type, #ProductionType
-                            :value, #ActualGenerationOutput
-                            :value_negative, #ActualConsumption
-                            :_capacity, #InstalledGenCapacity
-                            :_update_time #UpdateTime
-                          ]).each
-        csv.next
         loop do
-          row = csv.next
+          row = @csv.next
           time = parse_time(row)
           unit_name = row[:unit_name].force_encoding('UTF-8')
           unit_id = units[row[:unit_internal_id]]
@@ -158,39 +182,69 @@ module EntsoeCSV
     end
   end
 
+  class LoadCSV < BaseCSV
+    include SemanticLogger::Loggable
+    include Out::Load
+
+    HEADERS = [
+      :time, #DateTime
+      :resolution, #ResolutionCode
+      :area_internal_id, #AreaCode
+      :area_type, #AreaTypeCode
+      :area_name, #AreaName
+      :area_code, #MapCode
+      :value, #TotalLoadvalue
+      :_update_time #UpdateTime
+    ]
+
+    def points_load
+      r = {}
+      logger.benchmark_info("csv parse") do
+        loop do
+          row = @csv.next
+          next if row[:area_type] == 'CTA'
+          time =  parse_time(row)
+          area_id = parse_area(row)
+          value = (row[:value].to_f*1000).to_i
+          k = [time,area_id]
+          if r[k] && r[k][:value] != value
+            logger.warn("#{time} #{row[:area_internal_id]} #{row[:area_name]} different values #{r[k][:value]} != #{value}")
+          end
+          r[k] = {time:, area_id:, value:}
+        end
+      end
+      #require 'pry' ; binding.pry
+
+      Validate::validate_load(r.values)
+    end
+  end
+
   class PriceCSV < BaseCSV
     include SemanticLogger::Loggable
     include Out::Price
 
+    HEADERS = [
+      :time, #DateTime
+      :resolution, #ResolutionCode
+      :area_internal_id, #AreaCode
+      :_area_type, #AreaTypeCode
+      :area_name, #AreaName
+      :area_code, #MapCode
+      :price, #Price
+      :currency, #Curency
+      :_update_time #UpdateTime
+    ]
+
     def points_price
       r = {}
       logger.benchmark_info("csv parse") do
-        areas = {}
-        csv = CSV.new(@file,
-                      col_sep: "\t",
-                      return_headers: false,
-                      headers: [
-                        :time, #DateTime
-                        :resolution, #ResolutionCode
-                        :area_internal_id, #AreaCode
-                        :_area_type, #AreaTypeCode
-                        :area_name, #AreaName
-                        :area_code, #MapCode
-                        :price, #Price
-                        :currency, #Curency
-                        :_update_time #UpdateTime
-                      ]).each
-        csv.next
         loop do
-          row = csv.next
+          row = @csv.next
           next if row[:resolution] != 'PT60M'
 
           time =  parse_time(row)
-          area_id = areas[row[:area_internal_id]] ||= ::Area.where(internal_id: row[:area_internal_id], source: self.class.source_id).pluck(:id).first
+          area_id = parse_area(row)
           value = row[:price].to_f
-          unless area_id
-            require 'pry' ; binding.pry
-          end
           k = [time,area_id]
           if r[k] && r[k][:value] != value
             logger.warn("#{time} #{row[:area_internal_id]} #{row[:area_name]} different values #{r[k][:value]} != #{value}")
