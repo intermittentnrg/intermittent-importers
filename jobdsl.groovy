@@ -1,28 +1,5 @@
 folder("intermittency-${BRANCH_NAME}")
 
-if (BRANCH_NAME == "master") {
-  pipelineJob("intermittency-copydb") {
-    parameters {
-      stringParam('DUMPARGS', '')
-    }
-    environmentVariables(TAG: TAG, BRANCH_NAME: BRANCH_NAME)
-    definition {
-      cpsScm {
-        scm {
-          git {
-            remote {
-              url('git@git-server:intermittency.git')
-              credentials('gitolite-jenkins')
-            }
-            branches(BRANCH_NAME)
-            scriptPath('Jenkinsfile.copydb')
-          }
-        }
-      }
-    }
-  }
-}
-
 pipelineJob("intermittency-${BRANCH_NAME}/refresh") {
   previousNames("intermittency-${BRANCH_NAME}-refresh")
   properties {
