@@ -57,9 +57,16 @@ module Out
         end
       end
 
-      logger.benchmark_info("upsert") do
-        ::Generation.upsert_all(data) if data.present?
-        done!
+      if data.present?
+        logger.benchmark_info("upsert") do
+          data.each_slice(100_000) do |data2|
+            logger.benchmark_debug("chunk done") do
+              #require 'pry' ; binding.pry
+              ::Generation.upsert_all(data2)
+            end
+          end
+          done!
+        end
       end
     end
     def done!
@@ -106,8 +113,13 @@ module Out
       end
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
 
-      logger.benchmark_info("upsert") do
-        ::GenerationUnit.upsert_all(data) if data.present?
+      if data.present?
+        logger.benchmark_info("upsert") do
+          data.each_slice(1_000_000) do |data2|
+            $stderr.puts "chunk"
+            ::GenerationUnit.upsert_all(data2)
+          end
+        end
         done!
       end
     end
@@ -214,6 +226,7 @@ module Out
     def process_price
       #raise unless @from && @to
       areas = {}
+      area_ids = Set.new
       data = points_price
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
 
@@ -222,19 +235,22 @@ module Out
         unless p[:area_id]
           require 'pry' ; binding.pry
         end
+        area_ids << p[:area_id]
         p.delete :country
       end
 
-      if @from && @to
+      if @from && @to && area_ids.present?
         logger.benchmark_info("diff calculation") do
-          rows=::Price.where(time: @from...@to).where(area_id: areas.values).order(:time)
+          rows=::Price.where(time: @from...@to).where(area_id: area_ids).order(:time)
           rows=rows.map { |r| r.attributes.symbolize_keys }
-
-          index = Hash[rows.map { |r| [r[:time], r] }]
+          index = Hash[rows.map { |r| [[r[:area_id], r[:time]], r] }]
           data.each do |p|
-            old = index[p[:time]]
+            k = [p[:area_id], p[:time]]
+            old = index[k]
             if old && old[:value] != p[:value]
-              logger.warn "updated", event: {duration: Time.now-p[:time]}, price: p
+              logger.warn "updated #{old[:value]} > #{p[:value]}", event: {duration: Time.now-p[:time]}, price: p
+            #elsif old
+            #  logger.info "good"
             end
           end
 
