@@ -353,6 +353,17 @@ module Aemo
 
     URL = "https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/"
 
+    def initialize *args
+      super
+      unless @from
+        # PUBLIC_ROOFTOP_PV_ACTUAL_SATELLITE_20230902183000_0000000396168830.zip
+        filename = File.basename(@url)
+        m = /_(\d{14})_\d{16}\.zip$/.match(filename)
+        @from = Time.strptime(m[1], '%Y%m%d%H%M%S')
+        @to = @from + 5.minutes
+      end
+    end
+
     def self.select_file? url
       super && url =~ /PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_/
     end
