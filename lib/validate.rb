@@ -113,10 +113,13 @@ class Validate
             name = "auto_#{region}_#{area_code}_#{production_type_name.gsub(/-/,'_')}".downcase
             expression = "#{area_expression} AND production_type_id = #{production_type.id}"
           end
-          if rules[:min] && rules[:max]
-            expression = "NOT (#{expression} AND (value < '#{rules[:min]}'::integer OR value >= #{rules[:max]}))"
-          elsif rules[:min]
-            expression = "NOT (#{expression} AND value < '#{rules[:min]}'::integer)"
+          if rules[:min]
+            rules[:min] = "'#{rules[:min]}'::integer" if rules[:min] < 0
+            if rules[:max]
+              expression = "NOT (#{expression} AND (value < #{rules[:min]} OR value >= #{rules[:max]}))"
+            else
+              expression = "NOT (#{expression} AND value < #{rules[:min]})"
+            end
           elsif rules[:max]
             expression = "NOT (#{expression} AND value >= #{rules[:max]})"
           end
