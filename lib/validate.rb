@@ -52,19 +52,15 @@ class Validate
           #TODO skip if check constraint in place
           if production_type_name == "load"
             query = Load
-            if area
-              query = query.where(area_id: area.id)
-            else
-              query = query.joins(:area).where("area.region" => region)
-            end
           else
             production_type = ProductionType.where(name: production_type_name).first
             query = Generation.where(production_type_id: production_type.id)
-            if area
-              query = query.where(area_id: area.id)
-            else
-              query = query.joins(:area).where("area.region" => region)
-            end
+          end
+
+          if area
+            query = query.where(area_id: area.id)
+          else
+            query = query.joins(:area).where("area.region" => region)
           end
 
           if rules[:min] || rules[:max]
