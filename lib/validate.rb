@@ -66,10 +66,10 @@ class Validate
 
           if rules[:min] || rules[:max]
             query = query.where.not(value: rules[:min]...rules[:max])
+            puts query.to_sql
             query_count = query.count
             if query_count > 0
               puts "#{region} #{area_code}/#{production_type_name} #{query_count} invalid records"
-              puts query.to_sql
               pp query
               #require 'pry' ; binding.pry
               if delete
@@ -114,9 +114,9 @@ class Validate
             expression = "#{area_expression} AND production_type_id = #{production_type.id}"
           end
           if rules[:min] && rules[:max]
-            expression = "NOT (#{expression} AND (value <= '#{rules[:min]}'::integer OR value >= #{rules[:max]}))"
+            expression = "NOT (#{expression} AND (value < '#{rules[:min]}'::integer OR value >= #{rules[:max]}))"
           elsif rules[:min]
-            expression = "NOT (#{expression} AND value <= '#{rules[:min]}'::integer)"
+            expression = "NOT (#{expression} AND value < '#{rules[:min]}'::integer)"
           elsif rules[:max]
             expression = "NOT (#{expression} AND value >= #{rules[:max]})"
           end
