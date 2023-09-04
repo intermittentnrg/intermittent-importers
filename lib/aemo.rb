@@ -70,7 +70,10 @@ module Aemo
     end
 
     def parse_time(s)
-      TZ.local_to_utc(Time.strptime(s, '%Y/%m/%d %H:%M:%S'))
+      return @last_t if @last_s == s
+
+      @last_s = s
+      @last_t = TZ.local_to_utc(Time.strptime(s, '%Y/%m/%d %H:%M:%S'))
     end
 
     def points_price
