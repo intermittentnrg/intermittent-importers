@@ -3,8 +3,8 @@ europe:
     load:
       min: 0
       max: 800000000
-  GB:
-    min: 10000000
+  #GB:
+  #  min: 10000000
   #FR:
   #  nuclear:
   #    max:

@@ -53,7 +53,8 @@ class Validate
           if production_type_name == "load"
             query = Load
           else
-            production_type = ProductionType.where(name: production_type_name).first
+            production_type = ProductionType.find_by(name: production_type_name)
+            raise production_type_name unless production_type
             query = Generation.where(production_type_id: production_type.id)
           end
 
