@@ -44,7 +44,7 @@ class Validate
     points
   end
 
-  def self.validate_db(delete=false)
+  def self.validate_data(delete=false)
     @@rules.each do |region, areas|
       areas.each do |area_code, production_types|
         area = Area.find_by!(region: region, code: area_code) if area_code != 'all'
@@ -66,7 +66,7 @@ class Validate
 
           if rules[:min] || rules[:max]
             query = query.where.not(value: rules[:min]...rules[:max])
-            puts query.to_sql
+            #puts query.to_sql
             query_count = query.count
             if query_count > 0
               puts "#{region} #{area_code}/#{production_type_name} #{query_count} invalid records"

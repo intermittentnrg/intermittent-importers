@@ -1,7 +1,7 @@
 europe:
   all:
     load:
-      min: 0
+      min: 1000
       max: 800000000
   #GB:
   #  min: 10000000

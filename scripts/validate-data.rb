@@ -2,4 +2,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Validate.validate_db(ARGV == ['--delete'])
+Validate.validate_data(ARGV == ['--delete'])
