@@ -9,7 +9,7 @@ RSpec.describe Aemo::RooftopPv do
   end
   it do
     VCR.use_cassette("aemo_rooftoppv_e2e") do
-      expect(FileList).to receive(:create)
+      expect(DataFile).to receive(:create)
       Aemo::RooftopPv.new("https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230902183000_0000000396168829.zip").process
     end
   end

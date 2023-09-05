@@ -19,8 +19,8 @@ RSpec.describe Aemo::TradingArchive do
   describe :each do
     it "processes directory" do
       VCR.use_cassette("aemo_trading_archive") do
-        file_list = double('FileList')
-        expect(FileList).to receive(:where).at_least(1).times.and_return file_list
+        file_list = double('DataFile')
+        expect(DataFile).to receive(:where).at_least(1).times.and_return file_list
         expect(file_list).to receive(:exists?).at_least(1).times.and_return false
 
         instance = double('Aemo::Trading')
@@ -40,7 +40,7 @@ RSpec.describe Aemo::TradingArchive do
       expect(instance).to receive(:process).at_least(1).times
 
       expect(Aemo::Trading).to receive(:new).at_least(1).times.and_return instance
-      expect(FileList).to receive :create
+      expect(DataFile).to receive :create
       Aemo::TradingArchive.new("https://nemweb.com.au/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20220724_20220730.zip").process
     end
   end

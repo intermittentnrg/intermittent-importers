@@ -31,7 +31,7 @@ module Aemo
       links.each do |url|
         url = URL_BASE + url.first
         next unless select_file?(url)
-        if FileList.where(path: File.basename(url), source: self.source_id).exists?
+        if DataFile.where(path: File.basename(url), source: self.source_id).exists?
           logger.info "already processed #{File.basename(url)}"
           next
         end
@@ -65,7 +65,7 @@ module Aemo
     end
 
     def done!
-      FileList.create(path: File.basename(@url), source: self.class.source_id)
+      DataFile.create(path: File.basename(@url), source: self.class.source_id)
       logger.info "done! #{@url}"
     end
 
@@ -101,7 +101,7 @@ module Aemo
           break if zip_entry.nil?
           next unless self.class::TARGET.select_file? zip_entry.name
 
-          if FileList.where(path: zip_entry.name, source: self.class.source_id).exists?
+          if DataFile.where(path: zip_entry.name, source: self.class.source_id).exists?
             logger.info "already processed #{zip_entry.name}"
             next
           end

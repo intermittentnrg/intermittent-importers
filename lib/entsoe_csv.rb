@@ -61,7 +61,7 @@ module EntsoeCSV
       (row[:value].to_f*1000).to_i - (row[:value_negative].to_f*1000).to_i
     end
     def done!
-      FileList.upsert({path: @filename, source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
+      DataFile.upsert({path: @filename, source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
       logger.info "done! #{@filename}"
     end
   end

@@ -8,7 +8,7 @@ module EntsoeSFTP
           next if entry.name =~ /^\./
           time = Time.at(entry.attributes.mtime)
           # if time is greater
-          if FileList.where(path: entry.name, updated_at: time..., source: self::TARGET.source_id).present?
+          if DataFile.where(path: entry.name, updated_at: time..., source: self::TARGET.source_id).present?
             logger.info "SKIP #{entry.name}"
             next
           else
