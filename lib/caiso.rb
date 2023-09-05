@@ -25,7 +25,7 @@ module Caiso
     }
     FUEL_MAP = FUELS.values
   end
-
+  HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
   class Generation < Base
     include SemanticLogger::Loggable
     include Out::Generation
@@ -35,12 +35,25 @@ module Caiso
       @time = @date.to_time
       @from = TZ.local_to_utc(@time) { |periods| periods.first }
       @to = @from + 1.day
-      #current:/ outlook/SP/fuelsource.csv
-      url = "http://www.caiso.com/outlook/SP/History/#{date.strftime('%Y%m%d')}/fuelsource.csv"
-      @csv = logger.benchmark_info(url) do
-        res = Faraday.get(url)
-        FastestCSV.parse(res.body)
+      #current: /outlook/SP/fuelsource.csv
+      @url = "http://www.caiso.com/outlook/SP/History/#{date.strftime('%Y%m%d')}/fuelsource.csv"
+      @filedate = DataFile.where(path: @url, source: self.class.source_id).pluck(:updated_at).first
+      @csv = logger.benchmark_info(@url) do
+        faraday = Faraday.new do |f|
+          #f.request :gzip
+          #f.response :logger, logger
+        end
+        @res = faraday.get(@url) do |req|
+          if @filedate
+            req.headers['If-Modified-Since'] = @filedate.strftime(HTTP_DATE_FORMAT)
+          end
+        end
+        FastestCSV.parse(@res.body)
       end
+      if @res.status == 304 # not modified
+        raise ENTSOE::EmptyError
+      end
+      @filedate = Time.strptime(@res.headers['Last-Modified'], HTTP_DATE_FORMAT)
       @fields = @csv.shift
 
       raise ENTSOE::EmptyError unless @fields.first
@@ -75,6 +88,10 @@ module Caiso
       #require 'pry' ; binding.pry
 
       r
+    end
+    def done!
+      DataFile.upsert({path: @url, source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
+      logger.info "done! #{@filename}"
     end
   end
 end
