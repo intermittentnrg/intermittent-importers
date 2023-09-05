@@ -1,7 +1,7 @@
 # coding: utf-8
 require 'faraday/gzip'
 
-class ENTSOE
+module ENTSOE
   DEFAULT_START = DateTime.parse('2014-01-01')
 
   class Base
@@ -396,8 +396,4 @@ class ENTSOE
     'B20': 'Other',
   }
   DOMAIN_MAPPINGS = COUNTRIES
-
-  def inspect
-    "#<ENTSO-E>"
-  end
 end
