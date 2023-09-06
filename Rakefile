@@ -51,15 +51,12 @@ namespace :elexon do
 end
 
 namespace :entsoe do
-  task all: [:generation, :load, :transmission, :price]
+  task all: [:generation, :unit, :load, :price, :transmission]
   loop_task :generation, EntsoeSFTP::Generation
   loop_task :unit, EntsoeSFTP::Unit
   loop_task :load, EntsoeSFTP::Load
   loop_task :price, EntsoeSFTP::Price
-  #pump_task :generation, ENTSOE::Generation, Generation
-  #pump_task :load, ENTSOE::Load, Load
   pump_task :transmission, ENTSOE::Transmission, Transmission
-  #pump_task :price, ENTSOE::Price, Price
 end
 
 namespace :nordpool do
