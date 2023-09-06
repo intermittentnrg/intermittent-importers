@@ -54,10 +54,12 @@ spec:
   node(POD_LABEL) {
     container('app') {
       stage('test app') {
-        try {
-          sh 'cd /app ; rspec spec -f d --format RspecJunitFormatter --out ${WORKSPACE}/rspec.xml'
-        } finally {
-          junit allowEmptyResults: true, testResults: 'rspec.xml'
+        timeout(time: 10, unit: 'MINUTES') {
+          try {
+            sh 'cd /app ; rspec spec -f d --format RspecJunitFormatter --out ${WORKSPACE}/rspec.xml'
+          } finally {
+            junit allowEmptyResults: true, testResults: 'rspec.xml'
+          }
         }
       }
       stage('deploy') {
