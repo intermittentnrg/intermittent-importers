@@ -7,7 +7,7 @@ if ARGV.length != 1
   $stderr.puts "#{$0} <year>"
   exit 1
 end
-year = DateTime.parse ARGV.shift
+year = Chronic.parse(ARGV.shift).to_date
 
 e = Ieso::Load.new year
 e.process
