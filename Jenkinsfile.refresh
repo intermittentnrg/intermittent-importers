@@ -18,19 +18,17 @@ spec:
 ) {
   node(POD_LABEL) {
     container('app') {
-      logstash {
-        parallel all: {
-          stage('all') {
-            sh 'cd /app ; bundle exec rake all'
-          }
-        },
-        nordpool: {
-          if (env.BRANCH_NAME == "master") {
-            stage('nordpool-price-sek') {
-              sh 'cd /app ; scripts/sincedb-nordpool-price-sek.rb'
-            }
-          }
-        }
+      parallel all: {
+	stage('all') {
+	  sh 'cd /app ; bundle exec rake all'
+	}
+      },
+      nordpool: {
+	if (env.BRANCH_NAME == "master") {
+	  stage('nordpool-price-sek') {
+	    sh 'cd /app ; scripts/sincedb-nordpool-price-sek.rb'
+	  }
+	}
       }
     }
   }

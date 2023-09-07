@@ -11,7 +11,7 @@ ENV['ENTSOE_TOKEN'] ||= 'DUMMYTOKEN'
 VCR.configure do |config|
   config.cassette_library_dir = "fixtures/vcr_cassettes"
   config.hook_into :webmock
-
+  config.ignore_hosts ENV['ES_HOST']
   config.filter_sensitive_data('<TOKEN>') { ENV['ENTSOE_TOKEN'] }
   config.filter_sensitive_data('<EIA_TOKEN>') { ENV['EIA_TOKEN'] }
 end

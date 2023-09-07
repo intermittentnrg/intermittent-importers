@@ -13,17 +13,13 @@ end
 require 'semantic_logger'
 SemanticLogger.default_level = :info
 SemanticLogger.application = "intermittency"
-if ENV['CI']
-  SemanticLogger.add_appender(io: $stderr, formatter: :json)
-elsif ENV['ENV'] != 'test'
-  SemanticLogger.add_appender(
-    appender:    :elasticsearch,
-    url:         ENV['ES_URL'],
-    index:       "intermittency",
-    data_stream: true
-  )
-  SemanticLogger.add_appender(io: $stderr, formatter: :color)
-end
+SemanticLogger.add_appender(
+  appender:    :elasticsearch,
+  url:         ENV['ES_URL'],
+  index:       "intermittency",
+  data_stream: true
+)
+SemanticLogger.add_appender(io: $stderr, formatter: :color)
 
 require 'date'
 require 'active_support'
