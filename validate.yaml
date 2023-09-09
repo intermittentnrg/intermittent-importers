@@ -23,6 +23,7 @@ europe:
 usa:
   all:
     load:
+      min: 1000
       max: 800000000
     wind:
       min: -100000000

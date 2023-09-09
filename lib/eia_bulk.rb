@@ -38,7 +38,6 @@ module EiaBulk
             process_demand(series, json)
 
           when 'NG' # Net generation
-            next
             process_generation(series, json)
 
           when 'ID' # Actual Net interchange
@@ -94,7 +93,7 @@ module EiaBulk
         }
       end
       r.compact!
-      Out2::Load.run(r, from, to, self.class.source_id)
+      Out2::Load.run(Validate.validate_load(r), from, to, self.class.source_id)
     end
 
     def process_generation(series, json)
@@ -134,7 +133,7 @@ module EiaBulk
         }
       end
       r.compact!
-      Out2::Generation.run(r, from, to, self.class.source_id)
+      Out2::Generation.run(Validate.validate_generation(r), from, to, self.class.source_id)
     end
   end
 
