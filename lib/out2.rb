@@ -1,4 +1,9 @@
 module Out2
+  WQ = ::WorkQueue.new(1, 3)
+  at_exit do
+    WQ.join
+  end
+
   class Generation
     include SemanticLogger::Loggable
 
@@ -30,9 +35,11 @@ module Out2
       end
 
       if data.present?
-        logger.benchmark_info("upsert") do
-          #require 'pry' ; binding.pry
-          ::Generation.upsert_all(data)
+        WQ.enqueue_b do
+          logger.benchmark_info("upsert") do
+            #require 'pry' ; binding.pry
+            ::Generation.upsert_all(data)
+          end
         end
       end
     end
@@ -66,8 +73,10 @@ module Out2
       end
 
       if data.present?
-        logger.benchmark_info("upsert") do
-          ::Load.upsert_all data if data.present?
+        WQ.enqueue_b do
+          logger.benchmark_info("upsert") do
+            ::Load.upsert_all data if data.present?
+          end
         end
       end
     end
