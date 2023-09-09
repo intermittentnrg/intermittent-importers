@@ -22,10 +22,12 @@ module Out2
       end
 
       logger.benchmark_info("diff calculation") do
-        rows=::Generation.where(time: from...to).where(area_id: areas.values).order(:time, :production_type_id)
-        rows=rows.map { |r| r.attributes.symbolize_keys }
+        index = ::Generation.where(time: from...to).where(area_id: areas.values).as_json
+        index = Hash[index.map do |r|
+          r.symbolize_keys!
 
-        index = Hash[rows.map { |r| [[r[:time], r[:production_type_id]], r] }]
+          [[r[:time], r[:production_type_id]], r]
+        end]
         data.each do |p|
           old = index[[p[:time], p[:production_type_id]]]
           if old && old[:value] != p[:value]
@@ -59,10 +61,12 @@ module Out2
       end
 
       logger.benchmark_info("diff calculation") do
-        rows=::Load.where(time: from...to).where(area_id: areas.values).order(:time)
-        rows=rows.map { |r| r.attributes.symbolize_keys }
+        index = ::Load.where(time: from...to).where(area_id: areas.values).as_json
+        index = Hash[index.map do |r|
+          r.symbolize_keys!
 
-        index = Hash[rows.map { |r| [r[:time], r] }]
+          [r[:time], r]
+        end]
         data.each do |p|
           old = index[p[:time]]
           if old && old[:value] != p[:value]
