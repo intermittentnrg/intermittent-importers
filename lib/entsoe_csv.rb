@@ -13,7 +13,7 @@ module EntsoeCSV
         @filename = File.basename(file_or_io)
         @filedate = File.mtime(file_or_io)
 
-        if @filenamefile =~ /\.zip$/i
+        if @filename =~ /\.zip$/i
           zip_file = Zip::File.open(file_or_io)
           @file = zip_file.first.get_input_stream
         else
