@@ -31,6 +31,8 @@ update_secret2:
 	grep -v export .env-production | kubectl create secret generic -n jenkins intermittency-production --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
 psql:
 	psql postgres
+psql_test:
+	psql intermittency_test
 psql2:
 	psql intermittency_prod
 

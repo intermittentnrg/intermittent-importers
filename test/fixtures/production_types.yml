@@ -1,0 +1,90 @@
+---
+biomass:
+  id: 1
+  name: biomass
+  name2: 01_biomass_and_waste
+  enabled: true
+fossil_brown_coal/lignite:
+  id: 2
+  name: fossil_brown_coal/lignite
+  name2: 03_lignite
+  enabled: true
+fossil_gas:
+  id: 4
+  name: fossil_gas
+  name2: 05_gas
+  enabled: true
+fossil_hard_coal:
+  id: 5
+  name: fossil_hard_coal
+  name2: 04_hard_coal
+  enabled: true
+fossil_oil:
+  id: 6
+  name: fossil_oil
+  name2: 07_other
+  enabled: true
+fossil_oil_shale:
+  id: 7
+  name: fossil_oil_shale
+  name2: 07_other
+  enabled: true
+geothermal:
+  id: 9
+  name: geothermal
+  name2: '09_other_renewable'
+  enabled: true
+hydro_pumped_storage:
+  id: 10
+  name: hydro_pumped_storage
+  name2: 06_hydro
+  enabled: true
+hydro_run-of-river_and_poundage:
+  id: 11
+  name: hydro_run-of-river_and_poundage
+  name2: 06_hydro
+  enabled: true
+hydro_water_reservoir:
+  id: 12
+  name: hydro_water_reservoir
+  name2: 06_hydro
+  enabled: true
+nuclear:
+  id: 14
+  name: nuclear
+  name2: 02_nuclear
+  enabled: true
+other:
+  id: 15
+  name: other
+  name2: 07_other
+  enabled: true
+other_renewable:
+  id: 16
+  name: other_renewable
+  name2: '09_other_renewable'
+  enabled: true
+solar:
+  id: 17
+  name: solar
+  name2: '08_solar'
+  enabled: true
+waste:
+  id: 18
+  name: waste
+  name2: 01_biomass_and_waste
+wind_offshore:
+  id: 19
+  name: wind_offshore
+  name2: 10_wind_offshore
+  enabled: true
+wind_onshore:
+  id: 20
+  name: wind_onshore
+  name2: '09_wind_onshore'
+  enabled: true
+solar_rooftop:
+  id: 28
+  name: solar_rooftop
+  name2: 08_solar
+  enabled: true

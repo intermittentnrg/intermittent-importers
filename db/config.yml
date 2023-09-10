@@ -6,7 +6,7 @@ default: &default
   timeout: 5000
   #query_cache: 100
 
-development:
+development: &development
   <<: *default
   host: <%= ENV['PGHOST'] %>
   port: 5432
@@ -14,3 +14,7 @@ development:
   password: <%= ENV['PGPASSWORD'] %>
   database: <%= ENV['PGDATABASE'] %>
   schema_search_path: intermittency,public
+
+test:
+  <<: *development
+  database: intermittency_test

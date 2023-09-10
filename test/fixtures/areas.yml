@@ -1,0 +1,68 @@
+---
+NO:
+  id: 25
+  code: 'NO'
+  internal_id: 10YNO-0--------C
+  source: entsoe
+  enabled: true
+  region: europe
+  type: country
+DE:
+  id: 7
+  code: DE
+  internal_id: 10Y1001A1001A83F
+  source: entsoe
+  enabled: true
+  region: europe
+  type: country
+XK:
+  id: 48
+  code: XK
+  internal_id: 10Y1001C--00100H
+  source: entsoe
+  enabled: true
+  region: europe
+  type: country
+
+NSW1:
+  id: 287
+  code: NSW1
+  source: aemo
+  enabled: true
+  region: australia
+  type: region
+QLD1:
+  id: 288
+  code: QLD1
+  source: aemo
+  enabled: true
+  region: australia
+  type: region
+SA1:
+  id: 286
+  code: SA1
+  source: aemo
+  enabled: true
+  region: australia
+  type: region
+TAS1:
+  id: 289
+  code: TAS1
+  source: aemo
+  region: australia
+  type: region
+VIC1:
+  id: 290
+  code: VIC1
+  source: aemo
+  region: australia
+  type: region
+
+BANC:
+  id: 83
+  code: BANC
+  internal_id: BANC
+  source: eia
+  enabled: true
+  region: usa
+  type: balancing_authority
