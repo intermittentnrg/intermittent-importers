@@ -4,7 +4,19 @@ module Out2
     WQ.join
   end
 
-  class Generation
+  class Base
+    if Rails.env.test?
+      def self.enqueue(&block)
+        block.call
+      end
+    else
+      def self.enqueue(&block)
+        WQ.enqueue_b(&block)
+      end
+    end
+  end
+
+  class Generation < Base
     include SemanticLogger::Loggable
 
     def self.run(data, from, to, source_id)
@@ -37,7 +49,7 @@ module Out2
       end
 
       if data.present?
-        WQ.enqueue_b do
+        enqueue do
           logger.benchmark_info("upsert") do
             #require 'pry' ; binding.pry
             ::Generation.upsert_all(data)
@@ -47,7 +59,7 @@ module Out2
     end
   end
 
-  class Load
+  class Load < Base
     include SemanticLogger::Loggable
 
     def self.run(data, from, to, source_id)
@@ -77,7 +89,7 @@ module Out2
       end
 
       if data.present?
-        WQ.enqueue_b do
+        enqueue do
           logger.benchmark_info("upsert") do
             ::Load.upsert_all data if data.present?
           end

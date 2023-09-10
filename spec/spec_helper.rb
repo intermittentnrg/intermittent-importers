@@ -4,6 +4,7 @@ require 'rspec/collection_matchers'
 require 'vcr'
 
 ENV['ENV']='test'
+ENV['RAILS_ENV']='test'
 require './lib/init'
 require './lib/activerecord-connect'
 
