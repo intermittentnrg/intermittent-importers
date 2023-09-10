@@ -2,7 +2,7 @@ europe:
   all:
     load:
       min: 1000
-      max: 800000000
+      max: 600000000
   #GB:
   #  min: 10000000
   #FR:
