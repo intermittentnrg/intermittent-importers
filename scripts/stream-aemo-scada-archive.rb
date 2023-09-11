@@ -5,8 +5,8 @@ require './lib/activerecord-connect'
 
 if ARGV.present?
   ARGV.each do |file|
-    Aemo::ScadaArchive.new File.open(file)
+    AemoArchive::ScadaArchive.new File.open(file)
   end
 else
-  Aemo::ScadaArchive.each(&:process)
+  AemoArchive::ScadaArchive.each(&:process)
 end

@@ -6,8 +6,8 @@ require './lib/activerecord-connect'
 
 if ARGV.present?
   ARGV.each do |file|
-    Aemo::TradingArchive.new File.open(file)
+    AemoArchive::TradingArchive.new File.open(file)
   end
 else
-  Aemo::TradingArchive.each &:process
+  AemoArchive::TradingArchive.each &:process
 end

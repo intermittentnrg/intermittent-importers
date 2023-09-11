@@ -53,10 +53,14 @@ module Aemo
         @url = name_if_io
       end
 
-      zip = Zip::InputStream.new(file)
-      zip.get_next_entry
-      body = zip.read
-      csv = CSV.new(body)
+      if @url =~ /\.zip$/
+        zip = Zip::InputStream.new(file)
+        zip.get_next_entry
+        body = zip.read
+        csv = CSV.new(body)
+      else
+        csv = CSV.new(file)
+      end
 
       all = csv.to_a
 
@@ -65,7 +69,7 @@ module Aemo
     end
 
     def done!
-      DataFile.create(path: File.basename(@url), source: self.class.source_id)
+      DataFile.upsert({path: File.basename(@url), source: self.class.source_id}, unique_by: [:source, :path])
       logger.info "done! #{@url}"
     end
 
@@ -81,40 +85,6 @@ module Aemo
     end
     def points
       @r
-    end
-  end
-
-  class Archive < Base
-    def initialize(file)
-      if file.is_a? String
-        @url = file
-        http = logger.benchmark_info("Fetch #{file}") do
-          http = @@faraday.get(file)
-        end
-        file = StringIO.new(http.body)
-      end
-
-      logger.benchmark_info("parse archive zip") do
-        zip = Zip::InputStream.new(file)
-        loop do
-          zip_entry = zip.get_next_entry
-          break if zip_entry.nil?
-          next unless self.class::TARGET.select_file? zip_entry.name
-
-          if DataFile.where(path: zip_entry.name, source: self.class.source_id).exists?
-            logger.info "already processed #{zip_entry.name}"
-            next
-          end
-
-          #zip_entry.get_input_stream doesn't respond to seek
-          nested_zip = StringIO.new(zip_entry.get_input_stream.read)
-          self.class::TARGET.new(nested_zip, zip_entry.name).process
-        end
-      end
-    end
-
-    def process
-      done!
     end
   end
 
@@ -258,13 +228,6 @@ module Aemo
     end
   end
 
-  class TradingArchive < Archive
-    include SemanticLogger::Loggable
-
-    URL = "https://nemweb.com.au/Reports/ARCHIVE/TradingIS_Reports/"
-    TARGET = Trading
-  end
-
   class TradingMMS < Trading
     include SemanticLogger::Loggable
 
@@ -329,13 +292,6 @@ module Aemo
     end
   end
 
-  class ScadaArchive < Archive
-    include SemanticLogger::Loggable
-
-    URL = 'https://nemweb.com.au/Reports/ARCHIVE/Dispatch_SCADA/'
-    TARGET = Scada
-  end
-
   class ScadaMMS < Scada
     include SemanticLogger::Loggable
 
@@ -390,17 +346,6 @@ module Aemo
     end
     def points_generation
       @r
-    end
-  end
-
-  class RooftopPvArchive < Archive
-    include SemanticLogger::Loggable
-
-    URL = "https://nemweb.com.au/Reports/ARCHIVE/ROOFTOP_PV/ACTUAL/"
-    TARGET = RooftopPv
-
-    def self.select_file? url
-      super && url =~ /PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_/
     end
   end
 
