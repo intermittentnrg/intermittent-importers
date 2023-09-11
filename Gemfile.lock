@@ -45,6 +45,7 @@ GEM
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
     diff-lcs (1.5.0)
+    docile (1.4.0)
     dotenv (2.8.1)
     elastic-transport (8.2.2)
       faraday (< 3)
@@ -163,6 +164,15 @@ GEM
       websocket (~> 1.0)
     semantic_logger (4.13.0)
       concurrent-ruby (~> 1.0)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-cobertura (2.1.0)
+      rexml
+      simplecov (~> 0.19)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
     slop (4.10.1)
     snaky_hash (2.0.1)
       hashie
@@ -220,6 +230,8 @@ DEPENDENCIES
   rubyzip
   selenium-webdriver
   semantic_logger
+  simplecov
+  simplecov-cobertura
   typhoeus
   vcr
   webmock

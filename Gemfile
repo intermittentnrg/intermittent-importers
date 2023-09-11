@@ -47,6 +47,8 @@ group :test do
   gem 'rspec'
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'
+  gem 'simplecov', require: false
+  gem 'simplecov-cobertura', require: false
   gem 'vcr'
   gem 'webmock'
 end

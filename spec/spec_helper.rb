@@ -8,6 +8,11 @@ ENV['RAILS_ENV']='test'
 require './lib/init'
 require './lib/activerecord-connect'
 
+require 'simplecov'
+require 'simplecov-cobertura'
+SimpleCov.start
+SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+
 ENV['ENTSOE_TOKEN'] ||= 'DUMMYTOKEN'
 VCR.configure do |config|
   config.cassette_library_dir = "fixtures/vcr_cassettes"
