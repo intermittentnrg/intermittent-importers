@@ -64,10 +64,10 @@ spec:
         timeout(time: 10, unit: 'MINUTES') {
           try {
             sh 'cd /app ; rspec spec -f d --format RspecJunitFormatter --out ${WORKSPACE}/rspec.xml'
-            sh "mv /app/coverage ${env.WORKSPACE}"
+            sh "cp -rv /app ${env.WORKSPACE}"
           } finally {
             junit allowEmptyResults: true, testResults: 'rspec.xml'
-	    cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'coverage/coverage.xml', conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
+	    cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'app/coverage/coverage.xml', conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
           }
         }
       }
