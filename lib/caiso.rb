@@ -45,7 +45,7 @@ module Caiso
     end
 
     def parse_time(row)
-      time = @date.to_time + Time.parse(row[0]).seconds_since_midnight.seconds
+      time = @date.to_time + Time.strptime(row[0], '%H:%M').seconds_since_midnight.seconds
 
       TZ.local_to_utc(time) { |periods| periods.first }
     end
