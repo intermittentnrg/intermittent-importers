@@ -24,6 +24,13 @@ XK:
   region: europe
   type: country
 
+AU:
+  id: 296
+  code: AU
+  source: aemo
+  enabled: true
+  region: australia
+  type: country
 NSW1:
   id: 287
   code: NSW1
@@ -55,6 +62,13 @@ VIC1:
   id: 290
   code: VIC1
   source: aemo
+  region: australia
+  type: region
+WEM:
+  id: 321
+  code: WEM
+  source: aemo
+  enabled: true
   region: australia
   type: region
 

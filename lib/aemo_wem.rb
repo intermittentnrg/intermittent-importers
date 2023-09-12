@@ -1,12 +1,38 @@
 module AemoWem
-  class ScadaWem < ::Aemo::Base
+  class Base < ::Aemo::Base
+    URL_BASE = "https://data.wa.aemo.com.au"
+
+    def self.select_file? url
+      url =~ /.csv$/i
+    end
+  end
+  class ScadaWem < Base
     include SemanticLogger::Loggable
     include Out::Unit
 
+    def self.cli(args)
+      if args.length == 2
+        from = Chronic.parse(args.shift).to_date
+        to = Chronic.parse(args.shift).to_date
+        (from...to).select {|d| d.day==1}.each do |date|
+          AemoWem::ScadaWem.new(date).process
+        end
+      elsif args.present?
+        args.each do |path|
+          AemoWem::ScadaWem.new(path).process
+        end
+      else
+        AemoWem::ScadaWem.each &:process
+      end
+    end
+    URL = "https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/"
+    # MANIFEST: https://data.wa.aemo.com.au/public/public-data/manifests/facility-scada.yaml
     URL_FORMAT = "https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/facility-scada-%Y-%m.csv"
     def initialize(file_or_date)
       if file_or_date.is_a? Date
         super(file_or_date.strftime(URL_FORMAT))
+      elsif file_or_date =~ /^https?:/
+        super(file_or_date)
       else
         super(File.open(file_or_date, 'r'), file_or_date)
       end

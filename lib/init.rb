@@ -10,15 +10,18 @@ else
   Dotenv.load
 end
 
+require 'rails'
 require 'semantic_logger'
 SemanticLogger.default_level = :info
 SemanticLogger.application = "intermittency"
-SemanticLogger.add_appender(
-  appender:    :elasticsearch,
-  url:         ENV['ES_URL'],
-  index:       "intermittency",
-  data_stream: true
-)
+if !Rails.env.test?
+  SemanticLogger.add_appender(
+    appender:    :elasticsearch,
+    url:         ENV['ES_URL'],
+    index:       "intermittency",
+    data_stream: true
+  )
+end
 SemanticLogger.add_appender(io: $stderr, formatter: :color)
 
 require 'date'

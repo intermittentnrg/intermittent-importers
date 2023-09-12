@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'rspec'
 require 'rspec/collection_matchers'
+require 'webmock/rspec'
 require 'vcr'
 
 ENV['ENV']='test'
@@ -12,6 +13,8 @@ require 'simplecov'
 require 'simplecov-cobertura'
 SimpleCov.start
 SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+
+SemanticLogger.default_level = :warn
 
 ENV['ENTSOE_TOKEN'] ||= 'DUMMYTOKEN'
 VCR.configure do |config|
@@ -36,4 +39,5 @@ RSpec.configure do |config|
       example.run
     end
   end
+  config.include Helpers::ZipInputStream
 end

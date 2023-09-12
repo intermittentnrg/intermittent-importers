@@ -1,4 +1,4 @@
-module AemoArchive
+module AemoNemArchive
   class Archive < ::Aemo::Base
     def initialize(file)
       if file.is_a? String
@@ -31,23 +31,33 @@ module AemoArchive
     def process
       done!
     end
+
+    def self.cli(args)
+      if args.present?
+        args.each do |file|
+          self.new File.open(file)
+        end
+      else
+        self.each &:process
+      end
+    end
   end
 
-  class TradingArchive < Archive
+  class Trading < Archive
     include SemanticLogger::Loggable
 
     URL = "https://nemweb.com.au/Reports/ARCHIVE/TradingIS_Reports/"
     TARGET = Aemo::Trading
   end
 
-  class ScadaArchive < Archive
+  class Scada < Archive
     include SemanticLogger::Loggable
 
     URL = 'https://nemweb.com.au/Reports/ARCHIVE/Dispatch_SCADA/'
     TARGET = Aemo::Scada
   end
 
-  class RooftopPvArchive < Archive
+  class RooftopPv < Archive
     include SemanticLogger::Loggable
 
     URL = "https://nemweb.com.au/Reports/ARCHIVE/ROOFTOP_PV/ACTUAL/"

@@ -3,10 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-if ARGV.present?
-  ARGV.each do |file|
-    AemoArchive::RooftopPvArchive.new File.open(file)
-  end
-else
-  AemoArchive::RooftopPvArchive.each(&:process)
-end
+AemoArchive::RooftopPvArchive.cli(ARGV)

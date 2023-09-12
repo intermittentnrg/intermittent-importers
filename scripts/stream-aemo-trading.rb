@@ -3,4 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Aemo::Trading.each &:process_price
+Aemo::Trading.cli(ARGV)

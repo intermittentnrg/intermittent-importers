@@ -29,7 +29,7 @@ module Aemo
       links.select! { |url| select_file?(url.first) }
 
       links.each do |url|
-        url = URL_BASE + url.first
+        url = self::URL_BASE + url.first
         next unless select_file?(url)
         if DataFile.where(path: File.basename(url), source: self.source_id).exists?
           logger.info "already processed #{File.basename(url)}"
@@ -183,6 +183,9 @@ module Aemo
 
     URL = "https://nemweb.com.au/Reports/Current/TradingIS_Reports/"
 
+    def self.cli(args)
+      Aemo::Trading.each &:process_price
+    end
     def process_rows(all)
       all.select { |row| row[0..2] == ['D','TRADING','PRICE'] }.map do |row|
         # I
@@ -259,6 +262,16 @@ module Aemo
 
     URL = 'https://nemweb.com.au/Reports/Current/Dispatch_SCADA/'
 
+    def self.cli(args)
+      if args.present?
+        args.each do |file|
+          Aemo::Scada.new File.open(file), file
+        end
+      else
+        Aemo::Scada.each &:process
+      end
+    end
+
     @@units = {}
     def process_rows(all)
       # require 'pry' ; binding.pry
@@ -295,6 +308,20 @@ module Aemo
   class ScadaMMS < Scada
     include SemanticLogger::Loggable
 
+    def self.cli(args)
+      if args.length != 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      end
+
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      (from...to).select {|d| d.day==1}.each do |date|
+        Aemo::ScadaMMS.new(date).process
+      end
+    end
+
     def initialize(date)
       url = date.strftime("https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/%Y/MMSDM_%Y_%m/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_DISPATCH_UNIT_SCADA_%Y%m010000.zip")
       @from = date
@@ -309,10 +336,13 @@ module Aemo
 
     URL = "https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/"
 
+    def self.cli(args)
+      Aemo::RooftopPv.each &:process
+    end
     def initialize *args
       super
       unless @from
-        # PUBLIC_ROOFTOP_PV_ACTUAL_SATELLITE_20230902183000_0000000396168830.zip
+        # PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230902183000_0000000396168830.zip
         filename = File.basename(@url)
         m = /_(\d{14})_\d{16}\.zip$/.match(filename)
         @from = Time.strptime(m[1], '%Y%m%d%H%M%S')
@@ -323,9 +353,9 @@ module Aemo
     def self.select_file? url
       super && url =~ /PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_/
     end
+
     def process_rows(all)
-      r = {}
-      all.select { |row| row[0..2] == ['D','ROOFTOP','ACTUAL'] && row[8] == 'MEASUREMENT' }.map do |row|
+      r = all.select { |row| row[0..2] == ['D','ROOFTOP','ACTUAL'] && row[8] == 'MEASUREMENT' }.map do |row|
         # I
         # ROOFTOP
         # ACTUAL
@@ -342,8 +372,12 @@ module Aemo
         next unless country =~ /1$/
 
         {time:, country:, production_type: 'solar_rooftop', value:}
-      end.compact
+      end
+      r.compact!
+
+      r
     end
+
     def points_generation
       @r
     end

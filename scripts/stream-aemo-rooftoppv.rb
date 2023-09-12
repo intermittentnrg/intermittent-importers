@@ -3,4 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Aemo::RooftopPv.each &:process
+Aemo::RooftopPv.cli
