@@ -14,14 +14,25 @@ CSV
       let(:args) { [] }
       let(:index_url) { 'https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/' }
       let(:data_file) { 'abc.csv' }
-      it do
+
+      before do
         stub_request(:get, index_url).
           to_return(body: "<A HREF=\"/#{data_file}\"></A>")
         stub_request(:get, "https://data.wa.aemo.com.au/#{data_file}").
           to_return(body:)
+      end
 
+      it do
         expect(GenerationUnit).to receive(:upsert_all)
         subject.cli(args)
+      end
+
+      it "to aggregate to generation" do
+        Generation.uncached do
+          expect {
+            subject.cli(args)
+          }.to change { Generation.count }.by(1)
+        end
       end
     end
 

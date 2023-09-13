@@ -11,14 +11,24 @@ CSV
 
     context 'with no arguments' do
       let(:args) { [] }
-      it do
+      before do
         stub_request(:get, 'https://nemweb.com.au/Reports/Current/Dispatch_SCADA/').
           to_return(body: '<A HREF="/123.zip"></A>')
         stub_request(:get, 'https://nemweb.com.au/123.zip')
         stub_zip_inputstream(body)
+      end
 
+      it do
         expect(GenerationUnit).to receive(:upsert_all)
         subject.cli(args)
+      end
+
+      it "to aggregate to generation" do
+        Generation.uncached do
+          expect {
+            subject.cli(args)
+          }.to change { Generation.count }.by(1)
+        end
       end
     end
 

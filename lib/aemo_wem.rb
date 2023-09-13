@@ -48,9 +48,9 @@ module AemoWem
     # MANIFEST: https://data.wa.aemo.com.au/public/public-data/manifests/facility-scada.yaml
     URL_FORMAT = "https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/facility-scada-%Y-%m.csv"
 
-    @@units = {}
     def process_rows(all)
-      default_area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
+      @units = {}
+      @area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
       default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
 
       all.shift
@@ -64,8 +64,8 @@ module AemoWem
           # Participant Code
           # Facility Code
           unit_internal_id = row[4]
-          unit = @@units[unit_internal_id] ||= ::Unit.
-                                               create_with(area_id: default_area_id,
+          unit = @units[unit_internal_id] ||= ::Unit.
+                                               create_with(area_id: @area_id,
                                                            production_type_id: default_production_type_id).
                                                find_or_create_by!(internal_id: unit_internal_id)
           unit_id = unit.id
@@ -86,6 +86,12 @@ module AemoWem
       #require 'pry' ; binding.pry
 
       r
+    end
+
+    def done!
+      where = "a.source='aemo' AND a.id=#{@area_id}"
+      GenerationUnit.aggregate_to_generation(where)
+      super
     end
   end
 
