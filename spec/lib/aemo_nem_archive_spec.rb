@@ -62,7 +62,7 @@ RSpec.describe AemoNemArchive::Trading do
         expect(DataFile).to receive(:where).at_least(1).times.and_return file_list
         expect(file_list).to receive(:exists?).at_least(1).times.and_return false
 
-        instance = double('Aemo::Trading')
+        instance = double('AemoNem::Trading')
         expect(AemoNemArchive::Trading).to receive(:new).at_least(1).times.with(%r|^https://nemweb.com.au/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_\d+_\d+.zip$|).and_return instance
 
         #arr = []
@@ -75,12 +75,12 @@ RSpec.describe AemoNemArchive::Trading do
 
   xit "processes nested zips" do
     VCR.use_cassette("aemo_trading_archive_zip") do
-      instance = double('Aemo::Trading')
+      instance = double('AemoNem::Trading')
       expect(instance).to receive(:process).at_least(1).times
 
-      expect(Aemo::Trading).to receive(:new).at_least(1).times.and_return instance
+      expect(AemoNem::Trading).to receive(:new).at_least(1).times.and_return instance
       expect(DataFile).to receive :create
-      AemoArchive::TradingArchive.new("https://nemweb.com.au/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20220724_20220730.zip").process
+      AemoNemArchive::Trading.new("https://nemweb.com.au/Reports/ARCHIVE/TradingIS_Reports/PUBLIC_TRADINGIS_20220724_20220730.zip").process
     end
   end
 end

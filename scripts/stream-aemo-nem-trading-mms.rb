@@ -3,4 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Aemo::RooftopPv.cli
+AemoNem::TradingMMS.cli(ARGV)

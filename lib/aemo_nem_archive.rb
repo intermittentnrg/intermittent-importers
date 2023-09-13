@@ -1,5 +1,5 @@
 module AemoNemArchive
-  class Archive < ::Aemo::Base
+  class Archive < ::AemoNem::Base
     def initialize(file)
       if file.is_a? String
         @url = file
@@ -47,21 +47,21 @@ module AemoNemArchive
     include SemanticLogger::Loggable
 
     URL = "https://nemweb.com.au/Reports/ARCHIVE/TradingIS_Reports/"
-    TARGET = Aemo::Trading
+    TARGET = AemoNem::Trading
   end
 
   class Scada < Archive
     include SemanticLogger::Loggable
 
     URL = 'https://nemweb.com.au/Reports/ARCHIVE/Dispatch_SCADA/'
-    TARGET = Aemo::Scada
+    TARGET = AemoNem::Scada
   end
 
   class RooftopPv < Archive
     include SemanticLogger::Loggable
 
     URL = "https://nemweb.com.au/Reports/ARCHIVE/ROOFTOP_PV/ACTUAL/"
-    TARGET = Aemo::RooftopPv
+    TARGET = AemoNem::RooftopPv
 
     def self.select_file? url
       super && url =~ /PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_/

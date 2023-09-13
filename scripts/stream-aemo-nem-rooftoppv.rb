@@ -3,4 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Aemo::RooftopPvMMS.cli(ARGV)
+AemoNem::RooftopPv.cli

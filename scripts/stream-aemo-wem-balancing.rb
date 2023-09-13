@@ -3,4 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Aemo::ScadaMMS.cli(ARGV)
+AemoWem::Balancing.cli(ARGV)

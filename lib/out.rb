@@ -170,46 +170,8 @@ module Out
       process_price
     end
     def process_price
-      #raise unless @from && @to
-      areas = {}
-      area_ids = Set.new
-      data = points_price
-      logger.info "#{data.first.try(:[], :time)} #{data.length} points"
-
-      data.each do |p|
-        p[:area_id] = (areas[p[:country]] ||= ::Area.where(source: self.class.source_id, code: p[:country]).pluck(:id).first) if p[:country]
-        unless p[:area_id]
-          require 'pry' ; binding.pry
-        end
-        area_ids << p[:area_id]
-        p.delete :country
-      end
-
-      if @from && @to && area_ids.present?
-        logger.benchmark_info("diff calculation") do
-          rows=::Price.where(time: @from...@to).where(area_id: area_ids).order(:time)
-          rows=rows.map { |r| r.attributes.symbolize_keys }
-          index = Hash[rows.map { |r| [[r[:area_id], r[:time]], r] }]
-          data.each do |p|
-            k = [p[:area_id], p[:time]]
-            old = index[k]
-            if old && old[:value] != p[:value]
-              logger.warn "updated #{old[:value]} > #{p[:value]}", event: {duration: Time.now-p[:time]}, price: p
-            #elsif old
-            #  logger.info "good"
-            end
-          end
-
-        end
-      end
-      #require 'pry' ; binding.pry
-
-      if data.present?
-        logger.benchmark_info("upsert") do
-          ::Price.upsert_all(data) if data.present?
-        end
-        done!
-      end
+      ::Out2::Price.run(points_price, @from, @to, self.class.source_id)
+      done!
     end
     def done!
       super

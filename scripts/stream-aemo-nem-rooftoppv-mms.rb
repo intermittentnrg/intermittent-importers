@@ -3,4 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-AemoWem::Scada.cli(ARGV)
+AemoNem::RooftopPvMMS.cli(ARGV)

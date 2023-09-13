@@ -1,8 +1,8 @@
 require './spec/spec_helper'
 
-RSpec.describe Aemo::Scada do
+RSpec.describe AemoNem::Scada do
   describe :cli do
-    subject { Aemo::Scada.cli(args) }
+    subject { AemoNem::Scada }
     let(:body) do
       <<-CSV
 D,DISPATCH,UNIT_SCADA,1,"2023/09/13 05:35:00",WDGPH1,0
@@ -18,23 +18,41 @@ CSV
         stub_zip_inputstream(body)
 
         expect(GenerationUnit).to receive(:upsert_all)
-        subject
+        subject.cli(args)
       end
     end
-    context 'with file.zip' do
+
+    context 'with filename.csv' do
+      let(:args) { ['path/to/file.csv'] }
+      it do
+        allow(File).to receive(:open) { StringIO.new(body) }
+        expect(GenerationUnit).to receive(:upsert_all)
+        subject.cli(args)
+      end
     end
+
     context 'with file.csv' do
+      it
     end
+    # not implemented: with date range
   end
 end
 
-RSpec.describe Aemo::ScadaMMS do
+RSpec.describe AemoNem::ScadaMMS do
   describe :cli do
-    subject { Aemo::ScadaMMS.cli(args) }
+    subject { AemoNem::ScadaMMS }
     let(:body) do
       <<-CSV
 D,DISPATCH,UNIT_SCADA,1,"2023/09/13 05:35:00",WDGPH1,0
 CSV
+    end
+
+    context 'with no arguments' do
+      it #not implemented
+    end
+
+    context 'with file.zip' do
+      it #not implemented
     end
 
     context 'with date range' do
@@ -44,7 +62,7 @@ CSV
         stub_zip_inputstream(body)
 
         expect(GenerationUnit).to receive(:upsert_all)
-        subject
+        subject.cli(args)
       end
     end
   end
