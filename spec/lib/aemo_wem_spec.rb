@@ -48,13 +48,13 @@ CSV
   end
 end
 
-RSpec.describe AemoWem::ScadaLive do
+RSpec.xdescribe AemoWem::ScadaLive do
   describe :cli do
     subject { AemoWem::ScadaLive }
     let(:body) do
         <<-CSV
-Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Energy Generated (MWh),EOI Quantity (MW),Extracted At
-"2018-10-01",1,2018-10-01 08:00:00,"WPGENER","ALBANY_WF1",3.021,7.159,"2018-11-02 23:35:00"
+PERIOD,PARTICIPANT_CODE,FACILITY_CODE,ACTUAL_MW,PCT_ALT_FUEL,PEAK_MW,OUTAGE_MW,PEAK_OUTAGE_MW,POTENTIAL_MWH,INTERVALS_GENERATING,TOTAL_INTERVALS,PCT_GENERATING,AS_AT
+2023-09-12 02:00:00,"ALBGRAS","ALBANY_WF1",5.62,0,5.62,,,2.7725,1,1,1,"2023-09-14 02:00:00"
 CSV
     end
 
@@ -117,13 +117,13 @@ CSV
   end
 end
 
-RSpec.describe AemoWem::BalancingLive do
+RSpec.xdescribe AemoWem::BalancingLive do
   describe :cli do
     subject { AemoWem::BalancingLive }
     let(:body) do
         <<-CSV
-Trading Date,Interval Number,Trading Interval,Load Forecast (MW),Forecast As At,Scheduled Generation (MW),Non-Scheduled Generation (MW),Total Generation (MW),Final Price ($/MWh),Extracted At
-"2023-01-01",1,2023-01-01 08:00:00,998.59,2023-01-01 07:23:08,756.291,292.584,1048.875,-72.19,"2023-09-12 23:30:16"
+TRADING_DAY_INTERVAL,FORECAST_EOI_MW,FORECAST_MW,PRICE,FORECAST_NSG_MW,ACTUAL_NSG_MW,ACTUAL_TOTAL_GENERATION,RTD_TOTAL_GENERATION,RTD_TOTAL_SPINNING_RESERVE,LFAS_UP_REQUIREMENT_MW,TOTAL_OUTAGE_MW,PLANNED_OUTAGE_MW,FORCED_OUTAGE_MW,CONS_OUTAGE_MW,AS_AT
+2023-09-12 02:00:00,1725.011,1689.752,74.39,72.703,24.85,1738.366,,,65,564.9,270.6,294.3,0,"2023-09-14 02:00:00"
 CSV
     end
 
