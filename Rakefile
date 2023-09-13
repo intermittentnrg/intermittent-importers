@@ -25,7 +25,7 @@ task :ping do
   logger.info "ping"
 end
 
-multitask all: ["ieso:all", "eia:all", "caiso:generation", "elexon:all", "entsoe:all", "nordpool:all", :opennem, :ree, :aeso, :hydroquebec]
+multitask all: ["ieso:all", "eia:all", "caiso:generation", "elexon:all", "entsoe:all", "nordpool:all", :opennem, 'aemo:all', :ree, :aeso, :hydroquebec]
 namespace :ieso do
   task all: [:generation, :load]
   pump_task :generation, Ieso::Generation, Generation
@@ -70,6 +70,33 @@ task :opennem do
   Opennem::Latest.new.process
 rescue
   logger.error "Exception", $!
+end
+
+namespace :aemo do
+  task all: ['nem:all', 'wem:all']
+  namespace :nem do
+    task all: [:trading, :scada, :rooftoppv]
+    task :trading do
+      AemoNem::Trading.each(&:process)
+    end
+    task :scada do
+      AemoNem::Scada.each(&:process)
+    end
+    task :rooftoppv do
+      AemoNem::RooftopPv.each(&:process)
+    end
+  end
+  namespace :wem do
+    task all: [:scada, :balancing]
+    task :scada do
+      AemoWem::Scada.each(&:process)
+      #AemoWem::ScadaLive.new.process
+    end
+    task :balancing do
+      AemoWem::Balancing.each(&:process)
+      #AemoWem::BalancingLive.new.process
+    end
+  end
 end
 
 pump_task :ree, Ree::Generation, Generation
