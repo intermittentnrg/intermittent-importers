@@ -140,8 +140,8 @@ module AemoWem
         price = row[8]
         #Extracted At
 
-        load_r << {time:, area_id:, value: load, source: self.class.source_id}
-        price_r << {time:, area_id:, value: price, source: self.class.source_id}
+        load_r << {time:, area_id:, value: load}
+        price_r << {time:, area_id:, value: price}
       end
       #require 'pry' ; binding.pry
 

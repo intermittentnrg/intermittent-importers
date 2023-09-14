@@ -43,8 +43,10 @@ CSV
 
     context 'with filename.csv' do
       let(:args) { ['path/to/file.csv'] }
-      it do
+      before do
         expect(File).to receive(:open) { StringIO.new(body) }
+      end
+      it do
         expect(GenerationUnit).to receive(:upsert_all)
         subject.cli(args)
       end
@@ -153,7 +155,17 @@ CSV
 
     context 'with filename.csv' do
       let(:args) { ['path/to/file.csv'] }
-      it
+      before do
+        expect(File).to receive(:open) { StringIO.new(body) }
+      end
+      it do
+        expect(Price).to receive(:upsert_all)
+        expect(Load).to receive(:upsert_all)
+        subject.cli(args)
+      end
+      it do
+        subject.cli(args)
+      end
     end
 
     context 'with date range' do
