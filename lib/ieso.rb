@@ -33,7 +33,7 @@ module Ieso
           end
         end
       end
-      if @res.status == 304
+      if @res.status == 304 || !@res.success?
         raise ENTSOE::EmptyError
       end
       @filedate = Time.strptime(@res.headers['Last-Modified'], HTTP_DATE_FORMAT)
@@ -129,6 +129,19 @@ module Ieso
     include SemanticLogger::Loggable
     include Out::Generation
 
+    def self.cli(args)
+      if args.length != 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      end
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      (from...to).each do |time|
+        e = Ieso::Generation.new(time)
+        e.process
+      end
+    end
     def initialize(date)
       @from = date
       @to = date + 1.day
@@ -137,18 +150,18 @@ module Ieso
       fetch
     end
     def fuel_sums
-      doc = @res.parsed_response["IMODocument"]["IMODocBody"]
-      date = Time.strptime(doc["Date"], '%Y-%m-%d')
+      doc = Ox.load(@res.body, mode: :hash_no_attrs)[:IMODocument][:IMODocBody]
+      date = Time.strptime(doc[:Date], '%Y-%m-%d')
       fuel_sums = {}
-      doc["Generators"]["Generator"].each do |g|
+      doc[:Generators][:Generator].each do |g|
         # TODO: populate generation_unit and aggregate to generation
-        type = FUEL_MAP[g["FuelType"]]
+        type = FUEL_MAP[g[:FuelType]]
         out_sum = fuel_sums[type] ||= {}
-        g["Outputs"]["Output"].each do |o|
-          time = date + (o["Hour"].to_i - 1).hours
+        g[:Outputs][:Output].each do |o|
+          time = date + (o[:Hour].to_i - 1).hours
           time = TZ.local_to_utc(time)
           out_sum[time] ||= 0
-          out_sum[time] += o["EnergyMW"].to_i*1000
+          out_sum[time] += o[:EnergyMW].to_i*1000
         end
       end
 

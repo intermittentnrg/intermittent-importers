@@ -34,6 +34,11 @@ geothermal:
   name: geothermal
   name2: '09_other_renewable'
   enabled: true
+hydro:
+  id: 23
+  name: hydro
+  name2: 06_hydro
+  enabled: true
 hydro_pumped_storage:
   id: 10
   name: hydro_pumped_storage

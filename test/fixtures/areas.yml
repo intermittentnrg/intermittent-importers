@@ -80,3 +80,11 @@ BANC:
   enabled: true
   region: usa
   type: balancing_authority
+
+CA-ON:
+  id: 90
+  code: CA-ON
+  source: ieso
+  enabled: true
+  region: canada
+  type: region
