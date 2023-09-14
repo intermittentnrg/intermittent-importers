@@ -7,7 +7,7 @@ module AemoWem
       if args.length == 2
         from = Chronic.parse(args.shift).to_date
         to = Chronic.parse(args.shift).to_date
-        (from...to).select {|d| d.day==1}.each do |date|
+        cli_range(from...to).each do |date|
           self.new(date).process
         end
       elsif args.present?
@@ -41,6 +41,8 @@ module AemoWem
     end
   end
 
+
+
   class Scada < Base
     include SemanticLogger::Loggable
     include Out::Unit
@@ -48,6 +50,10 @@ module AemoWem
     URL = "https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/"
     # MANIFEST: https://data.wa.aemo.com.au/public/public-data/manifests/facility-scada.yaml
     URL_FORMAT = "https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/facility-scada-%Y-%m.csv"
+
+    def self.cli_range(range)
+      range.select { |d| d.day==1 }
+    end
 
     def process_rows(all)
       @units = {}
@@ -112,11 +118,17 @@ module AemoWem
     end
   end
 
+
+
   class Balancing < Base
     include SemanticLogger::Loggable
 
     URL = 'https://data.wa.aemo.com.au/datafiles/balancing-summary/'
     URL_FORMAT = 'https://data.wa.aemo.com.au/datafiles/balancing-summary/balancing-summary-%Y.csv'
+
+    def self.cli_range(range)
+      range.select { |d| d.month==1 && d.day==1 }
+    end
 
     def process_rows(all)
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first

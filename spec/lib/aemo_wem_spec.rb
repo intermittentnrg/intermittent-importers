@@ -169,7 +169,7 @@ CSV
     end
 
     context 'with date range' do
-      let(:args) { ['2023-01-01', '2023-02-01'] } #FIXME yearly
+      let(:args) { ['2023-01-01', '2024-01-01'] }
       it do
         stub_request(:get, 'https://data.wa.aemo.com.au/datafiles/balancing-summary/balancing-summary-2023.csv').
           to_return(body:)
