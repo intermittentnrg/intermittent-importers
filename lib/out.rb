@@ -68,24 +68,8 @@ module Out
       end
     end
     def process
-      data = points
-
-      #FIXME diff calculation
-      #raise unless @from && @to
-
-      unless data.present?
-        require 'pry' ; binding.pry
-      end
-      logger.info "#{data.first.try(:[], :time)} #{data.length} points"
-
-      if data.present?
-        logger.benchmark_info("upsert") do
-          data.each_slice(1_000_000) do |data2|
-            ::GenerationUnit.upsert_all(data2)
-          end
-        end
-        done!
-      end
+      ::Out2::Unit.run(points, @from, @to, self.class.source_id)
+      done!
     end
     def done!
       super

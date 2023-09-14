@@ -19,6 +19,10 @@ module AemoWem
       end
     end
 
+    def self.cli_range(range)
+      range.select { |d| d.month==1 && d.day==1 }
+    end
+
     def self.select_file? url
       url =~ /.csv$/i
     end
@@ -49,10 +53,22 @@ module AemoWem
 
     URL = "https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/"
     # MANIFEST: https://data.wa.aemo.com.au/public/public-data/manifests/facility-scada.yaml
-    URL_FORMAT = "https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/facility-scada-%Y-%m.csv"
+    FILE_FORMAT = "facility-scada-%Y-%m.csv"
+    URL_FORMAT = "https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/#{FILE_FORMAT}"
 
     def self.cli_range(range)
       range.select { |d| d.day==1 }
+    end
+
+    def initialize(file_or_date)
+      if file_or_date.is_a? Date
+        @from = file_or_date.to_time
+      else
+        @from = Time.strptime(File.basename(file_or_date), FILE_FORMAT)
+      end
+      @from = TZ.local_to_utc(@from)
+      @to = @from + 1.month
+      super
     end
 
     def process_rows(all)
@@ -77,8 +93,8 @@ module AemoWem
                                                find_or_create_by!(internal_id: unit_internal_id)
           unit_id = unit.id
           # Energy Generated (MWh)
-          value = row[5].to_f*1000
           # EOI Quantity (MW)
+          value = row[6].to_f*1000
           # Extracted At
           #puts row.inspect if row[7].blank?
           next if row[2] == '2018-10-12 08:00:00' && row[3] == 'WPGENER' && row[4] == 'ALBANY_WF1'
@@ -96,7 +112,7 @@ module AemoWem
     end
 
     def done!
-      where = "a.source='aemo' AND a.id=#{@area_id}"
+      where = "a.source='aemo' AND a.id=#{@area_id} and time BETWEEN '#{@from}' AND '#{@to}'"
       GenerationUnit.aggregate_to_generation(where)
       super
     end
@@ -126,9 +142,7 @@ module AemoWem
     URL = 'https://data.wa.aemo.com.au/datafiles/balancing-summary/'
     URL_FORMAT = 'https://data.wa.aemo.com.au/datafiles/balancing-summary/balancing-summary-%Y.csv'
 
-    def self.cli_range(range)
-      range.select { |d| d.month==1 && d.day==1 }
-    end
+    # FIXME: set @from and @to
 
     def process_rows(all)
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
@@ -178,6 +192,44 @@ module AemoWem
 
     def initialize(url_or_path = URL)
       super(url_or_path)
+    end
+  end
+
+  class DistributedPv < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
+
+    URL = 'https://data.wa.aemo.com.au/public/public-data/datafiles/distributed-pv/'
+    FILE_FORMAT = 'distributed-pv-%Y.csv'
+    URL_FORMAT = "https://data.wa.aemo.com.au/public/public-data/datafiles/distributed-pv/#{FILE_FORMAT}"
+
+    def initialize(file_or_date)
+      if file_or_date.is_a? Date
+        @from = file_or_date.to_time
+      else
+        @from = Time.strptime(File.basename(file_or_date), FILE_FORMAT)
+      end
+      @from = TZ.local_to_utc(@from)
+      @to = @from + 1.year
+      super
+    end
+
+    def process_rows(all)
+      area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
+      all.shift
+      r = all.map do |row|
+        #Trading Date
+        #Interval Number
+        #Trading Interval
+        time = parse_time(row[2])
+        #Estimated DPV Generation (MW)
+        value = row[3].to_f*1000
+        #Extracted At
+        {time:, area_id:, production_type: 'solar_rooftop', value:}
+      end
+      #require 'pry' ; binding.pry
+
+      r
     end
   end
 end

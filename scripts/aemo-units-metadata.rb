@@ -19,7 +19,7 @@ json.each do |facility|
       unit.production_type = ProductionType.find_by! name: Opennem::Base::FUEL_MAP[f2[:fueltech_id]]
       unit.area = Area.find_by(code: f2[:network_region], source: Aemo::Base.source_id)
       unit.save!
-      puts unit.inspect
+      #puts unit.inspect
     end
   end
 end

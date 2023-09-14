@@ -59,6 +59,28 @@ module Out2
     end
   end
 
+  class Unit < Base
+    include SemanticLogger::Loggable
+
+    def self.run(data, from, to, source_id)
+      #FIXME diff calculation
+      #raise unless @from && @to
+
+      unless data.present?
+        require 'pry' ; binding.pry
+      end
+      logger.info "#{data.first.try(:[], :time)} #{data.length} points"
+
+      if data.present?
+        logger.benchmark_info("upsert") do
+          data.each_slice(1_000_000) do |data2|
+            ::GenerationUnit.upsert_all(data2)
+          end
+        end
+      end
+    end
+  end
+
   class Load < Base
     include SemanticLogger::Loggable
 

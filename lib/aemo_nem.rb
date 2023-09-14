@@ -176,6 +176,8 @@ module AemoNem
     include Out::Unit
 
     URL = 'https://nemweb.com.au/Reports/Current/Dispatch_SCADA/'
+    FILE_MATCHER = /PUBLIC_DISPATCHSCADA_(\d{12})_/
+    FILE_FORMAT = '%Y%m%d%H%M'
 
     def self.cli(args)
       if args.present?
@@ -187,8 +189,20 @@ module AemoNem
       end
     end
 
+    def initialize(url_or_io, name_if_io = nil)
+      unless @from
+        name = File.basename(name_if_io || url_or_io)
+        m = name.match(FILE_MATCHER)
+        raise ArgumentError, 'invalid filename' unless m
+        @from = Time.strptime(m[1], FILE_FORMAT)
+        @from = TZ.local_to_utc(@from)
+        @to = @from + 5.minutes
+      end
+      super
+    end
+
     def process_rows(all)
-      @units ||= {}
+      @units = {}
       # require 'pry' ; binding.pry
       default_area_id = Area.where(type: 'country', source: self.class.source_id).pluck(:id).first
       default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
@@ -220,7 +234,8 @@ module AemoNem
     end
 
     def done!
-      where = "a.source='aemo'"
+      unit_ids = @units.values.map(&:id)
+      where = "a.source='aemo' AND unit_id IN(#{unit_ids.join(',')}) and time BETWEEN '#{@from}' AND '#{@to}'"
       GenerationUnit.aggregate_to_generation(where)
       super
     end
@@ -297,10 +312,6 @@ module AemoNem
       r.compact!
 
       r
-    end
-
-    def points_generation
-      @r
     end
   end
 

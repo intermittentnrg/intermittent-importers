@@ -1,13 +1,27 @@
 require './spec/spec_helper'
 
+def test_calculate_range
+  context 'has range' do
+    it "calculates from and to range" do
+      expect(Out2::Unit).to receive(:run).with(anything, Time.new(2022, 12, 31, 14, 0), Time.new(2022, 12, 31, 14, 5), 'aemo')
+      subject.cli(args)
+    end
+    it "calls GenerationUnit.aggregate_to_generation with correct args" do
+      expect(GenerationUnit).to receive(:aggregate_to_generation).with(/'2022-12-31 14:00.*'2022-12-31 14:05/)
+      subject.cli(args)
+    end
+  end
+end
+
 RSpec.describe AemoNem::Scada do
   describe :cli do
     subject { AemoNem::Scada }
     let(:body) do
       <<-CSV
-D,DISPATCH,UNIT_SCADA,1,"2023/09/13 05:35:00",WDGPH1,0
+D,DISPATCH,UNIT_SCADA,1,"2023/01/01 00:00:00",WDGPH1,0
 CSV
     end
+    let(:datafile_name) { 'PUBLIC_DISPATCHSCADA_202301010000_0000000397026531.zip' }
 
     context 'with no arguments' do
       let(:args) { [] }
@@ -16,11 +30,10 @@ CSV
 <pre><A HREF="/public/public-data/datafiles/">[To Parent Directory]</A><br><br> Sunday, August 21, 2022  1:02 AM      1684350 <A HREF=\"/#{datafile_name}\"></A>
         HTML
       end
-      let(:datafile_name) { '123.zip' }
       before do
         stub_request(:get, 'https://nemweb.com.au/Reports/Current/Dispatch_SCADA/').
           to_return(body: index_body)
-        stub_request(:get, 'https://nemweb.com.au/123.zip')
+        stub_request(:get, "https://nemweb.com.au/#{datafile_name}")
         stub_zip_inputstream(body)
       end
 
@@ -36,21 +49,36 @@ CSV
           }.to change { Generation.count }.by(1)
         end
       end
+      test_calculate_range
+    end
+
+    context 'with filename.zip' do
     end
 
     context 'with filename.csv' do
-      let(:args) { ['path/to/file.csv'] }
-      it do
+      let(:datafile_name) { 'PUBLIC_DISPATCHSCADA_202301010000_0000000397026531.csv' }
+      let(:args) { [datafile_name] }
+      before do
         allow(File).to receive(:open) { StringIO.new(body) }
+      end
+      it do
         expect(GenerationUnit).to receive(:upsert_all)
         subject.cli(args)
       end
+      test_calculate_range
     end
 
-    context 'with file.csv' do
-      it
+    context 'with invalid filename.csv' do
+      let(:args) { ['xyz.csv'] }
+      it "raises ArgumentError" do
+        allow(File).to receive(:open)
+        expect {
+          subject.cli(args)
+        }.to raise_error(ArgumentError)
+      end
     end
-    # not implemented: with date range
+
+    # doesn't support date range
   end
 end
 
@@ -63,12 +91,10 @@ D,DISPATCH,UNIT_SCADA,1,"2023/09/13 05:35:00",WDGPH1,0
 CSV
     end
 
-    context 'with no arguments' do
-      it #not implemented
-    end
+    # doesn't support no arguments
 
     context 'with file.zip' do
-      it #not implemented
+      #not implemented
     end
 
     context 'with date range' do
