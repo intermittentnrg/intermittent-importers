@@ -2,9 +2,15 @@ require './spec/spec_helper'
 
 def test_archive(index_name, archive_name = '123.zip', datafile_name = '123_456.zip')
   context "without arguments" do
+    let(:index_body) do
+      <<-HTML
+<pre><A HREF="/public/public-data/datafiles/">[To Parent Directory]</A><br><br> Sunday, August 21, 2022  1:02 AM      1684350 <A HREF=\"/#{archive_name}\"></A>
+      HTML
+    end
+
     it "calls process on target" do
       stub_request(:get, "https://nemweb.com.au/Reports/ARCHIVE/#{index_name}/").
-        to_return(body: "<A HREF=\"/#{archive_name}\"></A>")
+        to_return(body: index_body)
 
       stub_request(:get, "https://nemweb.com.au/#{archive_name}")
       stub_zip_inputstream('', datafile_name)

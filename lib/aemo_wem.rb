@@ -1,6 +1,7 @@
 module AemoWem
   class Base < ::Aemo::Base
     URL_BASE = "https://data.wa.aemo.com.au"
+    INDEX_TIME_FORMAT = "%m/%d/%Y %I:%M %p"
 
     def self.cli(args)
       if args.length == 2

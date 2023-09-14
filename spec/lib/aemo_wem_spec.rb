@@ -1,8 +1,15 @@
 require './spec/spec_helper'
 
 RSpec.describe AemoWem::Scada do
+  subject { AemoWem::Scada }
+  let(:index_url) { 'https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/' }
+  let(:datafile_name) { 'abc.csv' }
+  let(:index_body) do
+    <<-HTML
+<pre><A HREF="/public/public-data/datafiles/">[To Parent Directory]</A><br><br> 4/23/2015 11:09 AM      1684350 <A HREF=\"/#{datafile_name}\"></A>
+    HTML
+  end
   describe :cli do
-    subject { AemoWem::Scada }
     let(:body) do
         <<-CSV
 Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Energy Generated (MWh),EOI Quantity (MW),Extracted At
@@ -12,13 +19,11 @@ CSV
 
     context 'without argument' do
       let(:args) { [] }
-      let(:index_url) { 'https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/' }
-      let(:data_file) { 'abc.csv' }
 
       before do
         stub_request(:get, index_url).
-          to_return(body: "<A HREF=\"/#{data_file}\"></A>")
-        stub_request(:get, "https://data.wa.aemo.com.au/#{data_file}").
+          to_return(body: index_body)
+        stub_request(:get, "https://data.wa.aemo.com.au/#{datafile_name}").
           to_return(body:)
       end
 
@@ -57,6 +62,37 @@ CSV
 
     #it { require 'pry' ; binding.pry }
   end
+
+  describe :each do
+    let(:datafile_url) { "#{subject::URL_BASE}/#{datafile_name}" }
+
+    before do
+      stub_request(:get, index_url).
+        to_return(body: index_body)
+      stub_request(:get, datafile_url)
+
+      index_datafile_time = Time.new(2015,4,23,11,9)
+      datafile = double('DataFile')
+      expect(datafile).to receive(:exists?) { datafile_exists }
+      expect(DataFile).to receive(:where).with(hash_including(updated_at: index_datafile_time...)) { datafile }
+    end
+
+    context 'when file old' do
+      let(:datafile_exists) { true }
+      it "ignores old file" do
+        subject.each {}
+        expect(WebMock).not_to have_requested(:get, datafile_url)
+      end
+    end
+
+    context 'when file is newer' do
+      let(:datafile_exists) { false }
+      it "fetches updated file" do
+        subject.each {}
+        expect(WebMock).to have_requested(:get, datafile_url)
+      end
+    end
+  end
 end
 
 RSpec.xdescribe AemoWem::ScadaLive do
@@ -83,6 +119,13 @@ end
 
 
 RSpec.describe AemoWem::Balancing do
+  let(:datafile_name) { 'abc.csv' }
+  let(:index_body) do
+    <<-HTML
+<pre><A HREF="/public/public-data/datafiles/">[To Parent Directory]</A><br><br> 4/23/2015 11:09 AM      1684350 <A HREF=\"/#{datafile_name}\"></A>
+    HTML
+  end
+
   describe :cli do
     subject { AemoWem::Balancing }
 
@@ -98,8 +141,8 @@ CSV
 
       it do
         stub_request(:get, 'https://data.wa.aemo.com.au/datafiles/balancing-summary/').
-          to_return(body: '<A HREF="/abc.csv"></A>')
-        stub_request(:get, 'https://data.wa.aemo.com.au/abc.csv').
+          to_return(body: index_body)
+        stub_request(:get, "https://data.wa.aemo.com.au/#{datafile_name}").
           to_return(body:)
 
         expect(Price).to receive(:upsert_all)

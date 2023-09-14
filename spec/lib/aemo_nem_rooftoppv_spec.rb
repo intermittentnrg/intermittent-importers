@@ -11,10 +11,16 @@ CSV
 
     context 'with no arguments' do
       let(:args) { [] }
+      let(:index_body) do
+        <<-HTML
+<pre><A HREF="/public/public-data/datafiles/">[To Parent Directory]</A><br><br> Sunday, August 21, 2022  1:02 AM      1684350 <A HREF=\"/#{datafile_name}\"></A>
+        HTML
+      end
+      let(:datafile_name) { 'PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230902183000_0000000396168830.zip' }
       it do
         stub_request(:get, 'https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/').
-          to_return(body: '<A HREF="/PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230902183000_0000000396168830.zip"></A>')
-        stub_request(:get, 'https://nemweb.com.au/PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230902183000_0000000396168830.zip')
+          to_return(body: index_body)
+        stub_request(:get, "https://nemweb.com.au/#{datafile_name}")
         stub_zip_inputstream(body)
 
         expect(Generation).to receive(:upsert_all)

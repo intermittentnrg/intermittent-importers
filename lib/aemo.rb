@@ -24,13 +24,16 @@ module Aemo
     def self.each
       logger.info("Fetch #{self::URL}")
       http = @@faraday.get(self::URL)
-      links = http.body.scan /HREF="(.*?)"/
-      links.select! { |url| select_file?(url.first) }
 
-      links.each do |url|
-        url = self::URL_BASE + url.first
-        next unless select_file?(url)
-        if DataFile.where(path: File.basename(url), source: self.source_id).exists?
+      http.body.split(/<br>/).each do |row|
+        m = row.match(/(.*)\s+\d+\s+<A HREF="(.*?)"/)
+        next unless m
+        next unless select_file?(m[2])
+        url = self::URL_BASE + m[2]
+        time = Time.strptime(m[1].strip, self::INDEX_TIME_FORMAT)
+
+
+        if DataFile.where(updated_at: time..., path: File.basename(url), source: self.source_id).exists?
           logger.info "already processed #{File.basename(url)}"
           next
         end

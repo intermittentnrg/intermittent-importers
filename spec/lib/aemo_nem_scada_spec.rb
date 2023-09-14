@@ -11,9 +11,15 @@ CSV
 
     context 'with no arguments' do
       let(:args) { [] }
+      let(:index_body) do
+        <<-HTML
+<pre><A HREF="/public/public-data/datafiles/">[To Parent Directory]</A><br><br> Sunday, August 21, 2022  1:02 AM      1684350 <A HREF=\"/#{datafile_name}\"></A>
+        HTML
+      end
+      let(:datafile_name) { '123.zip' }
       before do
         stub_request(:get, 'https://nemweb.com.au/Reports/Current/Dispatch_SCADA/').
-          to_return(body: '<A HREF="/123.zip"></A>')
+          to_return(body: index_body)
         stub_request(:get, 'https://nemweb.com.au/123.zip')
         stub_zip_inputstream(body)
       end

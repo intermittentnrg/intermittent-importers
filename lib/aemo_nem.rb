@@ -1,6 +1,7 @@
 module AemoNem
   class Base < ::Aemo::Base
     URL_BASE = "https://nemweb.com.au"
+    INDEX_TIME_FORMAT = "%A, %B %d, %Y %l:%M %p"
   end
   class Dispatch < Base
     include SemanticLogger::Loggable
