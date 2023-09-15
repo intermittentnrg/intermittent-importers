@@ -58,7 +58,7 @@ module Out
         ::GenerationUnit.group(:unit_id).joins(:unit => :area).where("area.source" => self.source_id).where("time > ?", 2.months.ago).pluck(:unit_id, Arel.sql("LAST(time, time)")).each do |unit_id, from|
           unit = ::Unit.find(unit_id)
           from = from.to_datetime - refetch
-          SemanticLogger.tagged(unit.internal_id) do
+          SemanticLogger.tagged(unit: unit.internal_id) do
             if [::Elexon::Unit].include? self
               (from..refresh_to).each do |date|
                 yield self.new(date, unit.internal_id)
