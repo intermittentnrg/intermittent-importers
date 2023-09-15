@@ -1,4 +1,5 @@
 require 'faraday/net_http_persistent'
+require 'faraday/retry'
 require 'faraday/gzip'
 
 module Ieso
@@ -20,6 +21,12 @@ module Ieso
 
     @@faraday = Faraday.new do |f|
       f.adapter :net_http_persistent
+      f.request :retry, {
+        retry_statuses: [500, 502],
+        interval: 1,
+        backoff_factor: 2,
+        max: 5
+      }
       f.request :gzip
       #f.response :logger #, logger
     end

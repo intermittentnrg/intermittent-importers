@@ -109,7 +109,7 @@ module Out
               (from.year..to.year).each do |year|
                 yield self.new(DateTime.strptime(year.to_s, '%Y'))
               rescue ENTSOE::EmptyError
-                logger.warn "Empty response #{date}", $!
+                logger.warn "Empty response #{year}", $!
               end
             else
               yield self.new(country: country, from: from, to: to)
