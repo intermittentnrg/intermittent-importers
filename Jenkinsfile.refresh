@@ -1,4 +1,4 @@
-timeout(time: 30, unit: 'MINUTES') {
+timeout(time: 90, unit: 'MINUTES') {
 podTemplate(yaml: """
 kind: Pod
 spec:
@@ -19,16 +19,18 @@ spec:
   node(POD_LABEL) {
     container('app') {
       parallel all: {
-	stage('all') {
-	  sh 'cd /app ; bundle exec rake all'
-	}
+        stage('all') {
+          tasks = "ieso:all eia:all caiso:generation entsoe:all nordpool:all opennem aemo:all ree aeso hydroquebec"
+          if (env.BRANCH_NAME == "master") {
+            tasks += " nordpool:price_sek"
+          }
+          sh "cd /app ; bundle exec rake ${tasks}"
+        }
       },
-      nordpool: {
-	if (env.BRANCH_NAME == "master") {
-	  stage('nordpool-price-sek') {
-	    sh 'cd /app ; scripts/sincedb-nordpool-price-sek.rb'
-	  }
-	}
+      elexon: {
+        stage('elexon') {
+          sh 'cd /app ; rake elexon:all'
+        }
       }
     }
   }

@@ -76,6 +76,7 @@ namespace :nordpool do
   pump_task :transmission, Nordpool::Transmission, Transmission
   pump_task :capacity, Nordpool::Capacity, Transmission
   pump_task :price, Nordpool::Price, Price
+  pump_task :price_sek, Nordpool::PriceSEK, Price
 end
 
 desc "Run refresh task"
