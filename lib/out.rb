@@ -209,20 +209,6 @@ module Out
         p.delete :to_area
       end
 
-      logger.benchmark_info("diff calculation") do
-        rows=::Transmission.where(time: @from...@to).where(from_area_id: areas[@from_area], to_area_id: areas[@to_area]).order(:time)
-        rows=rows.map { |r| r.attributes.symbolize_keys }
-
-        diff = data-rows
-        if diff
-          diff.each do |d|
-            logger.warn "new or updated", event: {duration: Time.now-d[:time]}, transmission: d
-          end
-        end
-
-        #require 'pry' ; binding.pry
-      end
-
        ::Transmission.upsert_all(data) if data.present?
     end
   end
@@ -264,20 +250,6 @@ module Out
         p[:to_area_id] = (areas[p[:to_area]] ||= ::Area.where(source: self.class.source_id, code: p[:to_area]).pluck(:id).first)
         p.delete :from_area
         p.delete :to_area
-      end
-
-      logger.benchmark_info("diff calculation") do
-        rows=::Transmission.where(time: @from...@to).where(from_area_id: areas[@from_area], to_area_id: areas[@to_area]).order(:time)
-        rows=rows.map { |r| r.attributes.symbolize_keys }
-
-        diff = data-rows
-        if diff
-          diff.each do |d|
-            logger.warn "new or updated", event: {duration: Time.now-d[:time]}, capacity: d
-          end
-        end
-
-        #require 'pry' ; binding.pry
       end
 
       ::Transmission.upsert_all(data) if data.present?

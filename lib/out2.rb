@@ -33,21 +33,6 @@ module Out2
         p.delete :country
       end
 
-      logger.benchmark_info("diff calculation") do
-        index = ::Generation.where(time: from...to).where(area_id: areas.values).as_json
-        index = Hash[index.map do |r|
-          r.symbolize_keys!
-
-          [[r[:time], r[:production_type_id]], r]
-        end]
-        data.each do |p|
-          old = index[[p[:time], p[:production_type_id]]]
-          if old && old[:value] != p[:value]
-            logger.warn "updated", event: {duration: Time.now-p[:time]}, generation: p
-          end
-        end
-      end
-
       if data.present?
         enqueue do
           logger.benchmark_info("upsert") do
@@ -63,9 +48,6 @@ module Out2
     include SemanticLogger::Loggable
 
     def self.run(data, from, to, source_id)
-      #FIXME diff calculation
-      #raise unless @from && @to
-
       unless data.present?
         require 'pry' ; binding.pry
       end
@@ -93,24 +75,6 @@ module Out2
         p.delete :country
       end
 
-      if from && to && areas.present?
-        logger.benchmark_info("diff calculation") do
-          index = ::Load.where(time: from...to).where(area_id: areas.values).as_json
-          index = Hash[index.map do |r|
-                         r.symbolize_keys!
-
-                         [r[:time], r]
-                       end]
-          data.each do |p|
-            old = index[p[:time]]
-            if old && old[:value] != p[:value]
-              logger.warn "updated", event: {duration: Time.now-p[:time]}, load: p
-            end
-          end
-          #require 'pry' ; binding.pry
-        end
-      end
-
       if data.present?
         enqueue do
           logger.benchmark_info("upsert") do
@@ -136,24 +100,6 @@ module Out2
         end
         p.delete :country
       end
-
-      if from && to && areas.present?
-        logger.benchmark_info("diff calculation") do
-          rows=::Price.where(time: from...to).where(area_id: areas.values).order(:time)
-          rows=rows.map { |r| r.attributes.symbolize_keys }
-          index = Hash[rows.map { |r| [[r[:area_id], r[:time]], r] }]
-          data.each do |p|
-            k = [p[:area_id], p[:time]]
-            old = index[k]
-            if old && old[:value] != p[:value]
-              logger.warn "updated #{old[:value]} > #{p[:value]}", event: {duration: Time.now-p[:time]}, price: p
-              #elsif old
-              #  logger.info "good"
-            end
-          end
-        end
-      end
-      #require 'pry' ; binding.pry
 
       if data.present?
         enqueue do
