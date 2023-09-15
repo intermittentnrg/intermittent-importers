@@ -205,6 +205,11 @@ module Elexon
     def self.api_version
       "v2"
     end
+
+    def self.refresh_to
+      require 'business_time'
+      5.business_days.ago
+    end
     #def initialize()
     #  @report = 'B1610'
     #  super
