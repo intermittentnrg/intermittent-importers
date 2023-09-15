@@ -181,6 +181,7 @@ GEM
       hashie
       version_gem (~> 1.1, >= 1.1.1)
     thor (1.2.2)
+    timecop (0.9.8)
     tty-cursor (0.7.1)
     tty-spinner (0.9.3)
       tty-cursor (~> 0.7)
@@ -236,6 +237,7 @@ DEPENDENCIES
   semantic_logger
   simplecov
   simplecov-cobertura
+  timecop
   typhoeus
   vcr
   webmock

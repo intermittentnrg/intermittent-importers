@@ -50,6 +50,7 @@ group :test do
   gem 'rspec_junit_formatter'
   gem 'simplecov', require: false
   gem 'simplecov-cobertura', require: false
+  gem 'timecop'
   gem 'vcr'
   gem 'webmock'
 end
