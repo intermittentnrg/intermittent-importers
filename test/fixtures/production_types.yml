@@ -100,6 +100,11 @@ waste:
   id: 18
   name: waste
   name2: 01_biomass_and_waste
+wind:
+  id: 25
+  name: wind
+  name2: 09_wind
+  enabled: true
 wind_offshore:
   id: 19
   name: wind_offshore

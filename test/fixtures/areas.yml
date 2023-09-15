@@ -1,4 +1,12 @@
 ---
+GB:
+  id: 260
+  code: GB
+  internal_id:
+  source: elexon
+  enabled: true
+  region: europe
+  type: country
 NO:
   id: 25
   code: 'NO'

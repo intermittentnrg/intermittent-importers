@@ -183,6 +183,25 @@ module Elexon
     include SemanticLogger::Loggable
     include Out::Unit
 
+    def self.cli(args)
+      if args.length < 3
+        $stderr.puts "#{$0} <from> <to> <unit>"
+        exit 1
+      end
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      args.each do |unit|
+        SemanticLogger.tagged(country: 'GB', unit: unit) do
+          (from...to).each do |time|
+            e = Elexon::Unit.new(time, unit)
+            e.process
+          rescue ENTSOE::EmptyError
+            logger.warn "EmptyError #{time}"
+          end
+        end
+      end
+    end
     def self.api_version
       "v2"
     end
