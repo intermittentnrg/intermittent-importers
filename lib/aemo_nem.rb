@@ -282,6 +282,7 @@ module AemoNem
         filename = File.basename(@url)
         m = /_(\d{14})_\d{16}\.zip$/.match(filename)
         @from = Time.strptime(m[1], '%Y%m%d%H%M%S')
+        @from = TZ.local_to_utc(@from)
         @to = @from + 5.minutes
       end
     end

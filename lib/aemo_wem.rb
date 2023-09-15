@@ -174,9 +174,6 @@ module AemoWem
       Out2::Load.run(load_r, @from, @to, self.class.source_id)
       Out2::Price.run(price_r, @from, @to, self.class.source_id)
     end
-    def process
-      done!
-    end
   end
 
   class BalancingLive < Balancing

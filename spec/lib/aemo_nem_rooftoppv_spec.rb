@@ -2,10 +2,10 @@ require './spec/spec_helper'
 
 RSpec.describe AemoNem::RooftopPv do
   describe :cli do
-    subject { AemoNem::RooftopPv.cli(args) }
+    subject { AemoNem::RooftopPv }
     let(:body) do
       <<-CSV
-D,ROOFTOP,ACTUAL,2,"2023/09/13 04:30:00",NSW1,0,1,MEASUREMENT,"2023/09/13 04:49:11"
+D,ROOFTOP,ACTUAL,2,"2023/01/01 00:00:00",NSW1,0,1,MEASUREMENT,"2023/09/13 04:49:11"
 CSV
     end
 
@@ -16,15 +16,20 @@ CSV
 <pre><A HREF="/public/public-data/datafiles/">[To Parent Directory]</A><br><br> Sunday, August 21, 2022  1:02 AM      1684350 <A HREF=\"/#{datafile_name}\"></A>
         HTML
       end
-      let(:datafile_name) { 'PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230902183000_0000000396168830.zip' }
-      it do
+      let(:datafile_name) { 'PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230101000000_0000000396168830.zip' }
+      before do
         stub_request(:get, 'https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/').
           to_return(body: index_body)
         stub_request(:get, "https://nemweb.com.au/#{datafile_name}")
         stub_zip_inputstream(body)
-
+      end
+      it do
         expect(Generation).to receive(:upsert_all)
-        subject
+        subject.cli(args)
+      end
+      it do
+        expect(Out2::Generation).to receive(:run).with(anything, Time.new(2022,12,31,14,0), Time.new(2022,12,31,14,5), 'aemo')
+        subject.cli(args)
       end
     end
 
