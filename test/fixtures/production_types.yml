@@ -4,6 +4,12 @@ biomass:
   name: biomass
   name2: 01_biomass_and_waste
   enabled: true
+biogas:
+  id: 24
+  name: biogas
+  name2: 01_biomass_and_waste
+  enabled: true
+
 fossil_brown_coal/lignite:
   id: 2
   name: fossil_brown_coal/lignite
@@ -34,9 +40,25 @@ geothermal:
   name: geothermal
   name2: '09_other_renewable'
   enabled: true
+
+battery:
+  id: 22
+  name: battery
+  name2: batteries
+  enabled: true
 hydro:
   id: 23
   name: hydro
+  name2: 06_hydro
+  enabled: true
+hydro_small:
+  id: 40
+  name: hydro_small
+  name2: 06_hydro
+  enabled: true
+hydro_large:
+  id: 41
+  name: hydro_large
   name2: 06_hydro
   enabled: true
 hydro_pumped_storage:

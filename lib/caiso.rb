@@ -59,6 +59,22 @@ module Caiso
     include SemanticLogger::Loggable
     include Out::Generation
 
+    def self.cli(args)
+      if args.length != 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      end
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      (from...to).each do |time|
+        e = Caiso::Generation.new(time)
+        e.process
+      rescue ENTSOE::EmptyError
+        logger.warn "EmptyError #{time}"
+      end
+    end
+
     FUELS = {
       "Time" => nil,
       "Solar" => "solar",
@@ -81,11 +97,11 @@ module Caiso
       super
       #current: /outlook/SP/fuelsource.csv
       @url = "http://www.caiso.com/outlook/SP/History/#{date.strftime('%Y%m%d')}/fuelsource.csv"
-      fetch
-      raise @fields unless @fields.map(&:downcase) == FUELS.keys.map(&:downcase)
     end
 
     def points_generation
+      fetch
+      raise @fields unless @fields.map(&:downcase) == FUELS.keys.map(&:downcase)
       r = []
       last_time = @from
       @csv.each do |row|

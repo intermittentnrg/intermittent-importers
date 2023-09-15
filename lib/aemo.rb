@@ -34,7 +34,7 @@ module Aemo
 
 
         if DataFile.where(updated_at: time..., path: File.basename(url), source: self.source_id).exists?
-          logger.info "already processed #{File.basename(url)}"
+          logger.debug "already processed #{File.basename(url)}"
           next
         end
         yield self.new(url)

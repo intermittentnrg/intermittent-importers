@@ -58,8 +58,7 @@ class Pump::Process < Pump
     parsers_each do |e|
       e.process
     rescue ENTSOE::EmptyError
-      raise if to < 1.day.ago # raise if within 24hrs
-      @@logger.warn "skipped missing data until #{to}"
+      @@logger.warn "empty response", $!
     end
   end
 end

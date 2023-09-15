@@ -81,6 +81,14 @@ BANC:
   region: usa
   type: balancing_authority
 
+CAISO:
+  id: 92
+  code: CAISO
+  source: caiso
+  enabled: true
+  region: usa
+  type: balancing_authority
+
 CA-ON:
   id: 90
   code: CA-ON

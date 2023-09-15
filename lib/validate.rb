@@ -130,7 +130,7 @@ class Validate
           ActiveRecord::Base.connection.change_table(table) do |t|
             # TODO use has_check_constraint?
             if check_constraints[name] && expression == check_constraints[name]
-              logger.info("#{table} #{name} GOOD")
+              logger.debug("#{table} #{name} GOOD")
               check_constraints.delete(name)
               next
             elsif check_constraints[name] && expression != check_constraints[name]
