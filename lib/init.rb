@@ -13,7 +13,7 @@ end
 require 'rails'
 require 'semantic_logger'
 SemanticLogger.default_level = :info
-SemanticLogger.application = "intermittency"
+SemanticLogger.application = Rails.env.to_s
 if !Rails.env.test?
   SemanticLogger.add_appender(
     appender:    :elasticsearch,
