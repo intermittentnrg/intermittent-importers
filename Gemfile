@@ -23,6 +23,7 @@ gem 'elasticsearch'
 
 # Parsers
 gem 'chronic'
+gem 'business_time'
 gem 'fastest-csv'
 gem 'fast_jsonparser'
 gem 'ox'
