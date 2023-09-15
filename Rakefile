@@ -24,6 +24,8 @@ def loop_task(name, clazz)
     SemanticLogger.tagged(task: t.to_s) do
       clazz.each &:process
     end
+  rescue
+    @logger.error "Exception", $!
   end
 end
 
