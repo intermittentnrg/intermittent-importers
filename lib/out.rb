@@ -18,6 +18,8 @@ module Out
             if [::Caiso::Generation, ::Elexon::Generation, ::Elexon::Fuelinst, ::Ieso::Generation, ::Ree::Generation].include? self
               (from..to).each do |date|
                 yield self.new date
+              rescue ENTSOE::EmptyError
+                logger.warn "Empty response #{date}", $!
               end
             else
               yield self.new(country: country, from: from, to: to)
@@ -59,7 +61,7 @@ module Out
               (from..to).each do |date|
                 yield self.new(date, unit.internal_id)
               rescue ENTSOE::EmptyError
-                logger.error "Exception processing #{date}", $!
+                logger.warn "Empty response #{date}", $!
               end
             end
           end
@@ -96,10 +98,14 @@ module Out
             if self == ::Elexon::Load
               (from..to).each do |date|
                 yield self.new date
+              rescue ENTSOE::EmptyError
+                logger.warn "Empty response #{date}", $!
               end
             elsif self == ::Ieso::Load
               (from.year..to.year).each do |year|
                 yield self.new(DateTime.strptime(year.to_s, '%Y'))
+              rescue ENTSOE::EmptyError
+                logger.warn "Empty response #{date}", $!
               end
             else
               yield self.new(country: country, from: from, to: to)
@@ -141,6 +147,8 @@ module Out
             if self == ::Nordpool::PriceSEK
               (from..to).each do |date|
                 yield self.new date
+              rescue ENTSOE::EmptyError
+                logger.warn "Empty response #{date}", $!
               end
             else
               yield self.new(country: country, from: from, to: to)
@@ -186,6 +194,8 @@ module Out
             if self == Nordpool::Transmission
               (from..to).each do |date|
                 yield self.new date
+              rescue ENTSOE::EmptyError
+                logger.warn "Empty response #{date}", $!
               end
             else
               yield self.new(from_area: from_area, to_area: to_area, from: from, to: to)
@@ -234,6 +244,8 @@ module Out
         (from..to).each do |date|
           #require 'pry' ; binding.pry
           yield self.new(date)
+        rescue ENTSOE::EmptyError
+          logger.warn "Empty response #{date}", $!
         end
       end
     end
