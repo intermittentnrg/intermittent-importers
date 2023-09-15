@@ -8,31 +8,40 @@ ActiveRecordMigrations.configure do |c|
 end
 
 def pump_task(name, source, model)
-  task name do
-    Pump::Process.new(source, model).run
+  desc "Run refresh task"
+  task name do |t|
+    SemanticLogger.tagged(task: t.to_s) do
+      Pump::Process.new(source, model).run
+    end
   rescue
     @logger.error "Exception", $!
   end
 end
 
 def loop_task(name, clazz)
-  task name do
-    clazz.each &:process
+  desc "Run refresh task"
+  task name do |t|
+    SemanticLogger.tagged(task: t.to_s) do
+      clazz.each &:process
+    end
   end
 end
 
-task :ping do
-  logger.info "ping"
+task :ping do |t|
+  SemanticLogger.tagged(task: t.to_s) { logger.info "ping" }
 end
 
+desc "Run all refresh tasks"
 multitask all: ["ieso:all", "eia:all", "caiso:generation", "elexon:all", "entsoe:all", "nordpool:all", :opennem, 'aemo:all', :ree, :aeso, :hydroquebec]
 namespace :ieso do
+  desc "Run refresh tasks"
   task all: [:generation, :load]
   pump_task :generation, Ieso::Generation, Generation
   pump_task :load, Ieso::Load, Load
 end
 
 namespace :eia do
+  desc "Run refresh tasks"
   task all: [:generation, :load]
   pump_task :generation, Eia::Generation, Generation
   pump_task :load, Eia::Load, Load
@@ -43,6 +52,7 @@ namespace :caiso do
 end
 
 namespace :elexon do
+  desc "Run refresh tasks"
   task all: [:generation, :fuelinst, :load, :unit]
   pump_task :generation, Elexon::Generation, Generation
   pump_task :fuelinst, Elexon::Fuelinst, Generation
@@ -51,6 +61,7 @@ namespace :elexon do
 end
 
 namespace :entsoe do
+  desc "Run refresh tasks"
   task all: [:generation, :unit, :load, :price, :transmission]
   loop_task :generation, EntsoeSFTP::Generation
   loop_task :unit, EntsoeSFTP::Unit
@@ -60,12 +71,14 @@ namespace :entsoe do
 end
 
 namespace :nordpool do
+  desc "Run refresh tasks"
   task all: [:transmission, :capacity, :price]
   pump_task :transmission, Nordpool::Transmission, Transmission
   pump_task :capacity, Nordpool::Capacity, Transmission
   pump_task :price, Nordpool::Price, Price
 end
 
+desc "Run refresh task"
 task :opennem do
   Opennem::Latest.new.process
 rescue
@@ -73,34 +86,28 @@ rescue
 end
 
 namespace :aemo do
+  desc "Run refresh tasks"
   task all: ['nem:all', 'wem:all']
   namespace :nem do
+    desc "Run refresh tasks"
     task all: [:trading, :scada, :rooftoppv]
-    task :trading do
-      AemoNem::Trading.each(&:process)
-    end
-    task :scada do
-      AemoNem::Scada.each(&:process)
-    end
-    task :rooftoppv do
-      AemoNem::RooftopPv.each(&:process)
-    end
+    loop_task :trading, AemoNem::Trading
+    loop_task :scada, AemoNem::Scada
+    loop_task :rooftoppv, AemoNem::RooftopPv
   end
   namespace :wem do
+    desc "Run refresh tasks"
     task all: [:scada, :balancing]
-    task :scada do
-      AemoWem::Scada.each(&:process)
-      #AemoWem::ScadaLive.new.process
-    end
-    task :balancing do
-      AemoWem::Balancing.each(&:process)
-      #AemoWem::BalancingLive.new.process
-    end
+    loop_task :scada, AemoWem::Scada
+    #AemoWem::ScadaLive.new.process
+    loop_task :balancing, AemoWem::Balancing
+    #AemoWem::BalancingLive.new.process
   end
 end
 
 pump_task :ree, Ree::Generation, Generation
 
+desc "Run refresh tasks"
 task :aeso do
   Aeso::Generation.new.process
 rescue
