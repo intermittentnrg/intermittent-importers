@@ -25,7 +25,9 @@ module Elexon
       url = "https://api.bmreports.com/BMRS/#{@report}/#{self.class.api_version}"
       faraday = Faraday.new do |f|
         f.request :retry, {
-          retry_statuses: [404, 500, 502],
+          retry_statuses: [404, 500, 502, 504],
+          interval: 1,
+          backoff_factor: 2,
           max: 2
         }
       end
