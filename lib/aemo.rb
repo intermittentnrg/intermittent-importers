@@ -31,7 +31,7 @@ module Aemo
         next unless select_file?(m[2])
         url = self::URL_BASE + m[2]
         time = Time.strptime(m[1].strip, self::INDEX_TIME_FORMAT)
-
+        time = TZ.local_to_utc(time)
 
         if DataFile.where(updated_at: time..., path: File.basename(url), source: self.source_id).exists?
           logger.debug "already processed #{File.basename(url)}"
