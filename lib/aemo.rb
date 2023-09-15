@@ -33,7 +33,7 @@ module Aemo
         time = Time.strptime(m[1].strip, self::INDEX_TIME_FORMAT)
         time = TZ.local_to_utc(time)
 
-        if DataFile.where(updated_at: time..., path: File.basename(url), source: self.source_id).exists?
+        if DataFile.where(updated_at: time...Float::INFINITY, path: File.basename(url), source: self.source_id).exists?
           logger.debug "already processed #{File.basename(url)}"
           next
         end
@@ -71,6 +71,9 @@ module Aemo
       @r = process_rows(all)
     end
 
+    def process
+      done!
+    end
     def done!
       DataFile.upsert({path: File.basename(@url), source: self.class.source_id}, unique_by: [:source, :path])
       logger.info "done! #{@url}"

@@ -103,10 +103,10 @@ CSV
         to_return(body: index_body)
       stub_request(:get, datafile_url)
 
-      index_datafile_time = Time.new(2023,1,23,11,9)
+      index_datafile_time = Time.new(2023,1,23,11,9) - 10.hours
       datafile = double('DataFile')
       expect(datafile).to receive(:exists?) { datafile_exists }
-      expect(DataFile).to receive(:where).with(hash_including(updated_at: index_datafile_time...)) { datafile }
+      expect(DataFile).to receive(:where).with(hash_including(updated_at: index_datafile_time...Float::INFINITY)) { datafile }
     end
 
     context 'when file old' do
