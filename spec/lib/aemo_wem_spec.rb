@@ -225,7 +225,8 @@ CSV
   end
 end
 
-RSpec.xdescribe AemoWem::BalancingLive do
+RSpec.describe AemoWem::BalancingLive do
+  let(:datafile_name) { 'pulse.csv' }
   describe :cli do
     subject { AemoWem::BalancingLive }
     let(:body) do
@@ -242,6 +243,18 @@ CSV
         expect(Price).to receive(:upsert_all)
         expect(Load).to receive(:upsert_all)
         subject.cli([])
+      end
+    end
+
+    context 'with filename.csv' do
+      let(:args) { [datafile_name] }
+      before do
+        expect(File).to receive(:open) { StringIO.new(body) }
+      end
+      it do
+        expect(Price).to receive(:upsert_all)
+        expect(Load).to receive(:upsert_all)
+        subject.cli(args)
       end
     end
   end

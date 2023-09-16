@@ -189,7 +189,7 @@ module AemoWem
       load_r = []
       price_r = []
 
-      all.map do |row|
+      all.each do |row|
         #Trading Date
         #Interval Number
         #Trading Interval
@@ -227,6 +227,41 @@ module AemoWem
 
     def initialize(url_or_path = URL)
       super(url_or_path)
+    end
+
+    def process_rows(all)
+      area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
+      all.shift
+      load_r = []
+      price_r = []
+
+      all.each do |row|
+        # TRADING_DAY_INTERVAL
+        time = parse_time(row[0])
+        # FORECAST_EOI_MW
+        #FORECAST_MW
+        #PRICE
+        price = row[3]
+        #FORECAST_NSG_MW
+        #ACTUAL_NSG_MW
+        #ACTUAL_TOTAL_GENERATION
+        load = row[6].to_f*1000
+        #RTD_TOTAL_GENERATION
+        #RTD_TOTAL_SPINNING_RESERVE
+        #LFAS_UP_REQUIREMENT_MW
+        #TOTAL_OUTAGE_MW
+        #PLANNED_OUTAGE_MW
+        #FORCED_OUTAGE_MW
+        #CONS_OUTAGE_MW
+        #AS_AT
+
+        load_r << {time:, area_id:, value: load}
+        price_r << {time:, area_id:, value: price}
+      end
+      #require 'pry' ; binding.pry
+
+      Out2::Load.run(load_r, @from, @to, self.class.source_id)
+      Out2::Price.run(price_r, @from, @to, self.class.source_id)
     end
   end
 
