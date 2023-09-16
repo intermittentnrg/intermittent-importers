@@ -289,3 +289,26 @@ Trading Date,Interval Number,Trading Interval,Estimated DPV Generation (MW),Extr
     end
   end
 end
+
+RSpec.describe AemoWem::BalancingHistoric do
+  subject { AemoWem::BalancingHistoric }
+  let(:datafile_name) { 'pre-balancing-market-data.csv' }
+  let(:body) do
+    <<-CSV
+Trade Date,Delivery Date,Delivery Hour,Delivery Interval,MCAP Price Per MWh,UDAP Price Per MWh,DDAP Price Per MWh,Extracted At
+"2006-09-21","2006-09-21",8,1,153.73,76.86,199.85,"2022-01-19 15:15:47"
+CSV
+  end
+  describe :cli do
+    context 'with filename.csv' do
+      let(:args) { [datafile_name] }
+      before do
+        expect(File).to receive(:open) { StringIO.new(body) }
+      end
+      it do
+        expect(Price).to receive(:upsert_all).with([{area_id: 321, time: Time.new(2006,9,21), value:"153.73"}])
+        subject.cli(args)
+      end
+    end
+  end
+end

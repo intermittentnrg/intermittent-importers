@@ -230,4 +230,34 @@ module AemoWem
       r
     end
   end
+
+  class BalancingHistoric < Base
+    include SemanticLogger::Loggable
+    include Out::Price
+
+    URL = 'https://data.wa.aemo.com.au/datafiles/historical-balancing-prices/pre-balancing-market-data.csv'
+
+    def process_rows(all)
+      area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
+      all.shift
+      r = all.map do |row|
+        #Trade Date
+        #Delivery Date
+        #Delivery Hour
+        time = Time.strptime("#{row[1]} #{row[2]}", '%Y-%m-%d %k')
+        time = TZ.local_to_utc(time)
+        #Delivery Interval
+        time += 30.minutes if row[3] == '2'
+        #MCAP Price Per MWh
+        value = row[4]
+        #UDAP Price Per MWh
+        #DDAP Price Per MWh
+        #Extracted At
+        {area_id:, time:, value:}
+      end
+      #require 'pry' ; binding.pry
+
+      r
+    end
+  end
 end
