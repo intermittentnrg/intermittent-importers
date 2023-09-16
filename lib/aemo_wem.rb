@@ -38,6 +38,9 @@ module AemoWem
       end
     end
 
+    def parse_time_from_filename
+    end
+
     def parse_time(s)
       return @last_t if @last_s == s
 
@@ -64,19 +67,29 @@ module AemoWem
     def initialize(file_or_date)
       if file_or_date.is_a? Date
         @from = file_or_date.to_time
+        @from = TZ.local_to_utc(@from)
       else
-        @from = Time.strptime(File.basename(file_or_date), FILE_FORMAT)
+        @from = parse_time_from_filename(file_or_date)
       end
-      @from = TZ.local_to_utc(@from)
-      @to = @from + 1.month
+      @to = @from + 1.month if @from
+      @units = {}
+      @default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
+      @area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
       super
     end
 
-    def process_rows(all)
-      @units = {}
-      @area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
-      default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
+    def parse_time_from_filename(file)
+      time = Time.strptime(File.basename(file), FILE_FORMAT)
+      TZ.local_to_utc(time)
+    end
+    def parse_unit(unit_internal_id)
+      @units[unit_internal_id] ||= ::Unit.
+                                     create_with(area_id: @area_id,
+                                                 production_type_id: @default_production_type_id).
+                                     find_or_create_by!(internal_id: unit_internal_id)
+    end
 
+    def process_rows(all)
       all.shift
       dups = Set.new
       r = logger.benchmark_info("parse csv") do
@@ -87,11 +100,7 @@ module AemoWem
           time = parse_time(row[2])
           # Participant Code
           # Facility Code
-          unit_internal_id = row[4]
-          unit = @units[unit_internal_id] ||= ::Unit.
-                                               create_with(area_id: @area_id,
-                                                           production_type_id: default_production_type_id).
-                                               find_or_create_by!(internal_id: unit_internal_id)
+          unit = parse_unit(row[4])
           unit_id = unit.id
           # Energy Generated (MWh)
           # EOI Quantity (MW)
@@ -133,9 +142,37 @@ module AemoWem
     def initialize(url_or_path = URL)
       super(url_or_path)
     end
+    def parse_time_from_filename(file)
+    end
+    def process_rows(all)
+      all.shift
+      r = all.map do |row|
+        #PERIOD
+        time = parse_time(row[0])
+        #PARTICIPANT_CODE
+        #FACILITY_CODE
+        unit = parse_unit(row[2])
+        unit_id = unit.id
+        #ACTUAL_MW
+        value = row[3].to_f*1000
+        #PCT_ALT_FUEL
+        #PEAK_MW
+        #OUTAGE_MW
+        #PEAK_OUTAGE_MW
+        #POTENTIAL_MWH
+        #INTERVALS_GENERATING
+        #TOTAL_INTERVALS
+        #PCT_GENERATING
+        #AS_AT
+        {time:, unit_id:, value:}
+      end
+      @from = r.first[:time]
+      @to = r.last[:time]
+      #require 'pry' ; binding.pry
+
+      r
+    end
   end
-
-
 
   class Balancing < Base
     include SemanticLogger::Loggable

@@ -127,9 +127,10 @@ CSV
   end
 end
 
-RSpec.xdescribe AemoWem::ScadaLive do
+RSpec.describe AemoWem::ScadaLive do
   describe :cli do
     subject { AemoWem::ScadaLive }
+    let(:datafile_name) { 'facility-intervals-last96.csv' }
     let(:body) do
         <<-CSV
 PERIOD,PARTICIPANT_CODE,FACILITY_CODE,ACTUAL_MW,PCT_ALT_FUEL,PEAK_MW,OUTAGE_MW,PEAK_OUTAGE_MW,POTENTIAL_MWH,INTERVALS_GENERATING,TOTAL_INTERVALS,PCT_GENERATING,AS_AT
@@ -143,6 +144,17 @@ CSV
           to_return(body:)
         expect(GenerationUnit).to receive(:upsert_all)
         subject.cli([])
+      end
+    end
+
+    context 'with filename.csv' do
+      let(:args) { [datafile_name] }
+      before do
+        expect(File).to receive(:open) { StringIO.new(body) }
+      end
+      it do
+        expect(GenerationUnit).to receive(:upsert_all)
+        subject.cli(args)
       end
     end
   end
