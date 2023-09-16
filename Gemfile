@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'pry'
-gem 'work_queue'
 # Network protocols
 gem 'httparty'
 gem 'faraday'

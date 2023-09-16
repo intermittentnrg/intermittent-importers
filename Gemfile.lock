@@ -93,7 +93,7 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.4)
-    minitest (5.18.1)
+    minitest (5.20.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     net-http-persistent (4.0.2)
@@ -196,7 +196,6 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     websocket (1.2.9)
-    work_queue (2.5.4)
     zeitwerk (2.6.11)
     zlib (3.0.0)
 
@@ -241,7 +240,6 @@ DEPENDENCIES
   typhoeus
   vcr
   webmock
-  work_queue
 
 BUNDLED WITH
    2.4.15

@@ -1,19 +1,5 @@
 module Out2
-  WQ = ::WorkQueue.new(1, 3)
-  at_exit do
-    WQ.join
-  end
-
   class Base
-    if Rails.env.test?
-      def self.enqueue(&block)
-        block.call
-      end
-    else
-      def self.enqueue(&block)
-        WQ.enqueue_b(&block)
-      end
-    end
   end
 
   class Generation < Base
@@ -34,11 +20,9 @@ module Out2
       end
 
       if data.present?
-        enqueue do
-          logger.benchmark_info("upsert") do
-            #require 'pry' ; binding.pry
-            ::Generation.upsert_all(data)
-          end
+        logger.benchmark_info("upsert") do
+          #require 'pry' ; binding.pry
+          ::Generation.upsert_all(data)
         end
       end
     end
@@ -76,10 +60,8 @@ module Out2
       end
 
       if data.present?
-        enqueue do
-          logger.benchmark_info("upsert") do
-            ::Load.upsert_all data if data.present?
-          end
+        logger.benchmark_info("upsert") do
+          ::Load.upsert_all data if data.present?
         end
       end
     end
@@ -102,10 +84,8 @@ module Out2
       end
 
       if data.present?
-        enqueue do
-          logger.benchmark_info("upsert") do
-            ::Price.upsert_all(data) if data.present?
-          end
+        logger.benchmark_info("upsert") do
+          ::Price.upsert_all(data) if data.present?
         end
       end
     end
