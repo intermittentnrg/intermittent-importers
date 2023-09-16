@@ -34,7 +34,7 @@ task :ping do |t|
 end
 
 desc "Run all refresh tasks"
-multitask all: ["ieso:all", "eia:all", "caiso:generation", "elexon:all", "entsoe:all", "nordpool:all", :opennem, 'aemo:all', :ree, :aeso, :hydroquebec]
+multitask all: ["ieso:all", "eia:all", "caiso:all", "elexon:all", "entsoe:all", "nordpool:all", :opennem, 'aemo:all', :ree, :aeso, :hydroquebec]
 namespace :ieso do
   desc "Run refresh tasks"
   task all: [:generation, :load]
@@ -50,7 +50,9 @@ namespace :eia do
 end
 
 namespace :caiso do
+  task all: [:generation, :load]
   pump_task :generation, Caiso::Generation, Generation
+  pump_task :load, Caiso::Load, Load
 end
 
 namespace :elexon do

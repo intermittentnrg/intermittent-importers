@@ -95,21 +95,22 @@ module Out
       end
       def parsers_each
         ::Load.joins(:area).group(:'area.code').where("time > ?", 12.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
-          from = from.to_datetime - refetch
+          from = from.in_time_zone(self::TZ).to_datetime - refetch
           to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
+          to = to.in_time_zone(self::TZ).to_datetime
           SemanticLogger.tagged(country) do
             # support source per day and date-range
             #require 'pry' ; binding.pry
-            if self == ::Elexon::Load
+            if [::Caiso::Load, ::Elexon::Load].include? self
               (from..to).each do |date|
                 yield self.new date
-              rescue ENTSOE::EmptyError
+              rescue ::ENTSOE::EmptyError
                 logger.warn "Empty response #{date}", $!
               end
             elsif self == ::Ieso::Load
               (from.year..to.year).each do |year|
                 yield self.new(DateTime.strptime(year.to_s, '%Y'))
-              rescue ENTSOE::EmptyError
+              rescue ::ENTSOE::EmptyError
                 logger.warn "Empty response #{year}", $!
               end
             else

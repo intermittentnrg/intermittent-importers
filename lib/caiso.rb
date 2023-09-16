@@ -138,11 +138,11 @@ module Caiso
       super
       #current: /outlook/SP/netdemand.csv
       @url = "http://www.caiso.com/outlook/SP/History/#{date.strftime('%Y%m%d')}/netdemand.csv"
-      fetch
-      raise @fields.inspect unless @fields[0, FIELDS.length].map(&:downcase) == FIELDS.map(&:downcase)
     end
 
     def points_load
+      fetch
+      raise @fields.inspect unless @fields[0, FIELDS.length].map(&:downcase) == FIELDS.map(&:downcase)
       r = []
       last_time = @from
       @csv.each do |row|
@@ -160,7 +160,7 @@ module Caiso
       end
       #require 'pry' ; binding.pry
 
-      r
+      Validate::validate_load(r)
     end
   end
 end
