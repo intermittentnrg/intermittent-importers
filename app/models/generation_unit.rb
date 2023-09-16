@@ -15,7 +15,7 @@ class GenerationUnit < ActiveRecord::Base
       INNER JOIN areas a ON(u.area_id=a.id)
       WHERE #{where}
       GROUP BY 1,2,3
-      ON CONFLICT ("time", area_id, production_type_id) DO UPDATE set value = EXCLUDED.value
+      ON CONFLICT (area_id, production_type_id, "time") DO UPDATE set value = EXCLUDED.value
     SQL
     # require 'pry' ; binding.pry
   end
