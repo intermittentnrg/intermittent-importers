@@ -2,9 +2,8 @@ require 'faraday/net_http_persistent'
 #require 'faraday/gzip'
 
 module Caiso
-  TZ = TZInfo::Timezone.get('US/Pacific')
-
   class Base
+    TZ = TZInfo::Timezone.get('US/Pacific')
     def self.source_id
       "caiso"
     end

@@ -10,15 +10,16 @@ module Out
       end
       def parsers_each
         ::Generation.joins(:area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
-          from = from.to_datetime - refetch
+          from = from.in_time_zone(self::TZ).to_datetime - refetch
           to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
+          to = to.in_time_zone(self::TZ).to_datetime
           SemanticLogger.tagged(country) do
             # support source per day and date-range
             #require 'pry' ; binding.pry
             if [::Caiso::Generation, ::Elexon::Generation, ::Elexon::Fuelinst, ::Ieso::Generation, ::Ree::Generation].include? self
               (from..to).each do |date|
                 yield self.new date
-              rescue ENTSOE::EmptyError
+              rescue ::ENTSOE::EmptyError
                 logger.warn "Empty response #{date}", $!
               end
             else

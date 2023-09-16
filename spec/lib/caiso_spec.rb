@@ -11,6 +11,25 @@ RSpec.describe Caiso::Generation do
       end
     end
   end
+  describe :parsers_each do
+    around(:example) { |ex| Timecop.freeze(current_time, &ex) }
+    let(:datapoint_time) { subject::TZ.local_to_utc(Time.new(2022,12,31,22)) }
+    before do
+      area = Area.find_by! code: 'CAISO', source: 'caiso'
+      production_type = ProductionType.find_by! name: 'solar'
+      area.generation.create time: datapoint_time, production_type:, value: 1000
+    end
+    context "refreshes previous day if data missing" do
+      let(:current_time) { Time.new(2023,1,1,6) }
+      it do
+        req = stub_request(:get, 'http://www.caiso.com/outlook/SP/History/20221231/fuelsource.csv').
+                to_return(body: '\n')
+        allow(Time).to receive(:strptime)
+        subject.parsers_each(&:fetch)
+        expect(req).to have_been_requested
+      end
+    end
+  end
 end
 
 RSpec.describe Caiso::Load do
