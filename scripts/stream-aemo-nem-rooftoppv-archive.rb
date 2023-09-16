@@ -3,4 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-AemoArchive::RooftopPvArchive.cli(ARGV)
+AemoNemArchive::RooftopPv.cli(ARGV)

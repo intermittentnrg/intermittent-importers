@@ -3,4 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-AemoArchive::TradingArchive.cli(ARGV)
+AemoNemArchive::Trading.cli(ARGV)
