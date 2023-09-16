@@ -3,11 +3,11 @@ require './spec/spec_helper'
 def test_calculates_range
   context 'has range' do
     it "calculates from and to range" do
-      expect(Out2::Unit).to receive(:run).with(anything, Time.new(2022, 12, 31, 14, 0), Time.new(2023, 1, 31, 14, 0), 'aemo')
+      expect(Out2::Unit).to receive(:run).with(anything, Time.new(2022, 12, 31, 16, 0), Time.new(2023, 1, 31, 16, 0), 'aemo')
       subject.cli(args)
     end
     it "calls GenerationUnit.aggregate_to_generation with correct args" do
-      expect(GenerationUnit).to receive(:aggregate_to_generation).with(/'2022-12-31 14:00.*'2023-01-31 14:00/)
+      expect(GenerationUnit).to receive(:aggregate_to_generation).with(/'2022-12-31 16:00.*'2023-01-31 16:00/)
       subject.cli(args)
     end
   end

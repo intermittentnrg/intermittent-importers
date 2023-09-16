@@ -3,9 +3,6 @@ require 'faraday/net_http_persistent'
 
 module Aemo
   class Base
-    TZ = TZInfo::Timezone.get('Etc/GMT-10')
-    #TZ = TZInfo::Timezone.get('Australia/Brisbane')
-
     @@store = ActiveSupport::Cache::FileStore.new "tmp/"
     @@faraday = Faraday.new do |f|
       f.adapter :net_http_persistent
@@ -31,7 +28,7 @@ module Aemo
         next unless select_file?(m[2])
         url = self::URL_BASE + m[2]
         time = Time.strptime(m[1].strip, self::INDEX_TIME_FORMAT)
-        time = TZ.local_to_utc(time)
+        time = self::TZ.local_to_utc(time)
 
         if DataFile.where(updated_at: time...Float::INFINITY, path: File.basename(url), source: self.source_id).exists?
           logger.debug "already processed #{File.basename(url)}"
@@ -83,7 +80,7 @@ module Aemo
       return @last_t if @last_s == s
 
       @last_s = s
-      @last_t = TZ.local_to_utc(Time.strptime(s, '%Y/%m/%d %H:%M:%S'))
+      @last_t = self.class::TZ.local_to_utc(Time.strptime(s, '%Y/%m/%d %H:%M:%S'))
     end
 
     def points_price

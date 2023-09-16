@@ -1,5 +1,6 @@
 module AemoNem
   class Base < ::Aemo::Base
+    TZ = TZInfo::Timezone.get('Etc/GMT-10')
     URL_BASE = "https://nemweb.com.au"
     INDEX_TIME_FORMAT = "%A, %B %d, %Y %l:%M %p"
   end
