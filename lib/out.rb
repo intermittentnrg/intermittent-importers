@@ -20,7 +20,7 @@ module Out
               (from..to).each do |date|
                 yield self.new date
               rescue ::ENTSOE::EmptyError
-                logger.warn "Empty response #{date}", $!
+                logger.warn "Empty response #{date}"
               end
             else
               yield self.new(country: country, from: from, to: to)
@@ -64,7 +64,7 @@ module Out
               (from..refresh_to).each do |date|
                 yield self.new(date, unit.internal_id)
               rescue ENTSOE::EmptyError
-                logger.warn "Empty response #{date}", $!
+                logger.warn "Empty response #{date}"
               end
             else
               raise
@@ -105,13 +105,13 @@ module Out
               (from..to).each do |date|
                 yield self.new date
               rescue ::ENTSOE::EmptyError
-                logger.warn "Empty response #{date}", $!
+                logger.warn "Empty response #{date}"
               end
             elsif self == ::Ieso::Load
               (from.year..to.year).each do |year|
                 yield self.new(DateTime.strptime(year.to_s, '%Y'))
               rescue ::ENTSOE::EmptyError
-                logger.warn "Empty response #{year}", $!
+                logger.warn "Empty response #{year}"
               end
             else
               yield self.new(country: country, from: from, to: to)
@@ -154,7 +154,7 @@ module Out
               (from..to).each do |date|
                 yield self.new date
               rescue ENTSOE::EmptyError
-                logger.warn "Empty response #{date}", $!
+                logger.warn "Empty response #{date}"
               end
             else
               yield self.new(country: country, from: from, to: to)
@@ -201,7 +201,7 @@ module Out
               (from..to).each do |date|
                 yield self.new date
               rescue ENTSOE::EmptyError
-                logger.warn "Empty response #{date}", $!
+                logger.warn "Empty response #{date}"
               end
             else
               yield self.new(from_area: from_area, to_area: to_area, from: from, to: to)
@@ -251,7 +251,7 @@ module Out
           #require 'pry' ; binding.pry
           yield self.new(date)
         rescue ENTSOE::EmptyError
-          logger.warn "Empty response #{date}", $!
+          logger.warn "Empty response #{date}"
         end
       end
     end
