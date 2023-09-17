@@ -23,6 +23,7 @@ VCR.configure do |config|
   config.ignore_hosts ENV['ES_HOST']
   config.filter_sensitive_data('<TOKEN>') { ENV['ENTSOE_TOKEN'] }
   config.filter_sensitive_data('<EIA_TOKEN>') { ENV['EIA_TOKEN'] }
+  config.filter_sensitive_data('<ELEXON_TOKEN>') { ENV['ELEXON_TOKEN'] }
 end
 
 Dir["./spec/support/**/*.rb"].each { |f| require f }
