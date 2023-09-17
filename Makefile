@@ -27,13 +27,13 @@ update_secret:
 	grep -v export .env | kubectl create secret generic -n jenkins intermittency-$(BRANCH) --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
 
 ## Update jenkins/intermittency-production secret from .env-production
-update_secret2:
+update_secret_prod:
 	grep -v export .env-production | kubectl create secret generic -n jenkins intermittency-production --from-env-file=/dev/stdin --dry-run=true -o yaml | kubectl apply -f -
 psql:
 	psql postgres
 psql_test:
 	psql intermittency_test
-psql2:
+psql_prod:
 	psql intermittency_prod
 
 ## Dump db to intermittency.bak
