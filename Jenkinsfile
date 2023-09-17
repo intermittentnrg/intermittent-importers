@@ -67,11 +67,16 @@ spec:
             sh "cp -rv /app ${env.WORKSPACE}"
           } finally {
             junit allowEmptyResults: true, testResults: 'rspec.xml'
-	    cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'app/coverage/coverage.xml', conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
+            cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'app/coverage/coverage.xml', conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
           }
         }
       }
       stage('deploy') {
+        if (env.BRANCH_NAME == "master" || env.BRANCH_NAME == "production") {
+          sh "RAILS_ENV=development cd /app && rake db:migrate"
+          sh "RAILS_ENV=development cd /app && scripts/validate-constraints.rb"
+        }
+
         sh "cp /app/jobdsl.groovy ."
         jobDsl(targets: 'jobdsl.groovy',
                additionalParameters: [
@@ -81,8 +86,6 @@ spec:
                removedJobAction: 'DELETE'
         )
         if (env.BRANCH_NAME == "master" || env.BRANCH_NAME == "production") {
-          sh "RAILS_ENV=development cd /app && rake db:migrate"
-          sh "RAILS_ENV=development cd /app && scripts/validate-constraints.rb"
           build wait: false, job: "intermittency-${env.BRANCH_NAME}/refresh"
         }
       }
