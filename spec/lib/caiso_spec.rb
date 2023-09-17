@@ -35,11 +35,8 @@ end
 RSpec.describe Caiso::Load do
   subject { Caiso::Load }
   context do
-    subject :e do
-      VCR.use_cassette("caiso_load_#{date}") do
-        Caiso::Load.new(date)
-      end
-    end
+    around(:example) { |ex| VCR.use_cassette("caiso_load_#{date}", &ex) }
+    subject(:e) { Caiso::Load.new(date) }
 
     before do
       datafile = double('DataFile')
