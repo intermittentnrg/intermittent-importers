@@ -5,6 +5,7 @@ module ENTSOE
   DEFAULT_START = DateTime.parse('2014-01-01')
 
   class Base
+    TZ = TZInfo::Timezone.get('UTC')
     def self.source_id
       "entsoe"
     end

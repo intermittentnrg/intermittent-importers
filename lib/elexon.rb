@@ -5,6 +5,7 @@ require 'faraday/retry'
 
 module Elexon
   class Base
+    TZ = TZInfo::Timezone.get('UTC')
     def self.source_id
       "elexon"
     end

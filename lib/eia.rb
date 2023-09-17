@@ -2,6 +2,7 @@ require 'faraday/retry'
 
 module Eia
   class Base
+    TZ = TZInfo::Timezone.get('UTC')
     def self.source_id
       "eia"
     end
