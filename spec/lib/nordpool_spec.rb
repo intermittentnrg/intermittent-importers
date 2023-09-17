@@ -55,3 +55,27 @@ RSpec.describe Nordpool::Transmission do
     it { expect(hours_se).to eq [23] + 0.upto(21).to_a }
   end
 end
+
+RSpec.describe Nordpool::Capacity do
+  subject { Nordpool::Capacity }
+  around(:example) { |ex| VCR.use_cassette('nordpool_capacity', &ex) }
+  context 'with date range' do
+    let(:args) { ['2023-01-01', '2023-01-02'] }
+    it do
+      expect(Transmission).to receive(:upsert_all)
+      subject.cli(args)
+    end
+  end
+end
+
+RSpec.describe Nordpool::CapacityChart do
+  subject { Nordpool::CapacityChart }
+  around(:example) { |ex| VCR.use_cassette('nordpool_capacity_chart', &ex) }
+  context 'with date range' do
+    let(:args) { ['2023-01-01', '2023-01-01'] }
+    it do
+      expect(Transmission).to receive(:upsert_all)
+      subject.cli(args)
+    end
+  end
+end

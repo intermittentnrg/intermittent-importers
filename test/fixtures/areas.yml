@@ -1,4 +1,5 @@
 ---
+# EUROPE
 GB:
   id: 260
   code: GB
@@ -32,6 +33,106 @@ XK:
   region: europe
   type: country
 
+#NORDPOOL
+nordpool_DE: &nordpool
+  id: 60
+  code: DE
+  source: nordpool
+  enabled: true
+  region: europe
+  type: country
+DK1:
+  <<: *nordpool
+  id: 73
+  code: DK1
+  type: zone
+DK1A:
+  <<: *nordpool
+  id: 63
+  code: DK1A
+  type: zone
+DK2:
+  <<: *nordpool
+  id: 65
+  code: DK2
+  type: zone
+EE:
+  <<: *nordpool
+  id: 77
+  code: EE
+  type: country
+FI:
+  <<: *nordpool
+  id: 56
+  code: FI
+  type: country
+FRE:
+  <<: *nordpool
+  id: 78
+  code: FRE
+  type: zone
+LT:
+  <<: *nordpool
+  id: 69
+  code: LT
+  type: country
+NO1:
+  <<: *nordpool
+  id: 64
+  code: NO1
+  type: zone
+NO2:
+  <<: *nordpool
+  id: 88
+  code: NO2
+  type: zone
+NO3:
+  <<: *nordpool
+  id: 71
+  code: NO3
+  type: zone
+NO4:
+  <<: *nordpool
+  id: 70
+  code: NO4
+  type: zone
+PL:
+  <<: *nordpool
+  id: 68
+  code: PL
+  type: country
+PLC:
+  <<: *nordpool
+  id: 72
+  code: PLC
+  type: zone
+SE:
+  <<: *nordpool
+  id: 74
+  code: SE
+  type: country
+SE1:
+  <<: *nordpool
+  id: 66
+  code: SE1
+  type: zone
+SE2:
+  <<: *nordpool
+  id: 59
+  code: SE2
+  type: zone
+SE3::
+  <<: *nordpool
+  id: 62
+  code: SE3
+  type: zone
+SE4:
+  <<: *nordpool
+  id: 61
+  code: SE4
+  type: zone
+
+# AUSTRALIA
 AU:
   id: 296
   code: AU

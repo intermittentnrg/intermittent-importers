@@ -97,6 +97,8 @@ class Nordpool
       end
     end
 
+    # this has more data?
+    #      https://www.nordpoolgroup.com/api/marketdata/page/165
     URL = 'https://www.nordpoolgroup.com/api/marketdata/page/169'
     FIELD = :value
     def initialize(date)
@@ -150,11 +152,56 @@ class Nordpool
 
     URL = "https://www.nordpoolgroup.com/api/marketdata/page/484060"
     FIELD = :capacity
+
+    def self.cli(args)
+      if args.length < 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      end
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      areas = {}
+      (from...to).each do |time|
+        e = Nordpool::Capacity.new(time)
+        e.process
+      end
+    end
   end
 
   class CapacityChart < Capacity
     include SemanticLogger::Loggable
 
     URL = "https://www.nordpoolgroup.com/api/marketdata/chart/503617"
+
+    def self.cli(args)
+      if args.length < 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      end
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      areas = {}
+      time = from
+      loop do
+        e = Nordpool::CapacityChart.new(time)
+
+        points = e.points
+        points.each do |p|
+          p[:from_area_id] = areas[p[:from_area]] ||= Area.where(source: Nordpool::Capacity.source_id, code: p[:from_area], region: 'europe').pluck(:id).first
+          p[:to_area_id] = areas[p[:to_area]] ||= Area.where(source: Nordpool::Capacity.source_id, code: p[:to_area], region: 'europe').pluck(:id).first
+          raise p.inspect unless p[:from_area_id] && p[:to_area_id]
+          p.delete :from_area
+          p.delete :to_area
+        end
+        #puts points
+        #require 'pry' ; binding.pry
+        ::Transmission.upsert_all points
+        puts "break if #{time} > #{to}"
+        break if time >= to
+        time += 7.days
+      end
+    end
   end
 end
