@@ -1,0 +1,265 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=<EIA_TOKEN>&data%5B%5D=value&end=2023-01-03&facets%5Brespondent%5D%5B0%5D=BANC&frequency=hourly&offset=0&start=2023-01-01
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.10
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 17 Sep 2023 19:33:05 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '37702'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Params
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, PATCH, OPTIONS,GET,POST
+      Access-Control-Allow-Origin:
+      - "*"
+      Age:
+      - '1'
+      Cache-Control:
+      - max-age=0, no-cache, no-store
+      Expires:
+      - Sun, 17 Sep 2023 19:33:05 GMT
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; preload
+      - max-age=63072000; includeSubdomains;
+      Vary:
+      - Accept-Encoding
+      - Accept-Encoding
+      Via:
+      - http/1.1 api-umbrella (ApacheTrafficServer [cMsSf ])
+      X-Api-Umbrella-Request-Id:
+      - cakigtibc1pisqa22t30
+      X-Cache:
+      - MISS
+      X-Vcap-Request-Id:
+      - a3b6fb85-cdd7-464a-75da-3b07ca200dd6
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"response":{"total":196,"dateFormat":"YYYY-MM-DD\"T\"HH24","frequency":"hourly","data":[{"period":"2023-01-03T00","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":780,"value-units":"megawatthours"},{"period":"2023-01-02T23","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":711,"value-units":"megawatthours"},{"period":"2023-01-02T22","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":700,"value-units":"megawatthours"},{"period":"2023-01-02T21","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":746,"value-units":"megawatthours"},{"period":"2023-01-02T20","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":690,"value-units":"megawatthours"},{"period":"2023-01-02T19","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":720,"value-units":"megawatthours"},{"period":"2023-01-02T18","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":736,"value-units":"megawatthours"},{"period":"2023-01-02T17","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":712,"value-units":"megawatthours"},{"period":"2023-01-02T16","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":799,"value-units":"megawatthours"},{"period":"2023-01-02T15","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":824,"value-units":"megawatthours"},{"period":"2023-01-02T14","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":722,"value-units":"megawatthours"},{"period":"2023-01-02T13","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":719,"value-units":"megawatthours"},{"period":"2023-01-02T12","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":681,"value-units":"megawatthours"},{"period":"2023-01-02T11","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":678,"value-units":"megawatthours"},{"period":"2023-01-02T10","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":689,"value-units":"megawatthours"},{"period":"2023-01-02T09","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":669,"value-units":"megawatthours"},{"period":"2023-01-02T08","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":674,"value-units":"megawatthours"},{"period":"2023-01-02T07","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":691,"value-units":"megawatthours"},{"period":"2023-01-02T06","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":730,"value-units":"megawatthours"},{"period":"2023-01-02T05","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":843,"value-units":"megawatthours"},{"period":"2023-01-02T04","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":934,"value-units":"megawatthours"},{"period":"2023-01-02T03","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":989,"value-units":"megawatthours"},{"period":"2023-01-02T02","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":990,"value-units":"megawatthours"},{"period":"2023-01-02T01","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":838,"value-units":"megawatthours"},{"period":"2023-01-02T00","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":697,"value-units":"megawatthours"},{"period":"2023-01-01T23","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":692,"value-units":"megawatthours"},{"period":"2023-01-01T22","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":671,"value-units":"megawatthours"},{"period":"2023-01-01T21","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":674,"value-units":"megawatthours"},{"period":"2023-01-01T20","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":682,"value-units":"megawatthours"},{"period":"2023-01-01T19","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":631,"value-units":"megawatthours"},{"period":"2023-01-01T18","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":630,"value-units":"megawatthours"},{"period":"2023-01-01T17","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":659,"value-units":"megawatthours"},{"period":"2023-01-01T16","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":723,"value-units":"megawatthours"},{"period":"2023-01-01T15","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":718,"value-units":"megawatthours"},{"period":"2023-01-01T14","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":639,"value-units":"megawatthours"},{"period":"2023-01-01T13","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":633,"value-units":"megawatthours"},{"period":"2023-01-01T12","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":626,"value-units":"megawatthours"},{"period":"2023-01-01T11","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":621,"value-units":"megawatthours"},{"period":"2023-01-01T10","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":642,"value-units":"megawatthours"},{"period":"2023-01-01T09","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":620,"value-units":"megawatthours"},{"period":"2023-01-01T08","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":661,"value-units":"megawatthours"},{"period":"2023-01-01T07","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":646,"value-units":"megawatthours"},{"period":"2023-01-01T06","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":690,"value-units":"megawatthours"},{"period":"2023-01-01T05","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":714,"value-units":"megawatthours"},{"period":"2023-01-01T04","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":741,"value-units":"megawatthours"},{"period":"2023-01-01T03","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":799,"value-units":"megawatthours"},{"period":"2023-01-01T02","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":822,"value-units":"megawatthours"},{"period":"2023-01-01T01","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":815,"value-units":"megawatthours"},{"period":"2023-01-01T00","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"WAT","type-name":"Hydro","value":702,"value-units":"megawatthours"},{"period":"2023-01-03T00","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1213,"value-units":"megawatthours"},{"period":"2023-01-02T23","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1199,"value-units":"megawatthours"},{"period":"2023-01-02T22","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1155,"value-units":"megawatthours"},{"period":"2023-01-02T21","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1083,"value-units":"megawatthours"},{"period":"2023-01-02T20","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1037,"value-units":"megawatthours"},{"period":"2023-01-02T19","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1061,"value-units":"megawatthours"},{"period":"2023-01-02T18","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1001,"value-units":"megawatthours"},{"period":"2023-01-02T17","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1006,"value-units":"megawatthours"},{"period":"2023-01-02T16","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1097,"value-units":"megawatthours"},{"period":"2023-01-02T15","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1087,"value-units":"megawatthours"},{"period":"2023-01-02T14","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1070,"value-units":"megawatthours"},{"period":"2023-01-02T13","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1068,"value-units":"megawatthours"},{"period":"2023-01-02T12","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1032,"value-units":"megawatthours"},{"period":"2023-01-02T11","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1012,"value-units":"megawatthours"},{"period":"2023-01-02T10","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":991,"value-units":"megawatthours"},{"period":"2023-01-02T09","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":996,"value-units":"megawatthours"},{"period":"2023-01-02T08","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":936,"value-units":"megawatthours"},{"period":"2023-01-02T07","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1018,"value-units":"megawatthours"},{"period":"2023-01-02T06","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1032,"value-units":"megawatthours"},{"period":"2023-01-02T05","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1021,"value-units":"megawatthours"},{"period":"2023-01-02T04","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1007,"value-units":"megawatthours"},{"period":"2023-01-02T03","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":965,"value-units":"megawatthours"},{"period":"2023-01-02T02","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":1015,"value-units":"megawatthours"},{"period":"2023-01-02T01","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":937,"value-units":"megawatthours"},{"period":"2023-01-02T00","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":656,"value-units":"megawatthours"},{"period":"2023-01-01T23","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":597,"value-units":"megawatthours"},{"period":"2023-01-01T22","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":591,"value-units":"megawatthours"},{"period":"2023-01-01T21","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":593,"value-units":"megawatthours"},{"period":"2023-01-01T20","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":581,"value-units":"megawatthours"},{"period":"2023-01-01T19","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":573,"value-units":"megawatthours"},{"period":"2023-01-01T18","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":582,"value-units":"megawatthours"},{"period":"2023-01-01T17","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":617,"value-units":"megawatthours"},{"period":"2023-01-01T16","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":682,"value-units":"megawatthours"},{"period":"2023-01-01T15","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":612,"value-units":"megawatthours"},{"period":"2023-01-01T14","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":601,"value-units":"megawatthours"},{"period":"2023-01-01T13","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":596,"value-units":"megawatthours"},{"period":"2023-01-01T12","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":582,"value-units":"megawatthours"},{"period":"2023-01-01T11","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":580,"value-units":"megawatthours"},{"period":"2023-01-01T10","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":594,"value-units":"megawatthours"},{"period":"2023-01-01T09","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":615,"value-units":"megawatthours"},{"period":"2023-01-01T08","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":926,"value-units":"megawatthours"},{"period":"2023-01-01T07","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":908,"value-units":"megawatthours"},{"period":"2023-01-01T06","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":783,"value-units":"megawatthours"},{"period":"2023-01-01T05","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":774,"value-units":"megawatthours"},{"period":"2023-01-01T04","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":781,"value-units":"megawatthours"},{"period":"2023-01-01T03","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":794,"value-units":"megawatthours"},{"period":"2023-01-01T02","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":925,"value-units":"megawatthours"},{"period":"2023-01-01T01","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":875,"value-units":"megawatthours"},{"period":"2023-01-01T00","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"NG","type-name":"Natural gas","value":861,"value-units":"megawatthours"},{"period":"2023-01-03T00","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":2,"value-units":"megawatthours"},{"period":"2023-01-02T23","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":2,"value-units":"megawatthours"},{"period":"2023-01-02T22","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":11,"value-units":"megawatthours"},{"period":"2023-01-02T21","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":18,"value-units":"megawatthours"},{"period":"2023-01-02T20","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":33,"value-units":"megawatthours"},{"period":"2023-01-02T19","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":25,"value-units":"megawatthours"},{"period":"2023-01-02T18","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":27,"value-units":"megawatthours"},{"period":"2023-01-02T17","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":21,"value-units":"megawatthours"},{"period":"2023-01-02T16","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":1,"value-units":"megawatthours"},{"period":"2023-01-02T15","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T14","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T13","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T12","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T11","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T10","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T09","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T08","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T07","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T06","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T05","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T04","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T03","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T02","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-02T01","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":11,"value-units":"megawatthours"},{"period":"2023-01-02T00","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":77,"value-units":"megawatthours"},{"period":"2023-01-01T23","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":138,"value-units":"megawatthours"},{"period":"2023-01-01T22","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":149,"value-units":"megawatthours"},{"period":"2023-01-01T21","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":150,"value-units":"megawatthours"},{"period":"2023-01-01T20","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":151,"value-units":"megawatthours"},{"period":"2023-01-01T19","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":145,"value-units":"megawatthours"},{"period":"2023-01-01T18","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":127,"value-units":"megawatthours"},{"period":"2023-01-01T17","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":54,"value-units":"megawatthours"},{"period":"2023-01-01T16","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":1,"value-units":"megawatthours"},{"period":"2023-01-01T15","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T14","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T13","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T12","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T11","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T10","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T09","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T08","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T07","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T06","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T05","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T04","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T03","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T02","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T01","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-01T00","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"SUN","type-name":"Solar","value":0,"value-units":"megawatthours"},{"period":"2023-01-03T00","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-02T23","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-02T22","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":17,"value-units":"megawatthours"},{"period":"2023-01-02T21","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-02T20","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":14,"value-units":"megawatthours"},{"period":"2023-01-02T19","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-02T18","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":14,"value-units":"megawatthours"},{"period":"2023-01-02T17","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-02T16","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":17,"value-units":"megawatthours"},{"period":"2023-01-02T15","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-02T14","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-02T13","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-02T12","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-02T11","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":14,"value-units":"megawatthours"},{"period":"2023-01-02T10","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-02T09","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":17,"value-units":"megawatthours"},{"period":"2023-01-02T08","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-02T07","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-02T06","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-02T05","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-02T04","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-02T03","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-02T02","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-02T01","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-02T00","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-01T23","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-01T22","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":17,"value-units":"megawatthours"},{"period":"2023-01-01T21","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-01T20","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-01T19","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-01T18","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":14,"value-units":"megawatthours"},{"period":"2023-01-01T17","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":17,"value-units":"megawatthours"},{"period":"2023-01-01T16","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-01T15","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-01T14","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-01T13","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":13,"value-units":"megawatthours"},{"period":"2023-01-01T12","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":17,"value-units":"megawatthours"},{"period":"2023-01-01T11","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-01T10","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":14,"value-units":"megawatthours"},{"period":"2023-01-01T09","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-01T08","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-01T07","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-01T06","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-01T05","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":15,"value-units":"megawatthours"},{"period":"2023-01-01T04","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":17,"value-units":"megawatthours"},{"period":"2023-01-01T03","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-01T02","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-01T01","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"},{"period":"2023-01-01T00","respondent":"BANC","respondent-name":"Balancing
+        Authority of Northern California","fueltype":"OTH","type-name":"Other","value":16,"value-units":"megawatthours"}],"description":"Hourly
+        net generation by balancing authority and energy source.  \n    Source: Form
+        EIA-930\n    Product: Hourly Electric Grid Monitor"},"request":{"command":"\/v2\/electricity\/rto\/fuel-type-data\/data\/","params":{"api_key":"<EIA_TOKEN>","data":["value"],"end":"2023-01-03","facets":{"respondent":["BANC"]},"frequency":"hourly","offset":0,"start":"2023-01-01"}},"apiVersion":"2.1.4"}'
+  recorded_at: Mon, 02 Jan 2023 00:00:00 GMT
+recorded_with: VCR 6.2.0
