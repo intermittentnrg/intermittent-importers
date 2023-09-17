@@ -1,6 +1,6 @@
 ---
 # EUROPE
-GB:
+GB: &elexon
   id: 260
   code: GB
   internal_id:
@@ -8,6 +8,11 @@ GB:
   enabled: true
   region: europe
   type: country
+GB_B1620:
+  <<: *elexon
+  id: 37
+  code: GB_B1620
+
 NO:
   id: 25
   code: 'NO'

@@ -2,17 +2,74 @@ require 'spec_helper'
 
 RSpec.describe Elexon::Generation do
   subject { Elexon::Generation }
-  describe :cli
+  describe :cli do
+  end
+
+  describe :parsers_each do
+    around(:example) { |ex| Timecop.freeze(current_time, &ex) }
+    let(:current_time) { Time.new(2023,1,1) }
+    let(:datapoint_time) { Time.new(2023,1,1) }
+    before do
+      areas = Area.find_by! code: 'GB', source: 'elexon'
+      production_type = ProductionType.find_by! name: 'wind'
+      areas.generation.create time: datapoint_time, production_type:, value: 1000
+    end
+
+    it do
+      parser = double('Elexon::Generation')
+      # FIXME don't call for tomorrow
+      expect(parser).to receive(:process).twice
+      expect(subject).to receive(:new).twice { parser }
+      subject.parsers_each &:process
+    end
+  end
 end
 
 RSpec.describe Elexon::Fuelinst do
   subject { Elexon::Fuelinst }
   describe :cli
+
+  describe :parsers_each do
+    around(:example) { |ex| Timecop.freeze(current_time, &ex) }
+    let(:current_time) { Time.new(2023,1,1) }
+    let(:datapoint_time) { Time.new(2023,1,1) }
+    before do
+      areas = Area.find_by! code: 'GB', source: 'elexon'
+      production_type = ProductionType.find_by! name: 'wind'
+      areas.generation.create time: datapoint_time, production_type:, value: 1000
+    end
+
+    it do
+      parser = double('Elexon::FuelInst')
+      # FIXME don't call for tomorrow
+      expect(parser).to receive(:process).twice
+      expect(subject).to receive(:new).twice { parser }
+      subject.parsers_each &:process
+    end
+  end
 end
 
 RSpec.describe Elexon::Load do
   subject { Elexon::Load }
   describe :cli
+
+  describe :parsers_each do
+    around(:example) { |ex| Timecop.freeze(current_time, &ex) }
+    let(:current_time) { Time.new(2023,1,1) }
+    let(:datapoint_time) { Time.new(2023,1,1) }
+    before do
+      areas = Area.find_by! code: 'GB', source: 'elexon'
+      areas.load.create time: datapoint_time, value: 1000
+    end
+
+    it do
+      parser = double('Elexon::Load')
+      # FIXME don't call for tomorrow
+      expect(parser).to receive(:process).twice
+      expect(subject).to receive(:new).twice { parser }
+      subject.parsers_each &:process
+    end
+  end
 end
 
 RSpec.describe Elexon::Unit do
