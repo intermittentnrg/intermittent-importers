@@ -241,7 +241,7 @@ module AemoWem
         # FORECAST_EOI_MW
         #FORECAST_MW
         #PRICE
-        price = row[3]
+        price = row[3].to_f*100
         #FORECAST_NSG_MW
         #ACTUAL_NSG_MW
         #ACTUAL_TOTAL_GENERATION
