@@ -89,7 +89,7 @@ namespace :entsoe do
   loop_task :unit, EntsoeSFTP::Unit
   loop_task :load, EntsoeSFTP::Load
   loop_task :price, EntsoeSFTP::Price
-  pump_task :transmission, ENTSOE::Transmission
+  loop_task :transmission, EntsoeSFTP::Transmission
 end
 
 namespace :nordpool do

@@ -57,10 +57,17 @@ module EntsoeCSV
       @last_s = s
       @last_t = Time.strptime(s, '%Y-%m-%d %H:%M:%S.%L')
     end
-    def parse_area(row)
-      area_id = @areas[row[:area_internal_id]] ||= ::Area.where(internal_id: row[:area_internal_id], source: self.class.source_id).pluck(:id).first
+    def parse_area(row, k = :area_internal_id)
+      area_id = @areas[row[k]] ||= ::Area.where(internal_id: row[k], source: self.class.source_id).pluck(:id).first
       unless area_id
+        if k == :out_area_internal_id
+          area = Area.new internal_id: row[k], code: row[:out_area_name].gsub(/ /, '-'), type: row[:out_area_type] == 'CTY' ? 'country' : 'zone', region: 'europe', source: self.class.source_id
+        elsif k == :in_area_internal_id
+          area = Area.new internal_id: row[k], code: row[:in_area_name].gsub(/ /, '-'), type: row[:in_area_type] == 'CTY' ? 'country' : 'zone', region: 'europe', source: self.class.source_id
+        end
         require 'pry' ; binding.pry
+        area.save!
+        area_id = @areas[row[k]] = area.id
       end
 
       area_id
@@ -89,10 +96,18 @@ module EntsoeCSV
       s.gsub(/ /,'_').downcase
     end
 
-    def parse_area(s)
+    def parse_area(s, fields = {})
       area_id = @areas[s] ||= ::Area.where(internal_id: s, source: self.class.source_id).pluck(:id).first
       unless area_id
+        area = Area.new({
+                          internal_id: s,
+                          region: 'europe',
+                          source: self.class.source_id,
+                          enabled: false
+                        }.merge(fields))
         require 'pry' ; binding.pry
+        area.save!
+        area_id = @areas[s] = area.id
       end
 
       area_id
@@ -389,6 +404,85 @@ module EntsoeCSV
 
     def process
       Out2::UnitCapacity.run(points_unit_capacity, @from, @to, self.class.source_id)
+    end
+  end
+
+  class TransmissionCSV < BaseFastestCSV
+    include SemanticLogger::Loggable
+    include Out::Transmission
+
+    def self.cli(args)
+      if args.empty?
+        $stderr.puts "#{$0} [file ...]"
+        exit 1
+      end
+
+      args.each do |file|
+        e = EntsoeCSV::TransmissionCSV.new(file)
+        e.process
+      end
+    end
+
+    HEADERS = [
+      :time, #DateTime
+      :resolution, #ResolutionCode
+      :out_area_internal_id, #OutAreaCode
+      :out_area_type, #OutAreaTypeCode
+      :out_area_name, #OutAreaName
+      :out_area_code, #OutMapCode
+      :in_area_internal_id, #InAreaCode
+      :in_area_type, #InAreaTypeCode
+      :in_area_name, #InAreaName
+      :in_area_code, #InMapCode
+      :value, #FlowValue
+      :_update_time #UpdateTime
+    ]
+    AREA_TYPE_MAP = {
+      'BZN' => :zone,
+      'CTY' => :country
+    }
+    def points
+      r = {}
+      logger.benchmark_info("csv parse") do
+        csv.each do |row|
+          next if row[3] == 'CTA' || row[7] == 'CTA'
+
+          #DateTime
+          time = parse_time(row[0])
+          #ResolutionCode
+          #2:OutAreaCode
+          to_area_internal_id = row[2]
+          #3:OutAreaTypeCode
+          to_area_type = AREA_TYPE_MAP[row[3]]
+          #4:OutAreaName
+          to_area_code = row[4]
+          #5:OutMapCode
+          to_area_id = parse_area(to_area_internal_id, {type: to_area_type, code: to_area_code})
+
+          #6:InAreaCode
+          from_area_internal_id = row[6]
+          #7:InAreaTypeCode
+          from_area_type = AREA_TYPE_MAP[row[7]]
+          #8:InAreaName
+          from_area_code = row[8]
+          #9:InMapCode
+
+          from_area_id = parse_area(from_area_internal_id, {type: from_area_type, code: from_area_code})
+
+          #FlowValue
+          value = (row[10].to_f*1000).to_i
+          #UpdateTime
+
+          k = [to_area_id,from_area_id,time]
+          if r[k] && r[k][:value] != value
+            logger.warn("#{time} #{to_area_code} - #{from_area_code} different values #{r[k][:value]} != #{value}")
+          end
+          r[k] = {time:, to_area_id:, from_area_id:, value:}
+        end
+      end
+      #require 'pry' ; binding.pry
+
+      r.values
     end
   end
 end
