@@ -15,6 +15,10 @@ development: &development
   database: <%= ENV['PGDATABASE'] %>
   schema_search_path: intermittency,public
 
+production:
+    <<: *development
+    database: intermittency_prod
+
 test:
   <<: *development
   database: intermittency_test
