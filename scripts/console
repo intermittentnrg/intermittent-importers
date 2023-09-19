@@ -2,5 +2,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-require 'pry'
-Pry.pry
+IRB.start
