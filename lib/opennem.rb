@@ -65,7 +65,7 @@ module Opennem
         next if blob['code'] == 'imports' || blob['code'] == 'exports'
         raise blob['units'] unless ['MW', 'AUD/MWh'].include?(blob['units'])
         country = "#{blob['network']}-#{blob['region']}".upcase
-        country = "WEM-WEM" if blob['network'] == 'WEM'
+        country = "WEM-WEM" if blob['network'] == 'wem'
         start = Time.strptime(blob['history']['start'], '%Y-%m-%dT%H:%M:%S%:z')
         interval = parse_interval(blob['history']['interval'])
 
@@ -84,7 +84,7 @@ module Opennem
             @price_r << {
               time:,
               country:,
-              value: value
+              value: (value.to_f*100).to_i
             }
           end
           #require 'pry' ; binding.pry
@@ -156,6 +156,8 @@ module Opennem
   end
 
   class Price < Base
+    include SemanticLogger::Loggable
+
     def initialize(country: nil, date: nil)
       @from = date
       @to = date + 1.month

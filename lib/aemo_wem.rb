@@ -201,7 +201,7 @@ module AemoWem
         #Total Generation (MW)
         load = row[7].to_f*1000
         #Final Price ($/MWh)
-        price = row[8]
+        price = row[8].to_f*100
         #Extracted At
 
         load_r << {time:, area_id:, value: load}

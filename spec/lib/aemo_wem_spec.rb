@@ -163,23 +163,31 @@ end
 
 
 RSpec.describe AemoWem::Balancing do
+  subject { AemoWem::Balancing }
+
   let(:datafile_name) { 'abc.csv' }
   let(:index_body) do
     <<-HTML
 <pre><A HREF="/public/public-data/datafiles/">[To Parent Directory]</A><br><br> 1/23/2023 11:09 AM      1684350 <A HREF=\"/#{datafile_name}\"></A>
     HTML
   end
-
-  describe :cli do
-    subject { AemoWem::Balancing }
-
-    let(:body) do
-      <<-CSV
+  let(:body) do
+    <<-CSV
 Trading Date,Interval Number,Trading Interval,Load Forecast (MW),Forecast As At,Scheduled Generation (MW),Non-Scheduled Generation (MW),Total Generation (MW),Final Price ($/MWh),Extracted At
 "2023-01-01",1,2023-01-01 08:00:00,998.59,2023-01-01 07:23:08,756.291,292.584,1048.875,-72.19,"2023-09-12 23:30:16"
 CSV
-    end
+  end
 
+  describe '#points_price' do
+    before do
+      expect(File).to receive(:open) { StringIO.new(body) }
+    end
+    it do
+      expect(Out2::Price).to receive(:run).with(array_including(hash_including(value:-7219)), anything, anything, 'aemo')
+      subject.new('file.csv').process
+    end
+  end
+  describe :cli do
     context 'without argument' do
       let(:args) { [] }
 

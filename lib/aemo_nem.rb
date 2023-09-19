@@ -4,94 +4,6 @@ module AemoNem
     URL_BASE = "https://nemweb.com.au"
     INDEX_TIME_FORMAT = "%A, %B %d, %Y %l:%M %p"
   end
-  class Dispatch < Base
-    include SemanticLogger::Loggable
-    include Out::Price
-
-    URL = "https://nemweb.com.au/Reports/Current/DispatchIS_Reports/"
-
-    def process_rows(all)
-      #I,DISPATCH,CASE_SOLUTION,2,SETTLEMENTDATE,RUNNO,INTERVENTION,CASESUBTYPE,SOLUTIONSTATUS,SPDVERSION,NONPHYSICALLOSSES,TOTALOBJECTIVE,TOTALAREAGENVIOLATION,TOTALINTERCONNECTORVIOLATION,TOTALGENERICVIOLATION,TOTALRAMPRATEVIOLATION,TOTALUNITMWCAPACITYVIOLATION,TOTAL5MINVIOLATION,TOTALREGVIOLATION,TOTAL6SECVIOLATION,TOTAL60SECVIOLATION,TOTALASPROFILEVIOLATION,TOTALFASTSTARTVIOLATION,TOTALENERGYOFFERVIOLATION,LASTCHANGED,SWITCHRUNINITIALSTATUS,SWITCHRUNBESTSTATUS,SWITCHRUNBESTSTATUS_INT
-      all.select { |row| row[0..2] == ['D','DISPATCH','PRICE'] }.map do |row|
-
-        # I
-        # DISPATCH
-        # CASE_SOLUTION
-        # 2
-        # SETTLEMENTDATE
-        time = parse_time(row[4])
-        # RUNNO
-        # REGIONID
-        country = "DISPATCH-"+row[6]
-        # DISPATCHINTERVAL
-        # INTERVENTION
-        # RRP
-        value = row[9]
-        # EEP
-        # ROP
-        # APCFLAG
-        # MARKETSUSPENDEDFLAG
-        # LASTCHANGED
-        # RAISE6SECRRP
-        # RAISE6SECROP
-        # RAISE6SECAPCFLAG
-        # RAISE60SECRRP
-        # RAISE60SECROP
-        # RAISE60SECAPCFLAG
-        # RAISE5MINRRP
-        # RAISE5MINROP
-        # RAISE5MINAPCFLAG
-        # RAISEREGRRP
-        # RAISEREGROP
-        # RAISEREGAPCFLAG
-        # LOWER6SECRRP
-        # LOWER6SECROP
-        # LOWER6SECAPCFLAG
-        # LOWER60SECRRP
-        # LOWER60SECROP
-        # LOWER60SECAPCFLAG
-        # LOWER5MINRRP
-        # LOWER5MINROP
-        # LOWER5MINAPCFLAG
-        # LOWERREGRRP
-        # LOWERREGROP
-        # LOWERREGAPCFLAG
-        # PRICE_STATUS
-        # PRE_AP_ENERGY_PRICE
-        # PRE_AP_RAISE6_PRICE
-        # PRE_AP_RAISE60_PRICE
-        # PRE_AP_RAISE5MIN_PRICE
-        # PRE_AP_RAISEREG_PRICE
-        # PRE_AP_LOWER6_PRICE
-        # PRE_AP_LOWER60_PRICE
-        # PRE_AP_LOWER5MIN_PRICE
-        # PRE_AP_LOWERREG_PRICE
-        # CUMUL_PRE_AP_ENERGY_PRICE
-        # CUMUL_PRE_AP_RAISE6_PRICE
-        # CUMUL_PRE_AP_RAISE60_PRICE
-        # CUMUL_PRE_AP_RAISE5MIN_PRICE
-        # CUMUL_PRE_AP_RAISEREG_PRICE
-        # CUMUL_PRE_AP_LOWER6_PRICE
-        # CUMUL_PRE_AP_LOWER60_PRICE
-        # CUMUL_PRE_AP_LOWER5MIN_PRICE
-        # CUMUL_PRE_AP_LOWERREG_PRICE
-        # OCD_STATUS
-        # MII_STATUS
-        # RAISE1SECRRP
-        # RAISE1SECROP
-        # RAISE1SECAPCFLAG
-        # LOWER1SECRRP
-        # LOWER1SECROP
-        # LOWER1SECAPCFLAG
-        # PRE_AP_RAISE1_PRICE
-        # PRE_AP_LOWER1_PRICE
-        # CUMUL_PRE_AP_RAISE1_PRICE
-        # CUMUL_PRE_AP_LOWER1_PRICE
-
-        {time:, country:, value:}
-      end
-    end
-  end
 
   class Trading < Base
     include SemanticLogger::Loggable
@@ -115,7 +27,7 @@ module AemoNem
         country = row[6]
         # PERIODID
         # RRP
-        value = row[8].to_f
+        value = row[8].to_f*100
         # EEP
         # INVALIDFLAG
         # LASTCHANGED

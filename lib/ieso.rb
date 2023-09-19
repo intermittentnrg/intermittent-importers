@@ -199,7 +199,7 @@ module Ieso
         time = base_time + row[0].to_i.hours
         r << {
           time:,
-          value: row[1].to_f,
+          value: row[1].to_f*100,
           country: 'CA-ON'
         }
       end
@@ -215,15 +215,15 @@ module Ieso
       @from = date.beginning_of_year
       @to = date.end_of_year
       @url = "http://reports.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_#{date.strftime('%Y')}.csv"
-      fetch
     end
 
     def points_price
+      fetch
       r = []
       CSV.parse(@res.body, skip_lines: /^(?!\s*\d)/, headers: false) do |row|
         time = Time.strptime("#{row[0]} #{row[1]}", '%Y-%m-%d %H')
         time = TZ.local_to_utc(time)
-        value = row[2].to_f
+        value = row[2].to_f*100
         r << {
           time:,
           value:,

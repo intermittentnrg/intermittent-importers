@@ -51,7 +51,9 @@ CSV
         e.points.select { |row| row[:country] == 'NSW1' }.first
       end
       #it { require 'pry' ; binding.pry }
-      it { expect(nsw[:value]).to eq 299.99 }
+      it "has expected price" do
+        expect(nsw[:value]).to eq 29999
+      end
     end
   end
 end

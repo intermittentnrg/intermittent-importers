@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://reports.ieso.ca/public/DispUnconsHOEP/PUB_DispUnconsHOEP_20230901.csv
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.10
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 19 Sep 2023 18:25:30 GMT
+      Server:
+      - Apache/2.2.15 (Red Hat)
+      Last-Modified:
+      - Sat, 02 Sep 2023 05:02:20 GMT
+      Etag:
+      - '"6379ad3-219-604592e9c1247"'
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '537'
+      Connection:
+      - close
+      Content-Type:
+      - text/csv
+    body:
+      encoding: UTF-8
+      string: |
+        PM,20230901,,NORMAL,DISPATCH;
+
+        RTEM_HOEP;
+        \\CREATED AT 2023/09/02 00:01:44 FOR 2023/09/01
+         1 ,22.03,DSO-RD;
+         2 ,19.09,DSO-RD;
+         3 ,21.05,DSO-RD;
+         4 ,19.54,DSO-RD;
+         5 ,17.25,DSO-RD;
+         6 ,18.89,DSO-RD;
+         7 ,25.05,DSO-RD;
+         8 ,31.40,DSO-RD;
+         9 ,35.73,DSO-RD;
+         10 ,34.37,DSO-RD;
+         11 ,31.92,DSO-RD;
+         12 ,33.40,DSO-RD;
+         13 ,34.14,DSO-RD;
+         14 ,33.59,DSO-RD;
+         15 ,33.70,DSO-RD;
+         16 ,34.81,DSO-RD;
+         17 ,36.63,DSO-RD;
+         18 ,37.14,DSO-RD;
+         19 ,35.42,DSO-RD;
+         20 ,32.27,DSO-RD;
+         21 ,30.91,DSO-RD;
+         22 ,30.77,DSO-RD;
+         23 ,29.27,DSO-RD;
+         24 ,28.66,DSO-RD;
+  recorded_at: Tue, 19 Sep 2023 18:25:30 GMT
+recorded_with: VCR 6.2.0

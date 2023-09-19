@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.opennem.org.au/stats/price/WEM/WEM?month=2023-01-01
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=300
+      Content-Length:
+      - '865'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 19 Sep 2023 18:45:57 GMT
+      Etag:
+      - W/8895210784973845829
+      Server:
+      - uvicorn
+      Vary:
+      - Accept-Encoding
+      X-Frame-Options:
+      - DENY
+    body:
+      encoding: UTF-8
+      string: '{"type":"price","version":"3.16.0-alpha.8","network":"wem","code":"WEM","created_at":"2023-09-20T02:45:58+08:00","feature_flags":["run_crawlers","flows_and_emissions_v2","redirect_api_static"],"messages":["OpenNEM
+        API will be moving behind a login soon. Please see the discssion at https://github.com/opennem/opennem/discussions/243"],"data":[{"id":"au.wem.price.WEM.price","type":"price","code":"WEM","network":"wem","data_type":"price","units":"AUD/MWh","history":{"start":"2023-09-19T02:30:00+08:00","last":"2023-09-20T02:30:00+08:00","interval":"30m","data":[74.29,73.91,74.47,74.84,77.88,75.22,80.16,96.28,96.28,93.84,75.36,70.45,70.71,70.49,68.57,68.46,61.73,-10.08,-60.0,-10.08,-60.0,-80.99,-80.99,-73.0,-62.0,-60.0,61.29,68.46,74.08,74.36,80.92,96.32,96.17,96.32,93.84,72.85,70.73,75.29,70.71,74.79,74.62,74.63,74.58,75.41,74.58,74.56,76.29,74.36,74.37]}}]}'
+  recorded_at: Tue, 19 Sep 2023 18:45:58 GMT
+recorded_with: VCR 6.2.0

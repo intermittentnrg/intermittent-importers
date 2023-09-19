@@ -16,6 +16,24 @@ RSpec.describe Nordpool::Price do
     end
     it { expect(points_se).to have(25).items }
     it { expect(hours_se).to eq [22,23] + 0.upto(22).to_a }
+
+    # TODO: should be describe block
+    it '#points_price in cents' do
+      expect(points_se.first).to include(value: 1451)
+    end
+  end
+end
+
+RSpec.describe Nordpool::PriceSEK do
+  subject { Nordpool::PriceSEK }
+  let(:date) { DateTime.new(2023,1,1) }
+
+  describe '#points_price' do
+    around(:example) { |ex| VCR.use_cassette('nordpool_price_sek', &ex) }
+    it do
+      prices = subject.new(date).points_price
+      expect(prices.first).to include(value: 2247)
+    end
   end
 end
 

@@ -1,6 +1,6 @@
 require 'httparty'
 
-class Nordpool
+module Nordpool
   class Base
     TZ = TZInfo::Timezone.get('Europe/Stockholm')
     CURRENCY = 'EUR'
@@ -65,7 +65,7 @@ class Nordpool
           r << {
             time: time,
             country: c["Name"],
-            value: c["Value"].gsub(/\s/, '').gsub(/,/,'.').to_f
+            value: c["Value"].gsub(/\s/, '').gsub(/,/,'.').to_f*100
           }
         end
       end
