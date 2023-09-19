@@ -6,6 +6,9 @@ ActiveRecordMigrations.load_tasks
 ActiveRecordMigrations.configure do |c|
   c.schema_format = :sql
 end
+ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.datetime_type = :timestamptz
+
+#ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 def pump_task(name, source, model)
   desc "Run refresh task"
