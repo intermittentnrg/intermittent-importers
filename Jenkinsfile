@@ -62,6 +62,7 @@ spec:
     container('app') {
       stage('test app') {
         timeout(time: 10, unit: 'MINUTES') {
+          sh 'cd /app ; RAILS_ENV=test rake db:migrate'
           try {
             sh 'cd /app ; rspec spec -f d --format RspecJunitFormatter --out ${WORKSPACE}/rspec.xml'
             sh "cp -rv /app ${env.WORKSPACE}"
