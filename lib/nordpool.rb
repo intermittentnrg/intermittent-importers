@@ -106,7 +106,7 @@ module Nordpool
       @to = @from + 1.day
       @options = {}
       @options[:endDate] = date.strftime('%d-%m-%Y')
-      @res = logger.benchmark_info(self.class::URL) do
+      @res = logger.benchmark_info("#{self.class::URL} #{@options}") do
         HTTParty.get(
           self.class::URL,
           query: @options,

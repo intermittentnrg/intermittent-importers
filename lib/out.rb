@@ -240,7 +240,6 @@ module Out
         from = ::Transmission.joins(:from_area) \
                  .group(:'from_area.code') \
                  .where('capacity IS NOT NULL') \
-                 .where(:'from_area.enabled' => true) \
                  .where(from_area: {source: self.source_id}) \
                  .where("time > '2022-10-05'") \
                  .pluck(Arel.sql("LAST(time, time)")).min.try(:to_datetime).try(:next_day)
