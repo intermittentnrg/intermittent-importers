@@ -35,6 +35,12 @@ fossil_oil_shale:
   name: fossil_oil_shale
   name2: 07_other
   enabled: true
+dual_fuel:
+  id: 39
+  name: dual_fuel
+  name2: 07_other
+  enabled: true
+
 geothermal:
   id: 9
   name: geothermal

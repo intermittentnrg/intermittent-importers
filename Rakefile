@@ -119,14 +119,18 @@ end
 pump_task :ree, Ree::Generation, Generation
 
 desc "Run refresh tasks"
-task :aeso do
-  Aeso::Generation.new.process
+task :aeso do |t|
+  SemanticLogger.tagged(task: t.to_s) do
+    Aeso::Generation.new.process
+  end
 rescue
   logger.error "Exception", $!
 end
 
-task :hydroquebec do
-  HydroQuebec::Generation.new.process
+task :hydroquebec do |t|
+  SemanticLogger.tagged(task: t.to_s) do
+    HydroQuebec::Generation.new.process
+  end
 rescue
   logger.error "Exception", $!
 end

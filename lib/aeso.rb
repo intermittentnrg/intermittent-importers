@@ -11,6 +11,11 @@ module Aeso
     include SemanticLogger::Loggable
     include Out::Generation
 
+    def self.cli(args)
+      e = Aeso::Generation.new
+      e.process
+    end
+
     def initialize
       url = "http://ets.aeso.ca/ets_web/ip/Market/Reports/CSDReportServlet"
       res = logger.benchmark_info(url) do
@@ -38,7 +43,7 @@ module Aeso
       csv.each do |row|
         production_type = MAPPING[row[0]] || row[0].downcase.gsub(/ /, '_')
         next if production_type == 'total'
-        value = row[2]*1000
+        value = row[2].to_f*1000
 
         r << {
           time: @time,

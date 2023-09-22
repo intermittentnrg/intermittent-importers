@@ -3,5 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-e = Aeso::Generation.new
-e.process
+Aeso::Generation.cli(ARGV)

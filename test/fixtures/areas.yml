@@ -203,10 +203,15 @@ CAISO:
   region: usa
   type: balancing_authority
 
-CA-ON:
+CA-ON: &canada
   id: 90
   code: CA-ON
   source: ieso
   enabled: true
   region: canada
   type: region
+CA-AB:
+  <<: *canada
+  id: 201
+  code: CA-AB
+  source: aeso
