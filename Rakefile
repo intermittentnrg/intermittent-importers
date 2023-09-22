@@ -15,9 +15,9 @@ def pump_task(name, source, model)
   task name do |t|
     SemanticLogger.tagged(task: t.to_s) do
       Pump::Process.new(source, model).run
+    rescue
+      @logger.error "Exception", $!
     end
-  rescue
-    @logger.error "Exception", $!
   end
 end
 
@@ -26,9 +26,9 @@ def loop_task(name, clazz)
   task name do |t|
     SemanticLogger.tagged(task: t.to_s) do
       clazz.each &:process
+    rescue
+      @logger.error "Exception", $!
     end
-  rescue
-    @logger.error "Exception", $!
   end
 end
 
@@ -87,10 +87,12 @@ namespace :nordpool do
 end
 
 desc "Run refresh task"
-task :opennem do
-  Opennem::Latest.new.process
-rescue
-  logger.error "Exception", $!
+task :opennem do |t|
+  SemanticLogger.tagged(task: t.to_s) do
+    Opennem::Latest.new.process
+  rescue
+    logger.error "Exception", $!
+  end
 end
 
 namespace :aemo do
@@ -122,17 +124,17 @@ desc "Run refresh tasks"
 task :aeso do |t|
   SemanticLogger.tagged(task: t.to_s) do
     Aeso::Generation.new.process
+  rescue
+    logger.error "Exception", $!
   end
-rescue
-  logger.error "Exception", $!
 end
 
 task :hydroquebec do |t|
   SemanticLogger.tagged(task: t.to_s) do
     HydroQuebec::Generation.new.process
+  rescue
+    logger.error "Exception", $!
   end
-rescue
-  logger.error "Exception", $!
 end
 
 # task :nspower do
