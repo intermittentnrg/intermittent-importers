@@ -44,7 +44,7 @@ nordpool_DE: &nordpool
   id: 60
   code: DE
   source: nordpool
-  enabled: true
+  enabled: false
   region: europe
   type: country
 DK1:
