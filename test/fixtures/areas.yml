@@ -13,7 +13,7 @@ GB_B1620:
   id: 37
   code: GB_B1620
 
-NO:
+NO: &entsoe
   id: 25
   code: 'NO'
   internal_id: 10YNO-0--------C
@@ -22,21 +22,22 @@ NO:
   region: europe
   type: country
 DE:
+  <<: *entsoe
   id: 7
   code: DE
   internal_id: 10Y1001A1001A83F
-  source: entsoe
-  enabled: true
-  region: europe
-  type: country
 XK:
+  <<: *entsoe
   id: 48
   code: XK
   internal_id: 10Y1001C--00100H
-  source: entsoe
-  enabled: true
-  region: europe
-  type: country
+
+DE-LU: &entsoe_zone
+  <<: *entsoe
+  id: 52
+  code: DE-LU
+  internal_id: 10Y1001A1001A82H
+  type: zone
 
 #NORDPOOL
 nordpool_DE: &nordpool

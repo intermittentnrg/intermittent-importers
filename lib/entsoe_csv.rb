@@ -28,7 +28,7 @@ module EntsoeCSV
             @file = io.entries.first.get_input_stream.read
           end
         else
-          raise
+          @file = file_or_io
         end
       end
       #require 'pry' ; binding.pry
@@ -244,7 +244,7 @@ module EntsoeCSV
 
           time =  parse_time(row)
           area_id = parse_area(row)
-          value = row[:price].to_f
+          value = row[:price].to_f*100
           k = [time,area_id]
           if r[k] && r[k][:value] != value
             logger.warn("#{time} #{row[:area_internal_id]} #{row[:area_name]} different values #{r[k][:value]} != #{value}")

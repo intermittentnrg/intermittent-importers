@@ -247,7 +247,7 @@ module ENTSOE
       {
         country: @country,
         time: @time,
-        value: p.locate('price.amount/^String').first.to_i
+        value: p.locate('price.amount/^String').first.to_f*100
       }
     end
   end
