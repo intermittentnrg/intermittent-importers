@@ -44,7 +44,11 @@ module EntsoeCSV
     end
 
     def parse_time(row)
-      Time.strptime(row[:time], '%Y-%m-%d %H:%M:%S.%L')
+      s = row[:time]
+      return @last_t if @last_s == s
+
+      @last_s = s
+      @last_t = Time.strptime(s, '%Y-%m-%d %H:%M:%S.%L')
     end
     def parse_area(row)
       area_id = @areas[row[:area_internal_id]] ||= ::Area.where(internal_id: row[:area_internal_id], source: self.class.source_id).pluck(:id).first
