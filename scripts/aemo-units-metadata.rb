@@ -11,15 +11,21 @@ json = FastJsonparser.load 'data/aemo/stations.json'
 json.each do |facility|
   facility[:facilities].each do |f2|
     unit = Unit.joins(:area).where('area.source': Aemo::Base.source_id).find_by(internal_id: f2[:code])
-    unless unit
-      #puts "No unit #{facility[:code]}"
-    else
-      unit.name = facility[:name]
-      unit.production_type = ProductionType.find_by! name: Opennem::Base::FUEL_MAP[f2[:fueltech_id]]
+    if unit
+      unit.name = "#{facility[:name]} #{f2[:code]}"
+      production_type = Opennem::Base::FUEL_MAP[f2[:fueltech_id]]
+      if ["hydro_pumped_storage","battery_charging"].include? production_type
+        if production_type != unit.production_type
+          raise "New #{production_type} unit, generation data should be inverted"
+        end
+      end
+      unit.production_type = ProductionType.find_by! name: production_type
       unit.area = Area.find_by(code: f2[:network_region], source: Aemo::Base.source_id)
-      puts facility[:code] if unit.changed?
+      puts unit.name if unit.changed?
       unit.save!
       #puts unit.inspect
+    else
+      #puts "No unit #{facility[:code]}"
     end
   end
 end

@@ -14,8 +14,34 @@ def test_calculate_range
 end
 
 RSpec.describe AemoNem::Scada do
+  subject { AemoNem::Scada }
+
+  context 'with negative generation' do
+    let(:datafile_name) { 'PUBLIC_DISPATCHSCADA_202301010000_0000000397026531.CSV' }
+    context 'pumped hydro' do
+      let(:body) do
+        <<-CSV
+D,DISPATCH,UNIT_SCADA,1,"2023/09/13 05:35:00",SNOWYP,0.80
+CSV
+      end
+      it "has negative generation" do
+        expect(GenerationUnit).to receive(:upsert_all).with array_including(hash_including(value: -800))
+        subject.new(StringIO.new(body), datafile_name).process
+      end
+    end
+    context 'battery_charging' do
+      let(:body) do
+        <<-CSV
+D,DISPATCH,UNIT_SCADA,1,"2023/09/13 05:35:00",HPRL1,0.80
+CSV
+      end
+      it "has negative generation" do
+        expect(GenerationUnit).to receive(:upsert_all).with array_including(hash_including(value: -800))
+        subject.new(StringIO.new(body), datafile_name).process
+      end
+    end
+  end
   describe :cli do
-    subject { AemoNem::Scada }
     let(:body) do
       <<-CSV
 D,DISPATCH,UNIT_SCADA,1,"2023/01/01 00:00:00",WDGPH1,0

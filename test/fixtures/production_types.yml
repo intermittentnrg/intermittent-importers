@@ -52,6 +52,11 @@ battery:
   name: battery
   name2: batteries
   enabled: true
+battery_charging:
+  id: 31
+  name: battery_charging
+  name2: batteries_charging
+  enabled: true
 hydro:
   id: 23
   name: hydro

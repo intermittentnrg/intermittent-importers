@@ -137,6 +137,9 @@ module AemoNem
           unit_id = unit.id
           # SCADAVALUE
           value = row[6].to_f*1000
+          if ["hydro_pumped_storage","battery_charging"].include? unit.production_type.name
+            value = -value
+          end
 
           {time:, unit_id:, value:}
         end

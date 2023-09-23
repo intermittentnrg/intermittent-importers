@@ -5,3 +5,24 @@ HYWDW-1:
   production_type_id: 25
   internal_id: HYWDW-1
   name: Hywind Generator BMU1
+
+HPRL1:
+  id: 2855
+  area_id: 286
+  production_type_id: 31
+  name: Hornsdale Power Reserve HPRL1
+  internal_id: HPRL1
+
+HPRG1:
+  id: 2854
+  area_id: 286
+  production_type_id: 22
+  name: Hornsdale Power Reserve HPRG1
+  internal_id: HPRG1
+
+SNOWYP:
+  id: 3026
+  area_id: 287
+  production_type_id: 10
+  name: Tumut 3 SNOWYP
+  internal_id: SNOWYP
