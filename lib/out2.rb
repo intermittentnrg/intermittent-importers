@@ -61,7 +61,7 @@ module Out2
 
       if data.present?
         logger.benchmark_info("upsert") do
-          ::Load.upsert_all data if data.present?
+          ::Load.upsert_all data
         end
       end
     end
@@ -85,7 +85,25 @@ module Out2
 
       if data.present?
         logger.benchmark_info("upsert") do
-          ::Price.upsert_all(data) if data.present?
+          ::Price.upsert_all(data)
+        end
+      end
+    end
+  end
+
+  class Capacity
+    include SemanticLogger::Loggable
+
+    def self.run(data, from, to, source_id)
+      production_types = {}
+      data.each do |p|
+        p[:production_type_id] = (production_types[p[:production_type]] ||= ::ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
+        p.delete :production_type
+      end
+
+      if data.present?
+        logger.benchmark_info("upsert") do
+          ::Capacity.upsert_all(data)
         end
       end
     end

@@ -261,4 +261,47 @@ module EntsoeCSV
       r.values
     end
   end
+
+  class CapacityCSV < BaseCSV
+    include SemanticLogger::Loggable
+    #include Out::Price
+
+    HEADERS = [
+      :time, #DateTime
+      :resolution, #ResolutionCode
+      :area_internal_id, #AreaCode
+      :area_type, #AreaTypeCode
+      :area_name, #AreaName
+      :area_code, #MapCode
+      :production_type, #ProductionType
+      :capacity, #AggregatedInstalledCapacity
+      :deleted, #DeletedFlag
+      :update_time #UpdateTime
+    ]
+
+    def points_capacity
+      r = {}
+      logger.benchmark_info("csv parse") do
+        loop do
+          row = @csv.next
+          next if row[:area_type] == 'CTA'
+          time = parse_time(row)
+          area_id = parse_area(row)
+          value = row[:capacity].to_f*1000
+          production_type = parse_production_type(row)
+          k = [area_id,production_type,time]
+          if r[k] && r[k][:value] != value
+            logger.warn("#{time} #{row[:area_internal_id]} #{row[:area_name]} different values #{r[k][:value]} != #{value}")
+          end
+          r[k] = {time:, area_id:, production_type:, value:}
+        end
+      end
+      #require 'pry' ; binding.pry
+
+      r.values
+    end
+    def process
+      Out2::Capacity.run(points_capacity, nil, nil, self.class.source_id)
+    end
+  end
 end
