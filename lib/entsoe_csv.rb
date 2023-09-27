@@ -33,14 +33,19 @@ module EntsoeCSV
       end
       #require 'pry' ; binding.pry
 
-      m = /^(\d{4})_(\d{2})_/.match(@filename)
-      @from = Date.new m[1].to_i, m[2].to_i
-      @to = @from + 1.month
+      parse_filename
 
       @csv = CSV.new(@file,
                      col_sep: "\t",
+                     liberal_parsing: true,
                      headers: self.class::HEADERS).each
       @csv.next
+    end
+
+    def parse_filename
+      m = /^(\d{4})_(\d{2})_/.match(@filename)
+      @from = Date.new m[1].to_i, m[2].to_i
+      @to = @from + 1.month
     end
 
     def parse_time(row)
@@ -302,6 +307,57 @@ module EntsoeCSV
     end
     def process
       Out2::Capacity.run(points_capacity, nil, nil, self.class.source_id)
+    end
+  end
+
+  class UnitCapacityCSV < BaseCSV
+    include SemanticLogger::Loggable
+
+    HEADERS = [
+      :internal_id, #EICCode
+      :name, # Name
+      :valid_from, # ValidFrom
+      :valid_to, # ValidTo
+      :status, # Status
+      :type, # Type
+      :location, # Location
+      :value, # InstalledCapacity
+      :_cta, # ControlArea
+      :area_id, # BiddingZone
+      :_voltage # Voltage
+    ]
+
+    def self.cli(args)
+    end
+
+    def parse_filename
+    end
+
+    def points_unit_capacity
+      r={}
+      logger.benchmark_info("csv parse") do
+        loop do
+          row = @csv.next
+          time = Time.strptime(row[:valid_from], '%Y-%m-%d %H:%M:%S.%L')
+          unit = Unit.includes(:area).where(area: {source:'entsoe'}).find_by(internal_id: row[:internal_id])
+          next unless unit
+          value = row[:value].to_f*1000
+
+          k = [unit.id, time]
+          if r[k]
+            require 'pry' ; binding.pry
+          end
+          r[k] = {unit_id: unit.id, time:, value:}
+        end
+      end
+      require 'pry' ; binding.pry
+
+      puts r.values
+      r.values
+    end
+
+    def process
+      Out2::UnitCapacity.run(points_unit_capacity, @from, @to, self.class.source_id)
     end
   end
 end
