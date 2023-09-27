@@ -255,9 +255,9 @@ module Elexon
       data.each do |p|
         p[:unit_id] = unit.id
       end
-      logger.info "#{data.first.try(:[], :time)} #{data.length} points"
       #require 'pry' ; binding.pry
-      ::GenerationUnit.upsert_all(data)
+
+      Out2::Unit.run(data, @from, @to, self.class.source_id)
     end
   end
 
