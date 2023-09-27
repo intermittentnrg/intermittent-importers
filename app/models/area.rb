@@ -3,4 +3,5 @@ class Area < ActiveRecord::Base
   has_many :generation
   has_many :load
   has_many :units
+  has_many :prices
 end
