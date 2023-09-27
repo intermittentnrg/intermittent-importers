@@ -1,11 +1,20 @@
 # coding: utf-8
-require 'active_support'
-require 'active_support/core_ext'
 require 'faraday/retry'
+require 'faraday/net_http_persistent'
 
 module Elexon
   class Base
     TZ = TZInfo::Timezone.get('UTC')
+    @@faraday = Faraday.new do |f|
+      f.adapter :net_http_persistent
+      f.request :retry, {
+                  retry_statuses: [404, 500, 502, 504],
+                  interval: 1,
+                  backoff_factor: 2,
+                  max: 2
+                }
+    end
+
     def self.source_id
       "elexon"
     end
@@ -24,16 +33,8 @@ module Elexon
     end
     def fetch
       url = "https://api.bmreports.com/BMRS/#{@report}/#{self.class.api_version}"
-      faraday = Faraday.new do |f|
-        f.request :retry, {
-          retry_statuses: [404, 500, 502, 504],
-          interval: 1,
-          backoff_factor: 2,
-          max: 2
-        }
-      end
       @res = logger.benchmark_info(url) do
-        res = faraday.get(url, @options)
+        res = @@faraday.get(url, @options)
         Ox.load(res.body, mode: :hash, symbolize_keys: false)
       rescue
         logger.error "Failed to parse body: #{res.body}"
@@ -294,16 +295,8 @@ module Elexon
         @options[:APIKey] = ENV['ELEXON_TOKEN']
         @options[:Year] = date.strftime('%Y')
         url = "https://api.bmreports.com/BMRS/#{@report}/#{self.class.api_version}"
-        faraday = Faraday.new do |f|
-          f.request :retry, {
-                      retry_statuses: [404, 500, 502, 504],
-                      interval: 1,
-                      backoff_factor: 2,
-                      max: 2
-                    }
-        end
         logger.benchmark_info("#{url} #{@options[:Year]}") do
-          res = faraday.get(url, @options)
+          res = @@faraday.get(url, @options)
           @csv = CSV.new(res.body)
         end
       else
