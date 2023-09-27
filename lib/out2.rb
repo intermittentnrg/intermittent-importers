@@ -108,4 +108,17 @@ module Out2
       end
     end
   end
+
+  class UnitCapacity
+    include SemanticLogger::Loggable
+
+    def self.run(data, from, to, source_id)
+      logger.info "#{data.first.try(:[], :time)} #{data.length} points"
+      if data.present?
+        logger.benchmark_info("upsert") do
+          GenerationUnitCapacity.upsert_all(data)
+        end
+      end
+    end
+  end
 end

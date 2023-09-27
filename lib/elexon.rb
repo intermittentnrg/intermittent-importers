@@ -259,4 +259,126 @@ module Elexon
       ::GenerationUnit.upsert_all(data)
     end
   end
+
+  class UnitCapacity < Base
+    include SemanticLogger::Loggable
+    def self.cli(args)
+      if args.length == 1
+        from = Chronic.parse(args[0])
+        if from
+          self.new(from.to_date).process
+        else
+          self.new(File.open(args[0], 'r')).process
+        end
+      elsif args.length == 2
+        from = Chronic.parse(args[0]).to_date
+        to = Chronic.parse(args[1]).to_date
+        (from...to).select { |d| d.month==1 && d.day==1 }.each do |year|
+          self.new(year).process
+        end
+      else
+        self.new(Date.today).process
+      end
+    end
+
+    def initialize(date_or_io)
+      @report = 'B1420'
+      #@from = date + 30.minutes
+      #@to = date.tomorrow + 30.minutes
+      #super
+      if date_or_io.is_a? Date
+        date = date_or_io
+        @options = {}
+        #@options[:ServiceType] = 'xml'
+        @options[:ServiceType] = 'csv'
+        @options[:APIKey] = ENV['ELEXON_TOKEN']
+        @options[:Year] = date.strftime('%Y')
+        url = "https://api.bmreports.com/BMRS/#{@report}/#{self.class.api_version}"
+        faraday = Faraday.new do |f|
+          f.request :retry, {
+                      retry_statuses: [404, 500, 502, 504],
+                      interval: 1,
+                      backoff_factor: 2,
+                      max: 2
+                    }
+        end
+        logger.benchmark_info("#{url} #{@options[:Year]}") do
+          res = faraday.get(url, @options)
+          @csv = CSV.new(res.body)
+        end
+      else
+        @csv = CSV.new(date_or_io)
+      end
+    end
+
+    def points_unit_capacity
+      area = Area.find_by(code: 'GB', source: 'elexon')
+
+      #csv = fetch.to_a
+      @csv.shift
+      r = {}
+      #r = []
+      @csv.each do |row|
+        #*Document Type
+        next unless row[0] == 'Configuration document'
+
+        #Business Type
+        next unless row[1] == 'Production unit'
+
+        #Process Type
+        #Time Series ID
+        #Power System Resource  Type
+        production_type_name = row[4].gsub(/ /,'_').downcase
+
+        #Year
+        #time = Time.strptime(row[5], '%Y')
+
+        #BM Unit ID
+        #Registered Resource EIC Code
+        #Voltage limit
+        #Nominal
+        value = row[9].to_f*1000
+
+        #NGC BM Unit ID
+        next if row[10] == 'NA'
+        unit = area.units.find_by(internal_id: row[10])
+        unless unit
+          production_type = ProductionType.find_by name: production_type_name
+          unless production_type
+            logger.warn "Unknown production_type: #{production_type_name}"
+            next
+          end
+
+          logger.info "New #{production_type_name} unit #{row[10]}"
+          unit = area.units.create!(internal_id: row[10], production_type:)
+          #require 'pry' ; binding.pry
+        end
+        #next unless unit
+        #create_with(production_type_id: default_production_type_id).
+
+        #Registered Resource Name
+        #Active Flag
+        unless row[12] == 'Y'
+          require 'pry' ; binding.pry
+        end
+
+        #Document ID
+        #Implementation Date
+        time = Time.strptime(row[14], '%Y-%m-%d')
+
+        #Decommissioning Date
+        k = [unit.id, time]
+        if r[k]
+          require 'pry' ; binding.pry
+        end
+        r[k] = {unit_id: unit.id, time:, value:}
+      end
+      #require 'pry' ; binding.pry
+
+      r.values
+    end
+    def process
+      Out2::UnitCapacity.run(points_unit_capacity, nil, nil, self.class.source_id)
+    end
+  end
 end

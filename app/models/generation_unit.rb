@@ -5,7 +5,6 @@ class GenerationUnit < ActiveRecord::Base
   #self.primary_keys = :time, :unit_id
   belongs_to :unit
 
-
   def self.aggregate_to_generation(where)
     r = connection.exec_query <<-SQL
       INSERT INTO generation (time, area_id, production_type_id, value)
