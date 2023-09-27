@@ -9,9 +9,9 @@ module Elexon
       f.adapter :net_http_persistent
       f.request :retry, {
                   retry_statuses: [404, 500, 502, 504],
-                  interval: 1,
+                  interval: 2,
                   backoff_factor: 2,
-                  max: 2
+                  max: 5
                 }
     end
 
