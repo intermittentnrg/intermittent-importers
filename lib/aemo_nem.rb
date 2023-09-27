@@ -155,7 +155,7 @@ module AemoNem
     def done!
       unit_ids = @@units.values.map(&:id)
       if unit_ids.present?
-        where = "a.source='aemo' AND unit_id IN(#{unit_ids.join(',')}) and time BETWEEN '#{@from}' AND '#{@to}'"
+        where = "a.source='aemo' AND a.code<>'WEM' AND time BETWEEN '#{@from}' AND '#{@to}'"
         GenerationUnit.aggregate_to_generation(where)
       end
       super
