@@ -114,8 +114,11 @@ module AemoNem
       super
     end
 
+    def self.clear_cache!
+      @@units = {}
+    end
+    @@units = {}
     def process_rows(all)
-      @units = {}
       # require 'pry' ; binding.pry
       default_area_id = Area.where(type: 'country', source: self.class.source_id).pluck(:id).first
       default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
@@ -130,7 +133,7 @@ module AemoNem
           time = parse_time(row[4])
           # DUID
           unit_internal_id = row[5]
-          unit = @units[unit_internal_id] ||= ::Unit.
+          unit = @@units[unit_internal_id] ||= ::Unit.
                                                create_with(area_id: default_area_id,
                                                            production_type_id: default_production_type_id).
                                                find_or_create_by!(internal_id: unit_internal_id)
@@ -150,7 +153,7 @@ module AemoNem
     end
 
     def done!
-      unit_ids = @units.values.map(&:id)
+      unit_ids = @@units.values.map(&:id)
       if unit_ids.present?
         where = "a.source='aemo' AND unit_id IN(#{unit_ids.join(',')}) and time BETWEEN '#{@from}' AND '#{@to}'"
         GenerationUnit.aggregate_to_generation(where)

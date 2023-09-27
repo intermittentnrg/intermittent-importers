@@ -15,6 +15,7 @@ end
 
 RSpec.describe AemoNem::Scada do
   subject { AemoNem::Scada }
+  before { AemoNem::Scada.clear_cache! }
 
   context 'with negative generation' do
     let(:datafile_name) { 'PUBLIC_DISPATCHSCADA_202301010000_0000000397026531.CSV' }
