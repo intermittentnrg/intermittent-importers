@@ -9,6 +9,6 @@ if ARGV.empty?
 end
 
 ARGV.each do |file|
-  e = ENTSOE::UnitCSV.new(file)
+  e = EntsoeCSV::UnitCSV.new(file)
   e.process
 end
