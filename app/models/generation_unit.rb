@@ -5,17 +5,19 @@ class GenerationUnit < ActiveRecord::Base
   #self.primary_keys = :time, :unit_id
   belongs_to :unit
 
-  def self.aggregate_to_generation(where)
+  def self.aggregate_to_generation(from, to, where)
     r = connection.exec_query <<-SQL
       INSERT INTO generation (time, area_id, production_type_id, value)
       SELECT time, u.area_id, u.production_type_id, SUM(value) AS value
       FROM generation_unit g
       INNER JOIN units u ON(g.unit_id=u.id)
       INNER JOIN areas a ON(u.area_id=a.id)
-      WHERE #{where}
+      WHERE time BETWEEN '#{from}' AND '#{to}' AND #{where}
       GROUP BY 1,2,3
       ON CONFLICT (area_id, production_type_id, "time") DO UPDATE set value = EXCLUDED.value
     SQL
     # require 'pry' ; binding.pry
+
+    Generation.aggregate_to_capture(from, to, where)
   end
 end

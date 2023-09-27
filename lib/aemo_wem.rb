@@ -122,8 +122,8 @@ module AemoWem
     end
 
     def done!
-      where = "a.source='aemo' AND a.id=#{@area_id} and time BETWEEN '#{@from}' AND '#{@to}'"
-      GenerationUnit.aggregate_to_generation(where)
+      where = "a.source='aemo' AND a.id=#{@area_id}"
+      GenerationUnit.aggregate_to_generation(@from, @to, where)
       super
     end
   end
