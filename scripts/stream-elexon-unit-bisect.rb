@@ -8,8 +8,8 @@ if ARGV.length < 3
   $stderr.puts "#{$0} <from> <to> <unit>"
   exit 1
 end
-start_new = Date.parse(ARGV.shift).freeze
-stop_new = Date.parse(ARGV.shift).freeze
+start_new = Chronic.parse(ARGV.shift).to_date.freeze
+stop_new = Chronic.parse(ARGV.shift).to_date.freeze
 
 
 ARGV.each do |unit|
@@ -18,7 +18,7 @@ ARGV.each do |unit|
   SemanticLogger.tagged(unit: unit) do
     loop do
       try = stop - (stop-start)/2
-      #logger.info "try #{try}"
+      logger.info "try #{try}"
       begin
         Elexon::Unit.new(try.to_time, unit).process
         logger.info "yes #{try} #{start} #{stop}"
@@ -29,6 +29,7 @@ ARGV.each do |unit|
       ensure
         if (stop-start).to_i == 1
           logger.info "SUCCESS #{try}"
+          puts "scripts/stream-elexon-unit.rb #{try} yesterday #{unit}"
           break
         end
       end
