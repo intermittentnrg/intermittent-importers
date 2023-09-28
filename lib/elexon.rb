@@ -64,7 +64,7 @@ module Elexon
         @options[:APIKey] = ENV['ELEXON_TOKEN']
         @options[:Year] = date.strftime('%Y')
       else
-        @csv = CSV.new(date_or_io)
+        @csv = CSV.new(date_or_io, liberal_parsing: true)
       end
     end
     def fetch
@@ -73,7 +73,7 @@ module Elexon
       url = "https://api.bmreports.com/BMRS/#{@report}/#{self.class.api_version}"
       logger.benchmark_info("#{url} #{@options[:Year]}") do
         res = @@faraday.get(url, @options)
-        @csv = CSV.new(res.body)
+        @csv = CSV.new(res.body, liberal_parsing: true)
       end
     end
   end
@@ -239,6 +239,7 @@ module Elexon
         # Registered Resource  EIC Code
         # BM Unit ID
         # NGC BM Unit ID
+        next if row[3] == 'NA'
         unit_internal_id = row[3]
         unit = @@units[unit_internal_id] ||= area.units.
                                                create_with(production_type_id: default_production_type_id).
