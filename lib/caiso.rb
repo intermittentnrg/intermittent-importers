@@ -134,6 +134,22 @@ module Caiso
 
     FIELDS = ["Time", "Hour ahead forecast", "Current demand", "Net demand"]
 
+    def self.cli(args)
+      if args.length != 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      end
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      (from...to).each do |time|
+        e = Caiso::Load.new(time)
+        e.process
+      rescue ENTSOE::EmptyError
+        logger.warn "EmptyError #{time}"
+      end
+    end
+
     def initialize(date)
       super
       #current: /outlook/SP/netdemand.csv
