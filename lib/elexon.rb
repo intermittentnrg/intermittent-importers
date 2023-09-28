@@ -21,6 +21,9 @@ module Elexon
     def self.api_version
       "v1"
     end
+  end
+
+  class BaseXML < Base
     def initialize(date)
       @from = date + 30.minutes
       @to = date.tomorrow + 30.minutes
@@ -47,7 +50,35 @@ module Elexon
     end
   end
 
-  class Fuelinst < Base
+  class BaseCSV < Base
+    def initialize(date_or_io)
+      @report = 'B1420'
+      #@from = date + 30.minutes
+      #@to = date.tomorrow + 30.minutes
+      #super
+      if date_or_io.is_a? Date
+        date = date_or_io
+        @options = {}
+        #@options[:ServiceType] = 'xml'
+        @options[:ServiceType] = 'csv'
+        @options[:APIKey] = ENV['ELEXON_TOKEN']
+        @options[:Year] = date.strftime('%Y')
+      else
+        @csv = CSV.new(date_or_io)
+      end
+    end
+    def fetch
+      return if @csv
+
+      url = "https://api.bmreports.com/BMRS/#{@report}/#{self.class.api_version}"
+      logger.benchmark_info("#{url} #{@options[:Year]}") do
+        res = @@faraday.get(url, @options)
+        @csv = CSV.new(res.body)
+      end
+    end
+  end
+
+  class Fuelinst < BaseXML
     include SemanticLogger::Loggable
     include Out::Generation
 
@@ -97,35 +128,7 @@ module Elexon
     end
   end
 
-  class WindSolar < Base
-    include SemanticLogger::Loggable
-    include Out::Generation
-
-    def initialize(date)
-      @report = 'B1630'
-      super
-    end
-    def points
-      r = {}
-      @res['response']['responseBody']['responseList']['item'].each do |item|
-        time = (Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes)
-        production_type = item['powerSystemResourceType'].gsub(/"/,'').downcase.tr_s(' ', '_')
-        key = "#{time}-#{production_type}"
-        next if r[key]
-        r[key] = {
-          country: 'GB_B1630',
-          production_type: production_type,
-          time: time,
-          value: (item['quantity'].to_f*1000).to_i
-        }
-      end
-      #require 'pry' ; binding.pry
-
-      r.values
-    end
-  end
-
-  class Generation < Base
+  class Generation < BaseXML
     include SemanticLogger::Loggable
     include Out::Generation
 
@@ -152,7 +155,7 @@ module Elexon
     end
   end
 
-  class Load < Base
+  class Load < BaseXML
     include SemanticLogger::Loggable
     include Out::Load
 
@@ -181,87 +184,92 @@ module Elexon
     end
   end
 
-  class Unit < Base
+  class Unit < BaseCSV
     include SemanticLogger::Loggable
     include Out::Unit
 
     def self.cli(args)
-      if args.length < 3
-        $stderr.puts "#{$0} <from> <to> <unit>"
+      if args.length != 2
+        $stderr.puts "#{$0} <from> <to>"
         exit 1
       end
       from = Chronic.parse(args.shift).to_date
       to = Chronic.parse(args.shift).to_date
 
-      args.each do |unit|
-        SemanticLogger.tagged(country: 'GB', unit: unit) do
-          (from...to).each do |time|
-            e = Elexon::Unit.new(time, unit)
-            e.process
-          rescue ENTSOE::EmptyError
-            logger.warn "EmptyError #{time}"
-          end
-        end
+      (from...to).each do |time|
+        e = Elexon::Unit.new(time)
+        e.process
+      rescue ENTSOE::EmptyError
+        logger.warn "EmptyError #{time}"
       end
     end
+
     def self.api_version
       "v2"
     end
-
     def self.refresh_to
       require 'business_time'
       5.business_days.ago
     end
-    #def initialize()
-    #  @report = 'B1610'
-    #  super
-    #end
-    def initialize(date, unit)
+
+    def initialize(date)
       @from = date + 30.minutes
       @to = date.tomorrow + 30.minutes
-      @unit = unit
       @report = 'B1610'
       @options = {}
-      @options[:ServiceType] = 'xml'
+      @options[:ServiceType] = 'csv'
       @options[:APIKey] = ENV['ELEXON_TOKEN']
       @options[:Period] = '*'
       @options[:SettlementDate] = date.strftime('%Y-%m-%d')
-      @options[:NGCBMUnitID] = unit
-      fetch
+      #@options[:NGCBMUnitID] = unit
     end
 
+    @@units = {}
+    def self.clear_cache!
+      @@units = {}
+    end
     def points
-      item = @res['response']['responseBody']['responseList']['item']
-      start = Time.strptime("#{item['settlementDate']} UTC", '%Y-%m-%d %Z')
+      fetch
+      #require 'pry' ; binding.pry
+      area = Area.find_by(code: 'GB', source: 'elexon')
+      default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
       r = {}
-      #require 'pry' ; binding.pry
-      Array.wrap(item["Period"]["Point"]).each do |point|
-        period = point['settlementPeriod'].to_i
-        next if r[period]
-        r[period] = {
-          time: start + (period * 30.minutes),
-          value: (point['quantity'].to_f*1000).to_i
-        }
+      @csv.each do |row|
+        # Time Series ID
+        # Registered Resource  EIC Code
+        # BM Unit ID
+        # NGC BM Unit ID
+        unit_internal_id = row[3]
+        unit = @@units[unit_internal_id] ||= area.units.
+                                               create_with(production_type_id: default_production_type_id).
+                                               find_or_create_by(internal_id: unit_internal_id)
+        # PSR Type
+        next unless row[4] == 'Generation'
+        # Market Generation Unit EIC Code
+        # Market Generation BMU ID
+        # Market Generation NGC BM Unit ID
+        # Settlement Date
+        time = Time.parse(row[8], '%Y-%m-%d')
+        # SP
+        time += row[9].to_i * 30.minutes
+        # Quantity (MW)
+        value = row[10].to_f * 1000
+        k = [unit.id, time]
+        if r[k]
+          require 'pry' ; binding.pry
+        end
+        r[k] = {unit_id: unit.id, time:, value:}
       end
-      #require 'pry' ; binding.pry
 
       r.values
     end
 
     def process
-      data = points
-      area = Area.where(source: self.class.source_id, code: 'GB').first
-      unit = ::Unit.find_or_create_by(area_id: area.id, internal_id: @unit)
-      data.each do |p|
-        p[:unit_id] = unit.id
-      end
-      #require 'pry' ; binding.pry
-
-      Out2::Unit.run(data, @from, @to, self.class.source_id)
+      Out2::Unit.run(points, @from, @to, self.class.source_id)
     end
   end
 
-  class UnitCapacity < Base
+  class UnitCapacity < BaseCSV
     include SemanticLogger::Loggable
     def self.cli(args)
       if args.length == 1
@@ -279,28 +287,6 @@ module Elexon
         end
       else
         self.new(Date.today).process
-      end
-    end
-
-    def initialize(date_or_io)
-      @report = 'B1420'
-      #@from = date + 30.minutes
-      #@to = date.tomorrow + 30.minutes
-      #super
-      if date_or_io.is_a? Date
-        date = date_or_io
-        @options = {}
-        #@options[:ServiceType] = 'xml'
-        @options[:ServiceType] = 'csv'
-        @options[:APIKey] = ENV['ELEXON_TOKEN']
-        @options[:Year] = date.strftime('%Y')
-        url = "https://api.bmreports.com/BMRS/#{@report}/#{self.class.api_version}"
-        logger.benchmark_info("#{url} #{@options[:Year]}") do
-          res = @@faraday.get(url, @options)
-          @csv = CSV.new(res.body)
-        end
-      else
-        @csv = CSV.new(date_or_io)
       end
     end
 

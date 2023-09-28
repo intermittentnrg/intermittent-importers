@@ -56,21 +56,16 @@ module Out
         DateTime.now
       end
       def parsers_each
-        ::GenerationUnit.group(:unit_id).joins(:unit => :area).where("area.source" => self.source_id).where("time > ?", 2.months.ago).pluck(:unit_id, Arel.sql("LAST(time, time)")).each do |unit_id, from|
-          unit = ::Unit.find(unit_id)
-          from = from.to_datetime - refetch
-          SemanticLogger.tagged(unit: unit.internal_id) do
-            if [::Elexon::Unit].include? self
-              (from..refresh_to).each do |date|
-                yield self.new(date, unit.internal_id)
-              rescue ENTSOE::EmptyError
-                logger.warn "Empty response #{date}"
-              end
-            else
-              raise
-            end
+        from =::GenerationUnit.joins(:unit => :area).where("area.source" => self.source_id).where("time > ?", 2.months.ago).maximum(:time)
+        from = from.to_datetime - refetch
+        if [::Elexon::Unit].include? self
+          (from..refresh_to).each do |date|
+            yield self.new(date)
+          rescue ::ENTSOE::EmptyError
+            logger.warn "Empty response #{date}"
           end
-          #require 'pry' ; binding.pry
+        else
+          raise
         end
       end
     end
