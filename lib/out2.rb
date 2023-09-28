@@ -32,9 +32,6 @@ module Out2
     include SemanticLogger::Loggable
 
     def self.run(data, from, to, source_id)
-      unless data.present?
-        require 'pry' ; binding.pry
-      end
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
 
       if data.present?
