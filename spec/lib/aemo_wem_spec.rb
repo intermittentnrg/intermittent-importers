@@ -7,7 +7,7 @@ def test_calculates_range
       subject.cli(args)
     end
     it "calls GenerationUnit.aggregate_to_generation with correct args" do
-      expect(GenerationUnit).to receive(:aggregate_to_generation).with(/'2022-12-31 16:00.*'2023-01-31 16:00/)
+      expect(GenerationUnit).to receive(:aggregate_to_generation).with(Time.new(2022, 12, 31, 16, 0), Time.new(2023, 1, 31, 16, 0), anything)
       subject.cli(args)
     end
   end

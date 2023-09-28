@@ -54,7 +54,7 @@ class Generation < ActiveRecord::Base
           pt.name NOT LIKE 'hydro%' AND
           g.time BETWEEN '#{from}' AND '#{to}' AND #{where}
         GROUP BY 1,2,3
-        ON CONFLICT ON CONSTRAINT generation_capture_pkey DO UPDATE SET
+        ON CONFLICT (area_id, production_type_id, time) DO UPDATE SET
           price = EXCLUDED.price,
           kwh = EXCLUDED.kwh,
           kwh_generated = EXCLUDED.kwh_generated,

@@ -180,8 +180,8 @@ module AemoNem
 
     def initialize(date)
       url = date.strftime("https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/%Y/MMSDM_%Y_%m/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_DISPATCH_UNIT_SCADA_%Y%m010000.zip")
-      @from = date
-      @to = date + 1.month
+      @from = TZ.local_to_utc(date.to_time)
+      @to = @from + 1.month
       super(url)
     end
   end
