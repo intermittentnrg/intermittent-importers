@@ -65,10 +65,10 @@ spec:
           sh 'cd /app ; RAILS_ENV=test rake db:migrate'
           try {
             sh 'cd /app ; rspec spec -f d --format RspecJunitFormatter --out ${WORKSPACE}/rspec.xml'
-            sh "cp -rv /app ${env.WORKSPACE}"
+            sh "cd /app ; cp -rv coverage app lib spec ${env.WORKSPACE}"
           } finally {
             junit allowEmptyResults: true, testResults: 'rspec.xml'
-            cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'app/coverage/coverage.xml', conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
+            cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'coverage/coverage.xml', conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
           }
         }
       }
