@@ -294,7 +294,7 @@ module Elexon
     def points_unit_capacity
       area = Area.find_by(code: 'GB', source: 'elexon')
 
-      #csv = fetch.to_a
+      fetch
       @csv.shift
       r = {}
       #r = []
@@ -332,6 +332,12 @@ module Elexon
           logger.info "New #{production_type_name} unit #{row[10]}"
           unit = area.units.create!(internal_id: row[10], production_type:)
           #require 'pry' ; binding.pry
+        end
+        if production_type_name != 'generation' && unit.production_type.name != production_type_name
+          production_type = ProductionType.find_by name: production_type_name
+          unit.production_type = production_type
+          unit.save!
+          puts "#{unit.name} #{unit.internal_id} current=#{unit.production_type.name} != api=#{production_type_name}"
         end
         #next unless unit
         #create_with(production_type_id: default_production_type_id).
