@@ -256,7 +256,7 @@ module Elexon
         # Quantity (MW)
         value = row[10].to_f * 1000
         k = [unit.id, time]
-        if r[k]
+        if r[k] && r[k][:value] != value
           require 'pry' ; binding.pry
         end
         r[k] = {unit_id: unit.id, time:, value:}
