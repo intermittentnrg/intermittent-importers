@@ -30,19 +30,25 @@ module AemoNemMms
     end
   end
 
-  class Trading < AemoNem::Trading
+  class Trading < ::AemoNem::Trading
     include SemanticLogger::Loggable
     include Base
     URL = URL_BASE + "PUBLIC_DVD_TRADINGPRICE_%Y%m010000.zip"
   end
 
-  class Scada < AemoNem::Scada
+  class Dispatch < ::AemoNem::Dispatch
+    include SemanticLogger::Loggable
+    include Base
+    URL = URL_BASE + "PUBLIC_DVD_DISPATCHREGIONSUM_%Y%m010000.zip"
+  end
+
+  class Scada < ::AemoNem::Scada
     include SemanticLogger::Loggable
     include Base
     URL = URL_BASE + "PUBLIC_DVD_DISPATCH_UNIT_SCADA_%Y%m010000.zip"
   end
 
-  class RooftopPv < AemoNem::RooftopPv
+  class RooftopPv < ::AemoNem::RooftopPv
     include SemanticLogger::Loggable
     include Base
     URL = URL_BASE + "PUBLIC_DVD_ROOFTOP_PV_ACTUAL_%Y%m010000.zip"
