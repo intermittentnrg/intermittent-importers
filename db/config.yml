@@ -16,8 +16,8 @@ development: &development
   schema_search_path: intermittency,public
 
 production:
-    <<: *development
-    database: intermittency_prod
+  <<: *development
+  database: intermittency_prod
 
 test:
   <<: *development
