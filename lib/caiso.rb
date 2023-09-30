@@ -50,7 +50,7 @@ module Caiso
     end
     def done!
       DataFile.upsert({path: @url, source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
-      logger.info "done! #{@filename}"
+      logger.info "done! #{@url}"
     end
   end
 
