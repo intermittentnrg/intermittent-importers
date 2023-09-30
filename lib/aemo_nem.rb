@@ -3,6 +3,16 @@ module AemoNem
     TZ = TZInfo::Timezone.get('Etc/GMT-10')
     URL_BASE = "https://nemweb.com.au"
     INDEX_TIME_FORMAT = "%A, %B %d, %Y %l:%M %p"
+
+    def self.cli(args)
+      if args.present?
+        args.each do |file|
+          self.new(File.open(file), file).process
+        end
+      else
+        self.each &:process
+      end
+    end
   end
 
   class Trading < Base
@@ -11,9 +21,6 @@ module AemoNem
 
     URL = "https://nemweb.com.au/Reports/Current/TradingIS_Reports/"
 
-    def self.cli(args)
-      AemoNem::Trading.each &:process_price
-    end
     def process_rows(all)
       all.select { |row| row[0..2] == ['D','TRADING','PRICE'] }.map do |row|
         # I
@@ -66,16 +73,6 @@ module AemoNem
     URL = 'https://nemweb.com.au/Reports/Current/Dispatch_SCADA/'
     FILE_MATCHER = /PUBLIC_DISPATCHSCADA_(\d{12})_/
     FILE_FORMAT = '%Y%m%d%H%M'
-
-    def self.cli(args)
-      if args.present?
-        args.each do |file|
-          AemoNem::Scada.new(File.open(file), file).process
-        end
-      else
-        AemoNem::Scada.each &:process
-      end
-    end
 
     def initialize(url_or_io, name_if_io = nil)
       unless @from
@@ -142,9 +139,6 @@ module AemoNem
 
     URL = "https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/"
 
-    def self.cli(args)
-      AemoNem::RooftopPv.each &:process
-    end
     def initialize *args
       super
       unless @from
