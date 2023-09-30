@@ -61,9 +61,9 @@ CSV
   end
 end
 
-RSpec.describe AemoNem::RooftopPvMMS do
+RSpec.describe AemoNemMms::RooftopPv do
   describe :cli do
-    subject { AemoNem::RooftopPvMMS.cli(args) }
+    subject { AemoNemMms::RooftopPv.cli(args) }
     let(:body) do
       <<-CSV
 D,ROOFTOP,ACTUAL,2,"2023/09/13 04:30:00",NSW1,0,1,MEASUREMENT,"2023/09/13 04:49:11"

@@ -109,9 +109,9 @@ CSV
   end
 end
 
-RSpec.describe AemoNem::ScadaMMS do
+RSpec.describe AemoNemMms::Scada do
   describe :cli do
-    subject { AemoNem::ScadaMMS }
+    subject { AemoNemMms::Scada }
     let(:body) do
       <<-CSV
 D,DISPATCH,UNIT_SCADA,1,"2023/09/13 05:35:00",WDGPH1,0

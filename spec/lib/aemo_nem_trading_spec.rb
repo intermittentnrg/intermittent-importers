@@ -58,17 +58,17 @@ CSV
   end
 end
 
-RSpec.describe AemoNem::TradingMMS do
+RSpec.describe AemoNemMms::Trading do
   describe :cli do
     it do
     end
     it "iterates a single date" do
-      instance = double('TradingMMS')
-      expect(instance).to receive(:process_price)
+      instance = double('AemonNemMms::Trading')
+      expect(instance).to receive(:process)
 
       date = Date.new 2011,1,1
-      expect(AemoNem::TradingMMS).to receive(:new).once.with(date).and_return instance
-      AemoNem::TradingMMS.cli(['2011-01-01', '2011-01-02'])
+      expect(AemoNemMms::Trading).to receive(:new).once.with(date).and_return instance
+      AemoNemMms::Trading.cli(['2011-01-01', '2011-01-02'])
     end
   end
 end

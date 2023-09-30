@@ -180,5 +180,3 @@ module AemoNem
     end
   end
 end
-
-require './lib/aemo_nem_mms'

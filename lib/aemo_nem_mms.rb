@@ -1,76 +1,50 @@
-module AemoNem
-  class TradingMMS < Trading
-    include SemanticLogger::Loggable
+module AemoNemMms
+  module Base
+    URL_BASE = "https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/%Y/MMSDM_%Y_%m/MMSDM_Historical_Data_SQLLoader/DATA/"
+    def self.included base
+      base.send :include, InstanceMethods
+      base.extend ClassMethods
+    end
+    module ClassMethods
+      def cli(args)
+        if args.length != 2
+          $stderr.puts "#{$0} <from> <to>"
+          exit 1
+        end
 
-    def self.cli(args)
-      if args.length != 2
-        $stderr.puts "#{$0} <from> <to>"
-        exit 1
-      end
+        from = ::Chronic.parse(args.shift).to_date
+        to = ::Chronic.parse(args.shift).to_date
 
-      from = Chronic.parse(args.shift).to_date
-      to = Chronic.parse(args.shift).to_date
-
-      (from...to).select {|d| d.day==1}.each do |date|
-        AemoNem::TradingMMS.new(date).process_price
+        (from...to).select {|d| d.day==1}.each do |date|
+          self.new(date).process
+        end
       end
     end
-
-    def initialize(date)
-      url = date.strftime("https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/%Y/MMSDM_%Y_%m/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_TRADINGPRICE_%Y%m010000.zip")
-      @from = date
-      @to = date + 1.month
-      super(url)
+    module InstanceMethods
+      def initialize(date)
+        url = date.strftime(self.class::URL)
+        @from = self.class::TZ.local_to_utc(date.to_time)
+        @to = @from + 1.month
+        super(url)
+      end
     end
   end
 
-  class ScadaMMS < Scada
+  class Trading < AemoNem::Trading
     include SemanticLogger::Loggable
-
-    def self.cli(args)
-      if args.length != 2
-        $stderr.puts "#{$0} <from> <to>"
-        exit 1
-      end
-
-      from = Chronic.parse(args.shift).to_date
-      to = Chronic.parse(args.shift).to_date
-
-      (from...to).select {|d| d.day==1}.each do |date|
-        AemoNem::ScadaMMS.new(date).process
-      end
-    end
-
-    def initialize(date)
-      url = date.strftime("https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/%Y/MMSDM_%Y_%m/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_DISPATCH_UNIT_SCADA_%Y%m010000.zip")
-      @from = TZ.local_to_utc(date.to_time)
-      @to = @from + 1.month
-      super(url)
-    end
+    include Base
+    URL = URL_BASE + "PUBLIC_DVD_TRADINGPRICE_%Y%m010000.zip"
   end
 
-  class RooftopPvMMS < RooftopPv
+  class Scada < AemoNem::Scada
     include SemanticLogger::Loggable
+    include Base
+    URL = URL_BASE + "PUBLIC_DVD_DISPATCH_UNIT_SCADA_%Y%m010000.zip"
+  end
 
-    def self.cli(args)
-      if args.length != 2
-        $stderr.puts "#{$0} <from> <to>"
-        exit 1
-      end
-
-      from = Chronic.parse(args.shift).to_date
-      to = Chronic.parse(args.shift).to_date
-
-      (from...to).select {|d| d.day==1}.each do |date|
-        AemoNem::RooftopPvMMS.new(date).process
-      end
-    end
-
-    def initialize(date)
-      url = date.strftime("https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/%Y/MMSDM_%Y_%m/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_ROOFTOP_PV_ACTUAL_%Y%m010000.zip")
-      @from = date
-      @to = date + 1.month
-      super(url)
-    end
+  class RooftopPv < AemoNem::RooftopPv
+    include SemanticLogger::Loggable
+    include Base
+    URL = URL_BASE + "PUBLIC_DVD_ROOFTOP_PV_ACTUAL_%Y%m010000.zip"
   end
 end
