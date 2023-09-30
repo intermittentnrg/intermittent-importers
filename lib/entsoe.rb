@@ -119,10 +119,6 @@ module ENTSOE
     include SemanticLogger::Loggable
     include Out::Generation
 
-    def refetch
-      2.days
-    end
-
     def initialize(country: nil, **kwargs)
       super(**kwargs)
       @country = country
@@ -191,10 +187,6 @@ module ENTSOE
   class Load < Base
     include SemanticLogger::Loggable
     include Out::Load
-
-    def refetch
-      2.days
-    end
 
     def initialize(country:, **kwargs)
       super(**kwargs)

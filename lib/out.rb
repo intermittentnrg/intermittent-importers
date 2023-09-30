@@ -5,13 +5,10 @@ module Out
     end
 
     module ClassMethods
-      def refetch
-        0
-      end
       def parsers_each
         ::Generation.joins(:area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
           from2 = from
-          from = from.in_time_zone(self::TZ).to_datetime - refetch
+          from = from.in_time_zone(self::TZ).to_datetime
           to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
           to = to.in_time_zone(self::TZ).to_datetime
           SemanticLogger.tagged(country) do
@@ -51,15 +48,12 @@ module Out
     end
 
     module ClassMethods
-      def refetch
-        0
-      end
       def self.refresh_to
         DateTime.now
       end
       def parsers_each
         from =::GenerationUnit.joins(:unit => :area).where("area.source" => self.source_id).where("time > ?", 2.months.ago).maximum(:time)
-        from = from.to_datetime - refetch
+        from = from.to_datetime
         if [::Elexon::Unit].include? self
           (from..refresh_to).each do |date|
             yield self.new(date)
@@ -87,12 +81,9 @@ module Out
     end
 
     module ClassMethods
-      def refetch
-        0
-      end
       def parsers_each
         ::Load.joins(:area).group(:'area.code').where("time > ?", 12.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
-          from = from.in_time_zone(self::TZ).to_datetime - refetch
+          from = from.in_time_zone(self::TZ).to_datetime
           to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
           to = to.in_time_zone(self::TZ).to_datetime
           SemanticLogger.tagged(country) do
