@@ -57,6 +57,13 @@ module AemoNemArchive
     TARGET = AemoNem::Scada
   end
 
+  class Dispatch < Archive
+    include SemanticLogger::Loggable
+
+    URL = 'https://nemweb.com.au/Reports/Archive/DispatchIS_Reports/'
+    TARGET = AemoNem::Dispatch
+  end
+
   class RooftopPv < Archive
     include SemanticLogger::Loggable
 

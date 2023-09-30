@@ -89,6 +89,9 @@ module Aemo
     def points_generation
       @r
     end
+    def points_load
+      @r
+    end
     def points
       @r
     end
