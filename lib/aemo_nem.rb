@@ -73,7 +73,7 @@ module AemoNem
     URL = 'https://nemweb.com.au/Reports/Current/DispatchIS_Reports/'
 
     def process_rows(all)
-      r = []
+      r = {}
       all.select { |row| row[0..2] == ['D','DISPATCH','REGIONSUM'] }.map do |row|
         #I
         #DISPATCH
@@ -203,11 +203,12 @@ module AemoNem
         #LOWER1SECACTUALAVAILABILITY
         #SS_SOLAR_AVAILABILITY
         #SS_WIND_AVAILABILITY
-        r << {country:, time:, value:}
+        k = [country, time]
+        r[k] = {country:, time:, value:}
       end
       #require 'pry' ; binding.pry
 
-      r
+      r.values
     end
   end
 
