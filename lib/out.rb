@@ -14,7 +14,7 @@ module Out
           SemanticLogger.tagged(country) do
             # support source per day and date-range
             #require 'pry' ; binding.pry
-            if [::Caiso::Generation, ::Elexon::Generation, ::Elexon::Fuelinst, ::Ieso::Generation, ::Ree::Generation].include? self
+            if [::Elexon::Generation, ::Elexon::Fuelinst, ::Ieso::Generation, ::Ree::Generation].include? self
               logger.info("Refresh from #{from} calculated from last point #{from2}")
               (from..to).each do |date|
                 yield self.new date
@@ -89,7 +89,7 @@ module Out
           SemanticLogger.tagged(country) do
             # support source per day and date-range
             #require 'pry' ; binding.pry
-            if [::Caiso::Load, ::Elexon::Load].include? self
+            if [::Elexon::Load].include? self
               (from..to).each do |date|
                 yield self.new date
               rescue ::ENTSOE::EmptyError

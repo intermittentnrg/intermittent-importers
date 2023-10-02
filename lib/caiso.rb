@@ -74,6 +74,15 @@ module Caiso
       end
     end
 
+    def self.parsers_each
+      from = ::Generation.joins(:area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
+      to = Time.now.in_time_zone(self::TZ)
+      logger.info("Refresh from #{from}")
+      (from.to_date..to.to_date).each do |date|
+        yield self.new date
+      end
+    end
+
     FUELS = {
       "Time" => nil,
       "Solar" => "solar",
@@ -147,6 +156,15 @@ module Caiso
         e.process
       rescue ENTSOE::EmptyError
         logger.warn "EmptyError #{time}"
+      end
+    end
+
+    def self.parsers_each
+      from = ::Load.joins(:area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
+      to = Time.now.in_time_zone(self::TZ)
+      logger.info("Refresh from #{from}")
+      (from.to_date..to.to_date).each do |date|
+        yield self.new date
       end
     end
 
