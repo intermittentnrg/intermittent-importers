@@ -20,16 +20,11 @@ spec:
     container('app') {
       parallel all: {
         stage('all') {
-          tasks = "ieso:all eia:all caiso:generation entsoe:all nordpool:all opennem aemo:all ree aeso hydroquebec"
+          tasks = "all"
           if (env.BRANCH_NAME == "master") {
             tasks += " nordpool:price_sek"
           }
           sh "cd /app ; bundle exec rake ${tasks}"
-        }
-      },
-      elexon: {
-        stage('elexon') {
-          sh 'cd /app ; rake elexon:all'
         }
       }
     }
