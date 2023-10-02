@@ -24,7 +24,7 @@ spec:
           if (env.BRANCH_NAME == "master") {
             tasks += " nordpool:price_sek"
           }
-          sh "cd /app ; bundle exec rake ${tasks}"
+          sh "cd /app ; bundle exec rake -j4 ${tasks}"
         }
       }
     }
