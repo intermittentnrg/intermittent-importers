@@ -110,7 +110,7 @@ namespace :aemo do
   end
   namespace :wem do
     desc "Run refresh tasks"
-    task all: [:scada, :balancing]
+    task all: [:balancing, :scada]
     task :scada do |t|
       SemanticLogger.tagged(task: t.to_s) do
         AemoWem::ScadaLive.new.process
