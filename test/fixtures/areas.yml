@@ -187,15 +187,424 @@ WEM:
   region: australia
   type: region
 
-BANC:
-  id: 83
-  code: BANC
-  internal_id: BANC
+# EIA
+US48: &eia_country
+  id: 146
+  code: US48
+  internal_id: US48
+  type: country
   source: eia
   enabled: true
   region: usa
-  type: balancing_authority
 
+CAL: &eia_region
+  <<: *eia_country
+  id: 117
+  code: CAL
+  internal_id: CAL
+  type: balancing_authority
+CAR:
+  <<: *eia_region
+  id: 106
+  code: CAR
+  internal_id: CAR
+CENT:
+  <<: *eia_region
+  id: 155
+  code: CENT
+  internal_id: CENT
+DEAA:
+  <<: *eia_region
+  id: 163
+  code: DEAA
+  internal_id: DEAA
+FLA:
+  <<: *eia_region
+  id: 145
+  code: FLA
+  internal_id: FLA
+MIDA:
+  <<: *eia_region
+  id: 140
+  code: MIDA
+  internal_id: MIDA
+MIDW:
+  <<: *eia_region
+  id: 133
+  code: MIDW
+  internal_id: MIDW
+NE:
+  <<: *eia_region
+  id: 108
+  code: NE
+  internal_id: NE
+NW:
+  <<: *eia_region
+  id: 105
+  code: NW
+  internal_id: NW
+NY:
+  <<: *eia_region
+  id: 135
+  code: NY
+  internal_id: NY
+SE:
+  <<: *eia_region
+  id: 129
+  code: SE
+  internal_id: SE
+SW:
+  <<: *eia_region
+  id: 116
+  code: SW
+  internal_id: SW
+TEN:
+  <<: *eia_region
+  id: 98
+  code: TEN
+  internal_id: TEN
+TEX:
+  <<: *eia_region
+  id: 119
+  code: TEX
+  internal_id: TEX
+
+
+
+AEC: &eia_ba
+  <<: *eia_country
+  id: 247
+  code: AEC
+  internal_id: AEC
+  type: balancing_authority
+AECI:
+  <<: *eia_ba
+  id: 132
+  code: AECI
+  internal_id: AECI
+AVA:
+  <<: *eia_ba
+  id: 128
+  code: AVA
+  internal_id: AVA
+AVRN:
+  <<: *eia_ba
+  id: 156
+  code: AVRN
+  internal_id: AVRN
+AZPS:
+  <<: *eia_ba
+  id: 130
+  code: AZPS
+  internal_id: AZPS
+BANC:
+  <<: *eia_ba
+  id: 93
+  code: BANC
+  internal_id: BANC
+BPAT:
+  <<: *eia_ba
+  id: 153
+  code: BPAT
+  internal_id: BPAT
+CHPD:
+  <<: *eia_ba
+  id: 158
+  code: CHPD
+  internal_id: CHPD
+CISO:
+  <<: *eia_ba
+  id: 112
+  code: CISO
+  internal_id: CISO
+  enabled: false
+CPLE:
+  <<: *eia_ba
+  id: 151
+  code: CPLE
+  internal_id: CPLE
+CPLW:
+  <<: *eia_ba
+  id: 152
+  code: CPLW
+  internal_id: CPLW
+DOPD:
+  <<: *eia_ba
+  id: 150
+  code: DOPD
+  internal_id: DOPD
+DUK:
+  <<: *eia_ba
+  id: 143
+  code: DUK
+  internal_id: DUK
+EEI:
+  <<: *eia_ba
+  id: 250
+  code: EEI
+  internal_id: EEI
+EPE:
+  <<: *eia_ba
+  id: 124
+  code: EPE
+  internal_id: EPE
+ERCO:
+  <<: *eia_ba
+  id: 131
+  code: ERCO
+  internal_id: ERCO
+FMPP:
+  <<: *eia_ba
+  id: 139
+  code: FMPP
+  internal_id: FMPP
+FPC:
+  <<: *eia_ba
+  id: 122
+  code: FPC
+  internal_id: FPC
+FPL:
+  <<: *eia_ba
+  id: 110
+  code: FPL
+  internal_id: FPL
+GCPD:
+  <<: *eia_ba
+  id: 167
+  code: GCPD
+  internal_id: GCPD
+GLHB:
+  <<: *eia_ba
+  id: 169
+  code: GLHB
+  internal_id: GLHB
+GRID:
+  <<: *eia_ba
+  id: 96
+  code: GRID
+  internal_id: GRID
+GRIF:
+  <<: *eia_ba
+  id: 144
+  code: GRIF
+  internal_id: GRIF
+GVL:
+  <<: *eia_ba
+  id: 157
+  code: GVL
+  internal_id: GVL
+GWA:
+  <<: *eia_ba
+  id: 168
+  code: GWA
+  internal_id: GWA
+HGMA:
+  <<: *eia_ba
+  id: 162
+  code: HGMA
+  internal_id: HGMA
+HST:
+  <<: *eia_ba
+  id: 141
+  code: HST
+  internal_id: HST
+IID:
+  <<: *eia_ba
+  id: 109
+  code: IID
+  internal_id: IID
+IPCO:
+  <<: *eia_ba
+  id: 107
+  code: IPCO
+  internal_id: IPCO
+ISNE:
+  <<: *eia_ba
+  id: 111
+  code: ISNE
+  internal_id: ISNE
+JEA:
+  <<: *eia_ba
+  id: 97
+  code: JEA
+  internal_id: JEA
+LDWP:
+  <<: *eia_ba
+  id: 100
+  code: LDWP
+  internal_id: LDWP
+LGEE:
+  <<: *eia_ba
+  id: 159
+  code: LGEE
+  internal_id: LGEE
+MISO:
+  <<: *eia_ba
+  id: 99
+  code: MISO
+  internal_id: MISO
+NEVP:
+  <<: *eia_ba
+  id: 125
+  code: NEVP
+  internal_id: NEVP
+NSB:
+  <<: *eia_ba
+  id: 248
+  code: NSB
+  internal_id: NSB
+NWMT:
+  <<: *eia_ba
+  id: 120
+  code: NWMT
+  internal_id: NWMT
+NYIS:
+  <<: *eia_ba
+  id: 95
+  code: NYIS
+  internal_id: NYIS
+OVEC:
+  <<: *eia_ba
+  id: 249
+  code: OVEC
+  internal_id: OVEC
+PACE:
+  <<: *eia_ba
+  id: 136
+  code: PACE
+  internal_id: PACE
+PACW:
+  <<: *eia_ba
+  id: 137
+  code: PACW
+  internal_id: PACW
+PGE:
+  <<: *eia_ba
+  id: 127
+  code: PGE
+  internal_id: PGE
+PJM:
+  <<: *eia_ba
+  id: 118
+  code: PJM
+  internal_id: PJM
+PNM:
+  <<: *eia_ba
+  id: 154
+  code: PNM
+  internal_id: PNM
+PSCO:
+  <<: *eia_ba
+  id: 138
+  code: PSCO
+  internal_id: PSCO
+PSEI:
+  <<: *eia_ba
+  id: 149
+  code: PSEI
+  internal_id: PSEI
+SC:
+  <<: *eia_ba
+  id: 94
+  code: SC
+  internal_id: SC
+SCEG:
+  <<: *eia_ba
+  id: 148
+  code: SCEG
+  internal_id: SCEG
+SCL:
+  <<: *eia_ba
+  id: 147
+  code: SCL
+  internal_id: SCL
+SEC:
+  <<: *eia_ba
+  id: 142
+  code: SEC
+  internal_id: SEC
+SEPA:
+  <<: *eia_ba
+  id: 114
+  code: SEPA
+  internal_id: SEPA
+SOCO:
+  <<: *eia_ba
+  id: 123
+  code: SOCO
+  internal_id: SOCO
+SPA:
+  <<: *eia_ba
+  id: 165
+  code: SPA
+  internal_id: SPA
+SRP:
+  <<: *eia_ba
+  id: 113
+  code: SRP
+  internal_id: SRP
+SWPP:
+  <<: *eia_ba
+  id: 101
+  code: SWPP
+  internal_id: SWPP
+TAL:
+  <<: *eia_ba
+  id: 160
+  code: TAL
+  internal_id: TAL
+TEC:
+  <<: *eia_ba
+  id: 102
+  code: TEC
+  internal_id: TEC
+TEPC:
+  <<: *eia_ba
+  id: 134
+  code: TEPC
+  internal_id: TEPC
+TIDC:
+  <<: *eia_ba
+  id: 166
+  code: TIDC
+  internal_id: TIDC
+TPWR:
+  <<: *eia_ba
+  id: 164
+  code: TPWR
+  internal_id: TPWR
+TVA:
+  <<: *eia_ba
+  id: 121
+  code: TVA
+  internal_id: TVA
+WACM:
+  <<: *eia_ba
+  id: 103
+  code: WACM
+  internal_id: WACM
+WALC:
+  <<: *eia_ba
+  id: 104
+  code: WALC
+  internal_id: WALC
+WAUW:
+  <<: *eia_ba
+  id: 115
+  code: WAUW
+  internal_id: WAUW
+WWA:
+  <<: *eia_ba
+  id: 161
+  code: WWA
+  internal_id: WWA
+YAD:
+  <<: *eia_ba
+  id: 126
+  code: YAD
+  internal_id: YAD
+
+# CAISO
 CAISO:
   id: 92
   code: CAISO
@@ -204,6 +613,7 @@ CAISO:
   region: usa
   type: balancing_authority
 
+# IESO
 CA-ON: &canada
   id: 90
   code: CA-ON
@@ -211,6 +621,8 @@ CA-ON: &canada
   enabled: true
   region: canada
   type: region
+
+# AESO
 CA-AB:
   <<: *canada
   id: 201

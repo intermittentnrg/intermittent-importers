@@ -23,7 +23,7 @@ RSpec.describe Eia::Generation do
   describe :parsers_each do
     around(:example) { |ex| Timecop.freeze(current_time, &ex) }
     around(:example) { |ex| VCR.use_cassette('eia_generation_parsers_each', &ex) }
-    let(:current_time) { Time.new(2023,1,2) }
+    let(:current_time) { Time.new(2023,1,1) }
     let(:datapoint_time) { Time.new(2023,1,1) }
     before do
       areas = Area.find_by! code: 'BANC', source: 'eia'
@@ -32,7 +32,7 @@ RSpec.describe Eia::Generation do
     end
 
     it do
-      expect(Generation).to receive(:upsert_all)
+      expect(::Generation).to receive(:upsert_all)
       subject.parsers_each &:process
     end
   end
@@ -47,7 +47,7 @@ RSpec.describe Eia::Load do
   describe :parsers_each do
     around(:example) { |ex| Timecop.freeze(current_time, &ex) }
     around(:example) { |ex| VCR.use_cassette('eia_load_parsers_each', &ex) }
-    let(:current_time) { Time.new(2023,1,2) }
+    let(:current_time) { Time.new(2023,1,1) }
     let(:datapoint_time) { Time.new(2023,1,1) }
     before do
       areas = Area.find_by! code: 'BANC', source: 'eia'
@@ -55,7 +55,7 @@ RSpec.describe Eia::Load do
     end
 
     it do
-      expect(Load).to receive(:upsert_all)
+      expect(::Load).to receive(:upsert_all)
       subject.parsers_each &:process
     end
   end

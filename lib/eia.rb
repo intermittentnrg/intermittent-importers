@@ -16,6 +16,15 @@ module Eia
       'WAT' => 'hydro',
       'WND' => 'wind'
     }
+
+    @@faraday = Faraday.new do |f|
+      f.request :retry, {
+        retry_statuses: [500, 502],
+        interval: 1,
+        backoff_factor: 2,
+        max: 5
+      }
+    end
   end
 
   class Load < Base
@@ -24,6 +33,30 @@ module Eia
 
     URL = "https://api.eia.gov/v2/electricity/rto/region-data/data/"
     QUERY_PARAMS = {}
+
+    def self.cli args
+      if args.length != 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      end
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      (from...to).each do |time|
+        e = Eia::Load.new from: time, to: time + 1.day
+        e.process
+      end
+    end
+
+    def self.parsers_each
+      from = ::Load.joins(:area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
+      to = Time.now.in_time_zone(self::TZ)
+      logger.info("Refresh from #{from}")
+      (from.to_date..to.to_date).each do |date|
+        yield self.new from: date, to: date + 1.day
+      end
+    end
+
     def initialize(country: nil, from: nil, to: nil)
       @from = from
       @to = to + 1.hour
@@ -38,17 +71,9 @@ module Eia
       }
       query['facets[respondent][]'] = country if country
       @res = []
-      faraday = Faraday.new do |f|
-        f.request :retry, {
-          retry_statuses: [500, 502],
-          interval: 1,
-          backoff_factor: 2,
-          max: 5
-        }
-      end
       loop do
         res = logger.benchmark_info("#{URL} #{query[:start]} #{query[:end]}") do
-          faraday.get(URL, query)
+          @@faraday.get(URL, query)
         end
         res = logger.benchmark_info("json parse") do
           FastJsonparser.parse(res.body, symbolize_keys: false)
@@ -64,6 +89,7 @@ module Eia
         query[:offset] += res['response']['data'].length
       end
     end
+
     def points_load
       r = []
       @res.each do |res|
@@ -99,6 +125,40 @@ module Eia
     include Out::Generation
 
     URL = "https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/"
+
+    def self.cli args
+      if args.length < 2
+        $stderr.puts "#{$0} <from> <to> [country ...]"
+        exit 1
+      end
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      areas = {}
+      production_types = {}
+      #countries = args.present? ? args : Area.where(source: Eia::Generation.source_id).pluck(:internal_id)
+      (from...to).each do |time|
+        if args.present?
+          args.each do |country|
+            SemanticLogger.tagged(country) do
+              Eia::Generation.new(from: time, to: time + 1.day, country: country).process
+            end
+          end
+        else
+          Eia::Generation.new(from: time, to: time + 1.day).process
+        end
+      end
+    end
+
+    def self.parsers_each
+      from = ::Generation.joins(:area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
+      to = Time.now.in_time_zone(self::TZ)
+      logger.info("Refresh from #{from}")
+      (from.to_date..to.to_date).each do |date|
+        yield self.new from: date, to: date + 1.day
+      end
+    end
+
     def initialize(country: nil, from: nil, to: nil)
       @from = from
       @to = to + 1.hour
@@ -113,15 +173,9 @@ module Eia
       query['facets[respondent][]'] = country if country
       query[:offset] = 0
       @res = []
-      faraday = Faraday.new do |f|
-        f.request :retry, {
-          retry_statuses: [500, 502],
-          max: 5
-        }
-      end
       loop do
         res = logger.benchmark_info("#{URL} #{query[:start]} #{query[:end]}") do
-          faraday.get(URL, query)
+          @@faraday.get(URL, query)
         end
         res = logger.benchmark_info("json parse") do
           FastJsonparser.parse(res.body, symbolize_keys: false)
