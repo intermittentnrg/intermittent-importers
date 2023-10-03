@@ -239,7 +239,7 @@ RSpec.describe AemoWem::BalancingLive do
   let(:body) do
     <<-CSV
 TRADING_DAY_INTERVAL,FORECAST_EOI_MW,FORECAST_MW,PRICE,FORECAST_NSG_MW,ACTUAL_NSG_MW,ACTUAL_TOTAL_GENERATION,RTD_TOTAL_GENERATION,RTD_TOTAL_SPINNING_RESERVE,LFAS_UP_REQUIREMENT_MW,TOTAL_OUTAGE_MW,PLANNED_OUTAGE_MW,FORCED_OUTAGE_MW,CONS_OUTAGE_MW,AS_AT
-2023-09-12 02:00:00,1725.011,1689.752,74.39,72.703,24.85,1738.366,,,65,564.9,270.6,294.3,0,"2023-09-14 02:00:00"
+09/12/2023 02:00:00,1725.011,1689.752,74.39,72.703,24.85,1738.366,,,65,564.9,270.6,294.3,0,"2023-09-14 02:00:00"
 CSV
   end
   describe :cli do
@@ -333,6 +333,26 @@ Trading Date,Interval Number,Trading Interval,Estimated DPV Generation (MW),Extr
   end
 end
 
+RSpec.describe AemoWem::DistributedPvLive do
+  subject { AemoWem::DistributedPvLive }
+  let(:body) do
+    <<-CSV
+Trading Interval,Interval Number,Estimated DPV Generation (MW),Operational Demand (MW),Extracted At
+2023-09-28 08:00:00,1,756.5242,1717.85,"2023-10-03 10:46:08"
+2023-09-28 08:30:00,2,796.4536,1720.714,
+CSV
+  end
+  describe :cli do
+    context 'without argument' do
+      it do
+        stub_request(:get, 'https://aemo.com.au/aemo/data/wa/infographic/dpvopdemand/distributed-pv_opdemand.csv').
+          to_return(body:)
+        expect(Generation).to receive(:upsert_all)
+        subject.cli([])
+      end
+    end
+  end
+end
 RSpec.describe AemoWem::BalancingHistoric do
   subject { AemoWem::BalancingHistoric }
   let(:datafile_name) { 'pre-balancing-market-data.csv' }

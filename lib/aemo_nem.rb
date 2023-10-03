@@ -324,5 +324,10 @@ module AemoNem
 
       r
     end
+
+    def done!
+      Generation.aggregate_rooftoppv_to_capture(@from, @to, "a.code <> 'WEM'")
+      super
+    end
   end
 end

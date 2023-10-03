@@ -32,6 +32,17 @@ def loop_task(name, clazz)
   end
 end
 
+def oneshot_task(name, clazz)
+  desc "Run refresh task"
+  task name do |t|
+    SemanticLogger.tagged(task: t.to_s) do
+      clazz.new.process
+    rescue
+      @logger.error "Exception", $!
+    end
+  end
+end
+
 task :ping do |t|
   SemanticLogger.tagged(task: t.to_s) { logger.info "ping" }
 end
@@ -88,14 +99,7 @@ namespace :nordpool do
   pump_task :price_sek, Nordpool::PriceSEK, Price
 end
 
-desc "Run refresh task"
-task :opennem do |t|
-  SemanticLogger.tagged(task: t.to_s) do
-    Opennem::Latest.new.process
-  rescue
-    logger.error "Exception", $!
-  end
-end
+oneshot_task :opennem, Opennem::Latest
 
 namespace :aemo do
   desc "Run refresh tasks"
@@ -110,14 +114,11 @@ namespace :aemo do
   end
   namespace :wem do
     desc "Run refresh tasks"
-    task all: [:balancing, :scada]
-    task :scada do |t|
-      SemanticLogger.tagged(task: t.to_s) do
-        AemoWem::ScadaLive.new.process
-      end
-    end
-    loop_task :balancing, AemoWem::Balancing
-    #AemoWem::BalancingLive.new.process
+    task all: [:balancing, :scada, :distributed_pv]
+    oneshot_task :scada, AemoWem::ScadaLive
+    oneshot_task :distributed_pv, AemoWem::DistributedPvLive
+    #loop_task :balancing, AemoWem::Balancing
+    oneshot_task :balancing, AemoWem::BalancingLive
   end
 end
 

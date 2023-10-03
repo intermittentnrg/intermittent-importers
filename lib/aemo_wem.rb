@@ -142,8 +142,10 @@ module AemoWem
     def initialize(url_or_path = URL)
       super(url_or_path)
     end
+
     def parse_time_from_filename(file)
     end
+
     def process_rows(all)
       all.shift
       r = all.map do |row|
@@ -229,12 +231,16 @@ module AemoWem
       super(url_or_path)
     end
 
+    def parse_time s
+      TZ.local_to_utc(Time.strptime(s, "%m/%d/%Y %H:%M:%S"))
+    end
+
     def process_rows(all)
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
-      all.shift
       load_r = []
       price_r = []
 
+      all.shift
       all.each do |row|
         # TRADING_DAY_INTERVAL
         time = parse_time(row[0])
@@ -300,6 +306,51 @@ module AemoWem
       #require 'pry' ; binding.pry
 
       r
+    end
+  end
+
+  class DistributedPvLive < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
+
+    URL = 'https://aemo.com.au/aemo/data/wa/infographic/dpvopdemand/distributed-pv_opdemand.csv'
+
+    def self.cli(args)
+      if args.length > 1
+        $stderr.puts "#{$0} [file.csv]"
+        exit 1
+      end
+      self.new(*args).process
+    end
+
+    def initialize(url_or_path = URL)
+      super(url_or_path)
+    end
+
+    def process_rows(all)
+      area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
+      r = []
+      all.shift
+      all.each do |row|
+        #Trading Interval
+        time = parse_time(row[0])
+        #Interval Number
+        #Estimated DPV Generation (MW)
+        value = row[2].to_f*1000
+        #Operational Demand (MW)
+        #Extracted At
+        r << {time:, area_id:, production_type: 'solar_rooftop', value:}
+      end
+      @from = r.first[:time]
+      @to = r.last[:time]
+      #require 'pry' ; binding.pry
+
+      r
+    end
+
+    def done!
+      Generation.aggregate_rooftoppv_to_capture(@from, @to, "a.code='WEM'")
+      super
     end
   end
 
