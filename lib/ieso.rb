@@ -184,6 +184,15 @@ module Ieso
     include SemanticLogger::Loggable
     include Out::Price
 
+    def self.parsers_each
+      from = ::Price.joins(:area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
+      to = Time.now.in_time_zone(self::TZ)
+      logger.info("Refresh from #{from}")
+      (from.to_date..to.to_date).each do |date|
+        yield self.new date
+      end
+    end
+
     def initialize(date)
       @from = date
       @to = date + 1.day
@@ -207,6 +216,7 @@ module Ieso
       r
     end
   end
+
   class PriceYear < Base
     include SemanticLogger::Loggable
     include Out::Price
