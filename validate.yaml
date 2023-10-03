@@ -3,6 +3,9 @@ europe:
     load:
       min: 1000
       max: 600000000
+  BA:
+    load:
+      max: 2800000
   #GB:
   #  min: 10000000
   #FR:
