@@ -122,8 +122,7 @@ module AemoWem
     end
 
     def done!
-      where = "a.source='aemo' AND a.id=#{@area_id}"
-      GenerationUnit.aggregate_to_generation(@from, @to, where)
+      GenerationUnit.aggregate_to_generation(@from, @to, "a.id=#{@area_id}")
       super
     end
   end
@@ -306,6 +305,11 @@ module AemoWem
       #require 'pry' ; binding.pry
 
       r
+    end
+
+    def done!
+      Generation.aggregate_rooftoppv_to_capture(@from, @to, "a.code='WEM'")
+      super
     end
   end
 

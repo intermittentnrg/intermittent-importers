@@ -271,10 +271,7 @@ module AemoNem
     end
 
     def done!
-      if @@units.present?
-        where = "a.source='aemo' AND a.code<>'WEM'"
-        GenerationUnit.aggregate_to_generation(@from, @to, where)
-      end
+      GenerationUnit.aggregate_to_generation(@from, @to, "a.code<>'WEM'")
       super
     end
   end
