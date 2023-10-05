@@ -230,9 +230,9 @@ module AemoWem
       super(url_or_path)
     end
 
-    def parse_time s
-      TZ.local_to_utc(Time.strptime(s, "%m/%d/%Y %H:%M:%S"))
-    end
+    #def parse_time s
+    #  TZ.local_to_utc(Time.strptime(s, "%m/%d/%Y %H:%M:%S"))
+    #end
 
     def process_rows(all)
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
