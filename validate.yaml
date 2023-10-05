@@ -6,7 +6,10 @@ europe:
   BA:
     load:
       max: 2800000
-  #GB:
+  GB:
+    nuclear:
+      min: 2000000
+      max: 9000000
   #  min: 10000000
   #FR:
   #  nuclear:

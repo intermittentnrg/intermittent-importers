@@ -47,12 +47,23 @@ class Validate
 
     points
   end
+  def self.validate_data_cli(args)
+    delete = false
+    if args.first == '--delete'
+      delete = true
+      args.shift
+    end
+    Validate.validate_data(delete, args)
+  end
 
-  def self.validate_data(delete=false)
+  def self.validate_data(delete=false, filters = [])
     @@rules.each do |region, areas|
       areas.each do |area_code, production_types|
-        area = Area.find_by!(region: region, code: area_code) if area_code != 'all'
+        area = Area.find_by!(region: region, code: area_code, enabled: true) if area_code != 'all'
         production_types.each do |production_type_name, rules|
+          next unless filters.any? do |filter|
+            "#{area_code}/#{production_type_name}".include? filter
+          end
           #TODO skip if check constraint in place
           if production_type_name == "load"
             query = Load
