@@ -8,19 +8,6 @@ endif
 TIMESTAMP := $(shell TZ=UTC date +%Y%m%d-%H%M)
 export TAG ?= $(TIMESTAMP)
 
-## load new data
-fetch:
-	scripts/sincedb-entsoe-generation.rb
-	scripts/sincedb-entsoe-load.rb
-	scripts/sincedb-elexon-generation.rb
-	scripts/sincedb-elexon-load.rb
-
-fetch2:
-	. ./.env-production ; scripts/sincedb-entsoe-generation.rb
-	. ./.env-production ; scripts/sincedb-entsoe-load.rb
-	. ./.env-production ; scripts/sincedb-elexon-generation.rb
-	. ./.env-production ; scripts/sincedb-elexon-load.rb
-
 BRANCH ?= master
 ## Update jenkins/intermittency-$(BRANCH) secret from .env
 update_secret:
