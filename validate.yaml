@@ -68,6 +68,9 @@ usa:
   FPC:
     solar:
       max: 3000000
+  PACE:
+    wind:
+      max: 3000000
   PJM:
     nuclear:
       max: 36000000
