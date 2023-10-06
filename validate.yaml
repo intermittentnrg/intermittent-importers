@@ -6,6 +6,17 @@ europe:
   BA:
     load:
       max: 2800000
+  DK:
+    fossil_gas:
+      max: 2000000
+    fossil_oil:
+      max: 400000
+    fossil_hard_coal:
+      max: 3000000
+    wind_onshore:
+      max: 6000000
+    waste:
+      max: 262000
   GB:
     nuclear:
       min: 2000000
