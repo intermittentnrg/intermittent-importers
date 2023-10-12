@@ -102,6 +102,8 @@ module Ieso
     include Out::Generation
 
     def initialize(date)
+      @from = TZ.utc_to_local(date.to_time.beginning_of_month)
+      @to = @from + 1.month
       @url = "http://reports.ieso.ca/public/GenOutputCapabilityMonth/PUB_GenOutputCapabilityMonth_#{date.strftime('%Y%m')}.csv"
       fetch
     end
