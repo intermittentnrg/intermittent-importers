@@ -61,7 +61,7 @@ class Validate
       areas.each do |area_code, production_types|
         area = Area.find_by!(region: region, code: area_code, enabled: true) if area_code != 'all'
         production_types.each do |production_type_name, rules|
-          next unless filters.any? do |filter|
+          next unless filters.empty? || filters.any? do |filter|
             "#{area_code}/#{production_type_name}".include? filter
           end
           #TODO skip if check constraint in place
