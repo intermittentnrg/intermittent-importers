@@ -13,6 +13,7 @@ module Out2
       production_types = {}
       apts = {}
       data.each do |p|
+        area_id = p[:area_id]
         area_id ||= (areas[p[:country]] ||= ::Area.where(source: source_id, code: p[:country]).pluck(:id).first) if p[:country]
         raise p.inspect unless area_id
         pt_id = (production_types[p[:production_type]] ||= ::ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
