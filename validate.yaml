@@ -17,6 +17,9 @@ europe:
       max: 6000000
     waste:
       max: 262000
+  FR:
+    nuclear:
+      min: 15000000
   GB:
     nuclear:
       min: 2000000
