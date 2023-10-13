@@ -1,4 +1,5308 @@
-WEM_rooftoppv:
+AT_fossil_oil_shale:
+  id: 284
+  area_id: 1
+  production_type_id: 7
+AT_biomass:
+  id: 666
+  area_id: 1
+  production_type_id: 1
+AT_fossil_peat:
+  id: 1093
+  area_id: 1
+  production_type_id: 8
+AT_nuclear:
+  id: 891
+  area_id: 1
+  production_type_id: 14
+AT_fossil_brown_coal/lignite:
+  id: 396
+  area_id: 1
+  production_type_id: 2
+AT_other_renewable:
+  id: 398
+  area_id: 1
+  production_type_id: 16
+AT_hydro_pumped_storage:
+  id: 57
+  area_id: 1
+  production_type_id: 10
+AT_waste:
+  id: 963
+  area_id: 1
+  production_type_id: 18
+AT_solar:
+  id: 319
+  area_id: 1
+  production_type_id: 17
+AT_fossil_gas:
+  id: 738
+  area_id: 1
+  production_type_id: 4
+AT_hydro_run-of-river_and_poundage:
+  id: 5
+  area_id: 1
+  production_type_id: 11
+AT_wind_offshore:
+  id: 350
+  area_id: 1
+  production_type_id: 19
+AT_other:
+  id: 784
+  area_id: 1
+  production_type_id: 15
+AT_wind_onshore:
+  id: 288
+  area_id: 1
+  production_type_id: 20
+AT_marine:
+  id: 591
+  area_id: 1
+  production_type_id: 13
+AT_hydro_water_reservoir:
+  id: 1111
+  area_id: 1
+  production_type_id: 12
+AT_fossil_coal-derived_gas:
+  id: 115
+  area_id: 1
+  production_type_id: 3
+AT_fossil_hard_coal:
+  id: 673
+  area_id: 1
+  production_type_id: 5
+AT_geothermal:
+  id: 1097
+  area_id: 1
+  production_type_id: 9
+AT_fossil_oil:
+  id: 874
+  area_id: 1
+  production_type_id: 6
+BA_wind_onshore:
+  id: 1237
+  area_id: 2
+  production_type_id: 20
+BA_fossil_brown_coal/lignite:
+  id: 423
+  area_id: 2
+  production_type_id: 2
+BA_solar:
+  id: 110
+  area_id: 2
+  production_type_id: 17
+BA_fossil_hard_coal:
+  id: 711
+  area_id: 2
+  production_type_id: 5
+BA_hydro_water_reservoir:
+  id: 1025
+  area_id: 2
+  production_type_id: 12
+BA_hydro_run-of-river_and_poundage:
+  id: 203
+  area_id: 2
+  production_type_id: 11
+BA_hydro_pumped_storage:
+  id: 797
+  area_id: 2
+  production_type_id: 10
+BA_other_renewable:
+  id: 1231
+  area_id: 2
+  production_type_id: 16
+BE_waste:
+  id: 886
+  area_id: 3
+  production_type_id: 18
+BE_fossil_oil:
+  id: 1195
+  area_id: 3
+  production_type_id: 6
+BE_hydro_run-of-river_and_poundage:
+  id: 781
+  area_id: 3
+  production_type_id: 11
+BE_biomass:
+  id: 774
+  area_id: 3
+  production_type_id: 1
+BE_hydro_pumped_storage:
+  id: 32
+  area_id: 3
+  production_type_id: 10
+BE_wind_onshore:
+  id: 498
+  area_id: 3
+  production_type_id: 20
+BE_fossil_brown_coal/lignite:
+  id: 745
+  area_id: 3
+  production_type_id: 2
+BE_hydro_water_reservoir:
+  id: 1123
+  area_id: 3
+  production_type_id: 12
+BE_other_renewable:
+  id: 922
+  area_id: 3
+  production_type_id: 16
+BE_nuclear:
+  id: 91
+  area_id: 3
+  production_type_id: 14
+BE_fossil_coal-derived_gas:
+  id: 300
+  area_id: 3
+  production_type_id: 3
+BE_wind_offshore:
+  id: 1324
+  area_id: 3
+  production_type_id: 19
+BE_fossil_gas:
+  id: 273
+  area_id: 3
+  production_type_id: 4
+BE_solar:
+  id: 376
+  area_id: 3
+  production_type_id: 17
+BE_fossil_hard_coal:
+  id: 649
+  area_id: 3
+  production_type_id: 5
+BE_other:
+  id: 414
+  area_id: 3
+  production_type_id: 15
+BG_fossil_coal-derived_gas:
+  id: 692
+  area_id: 4
+  production_type_id: 3
+BG_fossil_hard_coal:
+  id: 860
+  area_id: 4
+  production_type_id: 5
+BG_fossil_brown_coal/lignite:
+  id: 1017
+  area_id: 4
+  production_type_id: 2
+BG_other_renewable:
+  id: 918
+  area_id: 4
+  production_type_id: 16
+BG_waste:
+  id: 230
+  area_id: 4
+  production_type_id: 18
+BG_solar:
+  id: 905
+  area_id: 4
+  production_type_id: 17
+BG_hydro_pumped_storage:
+  id: 430
+  area_id: 4
+  production_type_id: 10
+BG_nuclear:
+  id: 600
+  area_id: 4
+  production_type_id: 14
+BG_fossil_oil_shale:
+  id: 628
+  area_id: 4
+  production_type_id: 7
+BG_geothermal:
+  id: 629
+  area_id: 4
+  production_type_id: 9
+BG_fossil_gas:
+  id: 643
+  area_id: 4
+  production_type_id: 4
+BG_fossil_peat:
+  id: 1044
+  area_id: 4
+  production_type_id: 8
+BG_hydro_run-of-river_and_poundage:
+  id: 241
+  area_id: 4
+  production_type_id: 11
+BG_wind_offshore:
+  id: 58
+  area_id: 4
+  production_type_id: 19
+BG_other:
+  id: 1192
+  area_id: 4
+  production_type_id: 15
+BG_hydro_water_reservoir:
+  id: 869
+  area_id: 4
+  production_type_id: 12
+BG_wind_onshore:
+  id: 471
+  area_id: 4
+  production_type_id: 20
+BG_biomass:
+  id: 552
+  area_id: 4
+  production_type_id: 1
+BG_fossil_oil:
+  id: 134
+  area_id: 4
+  production_type_id: 6
+BG_marine:
+  id: 3
+  area_id: 4
+  production_type_id: 13
+CH_nuclear:
+  id: 88
+  area_id: 5
+  production_type_id: 14
+CH_hydro_run-of-river_and_poundage:
+  id: 1162
+  area_id: 5
+  production_type_id: 11
+CH_fossil_gas:
+  id: 371
+  area_id: 5
+  production_type_id: 4
+CH_solar:
+  id: 1156
+  area_id: 5
+  production_type_id: 17
+CH_wind_onshore:
+  id: 480
+  area_id: 5
+  production_type_id: 20
+CH_hydro_water_reservoir:
+  id: 516
+  area_id: 5
+  production_type_id: 12
+CH_hydro_pumped_storage:
+  id: 444
+  area_id: 5
+  production_type_id: 10
+CZ_nuclear:
+  id: 206
+  area_id: 6
+  production_type_id: 14
+CZ_other_renewable:
+  id: 896
+  area_id: 6
+  production_type_id: 16
+CZ_solar:
+  id: 1232
+  area_id: 6
+  production_type_id: 17
+CZ_other:
+  id: 475
+  area_id: 6
+  production_type_id: 15
+CZ_hydro_run-of-river_and_poundage:
+  id: 690
+  area_id: 6
+  production_type_id: 11
+CZ_fossil_oil:
+  id: 691
+  area_id: 6
+  production_type_id: 6
+CZ_fossil_coal-derived_gas:
+  id: 218
+  area_id: 6
+  production_type_id: 3
+CZ_hydro_pumped_storage:
+  id: 489
+  area_id: 6
+  production_type_id: 10
+CZ_waste:
+  id: 1293
+  area_id: 6
+  production_type_id: 18
+CZ_hydro_water_reservoir:
+  id: 263
+  area_id: 6
+  production_type_id: 12
+CZ_fossil_brown_coal/lignite:
+  id: 337
+  area_id: 6
+  production_type_id: 2
+CZ_fossil_hard_coal:
+  id: 1164
+  area_id: 6
+  production_type_id: 5
+CZ_fossil_gas:
+  id: 1197
+  area_id: 6
+  production_type_id: 4
+CZ_wind_onshore:
+  id: 154
+  area_id: 6
+  production_type_id: 20
+CZ_biomass:
+  id: 69
+  area_id: 6
+  production_type_id: 1
+DE_fossil_oil:
+  id: 558
+  area_id: 7
+  production_type_id: 6
+DE_wind_offshore:
+  id: 1238
+  area_id: 7
+  production_type_id: 19
+DE_other_renewable:
+  id: 413
+  area_id: 7
+  production_type_id: 16
+DE_waste:
+  id: 539
+  area_id: 7
+  production_type_id: 18
+DE_biomass:
+  id: 170
+  area_id: 7
+  production_type_id: 1
+DE_fossil_gas:
+  id: 1257
+  area_id: 7
+  production_type_id: 4
+DE_hydro_run-of-river_and_poundage:
+  id: 424
+  area_id: 7
+  production_type_id: 11
+DE_fossil_coal-derived_gas:
+  id: 601
+  area_id: 7
+  production_type_id: 3
+DE_hydro_water_reservoir:
+  id: 1271
+  area_id: 7
+  production_type_id: 12
+DE_wind_onshore:
+  id: 868
+  area_id: 7
+  production_type_id: 20
+DE_solar:
+  id: 341
+  area_id: 7
+  production_type_id: 17
+DE_other:
+  id: 441
+  area_id: 7
+  production_type_id: 15
+DE_fossil_brown_coal/lignite:
+  id: 295
+  area_id: 7
+  production_type_id: 2
+DE_hydro_pumped_storage:
+  id: 889
+  area_id: 7
+  production_type_id: 10
+DE_nuclear:
+  id: 508
+  area_id: 7
+  production_type_id: 14
+DE_geothermal:
+  id: 661
+  area_id: 7
+  production_type_id: 9
+DE_fossil_hard_coal:
+  id: 146
+  area_id: 7
+  production_type_id: 5
+DK_other_renewable:
+  id: 1193
+  area_id: 8
+  production_type_id: 16
+DK_fossil_hard_coal:
+  id: 386
+  area_id: 8
+  production_type_id: 5
+DK_hydro_run-of-river_and_poundage:
+  id: 530
+  area_id: 8
+  production_type_id: 11
+DK_wind_onshore:
+  id: 764
+  area_id: 8
+  production_type_id: 20
+DK_fossil_gas:
+  id: 1274
+  area_id: 8
+  production_type_id: 4
+DK_biomass:
+  id: 808
+  area_id: 8
+  production_type_id: 1
+DK_wind_offshore:
+  id: 92
+  area_id: 8
+  production_type_id: 19
+DK_waste:
+  id: 645
+  area_id: 8
+  production_type_id: 18
+DK_fossil_oil:
+  id: 1026
+  area_id: 8
+  production_type_id: 6
+DK_solar:
+  id: 577
+  area_id: 8
+  production_type_id: 17
+EE_fossil_oil:
+  id: 125
+  area_id: 9
+  production_type_id: 6
+EE_fossil_coal-derived_gas:
+  id: 172
+  area_id: 9
+  production_type_id: 3
+EE_nuclear:
+  id: 440
+  area_id: 9
+  production_type_id: 14
+EE_fossil_brown_coal/lignite:
+  id: 1266
+  area_id: 9
+  production_type_id: 2
+EE_fossil_peat:
+  id: 1239
+  area_id: 9
+  production_type_id: 8
+EE_geothermal:
+  id: 389
+  area_id: 9
+  production_type_id: 9
+EE_wind_onshore:
+  id: 388
+  area_id: 9
+  production_type_id: 20
+EE_waste:
+  id: 384
+  area_id: 9
+  production_type_id: 18
+EE_hydro_pumped_storage:
+  id: 382
+  area_id: 9
+  production_type_id: 10
+EE_fossil_hard_coal:
+  id: 380
+  area_id: 9
+  production_type_id: 5
+EE_hydro_run-of-river_and_poundage:
+  id: 81
+  area_id: 9
+  production_type_id: 11
+EE_marine:
+  id: 354
+  area_id: 9
+  production_type_id: 13
+EE_wind_offshore:
+  id: 710
+  area_id: 9
+  production_type_id: 19
+EE_other:
+  id: 772
+  area_id: 9
+  production_type_id: 15
+EE_biomass:
+  id: 1073
+  area_id: 9
+  production_type_id: 1
+EE_hydro_water_reservoir:
+  id: 244
+  area_id: 9
+  production_type_id: 12
+EE_other_renewable:
+  id: 1058
+  area_id: 9
+  production_type_id: 16
+EE_solar:
+  id: 895
+  area_id: 9
+  production_type_id: 17
+EE_fossil_oil_shale:
+  id: 935
+  area_id: 9
+  production_type_id: 7
+EE_fossil_gas:
+  id: 160
+  area_id: 9
+  production_type_id: 4
+ES_wind_offshore:
+  id: 1323
+  area_id: 10
+  production_type_id: 19
+ES_solar:
+  id: 435
+  area_id: 10
+  production_type_id: 17
+ES_fossil_oil_shale:
+  id: 909
+  area_id: 10
+  production_type_id: 7
+ES_fossil_gas:
+  id: 436
+  area_id: 10
+  production_type_id: 4
+ES_geothermal:
+  id: 152
+  area_id: 10
+  production_type_id: 9
+ES_fossil_oil:
+  id: 1037
+  area_id: 10
+  production_type_id: 6
+ES_fossil_peat:
+  id: 588
+  area_id: 10
+  production_type_id: 8
+ES_fossil_hard_coal:
+  id: 1283
+  area_id: 10
+  production_type_id: 5
+ES_biomass:
+  id: 443
+  area_id: 10
+  production_type_id: 1
+ES_hydro_water_reservoir:
+  id: 190
+  area_id: 10
+  production_type_id: 12
+ES_wind_onshore:
+  id: 584
+  area_id: 10
+  production_type_id: 20
+ES_hydro_run-of-river_and_poundage:
+  id: 1287
+  area_id: 10
+  production_type_id: 11
+ES_nuclear:
+  id: 285
+  area_id: 10
+  production_type_id: 14
+ES_marine:
+  id: 1215
+  area_id: 10
+  production_type_id: 13
+ES_other:
+  id: 56
+  area_id: 10
+  production_type_id: 15
+ES_waste:
+  id: 650
+  area_id: 10
+  production_type_id: 18
+ES_fossil_coal-derived_gas:
+  id: 52
+  area_id: 10
+  production_type_id: 3
+ES_hydro_pumped_storage:
+  id: 646
+  area_id: 10
+  production_type_id: 10
+ES_other_renewable:
+  id: 49
+  area_id: 10
+  production_type_id: 16
+ES_fossil_brown_coal/lignite:
+  id: 1255
+  area_id: 10
+  production_type_id: 2
+FI_fossil_gas:
+  id: 496
+  area_id: 11
+  production_type_id: 4
+FI_nuclear:
+  id: 47
+  area_id: 11
+  production_type_id: 14
+FI_wind_onshore:
+  id: 1219
+  area_id: 11
+  production_type_id: 20
+FI_other_renewable:
+  id: 1105
+  area_id: 11
+  production_type_id: 16
+FI_biomass:
+  id: 743
+  area_id: 11
+  production_type_id: 1
+FI_hydro_run-of-river_and_poundage:
+  id: 182
+  area_id: 11
+  production_type_id: 11
+FI_fossil_hard_coal:
+  id: 1173
+  area_id: 11
+  production_type_id: 5
+FI_waste:
+  id: 171
+  area_id: 11
+  production_type_id: 18
+FI_fossil_peat:
+  id: 175
+  area_id: 11
+  production_type_id: 8
+FI_solar:
+  id: 129
+  area_id: 11
+  production_type_id: 17
+FI_other:
+  id: 991
+  area_id: 11
+  production_type_id: 15
+FI_fossil_oil:
+  id: 270
+  area_id: 11
+  production_type_id: 6
+FR_hydro_pumped_storage:
+  id: 247
+  area_id: 12
+  production_type_id: 10
+FR_solar:
+  id: 60
+  area_id: 12
+  production_type_id: 17
+FR_nuclear:
+  id: 1190
+  area_id: 12
+  production_type_id: 14
+FR_waste:
+  id: 1175
+  area_id: 12
+  production_type_id: 18
+FR_hydro_water_reservoir:
+  id: 1170
+  area_id: 12
+  production_type_id: 12
+FR_biomass:
+  id: 127
+  area_id: 12
+  production_type_id: 1
+FR_hydro_run-of-river_and_poundage:
+  id: 1079
+  area_id: 12
+  production_type_id: 11
+FR_other:
+  id: 818
+  area_id: 12
+  production_type_id: 15
+FR_marine:
+  id: 789
+  area_id: 12
+  production_type_id: 13
+FR_wind_onshore:
+  id: 381
+  area_id: 12
+  production_type_id: 20
+FR_fossil_hard_coal:
+  id: 394
+  area_id: 12
+  production_type_id: 5
+FR_geothermal:
+  id: 397
+  area_id: 12
+  production_type_id: 9
+FR_fossil_oil:
+  id: 624
+  area_id: 12
+  production_type_id: 6
+FR_fossil_gas:
+  id: 578
+  area_id: 12
+  production_type_id: 4
+FR_wind_offshore:
+  id: 546
+  area_id: 12
+  production_type_id: 19
+GB_other_renewable:
+  id: 1186
+  area_id: 13
+  production_type_id: 16
+GB_nuclear:
+  id: 801
+  area_id: 13
+  production_type_id: 14
+GB_fossil_oil:
+  id: 100
+  area_id: 13
+  production_type_id: 6
+GB_wind_offshore:
+  id: 215
+  area_id: 13
+  production_type_id: 19
+GB_solar:
+  id: 1282
+  area_id: 13
+  production_type_id: 17
+GB_wind_onshore:
+  id: 893
+  area_id: 13
+  production_type_id: 20
+GB_other:
+  id: 1038
+  area_id: 13
+  production_type_id: 15
+GB_fossil_hard_coal:
+  id: 163
+  area_id: 13
+  production_type_id: 5
+GB_hydro_run-of-river_and_poundage:
+  id: 852
+  area_id: 13
+  production_type_id: 11
+GB_hydro_pumped_storage:
+  id: 402
+  area_id: 13
+  production_type_id: 10
+GB_fossil_gas:
+  id: 694
+  area_id: 13
+  production_type_id: 4
+GB_biomass:
+  id: 965
+  area_id: 13
+  production_type_id: 1
+GR_hydro_run-of-river_and_poundage:
+  id: 892
+  area_id: 14
+  production_type_id: 11
+GR_other_renewable:
+  id: 576
+  area_id: 14
+  production_type_id: 16
+GR_solar:
+  id: 827
+  area_id: 14
+  production_type_id: 17
+GR_biomass:
+  id: 1319
+  area_id: 14
+  production_type_id: 1
+GR_wind_onshore:
+  id: 975
+  area_id: 14
+  production_type_id: 20
+GR_fossil_brown_coal/lignite:
+  id: 855
+  area_id: 14
+  production_type_id: 2
+GR_fossil_gas:
+  id: 728
+  area_id: 14
+  production_type_id: 4
+GR_hydro_water_reservoir:
+  id: 1172
+  area_id: 14
+  production_type_id: 12
+GR_geothermal:
+  id: 833
+  area_id: 14
+  production_type_id: 9
+GR_fossil_oil:
+  id: 155
+  area_id: 14
+  production_type_id: 6
+GR_hydro_pumped_storage:
+  id: 919
+  area_id: 14
+  production_type_id: 10
+HR_fossil_hard_coal:
+  id: 360
+  area_id: 15
+  production_type_id: 5
+HR_other_renewable:
+  id: 602
+  area_id: 15
+  production_type_id: 16
+HR_biomass:
+  id: 609
+  area_id: 15
+  production_type_id: 1
+HR_hydro_pumped_storage:
+  id: 416
+  area_id: 15
+  production_type_id: 10
+HR_fossil_oil:
+  id: 346
+  area_id: 15
+  production_type_id: 6
+HR_fossil_gas:
+  id: 1007
+  area_id: 15
+  production_type_id: 4
+HR_waste:
+  id: 302
+  area_id: 15
+  production_type_id: 18
+HR_wind_onshore:
+  id: 1124
+  area_id: 15
+  production_type_id: 20
+HR_solar:
+  id: 210
+  area_id: 15
+  production_type_id: 17
+HR_hydro_water_reservoir:
+  id: 959
+  area_id: 15
+  production_type_id: 12
+HR_hydro_run-of-river_and_poundage:
+  id: 1285
+  area_id: 15
+  production_type_id: 11
+HR_geothermal:
+  id: 148
+  area_id: 15
+  production_type_id: 9
+HU_solar:
+  id: 751
+  area_id: 16
+  production_type_id: 17
+HU_hydro_run-of-river_and_poundage:
+  id: 1284
+  area_id: 16
+  production_type_id: 11
+HU_waste:
+  id: 636
+  area_id: 16
+  production_type_id: 18
+HU_other:
+  id: 524
+  area_id: 16
+  production_type_id: 15
+HU_geothermal:
+  id: 942
+  area_id: 16
+  production_type_id: 9
+HU_nuclear:
+  id: 61
+  area_id: 16
+  production_type_id: 14
+HU_fossil_brown_coal/lignite:
+  id: 1009
+  area_id: 16
+  production_type_id: 2
+HU_other_renewable:
+  id: 54
+  area_id: 16
+  production_type_id: 16
+HU_biomass:
+  id: 1303
+  area_id: 16
+  production_type_id: 1
+HU_fossil_oil:
+  id: 716
+  area_id: 16
+  production_type_id: 6
+HU_fossil_gas:
+  id: 161
+  area_id: 16
+  production_type_id: 4
+HU_fossil_hard_coal:
+  id: 293
+  area_id: 16
+  production_type_id: 5
+HU_hydro_water_reservoir:
+  id: 322
+  area_id: 16
+  production_type_id: 12
+HU_wind_onshore:
+  id: 695
+  area_id: 16
+  production_type_id: 20
+IE_fossil_oil:
+  id: 545
+  area_id: 17
+  production_type_id: 6
+IE_geothermal:
+  id: 961
+  area_id: 17
+  production_type_id: 9
+IE_fossil_peat:
+  id: 670
+  area_id: 17
+  production_type_id: 8
+IE_fossil_hard_coal:
+  id: 1033
+  area_id: 17
+  production_type_id: 5
+IE_hydro_pumped_storage:
+  id: 825
+  area_id: 17
+  production_type_id: 10
+IE_wind_onshore:
+  id: 555
+  area_id: 17
+  production_type_id: 20
+IE_other:
+  id: 351
+  area_id: 17
+  production_type_id: 15
+IE_hydro_run-of-river_and_poundage:
+  id: 1024
+  area_id: 17
+  production_type_id: 11
+IE_fossil_gas:
+  id: 213
+  area_id: 17
+  production_type_id: 4
+IT_biomass:
+  id: 566
+  area_id: 18
+  production_type_id: 1
+IT_fossil_brown_coal/lignite:
+  id: 744
+  area_id: 18
+  production_type_id: 2
+IT_solar:
+  id: 540
+  area_id: 18
+  production_type_id: 17
+IT_fossil_hard_coal:
+  id: 1308
+  area_id: 18
+  production_type_id: 5
+IT_fossil_oil:
+  id: 474
+  area_id: 18
+  production_type_id: 6
+IT_other_renewable:
+  id: 979
+  area_id: 18
+  production_type_id: 16
+IT_fossil_coal-derived_gas:
+  id: 1307
+  area_id: 18
+  production_type_id: 3
+IT_wind_offshore:
+  id: 977
+  area_id: 18
+  production_type_id: 19
+IT_hydro_pumped_storage:
+  id: 920
+  area_id: 18
+  production_type_id: 10
+IT_geothermal:
+  id: 1041
+  area_id: 18
+  production_type_id: 9
+IT_fossil_gas:
+  id: 903
+  area_id: 18
+  production_type_id: 4
+IT_waste:
+  id: 266
+  area_id: 18
+  production_type_id: 18
+IT_marine:
+  id: 1094
+  area_id: 18
+  production_type_id: 13
+IT_hydro_water_reservoir:
+  id: 1101
+  area_id: 18
+  production_type_id: 12
+IT_fossil_peat:
+  id: 385
+  area_id: 18
+  production_type_id: 8
+IT_wind_onshore:
+  id: 793
+  area_id: 18
+  production_type_id: 20
+IT_hydro_run-of-river_and_poundage:
+  id: 361
+  area_id: 18
+  production_type_id: 11
+IT_other:
+  id: 105
+  area_id: 18
+  production_type_id: 15
+LT_fossil_oil:
+  id: 595
+  area_id: 19
+  production_type_id: 6
+LT_hydro_pumped_storage:
+  id: 810
+  area_id: 19
+  production_type_id: 10
+LT_other:
+  id: 1031
+  area_id: 19
+  production_type_id: 15
+LT_wind_onshore:
+  id: 367
+  area_id: 19
+  production_type_id: 20
+LT_waste:
+  id: 500
+  area_id: 19
+  production_type_id: 18
+LT_biomass:
+  id: 379
+  area_id: 19
+  production_type_id: 1
+LT_fossil_gas:
+  id: 686
+  area_id: 19
+  production_type_id: 4
+LT_solar:
+  id: 964
+  area_id: 19
+  production_type_id: 17
+LT_hydro_run-of-river_and_poundage:
+  id: 27
+  area_id: 19
+  production_type_id: 11
+LT_other_renewable:
+  id: 1230
+  area_id: 19
+  production_type_id: 16
+LU_hydro_water_reservoir:
+  id: 211
+  area_id: 20
+  production_type_id: 12
+LU_waste:
+  id: 867
+  area_id: 20
+  production_type_id: 18
+LU_hydro_run-of-river_and_poundage:
+  id: 164
+  area_id: 20
+  production_type_id: 11
+LU_fossil_coal-derived_gas:
+  id: 1182
+  area_id: 20
+  production_type_id: 3
+LU_biomass:
+  id: 1315
+  area_id: 20
+  production_type_id: 1
+LU_nuclear:
+  id: 594
+  area_id: 20
+  production_type_id: 14
+LU_fossil_peat:
+  id: 29
+  area_id: 20
+  production_type_id: 8
+LU_hydro_pumped_storage:
+  id: 992
+  area_id: 20
+  production_type_id: 10
+LU_wind_offshore:
+  id: 1092
+  area_id: 20
+  production_type_id: 19
+LU_fossil_gas:
+  id: 195
+  area_id: 20
+  production_type_id: 4
+LU_other_renewable:
+  id: 68
+  area_id: 20
+  production_type_id: 16
+LU_geothermal:
+  id: 1157
+  area_id: 20
+  production_type_id: 9
+LU_marine:
+  id: 1185
+  area_id: 20
+  production_type_id: 13
+LU_solar:
+  id: 689
+  area_id: 20
+  production_type_id: 17
+LU_fossil_oil:
+  id: 758
+  area_id: 20
+  production_type_id: 6
+LU_fossil_brown_coal/lignite:
+  id: 687
+  area_id: 20
+  production_type_id: 2
+LU_fossil_oil_shale:
+  id: 457
+  area_id: 20
+  production_type_id: 7
+LU_wind_onshore:
+  id: 974
+  area_id: 20
+  production_type_id: 20
+LU_fossil_hard_coal:
+  id: 1076
+  area_id: 20
+  production_type_id: 5
+LU_other:
+  id: 365
+  area_id: 20
+  production_type_id: 15
+LV_hydro_run-of-river_and_poundage:
+  id: 19
+  area_id: 21
+  production_type_id: 11
+LV_wind_onshore:
+  id: 1074
+  area_id: 21
+  production_type_id: 20
+LV_fossil_gas:
+  id: 732
+  area_id: 21
+  production_type_id: 4
+LV_other:
+  id: 490
+  area_id: 21
+  production_type_id: 15
+LV_hydro_water_reservoir:
+  id: 1067
+  area_id: 21
+  production_type_id: 12
+LV_solar:
+  id: 1129
+  area_id: 21
+  production_type_id: 17
+LV_biomass:
+  id: 641
+  area_id: 21
+  production_type_id: 1
+ME_fossil_brown_coal/lignite:
+  id: 46
+  area_id: 22
+  production_type_id: 2
+ME_other_renewable:
+  id: 865
+  area_id: 22
+  production_type_id: 16
+ME_hydro_run-of-river_and_poundage:
+  id: 817
+  area_id: 22
+  production_type_id: 11
+ME_hydro_water_reservoir:
+  id: 111
+  area_id: 22
+  production_type_id: 12
+ME_fossil_hard_coal:
+  id: 1130
+  area_id: 22
+  production_type_id: 5
+ME_wind_onshore:
+  id: 696
+  area_id: 22
+  production_type_id: 20
+MK_biomass:
+  id: 1198
+  area_id: 23
+  production_type_id: 1
+MK_hydro_water_reservoir:
+  id: 1201
+  area_id: 23
+  production_type_id: 12
+MK_fossil_brown_coal/lignite:
+  id: 226
+  area_id: 23
+  production_type_id: 2
+MK_fossil_oil:
+  id: 408
+  area_id: 23
+  production_type_id: 6
+MK_fossil_gas:
+  id: 272
+  area_id: 23
+  production_type_id: 4
+MK_wind_onshore:
+  id: 53
+  area_id: 23
+  production_type_id: 20
+MK_hydro_run-of-river_and_poundage:
+  id: 159
+  area_id: 23
+  production_type_id: 11
+MK_solar:
+  id: 165
+  area_id: 23
+  production_type_id: 17
+NL_fossil_hard_coal:
+  id: 626
+  area_id: 24
+  production_type_id: 5
+NL_fossil_gas:
+  id: 737
+  area_id: 24
+  production_type_id: 4
+NL_hydro_water_reservoir:
+  id: 1222
+  area_id: 24
+  production_type_id: 12
+NL_hydro_pumped_storage:
+  id: 35
+  area_id: 24
+  production_type_id: 10
+NL_nuclear:
+  id: 1023
+  area_id: 24
+  production_type_id: 14
+NL_wind_offshore:
+  id: 1259
+  area_id: 24
+  production_type_id: 19
+NL_other_renewable:
+  id: 660
+  area_id: 24
+  production_type_id: 16
+NL_marine:
+  id: 633
+  area_id: 24
+  production_type_id: 13
+NL_solar:
+  id: 133
+  area_id: 24
+  production_type_id: 17
+NL_hydro_run-of-river_and_poundage:
+  id: 400
+  area_id: 24
+  production_type_id: 11
+NL_other:
+  id: 78
+  area_id: 24
+  production_type_id: 15
+NL_fossil_brown_coal/lignite:
+  id: 1000
+  area_id: 24
+  production_type_id: 2
+NL_wind_onshore:
+  id: 95
+  area_id: 24
+  production_type_id: 20
+NL_fossil_coal-derived_gas:
+  id: 301
+  area_id: 24
+  production_type_id: 3
+NL_biomass:
+  id: 802
+  area_id: 24
+  production_type_id: 1
+NL_geothermal:
+  id: 727
+  area_id: 24
+  production_type_id: 9
+NL_fossil_oil_shale:
+  id: 243
+  area_id: 24
+  production_type_id: 7
+NL_waste:
+  id: 1213
+  area_id: 24
+  production_type_id: 18
+NL_fossil_peat:
+  id: 1032
+  area_id: 24
+  production_type_id: 8
+NL_fossil_oil:
+  id: 157
+  area_id: 24
+  production_type_id: 6
+NO_hydro_pumped_storage:
+  id: 1
+  area_id: 25
+  production_type_id: 10
+NO_hydro_water_reservoir:
+  id: 960
+  area_id: 25
+  production_type_id: 12
+NO_waste:
+  id: 897
+  area_id: 25
+  production_type_id: 18
+NO_fossil_gas:
+  id: 259
+  area_id: 25
+  production_type_id: 4
+NO_other:
+  id: 132
+  area_id: 25
+  production_type_id: 15
+NO_hydro_run-of-river_and_poundage:
+  id: 848
+  area_id: 25
+  production_type_id: 11
+NO_other_renewable:
+  id: 97
+  area_id: 25
+  production_type_id: 16
+NO_biomass:
+  id: 342
+  area_id: 25
+  production_type_id: 1
+NO_wind_onshore:
+  id: 456
+  area_id: 25
+  production_type_id: 20
+PL_fossil_hard_coal:
+  id: 312
+  area_id: 26
+  production_type_id: 5
+PL_fossil_gas:
+  id: 1151
+  area_id: 26
+  production_type_id: 4
+PL_solar:
+  id: 1053
+  area_id: 26
+  production_type_id: 17
+PL_biomass:
+  id: 10
+  area_id: 26
+  production_type_id: 1
+PL_wind_onshore:
+  id: 914
+  area_id: 26
+  production_type_id: 20
+PL_fossil_brown_coal/lignite:
+  id: 663
+  area_id: 26
+  production_type_id: 2
+PL_hydro_water_reservoir:
+  id: 708
+  area_id: 26
+  production_type_id: 12
+PL_hydro_pumped_storage:
+  id: 217
+  area_id: 26
+  production_type_id: 10
+PL_fossil_oil:
+  id: 136
+  area_id: 26
+  production_type_id: 6
+PL_fossil_coal-derived_gas:
+  id: 44
+  area_id: 26
+  production_type_id: 3
+PL_hydro_run-of-river_and_poundage:
+  id: 460
+  area_id: 26
+  production_type_id: 11
+PL_other:
+  id: 778
+  area_id: 26
+  production_type_id: 15
+PT_fossil_oil:
+  id: 1268
+  area_id: 27
+  production_type_id: 6
+PT_waste:
+  id: 420
+  area_id: 27
+  production_type_id: 18
+PT_biomass:
+  id: 1269
+  area_id: 27
+  production_type_id: 1
+PT_wind_onshore:
+  id: 890
+  area_id: 27
+  production_type_id: 20
+PT_fossil_coal-derived_gas:
+  id: 1003
+  area_id: 27
+  production_type_id: 3
+PT_other:
+  id: 1030
+  area_id: 27
+  production_type_id: 15
+PT_hydro_pumped_storage:
+  id: 536
+  area_id: 27
+  production_type_id: 10
+PT_geothermal:
+  id: 541
+  area_id: 27
+  production_type_id: 9
+PT_other_renewable:
+  id: 693
+  area_id: 27
+  production_type_id: 16
+PT_fossil_peat:
+  id: 178
+  area_id: 27
+  production_type_id: 8
+PT_hydro_water_reservoir:
+  id: 112
+  area_id: 27
+  production_type_id: 12
+PT_hydro_run-of-river_and_poundage:
+  id: 465
+  area_id: 27
+  production_type_id: 11
+PT_fossil_brown_coal/lignite:
+  id: 464
+  area_id: 27
+  production_type_id: 2
+PT_marine:
+  id: 1118
+  area_id: 27
+  production_type_id: 13
+PT_fossil_gas:
+  id: 568
+  area_id: 27
+  production_type_id: 4
+PT_nuclear:
+  id: 829
+  area_id: 27
+  production_type_id: 14
+PT_fossil_hard_coal:
+  id: 734
+  area_id: 27
+  production_type_id: 5
+PT_fossil_oil_shale:
+  id: 1316
+  area_id: 27
+  production_type_id: 7
+PT_wind_offshore:
+  id: 321
+  area_id: 27
+  production_type_id: 19
+PT_solar:
+  id: 150
+  area_id: 27
+  production_type_id: 17
+RO_fossil_gas:
+  id: 575
+  area_id: 28
+  production_type_id: 4
+RO_solar:
+  id: 522
+  area_id: 28
+  production_type_id: 17
+RO_fossil_hard_coal:
+  id: 1128
+  area_id: 28
+  production_type_id: 5
+RO_hydro_run-of-river_and_poundage:
+  id: 768
+  area_id: 28
+  production_type_id: 11
+RO_nuclear:
+  id: 814
+  area_id: 28
+  production_type_id: 14
+RO_biomass:
+  id: 702
+  area_id: 28
+  production_type_id: 1
+RO_hydro_water_reservoir:
+  id: 282
+  area_id: 28
+  production_type_id: 12
+RO_fossil_brown_coal/lignite:
+  id: 749
+  area_id: 28
+  production_type_id: 2
+RO_wind_onshore:
+  id: 43
+  area_id: 28
+  production_type_id: 20
+RS_hydro_water_reservoir:
+  id: 665
+  area_id: 29
+  production_type_id: 12
+RS_wind_onshore:
+  id: 597
+  area_id: 29
+  production_type_id: 20
+RS_other:
+  id: 870
+  area_id: 29
+  production_type_id: 15
+RS_fossil_gas:
+  id: 224
+  area_id: 29
+  production_type_id: 4
+RS_biomass:
+  id: 449
+  area_id: 29
+  production_type_id: 1
+RS_waste:
+  id: 1244
+  area_id: 29
+  production_type_id: 18
+RS_solar:
+  id: 581
+  area_id: 29
+  production_type_id: 17
+RS_hydro_run-of-river_and_poundage:
+  id: 796
+  area_id: 29
+  production_type_id: 11
+RS_hydro_pumped_storage:
+  id: 473
+  area_id: 29
+  production_type_id: 10
+RS_fossil_brown_coal/lignite:
+  id: 482
+  area_id: 29
+  production_type_id: 2
+SE_nuclear:
+  id: 713
+  area_id: 30
+  production_type_id: 14
+SE_wind_onshore:
+  id: 179
+  area_id: 30
+  production_type_id: 20
+SE_fossil_gas:
+  id: 550
+  area_id: 30
+  production_type_id: 4
+SE_hydro_water_reservoir:
+  id: 71
+  area_id: 30
+  production_type_id: 12
+SE_solar:
+  id: 426
+  area_id: 30
+  production_type_id: 17
+SE_other:
+  id: 357
+  area_id: 30
+  production_type_id: 15
+SE_marine:
+  id: 1235
+  area_id: 30
+  production_type_id: 13
+SE1_other:
+  id: 51
+  area_id: 31
+  production_type_id: 15
+SE1_solar:
+  id: 548
+  area_id: 31
+  production_type_id: 17
+SE1_hydro_water_reservoir:
+  id: 212
+  area_id: 31
+  production_type_id: 12
+SE1_wind_onshore:
+  id: 364
+  area_id: 31
+  production_type_id: 20
+SE2_fossil_gas:
+  id: 422
+  area_id: 32
+  production_type_id: 4
+SE2_other:
+  id: 513
+  area_id: 32
+  production_type_id: 15
+SE2_solar:
+  id: 1177
+  area_id: 32
+  production_type_id: 17
+SE2_wind_onshore:
+  id: 470
+  area_id: 32
+  production_type_id: 20
+SE2_hydro_water_reservoir:
+  id: 1270
+  area_id: 32
+  production_type_id: 12
+SE3_other:
+  id: 1055
+  area_id: 33
+  production_type_id: 15
+SE3_solar:
+  id: 877
+  area_id: 33
+  production_type_id: 17
+SE3_fossil_gas:
+  id: 1265
+  area_id: 33
+  production_type_id: 4
+SE3_marine:
+  id: 1298
+  area_id: 33
+  production_type_id: 13
+SE3_hydro_water_reservoir:
+  id: 33
+  area_id: 33
+  production_type_id: 12
+SE3_wind_onshore:
+  id: 1011
+  area_id: 33
+  production_type_id: 20
+SE3_nuclear:
+  id: 310
+  area_id: 33
+  production_type_id: 14
+SE4_fossil_gas:
+  id: 583
+  area_id: 34
+  production_type_id: 4
+SE4_solar:
+  id: 383
+  area_id: 34
+  production_type_id: 17
+SE4_hydro_water_reservoir:
+  id: 936
+  area_id: 34
+  production_type_id: 12
+SE4_other:
+  id: 987
+  area_id: 34
+  production_type_id: 15
+SE4_wind_onshore:
+  id: 589
+  area_id: 34
+  production_type_id: 20
+SI_fossil_oil:
+  id: 878
+  area_id: 35
+  production_type_id: 6
+SI_other:
+  id: 755
+  area_id: 35
+  production_type_id: 15
+SI_wind_offshore:
+  id: 348
+  area_id: 35
+  production_type_id: 19
+SI_biomass:
+  id: 1141
+  area_id: 35
+  production_type_id: 1
+SI_other_renewable:
+  id: 782
+  area_id: 35
+  production_type_id: 16
+SI_hydro_pumped_storage:
+  id: 375
+  area_id: 35
+  production_type_id: 10
+SI_solar:
+  id: 675
+  area_id: 35
+  production_type_id: 17
+SI_fossil_coal-derived_gas:
+  id: 279
+  area_id: 35
+  production_type_id: 3
+SI_fossil_oil_shale:
+  id: 6
+  area_id: 35
+  production_type_id: 7
+SI_marine:
+  id: 838
+  area_id: 35
+  production_type_id: 13
+SI_hydro_run-of-river_and_poundage:
+  id: 1236
+  area_id: 35
+  production_type_id: 11
+SI_fossil_brown_coal/lignite:
+  id: 605
+  area_id: 35
+  production_type_id: 2
+SI_geothermal:
+  id: 590
+  area_id: 35
+  production_type_id: 9
+SI_hydro_water_reservoir:
+  id: 24
+  area_id: 35
+  production_type_id: 12
+SI_waste:
+  id: 1278
+  area_id: 35
+  production_type_id: 18
+SI_fossil_gas:
+  id: 585
+  area_id: 35
+  production_type_id: 4
+SI_nuclear:
+  id: 582
+  area_id: 35
+  production_type_id: 14
+SI_fossil_peat:
+  id: 950
+  area_id: 35
+  production_type_id: 8
+SI_wind_onshore:
+  id: 493
+  area_id: 35
+  production_type_id: 20
+SI_fossil_hard_coal:
+  id: 995
+  area_id: 35
+  production_type_id: 5
+SK_fossil_gas:
+  id: 798
+  area_id: 36
+  production_type_id: 4
+SK_nuclear:
+  id: 894
+  area_id: 36
+  production_type_id: 14
+SK_hydro_run-of-river_and_poundage:
+  id: 739
+  area_id: 36
+  production_type_id: 11
+SK_wind_onshore:
+  id: 740
+  area_id: 36
+  production_type_id: 20
+SK_hydro_water_reservoir:
+  id: 485
+  area_id: 36
+  production_type_id: 12
+SK_biomass:
+  id: 759
+  area_id: 36
+  production_type_id: 1
+SK_solar:
+  id: 410
+  area_id: 36
+  production_type_id: 17
+SK_other:
+  id: 82
+  area_id: 36
+  production_type_id: 15
+SK_fossil_hard_coal:
+  id: 856
+  area_id: 36
+  production_type_id: 5
+SK_fossil_brown_coal/lignite:
+  id: 130
+  area_id: 36
+  production_type_id: 2
+SK_hydro_pumped_storage:
+  id: 1020
+  area_id: 36
+  production_type_id: 10
+SK_fossil_oil:
+  id: 158
+  area_id: 36
+  production_type_id: 6
+SK_other_renewable:
+  id: 1112
+  area_id: 36
+  production_type_id: 16
+GB_B1620_fossil_oil:
+  id: 374
+  area_id: 37
+  production_type_id: 6
+GB_B1620_solar:
+  id: 238
+  area_id: 37
+  production_type_id: 17
+GB_B1620_wind_onshore:
+  id: 343
+  area_id: 37
+  production_type_id: 20
+GB_B1620_nuclear:
+  id: 1189
+  area_id: 37
+  production_type_id: 14
+GB_B1620_wind_offshore:
+  id: 586
+  area_id: 37
+  production_type_id: 19
+GB_B1620_other:
+  id: 304
+  area_id: 37
+  production_type_id: 15
+GB_B1620_biomass:
+  id: 1290
+  area_id: 37
+  production_type_id: 1
+GB_B1620_hydro_run-of-river_and_poundage:
+  id: 917
+  area_id: 37
+  production_type_id: 11
+GB_B1620_hydro_pumped_storage:
+  id: 131
+  area_id: 37
+  production_type_id: 10
+GB_B1620_fossil_hard_coal:
+  id: 446
+  area_id: 37
+  production_type_id: 5
+GB_B1620_fossil_gas:
+  id: 809
+  area_id: 37
+  production_type_id: 4
+IE_wind_onshore:
+  id: 978
+  area_id: 38
+  production_type_id: 20
+XK_fossil_brown_coal/lignite:
+  id: 315
+  area_id: 40
+  production_type_id: 2
+XK_hydro_run-of-river_and_poundage:
+  id: 257
+  area_id: 40
+  production_type_id: 11
+XK_wind_onshore:
+  id: 428
+  area_id: 40
+  production_type_id: 20
+XK_hydro_water_reservoir:
+  id: 502
+  area_id: 40
+  production_type_id: 12
+NO1_fossil_gas:
+  id: 1068
+  area_id: 41
+  production_type_id: 4
+NO1_other:
+  id: 926
+  area_id: 41
+  production_type_id: 15
+NO1_biomass:
+  id: 261
+  area_id: 41
+  production_type_id: 1
+NO1_hydro_water_reservoir:
+  id: 329
+  area_id: 41
+  production_type_id: 12
+NO1_wind_onshore:
+  id: 1008
+  area_id: 41
+  production_type_id: 20
+NO1_hydro_run-of-river_and_poundage:
+  id: 780
+  area_id: 41
+  production_type_id: 11
+NO1_waste:
+  id: 1027
+  area_id: 41
+  production_type_id: 18
+NO2_fossil_gas:
+  id: 242
+  area_id: 42
+  production_type_id: 4
+NO2_waste:
+  id: 283
+  area_id: 42
+  production_type_id: 18
+NO2_hydro_run-of-river_and_poundage:
+  id: 103
+  area_id: 42
+  production_type_id: 11
+NO2_hydro_pumped_storage:
+  id: 997
+  area_id: 42
+  production_type_id: 10
+NO2_other:
+  id: 1158
+  area_id: 42
+  production_type_id: 15
+NO2_wind_onshore:
+  id: 807
+  area_id: 42
+  production_type_id: 20
+NO2_hydro_water_reservoir:
+  id: 483
+  area_id: 42
+  production_type_id: 12
+NO3_hydro_water_reservoir:
+  id: 330
+  area_id: 43
+  production_type_id: 12
+NO3_other_renewable:
+  id: 1088
+  area_id: 43
+  production_type_id: 16
+NO3_fossil_gas:
+  id: 647
+  area_id: 43
+  production_type_id: 4
+NO3_wind_onshore:
+  id: 834
+  area_id: 43
+  production_type_id: 20
+NO3_other:
+  id: 198
+  area_id: 43
+  production_type_id: 15
+NO3_biomass:
+  id: 1184
+  area_id: 43
+  production_type_id: 1
+NO3_hydro_pumped_storage:
+  id: 1139
+  area_id: 43
+  production_type_id: 10
+NO3_waste:
+  id: 529
+  area_id: 43
+  production_type_id: 18
+NO3_hydro_run-of-river_and_poundage:
+  id: 246
+  area_id: 43
+  production_type_id: 11
+NO4_hydro_water_reservoir:
+  id: 42
+  area_id: 44
+  production_type_id: 12
+NO4_wind_onshore:
+  id: 86
+  area_id: 44
+  production_type_id: 20
+NO4_other:
+  id: 294
+  area_id: 44
+  production_type_id: 15
+NO4_hydro_run-of-river_and_poundage:
+  id: 462
+  area_id: 44
+  production_type_id: 11
+NO4_other_renewable:
+  id: 183
+  area_id: 44
+  production_type_id: 16
+NO4_fossil_gas:
+  id: 318
+  area_id: 44
+  production_type_id: 4
+NO5_hydro_water_reservoir:
+  id: 166
+  area_id: 45
+  production_type_id: 12
+NO5_other:
+  id: 48
+  area_id: 45
+  production_type_id: 15
+NO5_wind_onshore:
+  id: 320
+  area_id: 45
+  production_type_id: 20
+NO5_hydro_run-of-river_and_poundage:
+  id: 344
+  area_id: 45
+  production_type_id: 11
+NO5_waste:
+  id: 662
+  area_id: 45
+  production_type_id: 18
+NO5_fossil_gas:
+  id: 701
+  area_id: 45
+  production_type_id: 4
+NO5_hydro_pumped_storage:
+  id: 1059
+  area_id: 45
+  production_type_id: 10
+DE-LU_hydro_pumped_storage:
+  id: 599
+  area_id: 52
+  production_type_id: 10
+DE-LU_fossil_oil:
+  id: 316
+  area_id: 52
+  production_type_id: 6
+DE-LU_wind_onshore:
+  id: 1098
+  area_id: 52
+  production_type_id: 20
+DE-LU_fossil_gas:
+  id: 126
+  area_id: 52
+  production_type_id: 4
+DE-LU_biomass:
+  id: 677
+  area_id: 52
+  production_type_id: 1
+DE-LU_fossil_peat:
+  id: 80
+  area_id: 52
+  production_type_id: 8
+DE-LU_fossil_oil_shale:
+  id: 89
+  area_id: 52
+  production_type_id: 7
+DE-LU_hydro_run-of-river_and_poundage:
+  id: 984
+  area_id: 52
+  production_type_id: 11
+DE-LU_geothermal:
+  id: 265
+  area_id: 52
+  production_type_id: 9
+DE-LU_solar:
+  id: 994
+  area_id: 52
+  production_type_id: 17
+DE-LU_hydro_water_reservoir:
+  id: 570
+  area_id: 52
+  production_type_id: 12
+DE-LU_fossil_hard_coal:
+  id: 1196
+  area_id: 52
+  production_type_id: 5
+DE-LU_nuclear:
+  id: 679
+  area_id: 52
+  production_type_id: 14
+DE-LU_fossil_coal-derived_gas:
+  id: 76
+  area_id: 52
+  production_type_id: 3
+DE-LU_other_renewable:
+  id: 826
+  area_id: 52
+  production_type_id: 16
+DE-LU_waste:
+  id: 754
+  area_id: 52
+  production_type_id: 18
+DE-LU_wind_offshore:
+  id: 417
+  area_id: 52
+  production_type_id: 19
+DE-LU_marine:
+  id: 1280
+  area_id: 52
+  production_type_id: 13
+DE-LU_other:
+  id: 362
+  area_id: 52
+  production_type_id: 15
+DE-LU_fossil_brown_coal/lignite:
+  id: 788
+  area_id: 52
+  production_type_id: 2
+DK1_waste:
+  id: 1263
+  area_id: 53
+  production_type_id: 18
+DK1_fossil_hard_coal:
+  id: 587
+  area_id: 53
+  production_type_id: 5
+DK1_hydro_run-of-river_and_poundage:
+  id: 1174
+  area_id: 53
+  production_type_id: 11
+DK1_fossil_oil:
+  id: 1046
+  area_id: 53
+  production_type_id: 6
+DK1_other_renewable:
+  id: 1043
+  area_id: 53
+  production_type_id: 16
+DK1_wind_offshore:
+  id: 876
+  area_id: 53
+  production_type_id: 19
+DK1_biomass:
+  id: 1264
+  area_id: 53
+  production_type_id: 1
+DK1_solar:
+  id: 923
+  area_id: 53
+  production_type_id: 17
+DK1_fossil_gas:
+  id: 188
+  area_id: 53
+  production_type_id: 4
+DK1_fossil_brown_coal/lignite:
+  id: 1120
+  area_id: 53
+  production_type_id: 2
+DK1_wind_onshore:
+  id: 75
+  area_id: 53
+  production_type_id: 20
+DK2_fossil_gas:
+  id: 1013
+  area_id: 54
+  production_type_id: 4
+DK2_hydro_run-of-river_and_poundage:
+  id: 209
+  area_id: 54
+  production_type_id: 11
+DK2_biomass:
+  id: 885
+  area_id: 54
+  production_type_id: 1
+DK2_waste:
+  id: 189
+  area_id: 54
+  production_type_id: 18
+DK2_wind_offshore:
+  id: 934
+  area_id: 54
+  production_type_id: 19
+DK2_fossil_hard_coal:
+  id: 1159
+  area_id: 54
+  production_type_id: 5
+DK2_fossil_brown_coal/lignite:
+  id: 733
+  area_id: 54
+  production_type_id: 2
+DK2_wind_onshore:
+  id: 1276
+  area_id: 54
+  production_type_id: 20
+DK2_fossil_oil:
+  id: 421
+  area_id: 54
+  production_type_id: 6
+DK2_solar:
+  id: 1288
+  area_id: 54
+  production_type_id: 17
+DK2_other_renewable:
+  id: 202
+  area_id: 54
+  production_type_id: 16
+ES-CN-FVLZ_fossil_oil:
+  id: 1243
+  area_id: 89
+  production_type_id: 6
+ES-CN-FVLZ_hydro_pumped_storage:
+  id: 1117
+  area_id: 89
+  production_type_id: 10
+ES-CN-FVLZ_wind_onshore:
+  id: 327
+  area_id: 89
+  production_type_id: 20
+ES-CN-FVLZ_solar:
+  id: 823
+  area_id: 89
+  production_type_id: 17
+ES-CN-FVLZ_fossil_gas:
+  id: 184
+  area_id: 89
+  production_type_id: 4
+CA-ON_solar:
+  id: 859
+  area_id: 90
+  production_type_id: 17
+CA-ON_nuclear:
+  id: 699
+  area_id: 90
+  production_type_id: 14
+CA-ON_wind_onshore:
+  id: 281
+  area_id: 90
+  production_type_id: 20
+CA-ON_fossil_gas:
+  id: 1015
+  area_id: 90
+  production_type_id: 4
+CA-ON_hydro:
+  id: 1301
+  area_id: 90
+  production_type_id: 23
+CA-ON_biomass:
+  id: 377
+  area_id: 90
+  production_type_id: 1
+NYISO_other:
+  id: 846
+  area_id: 91
+  production_type_id: 15
+NYISO_nuclear:
+  id: 805
+  area_id: 91
+  production_type_id: 14
+NYISO_hydro_run-of-river_and_poundage:
+  id: 467
+  area_id: 91
+  production_type_id: 11
+NYISO_wind_onshore:
+  id: 14
+  area_id: 91
+  production_type_id: 20
+NYISO_other_renewable:
+  id: 1149
+  area_id: 91
+  production_type_id: 16
+NYISO_fossil_gas:
+  id: 1042
+  area_id: 91
+  production_type_id: 4
+CAISO_hydro:
+  id: 253
+  area_id: 92
+  production_type_id: 23
+CAISO_nuclear:
+  id: 509
+  area_id: 92
+  production_type_id: 14
+CAISO_hydro_small:
+  id: 349
+  area_id: 92
+  production_type_id: 40
+CAISO_biogas:
+  id: 988
+  area_id: 92
+  production_type_id: 24
+CAISO_solar:
+  id: 562
+  area_id: 92
+  production_type_id: 17
+CAISO_hydro_large:
+  id: 458
+  area_id: 92
+  production_type_id: 41
+CAISO_fossil_hard_coal:
+  id: 438
+  area_id: 92
+  production_type_id: 5
+CAISO_biomass:
+  id: 1291
+  area_id: 92
+  production_type_id: 1
+CAISO_other:
+  id: 907
+  area_id: 92
+  production_type_id: 15
+CAISO_geothermal:
+  id: 741
+  area_id: 92
+  production_type_id: 9
+CAISO_fossil_gas:
+  id: 857
+  area_id: 92
+  production_type_id: 4
+CAISO_battery:
+  id: 866
+  area_id: 92
+  production_type_id: 22
+CAISO_wind_onshore:
+  id: 648
+  area_id: 92
+  production_type_id: 20
+BANC_hydro:
+  id: 1171
+  area_id: 93
+  production_type_id: 23
+BANC_solar:
+  id: 948
+  area_id: 93
+  production_type_id: 17
+BANC_fossil_gas:
+  id: 442
+  area_id: 93
+  production_type_id: 4
+BANC_other:
+  id: 123
+  area_id: 93
+  production_type_id: 15
+SC_solar:
+  id: 1106
+  area_id: 94
+  production_type_id: 17
+SC_other:
+  id: 795
+  area_id: 94
+  production_type_id: 15
+SC_fossil_hard_coal:
+  id: 373
+  area_id: 94
+  production_type_id: 5
+SC_hydro:
+  id: 323
+  area_id: 94
+  production_type_id: 23
+SC_fossil_gas:
+  id: 1080
+  area_id: 94
+  production_type_id: 4
+SC_fossil_oil:
+  id: 951
+  area_id: 94
+  production_type_id: 6
+NYIS_fossil_hard_coal:
+  id: 537
+  area_id: 95
+  production_type_id: 5
+NYIS_other:
+  id: 931
+  area_id: 95
+  production_type_id: 15
+NYIS_wind:
+  id: 655
+  area_id: 95
+  production_type_id: 25
+NYIS_hydro:
+  id: 256
+  area_id: 95
+  production_type_id: 23
+NYIS_fossil_oil:
+  id: 721
+  area_id: 95
+  production_type_id: 6
+NYIS_fossil_gas:
+  id: 771
+  area_id: 95
+  production_type_id: 4
+NYIS_nuclear:
+  id: 173
+  area_id: 95
+  production_type_id: 14
+NYIS_solar:
+  id: 249
+  area_id: 95
+  production_type_id: 17
+GRID_fossil_gas:
+  id: 748
+  area_id: 96
+  production_type_id: 4
+GRID_fossil_hard_coal:
+  id: 98
+  area_id: 96
+  production_type_id: 5
+GRID_wind:
+  id: 39
+  area_id: 96
+  production_type_id: 25
+GRID_solar:
+  id: 1304
+  area_id: 96
+  production_type_id: 17
+JEA_fossil_gas:
+  id: 139
+  area_id: 97
+  production_type_id: 4
+JEA_solar:
+  id: 712
+  area_id: 97
+  production_type_id: 17
+JEA_other:
+  id: 527
+  area_id: 97
+  production_type_id: 15
+JEA_fossil_hard_coal:
+  id: 63
+  area_id: 97
+  production_type_id: 5
+JEA_fossil_oil:
+  id: 927
+  area_id: 97
+  production_type_id: 6
+TEN_hydro:
+  id: 1300
+  area_id: 98
+  production_type_id: 23
+TEN_wind:
+  id: 957
+  area_id: 98
+  production_type_id: 25
+TEN_solar:
+  id: 981
+  area_id: 98
+  production_type_id: 17
+TEN_fossil_gas:
+  id: 12
+  area_id: 98
+  production_type_id: 4
+TEN_other:
+  id: 9
+  area_id: 98
+  production_type_id: 15
+TEN_fossil_oil:
+  id: 1178
+  area_id: 98
+  production_type_id: 6
+TEN_nuclear:
+  id: 763
+  area_id: 98
+  production_type_id: 14
+TEN_fossil_hard_coal:
+  id: 254
+  area_id: 98
+  production_type_id: 5
+MISO_nuclear:
+  id: 101
+  area_id: 99
+  production_type_id: 14
+MISO_other:
+  id: 608
+  area_id: 99
+  production_type_id: 15
+MISO_wind:
+  id: 563
+  area_id: 99
+  production_type_id: 25
+MISO_fossil_hard_coal:
+  id: 1154
+  area_id: 99
+  production_type_id: 5
+MISO_fossil_gas:
+  id: 1311
+  area_id: 99
+  production_type_id: 4
+MISO_hydro:
+  id: 1313
+  area_id: 99
+  production_type_id: 23
+MISO_solar:
+  id: 1216
+  area_id: 99
+  production_type_id: 17
+LDWP_solar:
+  id: 1095
+  area_id: 100
+  production_type_id: 17
+LDWP_other:
+  id: 756
+  area_id: 100
+  production_type_id: 15
+LDWP_hydro:
+  id: 1087
+  area_id: 100
+  production_type_id: 23
+LDWP_fossil_hard_coal:
+  id: 806
+  area_id: 100
+  production_type_id: 5
+LDWP_fossil_gas:
+  id: 197
+  area_id: 100
+  production_type_id: 4
+LDWP_wind:
+  id: 1147
+  area_id: 100
+  production_type_id: 25
+SWPP_fossil_oil:
+  id: 812
+  area_id: 101
+  production_type_id: 6
+SWPP_other:
+  id: 1247
+  area_id: 101
+  production_type_id: 15
+SWPP_hydro:
+  id: 776
+  area_id: 101
+  production_type_id: 23
+SWPP_fossil_hard_coal:
+  id: 418
+  area_id: 101
+  production_type_id: 5
+SWPP_wind:
+  id: 1241
+  area_id: 101
+  production_type_id: 25
+SWPP_solar:
+  id: 1242
+  area_id: 101
+  production_type_id: 17
+SWPP_fossil_gas:
+  id: 519
+  area_id: 101
+  production_type_id: 4
+SWPP_nuclear:
+  id: 306
+  area_id: 101
+  production_type_id: 14
+TEC_fossil_oil:
+  id: 958
+  area_id: 102
+  production_type_id: 6
+TEC_fossil_gas:
+  id: 915
+  area_id: 102
+  production_type_id: 4
+TEC_other:
+  id: 336
+  area_id: 102
+  production_type_id: 15
+TEC_fossil_hard_coal:
+  id: 1251
+  area_id: 102
+  production_type_id: 5
+TEC_solar:
+  id: 291
+  area_id: 102
+  production_type_id: 17
+WACM_hydro:
+  id: 1034
+  area_id: 103
+  production_type_id: 23
+WACM_fossil_hard_coal:
+  id: 142
+  area_id: 103
+  production_type_id: 5
+WACM_solar:
+  id: 479
+  area_id: 103
+  production_type_id: 17
+WACM_wind:
+  id: 908
+  area_id: 103
+  production_type_id: 25
+WACM_fossil_gas:
+  id: 454
+  area_id: 103
+  production_type_id: 4
+WALC_wind:
+  id: 240
+  area_id: 104
+  production_type_id: 25
+WALC_hydro:
+  id: 521
+  area_id: 104
+  production_type_id: 23
+WALC_fossil_gas:
+  id: 901
+  area_id: 104
+  production_type_id: 4
+WALC_fossil_hard_coal:
+  id: 871
+  area_id: 104
+  production_type_id: 5
+WALC_solar:
+  id: 143
+  area_id: 104
+  production_type_id: 17
+NW_hydro:
+  id: 534
+  area_id: 105
+  production_type_id: 23
+NW_fossil_oil:
+  id: 1002
+  area_id: 105
+  production_type_id: 6
+NW_nuclear:
+  id: 985
+  area_id: 105
+  production_type_id: 14
+NW_wind:
+  id: 549
+  area_id: 105
+  production_type_id: 25
+NW_solar:
+  id: 84
+  area_id: 105
+  production_type_id: 17
+NW_fossil_gas:
+  id: 946
+  area_id: 105
+  production_type_id: 4
+NW_other:
+  id: 174
+  area_id: 105
+  production_type_id: 15
+NW_fossil_hard_coal:
+  id: 466
+  area_id: 105
+  production_type_id: 5
+CAR_fossil_oil:
+  id: 1292
+  area_id: 106
+  production_type_id: 6
+CAR_fossil_gas:
+  id: 685
+  area_id: 106
+  production_type_id: 4
+CAR_fossil_hard_coal:
+  id: 1226
+  area_id: 106
+  production_type_id: 5
+CAR_nuclear:
+  id: 1211
+  area_id: 106
+  production_type_id: 14
+CAR_solar:
+  id: 200
+  area_id: 106
+  production_type_id: 17
+CAR_hydro:
+  id: 1297
+  area_id: 106
+  production_type_id: 23
+CAR_other:
+  id: 403
+  area_id: 106
+  production_type_id: 15
+IPCO_fossil_oil:
+  id: 773
+  area_id: 107
+  production_type_id: 6
+IPCO_fossil_gas:
+  id: 296
+  area_id: 107
+  production_type_id: 4
+IPCO_hydro:
+  id: 30
+  area_id: 107
+  production_type_id: 23
+IPCO_solar:
+  id: 1220
+  area_id: 107
+  production_type_id: 17
+IPCO_wind:
+  id: 107
+  area_id: 107
+  production_type_id: 25
+IPCO_other:
+  id: 1294
+  area_id: 107
+  production_type_id: 15
+NE_fossil_hard_coal:
+  id: 910
+  area_id: 108
+  production_type_id: 5
+NE_hydro:
+  id: 8
+  area_id: 108
+  production_type_id: 23
+NE_nuclear:
+  id: 65
+  area_id: 108
+  production_type_id: 14
+NE_solar:
+  id: 1138
+  area_id: 108
+  production_type_id: 17
+NE_wind:
+  id: 1256
+  area_id: 108
+  production_type_id: 25
+NE_other:
+  id: 118
+  area_id: 108
+  production_type_id: 15
+NE_fossil_oil:
+  id: 368
+  area_id: 108
+  production_type_id: 6
+NE_fossil_gas:
+  id: 804
+  area_id: 108
+  production_type_id: 4
+IID_hydro:
+  id: 642
+  area_id: 109
+  production_type_id: 23
+IID_other:
+  id: 634
+  area_id: 109
+  production_type_id: 15
+IID_solar:
+  id: 873
+  area_id: 109
+  production_type_id: 17
+IID_fossil_gas:
+  id: 251
+  area_id: 109
+  production_type_id: 4
+FPL_fossil_oil:
+  id: 1104
+  area_id: 110
+  production_type_id: 6
+FPL_fossil_gas:
+  id: 652
+  area_id: 110
+  production_type_id: 4
+FPL_solar:
+  id: 635
+  area_id: 110
+  production_type_id: 17
+FPL_other:
+  id: 800
+  area_id: 110
+  production_type_id: 15
+FPL_nuclear:
+  id: 637
+  area_id: 110
+  production_type_id: 14
+ISNE_fossil_oil:
+  id: 151
+  area_id: 111
+  production_type_id: 6
+ISNE_fossil_hard_coal:
+  id: 476
+  area_id: 111
+  production_type_id: 5
+ISNE_solar:
+  id: 506
+  area_id: 111
+  production_type_id: 17
+ISNE_hydro:
+  id: 1233
+  area_id: 111
+  production_type_id: 23
+ISNE_wind:
+  id: 1325
+  area_id: 111
+  production_type_id: 25
+ISNE_fossil_gas:
+  id: 250
+  area_id: 111
+  production_type_id: 4
+ISNE_other:
+  id: 1310
+  area_id: 111
+  production_type_id: 15
+ISNE_nuclear:
+  id: 1056
+  area_id: 111
+  production_type_id: 14
+CISO_fossil_gas:
+  id: 1168
+  area_id: 112
+  production_type_id: 4
+CISO_fossil_hard_coal:
+  id: 264
+  area_id: 112
+  production_type_id: 5
+CISO_fossil_oil:
+  id: 1169
+  area_id: 112
+  production_type_id: 6
+CISO_other:
+  id: 431
+  area_id: 112
+  production_type_id: 15
+CISO_hydro:
+  id: 573
+  area_id: 112
+  production_type_id: 23
+CISO_solar:
+  id: 411
+  area_id: 112
+  production_type_id: 17
+CISO_nuclear:
+  id: 298
+  area_id: 112
+  production_type_id: 14
+CISO_wind:
+  id: 234
+  area_id: 112
+  production_type_id: 25
+SRP_solar:
+  id: 66
+  area_id: 113
+  production_type_id: 17
+SRP_fossil_gas:
+  id: 220
+  area_id: 113
+  production_type_id: 4
+SRP_other:
+  id: 433
+  area_id: 113
+  production_type_id: 15
+SRP_nuclear:
+  id: 1114
+  area_id: 113
+  production_type_id: 14
+SRP_wind:
+  id: 785
+  area_id: 113
+  production_type_id: 25
+SRP_fossil_hard_coal:
+  id: 307
+  area_id: 113
+  production_type_id: 5
+SRP_fossil_oil:
+  id: 1180
+  area_id: 113
+  production_type_id: 6
+SRP_hydro:
+  id: 515
+  area_id: 113
+  production_type_id: 23
+SEPA_hydro:
+  id: 525
+  area_id: 114
+  production_type_id: 23
+WAUW_hydro:
+  id: 511
+  area_id: 115
+  production_type_id: 23
+SW_fossil_oil:
+  id: 55
+  area_id: 116
+  production_type_id: 6
+SW_wind:
+  id: 22
+  area_id: 116
+  production_type_id: 25
+SW_solar:
+  id: 928
+  area_id: 116
+  production_type_id: 17
+SW_hydro:
+  id: 326
+  area_id: 116
+  production_type_id: 23
+SW_fossil_gas:
+  id: 1039
+  area_id: 116
+  production_type_id: 4
+SW_nuclear:
+  id: 822
+  area_id: 116
+  production_type_id: 14
+SW_other:
+  id: 1321
+  area_id: 116
+  production_type_id: 15
+SW_fossil_hard_coal:
+  id: 1223
+  area_id: 116
+  production_type_id: 5
+CAL_fossil_gas:
+  id: 15
+  area_id: 117
+  production_type_id: 4
+CAL_hydro:
+  id: 340
+  area_id: 117
+  production_type_id: 23
+CAL_other:
+  id: 580
+  area_id: 117
+  production_type_id: 15
+CAL_solar:
+  id: 844
+  area_id: 117
+  production_type_id: 17
+CAL_fossil_hard_coal:
+  id: 452
+  area_id: 117
+  production_type_id: 5
+CAL_wind:
+  id: 775
+  area_id: 117
+  production_type_id: 25
+CAL_fossil_oil:
+  id: 1069
+  area_id: 117
+  production_type_id: 6
+CAL_nuclear:
+  id: 1036
+  area_id: 117
+  production_type_id: 14
+PJM_wind:
+  id: 1167
+  area_id: 118
+  production_type_id: 25
+PJM_fossil_hard_coal:
+  id: 1260
+  area_id: 118
+  production_type_id: 5
+PJM_fossil_oil:
+  id: 45
+  area_id: 118
+  production_type_id: 6
+PJM_hydro:
+  id: 64
+  area_id: 118
+  production_type_id: 23
+PJM_nuclear:
+  id: 722
+  area_id: 118
+  production_type_id: 14
+PJM_other:
+  id: 70
+  area_id: 118
+  production_type_id: 15
+PJM_fossil_gas:
+  id: 900
+  area_id: 118
+  production_type_id: 4
+PJM_solar:
+  id: 996
+  area_id: 118
+  production_type_id: 17
+TEX_other:
+  id: 260
+  area_id: 119
+  production_type_id: 15
+TEX_nuclear:
+  id: 851
+  area_id: 119
+  production_type_id: 14
+TEX_fossil_gas:
+  id: 497
+  area_id: 119
+  production_type_id: 4
+TEX_fossil_hard_coal:
+  id: 533
+  area_id: 119
+  production_type_id: 5
+TEX_hydro:
+  id: 484
+  area_id: 119
+  production_type_id: 23
+TEX_solar:
+  id: 528
+  area_id: 119
+  production_type_id: 17
+TEX_wind:
+  id: 1161
+  area_id: 119
+  production_type_id: 25
+NWMT_solar:
+  id: 113
+  area_id: 120
+  production_type_id: 17
+NWMT_fossil_oil:
+  id: 278
+  area_id: 120
+  production_type_id: 6
+NWMT_fossil_gas:
+  id: 656
+  area_id: 120
+  production_type_id: 4
+NWMT_fossil_hard_coal:
+  id: 724
+  area_id: 120
+  production_type_id: 5
+NWMT_hydro:
+  id: 77
+  area_id: 120
+  production_type_id: 23
+NWMT_wind:
+  id: 93
+  area_id: 120
+  production_type_id: 25
+TVA_fossil_gas:
+  id: 1122
+  area_id: 121
+  production_type_id: 4
+TVA_fossil_oil:
+  id: 1261
+  area_id: 121
+  production_type_id: 6
+TVA_wind:
+  id: 952
+  area_id: 121
+  production_type_id: 25
+TVA_solar:
+  id: 1022
+  area_id: 121
+  production_type_id: 17
+TVA_nuclear:
+  id: 1166
+  area_id: 121
+  production_type_id: 14
+TVA_hydro:
+  id: 40
+  area_id: 121
+  production_type_id: 23
+TVA_fossil_hard_coal:
+  id: 1146
+  area_id: 121
+  production_type_id: 5
+TVA_other:
+  id: 567
+  area_id: 121
+  production_type_id: 15
+FPC_solar:
+  id: 973
+  area_id: 122
+  production_type_id: 17
+FPC_fossil_gas:
+  id: 1110
+  area_id: 122
+  production_type_id: 4
+FPC_hydro:
+  id: 267
+  area_id: 122
+  production_type_id: 23
+FPC_fossil_hard_coal:
+  id: 1116
+  area_id: 122
+  production_type_id: 5
+FPC_fossil_oil:
+  id: 393
+  area_id: 122
+  production_type_id: 6
+FPC_other:
+  id: 921
+  area_id: 122
+  production_type_id: 15
+SOCO_wind:
+  id: 880
+  area_id: 123
+  production_type_id: 25
+SOCO_hydro:
+  id: 753
+  area_id: 123
+  production_type_id: 23
+SOCO_nuclear:
+  id: 1142
+  area_id: 123
+  production_type_id: 14
+SOCO_other:
+  id: 863
+  area_id: 123
+  production_type_id: 15
+SOCO_solar:
+  id: 369
+  area_id: 123
+  production_type_id: 17
+SOCO_fossil_oil:
+  id: 924
+  area_id: 123
+  production_type_id: 6
+SOCO_fossil_hard_coal:
+  id: 983
+  area_id: 123
+  production_type_id: 5
+SOCO_fossil_gas:
+  id: 730
+  area_id: 123
+  production_type_id: 4
+EPE_solar:
+  id: 999
+  area_id: 124
+  production_type_id: 17
+EPE_fossil_gas:
+  id: 370
+  area_id: 124
+  production_type_id: 4
+NEVP_nuclear:
+  id: 1206
+  area_id: 125
+  production_type_id: 14
+NEVP_fossil_gas:
+  id: 888
+  area_id: 125
+  production_type_id: 4
+NEVP_solar:
+  id: 882
+  area_id: 125
+  production_type_id: 17
+NEVP_other:
+  id: 627
+  area_id: 125
+  production_type_id: 15
+NEVP_fossil_oil:
+  id: 121
+  area_id: 125
+  production_type_id: 6
+NEVP_hydro:
+  id: 1299
+  area_id: 125
+  production_type_id: 23
+NEVP_fossil_hard_coal:
+  id: 1199
+  area_id: 125
+  production_type_id: 5
+NEVP_wind:
+  id: 680
+  area_id: 125
+  production_type_id: 25
+YAD_hydro:
+  id: 1152
+  area_id: 126
+  production_type_id: 23
+PGE_fossil_hard_coal:
+  id: 547
+  area_id: 127
+  production_type_id: 5
+PGE_other:
+  id: 990
+  area_id: 127
+  production_type_id: 15
+PGE_hydro:
+  id: 940
+  area_id: 127
+  production_type_id: 23
+PGE_fossil_gas:
+  id: 1289
+  area_id: 127
+  production_type_id: 4
+PGE_wind:
+  id: 887
+  area_id: 127
+  production_type_id: 25
+AVA_solar:
+  id: 731
+  area_id: 128
+  production_type_id: 17
+AVA_fossil_gas:
+  id: 72
+  area_id: 128
+  production_type_id: 4
+AVA_hydro:
+  id: 185
+  area_id: 128
+  production_type_id: 23
+AVA_wind:
+  id: 409
+  area_id: 128
+  production_type_id: 25
+AVA_other:
+  id: 953
+  area_id: 128
+  production_type_id: 15
+SE_hydro:
+  id: 495
+  area_id: 129
+  production_type_id: 23
+SE_fossil_hard_coal:
+  id: 120
+  area_id: 129
+  production_type_id: 5
+SE_wind:
+  id: 387
+  area_id: 129
+  production_type_id: 25
+SE_fossil_oil:
+  id: 102
+  area_id: 129
+  production_type_id: 6
+SE_solar:
+  id: 167
+  area_id: 129
+  production_type_id: 17
+SE_nuclear:
+  id: 459
+  area_id: 129
+  production_type_id: 14
+SE_other:
+  id: 333
+  area_id: 129
+  production_type_id: 15
+SE_fossil_gas:
+  id: 520
+  area_id: 129
+  production_type_id: 4
+AZPS_fossil_oil:
+  id: 1200
+  area_id: 130
+  production_type_id: 6
+AZPS_hydro:
+  id: 1318
+  area_id: 130
+  production_type_id: 23
+AZPS_fossil_gas:
+  id: 297
+  area_id: 130
+  production_type_id: 4
+AZPS_other:
+  id: 181
+  area_id: 130
+  production_type_id: 15
+AZPS_solar:
+  id: 1209
+  area_id: 130
+  production_type_id: 17
+AZPS_fossil_hard_coal:
+  id: 1137
+  area_id: 130
+  production_type_id: 5
+AZPS_nuclear:
+  id: 144
+  area_id: 130
+  production_type_id: 14
+AZPS_wind:
+  id: 607
+  area_id: 130
+  production_type_id: 25
+ERCO_fossil_hard_coal:
+  id: 13
+  area_id: 131
+  production_type_id: 5
+ERCO_other:
+  id: 777
+  area_id: 131
+  production_type_id: 15
+ERCO_fossil_gas:
+  id: 1103
+  area_id: 131
+  production_type_id: 4
+ERCO_solar:
+  id: 1133
+  area_id: 131
+  production_type_id: 17
+ERCO_nuclear:
+  id: 610
+  area_id: 131
+  production_type_id: 14
+ERCO_wind:
+  id: 668
+  area_id: 131
+  production_type_id: 25
+ERCO_hydro:
+  id: 1084
+  area_id: 131
+  production_type_id: 23
+AECI_fossil_hard_coal:
+  id: 1320
+  area_id: 132
+  production_type_id: 5
+AECI_fossil_gas:
+  id: 1082
+  area_id: 132
+  production_type_id: 4
+AECI_wind:
+  id: 455
+  area_id: 132
+  production_type_id: 25
+AECI_fossil_oil:
+  id: 1135
+  area_id: 132
+  production_type_id: 6
+MIDW_fossil_gas:
+  id: 1078
+  area_id: 133
+  production_type_id: 4
+MIDW_nuclear:
+  id: 390
+  area_id: 133
+  production_type_id: 14
+MIDW_solar:
+  id: 757
+  area_id: 133
+  production_type_id: 17
+MIDW_fossil_oil:
+  id: 553
+  area_id: 133
+  production_type_id: 6
+MIDW_wind:
+  id: 305
+  area_id: 133
+  production_type_id: 25
+MIDW_hydro:
+  id: 50
+  area_id: 133
+  production_type_id: 23
+MIDW_other:
+  id: 1187
+  area_id: 133
+  production_type_id: 15
+MIDW_fossil_hard_coal:
+  id: 128
+  area_id: 133
+  production_type_id: 5
+TEPC_solar:
+  id: 943
+  area_id: 134
+  production_type_id: 17
+TEPC_wind:
+  id: 831
+  area_id: 134
+  production_type_id: 25
+TEPC_fossil_hard_coal:
+  id: 41
+  area_id: 134
+  production_type_id: 5
+TEPC_fossil_gas:
+  id: 28
+  area_id: 134
+  production_type_id: 4
+TEPC_other:
+  id: 651
+  area_id: 134
+  production_type_id: 15
+NY_nuclear:
+  id: 487
+  area_id: 135
+  production_type_id: 14
+NY_wind:
+  id: 906
+  area_id: 135
+  production_type_id: 25
+NY_fossil_oil:
+  id: 16
+  area_id: 135
+  production_type_id: 6
+NY_solar:
+  id: 378
+  area_id: 135
+  production_type_id: 17
+NY_other:
+  id: 1140
+  area_id: 135
+  production_type_id: 15
+NY_fossil_gas:
+  id: 976
+  area_id: 135
+  production_type_id: 4
+NY_hydro:
+  id: 1258
+  area_id: 135
+  production_type_id: 23
+NY_fossil_hard_coal:
+  id: 17
+  area_id: 135
+  production_type_id: 5
+PACE_fossil_gas:
+  id: 611
+  area_id: 136
+  production_type_id: 4
+PACE_solar:
+  id: 153
+  area_id: 136
+  production_type_id: 17
+PACE_other:
+  id: 274
+  area_id: 136
+  production_type_id: 15
+PACE_hydro:
+  id: 632
+  area_id: 136
+  production_type_id: 23
+PACE_fossil_hard_coal:
+  id: 596
+  area_id: 136
+  production_type_id: 5
+PACE_wind:
+  id: 884
+  area_id: 136
+  production_type_id: 25
+PACW_hydro:
+  id: 1296
+  area_id: 137
+  production_type_id: 23
+PACW_solar:
+  id: 1125
+  area_id: 137
+  production_type_id: 17
+PACW_wind:
+  id: 667
+  area_id: 137
+  production_type_id: 25
+PACW_fossil_gas:
+  id: 622
+  area_id: 137
+  production_type_id: 4
+PACW_fossil_hard_coal:
+  id: 523
+  area_id: 137
+  production_type_id: 5
+PACW_other:
+  id: 678
+  area_id: 137
+  production_type_id: 15
+PSCO_fossil_gas:
+  id: 659
+  area_id: 138
+  production_type_id: 4
+PSCO_fossil_oil:
+  id: 1245
+  area_id: 138
+  production_type_id: 6
+PSCO_hydro:
+  id: 821
+  area_id: 138
+  production_type_id: 23
+PSCO_fossil_hard_coal:
+  id: 815
+  area_id: 138
+  production_type_id: 5
+PSCO_solar:
+  id: 1155
+  area_id: 138
+  production_type_id: 17
+PSCO_wind:
+  id: 1225
+  area_id: 138
+  production_type_id: 25
+FMPP_fossil_gas:
+  id: 1275
+  area_id: 139
+  production_type_id: 4
+FMPP_solar:
+  id: 73
+  area_id: 139
+  production_type_id: 17
+FMPP_fossil_hard_coal:
+  id: 1012
+  area_id: 139
+  production_type_id: 5
+FMPP_fossil_oil:
+  id: 176
+  area_id: 139
+  production_type_id: 6
+FMPP_nuclear:
+  id: 1228
+  area_id: 139
+  production_type_id: 14
+FMPP_other:
+  id: 90
+  area_id: 139
+  production_type_id: 15
+MIDA_fossil_gas:
+  id: 494
+  area_id: 140
+  production_type_id: 4
+MIDA_hydro:
+  id: 2
+  area_id: 140
+  production_type_id: 23
+MIDA_other:
+  id: 67
+  area_id: 140
+  production_type_id: 15
+MIDA_wind:
+  id: 1083
+  area_id: 140
+  production_type_id: 25
+MIDA_fossil_hard_coal:
+  id: 1100
+  area_id: 140
+  production_type_id: 5
+MIDA_solar:
+  id: 1322
+  area_id: 140
+  production_type_id: 17
+MIDA_nuclear:
+  id: 746
+  area_id: 140
+  production_type_id: 14
+MIDA_fossil_oil:
+  id: 1091
+  area_id: 140
+  production_type_id: 6
+HST_fossil_gas:
+  id: 269
+  area_id: 141
+  production_type_id: 4
+SEC_fossil_gas:
+  id: 930
+  area_id: 142
+  production_type_id: 4
+SEC_solar:
+  id: 140
+  area_id: 142
+  production_type_id: 17
+SEC_fossil_hard_coal:
+  id: 434
+  area_id: 142
+  production_type_id: 5
+DUK_other:
+  id: 372
+  area_id: 143
+  production_type_id: 15
+DUK_solar:
+  id: 180
+  area_id: 143
+  production_type_id: 17
+DUK_fossil_gas:
+  id: 324
+  area_id: 143
+  production_type_id: 4
+DUK_nuclear:
+  id: 1085
+  area_id: 143
+  production_type_id: 14
+DUK_fossil_hard_coal:
+  id: 275
+  area_id: 143
+  production_type_id: 5
+DUK_hydro:
+  id: 335
+  area_id: 143
+  production_type_id: 23
+GRIF_fossil_gas:
+  id: 717
+  area_id: 144
+  production_type_id: 4
+FLA_fossil_hard_coal:
+  id: 232
+  area_id: 145
+  production_type_id: 5
+FLA_fossil_gas:
+  id: 303
+  area_id: 145
+  production_type_id: 4
+FLA_solar:
+  id: 700
+  area_id: 145
+  production_type_id: 17
+FLA_hydro:
+  id: 252
+  area_id: 145
+  production_type_id: 23
+FLA_fossil_oil:
+  id: 299
+  area_id: 145
+  production_type_id: 6
+FLA_nuclear:
+  id: 644
+  area_id: 145
+  production_type_id: 14
+FLA_other:
+  id: 720
+  area_id: 145
+  production_type_id: 15
+US48_fossil_oil:
+  id: 639
+  area_id: 146
+  production_type_id: 6
+US48_fossil_hard_coal:
+  id: 290
+  area_id: 146
+  production_type_id: 5
+US48_wind:
+  id: 657
+  area_id: 146
+  production_type_id: 25
+US48_other:
+  id: 1165
+  area_id: 146
+  production_type_id: 15
+US48_fossil_gas:
+  id: 1277
+  area_id: 146
+  production_type_id: 4
+US48_nuclear:
+  id: 971
+  area_id: 146
+  production_type_id: 14
+US48_solar:
+  id: 469
+  area_id: 146
+  production_type_id: 17
+US48_hydro:
+  id: 531
+  area_id: 146
+  production_type_id: 23
+SCL_hydro:
+  id: 445
+  area_id: 147
+  production_type_id: 23
+SCEG_fossil_gas:
+  id: 331
+  area_id: 148
+  production_type_id: 4
+SCEG_nuclear:
+  id: 18
+  area_id: 148
+  production_type_id: 14
+SCEG_solar:
+  id: 982
+  area_id: 148
+  production_type_id: 17
+SCEG_other:
+  id: 544
+  area_id: 148
+  production_type_id: 15
+SCEG_hydro:
+  id: 363
+  area_id: 148
+  production_type_id: 23
+SCEG_fossil_hard_coal:
+  id: 604
+  area_id: 148
+  production_type_id: 5
+PSEI_solar:
+  id: 1071
+  area_id: 149
+  production_type_id: 17
+PSEI_fossil_oil:
+  id: 1050
+  area_id: 149
+  production_type_id: 6
+PSEI_fossil_hard_coal:
+  id: 630
+  area_id: 149
+  production_type_id: 5
+PSEI_wind:
+  id: 612
+  area_id: 149
+  production_type_id: 25
+PSEI_hydro:
+  id: 205
+  area_id: 149
+  production_type_id: 23
+PSEI_fossil_gas:
+  id: 36
+  area_id: 149
+  production_type_id: 4
+PSEI_other:
+  id: 1057
+  area_id: 149
+  production_type_id: 15
+DOPD_hydro:
+  id: 292
+  area_id: 150
+  production_type_id: 23
+CPLE_fossil_hard_coal:
+  id: 762
+  area_id: 151
+  production_type_id: 5
+CPLE_fossil_gas:
+  id: 614
+  area_id: 151
+  production_type_id: 4
+CPLE_other:
+  id: 569
+  area_id: 151
+  production_type_id: 15
+CPLE_nuclear:
+  id: 461
+  area_id: 151
+  production_type_id: 14
+CPLE_fossil_oil:
+  id: 836
+  area_id: 151
+  production_type_id: 6
+CPLE_solar:
+  id: 1005
+  area_id: 151
+  production_type_id: 17
+CPLE_hydro:
+  id: 325
+  area_id: 151
+  production_type_id: 23
+CPLW_fossil_oil:
+  id: 1188
+  area_id: 152
+  production_type_id: 6
+CPLW_fossil_gas:
+  id: 843
+  area_id: 152
+  production_type_id: 4
+CPLW_hydro:
+  id: 998
+  area_id: 152
+  production_type_id: 23
+CPLW_fossil_hard_coal:
+  id: 194
+  area_id: 152
+  production_type_id: 5
+CPLW_other:
+  id: 956
+  area_id: 152
+  production_type_id: 15
+CPLW_solar:
+  id: 1121
+  area_id: 152
+  production_type_id: 17
+BPAT_fossil_gas:
+  id: 954
+  area_id: 153
+  production_type_id: 4
+BPAT_other:
+  id: 972
+  area_id: 153
+  production_type_id: 15
+BPAT_solar:
+  id: 697
+  area_id: 153
+  production_type_id: 17
+BPAT_wind:
+  id: 419
+  area_id: 153
+  production_type_id: 25
+BPAT_nuclear:
+  id: 968
+  area_id: 153
+  production_type_id: 14
+BPAT_hydro:
+  id: 902
+  area_id: 153
+  production_type_id: 23
+PNM_fossil_gas:
+  id: 875
+  area_id: 154
+  production_type_id: 4
+PNM_hydro:
+  id: 947
+  area_id: 154
+  production_type_id: 23
+PNM_solar:
+  id: 124
+  area_id: 154
+  production_type_id: 17
+PNM_other:
+  id: 1077
+  area_id: 154
+  production_type_id: 15
+PNM_wind:
+  id: 412
+  area_id: 154
+  production_type_id: 25
+PNM_fossil_hard_coal:
+  id: 945
+  area_id: 154
+  production_type_id: 5
+CENT_fossil_gas:
+  id: 137
+  area_id: 155
+  production_type_id: 4
+CENT_other:
+  id: 262
+  area_id: 155
+  production_type_id: 15
+CENT_fossil_oil:
+  id: 916
+  area_id: 155
+  production_type_id: 6
+CENT_hydro:
+  id: 862
+  area_id: 155
+  production_type_id: 23
+CENT_wind:
+  id: 450
+  area_id: 155
+  production_type_id: 25
+CENT_nuclear:
+  id: 1212
+  area_id: 155
+  production_type_id: 14
+CENT_solar:
+  id: 228
+  area_id: 155
+  production_type_id: 17
+CENT_fossil_hard_coal:
+  id: 309
+  area_id: 155
+  production_type_id: 5
+AVRN_wind:
+  id: 621
+  area_id: 156
+  production_type_id: 25
+AVRN_solar:
+  id: 453
+  area_id: 156
+  production_type_id: 17
+AVRN_fossil_gas:
+  id: 1099
+  area_id: 156
+  production_type_id: 4
+AVRN_hydro:
+  id: 938
+  area_id: 156
+  production_type_id: 23
+GVL_fossil_hard_coal:
+  id: 1134
+  area_id: 157
+  production_type_id: 5
+GVL_other:
+  id: 239
+  area_id: 157
+  production_type_id: 15
+GVL_fossil_gas:
+  id: 703
+  area_id: 157
+  production_type_id: 4
+CHPD_hydro:
+  id: 245
+  area_id: 158
+  production_type_id: 23
+CHPD_wind:
+  id: 138
+  area_id: 158
+  production_type_id: 25
+LGEE_fossil_gas:
+  id: 492
+  area_id: 159
+  production_type_id: 4
+LGEE_fossil_oil:
+  id: 510
+  area_id: 159
+  production_type_id: 6
+LGEE_fossil_hard_coal:
+  id: 767
+  area_id: 159
+  production_type_id: 5
+LGEE_hydro:
+  id: 345
+  area_id: 159
+  production_type_id: 23
+LGEE_solar:
+  id: 929
+  area_id: 159
+  production_type_id: 17
+TAL_hydro:
+  id: 1029
+  area_id: 160
+  production_type_id: 23
+TAL_solar:
+  id: 1136
+  area_id: 160
+  production_type_id: 17
+TAL_fossil_gas:
+  id: 672
+  area_id: 160
+  production_type_id: 4
+WWA_wind:
+  id: 854
+  area_id: 161
+  production_type_id: 25
+HGMA_fossil_gas:
+  id: 1286
+  area_id: 162
+  production_type_id: 4
+DEAA_fossil_gas:
+  id: 7
+  area_id: 163
+  production_type_id: 4
+TPWR_hydro:
+  id: 571
+  area_id: 164
+  production_type_id: 23
+SPA_other:
+  id: 1207
+  area_id: 165
+  production_type_id: 15
+SPA_hydro:
+  id: 276
+  area_id: 165
+  production_type_id: 23
+TIDC_fossil_gas:
+  id: 932
+  area_id: 166
+  production_type_id: 4
+TIDC_hydro:
+  id: 358
+  area_id: 166
+  production_type_id: 23
+GCPD_hydro:
+  id: 477
+  area_id: 167
+  production_type_id: 23
+GWA_wind:
+  id: 842
+  area_id: 168
+  production_type_id: 25
+GLHB_fossil_hard_coal:
+  id: 1221
+  area_id: 169
+  production_type_id: 5
+AEC_other:
+  id: 395
+  area_id: 247
+  production_type_id: 15
+AEC_hydro:
+  id: 729
+  area_id: 247
+  production_type_id: 23
+AEC_fossil_gas:
+  id: 447
+  area_id: 247
+  production_type_id: 4
+AEC_fossil_hard_coal:
+  id: 286
+  area_id: 247
+  production_type_id: 5
+NSB_fossil_oil:
+  id: 787
+  area_id: 248
+  production_type_id: 6
+OVEC_fossil_hard_coal:
+  id: 1089
+  area_id: 249
+  production_type_id: 5
+EEI_fossil_gas:
+  id: 969
+  area_id: 250
+  production_type_id: 4
+EEI_fossil_hard_coal:
+  id: 715
+  area_id: 250
+  production_type_id: 5
+NEM-NSW1_hydro:
+  id: 1001
+  area_id: 251
+  production_type_id: 23
+NEM-NSW1_fossil_gas_ccgt:
+  id: 193
+  area_id: 251
+  production_type_id: 29
+NEM-NSW1_biogas:
+  id: 1204
+  area_id: 251
+  production_type_id: 24
+NEM-NSW1_hydro_pumped_storage:
+  id: 1072
+  area_id: 251
+  production_type_id: 10
+NEM-NSW1_fossil_oil_distillate:
+  id: 507
+  area_id: 251
+  production_type_id: 32
+NEM-NSW1_solar_utility:
+  id: 1302
+  area_id: 251
+  production_type_id: 27
+NEM-NSW1_fossil_hard_coal:
+  id: 813
+  area_id: 251
+  production_type_id: 5
+NEM-NSW1_solar_rooftop:
+  id: 439
+  area_id: 251
+  production_type_id: 28
+NEM-NSW1_battery:
+  id: 1224
+  area_id: 251
+  production_type_id: 22
+NEM-NSW1_battery_charging:
+  id: 1131
+  area_id: 251
+  production_type_id: 31
+NEM-NSW1_fossil_gas_ocgt:
+  id: 429
+  area_id: 251
+  production_type_id: 30
+NEM-NSW1_wind:
+  id: 1210
+  area_id: 251
+  production_type_id: 25
+NEM-QLD1_fossil_gas_coal_mine_waste:
+  id: 207
+  area_id: 252
+  production_type_id: 33
+NEM-QLD1_wind:
+  id: 819
+  area_id: 252
+  production_type_id: 25
+NEM-QLD1_fossil_gas_ccgt:
+  id: 37
+  area_id: 252
+  production_type_id: 29
+NEM-QLD1_battery:
+  id: 216
+  area_id: 252
+  production_type_id: 22
+NEM-QLD1_solar_utility:
+  id: 1267
+  area_id: 252
+  production_type_id: 27
+NEM-QLD1_fossil_hard_coal:
+  id: 504
+  area_id: 252
+  production_type_id: 5
+NEM-QLD1_hydro:
+  id: 191
+  area_id: 252
+  production_type_id: 23
+NEM-QLD1_biomass:
+  id: 221
+  area_id: 252
+  production_type_id: 1
+NEM-QLD1_fossil_gas_ocgt:
+  id: 359
+  area_id: 252
+  production_type_id: 30
+NEM-QLD1_solar_rooftop:
+  id: 313
+  area_id: 252
+  production_type_id: 28
+NEM-QLD1_hydro_pumped_storage:
+  id: 631
+  area_id: 252
+  production_type_id: 10
+NEM-QLD1_battery_charging:
+  id: 1227
+  area_id: 252
+  production_type_id: 31
+NEM-QLD1_fossil_oil_distillate:
+  id: 899
+  area_id: 252
+  production_type_id: 32
+NEM-SA1_solar_rooftop:
+  id: 1045
+  area_id: 253
+  production_type_id: 28
+NEM-SA1_wind:
+  id: 1327
+  area_id: 253
+  production_type_id: 25
+NEM-SA1_fossil_oil_distillate:
+  id: 404
+  area_id: 253
+  production_type_id: 32
+NEM-SA1_fossil_gas_ccgt:
+  id: 1229
+  area_id: 253
+  production_type_id: 29
+NEM-SA1_battery:
+  id: 99
+  area_id: 253
+  production_type_id: 22
+NEM-SA1_fossil_brown_coal/lignite:
+  id: 1075
+  area_id: 253
+  production_type_id: 2
+NEM-SA1_fossil_gas_ocgt:
+  id: 542
+  area_id: 253
+  production_type_id: 30
+NEM-SA1_battery_charging:
+  id: 505
+  area_id: 253
+  production_type_id: 31
+NEM-SA1_fossil_gas_steam:
+  id: 1108
+  area_id: 253
+  production_type_id: 35
+NEM-SA1_solar_utility:
+  id: 765
+  area_id: 253
+  production_type_id: 27
+NEM-SA1_fossil_gas_reciprocating:
+  id: 26
+  area_id: 253
+  production_type_id: 34
+NEM-TAS1_fossil_gas_ccgt:
+  id: 559
+  area_id: 254
+  production_type_id: 29
+NEM-TAS1_wind:
+  id: 1061
+  area_id: 254
+  production_type_id: 25
+NEM-TAS1_fossil_gas_ocgt:
+  id: 122
+  area_id: 254
+  production_type_id: 30
+NEM-TAS1_hydro:
+  id: 356
+  area_id: 254
+  production_type_id: 23
+NEM-TAS1_fossil_oil_distillate:
+  id: 108
+  area_id: 254
+  production_type_id: 32
+NEM-TAS1_battery_charging:
+  id: 517
+  area_id: 254
+  production_type_id: 31
+NEM-TAS1_fossil_gas_steam:
+  id: 352
+  area_id: 254
+  production_type_id: 35
+NEM-TAS1_solar_rooftop:
+  id: 1049
+  area_id: 254
+  production_type_id: 28
+NEM-VIC1_solar_utility:
+  id: 574
+  area_id: 255
+  production_type_id: 27
+NEM-VIC1_fossil_gas_steam:
+  id: 223
+  area_id: 255
+  production_type_id: 35
+NEM-VIC1_hydro:
+  id: 941
+  area_id: 255
+  production_type_id: 23
+NEM-VIC1_battery:
+  id: 766
+  area_id: 255
+  production_type_id: 22
+NEM-VIC1_solar_rooftop:
+  id: 1081
+  area_id: 255
+  production_type_id: 28
+NEM-VIC1_battery_charging:
+  id: 186
+  area_id: 255
+  production_type_id: 31
+NEM-VIC1_fossil_brown_coal/lignite:
+  id: 640
+  area_id: 255
+  production_type_id: 2
+NEM-VIC1_wind:
+  id: 832
+  area_id: 255
+  production_type_id: 25
+NEM-VIC1_fossil_gas_ocgt:
+  id: 913
+  area_id: 255
+  production_type_id: 30
+WEM-WEM_battery:
+  id: 451
+  area_id: 256
+  production_type_id: 22
+WEM-WEM_wind:
+  id: 1253
+  area_id: 256
+  production_type_id: 25
+WEM-WEM_fossil_oil_distillate:
+  id: 21
+  area_id: 256
+  production_type_id: 32
+WEM-WEM_solar_rooftop:
+  id: 840
+  area_id: 256
+  production_type_id: 28
+WEM-WEM_biogas:
+  id: 227
+  area_id: 256
+  production_type_id: 24
+WEM-WEM_solar_utility:
+  id: 503
+  area_id: 256
+  production_type_id: 27
+WEM-WEM_fossil_gas_ccgt:
+  id: 565
+  area_id: 256
+  production_type_id: 29
+WEM-WEM_fossil_hard_coal:
+  id: 481
+  area_id: 256
+  production_type_id: 5
+WEM-WEM_fossil_gas_ocgt:
+  id: 1047
+  area_id: 256
+  production_type_id: 30
+GB_wind_embedded:
+  id: 939
+  area_id: 258
+  production_type_id: 36
+GB_solar_embedded:
+  id: 83
+  area_id: 258
+  production_type_id: 37
+GB_fossil_oil:
+  id: 719
+  area_id: 260
+  production_type_id: 6
+GB_solar:
+  id: 1214
+  area_id: 260
+  production_type_id: 17
+GB_fossil_gas_ccgt:
+  id: 725
+  area_id: 260
+  production_type_id: 29
+GB_hydro:
+  id: 623
+  area_id: 260
+  production_type_id: 23
+GB_other:
+  id: 236
+  area_id: 260
+  production_type_id: 15
+GB_fossil_gas_ocgt:
+  id: 4
+  area_id: 260
+  production_type_id: 30
+GB_biomass:
+  id: 31
+  area_id: 260
+  production_type_id: 1
+GB_fossil_hard_coal:
+  id: 966
+  area_id: 260
+  production_type_id: 5
+GB_wind:
+  id: 338
+  area_id: 260
+  production_type_id: 25
+GB_nuclear:
+  id: 499
+  area_id: 260
+  production_type_id: 14
+CA-AB_hydro:
+  id: 792
+  area_id: 261
+  production_type_id: 23
+CA-AB_solar:
+  id: 1208
+  area_id: 261
+  production_type_id: 17
+CA-AB_other:
+  id: 463
+  area_id: 261
+  production_type_id: 15
+CA-AB_fossil_gas:
+  id: 1306
+  area_id: 261
+  production_type_id: 4
+CA-AB_dual_fuel:
+  id: 1096
+  area_id: 261
+  production_type_id: 39
+CA-AB_battery:
+  id: 169
+  area_id: 261
+  production_type_id: 22
+CA-AB_fossil_hard_coal:
+  id: 761
+  area_id: 261
+  production_type_id: 5
+CA-AB_wind:
+  id: 820
+  area_id: 261
+  production_type_id: 25
+CA-QC_biomass:
+  id: 104
+  area_id: 262
+  production_type_id: 1
+CA-QC_thermal:
+  id: 752
+  area_id: 262
+  production_type_id: 38
+CA-QC_wind:
+  id: 704
+  area_id: 262
+  production_type_id: 25
+CA-QC_hydro:
+  id: 861
+  area_id: 262
+  production_type_id: 23
+CA-QC_solar:
+  id: 849
+  area_id: 262
+  production_type_id: 17
+CA-NS_biomass:
+  id: 811
+  area_id: 263
+  production_type_id: 1
+CA-NS_wind:
+  id: 592
+  area_id: 263
+  production_type_id: 25
+CA-NS_fossil_hard_coal:
+  id: 427
+  area_id: 263
+  production_type_id: 5
+CA-NS_fossil_gas:
+  id: 794
+  area_id: 263
+  production_type_id: 4
+CA-NS_hydro:
+  id: 1028
+  area_id: 263
+  production_type_id: 23
+IT-CNO_fossil_hard_coal:
+  id: 1113
+  area_id: 264
+  production_type_id: 5
+IT-CNO_hydro_water_reservoir:
+  id: 1119
+  area_id: 264
+  production_type_id: 12
+IT-CNO_hydro_run-of-river_and_poundage:
+  id: 355
+  area_id: 264
+  production_type_id: 11
+IT-CNO_fossil_gas:
+  id: 1205
+  area_id: 264
+  production_type_id: 4
+IT-CNO_other:
+  id: 277
+  area_id: 264
+  production_type_id: 15
+IT-CNO_solar:
+  id: 229
+  area_id: 264
+  production_type_id: 17
+IT-CNO_hydro_pumped_storage:
+  id: 618
+  area_id: 264
+  production_type_id: 10
+IT-CNO_biomass:
+  id: 698
+  area_id: 264
+  production_type_id: 1
+IT-CNO_waste:
+  id: 501
+  area_id: 264
+  production_type_id: 18
+IT-CNO_fossil_coal-derived_gas:
+  id: 11
+  area_id: 264
+  production_type_id: 3
+IT-CNO_fossil_oil:
+  id: 750
+  area_id: 264
+  production_type_id: 6
+IT-CNO_geothermal:
+  id: 468
+  area_id: 264
+  production_type_id: 9
+IT-CNO_wind_onshore:
+  id: 1048
+  area_id: 264
+  production_type_id: 20
+IT-CSO_waste:
+  id: 572
+  area_id: 265
+  production_type_id: 18
+IT-CSO_other:
+  id: 1295
+  area_id: 265
+  production_type_id: 15
+IT-CSO_fossil_coal-derived_gas:
+  id: 770
+  area_id: 265
+  production_type_id: 3
+IT-CSO_solar:
+  id: 1203
+  area_id: 265
+  production_type_id: 17
+IT-CSO_wind_onshore:
+  id: 937
+  area_id: 265
+  production_type_id: 20
+IT-CSO_hydro_water_reservoir:
+  id: 347
+  area_id: 265
+  production_type_id: 12
+IT-CSO_fossil_gas:
+  id: 23
+  area_id: 265
+  production_type_id: 4
+IT-CSO_fossil_hard_coal:
+  id: 617
+  area_id: 265
+  production_type_id: 5
+IT-CSO_fossil_oil:
+  id: 328
+  area_id: 265
+  production_type_id: 6
+IT-CSO_biomass:
+  id: 598
+  area_id: 265
+  production_type_id: 1
+IT-CSO_hydro_pumped_storage:
+  id: 1004
+  area_id: 265
+  production_type_id: 10
+IT-CSO_hydro_run-of-river_and_poundage:
+  id: 308
+  area_id: 265
+  production_type_id: 11
+IT-NO_solar:
+  id: 145
+  area_id: 266
+  production_type_id: 17
+IT-NO_fossil_oil:
+  id: 779
+  area_id: 266
+  production_type_id: 6
+IT-NO_fossil_hard_coal:
+  id: 314
+  area_id: 266
+  production_type_id: 5
+IT-NO_fossil_gas:
+  id: 399
+  area_id: 266
+  production_type_id: 4
+IT-NO_hydro_run-of-river_and_poundage:
+  id: 1250
+  area_id: 266
+  production_type_id: 11
+IT-NO_other:
+  id: 1246
+  area_id: 266
+  production_type_id: 15
+IT-NO_hydro_pumped_storage:
+  id: 1006
+  area_id: 266
+  production_type_id: 10
+IT-NO_wind_onshore:
+  id: 339
+  area_id: 266
+  production_type_id: 20
+IT-NO_waste:
+  id: 109
+  area_id: 266
+  production_type_id: 18
+IT-NO_biomass:
+  id: 366
+  area_id: 266
+  production_type_id: 1
+IT-NO_fossil_coal-derived_gas:
+  id: 944
+  area_id: 266
+  production_type_id: 3
+IT-NO_hydro_water_reservoir:
+  id: 705
+  area_id: 266
+  production_type_id: 12
+IT-SAR_biomass:
+  id: 1314
+  area_id: 267
+  production_type_id: 1
+IT-SAR_hydro_water_reservoir:
+  id: 904
+  area_id: 267
+  production_type_id: 12
+IT-SAR_fossil_oil:
+  id: 688
+  area_id: 267
+  production_type_id: 6
+IT-SAR_wind_onshore:
+  id: 85
+  area_id: 267
+  production_type_id: 20
+IT-SAR_other:
+  id: 603
+  area_id: 267
+  production_type_id: 15
+IT-SAR_solar:
+  id: 20
+  area_id: 267
+  production_type_id: 17
+IT-SAR_hydro_run-of-river_and_poundage:
+  id: 1064
+  area_id: 267
+  production_type_id: 11
+IT-SAR_fossil_hard_coal:
+  id: 219
+  area_id: 267
+  production_type_id: 5
+IT-SAR_hydro_pumped_storage:
+  id: 654
+  area_id: 267
+  production_type_id: 10
+IT-SAR_fossil_coal-derived_gas:
+  id: 1144
+  area_id: 267
+  production_type_id: 3
+IT-SIC_hydro_water_reservoir:
+  id: 156
+  area_id: 268
+  production_type_id: 12
+IT-SIC_solar:
+  id: 839
+  area_id: 268
+  production_type_id: 17
+IT-SIC_biomass:
+  id: 955
+  area_id: 268
+  production_type_id: 1
+IT-SIC_hydro_pumped_storage:
+  id: 117
+  area_id: 268
+  production_type_id: 10
+IT-SIC_fossil_gas:
+  id: 478
+  area_id: 268
+  production_type_id: 4
+IT-SIC_fossil_coal-derived_gas:
+  id: 1090
+  area_id: 268
+  production_type_id: 3
+IT-SIC_wind_onshore:
+  id: 518
+  area_id: 268
+  production_type_id: 20
+IT-SIC_other:
+  id: 986
+  area_id: 268
+  production_type_id: 15
+IT-SIC_hydro_run-of-river_and_poundage:
+  id: 538
+  area_id: 268
+  production_type_id: 11
+IT-SIC_fossil_oil:
+  id: 1102
+  area_id: 268
+  production_type_id: 6
+IT-SO_hydro_water_reservoir:
+  id: 554
+  area_id: 269
+  production_type_id: 12
+IT-SO_hydro_run-of-river_and_poundage:
+  id: 967
+  area_id: 269
+  production_type_id: 11
+IT-SO_fossil_gas:
+  id: 674
+  area_id: 269
+  production_type_id: 4
+IT-SO_fossil_oil:
+  id: 828
+  area_id: 269
+  production_type_id: 6
+IT-SO_biomass:
+  id: 289
+  area_id: 269
+  production_type_id: 1
+IT-SO_fossil_hard_coal:
+  id: 1254
+  area_id: 269
+  production_type_id: 5
+IT-SO_wind_offshore:
+  id: 1194
+  area_id: 269
+  production_type_id: 19
+IT-SO_solar:
+  id: 1040
+  area_id: 269
+  production_type_id: 17
+IT-SO_fossil_coal-derived_gas:
+  id: 149
+  area_id: 269
+  production_type_id: 3
+IT-SO_other:
+  id: 514
+  area_id: 269
+  production_type_id: 15
+IT-SO_waste:
+  id: 790
+  area_id: 269
+  production_type_id: 18
+IT-SO_wind_onshore:
+  id: 317
+  area_id: 269
+  production_type_id: 20
+UA-BEI_fossil_hard_coal:
+  id: 830
+  area_id: 270
+  production_type_id: 5
+UA-BEI_hydro_run-of-river_and_poundage:
+  id: 1153
+  area_id: 270
+  production_type_id: 11
+UA-BEI_solar:
+  id: 556
+  area_id: 270
+  production_type_id: 17
+UA-BEI_wind_onshore:
+  id: 883
+  area_id: 270
+  production_type_id: 20
+UA-BEI_other:
+  id: 736
+  area_id: 270
+  production_type_id: 15
+UA-BEI_hydro_water_reservoir:
+  id: 199
+  area_id: 270
+  production_type_id: 12
+UA-BEI_fossil_gas:
+  id: 879
+  area_id: 270
+  production_type_id: 4
+UA-BEI_biomass:
+  id: 147
+  area_id: 270
+  production_type_id: 1
+MD_fossil_gas:
+  id: 799
+  area_id: 271
+  production_type_id: 4
+MD_biomass:
+  id: 486
+  area_id: 271
+  production_type_id: 1
+MD_hydro_run-of-river_and_poundage:
+  id: 543
+  area_id: 271
+  production_type_id: 11
+MD_wind_onshore:
+  id: 1014
+  area_id: 271
+  production_type_id: 20
+MD_fossil_oil:
+  id: 1281
+  area_id: 271
+  production_type_id: 6
+MD_fossil_hard_coal:
+  id: 671
+  area_id: 271
+  production_type_id: 5
+MD_solar:
+  id: 1143
+  area_id: 271
+  production_type_id: 17
+GE_wind_onshore:
+  id: 168
+  area_id: 272
+  production_type_id: 20
+GE_hydro_water_reservoir:
+  id: 401
+  area_id: 272
+  production_type_id: 12
+GE_hydro_run-of-river_and_poundage:
+  id: 786
+  area_id: 272
+  production_type_id: 11
+GE_fossil_hard_coal:
+  id: 561
+  area_id: 272
+  production_type_id: 5
+GE_fossil_gas:
+  id: 1160
+  area_id: 272
+  production_type_id: 4
+AL_fossil_hard_coal:
+  id: 62
+  area_id: 273
+  production_type_id: 5
+AL_fossil_brown_coal/lignite:
+  id: 949
+  area_id: 273
+  production_type_id: 2
+AL_fossil_coal-derived_gas:
+  id: 1066
+  area_id: 273
+  production_type_id: 3
+AL_other_renewable:
+  id: 106
+  area_id: 273
+  production_type_id: 16
+AL_waste:
+  id: 653
+  area_id: 273
+  production_type_id: 18
+AL_fossil_oil_shale:
+  id: 933
+  area_id: 273
+  production_type_id: 7
+AL_hydro_run-of-river_and_poundage:
+  id: 1234
+  area_id: 273
+  production_type_id: 11
+AL_other:
+  id: 723
+  area_id: 273
+  production_type_id: 15
+AL_fossil_peat:
+  id: 1279
+  area_id: 273
+  production_type_id: 8
+AL_fossil_gas:
+  id: 742
+  area_id: 273
+  production_type_id: 4
+AL_geothermal:
+  id: 970
+  area_id: 273
+  production_type_id: 9
+AL_wind_onshore:
+  id: 1218
+  area_id: 273
+  production_type_id: 20
+AL_wind_offshore:
+  id: 1217
+  area_id: 273
+  production_type_id: 19
+AL_nuclear:
+  id: 1176
+  area_id: 273
+  production_type_id: 14
+AL_biomass:
+  id: 119
+  area_id: 273
+  production_type_id: 1
+AL_hydro_water_reservoir:
+  id: 437
+  area_id: 273
+  production_type_id: 12
+AL_fossil_oil:
+  id: 1052
+  area_id: 273
+  production_type_id: 6
+AL_solar:
+  id: 79
+  area_id: 273
+  production_type_id: 17
+AL_marine:
+  id: 1060
+  area_id: 273
+  production_type_id: 13
+AL_hydro_pumped_storage:
+  id: 791
+  area_id: 273
+  production_type_id: 10
+IT-CA_biomass:
+  id: 1252
+  area_id: 274
+  production_type_id: 1
+IT-CA_fossil_gas:
+  id: 1312
+  area_id: 274
+  production_type_id: 4
+IT-CA_other:
+  id: 911
+  area_id: 274
+  production_type_id: 15
+IT-CA_wind_onshore:
+  id: 162
+  area_id: 274
+  production_type_id: 20
+IT-CA_solar:
+  id: 993
+  area_id: 274
+  production_type_id: 17
+IT-CA_waste:
+  id: 980
+  area_id: 274
+  production_type_id: 18
+IT-CA_hydro_water_reservoir:
+  id: 1065
+  area_id: 274
+  production_type_id: 12
+IT-CA_hydro_run-of-river_and_poundage:
+  id: 898
+  area_id: 274
+  production_type_id: 11
+IT-BR_fossil_gas:
+  id: 1010
+  area_id: 275
+  production_type_id: 4
+IT-BR_wind_onshore:
+  id: 718
+  area_id: 275
+  production_type_id: 20
+IT-BR_fossil_coal-derived_gas:
+  id: 192
+  area_id: 275
+  production_type_id: 3
+IT-BR_fossil_hard_coal:
+  id: 616
+  area_id: 275
+  production_type_id: 5
+IT-BR_other:
+  id: 1115
+  area_id: 275
+  production_type_id: 15
+IT-FO_wind_onshore:
+  id: 1109
+  area_id: 276
+  production_type_id: 20
+IT-FO_fossil_gas:
+  id: 222
+  area_id: 276
+  production_type_id: 4
+IT-FO_solar:
+  id: 268
+  area_id: 276
+  production_type_id: 17
+IT-PR_hydro_pumped_storage:
+  id: 353
+  area_id: 277
+  production_type_id: 10
+IT-PR_other:
+  id: 1051
+  area_id: 277
+  production_type_id: 15
+IT-PR_wind_onshore:
+  id: 606
+  area_id: 277
+  production_type_id: 20
+IT-PR_solar:
+  id: 448
+  area_id: 277
+  production_type_id: 17
+IT-PR_fossil_gas:
+  id: 1305
+  area_id: 277
+  production_type_id: 4
+IE(SEM)_hydro_pumped_storage:
+  id: 74
+  area_id: 278
+  production_type_id: 10
+IE(SEM)_wind_onshore:
+  id: 116
+  area_id: 278
+  production_type_id: 20
+IE(SEM)_hydro_run-of-river_and_poundage:
+  id: 682
+  area_id: 278
+  production_type_id: 11
+IE(SEM)_fossil_gas:
+  id: 287
+  area_id: 278
+  production_type_id: 4
+IE(SEM)_fossil_hard_coal:
+  id: 669
+  area_id: 278
+  production_type_id: 5
+IE(SEM)_other:
+  id: 706
+  area_id: 278
+  production_type_id: 15
+IE(SEM)_fossil_peat:
+  id: 135
+  area_id: 278
+  production_type_id: 8
+IE(SEM)_fossil_oil:
+  id: 1127
+  area_id: 278
+  production_type_id: 6
+GB-CTY_hydro_run-of-river_and_poundage:
+  id: 845
+  area_id: 280
+  production_type_id: 11
+GB-CTY_biomass:
+  id: 1054
+  area_id: 280
+  production_type_id: 1
+GB-CTY_wind_offshore:
+  id: 25
+  area_id: 280
+  production_type_id: 19
+GB-CTY_fossil_gas:
+  id: 235
+  area_id: 280
+  production_type_id: 4
+GB-CTY_wind_onshore:
+  id: 769
+  area_id: 280
+  production_type_id: 20
+GB-CTY_other_renewable:
+  id: 925
+  area_id: 280
+  production_type_id: 16
+GB-CTY_solar:
+  id: 803
+  area_id: 280
+  production_type_id: 17
+GB-CTY_nuclear:
+  id: 271
+  area_id: 280
+  production_type_id: 14
+GB-CTY_fossil_oil:
+  id: 1150
+  area_id: 280
+  production_type_id: 6
+GB-CTY_fossil_hard_coal:
+  id: 415
+  area_id: 280
+  production_type_id: 5
+GB-CTY_hydro_pumped_storage:
+  id: 1317
+  area_id: 280
+  production_type_id: 10
+GB-CTY_other:
+  id: 432
+  area_id: 280
+  production_type_id: 15
+IT-Rossano_fossil_gas:
+  id: 747
+  area_id: 281
+  production_type_id: 4
+IT-Rossano_other:
+  id: 658
+  area_id: 281
+  production_type_id: 15
+IT-Rossano_solar:
+  id: 1262
+  area_id: 281
+  production_type_id: 17
+IT-Rossano_wind_onshore:
+  id: 512
+  area_id: 281
+  production_type_id: 20
+CY_wind_onshore:
+  id: 593
+  area_id: 282
+  production_type_id: 20
+CY_fossil_oil:
+  id: 233
+  area_id: 282
+  production_type_id: 6
+CY_solar:
+  id: 676
+  area_id: 282
+  production_type_id: 17
+CY_biomass:
+  id: 1021
+  area_id: 282
+  production_type_id: 1
+UA-IPS_fossil_hard_coal:
+  id: 391
+  area_id: 283
+  production_type_id: 5
+UA-IPS_wind_onshore:
+  id: 850
+  area_id: 283
+  production_type_id: 20
+UA-IPS_hydro_run-of-river_and_poundage:
+  id: 1018
+  area_id: 283
+  production_type_id: 11
+UA-IPS_nuclear:
+  id: 707
+  area_id: 283
+  production_type_id: 14
+UA-IPS_biomass:
+  id: 841
+  area_id: 283
+  production_type_id: 1
+UA-IPS_fossil_gas:
+  id: 1035
+  area_id: 283
+  production_type_id: 4
+UA-IPS_hydro_water_reservoir:
+  id: 912
+  area_id: 283
+  production_type_id: 12
+UA-IPS_hydro_pumped_storage:
+  id: 392
+  area_id: 283
+  production_type_id: 10
+UA-IPS_solar:
+  id: 526
+  area_id: 283
+  production_type_id: 17
+UA_biomass:
+  id: 1062
+  area_id: 284
+  production_type_id: 1
+UA_solar:
+  id: 881
+  area_id: 284
+  production_type_id: 17
+UA_fossil_hard_coal:
+  id: 557
+  area_id: 284
+  production_type_id: 5
+UA_nuclear:
+  id: 406
+  area_id: 284
+  production_type_id: 14
+UA_wind_onshore:
+  id: 1240
+  area_id: 284
+  production_type_id: 20
+UA_other:
+  id: 1202
+  area_id: 284
+  production_type_id: 15
+UA_fossil_gas:
+  id: 407
+  area_id: 284
+  production_type_id: 4
+UA_hydro_water_reservoir:
+  id: 94
+  area_id: 284
+  production_type_id: 12
+UA_hydro_run-of-river_and_poundage:
+  id: 59
+  area_id: 284
+  production_type_id: 11
+UA_hydro_pumped_storage:
+  id: 1273
+  area_id: 284
+  production_type_id: 10
+DE-AT-LU_fossil_oil:
+  id: 1248
+  area_id: 285
+  production_type_id: 6
+DE-AT-LU_fossil_peat:
+  id: 280
+  area_id: 285
+  production_type_id: 8
+DE-AT-LU_wind_offshore:
+  id: 1183
+  area_id: 285
+  production_type_id: 19
+DE-AT-LU_fossil_gas:
+  id: 835
+  area_id: 285
+  production_type_id: 4
+DE-AT-LU_nuclear:
+  id: 760
+  area_id: 285
+  production_type_id: 14
+DE-AT-LU_solar:
+  id: 847
+  area_id: 285
+  production_type_id: 17
+DE-AT-LU_biomass:
+  id: 735
+  area_id: 285
+  production_type_id: 1
+DE-AT-LU_wind_onshore:
+  id: 683
+  area_id: 285
+  production_type_id: 20
+DE-AT-LU_fossil_hard_coal:
+  id: 1249
+  area_id: 285
+  production_type_id: 5
+DE-AT-LU_hydro_pumped_storage:
+  id: 1148
+  area_id: 285
+  production_type_id: 10
+DE-AT-LU_marine:
+  id: 681
+  area_id: 285
+  production_type_id: 13
+DE-AT-LU_hydro_water_reservoir:
+  id: 225
+  area_id: 285
+  production_type_id: 12
+DE-AT-LU_other:
+  id: 1132
+  area_id: 285
+  production_type_id: 15
+DE-AT-LU_hydro_run-of-river_and_poundage:
+  id: 405
+  area_id: 285
+  production_type_id: 11
+DE-AT-LU_fossil_brown_coal/lignite:
+  id: 613
+  area_id: 285
+  production_type_id: 2
+DE-AT-LU_other_renewable:
+  id: 425
+  area_id: 285
+  production_type_id: 16
+DE-AT-LU_waste:
+  id: 1107
+  area_id: 285
+  production_type_id: 18
+DE-AT-LU_fossil_coal-derived_gas:
+  id: 989
+  area_id: 285
+  production_type_id: 3
+DE-AT-LU_fossil_oil_shale:
+  id: 1016
+  area_id: 285
+  production_type_id: 7
+DE-AT-LU_geothermal:
+  id: 1086
+  area_id: 285
+  production_type_id: 9
+SA1_fossil_gas_ccgt:
+  id: 114
+  area_id: 286
+  production_type_id: 29
+SA1_fossil_gas_reciprocating:
+  id: 684
+  area_id: 286
+  production_type_id: 34
+SA1_solar_utility:
+  id: 332
+  area_id: 286
+  production_type_id: 27
+SA1_fossil_oil_distillate:
+  id: 1309
+  area_id: 286
+  production_type_id: 32
+SA1_fossil_gas_ocgt:
+  id: 96
+  area_id: 286
+  production_type_id: 30
+SA1_solar_rooftop:
+  id: 1272
+  area_id: 286
+  production_type_id: 28
+SA1_battery:
+  id: 853
+  area_id: 286
+  production_type_id: 22
+SA1_fossil_gas_steam:
+  id: 201
+  area_id: 286
+  production_type_id: 35
+SA1_wind:
+  id: 535
+  area_id: 286
+  production_type_id: 25
+SA1_battery_charging:
+  id: 1126
+  area_id: 286
+  production_type_id: 31
+NSW1_solar_rooftop:
+  id: 141
+  area_id: 287
+  production_type_id: 28
+NSW1_fossil_gas_ccgt:
+  id: 625
+  area_id: 287
+  production_type_id: 29
+NSW1_solar_utility:
+  id: 208
+  area_id: 287
+  production_type_id: 27
+NSW1_wind:
+  id: 864
+  area_id: 287
+  production_type_id: 25
+NSW1_fossil_gas_ocgt:
+  id: 579
+  area_id: 287
+  production_type_id: 30
+NSW1_hydro_pumped_storage:
+  id: 564
+  area_id: 287
+  production_type_id: 10
+NSW1_battery_charging:
+  id: 551
+  area_id: 287
+  production_type_id: 31
+NSW1_battery:
+  id: 334
+  area_id: 287
+  production_type_id: 22
+NSW1_fossil_oil_distillate:
+  id: 177
+  area_id: 287
+  production_type_id: 32
+NSW1_biogas:
+  id: 472
+  area_id: 287
+  production_type_id: 24
+NSW1_hydro:
+  id: 837
+  area_id: 287
+  production_type_id: 23
+NSW1_fossil_hard_coal:
+  id: 248
+  area_id: 287
+  production_type_id: 5
+QLD1_wind:
+  id: 38
+  area_id: 288
+  production_type_id: 25
+QLD1_battery_charging:
+  id: 560
+  area_id: 288
+  production_type_id: 31
+QLD1_solar_rooftop:
+  id: 638
+  area_id: 288
+  production_type_id: 28
+QLD1_fossil_oil_distillate:
+  id: 726
+  area_id: 288
+  production_type_id: 32
+QLD1_battery:
+  id: 824
+  area_id: 288
+  production_type_id: 22
+QLD1_fossil_gas_ocgt:
+  id: 532
+  area_id: 288
+  production_type_id: 30
+QLD1_fossil_gas_coal_mine_waste:
+  id: 204
+  area_id: 288
+  production_type_id: 33
+QLD1_hydro_pumped_storage:
+  id: 858
+  area_id: 288
+  production_type_id: 10
+QLD1_solar_utility:
+  id: 664
+  area_id: 288
+  production_type_id: 27
+QLD1_fossil_gas_ccgt:
+  id: 1163
+  area_id: 288
+  production_type_id: 29
+QLD1_biomass:
+  id: 1145
+  area_id: 288
+  production_type_id: 1
+QLD1_fossil_hard_coal:
+  id: 619
+  area_id: 288
+  production_type_id: 5
+QLD1_hydro:
+  id: 620
+  area_id: 288
+  production_type_id: 23
+TAS1_hydro:
+  id: 872
+  area_id: 289
+  production_type_id: 23
+TAS1_fossil_gas_ocgt:
+  id: 1181
+  area_id: 289
+  production_type_id: 30
+TAS1_fossil_gas_ccgt:
+  id: 1179
+  area_id: 289
+  production_type_id: 29
+TAS1_solar_rooftop:
+  id: 258
+  area_id: 289
+  production_type_id: 28
+TAS1_wind:
+  id: 709
+  area_id: 289
+  production_type_id: 25
+TAS1_battery_charging:
+  id: 1019
+  area_id: 289
+  production_type_id: 31
+VIC1_solar_utility:
+  id: 615
+  area_id: 290
+  production_type_id: 27
+VIC1_hydro:
+  id: 1063
+  area_id: 290
+  production_type_id: 23
+VIC1_fossil_brown_coal/lignite:
+  id: 196
+  area_id: 290
+  production_type_id: 2
+VIC1_fossil_gas_ocgt:
+  id: 488
+  area_id: 290
+  production_type_id: 30
+VIC1_solar_rooftop:
+  id: 491
+  area_id: 290
+  production_type_id: 28
+VIC1_battery:
+  id: 187
+  area_id: 290
+  production_type_id: 22
+VIC1_battery_charging:
+  id: 1070
+  area_id: 290
+  production_type_id: 31
+VIC1_wind:
+  id: 311
+  area_id: 290
+  production_type_id: 25
+VIC1_fossil_gas_steam:
+  id: 87
+  area_id: 290
+  production_type_id: 35
+AU_other:
+  id: 783
+  area_id: 296
+  production_type_id: 15
+WEM_biogas:
+  id: 962
+  area_id: 321
+  production_type_id: 24
+WEM_solar_utility:
+  id: 1326
+  area_id: 321
+  production_type_id: 27
+WEM_other:
+  id: 255
+  area_id: 321
+  production_type_id: 15
+WEM_fossil_gas_ccgt:
+  id: 816
+  area_id: 321
+  production_type_id: 29
+WEM_fossil_hard_coal:
+  id: 214
+  area_id: 321
+  production_type_id: 5
+WEM_solar_rooftop:
   id: 714
   area_id: 321
   production_type_id: 28
+WEM_fossil_gas_ocgt:
+  id: 34
+  area_id: 321
+  production_type_id: 30
+WEM_wind:
+  id: 231
+  area_id: 321
+  production_type_id: 25
+WEM_battery:
+  id: 237
+  area_id: 321
+  production_type_id: 22
+WEM_fossil_oil_distillate:
+  id: 1191
+  area_id: 321
+  production_type_id: 32

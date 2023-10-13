@@ -146,3 +146,28 @@ end
 # rescue
 #   logger.error "Exception", $!
 # end
+
+task :fixtures_areas do
+  File.open("test/fixtures/areas.yml", 'w') do |f|
+    Area.order(:source, :code).all.each do |a|
+      f.write({"#{a.source}_#{a.code}" => a.attributes }.
+               to_yaml.sub!(/---\s?/, ""))
+    end
+  end
+end
+task :fixtures_pt do
+  File.open("test/fixtures/production_types.yml", 'w') do |f|
+    ProductionType.order(:name).all.each do |pt|
+      f.write({"#{pt.name}" => pt.attributes }.
+               to_yaml.sub!(/---\s?/, ""))
+    end
+  end
+end
+task :fixtures_apt do
+  File.open("test/fixtures/areas_production_types.yml", 'w') do |f|
+    AreasProductionType.order(:area_id).all.each do |apt|
+      f.write({"#{apt.area.code}_#{apt.production_type.name}" => apt.attributes }.
+               to_yaml.sub!(/---\s?/, ""))
+    end
+  end
+end

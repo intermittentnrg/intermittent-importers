@@ -1,24 +1,67 @@
----
-biomass:
-  id: 1
-  name: biomass
-  name2: 01_biomass_and_waste
+battery:
+  id: 22
+  name: battery
+  name2: batteries
+  enabled: true
+battery_charging:
+  id: 31
+  name: battery_charging
+  name2: batteries
   enabled: true
 biogas:
   id: 24
   name: biogas
   name2: 01_biomass_and_waste
   enabled: true
-
+biomass:
+  id: 1
+  name: biomass
+  name2: 01_biomass_and_waste
+  enabled: true
+dual_fuel:
+  id: 39
+  name: dual_fuel
+  name2: 07_other
+  enabled: true
 fossil_brown_coal/lignite:
   id: 2
   name: fossil_brown_coal/lignite
   name2: 03_lignite
   enabled: true
+fossil_coal-derived_gas:
+  id: 3
+  name: fossil_coal-derived_gas
+  name2: 05_gas
+  enabled: true
 fossil_gas:
   id: 4
   name: fossil_gas
   name2: 05_gas
+  enabled: true
+fossil_gas_ccgt:
+  id: 29
+  name: fossil_gas_ccgt
+  name2: 05_gas
+  enabled: true
+fossil_gas_coal_mine_waste:
+  id: 33
+  name: fossil_gas_coal_mine_waste
+  name2: 07_other
+  enabled: true
+fossil_gas_ocgt:
+  id: 30
+  name: fossil_gas_ocgt
+  name2: 05_gas
+  enabled: true
+fossil_gas_reciprocating:
+  id: 34
+  name: fossil_gas_reciprocating
+  name2: 07_other
+  enabled: true
+fossil_gas_steam:
+  id: 35
+  name: fossil_gas_steam
+  name2: 07_other
   enabled: true
 fossil_hard_coal:
   id: 5
@@ -30,41 +73,29 @@ fossil_oil:
   name: fossil_oil
   name2: 07_other
   enabled: true
+fossil_oil_distillate:
+  id: 32
+  name: fossil_oil_distillate
+  name2: 07_other
+  enabled: true
 fossil_oil_shale:
   id: 7
   name: fossil_oil_shale
   name2: 07_other
   enabled: true
-dual_fuel:
-  id: 39
-  name: dual_fuel
+fossil_peat:
+  id: 8
+  name: fossil_peat
   name2: 07_other
   enabled: true
-
 geothermal:
   id: 9
   name: geothermal
   name2: '09_other_renewable'
   enabled: true
-
-battery:
-  id: 22
-  name: battery
-  name2: batteries
-  enabled: true
-battery_charging:
-  id: 31
-  name: battery_charging
-  name2: batteries_charging
-  enabled: true
 hydro:
   id: 23
   name: hydro
-  name2: 06_hydro
-  enabled: true
-hydro_small:
-  id: 40
-  name: hydro_small
   name2: 06_hydro
   enabled: true
 hydro_large:
@@ -82,10 +113,20 @@ hydro_run-of-river_and_poundage:
   name: hydro_run-of-river_and_poundage
   name2: 06_hydro
   enabled: true
+hydro_small:
+  id: 40
+  name: hydro_small
+  name2: 06_hydro
+  enabled: true
 hydro_water_reservoir:
   id: 12
   name: hydro_water_reservoir
   name2: 06_hydro
+  enabled: true
+marine:
+  id: 13
+  name: marine
+  name2: '09_other_renewable'
   enabled: true
 nuclear:
   id: 14
@@ -107,14 +148,40 @@ solar:
   name: solar
   name2: '08_solar'
   enabled: true
+solar_embedded:
+  id: 37
+  name: solar_embedded
+  name2: '08_solar'
+  enabled: true
+solar_rooftop:
+  id: 28
+  name: solar_rooftop
+  name2: '08_solar'
+  enabled: true
+solar_utility:
+  id: 27
+  name: solar_utility
+  name2: '08_solar'
+  enabled: true
+thermal:
+  id: 38
+  name: thermal
+  name2: 07_other
+  enabled: true
 waste:
   id: 18
   name: waste
   name2: 01_biomass_and_waste
+  enabled: true
 wind:
   id: 25
   name: wind
-  name2: 09_wind
+  name2: '09_wind'
+  enabled: true
+wind_embedded:
+  id: 36
+  name: wind_embedded
+  name2: '09_wind_onshore'
   enabled: true
 wind_offshore:
   id: 19
@@ -125,9 +192,4 @@ wind_onshore:
   id: 20
   name: wind_onshore
   name2: '09_wind_onshore'
-  enabled: true
-solar_rooftop:
-  id: 28
-  name: solar_rooftop
-  name2: 08_solar
   enabled: true
