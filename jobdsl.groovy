@@ -12,7 +12,7 @@ pipelineJob("intermittency-${BRANCH_NAME}/refresh") {
       pipelineTriggers {
         triggers {
           cron {
-            spec('H */2 * * *')
+            spec('H * * * *')
           }
         }
       }
