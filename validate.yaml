@@ -21,6 +21,8 @@ europe:
     nuclear:
       min: 15000000
   GB:
+    load:
+      min: 10000000
     nuclear:
       min: 2000000
       max: 9000000
