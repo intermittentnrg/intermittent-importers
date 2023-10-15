@@ -78,53 +78,92 @@ module Elexon
     end
   end
 
-  class Fuelinst < BaseXML
+  class Fuelinst < BaseCSV
     include SemanticLogger::Loggable
     include Out::Generation
 
-    MAP = {
-      "ccgt" => "fossil_gas_ccgt",
-      "oil" => "fossil_oil",
-      "coal" => "fossil_hard_coal",
-      "nuclear" => "nuclear",
-      "wind" => "wind",
-      "ps" => "solar",
-      "npshyd" => "hydro",
-      "ocgt" => "fossil_gas_ocgt",
-      "other" => "other",
-      "biomass" => "biomass"
-    }
-    def initialize(from, to = nil)
-      to = from + 1.day unless to
-      @from = from
-      @to = to
-      @report = 'FUELINST'
-      @options = {}
-      @options[:FromDateTime] = from.strftime('%Y-%m-%d %H:%M:%S')
-      @options[:ToDateTime] = to.strftime('%Y-%m-%d %H:%M:%S')
-      @options[:Period] = "*"
-      @options[:ServiceType] = 'xml'
-      @options[:APIKey] = ENV['ELEXON_TOKEN']
-      fetch
-    end
-    def points_generation
-      r = {}
-      @res['response']['responseBody']['responseList']['item'].each do |item|
-        time = (Time.strptime("#{item['startTimeOfHalfHrPeriod']} UTC", '%Y-%m-%d %Z') + (item['settlementPeriod'].to_i * 30).minutes)
+    def self.cli(args)
+      if args.length == 1 && args.first.include?('.')
+        Elexon::Fuelinst.new(args.first).process
+      elsif args.length < 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      else
+        from = Chronic.parse(args.shift).to_date
+        to = Chronic.parse(args.shift).to_date
 
-        r[time] = r2 = []
-        MAP.each do |k,v|
-          r2 << {
-            country: 'GB',
-            production_type: v,
-            time: time,
-            value: (item[k].to_f*1000).to_i
-          }
+        (from...to).each do |time|
+          e = Elexon::Fuelinst.new(time, time + 1.day)
+          e.process
+        rescue ENTSOE::EmptyError
+          logger.warn "EmptyError #{time}"
         end
       end
-      #require 'pry' ; binding.pry
+    end
 
-      r.values.flatten
+    def initialize(from_or_path, to = nil)
+      if from_or_path.is_a? String
+        @res = Ox.load_file(from_or_path, mode: :hash, symbolize_keys: false)
+      else
+        @from = from_or_path
+        @to = to || @from + 1.day
+        @report = 'FUELINST'
+        @options = {}
+        @options[:FromDateTime] = @from.strftime('%Y-%m-%d %H:%M:%S')
+        @options[:ToDateTime] = @to.strftime('%Y-%m-%d %H:%M:%S')
+        @options[:Period] = "*"
+        @options[:ServiceType] = 'csv'
+        @options[:APIKey] = ENV['ELEXON_TOKEN']
+        fetch
+      end
+    end
+
+    def points_generation
+      r_all = {}
+      @csv.each do |row|
+        # Record Type
+        next unless row[0] == 'FUELINST'
+        # Settlement Date
+        # Settlement Period
+        # Spot Time
+        unless row[3]
+          require 'pry' ; binding.pry
+        end
+        time = Time.strptime(row[3], '%Y%m%d%H%M%S')
+        r = []
+        # CCGT
+        r << {time:, country: 'GB', production_type: 'fossil_gas_ccgt', value: row[4].to_f*1000}
+        # OIL
+        r << {time:, country: 'GB', production_type: 'fossil_oil', value: row[5].to_f*1000}
+        # COAL
+        r << {time:, country: 'GB', production_type: 'fossil_hard_coal', value: row[6].to_f*1000}
+        # NUCLEAR
+        r << {time:, country: 'GB', production_type: 'nuclear', value: row[7].to_f*1000}
+        # WIND
+        r << {time:, country: 'GB', production_type: 'wind', value: row[8].to_f*1000}
+        # PS
+        r << {time:, country: 'GB', production_type: 'hydro_pumped_storage', value: row[9].to_f*1000}
+        # NPSHYD
+        r << {time:, country: 'GB', production_type: 'hydro', value: row[10].to_f*1000}
+        # OCGT
+        r << {time:, country: 'GB', production_type: 'fossil_gas_ocgt', value: row[11].to_f*1000}
+        # OTHER
+        r << {time:, country: 'GB', production_type: 'other', value: row[12].to_f*1000}
+        # INTFR
+        # INTIRL
+        # INTNED
+        # INTEW
+        # BIOMASS
+        r << {time:, country: 'GB', production_type: 'biomass', value: row[17].to_f*1000}
+        # INTNEM
+        # INTELEC
+        # INTIFA2
+        # INTNSL
+        r_all[time] = r
+      end
+      #require 'pry'; binding.pry
+
+      r_all.values.flatten
     end
   end
 

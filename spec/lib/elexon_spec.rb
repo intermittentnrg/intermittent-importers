@@ -27,7 +27,31 @@ end
 
 RSpec.describe Elexon::Fuelinst do
   subject { Elexon::Fuelinst }
-  describe :cli
+  describe :cli do
+    let(:body) do
+      <<-CSV
+HDR,INSTANTANEOUS GENERATION BY FUEL TYPE DATA
+FUELINST,20230101,1,20230101000500,2714,0,514,5731,11580,0,343,0,137,630,0,0,0,449,252,998,905,351
+FUELINST,20230101,1,20230101001000,2922,0,587,5722,11651,0,340,0,170,597,0,0,0,450,252,998,903,237
+FUELINST,20230101,1,20230101001500,3081,0,580,5717,11669,0,341,0,142,597,0,0,0,448,252,998,903,180
+      CSV
+    end
+    context 'single date as argument' do
+      it do
+        stub_request(:get, "https://api.bmreports.com/BMRS/FUELINST/v1?APIKey=#{ENV['ELEXON_TOKEN']}&FromDateTime=2023-01-01%2000:00:00&Period=*&ServiceType=csv&ToDateTime=2023-01-02%2000:00:00").
+          to_return(body:)
+        expect(::Generation).to receive(:upsert_all)
+        subject.cli(['2023-01-01','2023-01-02'])
+      end
+    end
+    context 'file as argument' do
+      xit do
+        #FIXME can't stub Ox.load_file
+        expect(::Generation).to receive(:upsert_all)
+        subject.cli(['file.csv'])
+      end
+    end
+  end
 
   describe :parsers_each do
     around(:example) { |ex| Timecop.freeze(current_time, &ex) }
