@@ -113,7 +113,7 @@ module EntsoeCSV
         #require 'pry' ; binding.pry
       end
 
-      r.values
+      Validate.validate_generation(r.values)
     end
   end
 
