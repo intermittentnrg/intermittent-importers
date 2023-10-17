@@ -6,9 +6,15 @@ class Validate
     areas = {}
 
     points.select! do |p|
-      area = areas[p[:area_id]] ||= Area.where(code: p[:country]).first
+      if p[:country]
+        area = areas[p[:country]] ||= Area.find_by(code: p[:country])
+      elsif p[:area_id]
+        area = areas[p[:area_id]] ||= Area.find(p[:area_id])
+      else
+        raise p.inspect
+      end
 
-      rule = @@rules[area.region][p[:country]].try(:[], p[:production_type]) || {}
+      rule = @@rules[area.region][area.code].try(:[], p[:production_type]) || {}
       rule_all = @@rules[area.region]['all'].try(:[], p[:production_type]) || {}
 
       min = rule[:min] || rule_all[:min]
