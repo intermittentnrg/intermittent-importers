@@ -26,9 +26,10 @@ RSpec.describe Eia::Generation do
     let(:current_time) { Time.new(2023,1,1) }
     let(:datapoint_time) { Time.new(2023,1,1) }
     before do
-      areas = Area.find_by! code: 'BANC', source: 'eia'
+      areas = Area.find_by! code: 'CISO', source: 'eia'
       production_type = ProductionType.find_by! name: 'wind'
-      areas.generation.create time: datapoint_time, production_type:, value: 1000
+      apt = areas.areas_production_type.find_by!(production_type:)
+      areas.generation.create(time: datapoint_time, production_type:, areas_production_type_id: apt.id, value: 1000)
     end
 
     it do

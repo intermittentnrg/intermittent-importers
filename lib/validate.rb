@@ -107,7 +107,7 @@ class Validate
   end
 
   def self.check_constraints
-    gen_check_constraints = Hash[ActiveRecord::Base.connection.check_constraints(:generation).map { |c| [c.options[:name], c.expression] }]
+    gen_check_constraints = Hash[ActiveRecord::Base.connection.check_constraints(:generation_data).map { |c| [c.options[:name], c.expression] }]
     load_check_constraints = Hash[ActiveRecord::Base.connection.check_constraints(:load).map { |c| [c.options[:name], c.expression] }]
     #areas = {}
     #production_types = {}
@@ -129,7 +129,7 @@ class Validate
             expression = area_expression
           else
             check_constraints = gen_check_constraints
-            table = :generation
+            table = :generation_data
             production_type = ProductionType.where(name: production_type_name).first
             name = "auto_#{region}_#{area_code}_#{production_type_name.gsub(/-/,'_')}".downcase
             expression = "#{area_expression} AND production_type_id = #{production_type.id}"

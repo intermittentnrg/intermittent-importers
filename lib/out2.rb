@@ -20,7 +20,7 @@ module Out2
         apt_id = apts[[area_id, pt_id]] ||= AreasProductionType.where(area_id:, production_type_id: pt_id).pluck(:id).first
         p[:area_id] = area_id
         p[:production_type_id] = pt_id
-        p[:areas_production_types_id] = apt_id
+        p[:areas_production_type_id] = apt_id
         p.delete :production_type
         p.delete :country
       end

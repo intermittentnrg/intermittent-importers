@@ -12,7 +12,8 @@ RSpec.describe Elexon::Generation do
     before do
       areas = Area.find_by! code: 'GB', source: 'elexon'
       production_type = ProductionType.find_by! name: 'wind'
-      areas.generation.create time: datapoint_time, production_type:, value: 1000
+      apt = areas.areas_production_type.find_by!(production_type:)
+      areas.generation.create(time: datapoint_time, production_type:, areas_production_type: apt, value: 1000)
     end
 
     it do
@@ -58,9 +59,10 @@ FUELINST,20230101,1,20230101001500,3081,0,580,5717,11669,0,341,0,142,597,0,0,0,4
     let(:current_time) { Time.new(2023,1,1) }
     let(:datapoint_time) { Time.new(2023,1,1) }
     before do
-      areas = Area.find_by! code: 'GB', source: 'elexon'
+      area = Area.find_by! code: 'GB', source: 'elexon'
       production_type = ProductionType.find_by! name: 'wind'
-      areas.generation.create time: datapoint_time, production_type:, value: 1000
+      apt = AreasProductionType.find_by!(area:, production_type:)
+      area.generation.create time: datapoint_time, production_type:, areas_production_type: apt, value: 1000
     end
 
     it do

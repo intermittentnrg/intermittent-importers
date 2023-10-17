@@ -4,4 +4,5 @@ class Area < ActiveRecord::Base
   has_many :load
   has_many :units
   has_many :prices
+  has_many :areas_production_type
 end

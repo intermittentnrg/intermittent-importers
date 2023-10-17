@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 RSpec.describe 'capture price calculations' do
-  let(:area) { Area.create(code: 'test', region: 'australia', source: 'aemo', type: 'zone') }
-  let(:pt) { ProductionType.find_by! name: 'biomass' }
+  let(:area) { Area.find_by!(code: 'SA1', region: 'australia', source: 'aemo', type: 'region') }
+  let(:pt) { ProductionType.find_by! name: 'wind' }
+  let(:apt) { AreasProductionType.find_by(area:, production_type: pt) }
   let(:r) do
     r = Generation.connection.execute <<-SQL
       SELECT
@@ -35,7 +36,7 @@ RSpec.describe 'capture price calculations' do
   before do
     area.generation.insert_all(
       period_steps.times.map do |i|
-        {value: kwh.is_a?(Array) ? kwh[i] : kwh, time: time + i*period, production_type_id: pt.id}
+        {value: kwh.is_a?(Array) ? kwh[i] : kwh, time: time + i*period, production_type_id: pt.id, areas_production_type_id: apt.id}
       end
     )
     area.prices.insert_all(
