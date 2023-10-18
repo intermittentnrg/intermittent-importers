@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/custora/fastest-csv.git
+  revision: 2683a556d90ef4eee4757f9de9fc8f828808b61d
+  tag: v0.8.2
+  specs:
+    fastest_csv (0.8.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -80,7 +87,6 @@ GEM
     faraday-retry (2.2.0)
       faraday (~> 2.0)
     fast_jsonparser (0.6.0)
-    fastest-csv (0.0.4)
     ffi (1.16.2)
     hashdiff (1.0.1)
     hashie (5.0.0)
@@ -221,7 +227,7 @@ DEPENDENCIES
   faraday-net_http_persistent (~> 2.0)
   faraday-retry
   fast_jsonparser
-  fastest-csv
+  fastest_csv!
   httparty
   net-sftp
   oauth

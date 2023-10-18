@@ -1,5 +1,5 @@
 FROM ruby:3.2.2-alpine
-RUN apk add --no-cache make gcc g++ musl-dev libpq-dev postgresql-client libcurl tzdata
+RUN apk add --no-cache make gcc g++ musl-dev libpq-dev postgresql-client libcurl tzdata git
 
 WORKDIR /app
 COPY Gemfile Gemfile.lock ./

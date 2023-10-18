@@ -23,7 +23,7 @@ gem 'elasticsearch'
 # Parsers
 gem 'chronic'
 gem 'business_time'
-gem 'fastest-csv'
+gem 'fastest_csv', git: 'https://github.com/custora/fastest-csv.git', tag: 'v0.8.2'
 gem 'fast_jsonparser'
 gem 'ox'
 

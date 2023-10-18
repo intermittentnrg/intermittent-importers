@@ -31,7 +31,7 @@ module Caiso
             req.headers['If-Modified-Since'] = @filedate.strftime(HTTP_DATE_FORMAT)
           end
         end
-        FastestCSV.parse(@res.body)
+        FastestCSV.parse(@res.body, row_sep: "\r\n")
       end
       if @res.status == 304 || @res.headers['content-type'] =~ /^text\/html/
         raise ENTSOE::EmptyError
@@ -109,7 +109,7 @@ module Caiso
 
     def points_generation
       fetch
-      raise @fields unless @fields.map(&:downcase) == FUELS.keys.map(&:downcase)
+      raise @fields.inspect unless @fields.map(&:downcase) == FUELS.keys.map(&:downcase)
       r = []
       last_time = @from
       @csv.each do |row|
