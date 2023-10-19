@@ -34,9 +34,9 @@ RSpec.describe 'capture price calculations' do
   let(:period_steps) { 12 }
 
   before do
-    area.generation.insert_all(
+    apt.generation.insert_all(
       period_steps.times.map do |i|
-        {value: kwh.is_a?(Array) ? kwh[i] : kwh, time: time + i*period, production_type_id: pt.id, areas_production_type_id: apt.id}
+        {value: kwh.is_a?(Array) ? kwh[i] : kwh, time: time + i*period}
       end
     )
     area.prices.insert_all(

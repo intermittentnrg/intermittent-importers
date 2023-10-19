@@ -29,7 +29,7 @@ RSpec.describe Eia::Generation do
       areas = Area.find_by! code: 'CISO', source: 'eia'
       production_type = ProductionType.find_by! name: 'wind'
       apt = areas.areas_production_type.find_by!(production_type:)
-      areas.generation.create(time: datapoint_time, production_type:, areas_production_type_id: apt.id, value: 1000)
+      apt.generation.create(time: datapoint_time, value: 1000)
     end
 
     it do

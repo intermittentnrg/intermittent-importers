@@ -6,7 +6,7 @@ module Out
 
     module ClassMethods
       def parsers_each
-        ::Generation.joins(:area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+        ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
           from2 = from
           from = from.in_time_zone(self::TZ).to_datetime
           to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min

@@ -18,7 +18,7 @@ RSpec.describe Caiso::Generation do
       area = Area.find_by! code: 'CAISO', source: 'caiso'
       production_type = ProductionType.find_by! name: 'solar'
       apt = area.areas_production_type.find_by!(production_type:)
-      area.generation.create(time: datapoint_time, production_type:, areas_production_type_id: apt.id, value: 1000)
+      apt.generation.create(time: datapoint_time, value: 1000)
     end
     context "refreshes previous day if data missing" do
       let(:current_time) { Time.new(2023,1,1,6) }
