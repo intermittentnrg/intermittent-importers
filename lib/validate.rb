@@ -65,7 +65,14 @@ class Validate
   def self.validate_data(delete=false, filters = [])
     @@rules.each do |region, areas|
       areas.each do |area_code, production_types|
-        area = Area.find_by!(region: region, code: area_code, enabled: true) if area_code != 'all'
+        area_code = area_code.split(/\//)
+        if area_code[1]
+          area = Area.find_by(region: region, code: area_code, source: area_code[1], enabled: true)
+        else
+          area = Area.find_by(region: region, code: area_code, enabled: true) if area_code[0] != 'all'
+        end
+        area_code = area_code[0]
+
         production_types.each do |production_type_name, rules|
           next unless filters.empty? || filters.any? do |filter|
             "#{area_code}/#{production_type_name}".include? filter
@@ -76,11 +83,12 @@ class Validate
           else
             production_type = ProductionType.find_by(name: production_type_name)
             raise production_type_name unless production_type
-            query = Generation.where(production_type_id: production_type.id)
+            apt = area.areas_production_type.find_by!(production_type:)
+            query = Generation.where(areas_production_type: apt)
           end
 
           if area
-            query = query.where(area_id: area.id)
+            #query = query.where(area_id: area.id)
           else
             query = query.joins(:area).where("area.region" => region)
           end
@@ -109,30 +117,40 @@ class Validate
   def self.check_constraints
     gen_check_constraints = Hash[ActiveRecord::Base.connection.check_constraints(:generation_data).map { |c| [c.options[:name], c.expression] }]
     load_check_constraints = Hash[ActiveRecord::Base.connection.check_constraints(:load).map { |c| [c.options[:name], c.expression] }]
-    #areas = {}
-    #production_types = {}
+
     @@rules.each do |region, areas|
       areas.each do |area_code, production_types|
-        area = Area.find_by!(region: region, code: area_code) if area_code != 'all'
-        if area
-          area_expression = "area_id = #{area.id}".freeze
+        area_code = area_code.split(/\//)
+        if area_code[1]
+          area = Area.find_by(region: region, code: area_code, source: area_code[1], enabled: true)
         else
-          area_ids = Area.where(region:).pluck(:id)
-          area_expression = "(area_id = ANY (ARRAY[#{area_ids.join(', ')}]))".freeze
+          area = Area.find_by(region: region, code: area_code, enabled: true) if area_code[0] != 'all'
         end
+        area_code = area_code[0]
 
         production_types.each do |production_type_name, rules|
           if production_type_name == "load"
             check_constraints = load_check_constraints
             table = :load
             name = "auto_#{region}_#{area_code}".downcase
-            expression = area_expression
-          else
+            if area
+              expression = "area_id = #{area.id}"
+            else
+              area_ids = Area.where(region:).pluck(:id)
+              expression = "(area_id = ANY (ARRAY[#{area_ids.join(', ')}]))"
+            end
+          else #generation
             check_constraints = gen_check_constraints
             table = :generation_data
-            production_type = ProductionType.where(name: production_type_name).first
+            production_type = ProductionType.find_by!(name: production_type_name)
+            if area
+              apt = production_type.areas_production_type.find_by!(area:)
+              expression = "areas_production_type_id = #{apt.id}"
+            else
+              apts = production_type.areas_production_type.joins(:area).where('area.region': region).all
+              expression = "(areas_production_type_id = ANY (ARRAY[#{apts.map(&:id).join(', ')}]))"
+            end
             name = "auto_#{region}_#{area_code}_#{production_type_name.gsub(/-/,'_')}".downcase
-            expression = "#{area_expression} AND production_type_id = #{production_type.id}"
           end
           if rules[:min]
             rules[:min] = "'#{rules[:min]}'::integer" if rules[:min] < 0

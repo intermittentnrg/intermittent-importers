@@ -20,7 +20,7 @@ europe:
   FR:
     nuclear:
       min: 15000000
-  GB:
+  GB/elexon:
     load:
       min: 10000000
     nuclear:
