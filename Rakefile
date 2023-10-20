@@ -10,11 +10,11 @@ ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.datetime_type = :timestamptz
 
 #ActiveRecord::Base.logger = Logger.new(STDOUT)
 
-def pump_task(name, source, model)
+def pump_task(name, source)
   desc "Run refresh task"
   task name do |t|
     SemanticLogger.tagged(task: t.to_s) do
-      Pump::Process.new(source, model).run
+      Pump::Process.new(source).run
     rescue
       @logger.error "Exception", $!
     end
@@ -48,36 +48,36 @@ task :ping do |t|
 end
 
 desc "Run all refresh tasks"
-multitask all: ["ieso:all", "eia:all", "caiso:all", "elexon:all", "entsoe:all", "nordpool:all", :opennem, 'aemo:all', :ree, :aeso, :hydroquebec]
+multitask all: ["ieso:all", "eia:all", "caiso:all", "elexon:all", "entsoe:all", "nordpool:all", :opennem, 'aemo:all', :ree, :aeso, :hydroquebec, :tohoku]
 namespace :ieso do
   desc "Run refresh tasks"
   task all: [:generation, :load, :price]
-  pump_task :generation, Ieso::Generation, Generation
-  pump_task :load, Ieso::Load, Load
-  pump_task :price, Ieso::Price, Price
+  pump_task :generation, Ieso::Generation
+  pump_task :load, Ieso::Load
+  pump_task :price, Ieso::Price
 end
 
 namespace :eia do
   desc "Run refresh tasks"
   task all: [:generation, :load]
-  pump_task :generation, Eia::Generation, Generation
-  pump_task :load, Eia::Load, Load
+  pump_task :generation, Eia::Generation
+  pump_task :load, Eia::Load
 end
 
 namespace :caiso do
   desc "Run refresh tasks"
   task all: [:generation, :load]
-  pump_task :generation, Caiso::Generation, Generation
-  pump_task :load, Caiso::Load, Load
+  pump_task :generation, Caiso::Generation
+  pump_task :load, Caiso::Load
 end
 
 namespace :elexon do
   desc "Run refresh tasks"
   task all: [:generation, :fuelinst, :load, :unit]
-  pump_task :generation, Elexon::Generation, Generation
-  pump_task :fuelinst, Elexon::Fuelinst, Generation
-  pump_task :load, Elexon::Load, Load
-  pump_task :unit, Elexon::Unit, GenerationUnit
+  pump_task :generation, Elexon::Generation
+  pump_task :fuelinst, Elexon::Fuelinst
+  pump_task :load, Elexon::Load
+  pump_task :unit, Elexon::Unit
 end
 
 namespace :entsoe do
@@ -87,16 +87,16 @@ namespace :entsoe do
   loop_task :unit, EntsoeSFTP::Unit
   loop_task :load, EntsoeSFTP::Load
   loop_task :price, EntsoeSFTP::Price
-  pump_task :transmission, ENTSOE::Transmission, Transmission
+  pump_task :transmission, ENTSOE::Transmission
 end
 
 namespace :nordpool do
   desc "Run refresh tasks"
   task all: [:transmission, :capacity, :price]
-  pump_task :transmission, Nordpool::Transmission, Transmission
-  pump_task :capacity, Nordpool::Capacity, Transmission
-  pump_task :price, Nordpool::Price, Price
-  pump_task :price_sek, Nordpool::PriceSEK, Price
+  pump_task :transmission, Nordpool::Transmission
+  pump_task :capacity, Nordpool::Capacity
+  pump_task :price, Nordpool::Price
+  pump_task :price_sek, Nordpool::PriceSEK
 end
 
 oneshot_task :opennem, Opennem::Latest
@@ -122,7 +122,7 @@ namespace :aemo do
   end
 end
 
-pump_task :ree, Ree::Generation, Generation
+pump_task :ree, Ree::Generation
 
 desc "Run refresh tasks"
 task :aeso do |t|
@@ -146,6 +146,8 @@ end
 # rescue
 #   logger.error "Exception", $!
 # end
+
+pump_task :tohoku, Tohoku::Juyo
 
 task :fixtures_areas do
   File.open("test/fixtures/areas.yml", 'w') do |f|

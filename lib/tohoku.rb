@@ -1,12 +1,11 @@
-module JpTh
+module Tohoku
   class Juyo
-    TZ = TZInfo::Timezone.get('Asia/Tokyo')
-
     include SemanticLogger::Loggable
-
+    TZ = TZInfo::Timezone.get('Asia/Tokyo')
     def self.source_id
       "tohoku-epco"
     end
+
     def self.cli(args)
       if args.length == 1
         date = Chronic.parse(args[0]).to_date
@@ -19,6 +18,16 @@ module JpTh
         end
       end
     end
+
+    def self.parsers_each
+      from = ::Generation.joins(:area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
+      to = Time.now.in_time_zone(self::TZ)
+      logger.info("Refresh from #{from}")
+      (from.to_date..to.to_date).each do |date|
+        yield self.new date
+      end
+    end
+
     def initialize(date)
       @from = date
     end

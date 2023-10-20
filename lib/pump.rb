@@ -53,9 +53,13 @@ class Pump
   end
 end
 
-class Pump::Process < Pump
+class Pump::Process
+  def initialize(source)
+    @source = source
+  end
+
   def run
-    parsers_each do |e|
+    @source.parsers_each do |e|
       e.process
     rescue ENTSOE::EmptyError
       @@logger.warn "empty response", $!
