@@ -5,25 +5,27 @@ class Validate
   def self.validate_generation(points)
     areas = {}
 
-    points.select! do |p|
-      if p[:country]
-        area = areas[p[:country]] ||= Area.find_by(code: p[:country])
-      elsif p[:area_id]
-        area = areas[p[:area_id]] ||= Area.find(p[:area_id])
-      else
-        raise p.inspect
+    logger.benchmark_info('validate generation') do
+      points.select! do |p|
+        if p[:country]
+          area = areas[p[:country]] ||= Area.find_by(code: p[:country])
+        elsif p[:area_id]
+          area = areas[p[:area_id]] ||= Area.find(p[:area_id])
+        else
+          raise p.inspect
+        end
+
+        rule = @@rules[area.region][area.code].try(:[], p[:production_type]) || {}
+        rule_all = @@rules[area.region]['all'].try(:[], p[:production_type]) || {}
+
+        min = rule[:min] || rule_all[:min]
+        max = rule[:max] || rule_all[:max]
+
+        r = (min.nil? && max.nil?) || (min...max).include?(p[:value])
+        logger.warn "skipped invalid generation", generation: p unless r
+
+        r
       end
-
-      rule = @@rules[area.region][area.code].try(:[], p[:production_type]) || {}
-      rule_all = @@rules[area.region]['all'].try(:[], p[:production_type]) || {}
-
-      min = rule[:min] || rule_all[:min]
-      max = rule[:max] || rule_all[:max]
-
-      r = (min.nil? && max.nil?) || (min...max).include?(p[:value])
-      logger.warn "skipped invalid generation", generation: p unless r
-
-      r
     end
 
     points
@@ -32,23 +34,25 @@ class Validate
   def self.validate_load(points)
     areas = {}
 
-    points.select! do |p|
-      if p[:area_id]
-        area = areas[p[:area_id]] ||= Area.find p[:area_id]
-      else
-        area = areas[p[:country]] ||= Area.find_by(code: p[:country])
+    logger.benchmark_info('validate load') do
+      points.select! do |p|
+        if p[:country]
+          area = areas[p[:country]] ||= Area.find_by(code: p[:country])
+        else
+          area = areas[p[:area_id]] ||= Area.find p[:area_id]
+        end
+
+        rule = @@rules[area.region][area.code].try(:[], :load) || {}
+        rule_all = @@rules[area.region]['all'].try(:[], :load) || {}
+
+        min = rule[:min] || rule_all[:min]
+        max = rule[:max] || rule_all[:max]
+
+        r = (min.nil? && max.nil?) || (min...max).include?(p[:value])
+        logger.warn "skipped invalid load", load: p unless r
+
+        r
       end
-
-      rule = @@rules[area.region][p[:country]].try(:[], :load) || {}
-      rule_all = @@rules[area.region]['all'].try(:[], :load) || {}
-
-      min = rule[:min] || rule_all[:min]
-      max = rule[:max] || rule_all[:max]
-
-      r = (min.nil? && max.nil?) || (min...max).include?(p[:value])
-      logger.warn "skipped invalid load", load: p unless r
-
-      r
     end
 
     points
