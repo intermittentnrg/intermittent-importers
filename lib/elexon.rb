@@ -190,7 +190,7 @@ module Elexon
         }
       end
 
-      r.values
+      Validate.validate_generation(r.values)
     end
   end
 
@@ -219,7 +219,7 @@ module Elexon
       #r.filter! { |r2| r2[:value] > 10000 }
       #require 'pry' ; binding.pry
 
-      r.values
+      Validate.validate_load(r.values)
     end
   end
 
