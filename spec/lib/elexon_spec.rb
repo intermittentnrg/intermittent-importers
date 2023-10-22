@@ -85,7 +85,7 @@ RSpec.describe Elexon::Load do
     let(:datapoint_time) { Time.new(2023,1,1) }
     before do
       areas = Area.find_by! code: 'GB', source: 'elexon'
-      areas.load.create time: datapoint_time, value: 1000
+      areas.load.create time: datapoint_time, value: 10000000
     end
 
     it do
