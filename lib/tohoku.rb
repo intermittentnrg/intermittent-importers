@@ -20,7 +20,7 @@ module Tohoku
     end
 
     def self.parsers_each
-      from = ::Generation.joins(:area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
+      from = ::Generation.joins(:areas_production_type => :area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
       (from.to_date..to.to_date).each do |date|
@@ -35,8 +35,10 @@ module Tohoku
     def fetch
       return if @csv
       url = "https://setsuden.nw.tohoku-epco.co.jp/common/demand/juyo_02_#{@from.strftime('%Y%m%d')}.csv"
-      res = Faraday.get(url)
-      @csv = CSV.parse(res.body.encode('UTF-8'))
+      logger.benchmark_info(url) do
+        res = Faraday.get(url)
+        @csv = CSV.parse(res.body.encode('UTF-8'))
+      end
       #require 'pry' ; binding.pry
     end
 
