@@ -85,7 +85,6 @@ class Validate
           next unless filters.empty? || filters.any? do |filter|
             "#{area_code}/#{production_type_name}".include? filter
           end
-          #TODO skip if check constraint in place
           if production_type_name == "load"
             query = Load
           else
@@ -96,7 +95,7 @@ class Validate
           end
 
           if area
-            #query = query.where(area_id: area.id)
+            query = query.where(area_id: area.id)
           else
             query = query.joins(:area).where("area.region" => region)
           end
