@@ -31,18 +31,22 @@ class Validate
     points
   end
 
-  def self.validate_load(points)
+  def self.validate_load(points, source = nil)
     areas = {}
 
     logger.benchmark_info('validate load') do
       points.select! do |p|
+        area_where = Area
+        area_where = area_where.where(source:) if source
         if p[:country]
-          area = areas[p[:country]] ||= Area.find_by(code: p[:country])
+          area = areas[p[:country]] ||= area_where.find_by(code: p[:country])
         else
-          area = areas[p[:area_id]] ||= Area.find p[:area_id]
+          area = areas[p[:area_id]] ||= area_where.find p[:area_id]
         end
 
-        rule = @@rules[area.region][area.code].try(:[], :load) || {}
+        rule = @@rules[area.region]["#{area.code}/#{area.source}"].try(:[], :load) || \
+               @@rules[area.region][area.code].try(:[], :load) || \
+               {}
         rule_all = @@rules[area.region]['all'].try(:[], :load) || {}
 
         min = rule[:min] || rule_all[:min]
