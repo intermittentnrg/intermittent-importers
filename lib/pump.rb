@@ -1,5 +1,5 @@
 class Pump
-  @@logger = SemanticLogger[Pump]
+  include SemanticLogger::Loggable
 
   def initialize(source, out_model)
     @source = source
@@ -26,7 +26,7 @@ class Pump
     parsers_each do |e|
       data = e.points
       #require 'pry' ;binding.pry
-      @@logger.info "#{data.first.try(:[], :time)} #{data.length} points"
+      logger.info "#{data.first.try(:[], :time)} #{data.length} points"
 
       data.each do |p|
         p[:area_id] = (areas[p[:country]] ||= Area.where(source: @source.source_id, code: p[:country]).pluck(:id).first) if p[:country]
@@ -46,7 +46,7 @@ class Pump
     rescue ENTSOE::EmptyError
       raise if to < 1.day.ago # raise if within 24hrs
 
-      @@logger.warn "skipped missing data until #{to}"
+      logger.warn "skipped missing data until #{to}"
     end
 
     pass
@@ -54,6 +54,7 @@ class Pump
 end
 
 class Pump::Process
+  include SemanticLogger::Loggable
   def initialize(source)
     @source = source
   end
@@ -62,7 +63,7 @@ class Pump::Process
     @source.parsers_each do |e|
       e.process
     rescue ENTSOE::EmptyError
-      @@logger.warn "empty response", $!
+      logger.warn "empty response", $!
     end
   end
 end
