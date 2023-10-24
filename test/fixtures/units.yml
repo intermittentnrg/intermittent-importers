@@ -26,3 +26,10 @@ SNOWYP:
   production_type_id: 10
   name: Tumut 3 SNOWYP
   internal_id: SNOWYP
+
+ADPPV1:
+  id: 2703
+  area_id: 286
+  production_type_id: 27
+  internal_id: ADPPV1
+  name: Adelaide Desalination ADPPV1

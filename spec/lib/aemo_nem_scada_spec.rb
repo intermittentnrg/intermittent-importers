@@ -121,7 +121,7 @@ CSV
     # doesn't support no arguments
 
     context 'with file.zip' do
-      #not implemented
+      xit
     end
 
     context 'with date range' do
@@ -131,6 +131,56 @@ CSV
         stub_zip_inputstream(body)
 
         expect(GenerationUnit).to receive(:upsert_all)
+        subject.cli(args)
+      end
+    end
+  end
+end
+
+RSpec.describe AemoNemMms::GenUnits do
+  describe :cli do
+    subject { AemoNemMms::GenUnits }
+    let(:body) do
+      <<-CSV
+D,PARTICIPANT_REGISTRATION,GENUNITS,2,ADPPV1,,,N,Y,N,11,24,GROSS/NET,SLOW,Y,N,19,GENERATOR,,"2021/11/05 14:34:00",0,Solar,ISP2022
+CSV
+    end
+    context 'with file.zip' do
+      xit
+    end
+
+    context 'with date range' do
+      let(:args) { ['2023-01-01', '2023-02-01'] }
+      it do
+        stub_request(:get, 'https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/2023/MMSDM_2023_01/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_GENUNITS_202301010000.zip')
+        stub_zip_inputstream(body)
+
+        expect(GenerationUnitCapacity).to receive(:upsert_all)
+        subject.cli(args)
+      end
+    end
+  end
+end
+
+RSpec.describe AemoNemMms::DuDetail do
+  describe :cli do
+    subject { AemoNemMms::DuDetail }
+    let(:body) do
+      <<-CSV
+D,PARTICIPANT_REGISTRATION,DUDETAIL,4,LD01,"1998/10/26 00:00:00",1,NLDP1,330,500,Y,GENERATOR,550,SLOW,,,Y,BATCH,"1998/10/28 12:08:27","2008/12/10 09:21:25",N,N,,,,
+CSV
+    end
+    context 'with file.zip' do
+      xit
+    end
+
+    context 'with date range' do
+      let(:args) { ['2023-01-01', '2023-02-01'] }
+      it do
+        stub_request(:get, 'https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/2023/MMSDM_2023_01/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_DUDETAIL_202301010000.zip')
+        stub_zip_inputstream(body)
+
+        expect(GenerationUnitCapacity).to receive(:upsert_all)
         subject.cli(args)
       end
     end

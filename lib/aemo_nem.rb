@@ -276,6 +276,118 @@ module AemoNem
     end
   end
 
+  class GenUnits < Base
+    include SemanticLogger::Loggable
+
+    @@units = {}
+    def process_rows(all)
+      logger.benchmark_info("parse csv") do
+        all.select { |row| row[0..2] == ['D','PARTICIPANT_REGISTRATION','GENUNITS'] }.map do |row|
+          #I
+          #PARTICIPANT_REGISTRATION
+          #GENUNITS
+          #2
+          #GENSETID
+          unit_internal_id = row[4]
+          unit_id = @@units[unit_internal_id] ||= Unit.where(internal_id: unit_internal_id).pluck(:id).first
+          unless unit_id
+            logger.warn("No unit #{unit_internal_id}")
+            next
+          end
+          #STATIONID
+          #SETLOSSFACTOR
+          #CDINDICATOR
+          #AGCFLAG
+          #SPINNINGFLAG
+          #VOLTLEVEL
+          #REGISTEREDCAPACITY
+          value = row[11].to_f*1000
+          #DISPATCHTYPE
+          #STARTTYPE
+          #MKTGENERATORIND
+          #NORMALSTATUS
+          #MAXCAPACITY
+          #GENSETTYPE
+          #GENSETNAME
+          #LASTCHANGED
+          time = parse_time(row[19])
+          #CO2E_EMISSIONS_FACTOR
+          #CO2E_ENERGY_SOURCE
+          #CO2E_DATA_SOURCE
+
+          {unit_id:, time:, value:}
+        end.compact
+      end
+    end
+    def process
+      #require 'pry' ; binding.pry
+      Out2::UnitCapacity.run(@r, @from, @to, self.class.source_id)
+      super
+    end
+  end
+
+  class DuDetail < Base
+    include SemanticLogger::Loggable
+
+    #def initialize *args
+    #end
+    @@units = {}
+    def process_rows(all)
+      r = {}
+      logger.benchmark_info("parse csv") do
+        headers = Hash[all[1].each_with_index.to_a]
+        all.select { |row| row[0..2] == ['D','PARTICIPANT_REGISTRATION','DUDETAIL'] }.each do |row|
+          #I
+          #PARTICIPANT_REGISTRATION
+          #DUDETAIL
+          #4
+          #DUID
+          unit_internal_id = row[headers["DUID"]]
+          unit_id = @@units[unit_internal_id] ||= Unit.where(internal_id: unit_internal_id).pluck(:id).first
+          unless unit_id
+            logger.warn("No unit #{unit_internal_id}")
+            next
+          end
+          #EFFECTIVEDATE
+          time = parse_time(row[headers["EFFECTIVEDATE"]])
+          #VERSIONNO
+          #CONNECTIONPOINTID
+          #VOLTLEVEL
+          #REGISTEREDCAPACITY
+          value = row[9].to_f*1000
+          #AGCCAPABILITY
+          #DISPATCHTYPE
+          #MAXCAPACITY
+          #value2 = row[12]
+          #STARTTYPE
+          #NORMALLYONFLAG
+          #PHYSICALDETAILSFLAG
+          #SPINNINGRESERVEFLAG
+          #AUTHORISEDBY
+          #AUTHORISEDDATE
+          #LASTCHANGED
+          #INTERMITTENTFLAG
+          #SEMISCHEDULE_FLAG
+          #MAXRATEOFCHANGEUP
+          #MAXRATEOFCHANGEDOWN
+          #DISPATCHSUBTYPE
+          #ADG_ID
+          k = [unit_id,time]
+          r[k] = {unit_id:, time:, value:}
+        end
+      end
+      #require 'pry' ; binding.pry
+
+      r.values
+    end
+
+    def process
+      #require 'pry' ; binding.pry
+      Out2::UnitCapacity.run(@r, @from, @to, self.class.source_id)
+      super
+    end
+  end
+
   class RooftopPv < Base
     include SemanticLogger::Loggable
     include Out::Generation

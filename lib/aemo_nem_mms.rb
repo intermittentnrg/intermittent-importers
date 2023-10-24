@@ -48,6 +48,18 @@ module AemoNemMms
     URL = URL_BASE + "PUBLIC_DVD_DISPATCH_UNIT_SCADA_%Y%m010000.zip"
   end
 
+  class GenUnits < ::AemoNem::GenUnits
+    include SemanticLogger::Loggable
+    include Base
+    URL = URL_BASE + "PUBLIC_DVD_GENUNITS_%Y%m010000.zip"
+  end
+
+  class DuDetail < ::AemoNem::DuDetail
+    include SemanticLogger::Loggable
+    include Base
+    URL = URL_BASE + "PUBLIC_DVD_DUDETAIL_%Y%m010000.zip"
+  end
+
   class RooftopPv < ::AemoNem::RooftopPv
     include SemanticLogger::Loggable
     include Base
