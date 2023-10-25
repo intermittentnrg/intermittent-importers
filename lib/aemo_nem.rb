@@ -281,6 +281,7 @@ module AemoNem
 
     @@units = {}
     def process_rows(all)
+      raise 'not used'
       logger.benchmark_info("parse csv") do
         all.select { |row| row[0..2] == ['D','PARTICIPANT_REGISTRATION','GENUNITS'] }.map do |row|
           #I
@@ -301,7 +302,7 @@ module AemoNem
           #SPINNINGFLAG
           #VOLTLEVEL
           #REGISTEREDCAPACITY
-          value = row[11].to_f*1000
+          #value = row[11].to_f*1000
           #DISPATCHTYPE
           #STARTTYPE
           #MKTGENERATORIND
