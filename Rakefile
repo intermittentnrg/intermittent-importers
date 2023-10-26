@@ -171,7 +171,7 @@ task :fixtures_pt do
 end
 task :fixtures_apt do
   File.open("test/fixtures/areas_production_types.yml", 'w') do |f|
-    AreasProductionType.order(:area_id).all.each do |apt|
+    AreasProductionType.order(:area_id, :production_type_id).all.each do |apt|
       f.write({"#{apt.area.code}_#{apt.production_type.name}" => apt.attributes }.
                to_yaml.sub!(/---\s?/, ""))
     end
