@@ -28,6 +28,11 @@ fossil_brown_coal/lignite:
   name: fossil_brown_coal/lignite
   name2: 03_lignite
   enabled: true
+fossil_coal:
+  id: 44
+  name: fossil_coal
+  name2: 03_coal
+  enabled: true
 fossil_coal-derived_gas:
   id: 3
   name: fossil_coal-derived_gas
@@ -158,10 +163,20 @@ solar_rooftop:
   name: solar_rooftop
   name2: '08_solar'
   enabled: true
+solar_thermal:
+  id: 45
+  name: solar_thermal
+  name2: '08_solar'
+  enabled: true
 solar_utility:
   id: 27
   name: solar_utility
   name2: '08_solar'
+  enabled: true
+storage:
+  id: 43
+  name: storage
+  name2: storage
   enabled: true
 thermal:
   id: 38

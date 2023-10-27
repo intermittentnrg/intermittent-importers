@@ -1933,3 +1933,30 @@ aemo_WEM:
   region: australia
   type: region
   electricitymaps_id: AU-WA
+tohoku-epco_tohoku:
+  id: 322
+  code: tohoku
+  internal_id:
+  source: tohoku-epco
+  enabled: true
+  region: japan
+  type: region
+  electricitymaps_id:
+ercot_ERCOT:
+  id: 323
+  code: ERCOT
+  internal_id:
+  source: ercot
+  enabled: true
+  region: usa
+  type: balancing_authority
+  electricitymaps_id:
+eskom_ZA:
+  id: 324
+  code: ZA
+  internal_id:
+  source: eskom
+  enabled: true
+  region: south_africa
+  type: country
+  electricitymaps_id:

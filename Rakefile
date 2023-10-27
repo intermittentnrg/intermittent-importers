@@ -48,7 +48,7 @@ task :ping do |t|
 end
 
 desc "Run all refresh tasks"
-multitask all: ['entsoe:all', 'aemo:all', 'ieso:all', 'eia:all', :ercot, 'caiso:all', 'elexon:all', 'nordpool:all', :opennem, :ree, :aeso, :hydroquebec, :tohoku, :eskom]
+multitask all: ['entsoe:all', 'aemo:all', 'ieso:all', 'eia:all', :ercot, 'caiso:all', 'elexon:all', 'nordpool:all', :opennem, :ree, :aeso, :hydroquebec, :tohoku, 'eskom:all']
 namespace :ieso do
   desc "Run refresh tasks"
   task all: [:generation, :load, :price]
@@ -124,7 +124,11 @@ namespace :aemo do
   end
 end
 
-oneshot_task :eskom, Eskom::Generation
+namespace :eskom do
+  task all: [:generation, :demand]
+  oneshot_task :generation, Eskom::Generation
+  oneshot_task :demand, Eskom::Demand
+end
 
 pump_task :ree, Ree::Generation
 
@@ -153,6 +157,7 @@ end
 
 pump_task :tohoku, Tohoku::Juyo
 
+desc 'Export areas to test/fixtures/areas.yml'
 task :fixtures_areas do
   File.open("test/fixtures/areas.yml", 'w') do |f|
     Area.order(:source, :code).all.each do |a|
@@ -161,6 +166,8 @@ task :fixtures_areas do
     end
   end
 end
+
+desc 'Export production types to test/fixtures/production_types.yml'
 task :fixtures_pt do
   File.open("test/fixtures/production_types.yml", 'w') do |f|
     ProductionType.order(:name).all.each do |pt|
@@ -169,6 +176,8 @@ task :fixtures_pt do
     end
   end
 end
+
+desc 'Export area production types to test/fixtures/areas_production_types.yml'
 task :fixtures_apt do
   File.open("test/fixtures/areas_production_types.yml", 'w') do |f|
     AreasProductionType.order(:area_id, :production_type_id).all.each do |apt|

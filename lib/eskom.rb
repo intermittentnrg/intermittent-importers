@@ -4,13 +4,6 @@ module Eskom
     def self.source_id
       "eskom"
     end
-  end
-
-  class Generation < Base
-    include SemanticLogger::Loggable
-    include Out::Generation
-
-    URL_FORMAT = "https://www.eskom.co.za/dataportal/wp-content/uploads/%Y/%m/Station_Build_Up.csv"
 
     def self.cli(args)
       case args.length
@@ -30,7 +23,7 @@ module Eskom
 
     def fetch
       if @from.is_a? Date
-        url = @from.strftime(URL_FORMAT)
+        url = @from.strftime(self.class::URL_FORMAT)
         res = logger.benchmark_info(url) do
           Faraday.get(url)
         end
@@ -40,6 +33,49 @@ module Eskom
       end
     end
 
+    def parse_time(s)
+      time = Time.strptime(s, '%Y-%m-%d %H:%M:%S')
+      time = TZ.local_to_utc(time)
+    end
+  end
+
+  class Demand < Base
+    include SemanticLogger::Loggable
+    include Out::Load
+
+    URL_FORMAT = 'https://www.eskom.co.za/dataportal/wp-content/uploads/%Y/%m/System_hourly_actual_and_forecasted_demand.csv'
+
+    def points_load
+      fetch
+      r = []
+      logger.benchmark_info('csv parse') do
+        @csv.shift
+        @csv.each do |row|
+          #DateTimeKey
+          time = parse_time(row[0])
+          #Residual Forecast
+          #RSA Contracted Forecast
+          #Residual Demand
+          #RSA Contracted Demand
+          next unless row[4].present?
+          value = row[4].to_f*1000
+          r << {country: 'ZA', time:, value:}
+        end
+      end
+      @from = r.first[:time]
+      @to = r.last[:time]
+      #require 'pry' ; binding.pry
+
+      r
+    end
+  end
+
+  class Generation < Base
+    include SemanticLogger::Loggable
+    include Out::Generation
+
+    URL_FORMAT = "https://www.eskom.co.za/dataportal/wp-content/uploads/%Y/%m/Station_Build_Up.csv"
+
     def points_generation
       fetch
       r = []
@@ -47,8 +83,7 @@ module Eskom
         @csv.shift
         @csv.each do |row|
           #Date_Time_Hour_Beginning
-          time = Time.strptime(row[0], '%Y-%m-%d %H:%M:%S')
-          time = TZ.local_to_utc(time)
+          time = parse_time(row[0])
           #Thermal_Gen_Excl_Pumping_and_SCO
           r << {country: 'ZA', time:, production_type: 'fossil_coal', value: row[1].to_f*1000}
           #Eskom_OCGT_SCO_Pumping
