@@ -2,6 +2,7 @@ module Tohoku
   class Juyo
     include SemanticLogger::Loggable
     TZ = TZInfo::Timezone.get('Asia/Tokyo')
+    HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
     def self.source_id
       "tohoku-epco"
     end
@@ -34,12 +35,28 @@ module Tohoku
 
     def fetch
       return if @csv
-      url = "https://setsuden.nw.tohoku-epco.co.jp/common/demand/juyo_02_#{@from.strftime('%Y%m%d')}.csv"
-      logger.benchmark_info(url) do
-        res = Faraday.get(url)
+
+      @url = "https://setsuden.nw.tohoku-epco.co.jp/common/demand/juyo_02_#{@from.strftime('%Y%m%d')}.csv"
+      @filedate = DataFile.where(path: File.basename(@url), source: self.class.source_id).pluck(:updated_at).first
+      logger.benchmark_info(@url) do
+        res = Faraday.get(@url, debug_output: $stdout) do |req|
+          if @filedate
+            req.headers['If-Modified-Since'] = @filedate.strftime(HTTP_DATE_FORMAT)
+          end
+        end
+        if res.status == 304 #Not Modified
+          raise ENTSOE::EmptyError
+        end
+        @filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
         @csv = CSV.parse(res.body.encode('UTF-8'))
       end
       #require 'pry' ; binding.pry
+    end
+
+    def done!
+      return unless @url
+      DataFile.upsert({path: File.basename(@url), source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
+      logger.info "done! #{File.basename(@url)}"
     end
 
     def process
@@ -63,6 +80,7 @@ module Tohoku
 
       Out2::Generation.run(r, @from, @to, self.class.source_id)
       Out2::Load.run(r_load, @from, @to, self.class.source_id)
+      done!
     end
   end
 end
