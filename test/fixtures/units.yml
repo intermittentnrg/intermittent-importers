@@ -33,3 +33,10 @@ ADPPV1:
   production_type_id: 27
   internal_id: ADPPV1
   name: Adelaide Desalination ADPPV1
+
+ABKENORA:
+  id: 3673
+  area_id: 90
+  production_type_id: 23
+  internal_id: ABKENORA
+  name: ABKENORA
