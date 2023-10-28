@@ -13,7 +13,7 @@ CSV
     context 'with no arguments' do
       it do
         stub_request(:get, 'https://www.eskom.co.za/dataportal/wp-content/uploads/2023/10/System_hourly_actual_and_forecasted_demand.csv').
-          to_return(body:)
+          to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
         expect(::Load).to receive(:upsert_all)
         subject.cli([])
       end
@@ -40,7 +40,7 @@ CSV
     context 'with no arguments' do
       it do
         stub_request(:get, 'https://www.eskom.co.za/dataportal/wp-content/uploads/2023/10/Station_Build_Up.csv').
-          to_return(body:)
+          to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
         expect(::Generation).to receive(:upsert_all)
         subject.cli([])
       end

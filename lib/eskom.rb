@@ -21,16 +21,31 @@ module Eskom
       @from = from_or_path
     end
 
+    HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
     def fetch
       if @from.is_a? Date
-        url = @from.strftime(self.class::URL_FORMAT)
-        res = logger.benchmark_info(url) do
-          Faraday.get(url)
+        @url = @from.strftime(self.class::URL_FORMAT)
+        @filedate = DataFile.where(path: File.basename(@url), source: self.class.source_id).pluck(:updated_at).first
+        res = logger.benchmark_info(@url) do
+          Faraday.get(@url) do |req|
+            if @filedate
+              req.headers['If-Modified-Since'] = @filedate.strftime(HTTP_DATE_FORMAT)
+            end
+          end
         end
+        if res.status == 304 #Not Modified
+          raise ENTSOE::EmptyError
+        end
+        @filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
         @csv = FastestCSV.parse(res.body)
       else
         @csv = FastestCSV.read(@from)
       end
+    end
+
+    def done!
+      DataFile.upsert({path: File.basename(@url), source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
+      logger.info "done! #{@url}"
     end
 
     def parse_time(s)
