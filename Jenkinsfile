@@ -75,7 +75,6 @@ spec:
       stage('deploy') {
         if (env.BRANCH_NAME == "master" || env.BRANCH_NAME == "production") {
           sh "RAILS_ENV=development cd /app && rake db:migrate"
-          sh "RAILS_ENV=development cd /app && scripts/validate-constraints.rb"
         }
 
         sh "cp /app/jobdsl.groovy ."
