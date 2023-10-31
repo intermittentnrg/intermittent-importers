@@ -6,7 +6,7 @@ properties([
     $class         : 'BuildBlockerProperty',
     blockingJobs   : "intermittency-${env.BRANCH_NAME}/.*",
     blockLevel     : 'GLOBAL',
-    scanQueueFor   : 'ALL',
+    scanQueueFor   : 'BUILDABLE',
     useBuildBlocker: true
   ]
 ])
