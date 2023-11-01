@@ -1,6 +1,7 @@
 env.TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
 
 properties([
+  disableConcurrentBuilds(),
   buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '50')),
   [
     $class         : 'BuildBlockerProperty',
