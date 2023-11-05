@@ -73,6 +73,69 @@ module AemoNem
     URL = 'https://nemweb.com.au/Reports/Current/DispatchIS_Reports/'
 
     def process_rows(all)
+
+      #from_area_id = Area.find_by source: self.class.source_id, code: 'TAS1'
+      #to_area_id = Area.find_by source: self.class.source_id, code: 'VIC1'
+      r_tran = []
+      r_tran += all.select { |row| row[0..2] == ['D', 'DISPATCH', 'INTERCONNECTORRES'] && row[6] == 'T-V-MNSP1'}.map do |row|
+        #0:I
+        #1:DISPATCH
+        #2:INTERCONNECTORRES
+        #3:3
+        #4:SETTLEMENTDATE
+        time = parse_time(row[4])
+        #5:RUNNO
+        #6:INTERCONNECTORID
+        #7:DISPATCHINTERVAL
+        #8:INTERVENTION
+        #9:METEREDMWFLOW
+        value = row[9].to_f*1000
+        #MWFLOW,MWLOSSES
+        #MARGINALVALUE
+        #VIOLATIONDEGREE
+        #LASTCHANGED
+        #EXPORTLIMIT
+        #IMPORTLIMIT
+        #MARGINALLOSS
+        #EXPORTGENCONID
+        #IMPORTGENCONID
+        #FCASEXPORTLIMIT
+        #FCASIMPORTLIMIT
+        #LOCAL_PRICE_ADJUSTMENT_EXPORT
+        #LOCALLY_CONSTRAINED_EXPORT
+        #LOCAL_PRICE_ADJUSTMENT_IMPORT
+        #LOCALLY_CONSTRAINED_IMPORT
+
+        {time:, from_area: 'TAS1', to_area: 'SA1', value:}
+      end
+
+      r_tran += all.select { |row| row[0..2] == ['D', 'DISPATCH', 'INTERCONNECTION'] }.map do |row|
+        #I
+        #DISPATCH
+        #INTERCONNECTION
+        #1
+        #SETTLEMENTDATE
+        time = parse_time(row[4])
+        #RUNNO
+        #INTERVENTION
+        #7:FROM_REGIONID
+        from_area = row[7]
+        #8:TO_REGIONID
+        to_area = row[8]
+        #DISPATCHINTERVAL
+        #IRLF
+        #MWFLOW
+        #12:METEREDMWFLOW
+        value = row[12].to_f*1000
+        #FROM_REGION_MW_LOSSES
+        #TO_REGION_MW_LOSSES
+        #LASTCHANGED
+
+        {time:, from_area:, to_area:, value:}
+      end
+      Out2::Transmission.run(r_tran, @from, @to, self.class.source_id)
+      #require 'pry' ; binding.pry
+
       r = {}
       all.select { |row| row[0..2] == ['D','DISPATCH','REGIONSUM'] }.map do |row|
         #I

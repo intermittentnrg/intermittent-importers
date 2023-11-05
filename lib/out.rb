@@ -200,20 +200,7 @@ module Out
     end
 
     def process
-      raise unless @from && @to
-      areas = {}
-      data = points
-      #require 'pry' ;binding.pry
-      logger.info "#{data.first.try(:[], :time)} #{data.length} points"
-
-      data.each do |p|
-        p[:from_area_id] ||= (areas[p[:from_area]] ||= ::Area.where(source: self.class.source_id, code: p[:from_area]).pluck(:id).first)
-        p[:to_area_id] ||= (areas[p[:to_area]] ||= ::Area.where(source: self.class.source_id, code: p[:to_area]).pluck(:id).first)
-        p.delete :from_area
-        p.delete :to_area
-      end
-
-      ::Transmission.upsert_all(data) if data.present?
+      ::Out2::Transmission.run(points, @from, @to, self.class.source_id)
       done!
     end
     def done!
