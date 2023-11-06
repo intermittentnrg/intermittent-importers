@@ -106,7 +106,7 @@ module AemoNem
         #LOCAL_PRICE_ADJUSTMENT_IMPORT
         #LOCALLY_CONSTRAINED_IMPORT
 
-        {time:, from_area: 'TAS1', to_area: 'SA1', value:}
+        {time:, from_area: 'VIC1', to_area: 'TAS1', value:}
       end
 
       r_tran += all.select { |row| row[0..2] == ['D', 'DISPATCH', 'INTERCONNECTION'] }.map do |row|
@@ -119,9 +119,9 @@ module AemoNem
         #RUNNO
         #INTERVENTION
         #7:FROM_REGIONID
-        from_area = row[7]
+        to_area = row[7]
         #8:TO_REGIONID
-        to_area = row[8]
+        from_area = row[8]
         #DISPATCHINTERVAL
         #IRLF
         #MWFLOW
