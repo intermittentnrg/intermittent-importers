@@ -2,4 +2,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Pump::Process.new(ENTSOE::Price, Price).run
+Pump::Process.new(Entsoe::Price, Price).run

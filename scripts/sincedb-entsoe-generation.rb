@@ -2,4 +2,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Pump::Process.new(ENTSOE::Generation, Generation).run
+Pump::Process.new(Entsoe::Generation, Generation).run

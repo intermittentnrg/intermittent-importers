@@ -13,7 +13,7 @@ from_area = ARGV.shift
 to_area = ARGV.shift
 
 begin
-  e = ENTSOE::Transmission.new from_area: from_area, to_area: to_area, from: from, to: to
+  e = Entsoe::Transmission.new from_area: from_area, to_area: to_area, from: from, to: to
   e.process
 rescue
   puts $!

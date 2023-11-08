@@ -9,13 +9,13 @@ if ARGV.length < 3
 end
 from = Chronic.parse(ARGV.shift).to_date
 to = Chronic.parse(ARGV.shift).to_date
-#country = Area.find_by!(code: ARGV.shift, source: ENTSOE::Unit.source_id)
+#country = Area.find_by!(code: ARGV.shift, source: Entsoe::Unit.source_id)
 
 ARGV.each do |area_code|
-  area = Area.find_by!(code: area_code, source: ENTSOE::Unit.source_id)
+  area = Area.find_by!(code: area_code, source: Entsoe::Unit.source_id)
   (from..to).each do |date|
     SemanticLogger.tagged(country: area.code) do
-      e = ENTSOE::Unit.new(area, from: date, to: date+1.day)
+      e = Entsoe::Unit.new(area, from: date, to: date+1.day)
       e.process
     rescue
       logger.error "Exception processing #{area_code}", $!

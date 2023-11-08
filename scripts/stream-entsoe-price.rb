@@ -10,10 +10,10 @@ end
 from = Chronic.parse(ARGV.shift)
 to = Chronic.parse(ARGV.shift)
 
-(ARGV.present? ? ARGV : ENTSOE::COUNTRIES.keys).each do |country|
+(ARGV.present? ? ARGV : Entsoe::COUNTRIES.keys).each do |country|
   SemanticLogger.tagged(country:) do
-    area_id = Area.where(source: ENTSOE::Generation.source_id, code: country).pluck(:id).first
-    e = ENTSOE::Price.new(country:, from:, to:)
+    area_id = Area.where(source: Entsoe::Generation.source_id, code: country).pluck(:id).first
+    e = Entsoe::Price.new(country:, from:, to:)
     e.process_price
   rescue
     logger.error "Exception processing #{country}", $!

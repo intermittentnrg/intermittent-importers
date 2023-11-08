@@ -1,9 +1,9 @@
 require './spec/spec_helper'
 
-RSpec.describe ENTSOE::Price do
+RSpec.describe Entsoe::Price do
   subject(:e) do
     VCR.use_cassette("prices_#{country}") do
-      ENTSOE::Price.new(country:, from: '2021-01-01', to: '2021-01-02').tap(&:points)
+      Entsoe::Price.new(country:, from: '2021-01-01', to: '2021-01-02').tap(&:points)
     end
   end
   describe 'SE1' do

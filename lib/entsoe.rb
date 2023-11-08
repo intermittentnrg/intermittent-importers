@@ -1,7 +1,7 @@
 # coding: utf-8
 require 'faraday/gzip'
 
-module ENTSOE
+module Entsoe
   DEFAULT_START = DateTime.parse('2014-01-01')
 
   class Base

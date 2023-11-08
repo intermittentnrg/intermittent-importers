@@ -1,9 +1,10 @@
 require './spec/spec_helper'
 
-RSpec.describe ENTSOE::Load do
+RSpec.describe Entsoe::Load do
+  subject { Entsoe::Load }
   subject(:e) do
     VCR.use_cassette("load_#{country}_#{from}_#{to}") do
-      ENTSOE::Load.new country:, from:, to:
+      subject.new country:, from:, to:
     end
   end
 
