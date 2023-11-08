@@ -3,4 +3,4 @@ require './lib/init'
 require './lib/activerecord-connect'
 logger = SemanticLogger[$0]
 
-EntsoeSFTP::Price.each &:process
+EntsoeSftp::Price.each &:process

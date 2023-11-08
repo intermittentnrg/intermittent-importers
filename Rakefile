@@ -85,11 +85,11 @@ end
 namespace :entsoe do
   desc "Run refresh tasks"
   task all: [:generation, :unit, :load, :price, :transmission]
-  loop_task :generation, EntsoeSFTP::Generation
-  loop_task :unit, EntsoeSFTP::Unit
-  loop_task :load, EntsoeSFTP::Load
-  loop_task :price, EntsoeSFTP::Price
-  loop_task :transmission, EntsoeSFTP::Transmission
+  loop_task :generation, EntsoeSftp::Generation
+  loop_task :unit, EntsoeSftp::Unit
+  loop_task :load, EntsoeSftp::Load
+  loop_task :price, EntsoeSftp::Price
+  loop_task :transmission, EntsoeSftp::Transmission
 end
 
 namespace :nordpool do

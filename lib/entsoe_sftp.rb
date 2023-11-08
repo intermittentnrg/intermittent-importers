@@ -1,6 +1,6 @@
 require 'net/sftp'
 
-module EntsoeSFTP
+module EntsoeSftp
   class Base
     def self.each
       Net::SFTP.start('sftp-transparency.entsoe.eu', ENV['ENTSOE_USER'], :password => ENV['ENTSOE_PASSWORD']) do |sftp|
