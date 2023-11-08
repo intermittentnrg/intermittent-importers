@@ -187,6 +187,7 @@ module EntsoeCSV
         csv
         units = {}
         csv.each do |row|
+          next if @previous_filedate.present? && parse_time(row[13]) < @previous_filedate
           #DateTime
           time = parse_time(row[0])
           #ResolutionCode
@@ -205,7 +206,7 @@ module EntsoeCSV
           value = parse_value(row[9], row[10])
           #ActualConsumption
           #InstalledGenCapacity
-          #UpdateTime
+          #13:UpdateTime
 
           unit_id = units[unit_internal_id]
           unless unit_id
@@ -251,6 +252,7 @@ module EntsoeCSV
         csv
         csv.each do |row|
           next if row[3] == 'CTA'
+          next if @previous_filedate.present? && parse_time(row[7]) < @previous_filedate
           #DateTime
           time = parse_time(row[0])
           #ResolutionCode
@@ -263,7 +265,7 @@ module EntsoeCSV
           area_code = row[5]
           #TotalLoadvalue
           value = row[6].to_f*1000
-          #UpdateTime
+          #7:UpdateTime
 
           k = [time,area_id]
           if r[k] && r[k][:value] != value
@@ -287,6 +289,7 @@ module EntsoeCSV
       logger.benchmark_info("csv parse") do
         csv.each do |row|
           next if row[1] != 'PT60M'
+          next if @previous_filedate.present? && parse_time(row[8]) < @previous_filedate
           #DateTime
           time = parse_time(row[0])
           #ResolutionCode
@@ -299,7 +302,7 @@ module EntsoeCSV
           #Price
           value = row[6].to_f*100
           #Curency
-          #UpdateTime
+          #8:UpdateTime
 
           k = [time,area_id]
           if r[k] && r[k][:value] != value
@@ -449,6 +452,7 @@ module EntsoeCSV
       logger.benchmark_info("csv parse") do
         csv.each do |row|
           next if row[3] == 'CTA' || row[7] == 'CTA'
+          next if @previous_filedate.present? && parse_time(row[11]) < @previous_filedate
 
           #DateTime
           time = parse_time(row[0])
@@ -474,7 +478,7 @@ module EntsoeCSV
 
           #FlowValue
           value = (row[10].to_f*1000).to_i
-          #UpdateTime
+          #11:UpdateTime
 
           k = [to_area_id,from_area_id,time]
           if r[k] && r[k][:value] != value
