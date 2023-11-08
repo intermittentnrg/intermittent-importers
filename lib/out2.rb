@@ -23,12 +23,15 @@ module Out2
         p.delete :country
       end
 
+      r = nil
       if data.present?
         logger.benchmark_info("upsert") do
           #require 'pry' ; binding.pry
-          ::Generation.upsert_all(data)
+          r = ::Generation.upsert_all(data, on_duplicate: Arel.sql('value = EXCLUDED.value WHERE (generation_data.*) IS DISTINCT FROM (EXCLUDED.*)'))
         end
       end
+
+      r.try :length
     end
   end
 
