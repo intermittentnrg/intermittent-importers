@@ -29,17 +29,11 @@ require 'date'
 require 'active_support'
 require 'active_support/core_ext'
 
-$LOAD_PATH.unshift File.dirname(__FILE__)
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)+'/../app/models'))
-
-def Object.const_missing(name)
-  @looked_for ||= {}
-  str_name = name.to_s
-  return @looked_for[str_name] if @looked_for[str_name].is_a? Class
-  raise "Class not found: #{name}" if @looked_for[str_name]
-  file = str_name.underscore
-  require file
-  @looked_for[str_name] = klass = const_get(name)
-  return klass if klass
-  raise "Class not found: #{name}"
-end
+require "zeitwerk"
+loader = Zeitwerk::Loader.new
+#loader.push_dir(...)
+loader.push_dir("#{__dir__}")
+loader.push_dir("#{__dir__}/../app/models")
+loader.ignore("#{__dir__}/activerecord-connect.rb")
+loader.setup # ready!
+#require 'pry' ; binding.pry

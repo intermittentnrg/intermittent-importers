@@ -1,3 +1,5 @@
+require 'zip'
+
 module EntsoeCsv
   class BaseCSV
     def self.source_id

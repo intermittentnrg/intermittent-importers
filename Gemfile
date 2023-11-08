@@ -12,6 +12,7 @@ gem 'faraday-http-cache'
 
 gem 'net-sftp'
 
+gem 'zeitwerk'
 gem 'activesupport'
 gem 'dotenv'
 gem 'rake'

@@ -248,6 +248,7 @@ DEPENDENCIES
   typhoeus
   vcr
   webmock
+  zeitwerk
 
 BUNDLED WITH
    2.4.15
