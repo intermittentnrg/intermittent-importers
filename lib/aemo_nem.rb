@@ -76,8 +76,8 @@ module AemoNem
 
       #from_area_id = Area.find_by source: self.class.source_id, code: 'TAS1'
       #to_area_id = Area.find_by source: self.class.source_id, code: 'VIC1'
-      r_tran = []
-      r_tran += all.select { |row| row[0..2] == ['D', 'DISPATCH', 'INTERCONNECTORRES'] && row[6] == 'T-V-MNSP1'}.map do |row|
+      r_tran = {}
+      all.select { |row| row[0..2] == ['D', 'DISPATCH', 'INTERCONNECTORRES'] && row[6] == 'T-V-MNSP1'}.each do |row|
         #0:I
         #1:DISPATCH
         #2:INTERCONNECTORRES
@@ -106,10 +106,14 @@ module AemoNem
         #LOCAL_PRICE_ADJUSTMENT_IMPORT
         #LOCALLY_CONSTRAINED_IMPORT
 
-        {time:, from_area: 'VIC1', to_area: 'TAS1', value:}
+        from_area = 'VIC1'
+        to_area = 'TAS1'
+
+        k = [time, from_area, to_area]
+        r_tran[k] = {time:, from_area:, to_area:, value:}
       end
 
-      r_tran += all.select { |row| row[0..2] == ['D', 'DISPATCH', 'INTERCONNECTION'] }.map do |row|
+      all.select { |row| row[0..2] == ['D', 'DISPATCH', 'INTERCONNECTION'] }.map do |row|
         #I
         #DISPATCH
         #INTERCONNECTION
@@ -131,13 +135,14 @@ module AemoNem
         #TO_REGION_MW_LOSSES
         #LASTCHANGED
 
-        {time:, from_area:, to_area:, value:}
+        k = [time, from_area, to_area]
+        r_tran[k] = {time:, from_area:, to_area:, value:}
       end
-      Out2::Transmission.run(r_tran, @from, @to, self.class.source_id)
       #require 'pry' ; binding.pry
+      Out2::Transmission.run(r_tran.values, @from, @to, self.class.source_id)
 
       r = {}
-      all.select { |row| row[0..2] == ['D','DISPATCH','REGIONSUM'] }.map do |row|
+      all.select { |row| row[0..2] == ['D','DISPATCH','REGIONSUM'] }.each do |row|
         #I
         #DISPATCH
         #REGIONSUM
