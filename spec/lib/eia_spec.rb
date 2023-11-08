@@ -4,9 +4,9 @@ require 'timecop'
 RSpec.describe Eia::Generation do
   subject { Eia::Generation }
   context do
-    subject(:e) do
+    let(:e) do
       VCR.use_cassette("generation_#{country}_#{from}_#{to}") do
-        Eia::Generation.new(country:, from: Date.parse(from), to: Date.parse(to))
+        subject.new(country:, from: Date.parse(from), to: Date.parse(to))
       end
     end
     describe 'EIA BANC gas validation' do

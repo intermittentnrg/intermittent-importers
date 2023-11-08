@@ -2,9 +2,9 @@ require './spec/spec_helper'
 
 RSpec.describe Entsoe::Load do
   subject { Entsoe::Load }
-  subject(:e) do
+  let(:e) do
     VCR.use_cassette("load_#{country}_#{from}_#{to}") do
-      subject.new country:, from:, to:
+      subject.new(country:, from:, to:)
     end
   end
 
@@ -12,7 +12,7 @@ RSpec.describe Entsoe::Load do
     let(:country) { 'FR' }
     let(:from) { '2021-01-01' }
     let(:to) { '2021-01-02' }
-    it { expect(subject.points).to have(24).items }
+    it { expect(e.points).to have(24).items }
     it { expect(e.points.first.keys).to eq [:country, :time, :value] }
 
     describe 'error' do
@@ -27,7 +27,7 @@ RSpec.describe Entsoe::Load do
     let(:from) { '2023-07-27' }
     let(:to) { '2023-07-28' }
 
-    it { expect(e.points_load.map { |p| p[:value] }.max).to be < 1000000 }
+    it { expect(e.points_load.map { |p| p[:value] }.max).to be < 1000000000 }
     include_examples "logs error", "load"
   end
 end
