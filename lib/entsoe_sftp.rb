@@ -25,35 +25,35 @@ module EntsoeSftp
   class Generation < Base
     include SemanticLogger::Loggable
 
-    TARGET = EntsoeCSV::GenerationCSV
+    TARGET = EntsoeCsv::GenerationCSV
     DIR = '/TP_export/zip/AggregatedGenerationPerType_16.1.B_C'
   end
 
   class Unit < Base
     include SemanticLogger::Loggable
 
-    TARGET = EntsoeCSV::UnitCSV
+    TARGET = EntsoeCsv::UnitCSV
     DIR = '/TP_export/zip/ActualGenerationOutputPerGenerationUnit_16.1.A'
   end
 
   class Load < Base
     include SemanticLogger::Loggable
 
-    TARGET = EntsoeCSV::LoadCSV
+    TARGET = EntsoeCsv::LoadCSV
     DIR = '/TP_export/zip/ActualTotalLoad_6.1.A'
   end
 
   class Price < Base
     include SemanticLogger::Loggable
 
-    TARGET = EntsoeCSV::PriceCSV
+    TARGET = EntsoeCsv::PriceCSV
     DIR = '/TP_export/zip/DayAheadPrices_12.1.D'
   end
 
   class Transmission < Base
     include SemanticLogger::Loggable
 
-    TARGET = EntsoeCSV::TransmissionCSV
+    TARGET = EntsoeCsv::TransmissionCSV
     DIR = '/TP_export/zip/PhysicalFlows_12.1.G'
   end
 end

@@ -2,4 +2,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-EntsoeCSV::TransmissionCSV.cli(ARGV)
+EntsoeCsv::TransmissionCSV.cli(ARGV)

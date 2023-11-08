@@ -1,4 +1,4 @@
-module EntsoeCSV
+module EntsoeCsv
   class BaseCSV
     def self.source_id
       "entsoe"
@@ -424,7 +424,7 @@ module EntsoeCSV
       end
 
       args.each do |file|
-        e = EntsoeCSV::TransmissionCSV.new(file)
+        e = EntsoeCsv::TransmissionCSV.new(file)
         e.process
       end
     end

@@ -1,9 +1,9 @@
 require './spec/spec_helper'
 
-RSpec.describe EntsoeCSV::GenerationCSV do
+RSpec.describe EntsoeCsv::GenerationCSV do
   describe 'zip' do
     subject(:e) do
-      EntsoeCSV::GenerationCSV.new('2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.zip')
+      EntsoeCsv::GenerationCSV.new('2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.zip')
     end
     before do
       expect(File).to receive(:mtime) { nil }
@@ -20,8 +20,8 @@ RSpec.describe EntsoeCSV::GenerationCSV do
   end
 end
 
-RSpec.describe EntsoeCSV::PriceCSV do
-  subject { EntsoeCSV::PriceCSV }
+RSpec.describe EntsoeCsv::PriceCSV do
+  subject { EntsoeCsv::PriceCSV }
   let(:body) do
     <<-CSV
 DateTime	ResolutionCode	AreaCode	AreaTypeCode	AreaName	MapCode	Price	Currency	UpdateTime
@@ -38,8 +38,8 @@ CSV
   end
 end
 
-RSpec.describe EntsoeCSV::CapacityCSV do
-  subject { EntsoeCSV::CapacityCSV }
+RSpec.describe EntsoeCsv::CapacityCSV do
+  subject { EntsoeCsv::CapacityCSV }
   let(:datafile_name) { '2023_01_InstalledGenerationCapacityAggregated_14.1.A.csv' }
   let(:body) do
     <<-CSV
