@@ -1,4 +1,5 @@
 require './spec/spec_helper'
+require 'timecop'
 
 RSpec.describe Eia::Generation do
   subject { Eia::Generation }

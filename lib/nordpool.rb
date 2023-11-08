@@ -1,4 +1,5 @@
 require 'httparty'
+require 'chronic'
 
 module Nordpool
   class Base

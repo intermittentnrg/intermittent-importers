@@ -1,4 +1,5 @@
 require 'httparty'
+require 'fastest_csv'
 
 module Aeso
   class Base

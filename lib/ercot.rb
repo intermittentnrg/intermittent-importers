@@ -1,4 +1,5 @@
 require 'faraday/follow_redirects'
+require 'fast_jsonparser'
 
 module Ercot
   class Base

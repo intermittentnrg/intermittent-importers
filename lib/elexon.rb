@@ -1,6 +1,8 @@
 # coding: utf-8
 require 'faraday/retry'
 require 'faraday/net_http_persistent'
+require 'ox'
+require 'chronic'
 
 module Elexon
   class Base

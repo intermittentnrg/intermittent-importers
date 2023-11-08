@@ -1,4 +1,5 @@
 require 'faraday/retry'
+require 'fast_jsonparser'
 
 module Eia
   class Base

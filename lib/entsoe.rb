@@ -1,5 +1,6 @@
 # coding: utf-8
 require 'faraday/gzip'
+require 'ox'
 
 module Entsoe
   DEFAULT_START = DateTime.parse('2014-01-01')

@@ -1,4 +1,6 @@
 require 'zip'
+require 'csv'
+require 'fastest_csv'
 
 module EntsoeCsv
   class BaseCSV

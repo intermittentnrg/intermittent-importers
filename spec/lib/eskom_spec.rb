@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'timecop'
 
 RSpec.describe Eskom::Demand do
   subject { Eskom::Demand }

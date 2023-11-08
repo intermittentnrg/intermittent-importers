@@ -1,6 +1,7 @@
 require 'faraday/net_http_persistent'
 require 'faraday/retry'
 require 'faraday/gzip'
+require 'chronic'
 
 module Ieso
   HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'

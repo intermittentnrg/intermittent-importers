@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'timecop'
 
 RSpec.describe Elexon::Generation do
   subject { Elexon::Generation }
