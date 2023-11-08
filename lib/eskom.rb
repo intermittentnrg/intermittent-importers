@@ -34,7 +34,7 @@ module Eskom
           end
         end
         if res.status == 304 #Not Modified
-          raise ENTSOE::EmptyError
+          raise EmptyError
         end
         @filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
         @csv = FastestCSV.parse(res.body)

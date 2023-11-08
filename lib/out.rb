@@ -18,7 +18,7 @@ module Out
               logger.info("Refresh from #{from} calculated from last point #{from2}")
               (from..to).each do |date|
                 yield self.new date
-              rescue ::ENTSOE::EmptyError
+              rescue EmptyError
                 logger.warn "Empty response #{date}"
               end
             else
@@ -59,7 +59,7 @@ module Out
         if [::Elexon::Unit].include? self
           (from..refresh_to).each do |date|
             yield self.new(date)
-          rescue ::ENTSOE::EmptyError
+          rescue EmptyError
             logger.warn "Empty response #{date}"
           end
         else
@@ -94,13 +94,13 @@ module Out
             if [::Elexon::Load].include? self
               (from..to).each do |date|
                 yield self.new date
-              rescue ::ENTSOE::EmptyError
+              rescue EmptyError
                 logger.warn "Empty response #{date}"
               end
             elsif self == ::Ieso::Load
               (from.year..to.year).each do |year|
                 yield self.new(DateTime.strptime(year.to_s, '%Y'))
-              rescue ::ENTSOE::EmptyError
+              rescue EmptyError
                 logger.warn "Empty response #{year}"
               end
             else
@@ -143,7 +143,7 @@ module Out
             if self == ::Nordpool::PriceSEK
               (from..to).each do |date|
                 yield self.new date
-              rescue ENTSOE::EmptyError
+              rescue EmptyError
                 logger.warn "Empty response #{date}"
               end
             else
@@ -190,7 +190,7 @@ module Out
             if self == Nordpool::Transmission
               (from..to).each do |date|
                 yield self.new date
-              rescue ENTSOE::EmptyError
+              rescue EmptyError
                 logger.warn "Empty response #{date}"
               end
             else
@@ -231,7 +231,7 @@ module Out
         (from..to).each do |date|
           #require 'pry' ; binding.pry
           yield self.new(date)
-        rescue ENTSOE::EmptyError
+        rescue EmptyError
           logger.warn "Empty response #{date}"
         end
       end

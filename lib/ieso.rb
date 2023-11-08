@@ -43,7 +43,7 @@ module Ieso
           end
         end
         if res.status == 304 || !res.success?
-          raise ENTSOE::EmptyError
+          raise EmptyError
         end
         @body = res.body
         @filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
@@ -121,7 +121,7 @@ module Ieso
         (from...to).each do |date|
           next unless date.day == 1
           new(date).process
-        rescue ENTSOE::EmptyError
+        rescue EmptyError
           logger.warn "EmptyError #{date}"
         end
       when 1
@@ -247,7 +247,7 @@ module Ieso
         (from...to).each do |date|
           next unless date.day == 1 && date.month == 1
           new(date).process
-        rescue ENTSOE::EmptyError
+        rescue EmptyError
           logger.warn "EmptyError #{date}"
         end
       when 1

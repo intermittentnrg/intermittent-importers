@@ -43,7 +43,7 @@ class Pump
 
       @out_model.upsert_all(data) if data.present?
       #pass if e.last_time > from
-    rescue ENTSOE::EmptyError
+    rescue EmptyError
       raise if to < 1.day.ago # raise if within 24hrs
 
       logger.warn "skipped missing data until #{to}"
@@ -62,7 +62,7 @@ class Pump::Process
   def run
     @source.parsers_each do |e|
       e.process
-    rescue ENTSOE::EmptyError
+    rescue EmptyError
       logger.warn "empty response", $!
     end
   end

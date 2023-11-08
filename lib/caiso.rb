@@ -34,13 +34,13 @@ module Caiso
         FastestCSV.parse(@res.body, row_sep: "\r\n")
       end
       if @res.status == 304 || @res.headers['content-type'] =~ /^text\/html/
-        raise ENTSOE::EmptyError
+        raise EmptyError
       end
       #require 'pry' ; binding.pry
       @filedate = Time.strptime(@res.headers['Last-Modified'], HTTP_DATE_FORMAT)
       @fields = @csv.shift
 
-      raise ENTSOE::EmptyError unless @fields.first
+      raise EmptyError unless @fields.first
     end
 
     def parse_time(row)
@@ -69,7 +69,7 @@ module Caiso
       (from...to).each do |time|
         e = Caiso::Generation.new(time)
         e.process
-      rescue ENTSOE::EmptyError
+      rescue EmptyError
         logger.warn "EmptyError #{time}"
       end
     end
@@ -154,7 +154,7 @@ module Caiso
       (from...to).each do |time|
         e = Caiso::Load.new(time)
         e.process
-      rescue ENTSOE::EmptyError
+      rescue EmptyError
         logger.warn "EmptyError #{time}"
       end
     end

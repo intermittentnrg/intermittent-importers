@@ -285,9 +285,6 @@ module ENTSOE
     end
   end
 
-  class EmptyError < StandardError
-  end
-
   PROCESS_TYPES = {
     current: 'A18',
     intraday: 'A40',

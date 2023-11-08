@@ -1,0 +1,2 @@
+class EmptyError < StandardError
+end

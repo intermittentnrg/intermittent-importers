@@ -17,7 +17,7 @@ RSpec.describe ENTSOE::Load do
     describe 'error' do
       let(:from) { '2050-01-01' }
       let(:to) { '2050-01-02' }
-      it { expect { e.points }.to raise_error(ENTSOE::EmptyError)  }
+      it { expect { e.points }.to raise_error(EmptyError)  }
     end
   end
 

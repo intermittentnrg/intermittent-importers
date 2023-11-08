@@ -44,7 +44,7 @@ module Elexon
         raise
       end
       error_type = @res['response']['responseMetadata']['errorType']
-      raise ENTSOE::EmptyError if error_type == 'No Content'
+      raise EmptyError if error_type == 'No Content'
       binding.pry unless @res['response'].try(:[], 'responseBody')
       raise error_type if @res['response'].try(:[], 'responseBody').empty?
     end
@@ -95,7 +95,7 @@ module Elexon
         (from...to).each do |time|
           e = Elexon::Fuelinst.new(time, time + 1.day)
           e.process
-        rescue ENTSOE::EmptyError
+        rescue EmptyError
           logger.warn "EmptyError #{time}"
         end
       end
@@ -238,7 +238,7 @@ module Elexon
       (from...to).each do |time|
         e = Elexon::Unit.new(time)
         e.process
-      rescue ENTSOE::EmptyError
+      rescue EmptyError
         logger.warn "EmptyError #{time}"
       end
     end
