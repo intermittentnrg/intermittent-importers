@@ -125,23 +125,16 @@ module EntsoeCSV
 
   class GenerationCSV < BaseFastestCSV
     include SemanticLogger::Loggable
-    #include Out::Generation
+    include Out::Generation
 
-    def process
-      #r = {}
-      r_skip = {}
-      r_include = {}
+    def points_generation
+      r = {}
       logger.benchmark_info("csv parse") do
         csv
         #require 'pry' ; binding.pry
         csv.each do |row|
           next if row[3] == 'CTA'
-          #next unless @previous_filedate.present? && parse_time(row[9]) >= @previous_filedate
-          if @previous_filedate.nil? || parse_time(row[9]) < @previous_filedate
-            r = r_skip
-          else
-            r = r_include
-          end
+          next if @previous_filedate.present? && parse_time(row[9]) < @previous_filedate
 
           #DateTime
           time = parse_time(row[0])
@@ -170,15 +163,7 @@ module EntsoeCSV
       end
       #require 'pry';binding.pry
 
-      r_include = Validate.validate_generation(r_include.values)
-      len = Out2::Generation.run(r_include, @from, @to, self.class.source_id)
-      logger.info("r_include updated #{len} out of #{r_include.length} rows")
-
-      r_skip = Validate.validate_generation(r_skip.values)
-      len = Out2::Generation.run(r_skip, @from, @to, self.class.source_id)
-      logger.info("r_skip updated #{len} out of #{r_skip.length} rows")
-
-      done!
+      Validate.validate_generation(r.values)
     end
   end
 

@@ -33,7 +33,9 @@ module Out
       process_generation
     end
     def process_generation
-      ::Out2::Generation.run(points_generation, @from, @to, self.class.source_id)
+      data = points_generation
+      len = ::Out2::Generation.run(data, @from, @to, self.class.source_id)
+      logger.info("updated #{len} out of #{data.length} rows")
       done!
     end
     def done!
