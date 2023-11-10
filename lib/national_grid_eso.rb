@@ -2,6 +2,7 @@ require 'faraday/follow_redirects'
 
 module NationalGridEso
   class Base
+    TZ = ActiveSupport::TimeZone.new('Europe/London')
     include SemanticLogger::Loggable
 
     def self.source_id
@@ -51,7 +52,7 @@ module NationalGridEso
     def points_generation
       r = []
       @json[:result][:records].each do |row|
-        date = Date.strptime(row[:SETTLEMENT_DATE], '%Y-%m-%d')
+        date = TZ.strptime(row[:SETTLEMENT_DATE], '%Y-%m-%d')
         time = date + row[:SETTLEMENT_PERIOD].to_i*30.minutes
         r << {country: 'GB', production_type: 'wind_embedded', time:, value: row[:EMBEDDED_WIND_GENERATION].to_f*1000}
         r << {country: 'GB', production_type: 'solar_embedded', time:, value: row[:EMBEDDED_SOLAR_GENERATION].to_f*1000}
