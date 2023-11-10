@@ -8,4 +8,4 @@ if ARGV.length != 0
   exit 1
 end
 
-Pump::Process.new(NationalGridESO::HistoricalDemand, Generation).run
+Pump::Process.new(NationalGridEso::HistoricalDemand, Generation).run

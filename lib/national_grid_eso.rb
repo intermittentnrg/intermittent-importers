@@ -1,6 +1,6 @@
 require 'faraday/follow_redirects'
 
-module NationalGridESO
+module NationalGridEso
   class Base
     include SemanticLogger::Loggable
 

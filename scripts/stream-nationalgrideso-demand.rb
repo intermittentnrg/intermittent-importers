@@ -8,5 +8,5 @@ if ARGV.length != 0
   exit 1
 end
 
-e = NationalGridESO::Demand.new
+e = NationalGridEso::Demand.new
 e.process
