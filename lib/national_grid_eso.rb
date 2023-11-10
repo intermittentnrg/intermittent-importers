@@ -31,11 +31,19 @@ module NationalGridEso
       new(from).process
     end
 
+    def self.parsers_each
+      sql = "SELECT MAX(time) FROM generation_data WHERE areas_production_type_id IN(SELECT id FROM areas_production_types WHERE area_id=(SELECT id FROM areas WHERE source='nationalgrideso' LIMIT 1));"
+      r = Generation.connection.exec_query(sql)
+      from = r[0]["max"]
+      yield self.new(from)
+    end
+
+
     def initialize(from)
       @from = from
       url = 'https://api.nationalgrideso.com/api/3/action/datastore_search_sql'
       options = {}
-      options[:sql] = %Q{SELECT * FROM "177f6fa4-ae49-4182-81ea-0c6b35f26ca6" WHERE "SETTLEMENT_DATE" >= '#{from}'}
+      options[:sql] = %Q{SELECT * FROM "177f6fa4-ae49-4182-81ea-0c6b35f26ca6" WHERE "SETTLEMENT_DATE" >= '#{from}' AND "SETTLEMENT_DATE" <= '#{TZ.now}'}
       options[:records_format] = 'csv'
       fetch(url, options)
     end
@@ -52,6 +60,7 @@ module NationalGridEso
     def points_generation
       r = []
       @json[:result][:records].each do |row|
+        next if row[:FORECAST_ACTUAL_INDICATOR] == 'F'
         date = TZ.strptime(row[:SETTLEMENT_DATE], '%Y-%m-%d')
         time = date + row[:SETTLEMENT_PERIOD].to_i*30.minutes
         r << {country: 'GB', production_type: 'wind_embedded', time:, value: row[:EMBEDDED_WIND_GENERATION].to_f*1000}
