@@ -181,3 +181,11 @@ RSpec.describe Ieso::PriceYear do
     end
   end
 end
+
+RSpec.describe Ieso::Intertie do
+  subject { Ieso::Intertie }
+end
+
+RSpec.describe Ieso::IntertieYear do
+  subject { Ieso::IntertieYear }
+end

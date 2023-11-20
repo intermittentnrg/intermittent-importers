@@ -51,10 +51,11 @@ desc "Run all refresh tasks"
 multitask all: ['entsoe:all', 'aemo:all', 'ieso:all', 'eia:all', :ercot, 'caiso:all', 'elexon:all', :nationalgrideso, 'nordpool:all', :opennem, :ree, :aeso, :hydroquebec, :tohoku, 'eskom:all']
 namespace :ieso do
   desc "Run refresh tasks"
-  task all: [:generation, :load, :price]
+  task all: [:generation, :load, :price, :intertie]
   pump_task :generation, Ieso::Generation
   pump_task :load, Ieso::Load
   pump_task :price, Ieso::Price
+  pump_task :intertie, Ieso::Intertie
 end
 
 namespace :eia do

@@ -2,6 +2,9 @@ require 'faraday/net_http_persistent'
 require 'faraday/retry'
 require 'faraday/gzip'
 require 'chronic'
+require 'fastest_csv'
+require 'ox'
+require 'csv'
 
 module Ieso
   HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
@@ -30,6 +33,18 @@ module Ieso
       }
       f.request :gzip
       #f.response :logger #, logger
+    end
+
+    def initialize(date_or_path)
+      @from = date_or_path
+      if date_or_path.is_a? Date
+        if self.class::PERIOD == 1.year
+          @from = @from.beginning_of_year
+        elsif self.class::PERIOD == 1.month
+          @from = @from.beginning_of_month
+        end
+        @to = @from + self.class::PERIOD
+      end
     end
 
     def fetch
@@ -74,6 +89,7 @@ module Ieso
     include Out::Load
 
     URL_FORMAT = 'http://reports.ieso.ca/public/Demand/PUB_Demand_%Y.csv'
+    PERIOD = 1.year
 
     def self.cli(args)
       if args.length != 1
@@ -86,13 +102,8 @@ module Ieso
       e.process
     end
 
-    def initialize(date)
-      @from = date.beginning_of_year
-      @to = date.end_of_year
-
-      fetch
-    end
     def points_load
+      fetch
       r = []
       CSV.parse(@body, skip_lines: /^(\\|Date)/, headers: false) do |row|
         time = Time.strptime("#{row[0]} #{row[1]}", '%Y-%m-%d %H')
@@ -139,8 +150,10 @@ module Ieso
     end
 
     URL_FORMAT = 'http://reports.ieso.ca/public/GenOutputCapabilityMonth/PUB_GenOutputCapabilityMonth_%Y%m.csv'
+    PERIOD = 1.month
+
     def initialize(date)
-      @from = date
+      super
       @units = {}
     end
 
@@ -194,10 +207,10 @@ module Ieso
     end
 
     URL_FORMAT = 'http://reports.ieso.ca/public/GenOutputCapability/PUB_GenOutputCapability_%Y%m%d.xml'
+    PERIOD = 1.day
 
     def initialize(date)
-      @from = date
-      @to = date + 1.day
+      super
       @units = {}
     end
 
@@ -239,6 +252,7 @@ module Ieso
     include Out::Generation
 
     URL_FORMAT = 'http://reports.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_%Y.xml'
+    PERIOD = 1.year
 
     def self.cli(args)
       case args.length
@@ -262,10 +276,6 @@ module Ieso
         $stderr.puts "#{$0} <date_or_path>"
         exit 1
       end
-    end
-
-    def initialize(date_or_path)
-      @from = date_or_path
     end
 
     def points_generation
@@ -322,10 +332,7 @@ module Ieso
     end
 
     URL_FORMAT = 'http://reports.ieso.ca/public/DispUnconsHOEP/PUB_DispUnconsHOEP_%Y%m%d.csv'
-
-    def initialize(date)
-      @from = date
-    end
+    PERIOD = 1.day
 
     def points_price
       @to = @from + 1.day
@@ -356,16 +363,12 @@ module Ieso
       end
       year = Chronic.parse(args.shift).to_date
 
-      e = Ieso::PriceYear.new(year)
+      e = self.new(year)
       e.process
     end
 
     URL_FORMAT = 'http://reports.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_%Y.csv'
-
-    def initialize(date)
-      @from = date.beginning_of_year
-      @to = @from.end_of_year
-    end
+    PERIOD = 1.year
 
     def points_price
       fetch
@@ -383,6 +386,150 @@ module Ieso
       #require 'pry' ; binding.pry
 
       r
+    end
+  end
+
+  class Intertie < Base
+    include SemanticLogger::Loggable
+    include Out::Transmission
+
+    URL_FORMAT = 'http://reports.ieso.ca/public/IntertieScheduleFlow/PUB_IntertieScheduleFlow_%Y%m%d.xml'
+    PERIOD = 1.day
+    MAP_EXCHANGE = {
+      "MANITOBA" => ["CA-MB", "CA-ON"],
+      "MANITOBA SK" => ["CA-MB", "CA-ON"],
+      "MICHIGAN" => ["CA-ON", "US-MISO"],
+      "MINNESOTA" => ["CA-ON", "US-MISO"],
+      "NEW-YORK" => ["CA-ON", "US-NYISO"],
+      "PQ.AT" => ["CA-ON", "CA-QC"],
+      "PQ.B5D.B31L" => ["CA-ON", "CA-QC"],
+      "PQ.D4Z" => ["CA-ON", "CA-QC"],
+      "PQ.D5A" => ["CA-ON", "CA-QC"],
+      "PQ.H4Z" => ["CA-ON", "CA-QC"],
+      "PQ.H9A" => ["CA-ON", "CA-QC"],
+      "PQ.P33C" => ["CA-ON", "CA-QC"],
+      "PQ.Q4C" => ["CA-ON", "CA-QC"],
+      "PQ.X2Y" => ["CA-ON", "CA-QC"]
+    }
+
+    def self.parsers_each
+      from = ::Transmission.joins(:from_area).where("time > ?", 2.months.ago).where(from_area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
+      to = Time.now.in_time_zone(self::TZ)
+      logger.info("Refresh from #{from}")
+      (from.to_date..to.to_date).each do |date|
+        yield self.new date
+      end
+    end
+
+    def self.cli(args)
+      case args.length
+      when 2
+        from = Chronic.parse(args.shift).to_date
+        to = Chronic.parse(args.shift).to_date
+        (from...to).each do |date|
+          new(date).process
+        rescue EmptyError
+          logger.warn "EmptyError #{date}"
+        end
+      when 1
+        if File.exist?(args[0])
+          self.new(args[0]).process
+        else
+          date = Chronic.parse(args[0]).to_date
+          self.new(date).process
+        end
+      else
+        $stderr.puts "#{$0}: date(year)"
+        exit
+      end
+    end
+
+    def points
+      fetch
+      doc = Ox.load(@body, mode: :hash_no_attrs)[:IMODocument][:IMODocBody]
+      date = Time.strptime(doc[:Date], '%Y-%m-%d')
+      r = {}
+      doc[:IntertieZone].each do |zone|
+        fromto = MAP_EXCHANGE[zone[:IntertieZoneName]]
+        zone[:Actuals][:Actual].each do |row|
+          time = date + row[:Hour].to_i.hours + row[:Interval].to_i * 5.minutes
+          time = TZ.local_to_utc(time)
+          value = row[:Flow].to_f*1000
+
+          k = fromto+[time]
+          r[k] ||= {time:, from_area: fromto[0], to_area: fromto[1], value: 0}
+          r[k][:value] -= value
+        end
+      end
+      #require 'pry' ; binding.pry
+
+      r.values
+    end
+  end
+
+  class IntertieYear < Base
+    include SemanticLogger::Loggable
+    include Out::Transmission
+
+    URL_FORMAT = 'http://reports.ieso.ca/public/IntertieScheduleFlowYear/PUB_IntertieScheduleFlowYear_%Y.csv'
+    PERIOD = 1.year
+    MAP_EXCHANGE = Intertie::MAP_EXCHANGE
+
+    def self.cli(args)
+      case args.length
+      when 2
+        from = Chronic.parse(args.shift).to_date
+        to = Chronic.parse(args.shift).to_date
+        (from...to).each do |date|
+          next unless date.month == 1 && date.day == 1
+          new(date).process
+        rescue EmptyError
+          logger.warn "EmptyError #{date}"
+        end
+      when 1
+        if File.exist?(args[0])
+          self.new(args[0]).process
+        else
+          date = Chronic.parse(args[0]).to_date
+          self.new(date).process
+        end
+      else
+        $stderr.puts "#{$0}: date(year)"
+        exit
+      end
+    end
+
+    def points
+      fetch
+      csv = FastestCSV.parse(@body)
+      r = {}
+      h_zone = csv[3]
+      h = csv[4]
+
+      csv[5..].each do |row|
+        date = Time.strptime(row[0], '%Y-%m-%d')
+        time = date + row[1].to_i.hours
+        time = TZ.local_to_utc(time)
+        i=4
+        while h_zone[i]
+          raise h[i].inspect if h[i] != 'Flow'
+          break if h_zone[i] == 'Total'
+          fromto = MAP_EXCHANGE[h_zone[i]]
+          value = row[i].to_f*1000
+
+          unless fromto
+            require 'pry' ; binding.pry
+          end
+
+          k = fromto+[time]
+          r[k] ||= {time:, from_area: fromto[0], to_area: fromto[1], value: 0}
+          r[k][:value] -= value
+          i += 3
+        end
+      end
+      #require 'pry' ; binding.pry
+
+      r.values
     end
   end
 end
