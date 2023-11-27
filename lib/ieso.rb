@@ -452,7 +452,7 @@ module Ieso
       doc[:IntertieZone].each do |zone|
         fromto = MAP_EXCHANGE[zone[:IntertieZoneName]]
         zone[:Actuals][:Actual].each do |row|
-          time = date + row[:Hour].to_i.hours + row[:Interval].to_i * 5.minutes
+          time = date + (row[:Hour].to_i - 1).hours + (row[:Interval].to_i - 1) * 5.minutes
           time = TZ.local_to_utc(time)
           value = row[:Flow].to_f*1000
 
@@ -508,7 +508,7 @@ module Ieso
 
       csv[5..].each do |row|
         date = Time.strptime(row[0], '%Y-%m-%d')
-        time = date + row[1].to_i.hours
+        time = date + (row[1].to_i - 1).hours
         time = TZ.local_to_utc(time)
         i=4
         while h_zone[i]
