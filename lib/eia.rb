@@ -196,7 +196,7 @@ module Eia
     end
 
     def points_generation
-      r = []
+      r = {}
       @res.each do |res|
         res['response']['data'].each do |row|
           raise row['fueltype'] if FUEL_MAP[row['fueltype']].nil?
@@ -205,17 +205,24 @@ module Eia
             next
           end
           time = Time.strptime(row['period'], '%Y-%m-%dT%H')
-          r << {
-            time: time,
-            country: row['respondent'],
-            production_type: FUEL_MAP[row['fueltype']],
-            value: row['value']*1000
+          country = row['respondent']
+          production_type = FUEL_MAP[row['fueltype']]
+          value = row['value']*1000
+          k = [time,country,production_type]
+          if r[k] && r[k][:value] != value
+            logger.warn("#{country} different values #{r[k][:value]} != #{value}")
+          end
+          r[k] = {
+            time:,
+            country:,
+            production_type:,
+            value:
           }
         end
       end
       #require 'pry' ; binding.pry
 
-      Validate.validate_generation(r)
+      Validate.validate_generation(r.values)
     end
   end
 end

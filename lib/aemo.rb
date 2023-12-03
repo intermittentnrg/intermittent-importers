@@ -1,5 +1,7 @@
 require 'faraday-http-cache'
 require 'faraday/net_http_persistent'
+require 'zip'
+require 'csv'
 
 module Aemo
   class Base
