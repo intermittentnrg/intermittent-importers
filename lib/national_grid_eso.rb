@@ -1,4 +1,7 @@
 require 'faraday/follow_redirects'
+require 'fastest_csv'
+require 'fast_jsonparser'
+require 'chronic'
 
 module NationalGridEso
   class Base
@@ -10,7 +13,7 @@ module NationalGridEso
     end
     @@faraday = Faraday.new do |f|
       f.response :follow_redirects
-      f.response :logger, logger
+      #f.response :logger, logger
     end
   end
 
@@ -43,7 +46,7 @@ module NationalGridEso
       @from = from
       url = 'https://api.nationalgrideso.com/api/3/action/datastore_search_sql'
       options = {}
-      options[:sql] = %Q{SELECT * FROM "177f6fa4-ae49-4182-81ea-0c6b35f26ca6" WHERE "SETTLEMENT_DATE" >= '#{from}' AND "SETTLEMENT_DATE" <= '#{TZ.now}'}
+      options[:sql] = %Q{SELECT * FROM "177f6fa4-ae49-4182-81ea-0c6b35f26ca6" WHERE "SETTLEMENT_DATE" >= '#{from}' AND "SETTLEMENT_DATE" <= '#{TZ.now}' AND "FORECAST_ACTUAL_INDICATOR" = 'A'}
       options[:records_format] = 'csv'
       fetch(url, options)
     end
@@ -65,6 +68,7 @@ module NationalGridEso
         time = date + row[:SETTLEMENT_PERIOD].to_i*30.minutes
         r << {country: 'GB', production_type: 'wind_embedded', time:, value: row[:EMBEDDED_WIND_GENERATION].to_f*1000}
         r << {country: 'GB', production_type: 'solar_embedded', time:, value: row[:EMBEDDED_SOLAR_GENERATION].to_f*1000}
+        r << {country: 'GB', production_type: 'hydro_pumped_storage', time:, value: -row[:PUMP_STORAGE_PUMPING].to_f*1000}
       end
       @to = r.last[:time]
       #require 'pry' ; binding.pry
@@ -117,6 +121,12 @@ module NationalGridEso
           production_type: 'solar_embedded',
           time: time,
           value: row[headers[:EMBEDDED_SOLAR_GENERATION]].to_f*1000
+        }
+        r[[time, :hydro_pumped_storage]] = {
+          country: 'GB',
+          production_type: 'hydro_pumped_storage',
+          time:,
+          value: -row[headers[:PUMP_STORAGE_PUMPING]].to_f*1000
         }
       end
       #require 'pry' ; binding.pry
