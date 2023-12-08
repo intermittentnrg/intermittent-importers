@@ -165,7 +165,7 @@ module Elexon
       end
       #require 'pry'; binding.pry
 
-      r_all.values.flatten
+      Validate.validate_generation(r_all.values.flatten, self.class.source_id)
     end
   end
 
@@ -192,7 +192,7 @@ module Elexon
         }
       end
 
-      Validate.validate_generation(r.values)
+      Validate.validate_generation(r.values, self.class.source_id)
     end
   end
 

@@ -2,20 +2,24 @@ class Validate
   include SemanticLogger::Loggable
 
   @@rules = YAML.load_file("validate.yaml").with_indifferent_access
-  def self.validate_generation(points)
+  def self.validate_generation(points, source = nil)
     areas = {}
 
     logger.benchmark_info('validate generation') do
       points.select! do |p|
+        area_where = Area
+        area_where = area_where.where(source:) if source
         if p[:country]
-          area = areas[p[:country]] ||= Area.find_by(code: p[:country])
+          area = areas[p[:country]] ||= area_where.find_by(code: p[:country])
         elsif p[:area_id]
-          area = areas[p[:area_id]] ||= Area.find(p[:area_id])
+          area = areas[p[:area_id]] ||= area_where.find(p[:area_id])
         else
           raise p.inspect
         end
 
-        rule = @@rules[area.region][area.code].try(:[], p[:production_type]) || {}
+        rule = @@rules[area.region]["#{area.code}/#{source}"].try(:[], p[:production_type]) || \
+               @@rules[area.region][area.code].try(:[], p[:production_type]) || \
+               {}
         rule_all = @@rules[area.region]['all'].try(:[], p[:production_type]) || {}
 
         min = rule[:min] || rule_all[:min]
