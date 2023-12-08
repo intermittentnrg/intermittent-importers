@@ -191,26 +191,26 @@ module EntsoeCsv
         csv
         units = {}
         csv.each do |row|
-          next if @previous_filedate.present? && parse_time(row[13]) < @previous_filedate
-          #DateTime
+          next if @previous_filedate.present? && parse_time(row[12]) < @previous_filedate
+          #0:DateTime
           time = parse_time(row[0])
-          #ResolutionCode
-          #AreaCode
-          #AreaTypeCode
-          #AreaName
-          #MapCode
+          #1:ResolutionCode
+          #2:AreaCode
+          #3:AreaTypeCode
+          #4:AreaName
+          #5:MapCode
           area_code = row[5]
-          #GenerationUnitEIC
+          #6:GenerationUnitEIC
           unit_internal_id = row[6]
-          #PowerSystemResourceName
+          #7:PowerSystemResourceName
           unit_name = row[7].force_encoding('UTF-8')
-          #ProductionType
+          #8:ProductionType
           production_type = parse_production_type(row[8])
-          #ActualGenerationOutput
+          #9:ActualGenerationOutput
+          #10:ActualConsumption
           value = parse_value(row[9], row[10])
-          #ActualConsumption
-          #InstalledGenCapacity
-          #13:UpdateTime
+          #11:InstalledGenCapacity
+          #12:UpdateTime
 
           unit_id = units[unit_internal_id]
           unless unit_id
