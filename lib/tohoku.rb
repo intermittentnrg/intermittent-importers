@@ -1,3 +1,5 @@
+require 'chronic'
+
 module Tohoku
   class Juyo
     include SemanticLogger::Loggable

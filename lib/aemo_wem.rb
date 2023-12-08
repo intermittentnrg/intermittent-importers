@@ -1,3 +1,5 @@
+require 'chronic'
+
 module AemoWem
   class Base < ::Aemo::Base
     TZ = TZInfo::Timezone.get('Etc/GMT-8')

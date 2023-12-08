@@ -1,3 +1,5 @@
+require 'chronic'
+
 module AemoNemMms
   module Base
     URL_BASE = "https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/%Y/MMSDM_%Y_%m/MMSDM_Historical_Data_SQLLoader/DATA/"

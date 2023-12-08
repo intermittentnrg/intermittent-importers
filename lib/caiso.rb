@@ -1,6 +1,7 @@
 require 'faraday/net_http_persistent'
 #require 'faraday/gzip'
 require 'fastest_csv'
+require 'chronic'
 
 module Caiso
   class Base
