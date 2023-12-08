@@ -35,7 +35,7 @@ module NationalGridEso
     end
 
     def self.parsers_each
-      sql = "SELECT MAX(time) FROM generation_data WHERE areas_production_type_id IN(SELECT id FROM areas_production_types WHERE area_id=(SELECT id FROM areas WHERE source='nationalgrideso' LIMIT 1));"
+      sql = "SELECT MAX(time) FROM generation_data WHERE areas_production_type_id IN(SELECT id FROM areas_production_types WHERE source_area_id=(SELECT id FROM areas WHERE source='nationalgrideso' LIMIT 1));"
       r = Generation.connection.exec_query(sql)
       from = r[0]["max"]
       yield self.new(from)
