@@ -68,7 +68,7 @@ module NationalGridEso
         time = date + row[:SETTLEMENT_PERIOD].to_i*30.minutes
         r << {country: 'GB', production_type: 'wind_embedded', time:, value: row[:EMBEDDED_WIND_GENERATION].to_f*1000}
         r << {country: 'GB', production_type: 'solar_embedded', time:, value: row[:EMBEDDED_SOLAR_GENERATION].to_f*1000}
-        r << {country: 'GB', production_type: 'hydro_pumped_storage', time:, value: -row[:PUMP_STORAGE_PUMPING].to_f*1000}
+        r << {country: 'GB', production_type: 'hydro_pumped_storage_charging', time:, value: -row[:PUMP_STORAGE_PUMPING].to_f*1000}
       end
       @to = r.last[:time]
       #require 'pry' ; binding.pry
@@ -124,7 +124,7 @@ module NationalGridEso
         }
         r[[time, :hydro_pumped_storage]] = {
           country: 'GB',
-          production_type: 'hydro_pumped_storage',
+          production_type: 'hydro_pumped_storage_charging',
           time:,
           value: -row[headers[:PUMP_STORAGE_PUMPING]].to_f*1000
         }

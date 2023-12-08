@@ -2,6 +2,7 @@
 require 'faraday/retry'
 require 'faraday/net_http_persistent'
 require 'ox'
+require 'csv'
 require 'chronic'
 
 module Elexon
