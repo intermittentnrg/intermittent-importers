@@ -396,8 +396,8 @@ module Ieso
     URL_FORMAT = 'http://reports.ieso.ca/public/IntertieScheduleFlow/PUB_IntertieScheduleFlow_%Y%m%d.xml'
     PERIOD = 1.day
     MAP_EXCHANGE = {
-      "MANITOBA" => ["CA-MB", "CA-ON"],
-      "MANITOBA SK" => ["CA-MB", "CA-ON"],
+      "MANITOBA" => ["CA-ON", "CA-MB"],
+      "MANITOBA SK" => ["CA-ON", "CA-MB"],
       "MICHIGAN" => ["CA-ON", "US-MISO"],
       "MINNESOTA" => ["CA-ON", "US-MISO"],
       "NEW-YORK" => ["CA-ON", "US-NYISO"],
