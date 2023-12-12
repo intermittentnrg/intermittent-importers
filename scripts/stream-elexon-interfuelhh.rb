@@ -3,4 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Elexon::Generation.cli(ARGV)
+Elexon::Interfuelhh.cli(ARGV)

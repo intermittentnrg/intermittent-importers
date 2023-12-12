@@ -81,13 +81,13 @@ module Elexon
     end
   end
 
-  class Fuelinst < BaseCSV
+  class Interfuelhh < BaseCSV
     include SemanticLogger::Loggable
-    include Out::Generation
+    include Out::Transmission
 
     def self.cli(args)
       if args.length == 1 && args.first.include?('.')
-        Elexon::Fuelinst.new(args.first).process
+        self.new(args.first).process
       elsif args.length < 2
         $stderr.puts "#{$0} <from> <to>"
         exit 1
@@ -96,7 +96,97 @@ module Elexon
         to = Chronic.parse(args.shift).to_date
 
         (from...to).each do |time|
-          e = Elexon::Fuelinst.new(time, time + 1.day)
+          e = self.new(time)
+          e.process
+        rescue EmptyError
+          logger.warn "EmptyError #{time}"
+        end
+      end
+    end
+    def self.parsers_each
+      from = Transmission \
+               .joins(:from_area) \
+               #.joins('INNER JOIN "areas" "to_area" ON "to_area"."id" = "transmission"."to_area_id"') \
+               .where(from_area: {source: self.source_id}) \
+               .where("time > ?", 12.months.ago) \
+               .maximum(:time).to_date
+      (from..Date.today).each do |date|
+        yield self.new date
+      rescue EmptyError
+        logger.warn "Empty response #{date}"
+      end
+    end
+    def initialize(from)
+      @from = from
+      @to = from + 1.day
+      @report = 'INTERFUELHH'
+      @options = {}
+      @options[:FromDate] = @from.strftime('%Y-%m-%d')
+      @options[:ToDate] = @to.strftime('%Y-%m-%d')
+      @options[:ServiceType] = 'csv'
+      @options[:APIKey] = ENV['ELEXON_TOKEN']
+    end
+
+    def points
+      area_gb = Area.where(source: self.class.source_id, code: 'GB').pluck(:id).first
+
+      area_be = Area.where(source: self.class.source_id, code: 'BE').pluck(:id).first
+      area_dk = Area.where(source: self.class.source_id, code: 'DK').pluck(:id).first
+      area_fr = Area.where(source: self.class.source_id, code: 'FR').pluck(:id).first
+      area_ie = Area.where(source: self.class.source_id, code: 'IE').pluck(:id).first
+      area_nl = Area.where(source: self.class.source_id, code: 'NL').pluck(:id).first
+      area_no = Area.where(source: self.class.source_id, code: 'NO').pluck(:id).first
+
+      fetch
+      r_trans_all = {}
+      @csv.each do |row|
+        # 0:Record Type
+        next unless row[0] == 'INTOUTHH'
+        r_trans = []
+        # 1:Settlement Date
+        date = Time.strptime(row[1], '%Y%m%d')
+        # 2:Settlement Period
+        time = date + (row[2].to_i - 1) * 30.minutes
+        # 3:INTFR - External Interconnector flows with France
+        r_trans << {time:, from_area_id: area_gb, to_area_id: area_fr, value: row[3].to_f*1000 + row[8].to_f*1000 + row[9].to_f*1000}
+        # 4:INTIRL - External Interconnector flows with Ireland
+        r_trans << {time:, from_area_id: area_gb, to_area_id: area_ie, value: row[4].to_f*1000 + row[6].to_f*1000}
+        # 5:INTNED - External Interconnector flows with the Netherlands
+        r_trans << {time:, from_area_id: area_gb, to_area_id: area_nl, value: row[5].to_f*1000}
+        # 6:INTEW - External Interconnector flows with Ireland (East-West)
+        # 7:INTNEM – External Interconnector flows with Belgium (Nemo Link)
+        r_trans << {time:, from_area_id: area_gb, to_area_id: area_be, value: row[7].to_f*1000}
+        # 8:INTELEC – External Interconnector flows with France (ElecLink)
+        # 9:INTIFA2 – External Interconnector flows with France (IFA2)
+        # 10:INTNSL – External Interconnector flows with Norway 2 (North Sea Link)
+        r_trans << {time:, from_area_id: area_gb, to_area_id: area_no, value: row[10].to_f*1000}
+        # 11:INTVKL – External Interconnector flows with Denmark 1 (Viking Link)
+        r_trans << {time:, from_area_id: area_gb, to_area_id: area_dk, value: row[11].to_f*1000}
+
+        r_trans_all[time] = r_trans
+      end
+      #require 'pry' ; binding.pry
+
+      r_trans_all.values.flatten
+    end
+  end
+
+  class Fuelinst < BaseCSV
+    include SemanticLogger::Loggable
+    include Out::Generation
+
+    def self.cli(args)
+      if args.length == 1 && args.first.include?('.')
+        self.new(args.first).process
+      elsif args.length < 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      else
+        from = Chronic.parse(args.shift).to_date
+        to = Chronic.parse(args.shift).to_date
+
+        (from...to).each do |time|
+          e = self.new(time, time + 1.day)
           e.process
         rescue EmptyError
           logger.warn "EmptyError #{time}"
@@ -173,6 +263,20 @@ module Elexon
   class Generation < BaseXML
     include SemanticLogger::Loggable
     include Out::Generation
+
+    def self.cli(args)
+      if args.length != 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      end
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      (from...to).each do |time|
+        e = Elexon::Generation.new(time)
+        e.process
+      end
+    end
 
     def initialize(date)
       @report = 'B1620'
