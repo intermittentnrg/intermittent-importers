@@ -56,4 +56,18 @@ module EntsoeSftp
     TARGET = EntsoeCsv::TransmissionCSV
     DIR = '/TP_export/zip/PhysicalFlows_12.1.G'
   end
+
+  class Capacity < Base
+    include SemanticLogger::Loggable
+
+    TARGET = EntsoeCsv::CapacityCSV
+    DIR = '/TP_export/zip/InstalledGenerationCapacityAggregated_14.1.A'
+  end
+
+  class UnitCapacity < Base
+    include SemanticLogger::Loggable
+
+    TARGET = EntsoeCsv::UnitCapacityCSV
+    DIR = '/TP_export/zip/InstalledCapacityProductionUnit_14.1.B'
+  end
 end

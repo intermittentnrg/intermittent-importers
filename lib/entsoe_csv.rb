@@ -118,8 +118,11 @@ module EntsoeCsv
       area_id
     end
 
-    def parse_value(s, s_neg)
-      (s.to_f*1000) - (s_neg.to_f*1000)
+    def parse_value(s, s_neg = nil)
+      value = (s.to_f*1000)
+      value -= (s_neg.to_f*1000) if s_neg
+
+      value
     end
 
     def csv
@@ -187,6 +190,7 @@ module EntsoeCsv
 
     def points
       r = []
+      r_cap = []
       logger.benchmark_info("csv parse") do
         csv
         units = {}
@@ -210,6 +214,7 @@ module EntsoeCsv
           #10:ActualConsumption
           value = parse_value(row[9], row[10])
           #11:InstalledGenCapacity
+          capacity = parse_value(row[11])
           #12:UpdateTime
 
           unit_id = units[unit_internal_id]
@@ -234,13 +239,11 @@ module EntsoeCsv
             end
           end
 
-          r << {
-            unit_id:,
-            time:,
-            value:
-          }
+          r << {unit_id:, time:,value:}
+          r_cap << {unit_id:, time:, value: capacity}
         end
       end
+      Out2::UnitCapacity.run(r_cap, @from, @to, self.class.source_id)
 
       r
     end
@@ -383,6 +386,15 @@ module EntsoeCsv
     ]
 
     def self.cli(args)
+      if args.empty?
+        $stderr.puts "#{$0} [file]"
+        exit 1
+      end
+
+      args.each do |file|
+        e = EntsoeCsv::UnitCapacityCSV.new(file)
+        e.process
+      end
     end
 
     def parse_filename
@@ -408,7 +420,6 @@ module EntsoeCsv
       end
       #require 'pry' ; binding.pry
 
-      #puts r.values
       r.values
     end
 
