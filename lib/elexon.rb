@@ -55,7 +55,6 @@ module Elexon
 
   class BaseCSV < Base
     def initialize(date_or_io)
-      @report = 'B1420'
       #@from = date + 30.minutes
       #@to = date.tomorrow + 30.minutes
       #super
@@ -416,25 +415,75 @@ module Elexon
     end
   end
 
+  class Capacity < BaseCSV
+    include SemanticLogger::Loggable
+    include CliMixin::Yearly
+
+    def initialize(date)
+      @report = 'B1410'
+      @from = date
+      @to = date + 1.year
+      super
+    end
+
+    def points_capacity
+      area = Area.find_by(code: 'GB_B1620', source: 'elexon')
+      area_id = area.id
+
+      fetch
+      5.times { @csv.shift }
+      r = []
+      @csv.each do |row|
+        #0:Document Type
+        next unless row[0] == 'Installed generation per type'
+
+        #1:Business Type
+        next unless row[1] == 'Installed generation'
+
+        #2:Process Type
+        next unless row[2] == 'Year ahead'
+
+        #3:Time Series ID
+        #4:Quantity
+        value = row[4].to_f*1000
+
+        #5:Resolution
+        next unless row[5] == 'P1Y'
+
+        #6:Year
+        time = Time.strptime(row[6], '%Y')
+
+        #7:Power System Resource  Type
+        production_type = row[7].gsub(/ /,'_').downcase
+        # missing/no generation data:
+        next if production_type == 'other_renewable'
+
+        #8:Active Flag
+        unless row[8] == 'Y'
+          require 'pry' ; binding.pry
+        end
+        #9:Document ID
+        #10:Document RevNum
+
+        r << {area_id:, production_type:, time:, value:}
+      end
+      require 'pry' ; binding.pry
+
+      r
+    end
+
+    def process
+      Out2::Capacity.run(points_capacity, nil, nil, self.class.source_id)
+    end
+  end
+
   class UnitCapacity < BaseCSV
     include SemanticLogger::Loggable
-    def self.cli(args)
-      if args.length == 1
-        from = Chronic.parse(args[0])
-        if from
-          self.new(from.to_date).process
-        else
-          self.new(File.open(args[0], 'r')).process
-        end
-      elsif args.length == 2
-        from = Chronic.parse(args[0]).to_date
-        to = Chronic.parse(args[1]).to_date
-        (from...to).select { |d| d.month==1 && d.day==1 }.each do |year|
-          self.new(year).process
-        end
-      else
-        self.new(Date.today).process
-      end
+    include CliMixin::Yearly
+
+    def initialize(date)
+      @report = 'B1420'
+      super
     end
 
     def points_unit_capacity
@@ -445,7 +494,7 @@ module Elexon
       r = {}
       #r = []
       @csv.each do |row|
-        #*Document Type
+        #Document Type
         next unless row[0] == 'Configuration document'
 
         #Business Type
@@ -453,7 +502,7 @@ module Elexon
 
         #Process Type
         #Time Series ID
-        #Power System Resource  Type
+        #Power System Resource Type
         production_type_name = row[4].gsub(/ /,'_').downcase
 
         #Year
@@ -462,14 +511,14 @@ module Elexon
         #BM Unit ID
         #Registered Resource EIC Code
         #Voltage limit
-        #Nominal
+        #9:Nominal
         value = row[9].to_f*1000
 
-        #NGC BM Unit ID
+        #10:NGC BM Unit ID
         next if row[10] == 'NA'
         unit = area.units.find_by(internal_id: row[10])
         unless unit
-          production_type = ProductionType.find_by name: production_type_name
+          production_type = ProductionType.find_by! name: production_type_name
           unless production_type
             logger.warn "Unknown production_type: #{production_type_name}"
             next
@@ -489,7 +538,7 @@ module Elexon
         #create_with(production_type_id: default_production_type_id).
 
         #Registered Resource Name
-        #Active Flag
+        #12:Active Flag
         unless row[12] == 'Y'
           require 'pry' ; binding.pry
         end
@@ -509,6 +558,7 @@ module Elexon
 
       r.values
     end
+
     def process
       Out2::UnitCapacity.run(points_unit_capacity, nil, nil, self.class.source_id)
     end

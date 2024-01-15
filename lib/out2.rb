@@ -99,9 +99,12 @@ module Out2
     include SemanticLogger::Loggable
 
     def self.run(data, from, to, source_id)
+      areas = {}
       production_types = {}
       data.each do |p|
+        area = areas[p[:area_id]] ||= Area.find(p[:area_id])
         p[:production_type_id] = (production_types[p[:production_type]] ||= ::ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
+        p[:areas_production_type_id] = area.areas_production_type.where(production_type_id: p[:production_type_id]).pluck(:id).first
         p.delete :production_type
       end
 
