@@ -85,7 +85,7 @@ module Eia
 
         @res << res
 
-        if query[:offset] + res['response']['data'].length >= res['response']['total']
+        if query[:offset] + res['response']['data'].length >= res['response']['total'].to_i
           break
         end
         query[:offset] += res['response']['data'].length
@@ -100,11 +100,11 @@ module Eia
             logger.warn "Null value #{row.inspect}"
             next
           end
-          if row['value'] < 0
+          if row['value'].to_i < 0
             logger.warn("Negative load #{row.inspect}")
             next
           end
-          if row['respondent'] == 'BANC' && row['value'] > 6000
+          if row['respondent'] == 'BANC' && row['value'].to_i > 6000
             logger.warn("Ignoring load #{row['value']} from #{row['respondent']}")
             next
           end
@@ -112,7 +112,7 @@ module Eia
           r << {
             time: time,
             country: row['respondent'],
-            value: row['value']*1000
+            value: row['value'].to_i*1000
           }
         end
       end
@@ -189,7 +189,7 @@ module Eia
           logger.error "Response body (missing response.data): #{res.body}"
         end
         @res << res
-        if query[:offset] + res['response']['data'].length >= res['response']['total']
+        if query[:offset] + res['response']['data'].length >= res['response']['total'].to_i
           break
         end
         query[:offset] += res['response']['data'].length
@@ -208,7 +208,7 @@ module Eia
           time = Time.strptime(row['period'], '%Y-%m-%dT%H')
           country = row['respondent']
           production_type = FUEL_MAP[row['fueltype']]
-          value = row['value']*1000
+          value = row['value'].to_i*1000
           k = [time,country,production_type]
           if r[k] && r[k][:value] != value
             logger.warn("#{country} different values #{r[k][:value]} != #{value}")
