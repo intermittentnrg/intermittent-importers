@@ -253,15 +253,20 @@ module Ieso
 
       r = []
       CSV.parse(@body, skip_lines: /^(\\|Delivery Date)/, headers: false) do |row|
+        #0:Delivery Date
         date = Time.strptime(row[0], '%Y-%m-%d')
+        #1:Generator
         unit_internal_id = row[1]
+        #2:Fuel Type
         type = FUEL_MAP[row[2]]
+        #3:Measurement
         measurement = row[3]
         next unless measurement == "Output"
 
         production_type = ProductionType.find_by!(name: type)
         unit = parse_unit(unit_internal_id, production_type)
 
+        #4..:Hour X
         hours = row[4..]
         hours.each_with_index do |value, hour|
           next if value.nil?
@@ -277,28 +282,21 @@ module Ieso
     end
   end
 
-  class Generation < Base
+  class Unit < BaseDirectory
     include SemanticLogger::Loggable
-    include Out::Generation
 
     def self.cli(args)
-      if args.length != 2
-        $stderr.puts "#{$0} <from> <to>"
-        exit 1
-      end
-      from = Chronic.parse(args.shift).to_date
-      to = Chronic.parse(args.shift).to_date
-
-      (from...to).each do |time|
-        e = Ieso::Generation.new(time)
-        e.process
-      end
+      raise 'FIXME'
     end
 
-    URL_FORMAT = 'http://reports.ieso.ca/public/GenOutputCapability/PUB_GenOutputCapability_%Y%m%d.xml'
-    PERIOD = 1.day
+    URL = 'http://reports.ieso.ca/public/GenOutputCapability/'
+    #PERIOD = 1.day
 
-    def initialize(date)
+    def self.select_file? url
+      url =~ /PUB_GenOutputCapability_\d+\.xml/
+    end
+
+    def initialize(url)
       super
       @units = {}
     end
@@ -307,6 +305,9 @@ module Ieso
       fetch
       doc = Ox.load(@body, mode: :hash_no_attrs)[:IMODocument][:IMODocBody]
       date = Time.strptime(doc[:Date], '%Y-%m-%d')
+      base_time = TZ.local_to_utc(date.to_time)
+      @from = base_time
+      @to = @from + 1.day
       fuel_sums = {}
       r_unit = []
       r_gen = {}
@@ -318,8 +319,7 @@ module Ieso
 
         out_sum = fuel_sums[type] ||= {}
         g[:Outputs][:Output].each do |o|
-          time = date + (o[:Hour].to_i - 1).hours
-          time = TZ.local_to_utc(time)
+          time = base_time + (o[:Hour].to_i - 1).hours
           value = o[:EnergyMW].to_i*1000
           out_sum[time] ||= 0
           out_sum[time] += value
@@ -333,6 +333,7 @@ module Ieso
 
       Out2::Unit.run(r_unit, @from, @to, self.class.source_id)
       Out2::Generation.run(r_gen.values, @from, @to, self.class.source_id)
+      done!
     end
   end
 
@@ -379,7 +380,7 @@ module Ieso
         date = Date.strptime(daily_data[:Day], '%Y-%m-%d')
         daily_data[:HourlyData].each do |hourly_data|
           hourly_data[:FuelTotal].each do |fuel_data|
-            time = date + (hourly_data[:Hour].to_i-1).hours
+            time = date + (hourly_data[:Hour].to_i - 1).hours
             time = TZ.local_to_utc(time)
             production_type = FUEL_MAP[fuel_data[:Fuel]]
             value = fuel_data[:EnergyValue][:Output].to_f*1000
