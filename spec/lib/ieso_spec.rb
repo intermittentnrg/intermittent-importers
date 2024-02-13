@@ -1,7 +1,7 @@
 require './spec/spec_helper'
 
-RSpec.describe Ieso::Load do
-  subject { Ieso::Load }
+RSpec.describe Ieso::LoadYear do
+  subject { Ieso::LoadYear }
   let(:body) do
     <<-CSV
 2023-01-01,1,15130,13514

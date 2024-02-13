@@ -53,7 +53,7 @@ namespace :ieso do
   desc "Run refresh tasks"
   task all: [:generation, :load, :price, :intertie]
   pump_task :generation, Ieso::Generation
-  pump_task :load, Ieso::Load
+  loop_task :load, Ieso::Load
   pump_task :price, Ieso::Price
   pump_task :intertie, Ieso::Intertie
 end

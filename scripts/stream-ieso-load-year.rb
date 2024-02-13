@@ -3,4 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Ieso::Load.cli(ARGV)
+Ieso::LoadYear.cli(ARGV)

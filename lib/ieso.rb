@@ -10,6 +10,8 @@ module Ieso
   HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
 
   class Base
+    INDEX_TIME_FORMAT = '%d-%b-%Y %H:%M'
+
     TZ = TZInfo::Timezone.get('EST')
     FUEL_MAP = {
       "NUCLEAR" => "nuclear",
@@ -88,6 +90,85 @@ module Ieso
     include SemanticLogger::Loggable
     include Out::Load
 
+    URL = 'http://reports.ieso.ca/public/RealtimeConstTotals/'
+    URL_FORMAT = URL + 'PUB_RealtimeConstTotals_%Y%m%d%H.csv'
+    #PERIOD = 5.minutes
+
+    def self.cli(args)
+      raise 'FIXME'
+    end
+
+    def self.select_file? url
+      url =~ /PUB_RealtimeConstTotals_\d+\.csv/
+    end
+
+    def self.each
+      logger.info("Fetch #{self::URL}")
+      http = @@faraday.get(self::URL)
+      http.body.split(/\n/).each do |row|
+        m = row.match(%r|<a href="(.*?)">.*</a>\s{2,}(.*?)\s{2,}|)
+        next unless m
+        next unless select_file?(m[1])
+        url = self::URL + m[1]
+        time = Time.strptime(m[2].strip, self::INDEX_TIME_FORMAT)
+        time = self::TZ.local_to_utc(time)
+
+        if DataFile.where(updated_at: time...Float::INFINITY, path: File.basename(url), source: self.source_id).exists?
+          logger.debug "already processed #{File.basename(url)}"
+          next
+        end
+        yield self.new(url)
+      end
+    end
+
+    def initialize(url)
+      @url = url
+    end
+
+    def fetch
+      res = @@faraday.get(@url)
+      @filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
+      @body = res.body
+    end
+
+    def points_load
+      fetch
+      csv = FastestCSV.parse(@body)
+      date = csv[0][1]
+
+      r = []
+      csv[4..].each do |row|
+        #0:Hour
+        hour = row[0].to_i - 1
+        #1:Period
+        minute = (row[1].to_i - 1) * 5
+        time = Time.strptime "#{date} #{hour} #{minute}", '%Y%m%d %H %M'
+        time = TZ.local_to_utc(time)
+        #2:Total Energy / Market Demand
+        value = row[2].to_i*1000
+        #Total 10S
+        #Total 10N
+        #Total 30R
+        #Total DISP LOAD
+        #Total LOAD
+        #Total LOSS
+
+        r << {
+          time:,
+          country: 'CA-ON',
+          value:
+        }
+      end
+      #require 'pry' ; binding.pry
+
+      r
+    end
+  end
+
+  class LoadYear < Base
+    include SemanticLogger::Loggable
+    include Out::Load
+
     URL_FORMAT = 'http://reports.ieso.ca/public/Demand/PUB_Demand_%Y.csv'
     PERIOD = 1.year
 
@@ -98,7 +179,7 @@ module Ieso
       end
       year = Chronic.parse(args.shift).to_date
 
-      e = Ieso::Load.new year
+      e = self.new year
       e.process
     end
 
@@ -106,9 +187,16 @@ module Ieso
       fetch
       r = []
       CSV.parse(@body, skip_lines: /^(\\|Date)/, headers: false) do |row|
-        time = Time.strptime("#{row[0]} #{row[1]}", '%Y-%m-%d %H')
-        time = Ieso::Base::TZ.local_to_utc(time)
-        value = row[3].to_i*1000
+        #0:Date
+        date = row[0]
+        #1:Hour
+        hour = row[1].to_i - 1
+        time = Time.strptime("#{date} #{hour}", '%Y-%m-%d %H')
+        time = TZ.local_to_utc(time)
+        #2:Market Demand
+        value = row[2].to_i*1000
+        #3: Ontario Demand
+
         r << {
           time:,
           country: 'CA-ON',
