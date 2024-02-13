@@ -7,11 +7,8 @@ require 'ox'
 require 'csv'
 
 module Ieso
-  HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
-
   class Base
-    INDEX_TIME_FORMAT = '%d-%b-%Y %H:%M'
-
+    HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
     TZ = TZInfo::Timezone.get('EST')
     FUEL_MAP = {
       "NUCLEAR" => "nuclear",
@@ -86,21 +83,8 @@ module Ieso
     end
   end
 
-  class Load < Base
-    include SemanticLogger::Loggable
-    include Out::Load
-
-    URL = 'http://reports.ieso.ca/public/RealtimeConstTotals/'
-    URL_FORMAT = URL + 'PUB_RealtimeConstTotals_%Y%m%d%H.csv'
-    #PERIOD = 5.minutes
-
-    def self.cli(args)
-      raise 'FIXME'
-    end
-
-    def self.select_file? url
-      url =~ /PUB_RealtimeConstTotals_\d+\.csv/
-    end
+  class BaseDirectory < Base
+    INDEX_TIME_FORMAT = '%d-%b-%Y %H:%M'
 
     def self.each
       logger.info("Fetch #{self::URL}")
@@ -129,6 +113,23 @@ module Ieso
       res = @@faraday.get(@url)
       @filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
       @body = res.body
+    end
+  end
+
+  class Load < BaseDirectory
+    include SemanticLogger::Loggable
+    include Out::Load
+
+    URL = 'http://reports.ieso.ca/public/RealtimeConstTotals/'
+    #URL_FORMAT = URL + 'PUB_RealtimeConstTotals_%Y%m%d%H.csv'
+    #PERIOD = 5.minutes
+
+    def self.cli(args)
+      raise 'FIXME'
+    end
+
+    def self.select_file? url
+      url =~ /PUB_RealtimeConstTotals_\d+\.csv/
     end
 
     def points_load
@@ -392,43 +393,34 @@ module Ieso
     end
   end
 
-  class Price < Base
+  class Price < BaseDirectory
     include SemanticLogger::Loggable
     include Out::Price
 
+    URL = 'http://reports.ieso.ca/public/DispUnconsHOEP/'
+    #URL_FORMAT = 'http://reports.ieso.ca/public/DispUnconsHOEP/PUB_DispUnconsHOEP_%Y%m%d.csv'
+    #PERIOD = 1.day
+
     def self.cli(args)
-      if args.length != 2
-        $stderr.puts "#{$0} <from> <to>"
-        exit 1
-      end
-      from = Chronic.parse(args.shift).to_date
-      to = Chronic.parse(args.shift).to_date
-
-      (from...to).each do |time|
-        e = Ieso::Price.new(time)
-        e.process_price
-      end
+      raise 'FIXME'
     end
 
-    def self.parsers_each
-      from = ::Price.joins(:area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
-      to = Time.now.in_time_zone(self::TZ)
-      logger.info("Refresh from #{from}")
-      (from.to_date..to.to_date).each do |date|
-        yield self.new date
-      end
+    def self.select_file? url
+      url =~ /PUB_DispUnconsHOEP_\d+\.csv/
     end
-
-    URL_FORMAT = 'http://reports.ieso.ca/public/DispUnconsHOEP/PUB_DispUnconsHOEP_%Y%m%d.csv'
-    PERIOD = 1.day
 
     def points_price
-      @to = @from + 1.day
       fetch
+      csv = FastestCSV.parse(@body)
+      date = csv[0][1]
+
       r = []
-      base_time = TZ.local_to_utc(@from.to_time)
-      CSV.parse(@body, skip_lines: /^(?!\s*\d)/, headers: false) do |row|
-        time = base_time + row[0].to_i.hours
+      base_time = TZ.local_to_utc(date.to_time)
+      csv[4..].each do |row|
+        #0:Hour
+        hour = row[0].to_i - 1
+        time = base_time + hour.hours
+        #1:Price
         r << {
           time:,
           value: row[1].to_f*100,
@@ -461,10 +453,24 @@ module Ieso
     def points_price
       fetch
       r = []
-      CSV.parse(@body, skip_lines: /^(?!\s*\d)/, headers: false) do |row|
-        time = Time.strptime("#{row[0]} #{row[1]}", '%Y-%m-%d %H')
+      csv = FastestCSV.parse(@body)
+      csv[4..].each do |row|
+        #0:Date
+        date = row[0]
+        #1:Hour
+        hour = row[1].to_i - 1
+
+        time = Time.strptime("#{date} #{hour}", '%Y-%m-%d %H')
         time = TZ.local_to_utc(time)
+        #2:HOEP
         value = row[2].to_f*100
+        #Hour 1 Predispatch
+        #Hour 2 Predispatch
+        #Hour 3 Predispatch
+        #OR 10 Min Sync
+        #OR 10 Min non-sync
+        #OR 30 Min
+
         r << {
           time:,
           value:,

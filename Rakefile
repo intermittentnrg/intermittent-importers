@@ -54,7 +54,7 @@ namespace :ieso do
   task all: [:generation, :load, :price, :intertie]
   pump_task :generation, Ieso::Generation
   loop_task :load, Ieso::Load
-  pump_task :price, Ieso::Price
+  loop_task :price, Ieso::Price
   pump_task :intertie, Ieso::Intertie
 end
 
