@@ -117,6 +117,7 @@ namespace :aemo do
     loop_task :dispatch, AemoNem::Dispatch
     loop_task :scada, AemoNem::Scada
     loop_task :rooftoppv, AemoNem::RooftopPv
+    loop_task :causer_pays, AemoNem::CauserPays
   end
   namespace :wem do
     desc "Run refresh tasks"

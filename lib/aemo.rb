@@ -56,18 +56,19 @@ module Aemo
 
       if @url =~ /\.zip$/
         zip = Zip::InputStream.new(file)
-        zip.get_next_entry
-        body = zip.read
-        csv = CSV.new(body)
+        @r = []
+        while zip.get_next_entry
+          body = zip.read
+          csv = CSV.new(body)
+          @r += process_rows(csv.to_a)
+       end
       else
         csv = CSV.new(file)
+        @r = process_rows(csv.to_a)
       end
 
-      all = csv.to_a
       #require 'pry' ; binding.pry
-      #r = all.select { |r| r[0..2] == ['D','TRADING','PRICE'] }.map do |r|
 
-      @r = process_rows(all)
     end
 
     def process
@@ -78,11 +79,12 @@ module Aemo
       logger.info "done! #{@url}"
     end
 
+    ROW_TIME_FORMAT = '%Y/%m/%d %H:%M:%S'
     def parse_time(s)
       return @last_t if @last_s == s
 
       @last_s = s
-      @last_t = self.class::TZ.local_to_utc(Time.strptime(s, '%Y/%m/%d %H:%M:%S'))
+      @last_t = self.class::TZ.local_to_utc(Time.strptime(s, self.class::ROW_TIME_FORMAT))
     end
 
     def points_price

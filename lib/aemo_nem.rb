@@ -1,3 +1,5 @@
+require 'fastest_csv'
+
 module AemoNem
   class Base < ::Aemo::Base
     TZ = TZInfo::Timezone.get('Etc/GMT-10')
@@ -277,6 +279,82 @@ module AemoNem
       #require 'pry' ; binding.pry
 
       r.values
+    end
+  end
+
+  class CauserPays < Base
+    include SemanticLogger::Loggable
+    include Out::Unit
+
+    URL = 'http://www.nemweb.com.au/Reports/Current/Causer_Pays/'
+    FILE_MATCHER = /FCAS_(\d{12}).zip/
+    FILE_FORMAT = '%Y%m%d%H%M'
+    #ELEMENTS_URL = 'http://www.nemweb.com.au/Reports/Current/Causer_Pays_Elements/'
+
+    def self.source_id
+      'aemo_cp'
+    end
+
+    def initialize(url_or_io, name_if_io = nil)
+      unless @from
+        name = File.basename(name_if_io || url_or_io)
+        m = name.match(FILE_MATCHER)
+        raise ArgumentError, 'invalid filename' unless m
+        @from = Time.strptime(m[1], FILE_FORMAT)
+        @from = TZ.local_to_utc(@from)
+        @to = @from + 5.minutes
+      end
+      super
+    end
+
+    @@elements = false
+    def self.elements
+      return @@elements if @@elements
+      url = 'http://www.nemweb.com.au/Reports/Current/Causer_Pays_Elements/Elements_FCAS_202402020950.csv'
+      logger.info("Fetch #{url}")
+      res = @@faraday.get(url)
+
+      csv = FastestCSV.parse(res.body, row_sep: "\r\n")
+      @@elements = {}
+      csv.each do |row|
+        id = row[0].to_i
+        element = row[1].strip
+        next unless element =~ /^SUBSTN\./
+        element.gsub! /^SUBSTN\./, ''
+        @@elements[id] = element
+      end
+
+      @@elements
+    end
+
+    ROW_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+
+    @@units = {}
+    def process_rows(all)
+      default_area_id = Area.where(type: 'country', source: self.class.source_id).pluck(:id).first
+      default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
+
+      r = []
+      logger.benchmark_info("parse csv") do
+        all.each do |row|
+          time = parse_time(row[0])
+          unit_internal_id = self.class.elements[row[1].to_i]
+          next unless unit_internal_id
+          unit = @@units[unit_internal_id] ||= ::Unit.
+                                                 create_with(area_id: default_area_id,
+                                                             production_type_id: default_production_type_id).
+                                                 find_or_create_by!(internal_id: unit_internal_id)
+          unit_id = unit.id
+          variable = row[2].to_i
+          next unless variable == 2
+          value = row[3].to_f*1000
+
+          r << {time:, unit_id:, value:}
+        end
+      end
+      #require 'pry' ; binding.pry
+
+      r
     end
   end
 
