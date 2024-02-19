@@ -1,0 +1,34 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://archive-api.open-meteo.com/v1/archive?end_date=2024-01-02&hourly=temperature_2m&latitude=52.52&longitude=13.41&start_date=2024-01-01
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.11
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 09 Feb 2024 16:40:50 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJsYXRpdHVkZSI6NTIuNTQ4MzMsImxvbmdpdHVkZSI6MTMuNDA3ODIyLCJnZW5lcmF0aW9udGltZV9tcyI6MC4wMjgwMTQxODMwNDQ0MzM1OTQsInV0Y19vZmZzZXRfc2Vjb25kcyI6MCwidGltZXpvbmUiOiJHTVQiLCJ0aW1lem9uZV9hYmJyZXZpYXRpb24iOiJHTVQiLCJlbGV2YXRpb24iOjM4LjAsImhvdXJseV91bml0cyI6eyJ0aW1lIjoiaXNvODYwMSIsInRlbXBlcmF0dXJlXzJtIjoiwrBDIn0sImhvdXJseSI6eyJ0aW1lIjpbIjIwMjQtMDEtMDFUMDA6MDAiLCIyMDI0LTAxLTAxVDAxOjAwIiwiMjAyNC0wMS0wMVQwMjowMCIsIjIwMjQtMDEtMDFUMDM6MDAiLCIyMDI0LTAxLTAxVDA0OjAwIiwiMjAyNC0wMS0wMVQwNTowMCIsIjIwMjQtMDEtMDFUMDY6MDAiLCIyMDI0LTAxLTAxVDA3OjAwIiwiMjAyNC0wMS0wMVQwODowMCIsIjIwMjQtMDEtMDFUMDk6MDAiLCIyMDI0LTAxLTAxVDEwOjAwIiwiMjAyNC0wMS0wMVQxMTowMCIsIjIwMjQtMDEtMDFUMTI6MDAiLCIyMDI0LTAxLTAxVDEzOjAwIiwiMjAyNC0wMS0wMVQxNDowMCIsIjIwMjQtMDEtMDFUMTU6MDAiLCIyMDI0LTAxLTAxVDE2OjAwIiwiMjAyNC0wMS0wMVQxNzowMCIsIjIwMjQtMDEtMDFUMTg6MDAiLCIyMDI0LTAxLTAxVDE5OjAwIiwiMjAyNC0wMS0wMVQyMDowMCIsIjIwMjQtMDEtMDFUMjE6MDAiLCIyMDI0LTAxLTAxVDIyOjAwIiwiMjAyNC0wMS0wMVQyMzowMCIsIjIwMjQtMDEtMDJUMDA6MDAiLCIyMDI0LTAxLTAyVDAxOjAwIiwiMjAyNC0wMS0wMlQwMjowMCIsIjIwMjQtMDEtMDJUMDM6MDAiLCIyMDI0LTAxLTAyVDA0OjAwIiwiMjAyNC0wMS0wMlQwNTowMCIsIjIwMjQtMDEtMDJUMDY6MDAiLCIyMDI0LTAxLTAyVDA3OjAwIiwiMjAyNC0wMS0wMlQwODowMCIsIjIwMjQtMDEtMDJUMDk6MDAiLCIyMDI0LTAxLTAyVDEwOjAwIiwiMjAyNC0wMS0wMlQxMTowMCIsIjIwMjQtMDEtMDJUMTI6MDAiLCIyMDI0LTAxLTAyVDEzOjAwIiwiMjAyNC0wMS0wMlQxNDowMCIsIjIwMjQtMDEtMDJUMTU6MDAiLCIyMDI0LTAxLTAyVDE2OjAwIiwiMjAyNC0wMS0wMlQxNzowMCIsIjIwMjQtMDEtMDJUMTg6MDAiLCIyMDI0LTAxLTAyVDE5OjAwIiwiMjAyNC0wMS0wMlQyMDowMCIsIjIwMjQtMDEtMDJUMjE6MDAiLCIyMDI0LTAxLTAyVDIyOjAwIiwiMjAyNC0wMS0wMlQyMzowMCJdLCJ0ZW1wZXJhdHVyZV8ybSI6WzUuMCw1LjQsNS4xLDQuNyw0LjQsMy45LDMuOCwzLjUsMy45LDQuOSw2LjQsNy4yLDYuMyw3LjQsNy40LDYuOCw2LjQsNS43LDUuMiw0LjksNC43LDQuNCwzLjcsNC4yLDQuOCw0LjQsMy44LDMuMCwyLjYsMi42LDIuNSwyLjcsMy4yLDQuMSw0LjcsNC45LDQuOCw1LjAsNC45LDQuOSw1LjAsNS4xLDUuNSw2LjQsNy4wLDcuMCw3LjMsOC4wXX19
+  recorded_at: Fri, 09 Feb 2024 16:40:50 GMT
+recorded_with: VCR 6.2.0
