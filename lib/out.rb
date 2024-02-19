@@ -77,6 +77,17 @@ module Out
     end
   end
 
+  module UnitHires
+    def process
+      ::Out2::UnitHires.run(points, @from, @to, self.class.source_id)
+      done!
+    end
+    def done!
+      super
+    rescue NoMethodError
+    end
+  end
+
   module Load
     def self.included(klass)
       klass.extend(ClassMethods)

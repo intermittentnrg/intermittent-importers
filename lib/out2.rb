@@ -50,6 +50,21 @@ module Out2
       end
     end
   end
+  class UnitHires
+    include SemanticLogger::Loggable
+
+    def self.run(data, from, to, source_id)
+      logger.info "#{data.first.try(:[], :time)} #{data.length} points"
+
+      if data.present?
+        logger.benchmark_info("upsert") do
+          data.each_slice(1_000_000) do |data2|
+            ::GenerationUnitHires.upsert_all(data2)
+          end
+        end
+      end
+    end
+  end
 
   class Load < Base
     include SemanticLogger::Loggable

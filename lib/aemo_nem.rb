@@ -284,7 +284,7 @@ module AemoNem
 
   class CauserPays < Base
     include SemanticLogger::Loggable
-    include Out::Unit
+    include Out::UnitHires
 
     URL = 'http://www.nemweb.com.au/Reports/Current/Causer_Pays/'
     FILE_MATCHER = /FCAS_(\d{12}).zip/
