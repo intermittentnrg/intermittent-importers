@@ -112,7 +112,7 @@ namespace :aemo do
   task all: ['nem:all', 'wem:all']
   namespace :nem do
     desc "Run refresh tasks"
-    task all: [:trading, :dispatch, :scada, :rooftoppv]
+    task all: [:trading, :dispatch, :scada, :rooftoppv, :causer_pays]
     loop_task :trading, AemoNem::Trading
     loop_task :dispatch, AemoNem::Dispatch
     loop_task :scada, AemoNem::Scada
