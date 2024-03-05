@@ -283,9 +283,6 @@ module AemoNem
     FILE_FORMAT = '%Y%m%d%H%M'
     #ELEMENTS_URL = 'http://www.nemweb.com.au/Reports/Current/Causer_Pays_Elements/'
 
-    def self.source_id
-      'aemo_cp'
-    end
 
     def initialize(url_or_io, name_if_io = nil)
       unless @from
