@@ -1,4 +1,5 @@
 ENV['TZ'] = 'UTC'
+RubyVM::YJIT.enable
 
 require 'bundler/setup'
 require 'dotenv'
