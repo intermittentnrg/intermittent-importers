@@ -365,6 +365,7 @@ module EntsoeCsv
     end
     def process
       Out2::Capacity.run(points_capacity, nil, nil, self.class.source_id)
+      done!
     end
   end
 
@@ -425,6 +426,7 @@ module EntsoeCsv
 
     def process
       Out2::UnitCapacity.run(points_unit_capacity, @from, @to, self.class.source_id)
+      done!
     end
   end
 
