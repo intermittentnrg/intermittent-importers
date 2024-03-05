@@ -16,7 +16,8 @@ module Eia
       'OTH' => 'other',
       'SUN' => 'solar',
       'WAT' => 'hydro',
-      'WND' => 'wind'
+      'WND' => 'wind',
+      'UNK' => 'unknown'
     }
 
     @@faraday = Faraday.new do |f|
@@ -200,7 +201,7 @@ module Eia
       r = {}
       @res.each do |res|
         res['response']['data'].each do |row|
-          raise row['fueltype'] if FUEL_MAP[row['fueltype']].nil?
+          raise "Unknown fueltype: #{row['fueltype']}" if FUEL_MAP[row['fueltype']].nil?
           if row['value'].nil?
             logger.warn "Null value #{row.inspect}"
             next
