@@ -2,19 +2,11 @@ require 'fastest_csv'
 
 module AemoNem
   class Base < ::Aemo::Base
+    include CliMixin::Loop
+
     TZ = TZInfo::Timezone.get('Etc/GMT-10')
     URL_BASE = "https://nemweb.com.au"
     INDEX_TIME_FORMAT = "%A, %B %d, %Y %l:%M %p"
-
-    def self.cli(args)
-      if args.present?
-        args.each do |file|
-          self.new(File.open(file), file).process
-        end
-      else
-        self.each &:process
-      end
-    end
   end
 
   class Trading < Base

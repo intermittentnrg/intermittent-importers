@@ -1,4 +1,21 @@
 module CliMixin
+  module Loop
+    def self.included(base)
+      base.extend ClassMethods
+    end
+    module ClassMethods
+      def cli(args)
+        if args.present?
+          args.each do |file|
+            self.new(File.open(file), file).process
+          end
+        else
+          self.each &:process
+        end
+      end
+    end
+  end
+
   module Yearly
     def self.included(base)
       base.extend ClassMethods
