@@ -35,7 +35,6 @@ module EntsoeCsv
           @file = file_or_io
         end
       end
-      @previous_filedate = DataFile.where(path: @filename, source: self.class.source_id).pluck(:updated_at)[0]
       #require 'pry' ; binding.pry
 
       parse_filename
@@ -141,7 +140,6 @@ module EntsoeCsv
         #require 'pry' ; binding.pry
         csv.each do |row|
           next if row[3] == 'CTA'
-          next if @previous_filedate.present? && parse_time(row[9]) < @previous_filedate
 
           #DateTime
           time = parse_time(row[0])
@@ -195,7 +193,6 @@ module EntsoeCsv
         csv
         units = {}
         csv.each do |row|
-          next if @previous_filedate.present? && parse_time(row[12]) < @previous_filedate
           #0:DateTime
           time = parse_time(row[0])
           #1:ResolutionCode
@@ -259,7 +256,6 @@ module EntsoeCsv
         csv
         csv.each do |row|
           next if row[3] == 'CTA'
-          next if @previous_filedate.present? && parse_time(row[7]) < @previous_filedate
           #DateTime
           time = parse_time(row[0])
           #ResolutionCode
@@ -296,7 +292,6 @@ module EntsoeCsv
       logger.benchmark_info("csv parse") do
         csv.each do |row|
           next if row[1] != 'PT60M'
-          next if @previous_filedate.present? && parse_time(row[8]) < @previous_filedate
           #DateTime
           time = parse_time(row[0])
           #ResolutionCode
@@ -469,7 +464,6 @@ module EntsoeCsv
       logger.benchmark_info("csv parse") do
         csv.each do |row|
           next if row[3] == 'CTA' || row[7] == 'CTA'
-          next if @previous_filedate.present? && parse_time(row[11]) < @previous_filedate
 
           #DateTime
           time = parse_time(row[0])
