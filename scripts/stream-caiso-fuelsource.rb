@@ -3,4 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-Caiso::Generation.cli(ARGV)
+Caiso::FuelSource.cli(ARGV)

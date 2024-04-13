@@ -1,6 +1,8 @@
 require 'spec_helper'
-RSpec.describe Caiso::Generation do
-  subject { Caiso::Generation }
+require 'timecop'
+
+RSpec.describe Caiso::FuelSource do
+  subject { Caiso::FuelSource }
   describe :cli do
     context 'with date range' do
       around(:example) { |ex| VCR.use_cassette("caiso_generation", &ex) }

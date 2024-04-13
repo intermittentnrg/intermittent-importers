@@ -31,9 +31,9 @@ module Out2
       r = nil
       if data.present?
         logger.benchmark_info("upsert") do
-          #require 'pry' ; binding.pry
           r = ::Generation.upsert_all(data, on_duplicate: Arel.sql('value = EXCLUDED.value WHERE (generation_data.*) IS DISTINCT FROM (EXCLUDED.*)'))
         end
+        logger.info("updated #{r.try :length} out of #{data.length} rows")
       end
 
       r.try :length
@@ -165,7 +165,13 @@ module Out2
         p.delete :to_area
       end
 
-      ::Transmission.upsert_all(data) if data.present?
+      r = nil
+      if data.present?
+        logger.benchmark_info("upsert") do
+          r = ::Transmission.upsert_all(data)
+        end
+        logger.info("updated #{r.length} out of #{data.length} rows")
+      end
     end
   end
 end

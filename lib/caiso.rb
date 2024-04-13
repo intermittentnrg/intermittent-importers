@@ -18,6 +18,22 @@ module Caiso
 
     HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
 
+    def self.cli(args)
+      if args.length != 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      end
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      (from...to).each do |time|
+        e = self.new(time)
+        e.process
+      rescue EmptyError
+        logger.warn "EmptyError #{time}"
+      end
+    end
+
     def initialize(date)
       @date = date
       @time = @date.to_time
@@ -56,25 +72,9 @@ module Caiso
     end
   end
 
-  class Generation < Base
+  class FuelSource < Base
     include SemanticLogger::Loggable
     include Out::Generation
-
-    def self.cli(args)
-      if args.length != 2
-        $stderr.puts "#{$0} <from> <to>"
-        exit 1
-      end
-      from = Chronic.parse(args.shift).to_date
-      to = Chronic.parse(args.shift).to_date
-
-      (from...to).each do |time|
-        e = Caiso::Generation.new(time)
-        e.process
-      rescue EmptyError
-        logger.warn "EmptyError #{time}"
-      end
-    end
 
     def self.parsers_each
       from = ::Generation.joins(:areas_production_type => :area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
@@ -86,22 +86,23 @@ module Caiso
     end
 
     FUELS = {
-      "Time" => nil,
-      "Solar" => "solar",
-      "Wind" => "wind_onshore",
-      "Geothermal" => "geothermal",
-      "Biomass" => "biomass",
-      "Biogas" => "biogas",
-      "Small hydro" => "hydro_small",
-      "Coal" => "fossil_hard_coal",
-      "Nuclear" => "nuclear",
-      "Natural Gas" => "fossil_gas",
-      "Large Hydro" => "hydro_large",
-      "Batteries" => "battery",
-      "Imports" => nil,
-      "Other" => "other",
+      'Time' => nil,
+      'Solar' => 'solar',
+      'Wind' => 'wind_onshore',
+      'Geothermal' => 'geothermal',
+      'Biomass' => 'biomass',
+      'Biogas' => 'biogas',
+      'Small hydro' => 'hydro_small',
+      'Coal' => 'fossil_hard_coal',
+      'Nuclear' => 'nuclear',
+      'Natural Gas' => 'fossil_gas',
+      'Large Hydro' => 'hydro_large',
+      'Batteries' => 'battery',
+      'Imports' => 'import',
+      'Other' => 'other',
     }
-    FUEL_MAP = FUELS.values
+    FUEL_KEYS = FUELS.keys
+    FUEL_VALUES = FUELS.values
 
     def initialize(date)
       super
@@ -109,10 +110,14 @@ module Caiso
       @url = "http://www.caiso.com/outlook/SP/History/#{date.strftime('%Y%m%d')}/fuelsource.csv"
     end
 
-    def points_generation
+    def process
+      area_id = from_area_id = Area.where(source: self.class.source_id, code: 'CAISO').pluck(:id).first
+      to_area_id = Area.where(source: self.class.source_id, code: 'other').pluck(:id).first
+
       fetch
-      raise @fields.inspect unless @fields.map(&:downcase) == FUELS.keys.map(&:downcase)
-      r = []
+      raise @fields.inspect unless @fields.map(&:downcase) == FUEL_KEYS.map(&:downcase)
+      r_gen = []
+      r_trans = []
       last_time = @from
       @csv.each do |row|
         next if row[1..].compact.blank?
@@ -120,22 +125,32 @@ module Caiso
         next if time < last_time
         last_time = time
 
-        row.each_with_index do |value, type|
-          next if type == 0 || type == 12
-          raise type.to_s unless FUEL_MAP[type]
-          type = FUEL_MAP[type]
-          #next if type == 'Imports'
-          r << {
-            time: time,
-            production_type: type,
-            value: (value.to_f*1000).to_i,
-            country: 'CAISO'
-          }
+        row.each_with_index do |value, i|
+          next if i == 0
+          raise i.to_s unless FUEL_VALUES[i]
+          production_type = FUEL_VALUES[i]
+          value = (value.to_f*1000).to_i
+          if production_type == 'import'
+            r_trans << {
+              time:,
+              from_area_id:,
+              to_area_id:,
+              value:
+            }
+          else
+            r_gen << {
+              time:,
+              production_type:,
+              value:,
+              area_id:
+            }
+          end
         end
       end
       #require 'pry' ; binding.pry
 
-      r
+      ::Out2::Generation.run(Validate.validate_generation(r_gen), @from, @to, self.class.source_id)
+      ::Out2::Transmission.run(r_trans, @from, @to, self.class.source_id)
     end
   end
 
@@ -144,22 +159,6 @@ module Caiso
     include Out::Load
 
     FIELDS = ["Time", "Hour ahead forecast", "Current demand", "Net demand"]
-
-    def self.cli(args)
-      if args.length != 2
-        $stderr.puts "#{$0} <from> <to>"
-        exit 1
-      end
-      from = Chronic.parse(args.shift).to_date
-      to = Chronic.parse(args.shift).to_date
-
-      (from...to).each do |time|
-        e = Caiso::Load.new(time)
-        e.process
-      rescue EmptyError
-        logger.warn "EmptyError #{time}"
-      end
-    end
 
     def self.parsers_each
       from = ::Load.joins(:area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
