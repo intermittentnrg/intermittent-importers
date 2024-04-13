@@ -172,6 +172,16 @@ task :fixtures_areas do
   end
 end
 
+desc 'Export areas to test/fixtures/locations.yml'
+task :fixtures_locations do
+  File.open("test/fixtures/locations.yml", 'w') do |f|
+    Location.order(:name).all.each do |l|
+      f.write({"#{l.name}" => l.attributes }.
+               to_yaml.sub!(/---\s?/, ""))
+    end
+  end
+end
+
 desc 'Export production types to test/fixtures/production_types.yml'
 task :fixtures_pt do
   File.open("test/fixtures/production_types.yml", 'w') do |f|

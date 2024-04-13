@@ -1,0 +1,28 @@
+Luleå:
+  id: 2
+  point: !ruby/struct:ActiveRecord::Point
+    x: 65.5841
+    y: 22.1547
+  enabled: true
+  name: Luleå
+Malmö:
+  id: 4
+  point: !ruby/struct:ActiveRecord::Point
+    x: 55.6059
+    y: 13.0007
+  enabled: true
+  name: Malmö
+Stockholm:
+  id: 1
+  point: !ruby/struct:ActiveRecord::Point
+    x: 52.52
+    y: 13.41
+  enabled: true
+  name: Stockholm
+Sundsvall:
+  id: 3
+  point: !ruby/struct:ActiveRecord::Point
+    x: 62.3913
+    y: 17.3063
+  enabled: true
+  name: Sundsvall
