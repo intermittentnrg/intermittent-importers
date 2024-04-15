@@ -40,3 +40,10 @@ ABKENORA:
   production_type_id: 23
   internal_id: ABKENORA
   name: ABKENORA
+
+WDGPH1:
+  id: 3089
+  area_id: 288
+  production_type_id: 27
+  internal_id: WDGPH1
+  name: WDGPH1
