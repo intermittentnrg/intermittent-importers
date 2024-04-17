@@ -43,6 +43,10 @@ gem 'selenium-webdriver'
 gem 'oauth'
 gem 'typhoeus'
 
+group :development do
+  gem 'rails-erd'
+end
+
 group :test do
   gem 'rspec'
   gem 'rspec-collection_matchers'
