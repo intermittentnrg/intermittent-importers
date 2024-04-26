@@ -247,7 +247,7 @@ entsoe_GB:
   source: entsoe
   enabled: false
   region: europe
-  type: country
+  type: zone
   electricitymaps_id:
   location_id:
   price_area_id:
@@ -971,7 +971,7 @@ elexon_BE:
   code: BE
   internal_id:
   source: elexon
-  enabled: true
+  enabled: false
   region: europe
   type: country
   electricitymaps_id:
@@ -982,7 +982,7 @@ elexon_DK:
   code: DK
   internal_id:
   source: elexon
-  enabled: true
+  enabled: false
   region: europe
   type: country
   electricitymaps_id:
@@ -993,7 +993,7 @@ elexon_FR:
   code: FR
   internal_id:
   source: elexon
-  enabled: true
+  enabled: false
   region: europe
   type: country
   electricitymaps_id:
@@ -1037,7 +1037,7 @@ elexon_IE:
   code: IE
   internal_id:
   source: elexon
-  enabled: true
+  enabled: false
   region: europe
   type: country
   electricitymaps_id:
@@ -1048,7 +1048,7 @@ elexon_NL:
   code: NL
   internal_id:
   source: elexon
-  enabled: true
+  enabled: false
   region: europe
   type: country
   electricitymaps_id:
@@ -1059,7 +1059,7 @@ elexon_NO:
   code: 'NO'
   internal_id:
   source: elexon
-  enabled: true
+  enabled: false
   region: europe
   type: country
   electricitymaps_id:
@@ -1450,6 +1450,17 @@ eia_AECI:
   electricitymaps_id:
   location_id:
   price_area_id:
+eia_AESO:
+  id: 342
+  code: AESO
+  internal_id: AESO
+  source: eia
+  enabled: false
+  region: usa
+  type: balancing_authority
+  electricitymaps_id:
+  location_id:
+  price_area_id:
 eia_AVA:
   id: 128
   code: AVA
@@ -1494,6 +1505,17 @@ eia_BANC:
   electricitymaps_id:
   location_id:
   price_area_id:
+eia_BCHA:
+  id: 350
+  code: BCHA
+  internal_id: BCHA
+  source: eia
+  enabled: false
+  region: usa
+  type: balancing_authority
+  electricitymaps_id:
+  location_id:
+  price_area_id:
 eia_BPAT:
   id: 153
   code: BPAT
@@ -1516,6 +1538,17 @@ eia_CAL:
   electricitymaps_id:
   location_id:
   price_area_id:
+eia_CAN:
+  id: 341
+  code: CAN
+  internal_id: CAN
+  source: eia
+  enabled: false
+  region: usa
+  type: country
+  electricitymaps_id:
+  location_id:
+  price_area_id:
 eia_CAR:
   id: 106
   code: CAR
@@ -1524,6 +1557,17 @@ eia_CAR:
   enabled: true
   region: usa
   type: region
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+eia_CEN:
+  id: 347
+  code: CEN
+  internal_id: CEN
+  source: eia
+  enabled: false
+  region: usa
+  type: balancing_authority
   electricitymaps_id:
   location_id:
   price_area_id:
@@ -1769,12 +1813,34 @@ eia_HGMA:
   electricitymaps_id:
   location_id:
   price_area_id:
+eia_HQT:
+  id: 344
+  code: HQT
+  internal_id: HQT
+  source: eia
+  enabled: false
+  region: usa
+  type: balancing_authority
+  electricitymaps_id:
+  location_id:
+  price_area_id:
 eia_HST:
   id: 141
   code: HST
   internal_id: HST
   source: eia
   enabled: true
+  region: usa
+  type: balancing_authority
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+eia_IESO:
+  id: 343
+  code: IESO
+  internal_id: IESO
+  source: eia
+  enabled: false
   region: usa
   type: balancing_authority
   electricitymaps_id:
@@ -1846,6 +1912,28 @@ eia_LGEE:
   electricitymaps_id:
   location_id:
   price_area_id:
+eia_MEX:
+  id: 349
+  code: MEX
+  internal_id: MEX
+  source: eia
+  enabled: false
+  region: usa
+  type: country
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+eia_MHEB:
+  id: 348
+  code: MHEB
+  internal_id: MHEB
+  source: eia
+  enabled: false
+  region: usa
+  type: balancing_authority
+  electricitymaps_id:
+  location_id:
+  price_area_id:
 eia_MIDA:
   id: 140
   code: MIDA
@@ -1874,6 +1962,17 @@ eia_MISO:
   internal_id: MISO
   source: eia
   enabled: true
+  region: usa
+  type: balancing_authority
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+eia_NBSO:
+  id: 345
+  code: NBSO
+  internal_id: NBSO
+  source: eia
+  enabled: false
   region: usa
   type: balancing_authority
   electricitymaps_id:
@@ -2127,6 +2226,17 @@ eia_SPA:
   internal_id: SPA
   source: eia
   enabled: true
+  region: usa
+  type: balancing_authority
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+eia_SPC:
+  id: 346
+  code: SPC
+  internal_id: SPC
+  source: eia
+  enabled: false
   region: usa
   type: balancing_authority
   electricitymaps_id:

@@ -1,0 +1,544 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.eia.gov/v2/electricity/rto/interchange-data/data/?api_key=<EIA_TOKEN>&data%5B%5D=value&end=2024-01-02&facets%5Bfromba%5D%5B0%5D=CISO&frequency=hourly&offset=0&start=2024-01-01
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.11
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 26 Apr 2024 19:34:45 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '57367'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Params
+      Access-Control-Allow-Methods:
+      - GET,POST
+      Access-Control-Allow-Origin:
+      - "*"
+      Age:
+      - '1'
+      Cache-Control:
+      - max-age=0, no-cache, no-store
+      Expires:
+      - Fri, 26 Apr 2024 19:34:45 GMT
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; preload
+      - max-age=63072000; includeSubdomains;
+      Vary:
+      - Accept-Encoding
+      - Accept-Encoding
+      Via:
+      - https/1.1 api-umbrella (ApacheTrafficServer [cMsSf ])
+      X-Api-Umbrella-Request-Id:
+      - cf3fjie767ehr3rn4fu0
+      X-Cache:
+      - MISS
+      X-Content-Type-Options:
+      - nosniff
+      X-Vcap-Request-Id:
+      - 95fe2657-59ff-4ecc-5612-90bfad1464b1
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+    body:
+      encoding: ASCII-8BIT
+      string: '{"response":{"total":"275","dateFormat":"YYYY-MM-DD\"T\"HH24","frequency":"hourly","data":[{"period":"2024-01-01T08","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-192","value-units":"megawatthours"},{"period":"2024-01-01T01","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1093","value-units":"megawatthours"},{"period":"2024-01-01T14","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"372","value-units":"megawatthours"},{"period":"2024-01-01T17","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"883","value-units":"megawatthours"},{"period":"2024-01-01T10","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-394","value-units":"megawatthours"},{"period":"2024-01-02T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-44","value-units":"megawatthours"},{"period":"2024-01-01T17","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-855","value-units":"megawatthours"},{"period":"2024-01-01T19","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"22","value-units":"megawatthours"},{"period":"2024-01-01T13","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-239","value-units":"megawatthours"},{"period":"2024-01-01T09","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"5","value-units":"megawatthours"},{"period":"2024-01-01T11","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"303","value-units":"megawatthours"},{"period":"2024-01-02T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"4","value-units":"megawatthours"},{"period":"2024-01-01T18","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"8","value-units":"megawatthours"},{"period":"2024-01-01T01","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-946","value-units":"megawatthours"},{"period":"2024-01-01T07","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"3","value-units":"megawatthours"},{"period":"2024-01-01T05","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"90","value-units":"megawatthours"},{"period":"2024-01-01T07","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1236","value-units":"megawatthours"},{"period":"2024-01-01T01","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"256","value-units":"megawatthours"},{"period":"2024-01-01T03","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-1016","value-units":"megawatthours"},{"period":"2024-01-01T16","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"4","value-units":"megawatthours"},{"period":"2024-01-01T09","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"285","value-units":"megawatthours"},{"period":"2024-01-01T15","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-362","value-units":"megawatthours"},{"period":"2024-01-01T16","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1238","value-units":"megawatthours"},{"period":"2024-01-01T10","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-989","value-units":"megawatthours"},{"period":"2024-01-01T20","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"113","value-units":"megawatthours"},{"period":"2024-01-01T11","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-236","value-units":"megawatthours"},{"period":"2024-01-02T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1096","value-units":"megawatthours"},{"period":"2024-01-01T17","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"27","value-units":"megawatthours"},{"period":"2024-01-01T12","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"-10","value-units":"megawatthours"},{"period":"2024-01-01T15","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1627","value-units":"megawatthours"},{"period":"2024-01-01T13","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1289","value-units":"megawatthours"},{"period":"2024-01-01T09","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"411","value-units":"megawatthours"},{"period":"2024-01-01T11","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"392","value-units":"megawatthours"},{"period":"2024-01-01T05","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"-255","value-units":"megawatthours"},{"period":"2024-01-01T06","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"-150","value-units":"megawatthours"},{"period":"2024-01-01T08","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"182","value-units":"megawatthours"},{"period":"2024-01-01T03","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"1","value-units":"megawatthours"},{"period":"2024-01-01T23","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"1133","value-units":"megawatthours"},{"period":"2024-01-01T23","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-484","value-units":"megawatthours"},{"period":"2024-01-01T11","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1708","value-units":"megawatthours"},{"period":"2024-01-01T22","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"22","value-units":"megawatthours"},{"period":"2024-01-01T22","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"295","value-units":"megawatthours"},{"period":"2024-01-01T13","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1644","value-units":"megawatthours"},{"period":"2024-01-01T10","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-171","value-units":"megawatthours"},{"period":"2024-01-01T11","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"1","value-units":"megawatthours"},{"period":"2024-01-01T15","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"6","value-units":"megawatthours"},{"period":"2024-01-01T23","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"-1","value-units":"megawatthours"},{"period":"2024-01-01T20","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1041","value-units":"megawatthours"},{"period":"2024-01-01T21","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"1146","value-units":"megawatthours"},{"period":"2024-01-01T20","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"-1","value-units":"megawatthours"},{"period":"2024-01-01T04","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-1028","value-units":"megawatthours"},{"period":"2024-01-01T02","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-975","value-units":"megawatthours"},{"period":"2024-01-01T05","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-412","value-units":"megawatthours"},{"period":"2024-01-01T07","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"252","value-units":"megawatthours"},{"period":"2024-01-01T05","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"15","value-units":"megawatthours"},{"period":"2024-01-01T06","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1741","value-units":"megawatthours"},{"period":"2024-01-01T21","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"23","value-units":"megawatthours"},{"period":"2024-01-01T12","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1663","value-units":"megawatthours"},{"period":"2024-01-01T09","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1279","value-units":"megawatthours"},{"period":"2024-01-01T19","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1216","value-units":"megawatthours"},{"period":"2024-01-01T23","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"1181","value-units":"megawatthours"},{"period":"2024-01-02T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"14","value-units":"megawatthours"},{"period":"2024-01-01T14","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1666","value-units":"megawatthours"},{"period":"2024-01-01T15","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"248","value-units":"megawatthours"},{"period":"2024-01-01T20","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-758","value-units":"megawatthours"},{"period":"2024-01-01T15","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"188","value-units":"megawatthours"},{"period":"2024-01-01T23","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"20","value-units":"megawatthours"},{"period":"2024-01-01T01","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1531","value-units":"megawatthours"},{"period":"2024-01-01T03","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"13","value-units":"megawatthours"},{"period":"2024-01-01T02","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-341","value-units":"megawatthours"},{"period":"2024-01-01T03","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"-367","value-units":"megawatthours"},{"period":"2024-01-01T04","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"1","value-units":"megawatthours"},{"period":"2024-01-01T02","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"3","value-units":"megawatthours"},{"period":"2024-01-01T04","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"-266","value-units":"megawatthours"},{"period":"2024-01-01T03","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"276","value-units":"megawatthours"},{"period":"2024-01-01T02","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-392","value-units":"megawatthours"},{"period":"2024-01-01T01","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"4","value-units":"megawatthours"},{"period":"2024-01-01T06","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"1","value-units":"megawatthours"},{"period":"2024-01-01T03","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"-56","value-units":"megawatthours"},{"period":"2024-01-01T03","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1643","value-units":"megawatthours"},{"period":"2024-01-01T01","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"13","value-units":"megawatthours"},{"period":"2024-01-01T05","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-377","value-units":"megawatthours"},{"period":"2024-01-01T07","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"21","value-units":"megawatthours"},{"period":"2024-01-01T01","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-258","value-units":"megawatthours"},{"period":"2024-01-01T08","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1753","value-units":"megawatthours"},{"period":"2024-01-01T05","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1750","value-units":"megawatthours"},{"period":"2024-01-01T07","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"-21","value-units":"megawatthours"},{"period":"2024-01-01T07","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1784","value-units":"megawatthours"},{"period":"2024-01-01T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-408","value-units":"megawatthours"},{"period":"2024-01-01T08","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"243","value-units":"megawatthours"},{"period":"2024-01-01T02","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1050","value-units":"megawatthours"},{"period":"2024-01-01T05","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"230","value-units":"megawatthours"},{"period":"2024-01-01T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"5","value-units":"megawatthours"},{"period":"2024-01-01T08","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"20","value-units":"megawatthours"},{"period":"2024-01-01T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"105","value-units":"megawatthours"},{"period":"2024-01-01T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-161","value-units":"megawatthours"},{"period":"2024-01-01T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1275","value-units":"megawatthours"},{"period":"2024-01-01T06","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-273","value-units":"megawatthours"},{"period":"2024-01-01T04","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1620","value-units":"megawatthours"},{"period":"2024-01-01T04","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-362","value-units":"megawatthours"},{"period":"2024-01-01T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-930","value-units":"megawatthours"},{"period":"2024-01-01T07","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-956","value-units":"megawatthours"},{"period":"2024-01-01T04","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"9","value-units":"megawatthours"},{"period":"2024-01-01T05","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1228","value-units":"megawatthours"},{"period":"2024-01-01T08","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"4","value-units":"megawatthours"},{"period":"2024-01-01T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"10","value-units":"megawatthours"},{"period":"2024-01-01T02","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"14","value-units":"megawatthours"},{"period":"2024-01-01T09","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"6","value-units":"megawatthours"},{"period":"2024-01-01T13","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"-5","value-units":"megawatthours"},{"period":"2024-01-01T18","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1504","value-units":"megawatthours"},{"period":"2024-01-01T20","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"1089","value-units":"megawatthours"},{"period":"2024-01-01T19","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"26","value-units":"megawatthours"},{"period":"2024-01-01T12","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-242","value-units":"megawatthours"},{"period":"2024-01-01T19","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1123","value-units":"megawatthours"},{"period":"2024-01-01T21","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"1268","value-units":"megawatthours"},{"period":"2024-01-01T13","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-860","value-units":"megawatthours"},{"period":"2024-01-01T16","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"-77","value-units":"megawatthours"},{"period":"2024-01-01T17","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"16","value-units":"megawatthours"},{"period":"2024-01-01T21","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-845","value-units":"megawatthours"},{"period":"2024-01-01T19","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"1085","value-units":"megawatthours"},{"period":"2024-01-01T21","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"125","value-units":"megawatthours"},{"period":"2024-01-01T12","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"298","value-units":"megawatthours"},{"period":"2024-01-01T20","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-996","value-units":"megawatthours"},{"period":"2024-01-01T11","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-394","value-units":"megawatthours"},{"period":"2024-01-01T03","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-357","value-units":"megawatthours"},{"period":"2024-01-01T05","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"19","value-units":"megawatthours"},{"period":"2024-01-01T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"16","value-units":"megawatthours"},{"period":"2024-01-01T11","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"5","value-units":"megawatthours"},{"period":"2024-01-01T23","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-875","value-units":"megawatthours"},{"period":"2024-01-01T09","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1629","value-units":"megawatthours"},{"period":"2024-01-01T22","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"1256","value-units":"megawatthours"},{"period":"2024-01-01T15","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1114","value-units":"megawatthours"},{"period":"2024-01-01T12","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-393","value-units":"megawatthours"},{"period":"2024-01-01T12","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"6","value-units":"megawatthours"},{"period":"2024-01-02T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-761","value-units":"megawatthours"},{"period":"2024-01-01T19","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"992","value-units":"megawatthours"},{"period":"2024-01-01T17","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1614","value-units":"megawatthours"},{"period":"2024-01-01T12","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"249","value-units":"megawatthours"},{"period":"2024-01-01T10","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"373","value-units":"megawatthours"},{"period":"2024-01-01T07","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-396","value-units":"megawatthours"},{"period":"2024-01-01T08","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-948","value-units":"megawatthours"},{"period":"2024-01-01T06","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1247","value-units":"megawatthours"},{"period":"2024-01-01T07","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"257","value-units":"megawatthours"},{"period":"2024-01-01T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"420","value-units":"megawatthours"},{"period":"2024-01-01T13","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"279","value-units":"megawatthours"},{"period":"2024-01-01T10","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"149","value-units":"megawatthours"},{"period":"2024-01-01T14","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1169","value-units":"megawatthours"},{"period":"2024-01-01T16","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-921","value-units":"megawatthours"},{"period":"2024-01-01T15","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-849","value-units":"megawatthours"},{"period":"2024-01-01T19","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"-108","value-units":"megawatthours"},{"period":"2024-01-01T18","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"1070","value-units":"megawatthours"},{"period":"2024-01-01T19","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"92","value-units":"megawatthours"},{"period":"2024-01-01T04","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"290","value-units":"megawatthours"},{"period":"2024-01-01T07","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"47","value-units":"megawatthours"},{"period":"2024-01-01T08","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1246","value-units":"megawatthours"},{"period":"2024-01-01T18","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-908","value-units":"megawatthours"},{"period":"2024-01-01T18","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"0","value-units":"megawatthours"},{"period":"2024-01-01T22","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-848","value-units":"megawatthours"},{"period":"2024-01-01T17","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"-9","value-units":"megawatthours"},{"period":"2024-01-01T13","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"8","value-units":"megawatthours"},{"period":"2024-01-01T10","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1672","value-units":"megawatthours"},{"period":"2024-01-01T12","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1297","value-units":"megawatthours"},{"period":"2024-01-01T22","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"1162","value-units":"megawatthours"},{"period":"2024-01-01T17","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"722","value-units":"megawatthours"},{"period":"2024-01-01T08","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"375","value-units":"megawatthours"},{"period":"2024-01-01T05","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-956","value-units":"megawatthours"},{"period":"2024-01-01T02","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1487","value-units":"megawatthours"},{"period":"2024-01-01T02","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"-167","value-units":"megawatthours"},{"period":"2024-01-01T02","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"139","value-units":"megawatthours"},{"period":"2024-01-02T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"829","value-units":"megawatthours"},{"period":"2024-01-01T16","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"371","value-units":"megawatthours"},{"period":"2024-01-01T20","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-529","value-units":"megawatthours"},{"period":"2024-01-01T11","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1305","value-units":"megawatthours"},{"period":"2024-01-01T11","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"257","value-units":"megawatthours"},{"period":"2024-01-01T10","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"409","value-units":"megawatthours"},{"period":"2024-01-01T18","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"-451","value-units":"megawatthours"},{"period":"2024-01-01T15","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-229","value-units":"megawatthours"},{"period":"2024-01-01T09","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-382","value-units":"megawatthours"},{"period":"2024-01-01T08","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-386","value-units":"megawatthours"},{"period":"2024-01-01T04","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"92","value-units":"megawatthours"},{"period":"2024-01-01T06","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-385","value-units":"megawatthours"},{"period":"2024-01-01T08","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"15","value-units":"megawatthours"},{"period":"2024-01-01T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1566","value-units":"megawatthours"},{"period":"2024-01-01T01","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"181","value-units":"megawatthours"},{"period":"2024-01-01T17","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"-268","value-units":"megawatthours"},{"period":"2024-01-01T20","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"19","value-units":"megawatthours"},{"period":"2024-01-01T14","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"293","value-units":"megawatthours"},{"period":"2024-01-01T20","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"1157","value-units":"megawatthours"},{"period":"2024-01-01T12","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"6","value-units":"megawatthours"},{"period":"2024-01-01T13","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"305","value-units":"megawatthours"},{"period":"2024-01-01T14","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-382","value-units":"megawatthours"},{"period":"2024-01-01T22","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"3","value-units":"megawatthours"},{"period":"2024-01-02T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"878","value-units":"megawatthours"},{"period":"2024-01-01T23","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"435","value-units":"megawatthours"},{"period":"2024-01-01T02","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"3","value-units":"megawatthours"},{"period":"2024-01-01T06","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"14","value-units":"megawatthours"},{"period":"2024-01-01T16","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"10","value-units":"megawatthours"},{"period":"2024-01-01T10","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1304","value-units":"megawatthours"},{"period":"2024-01-01T18","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-503","value-units":"megawatthours"},{"period":"2024-01-01T17","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-138","value-units":"megawatthours"},{"period":"2024-01-02T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-442","value-units":"megawatthours"},{"period":"2024-01-01T11","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"3","value-units":"megawatthours"},{"period":"2024-01-01T23","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"125","value-units":"megawatthours"},{"period":"2024-01-01T23","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"21","value-units":"megawatthours"},{"period":"2024-01-01T10","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"55","value-units":"megawatthours"},{"period":"2024-01-01T09","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-960","value-units":"megawatthours"},{"period":"2024-01-01T16","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"-8","value-units":"megawatthours"},{"period":"2024-01-01T22","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-681","value-units":"megawatthours"},{"period":"2024-01-01T12","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"431","value-units":"megawatthours"},{"period":"2024-01-01T23","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-453","value-units":"megawatthours"},{"period":"2024-01-01T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"111","value-units":"megawatthours"},{"period":"2024-01-01T02","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"288","value-units":"megawatthours"},{"period":"2024-01-01T11","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-928","value-units":"megawatthours"},{"period":"2024-01-01T14","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-233","value-units":"megawatthours"},{"period":"2024-01-01T14","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"273","value-units":"megawatthours"},{"period":"2024-01-01T22","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"139","value-units":"megawatthours"},{"period":"2024-01-01T09","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-164","value-units":"megawatthours"},{"period":"2024-01-01T13","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"7","value-units":"megawatthours"},{"period":"2024-01-01T16","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-224","value-units":"megawatthours"},{"period":"2024-01-01T04","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1206","value-units":"megawatthours"},{"period":"2024-01-01T01","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"-142","value-units":"megawatthours"},{"period":"2024-01-01T03","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"5","value-units":"megawatthours"},{"period":"2024-01-01T03","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1158","value-units":"megawatthours"},{"period":"2024-01-01T21","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"5","value-units":"megawatthours"},{"period":"2024-01-01T21","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"133","value-units":"megawatthours"},{"period":"2024-01-01T17","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-459","value-units":"megawatthours"},{"period":"2024-01-01T18","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1458","value-units":"megawatthours"},{"period":"2024-01-01T19","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-781","value-units":"megawatthours"},{"period":"2024-01-02T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-865","value-units":"megawatthours"},{"period":"2024-01-01T21","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-514","value-units":"megawatthours"},{"period":"2024-01-01T14","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"1","value-units":"megawatthours"},{"period":"2024-01-01T18","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"22","value-units":"megawatthours"},{"period":"2024-01-01T14","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"8","value-units":"megawatthours"},{"period":"2024-01-01T14","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-897","value-units":"megawatthours"},{"period":"2024-01-01T13","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-389","value-units":"megawatthours"},{"period":"2024-01-01T01","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-371","value-units":"megawatthours"},{"period":"2024-01-01T04","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-452","value-units":"megawatthours"},{"period":"2024-01-01T07","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-274","value-units":"megawatthours"},{"period":"2024-01-01T06","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"331","value-units":"megawatthours"},{"period":"2024-01-02T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"22","value-units":"megawatthours"},{"period":"2024-01-01T15","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"-4","value-units":"megawatthours"},{"period":"2024-01-01T12","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-880","value-units":"megawatthours"},{"period":"2024-01-01T16","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-383","value-units":"megawatthours"},{"period":"2024-01-01T16","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"322","value-units":"megawatthours"},{"period":"2024-01-01T21","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-532","value-units":"megawatthours"},{"period":"2024-01-01T14","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"11","value-units":"megawatthours"},{"period":"2024-01-01T23","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-497","value-units":"megawatthours"},{"period":"2024-01-01T19","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-502","value-units":"megawatthours"},{"period":"2024-01-01T17","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"NEVP","toba-name":"Nevada Power Company","value":"-1425","value-units":"megawatthours"},{"period":"2024-01-01T05","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"0","value-units":"megawatthours"},{"period":"2024-01-01T06","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"127","value-units":"megawatthours"},{"period":"2024-01-01T04","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"16","value-units":"megawatthours"},{"period":"2024-01-01T01","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"-2","value-units":"megawatthours"},{"period":"2024-01-01T03","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"WALC","toba-name":"Western Area Power
+        Administration - Desert Southwest Region","value":"-466","value-units":"megawatthours"},{"period":"2024-01-01T21","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"23","value-units":"megawatthours"},{"period":"2024-01-01T22","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"IID","toba-name":"Imperial Irrigation
+        District","value":"-514","value-units":"megawatthours"},{"period":"2024-01-01T22","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-464","value-units":"megawatthours"},{"period":"2024-01-02T00","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"398","value-units":"megawatthours"},{"period":"2024-01-01T16","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-1622","value-units":"megawatthours"},{"period":"2024-01-01T18","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"996","value-units":"megawatthours"},{"period":"2024-01-01T20","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"22","value-units":"megawatthours"},{"period":"2024-01-01T13","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BANC","toba-name":"Balancing Authority
+        of Northern California","value":"431","value-units":"megawatthours"},{"period":"2024-01-01T15","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"LDWP","toba-name":"Los Angeles Department
+        of Water and Power","value":"252","value-units":"megawatthours"},{"period":"2024-01-01T06","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"AZPS","toba-name":"Arizona Public Service
+        Company","value":"-954","value-units":"megawatthours"},{"period":"2024-01-01T06","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"-11","value-units":"megawatthours"},{"period":"2024-01-01T10","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"5","value-units":"megawatthours"},{"period":"2024-01-01T09","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"153","value-units":"megawatthours"},{"period":"2024-01-01T21","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"SRP","toba-name":"Salt River Project
+        Agricultural Improvement and Power District","value":"-739","value-units":"megawatthours"},{"period":"2024-01-01T19","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"CEN","toba-name":"Centro Nacional de
+        Control de Energia","value":"2","value-units":"megawatthours"},{"period":"2024-01-01T22","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"21","value-units":"megawatthours"},{"period":"2024-01-01T18","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"22","value-units":"megawatthours"},{"period":"2024-01-01T15","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"9","value-units":"megawatthours"},{"period":"2024-01-01T20","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"TIDC","toba-name":"Turlock Irrigation
+        District","value":"25","value-units":"megawatthours"},{"period":"2024-01-01T10","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"PACW","toba-name":"PacifiCorp West","value":"5","value-units":"megawatthours"},{"period":"2024-01-01T09","fromba":"CISO","fromba-name":"California
+        Independent System Operator","toba":"BPAT","toba-name":"Bonneville Power Administration","value":"179","value-units":"megawatthours"}],"description":"Daily
+        interchange between neighboring balancing authorities.  \n    Source: Form
+        EIA-930\n    Product: Hourly Electric Grid Monitor"},"request":{"command":"\/v2\/electricity\/rto\/interchange-data\/data\/","params":{"api_key":"<EIA_TOKEN>","data":["value"],"end":"2024-01-02","facets":{"fromba":["CISO"]},"frequency":"hourly","offset":"0","start":"2024-01-01"}},"apiVersion":"2.1.6","ExcelAddInVersion":"2.1.0"}'
+  recorded_at: Fri, 26 Apr 2024 19:34:45 GMT
+recorded_with: VCR 6.2.0

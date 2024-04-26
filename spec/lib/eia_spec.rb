@@ -62,3 +62,15 @@ RSpec.describe Eia::Load do
     end
   end
 end
+
+RSpec.describe Eia::Interchange do
+  subject { Eia::Interchange }
+
+  describe :cli do
+    around(:example) { |ex| VCR.use_cassette('eia_interchange', &ex) }
+    it do
+      expect(Transmission).to receive(:upsert_all)
+      Eia::Interchange.cli(['2024-01-01', '2024-01-02', 'CISO'])
+    end
+  end
+end

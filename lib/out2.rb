@@ -170,7 +170,7 @@ module Out2
         logger.benchmark_info("upsert") do
           r = ::Transmission.upsert_all(data)
         end
-        logger.info("updated #{r.length} out of #{data.length} rows")
+        logger.info("updated #{r.try :length} out of #{data.length} rows")
       end
     end
   end

@@ -63,6 +63,7 @@ namespace :eia do
   task all: [:generation, :load]
   pump_task :generation, Eia::Generation
   pump_task :load, Eia::Load
+  pump_task :interchange, Eia::Interchange
 end
 
 oneshot_task :ercot, Ercot::Generation

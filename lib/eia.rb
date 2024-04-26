@@ -227,4 +227,97 @@ module Eia
       Validate.validate_generation(r.values)
     end
   end
+  class Interchange < Base
+    include SemanticLogger::Loggable
+    include Out::Transmission
+
+    URL = "https://api.eia.gov/v2/electricity/rto/interchange-data/data/"
+
+    def self.cli args
+      if args.length < 2
+        $stderr.puts "#{$0} <from> <to> [country ...]"
+        exit 1
+      end
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      areas = {}
+      production_types = {}
+      (from...to).each do |time|
+        if args.present?
+          args.each do |country|
+            SemanticLogger.tagged(country) do
+              new(from: time, to: time + 1.day, country: country).process
+            end
+          end
+        else
+          new(from: time, to: time + 1.day).process
+        end
+      end
+    end
+
+    def initialize(country: nil, from: nil, to: nil)
+      @from = from
+      @to = to + 1.hour
+      query = {
+        api_key: ENV['EIA_TOKEN'],
+        frequency: 'hourly',
+        start: from.strftime("%Y-%m-%d"),
+        end: to.strftime("%Y-%m-%d"),
+        'data[]': 'value',
+      }
+      query['facets[fromba][]'] = country if country
+      query[:offset] = 0
+      @res = []
+      loop do
+        res = logger.benchmark_info("#{URL} #{query[:start]} #{query[:end]}") do
+          @@faraday.get(URL, query)
+        end
+        res = logger.benchmark_info("json parse") do
+          FastJsonparser.parse(res.body, symbolize_keys: false)
+        rescue
+          logger.error "Response body: #{res.body}"
+          raise
+        end
+        unless res['response']['data']
+          logger.error "Response body (missing response.data): #{res.body}"
+        end
+        @res << res
+        if query[:offset] + res['response']['data'].length >= res['response']['total'].to_i
+          break
+        end
+        query[:offset] += res['response']['data'].length
+      end
+    end
+    def points
+      r = []
+      @res.each do |res|
+        res['response']['data'].each do |row|
+          if row['value'].nil?
+            logger.warn "Null value #{row.inspect}"
+            next
+          end
+          time = Time.strptime(row['period'], '%Y-%m-%dT%H')
+          from_area = row['fromba']
+          to_area = row['toba']
+          value = row['value'].to_i*1000
+          # k = [time,from_area,to_area]
+          # if r[k] && r[k][:value] != value
+          #   logger.warn("#{row.inspect} different values #{r[k]} != #{value}")
+          # end
+
+          #r[k] = {
+          r << {
+            time:,
+            from_area:,
+            to_area:,
+            value:
+          }
+        end
+      end
+      #require 'pry' ; binding.pry
+
+      r
+    end
+  end
 end
