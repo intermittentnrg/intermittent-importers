@@ -3,8 +3,4 @@
 require './lib/init'
 require './lib/activerecord-connect'
 
-if ARGV.length != 1
-  $stderr.puts "#{$0}: <file>"
-end
-
-EiaBulk::EBA.new(ARGV.shift).process
+EiaBulk::EBA.cli(ARGV)

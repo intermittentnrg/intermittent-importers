@@ -1,3 +1,6 @@
+require 'zip'
+require 'fast_jsonparser'
+
 module EiaBulk
   class Base
     def self.source_id
@@ -14,6 +17,14 @@ module EiaBulk
   end
 
   class EBA < Base
+    def self.cli(args)
+      if args.length != 1
+        $stderr.puts "#{$0}: <file>"
+      end
+
+      EiaBulk::EBA.new(args.shift).process
+    end
+
     DATE_FORMAT = '%Y%m%dT%H%z'
     def parse_time(s)
       Time.strptime(s, DATE_FORMAT) - 1.hour
@@ -41,9 +52,7 @@ module EiaBulk
             process_generation(series, json)
 
           when 'ID' # Actual Net interchange
-            # 0   1         2
-            # EBA.CISO-AZPS.ID.H
-            next
+            process_interchange(series, json)
           when 'DF' # Day-ahead demand forecast
           when 'TI' # Total interchange
           else
@@ -134,6 +143,31 @@ module EiaBulk
       end
       r.compact!
       Out2::Generation.run(Validate.validate_generation(r), from, to, self.class.source_id)
+    end
+
+    def process_interchange(series, json)
+      # 0   1         2  3
+      # EBA.CISO-AZPS.ID.H
+      raise series unless series.length == 4
+
+      timezone = series[3]
+      unless timezone == 'H'
+        puts "skip timezone"
+        return
+      end
+
+      from_area, to_area = series[1].split(/-/)
+      from, to = parse_from_to(json)
+
+      r = json[:data].map! do |p|
+        time = parse_time(p[0])
+        value = p[1]*1000
+
+        {time:, from_area:, to_area:, value:}
+      end
+      #require 'pry' ; binding.pry
+
+      Out2::Transmission.run(r, from, to, self.class.source_id)
     end
   end
 
