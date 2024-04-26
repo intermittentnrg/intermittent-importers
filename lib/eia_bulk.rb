@@ -17,6 +17,8 @@ module EiaBulk
   end
 
   class EBA < Base
+    include SemanticLogger::Loggable
+
     def self.cli(args)
       if args.length != 1
         $stderr.puts "#{$0}: <file>"
@@ -26,6 +28,7 @@ module EiaBulk
     end
 
     DATE_FORMAT = '%Y%m%dT%H%z'
+    JSON_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S%:z'
     def parse_time(s)
       Time.strptime(s, DATE_FORMAT) - 1.hour
     end
@@ -36,13 +39,24 @@ module EiaBulk
       ]
     end
 
+    def done!
+      DataFile.upsert({path: @series, source: self.class.source_id, updated_at: @last_updated}, unique_by: [:source, :path])
+      logger.info "done! #{@series}"
+    end
     def process
       @file.each_line do |line|
         next if line[0] == '\r'
         json = FastJsonparser.parse(line, symbolize_keys: true)
         # series_id
         if json[:series_id]
-          puts "S #{json[:series_id]} #{json[:name]}"
+          @series = json[:series_id]
+          @last_updated = Time.strptime(json[:last_updated], JSON_DATE_FORMAT)
+          if DataFile.where(path: @series, source: self.class.source_id, updated_at: @last_updated..).exists?
+            logger.info "Skipped series #{json[:series_id]} #{json[:name]} #{json[:last_updated]}"
+            next
+          else
+            logger.info "series #{json[:series_id]} #{json[:name]} #{json[:last_updated]}"
+          end
           series = json[:series_id].split /\./
           case series[2]
           when 'D' # Demand
@@ -103,6 +117,7 @@ module EiaBulk
       end
       r.compact!
       Out2::Load.run(Validate.validate_load(r), from, to, self.class.source_id)
+      done!
     end
 
     def process_generation(series, json)
@@ -143,6 +158,7 @@ module EiaBulk
       end
       r.compact!
       Out2::Generation.run(Validate.validate_generation(r), from, to, self.class.source_id)
+      done!
     end
 
     def process_interchange(series, json)
@@ -168,6 +184,7 @@ module EiaBulk
       #require 'pry' ; binding.pry
 
       Out2::Transmission.run(r, from, to, self.class.source_id)
+      done!
     end
   end
 
