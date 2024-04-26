@@ -1,0 +1,42 @@
+name: test
+on: [push]
+jobs:
+  test:
+    env:
+      PGHOST: 127.0.0.1
+      PGUSER: postgres
+      PGPASSWORD: xyzxyzxyz
+      PGDATABASE: postgres
+      EIA_TOKEN: eia_token
+      ELEXON_TOKEN: elexon_token
+      ENTSOE_TOKEN: entsoe_token
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: timescale/timescaledb:latest-pg14
+        env:
+          POSTGRES_USER: ${{ env.PGUSER }}
+          POSTGRES_PASSWORD: ${{ env.PGPASSWORD }}
+          POSTGRES_DB: ${{ env.PGDATABASE }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+        - 5432:5432
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.0
+          bundler-cache: true
+      - name: Build and test with Rake
+        env:
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          RAILS_ENV: test
+        run: |
+          bundle exec rake db:create db:migrate
+          bundle exec rake db:fixtures:load FIXTURES=locations,areas,production_types,areas_production_types,units
+          bundle exec rspec -f d
