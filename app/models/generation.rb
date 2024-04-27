@@ -3,8 +3,6 @@ require 'composite_primary_keys'
 class Generation < ActiveRecord::Base
   include SemanticLogger::Loggable
   self.table_name = 'generation_data'
-  belongs_to :area
-  belongs_to :production_type
   belongs_to :areas_production_type
 
   def self.aggregate_to_capture(from, to, where)
