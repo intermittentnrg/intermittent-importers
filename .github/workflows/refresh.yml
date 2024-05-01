@@ -1,0 +1,39 @@
+---
+name: refresh
+on:
+  workflow_run:
+    workflows:
+      - test_and_deploy
+    branches:
+      - master
+    types:
+      - completed
+  schedule:
+    - cron: "0 * * * *"
+
+jobs:
+  refresh:
+    env:
+      RAILS_ENV: cloud
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.0
+          bundler-cache: true
+      - name: rake all
+        env:
+          EIA_TOKEN: ${{ secrets.EIA_TOKEN }}
+          ELEXON_TOKEN: ${{ secrets.ELEXON_TOKEN }}
+          ENTSOE_USER: ${{ secrets.ENTSOE_USER }}
+          ENTSOE_PASSWORD: ${{ secrets.ENTSOE_PASSWORD }}
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
+          PGSSLMODE: ${{ secrets.PGSSLMODE }}
+        run: |
+          bundle exec rake all

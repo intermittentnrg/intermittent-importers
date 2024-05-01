@@ -8,11 +8,15 @@ default: &default
 development: &development
   <<: *default
   host: <%= ENV['PGHOST'] %>
-  port: 5432
+  port: <%= ENV['PGPORT'] || 5432 %>
   user: <%= ENV['PGUSER'] %>
   password: <%= ENV['PGPASSWORD'] %>
   database: <%= ENV['PGDATABASE'] %>
+  sslmode: <%= ENV['PGSSLMODE'] %>
   schema_search_path: intermittency,public
+
+cloud:
+  <<: *development
 
 production:
   <<: *development

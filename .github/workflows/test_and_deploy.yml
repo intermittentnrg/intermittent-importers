@@ -1,5 +1,7 @@
-name: test
+---
+name: test_and_deploy
 on: [push]
+
 jobs:
   test:
     env:
@@ -13,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       db:
-        image: timescale/timescaledb:latest-pg14
+        image: timescale/timescaledb:latest-pg16
         env:
           POSTGRES_USER: ${{ env.PGUSER }}
           POSTGRES_PASSWORD: ${{ env.PGPASSWORD }}
@@ -31,7 +33,7 @@ jobs:
         with:
           ruby-version: 3.3.0
           bundler-cache: true
-      - name: Build and test with Rake
+      - name: rake db:migrate db:fixtures:load
         env:
           PGHOST: 127.0.0.1
           PGUSER: postgres
@@ -39,4 +41,33 @@ jobs:
         run: |
           bundle exec rake db:create db:migrate
           bundle exec rake db:fixtures:load FIXTURES=locations,areas,production_types,areas_production_types,units
+      - name: rspec
+        env:
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          RAILS_ENV: test
+        run: |
           bundle exec rspec -f d
+  deploy:
+    needs: test
+    if: ${{ github.ref == 'refs/heads/master' }}
+    env:
+      RAILS_ENV: cloud
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.0
+          bundler-cache: true
+      - name: rake db:migrate
+        env:
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
+          PGSSLMODE: ${{ secrets.PGSSLMODE }}
+        run: |
+          bundle exec rake db:migrate
