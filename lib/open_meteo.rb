@@ -35,6 +35,9 @@ class OpenMeteo
     )
     @res = FastJsonparser.parse(res.body)
     #require 'pry' ; binding.pry
+    if @res[:error]
+      raise @res[:reason]
+    end
 
     res
   end
