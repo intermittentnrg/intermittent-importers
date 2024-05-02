@@ -1,7 +1,7 @@
 class Validate
   include SemanticLogger::Loggable
 
-  @@rules = YAML.load_file("validate.yaml").with_indifferent_access
+  RULES = YAML.load_file("validate.yaml").with_indifferent_access
   def self.validate_generation(points, source = nil)
     areas = {}
 
@@ -17,10 +17,10 @@ class Validate
           raise p.inspect
         end
 
-        rule = @@rules[area.region]["#{area.code}/#{source}"].try(:[], p[:production_type]) || \
-               @@rules[area.region][area.code].try(:[], p[:production_type]) || \
+        rule = RULES[area.region]["#{area.code}/#{source}"].try(:[], p[:production_type]) || \
+               RULES[area.region][area.code].try(:[], p[:production_type]) || \
                {}
-        rule_all = @@rules[area.region]['all'].try(:[], p[:production_type]) || {}
+        rule_all = RULES[area.region]['all'].try(:[], p[:production_type]) || {}
 
         min = rule[:min] || rule_all[:min]
         max = rule[:max] || rule_all[:max]
@@ -48,10 +48,10 @@ class Validate
           area = areas[p[:area_id]] ||= area_where.find p[:area_id]
         end
 
-        rule = @@rules[area.region]["#{area.code}/#{area.source}"].try(:[], :load) || \
-               @@rules[area.region][area.code].try(:[], :load) || \
+        rule = RULES[area.region]["#{area.code}/#{area.source}"].try(:[], :load) || \
+               RULES[area.region][area.code].try(:[], :load) || \
                {}
-        rule_all = @@rules[area.region]['all'].try(:[], :load) || {}
+        rule_all = RULES[area.region]['all'].try(:[], :load) || {}
 
         min = rule[:min] || rule_all[:min]
         max = rule[:max] || rule_all[:max]
@@ -75,7 +75,7 @@ class Validate
   end
 
   def self.validate_data(delete=false, filters = [])
-    @@rules.each do |region, areas|
+    RULES.each do |region, areas|
       areas.each do |area_code, production_types|
         area_code = area_code.split(/\//)
         if area_code[1]
@@ -129,7 +129,7 @@ class Validate
     gen_check_constraints = Hash[ActiveRecord::Base.connection.check_constraints(:generation_data).map { |c| [c.options[:name], c.expression] }]
     load_check_constraints = Hash[ActiveRecord::Base.connection.check_constraints(:load).map { |c| [c.options[:name], c.expression] }]
 
-    @@rules.each do |region, areas|
+    RULES.each do |region, areas|
       areas.each do |area_code, production_types|
         area_code = area_code.split(/\//)
         if area_code[1]
