@@ -47,6 +47,8 @@ usa:
     load:
       min: 1000
       max: 800000000
+    hydro:
+      max: 100000000
     wind:
       min: -10000000
       max: 100000000
