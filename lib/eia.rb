@@ -28,6 +28,10 @@ module Eia
         max: 5
       }
     end
+
+    def parse_time(time)
+      Time.strptime(time, '%Y-%m-%dT%H') - 1.hour
+    end
   end
 
   class Load < Base
@@ -109,7 +113,7 @@ module Eia
             logger.warn("Ignoring load #{row['value']} from #{row['respondent']}")
             next
           end
-          time = Time.strptime(row['period'], '%Y-%m-%dT%H')
+          time = parse_time(row['period'])
           r << {
             time: time,
             country: row['respondent'],
@@ -206,7 +210,7 @@ module Eia
             logger.warn "Null value #{row.inspect}"
             next
           end
-          time = Time.strptime(row['period'], '%Y-%m-%dT%H')
+          time = parse_time(row['period'])
           country = row['respondent']
           production_type = FUEL_MAP[row['fueltype']]
           value = row['value'].to_i*1000
@@ -297,10 +301,11 @@ module Eia
             logger.warn "Null value #{row.inspect}"
             next
           end
-          time = Time.strptime(row['period'], '%Y-%m-%dT%H')
+          time = parse_time(row['period'])
           from_area = row['fromba']
           to_area = row['toba']
-          value = row['value'].to_i*1000
+          # invert value. export need to be measured as drain on from_area, but EIA measures output to to_area
+          value = -row['value'].to_i*1000
           # k = [time,from_area,to_area]
           # if r[k] && r[k][:value] != value
           #   logger.warn("#{row.inspect} different values #{r[k]} != #{value}")
