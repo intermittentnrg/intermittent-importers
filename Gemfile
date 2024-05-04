@@ -31,10 +31,9 @@ gem 'ox'
 gem 'rubyzip'
 
 # Database
-gem 'activerecord'
+gem 'activerecord', '~> 7.1.0'
 gem 'active_record_migrations'
 gem 'pg'
-gem 'composite_primary_keys'
 gem 'database_cleaner-active_record'
 
 gem 'pgsync'

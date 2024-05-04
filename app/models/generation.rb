@@ -1,5 +1,3 @@
-require 'composite_primary_keys'
-
 class Generation < ActiveRecord::Base
   include SemanticLogger::Loggable
   self.table_name = 'generation_data'

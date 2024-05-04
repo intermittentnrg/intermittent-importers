@@ -1,9 +1,6 @@
-require 'composite_primary_keys'
-
 class GenerationUnit < ActiveRecord::Base
   include SemanticLogger::Loggable
   self.table_name = 'generation_unit'
-  #self.primary_keys = :time, :unit_id
   belongs_to :unit
 
   def self.aggregate_to_generation(from, to, where)
