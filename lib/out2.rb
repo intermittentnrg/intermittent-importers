@@ -33,7 +33,7 @@ module Out2
         logger.benchmark_info("upsert") do
           r = ::Generation.upsert_all(data, on_duplicate: Arel.sql('value = EXCLUDED.value WHERE (generation_data.*) IS DISTINCT FROM (EXCLUDED.*)'))
         end
-        logger.info("updated #{r.try :length} out of #{data.length} rows")
+        logger.info("updated #{r.try :length} out of #{data.length} rows for range #{from} - #{to}")
       end
 
       r.try :length
@@ -46,12 +46,14 @@ module Out2
     def self.run(data, from, to, source_id)
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
 
+      r = nil
       if data.present?
         logger.benchmark_info("upsert") do
           data.each_slice(1_000_000) do |data2|
-            ::GenerationUnit.upsert_all(data2)
+            r = ::GenerationUnit.upsert_all(data2)
           end
         end
+        logger.info("updated #{r.try :length} out of #{data.length} rows for range #{from} - #{to}")
       end
     end
   end
@@ -83,10 +85,12 @@ module Out2
         p.delete :country
       end
 
+      r = nil
       if data.present?
         logger.benchmark_info("upsert") do
-          ::Load.upsert_all data
+          r = ::Load.upsert_all data
         end
+        logger.info("updated #{r.try :length} out of #{data.length} rows for range #{from} - #{to}")
       end
     end
   end
@@ -107,10 +111,12 @@ module Out2
         p.delete :country
       end
 
+      r = nil
       if data.present?
         logger.benchmark_info("upsert") do
-          ::Price.upsert_all(data)
+          r = ::Price.upsert_all(data)
         end
+        logger.info("updated #{r.try :length} out of #{data.length} rows for range #{from} - #{to}")
       end
     end
   end
@@ -128,10 +134,12 @@ module Out2
         p.delete :production_type
       end
 
+      r = nil
       if data.present?
         logger.benchmark_info("upsert") do
-          ::Capacity.upsert_all(data)
+          r = ::Capacity.upsert_all(data)
         end
+        logger.info("updated #{r.try :length} out of #{data.length} rows for range #{from} - #{to}")
       end
     end
   end
@@ -141,10 +149,12 @@ module Out2
 
     def self.run(data, from, to, source_id)
       logger.info "#{data.first.try(:[], :time)} #{data.length} points"
+      r = nil
       if data.present?
         logger.benchmark_info("upsert") do
-          GenerationUnitCapacity.upsert_all(data)
+          r = GenerationUnitCapacity.upsert_all(data)
         end
+        logger.info("updated #{r.try :length} out of #{data.length} rows for range #{from} - #{to}")
       end
     end
   end
@@ -170,7 +180,7 @@ module Out2
         logger.benchmark_info("upsert") do
           r = ::Transmission.upsert_all(data)
         end
-        logger.info("updated #{r.try :length} out of #{data.length} rows")
+        logger.info("updated #{r.try :length} out of #{data.length} rows for range #{from} - #{to}")
       end
     end
   end
