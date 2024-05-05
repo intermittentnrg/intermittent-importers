@@ -302,8 +302,9 @@ module Eia
         query[:offset] += res['response']['data'].length
       end
     end
+
     def points
-      r = []
+      r = {}
       @res.each do |res|
         res['response']['data'].each do |row|
           if row['value'].nil?
@@ -315,13 +316,13 @@ module Eia
           to_area = row['toba']
           # invert value. export need to be measured as drain on from_area, but EIA measures output to to_area
           value = -row['value'].to_i*1000
-          # k = [time,from_area,to_area]
-          # if r[k] && r[k][:value] != value
-          #   logger.warn("#{row.inspect} different values #{r[k]} != #{value}")
-          # end
+          k = [time,from_area,to_area]
+          if r[k] && r[k][:value] != value
+            logger.warn("#{row.inspect} different values #{r[k]} != #{value}")
+          end
 
-          #r[k] = {
-          r << {
+          #r << {
+          r[k] = {
             time:,
             from_area:,
             to_area:,
@@ -331,7 +332,7 @@ module Eia
       end
       #require 'pry' ; binding.pry
 
-      r
+      r.values
     end
   end
 end
