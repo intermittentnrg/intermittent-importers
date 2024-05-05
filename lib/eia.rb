@@ -260,6 +260,15 @@ module Eia
       end
     end
 
+    def self.parsers_each
+      from = ::Transmission.joins(:from_area).where("time > ?", 2.months.ago).where(from_area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
+      to = Time.now.in_time_zone(self::TZ)
+      logger.info("Refresh from #{from}")
+      (from.to_date..to.to_date).each do |date|
+        yield self.new from: date, to: date + 1.day
+      end
+    end
+
     def initialize(country: nil, from: nil, to: nil)
       @from = from
       @to = to + 1.hour
