@@ -51,6 +51,10 @@ an individual plant/unit
 
 ### ENTSO-E
 ### EIA
+Notes:
+- Data reported as interval ending
+- Interchange reported with different values from both sides
+
 ### AEMO
 ### IESO
 ### Elexon
