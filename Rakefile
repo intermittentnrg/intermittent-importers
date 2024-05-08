@@ -125,7 +125,7 @@ namespace :aemo do
     task all: [:balancing, :scada, :scada_reform, :distributed_pv]
     loop_task :scada_reform, AemoWem::ScadaReform
     oneshot_task :scada, AemoWem::ScadaLive
-    oneshot_task :distributed_pv, AemoWem::DistributedPvLive
+    loop_task :distributed_pv, AemoWem::DistributedPv
     #loop_task :balancing, AemoWem::Balancing
     oneshot_task :balancing, AemoWem::BalancingLive
   end
