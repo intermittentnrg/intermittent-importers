@@ -1,4 +1,5 @@
 require 'chronic'
+require 'fast_jsonparser'
 
 module AemoWem
   class Base < ::Aemo::Base
@@ -51,7 +52,59 @@ module AemoWem
     end
   end
 
+  class ScadaReform < Base
+    include SemanticLogger::Loggable
+    include Out::Unit
 
+    URL = 'http://data.wa.aemo.com.au/public/market-data/wemde/facilityScada/previous/'
+    FILE_FORMAT = 'FacilityScada_%Y%m%d.zip'
+    TIME_FORMAT = '%Y-%m-%dT%H:%M:%S%:z'
+
+    def initialize(file_or_date)
+      @from = parse_time_from_filename(file_or_date)
+      @to = @from + 1.day
+      @units = {}
+      @default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
+      @area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
+      super
+    end
+
+    def self.select_file? url
+      url =~ /.zip$/i
+    end
+
+    def parse_time_from_filename(file)
+      time = Time.strptime(File.basename(file), FILE_FORMAT)
+      TZ.local_to_utc(time)
+    end
+
+    def parse_unit(unit_internal_id)
+      @units[unit_internal_id] ||= ::Unit.
+                                     create_with(area_id: @area_id,
+                                                 production_type_id: @default_production_type_id).
+                                     find_or_create_by!(internal_id: unit_internal_id)
+    end
+
+    def process_file(body)
+      json = FastJsonparser.parse(body, symbolize_keys: false)
+      r = json['data']['facilityScadaDispatchIntervals'].map do |row|
+        time = Time.strptime(row['dispatchInterval'], TIME_FORMAT)
+        time = TZ.local_to_utc(time)
+        unit = parse_unit(row['code'])
+        # seems to be MWh per 5 minutes
+        value = row['quantity']*1000*12
+
+        {time:, unit_id: unit.id, value:}
+      end
+
+      r
+    end
+
+    def done!
+      GenerationUnit.aggregate_to_generation(@from, @to, "a.id=#{@area_id}")
+      super
+    end
+  end
 
   class Scada < Base
     include SemanticLogger::Loggable
@@ -84,6 +137,7 @@ module AemoWem
       time = Time.strptime(File.basename(file), FILE_FORMAT)
       TZ.local_to_utc(time)
     end
+
     def parse_unit(unit_internal_id)
       @units[unit_internal_id] ||= ::Unit.
                                      create_with(area_id: @area_id,

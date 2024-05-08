@@ -59,16 +59,18 @@ module Aemo
         @r = []
         while zip.get_next_entry
           body = zip.read
-          csv = CSV.new(body)
-          @r += process_rows(csv.to_a)
+          @r += process_file(body)
        end
       else
-        csv = CSV.new(file)
-        @r = process_rows(csv.to_a)
+        @r = process_file(file)
       end
 
       #require 'pry' ; binding.pry
 
+    end
+
+    def process_file(body)
+      process_rows(CSV.new(body).to_a)
     end
 
     def process
