@@ -77,7 +77,7 @@ module Aemo
       done!
     end
     def done!
-      DataFile.upsert({path: File.basename(@url), source: self.class.source_id}, unique_by: [:source, :path])
+      DataFile.upsert({path: File.basename(@url), source: self.class.source_id, updated_at: Time.now}, unique_by: [:source, :path])
       logger.info "done! #{@url}"
     end
 
