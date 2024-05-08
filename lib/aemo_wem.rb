@@ -185,7 +185,7 @@ module AemoWem
 
   class ScadaLive < Scada
     include SemanticLogger::Loggable
-    URL = "https://aemo.com.au/aemo/data/wa/infographic/facility-intervals-last96.csv"
+    URL = "https://wa.aemo.com.au/aemo/data/wa/infographic/facility-intervals-last96.csv"
     def self.cli(args)
       if args.length > 1
         $stderr.puts "#{$0} [file.csv]"
@@ -373,7 +373,7 @@ module AemoWem
     include SemanticLogger::Loggable
     include Out::Generation
 
-    URL = 'https://aemo.com.au/aemo/data/wa/infographic/dpvopdemand/distributed-pv_opdemand.csv'
+    URL = 'https://wa.aemo.com.au/aemo/data/wa/infographic/dpvopdemand/distributed-pv_opdemand.csv'
 
     def self.cli(args)
       if args.length > 1

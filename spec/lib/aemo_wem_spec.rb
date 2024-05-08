@@ -140,7 +140,7 @@ CSV
 
     context 'without argument' do
       it do
-        stub_request(:get, 'https://aemo.com.au/aemo/data/wa/infographic/facility-intervals-last96.csv').
+        stub_request(:get, 'https://wa.aemo.com.au/aemo/data/wa/infographic/facility-intervals-last96.csv').
           to_return(body:)
         expect(GenerationUnit).to receive(:upsert_all)
         subject.cli([])
@@ -345,7 +345,7 @@ CSV
   describe :cli do
     context 'without argument' do
       it do
-        stub_request(:get, 'https://aemo.com.au/aemo/data/wa/infographic/dpvopdemand/distributed-pv_opdemand.csv').
+        stub_request(:get, 'https://wa.aemo.com.au/aemo/data/wa/infographic/dpvopdemand/distributed-pv_opdemand.csv').
           to_return(body:)
         expect(Generation).to receive(:upsert_all)
         subject.cli([])
