@@ -231,6 +231,33 @@ module AemoWem
     end
   end
 
+  class ReferenceTradingPrice < Base
+    include SemanticLogger::Loggable
+    include Out::Price
+
+    URL = 'http://data.wa.aemo.com.au/public/market-data/wemde/referenceTradingPrice/previous/'
+    FILE_FORMAT = 'ReferenceTradingPrice_%Y%m%d.zip'
+    URL_FORMAT = URL+FILE_FORMAT
+    TIME_FORMAT = '%Y-%m-%dT%H:%M:%S%:z'
+
+    def self.select_file? url
+      url =~ /.zip$/i
+    end
+
+    def process_file(body)
+      area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
+      json = FastJsonparser.parse(body, symbolize_keys: false)
+      r = json['data']['referenceTradingPrices'].map do |row|
+        time = Time.strptime(row['tradingInterval'], TIME_FORMAT)
+        time = TZ.local_to_utc(time)
+        value = row['referenceTradingPrice']*100
+
+        {time:, area_id:, value:}
+      end
+    end
+  end
+
+  #pre-reform price and load
   class Balancing < Base
     include SemanticLogger::Loggable
 
@@ -332,7 +359,7 @@ module AemoWem
 
     URL = 'https://data.wa.aemo.com.au/public/public-data/datafiles/distributed-pv/'
     FILE_FORMAT = 'distributed-pv-%Y.csv'
-    URL_FORMAT = "https://data.wa.aemo.com.au/public/public-data/datafiles/distributed-pv/#{FILE_FORMAT}"
+    URL_FORMAT = URL+FILE_FORMAT
 
     def initialize(file_or_date)
       if file_or_date.is_a? Date
