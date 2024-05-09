@@ -231,6 +231,33 @@ module AemoWem
     end
   end
 
+  class OperationalDemand < Base
+    include SemanticLogger::Loggable
+    include Out::Load
+
+    URL = 'http://data.wa.aemo.com.au/public/market-data/wemde/operationalDemandWithdrawal/dailyFiles/'
+    FILE_FORMAT = 'OperationalDemandAndWithdrawal_%Y-%m-%d.json'
+    URL_FORMAT = URL+FILE_FORMAT
+    TIME_FORMAT = '%Y-%m-%dT%H:%M:%S%:z'
+
+    def self.select_file? url
+      url =~ /.json$/i
+    end
+
+    def process_file(body)
+      #require 'pry';binding.pry
+      area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
+      json = FastJsonparser.parse(body.read, symbolize_keys: false)
+      r = json['data']['data'].map do |row|
+        time = Time.strptime(row['dispatchInterval'], TIME_FORMAT)
+        time = TZ.local_to_utc(time)
+        value = row['operationalDemand']*1000
+
+        {time:, area_id:, value:}
+      end
+    end
+  end
+
   class ReferenceTradingPrice < Base
     include SemanticLogger::Loggable
     include Out::Price

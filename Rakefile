@@ -122,9 +122,10 @@ namespace :aemo do
   end
   namespace :wem do
     desc "Run refresh tasks"
-    task all: [:balancing, :scada, :scada_reform, :distributed_pv, :reference_trading_price]
+    task all: [:balancing, :scada, :scada_reform, :distributed_pv, :reference_trading_price, :operational_demand]
     loop_task :scada_reform, AemoWem::ScadaReform
     loop_task :reference_trading_price, AemoWem::ReferenceTradingPrice
+    loop_task :operational_demand, AemoWem::OperationalDemand
     oneshot_task :scada, AemoWem::ScadaLive
     loop_task :distributed_pv, AemoWem::DistributedPv
     #loop_task :balancing, AemoWem::Balancing
