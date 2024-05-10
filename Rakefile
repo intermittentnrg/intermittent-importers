@@ -48,7 +48,7 @@ task :ping do |t|
 end
 
 desc "Run all refresh tasks"
-multitask all: ['entsoe:all', 'aemo:all', 'ieso:all', 'eia:all', :ercot, 'caiso:all', 'elexon:all', :nationalgrideso, 'nordpool:all', :opennem, :ree, :aeso, :hydroquebec, :tohoku, 'eskom:all']
+multitask all: ['entsoe:all', 'aemo:all', 'ieso:all', 'eia:all', :ercot, 'caiso:all', 'elexon:all', :nationalgrideso, 'nordpool:all', :opennem, :ree, :aeso, :hydroquebec, :tohoku, 'eskom:all', :ons]
 namespace :ieso do
   desc "Run refresh tasks"
   task all: [:unit, :load, :price, :intertie]
@@ -165,6 +165,7 @@ end
 # end
 
 pump_task :tohoku, Tohoku::Juyo
+loop_task :ons, Ons
 
 desc 'Export areas to test/fixtures/areas.yml'
 task :fixtures_areas do

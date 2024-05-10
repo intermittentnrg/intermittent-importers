@@ -11,6 +11,7 @@ gem 'faraday-retry'
 gem 'faraday-http-cache'
 
 gem 'net-sftp'
+gem 'aws-sdk-sqs'
 
 gem 'zeitwerk'
 gem 'activesupport'
