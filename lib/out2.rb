@@ -17,6 +17,9 @@ module Out2
         area_id ||= (areas[p[:country]] ||= ::Area.where(source: source_id, code: p[:country]).pluck(:id).first) if p[:country]
         raise p.inspect unless area_id
         pt_id = (production_types[p[:production_type]] ||= ::ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
+        unless pt_id
+          raise p.inspect
+        end
         apt_id = apts[[area_id, pt_id]] ||= AreasProductionType.where(source_area_id: area_id, production_type_id: pt_id).pluck(:id).first
         unless apt_id
           logger.warn("no apt_id for area_id #{area_id} pt_id #{pt_id}")
