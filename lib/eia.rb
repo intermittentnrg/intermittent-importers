@@ -105,14 +105,6 @@ module Eia
             logger.warn "Null value #{row.inspect}"
             next
           end
-          if row['value'].to_i < 0
-            logger.warn("Negative load #{row.inspect}")
-            next
-          end
-          if row['respondent'] == 'BANC' && row['value'].to_i > 6000
-            logger.warn("Ignoring load #{row['value']} from #{row['respondent']}")
-            next
-          end
           time = parse_time(row['period'])
           r << {
             time: time,

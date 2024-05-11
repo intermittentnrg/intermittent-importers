@@ -77,7 +77,7 @@ usa:
     #nuclear:
   BANC:
     load:
-      max: 800000000
+      max: 10000000
     hydro:
       max: 10000000
   FMPP:
