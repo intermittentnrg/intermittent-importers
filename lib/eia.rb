@@ -107,9 +107,9 @@ module Eia
           end
           time = parse_time(row['period'])
           r << {
-            time: time,
+            time:,
             country: row['respondent'],
-            value: row['value'].to_i*1000
+            value: row['value'].to_f*1000
           }
         end
       end
@@ -205,7 +205,7 @@ module Eia
           time = parse_time(row['period'])
           country = row['respondent']
           production_type = FUEL_MAP[row['fueltype']]
-          value = row['value'].to_i*1000
+          value = row['value'].to_f*1000
           k = [time,country,production_type]
           if r[k] && r[k][:value] != value
             logger.warn("#{country} different values #{r[k][:value]} != #{value}")
@@ -307,7 +307,7 @@ module Eia
           from_area = row['fromba']
           to_area = row['toba']
           # invert value. export need to be measured as drain on from_area, but EIA measures output to to_area
-          value = -row['value'].to_i*1000
+          value = -row['value'].to_f*1000
           k = [time,from_area,to_area]
           if r[k] && r[k][:value] != value
             logger.warn("#{row.inspect} different values #{r[k]} != #{value}")
