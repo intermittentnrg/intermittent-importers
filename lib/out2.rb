@@ -174,6 +174,11 @@ module Out2
       data.each do |p|
         p[:from_area_id] ||= (areas[p[:from_area]] ||= ::Area.where(source: source_id, code: p[:from_area]).pluck(:id).first)
         p[:to_area_id] ||= (areas[p[:to_area]] ||= ::Area.where(source: source_id, code: p[:to_area]).pluck(:id).first)
+        # unless p[:to_area_id] && p[:to_area]
+        #   logger.warn("Creating area #{p[:to_area]}")
+        #   a = ::Area.create!(source: source_id, code: p[:to_area], type: 'country', region: nil, enabled: false)
+        #   p[:to_area_id] = areas[p[:to_area]] = a.id
+        # end
         p.delete :from_area
         p.delete :to_area
       end
