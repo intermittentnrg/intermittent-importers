@@ -329,10 +329,14 @@ module AemoNem
           time = parse_time(row[0])
           unit_internal_id = self.class.elements[row[1].to_i]
           next unless unit_internal_id
-          unit = @@units[unit_internal_id] ||= ::Unit.
-                                                 create_with(area_id: default_area_id,
-                                                             production_type_id: default_production_type_id).
-                                                 find_or_create_by!(internal_id: unit_internal_id)
+          unit = @@units[unit_internal_id]
+          unit ||= ::Unit.find_by(hires_internal_id: unit_internal_id)
+          unit ||= ::Unit.
+                     create_with(area_id: default_area_id,
+                                 production_type_id: default_production_type_id).
+                     find_or_create_by!(internal_id: unit_internal_id)
+          @@units[unit_internal_id] ||= unit
+
           unit_id = unit.id
           variable = row[2].to_i
           next unless variable == 2
