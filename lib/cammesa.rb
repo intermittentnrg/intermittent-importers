@@ -211,9 +211,9 @@ module Cammesa
         r2 = logger.benchmark_info(URL) do
           @@faraday.get(URL, params)
         end
-        path = "data/cammesa/#{row[:adjuntos].first[:id]}"
-        File.binwrite(path, r2.body)
-        puts path
+        # path = "data/cammesa/#{row[:adjuntos].first[:id]}"
+        # File.binwrite(path, r2.body)
+        # puts path
 
         process_file(StringIO.new(r2.body))
       else
