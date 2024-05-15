@@ -47,8 +47,8 @@ class Ons
           }
         end
       })
-      logger.info "deleted #{batch.length} from SQS"
     end
+    logger.info "deleted #{receipt_handles.length} from SQS"
   end
 
   def initialize(file_or_body)
@@ -103,6 +103,9 @@ class Ons
     r_trans << {time:, from_area: 'BR-CS', to_area: 'BR-NE', value: t['sudeste_nordeste']*1000}
     r_trans << {time:, from_area: 'BR-CS', to_area: 'BR-N', value: t['sudeste_norteFic']*1000}
     r_trans << {time:, from_area: 'BR-N', to_area: 'BR-NE', value: t['norteFic_nordeste']*1000}
+
+    # skip bad data
+    return if r_load.all? { |l| l[:value] == -2147220000000 }
 
     Out2::Load.run(r_load, @from, @to, self.class.source_id)
     Out2::Generation.run(r_gen, @from, @to, self.class.source_id)
