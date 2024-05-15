@@ -11,6 +11,12 @@ _to=Date.today
 # Disable automatic compression job
 conn.execute "SELECT alter_job((SELECT job_id FROM timescaledb_information.jobs WHERE proc_name='policy_compression' AND hypertable_name = 'generation_unit_hires'), scheduled => false)"
 
+$lock = false
+$exiting = false
+trap("SIGINT") do
+  throw :ctrl_c if !$lock || $exiting
+  $exiting = true
+end
 chunks = []
 (_from.._to).each do |from|
   to = from + 1.day
@@ -35,6 +41,7 @@ chunks = []
     retry
   end
 
+  $lock = true
   conn.execute <<~SQL
     UPDATE generation_unit_hires g
     SET unit_id=uh.id
@@ -52,6 +59,7 @@ chunks = []
   chunks.each do |chunk|
     conn.execute "SELECT compress_chunk('#{chunk}', true);"
   end
+  $lock = false
 end
 #binding.irb
 
