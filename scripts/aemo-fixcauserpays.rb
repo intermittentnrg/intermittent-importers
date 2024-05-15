@@ -1,12 +1,13 @@
 #!/usr/bin/env ruby
 require './lib/init'
 require './lib/activerecord-connect'
+require 'chronic'
 
 ActiveRecord::Base.logger = Logger.new(STDOUT)
 conn = ActiveRecord::Base.connection
 
-_from=Date.new(2024,3,1)
-_to=Date.today
+_from=Chronic.parse(ARGV.shift).to_date
+_to=Chronic.parse(ARGV.shift).to_date
 
 # Disable automatic compression job
 conn.execute "SELECT alter_job((SELECT job_id FROM timescaledb_information.jobs WHERE proc_name='policy_compression' AND hypertable_name = 'generation_unit_hires'), scheduled => false)"
