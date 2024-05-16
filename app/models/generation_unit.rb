@@ -1,6 +1,7 @@
 class GenerationUnit < ActiveRecord::Base
   include SemanticLogger::Loggable
   self.table_name = 'generation_unit'
+  acts_as_hypertable time_column: 'time'
   belongs_to :unit
 
   def self.aggregate_to_generation(from, to, where)

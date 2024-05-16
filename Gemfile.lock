@@ -232,6 +232,10 @@ GEM
     thor (1.2.2)
     timecop (0.9.8)
     timeout (0.4.1)
+    timescaledb (0.2.8)
+      activerecord
+      activesupport
+      pg (~> 1.2)
     tty-cursor (0.7.1)
     tty-spinner (0.9.3)
       tty-cursor (~> 0.7)
@@ -289,6 +293,7 @@ DEPENDENCIES
   simplecov
   simplecov-cobertura
   timecop
+  timescaledb
   typhoeus
   vcr
   webmock

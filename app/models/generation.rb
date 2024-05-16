@@ -1,6 +1,7 @@
 class Generation < ActiveRecord::Base
   include SemanticLogger::Loggable
   self.table_name = 'generation_data'
+  acts_as_hypertable time_column: 'time'
   belongs_to :areas_production_type
 
   def self.enable_compression_policy!

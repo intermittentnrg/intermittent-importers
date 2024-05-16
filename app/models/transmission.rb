@@ -1,5 +1,6 @@
 class Transmission < ActiveRecord::Base
   self.table_name = 'transmission'
+  acts_as_hypertable time_column: 'time'
   belongs_to :from_area, class_name: 'Area'
   belongs_to :to_area, class_name: 'Area'
 

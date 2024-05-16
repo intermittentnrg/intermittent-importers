@@ -39,6 +39,7 @@ gem 'activerecord', '~> 7.1.0'
 gem 'active_record_migrations'
 gem 'pg'
 gem 'database_cleaner-active_record'
+gem 'timescaledb'
 
 gem 'pgsync'
 

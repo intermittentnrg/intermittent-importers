@@ -1,5 +1,6 @@
 class Load < ActiveRecord::Base
   self.table_name = 'load'
+  acts_as_hypertable time_column: 'time'
   belongs_to :area
 
   def self.enable_compression_policy!
