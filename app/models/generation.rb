@@ -16,9 +16,9 @@ class Generation < ActiveRecord::Base
   end
 
   def self.aggregate_to_capture(from, to, where)
-    logger.benchmark_info("aggregate_to_capture") do
-      from = from.beginning_of_hour
-      if to.min != 0
+    logger.benchmark_info("aggregate_to_capture #{from} #{to}") do
+      from = from.beginning_of_hour if from.is_a? Time
+      if to.is_a?(Time) && to.min != 0
         to = to.beginning_of_hour + 1.hour
       end
       r = connection.exec_query <<-SQL

@@ -5,7 +5,7 @@ class GenerationUnit < ActiveRecord::Base
   belongs_to :unit
 
   def self.aggregate_to_generation(from, to, where)
-    logger.benchmark_info("aggregate_to_generation") do
+    logger.benchmark_info("aggregate_to_generation #{from} #{to}") do
       r = connection.exec_query <<-SQL
         INSERT INTO generation_data (areas_production_type_id, time, value)
         SELECT apt.id AS areas_production_type_id, time, SUM(value) AS value
@@ -13,9 +13,9 @@ class GenerationUnit < ActiveRecord::Base
         INNER JOIN units u ON(g.unit_id=u.id)
         INNER JOIN areas a ON(u.area_id=a.id)
         INNER JOIN areas_production_types apt ON(u.area_id=apt.area_id AND u.production_type_id=apt.production_type_id)
-        WHERE time BETWEEN '#{from}' AND '#{to}' AND #{where}
+        WHERE time >= '#{from}' AND time < '#{to}' AND #{where}
         GROUP BY 1,2
-        ON CONFLICT (areas_production_type_id, "time") DO UPDATE set value = EXCLUDED.value
+        ON CONFLICT (areas_production_type_id, "time") DO UPDATE set value = EXCLUDED.value WHERE generation_data.value<>EXCLUDED.value
       SQL
     end
 

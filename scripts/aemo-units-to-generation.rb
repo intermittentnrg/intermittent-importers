@@ -2,14 +2,20 @@
 # coding: utf-8
 require './lib/init'
 require './lib/activerecord-connect'
+require 'chronic'
 
-ActiveRecord::Base.connection.execute <<SQL
-INSERT INTO generation (time, area_id, production_type_id, value)
-SELECT time, u.area_id, u.production_type_id, SUM(value) AS value
-FROM generation_unit g
-INNER JOIN units u ON(g.unit_id=u.id)
-INNER JOIN areas a ON(u.area_id=a.id)
-WHERE a.source='aemo'
-GROUP BY 1,2,3
-ON CONFLICT ON CONSTRAINT generation_pkey DO UPDATE set value = EXCLUDED.value
-SQL
+unless ARGV.length==3
+  $stderr.puts "#${0} <from> <to> <where>"
+  abort
+end
+
+from = Chronic.parse(ARGV.shift).to_date
+to = Chronic.parse(ARGV.shift).to_date
+where = ARGV.shift
+
+#GenerationUnit.chunks.where(range_end: from.., range_start: ..to).order(:range_start).each do |chunk|
+#  puts "#{[from,chunk.range_start].max} #{[to,chunk.range_end].min}"
+(from..to).each do |date|
+  #date=date.to_time
+  GenerationUnit.aggregate_to_generation(date, date+1.day, where)
+end
