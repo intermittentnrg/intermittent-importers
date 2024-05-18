@@ -7,7 +7,11 @@ ActiveRecordMigrations.configure do |c|
   c.schema_format = :sql
 end
 ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.datetime_type = :timestamptz
-
+unless Rails.env.test?
+  ActiveRecord::ConnectionAdapters::AbstractAdapter.set_callback :checkout, :after do |conn|
+    conn.exec_query "SET timescaledb.max_tuples_decompressed_per_dml_transaction TO 1000000"
+  end
+end
 #ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 def pump_task(name, source)
