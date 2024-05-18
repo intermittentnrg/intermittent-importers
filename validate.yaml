@@ -3,6 +3,8 @@ europe:
     load:
       min: 1000
       max: 600000000
+    solar:
+      max: 100000000
   BA:
     load:
       max: 2800000
