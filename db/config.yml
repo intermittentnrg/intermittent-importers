@@ -3,10 +3,6 @@ default: &default
   encoding: unicode
   pool: 6
   checkout_timeout: 5
-  #query_cache: 100
-
-development: &development
-  <<: *default
   host: <%= ENV['PGHOST'] %>
   port: <%= ENV['PGPORT'] || 5432 %>
   user: <%= ENV['PGUSER'] %>
@@ -15,13 +11,16 @@ development: &development
   sslmode: <%= ENV['PGSSLMODE'] %>
   schema_search_path: intermittency,public
 
+development:
+  <<: *default
+
 cloud:
-  <<: *development
+  <<: *default
 
 production:
-  <<: *development
+  <<: *default
   database: intermittency_prod
 
 test:
-  <<: *development
+  <<: *default
   database: intermittency_test

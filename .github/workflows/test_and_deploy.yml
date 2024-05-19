@@ -8,10 +8,11 @@ jobs:
       PGHOST: 127.0.0.1
       PGUSER: postgres
       PGPASSWORD: xyzxyzxyz
-      PGDATABASE: postgres
+      PGDATABASE: intermittency_test
       EIA_TOKEN: eia_token
       ELEXON_TOKEN: elexon_token
       ENTSOE_TOKEN: entsoe_token
+      RAILS_ENV: test
     runs-on: ubuntu-latest
     services:
       db:
@@ -34,25 +35,15 @@ jobs:
           ruby-version: 3.3.0
           bundler-cache: true
       - name: rake db:migrate db:fixtures:load
-        env:
-          PGHOST: 127.0.0.1
-          PGUSER: postgres
-          RAILS_ENV: test
         run: |
           bundle exec rake db:create db:migrate
           bundle exec rake db:fixtures:load FIXTURES=locations,areas,production_types,areas_production_types,units
       - name: rspec
-        env:
-          PGHOST: 127.0.0.1
-          PGUSER: postgres
-          RAILS_ENV: test
         run: |
           bundle exec rspec -f d
   deploy:
     needs: test
     if: ${{ github.ref == 'refs/heads/master' }}
-    env:
-      RAILS_ENV: cloud
     environment: production
     runs-on: ubuntu-latest
     steps:
@@ -63,11 +54,13 @@ jobs:
           bundler-cache: true
       - name: rake db:migrate
         env:
+          RAILS_ENV: cloud
           PGHOST: ${{ secrets.PGHOST }}
           PGPORT: ${{ secrets.PGPORT }}
           PGUSER: ${{ secrets.PGUSER }}
           PGPASSWORD: ${{ secrets.PGPASSWORD }}
           PGDATABASE: ${{ secrets.PGDATABASE }}
           PGSSLMODE: ${{ secrets.PGSSLMODE }}
+          ES_URL: ${{ secrets.ES_URL }}
         run: |
           bundle exec rake db:migrate

@@ -17,7 +17,17 @@ require 'semantic_logger'
 SemanticLogger.default_level = :info
 SemanticLogger.application = Rails.env.to_s
 SemanticLogger.environment = Rails.env.to_s
-if !Rails.env.test?
+SemanticLogger.add_appender(io: $stderr, formatter: :color)
+case Rails.env
+when 'cloud'
+  SemanticLogger.add_appender(
+    appender: :http,
+    url:      ENV['ES_URL'],
+    read_timeout: 10
+  )
+when 'test'
+  # nothing
+else
   SemanticLogger.add_appender(
     appender:    :elasticsearch,
     url:         ENV['ES_URL'],
@@ -25,7 +35,6 @@ if !Rails.env.test?
     data_stream: true
   )
 end
-SemanticLogger.add_appender(io: $stderr, formatter: :color)
 
 require 'date'
 require 'active_support'

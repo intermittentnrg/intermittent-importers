@@ -10,30 +10,41 @@ on:
       - completed
   schedule:
     - cron: "0 * * * *"
+  workflow_dispatch: {}
+
+concurrency:
+  group: refresh
+  cancel-in-progress: true
 
 jobs:
   refresh:
-    env:
-      RAILS_ENV: cloud
     environment: production
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install mdbtools
+        run: sudo apt-get install -y mdbtools
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.3.0
           bundler-cache: true
-      - name: rake all
+      - name: rake -j4 all
         env:
+          RAILS_ENV: cloud
           EIA_TOKEN: ${{ secrets.EIA_TOKEN }}
           ELEXON_TOKEN: ${{ secrets.ELEXON_TOKEN }}
           ENTSOE_USER: ${{ secrets.ENTSOE_USER }}
           ENTSOE_PASSWORD: ${{ secrets.ENTSOE_PASSWORD }}
+          ERCOT_PROXY_API_KEY: ${{ secrets.ERCOT_PROXY_API_KEY }}
+          ONS_QUEUE_URL: ${{ secrets.ONS_QUEUE_URL }}
           PGHOST: ${{ secrets.PGHOST }}
           PGPORT: ${{ secrets.PGPORT }}
           PGUSER: ${{ secrets.PGUSER }}
           PGPASSWORD: ${{ secrets.PGPASSWORD }}
           PGDATABASE: ${{ secrets.PGDATABASE }}
           PGSSLMODE: ${{ secrets.PGSSLMODE }}
+          ES_URL: ${{ secrets.ES_URL }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          bundle exec rake all
+          bundle exec rake -j4 all
