@@ -186,7 +186,7 @@ module Out2
       r = nil
       if data.present?
         logger.benchmark_info("upsert") do
-          r = ::Transmission.upsert_all(data)
+          r = ::Transmission.upsert_all(data, on_duplicate: Arel.sql('value = EXCLUDED.value WHERE (transmission.*) IS DISTINCT FROM (EXCLUDED.*)'))
         end
         logger.info("updated #{r.try :length} out of #{data.length} rows for range #{from} - #{to}")
       end
