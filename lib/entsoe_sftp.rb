@@ -4,13 +4,13 @@ module EntsoeSftp
   class Base
     def self.each
       Net::SFTP.start('sftp-transparency.entsoe.eu', ENV['ENTSOE_USER'], :password => ENV['ENTSOE_PASSWORD']) do |sftp|
+        skipped = []
         sftp.dir.entries(self::DIR).sort { |a,b| b.name <=> a.name }.each do |entry|
           next if entry.name =~ /^\./
           time = Time.at(entry.attributes.mtime)
           # if time is greater
           if DataFile.where(path: entry.name, updated_at: time..., source: self::TARGET.source_id).present?
-            logger.info "SKIP #{entry.name}"
-            next
+            skipped << entry.name
           else
             logger.info "GO #{entry.name}"
             data = StringIO.new(sftp.download!("#{self::DIR}/#{entry.name}"))
@@ -18,6 +18,7 @@ module EntsoeSftp
             self::TARGET.new(data, entry.name, time).process
           end
         end
+        logger.info "Skipped #{skipped.length} files"
       end
     end
   end
