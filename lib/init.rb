@@ -5,8 +5,8 @@ require 'bundler/setup'
 require 'timescaledb'
 require 'dotenv'
 
-envfile = ".env-#{ENV['ENV']}"
-if ENV['ENV'] && File.exist?(envfile)
+envfile = ".env-#{ENV['RAILS_ENV']}"
+if ENV['RAILS_ENV'] && File.exist?(envfile)
   Dotenv.load envfile
 else
   Dotenv.load
