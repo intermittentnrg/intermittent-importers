@@ -490,6 +490,8 @@ module EntsoeCsv
           #FlowValue
           value = (row[10].to_f*1000).to_i
           #11:UpdateTime
+          #skip values >= 100GW
+          next if value >= 100_000_000
 
           k = [to_area_id,from_area_id,time]
           if r[k] && r[k][:value] != value
