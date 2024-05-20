@@ -5,6 +5,19 @@ europe:
       max: 600000000
     solar:
       max: 100000000
+    hydro_pumped_storage:
+      min: -100000000
+    hydro_run-of-river_and_poundage:
+      min: -100000000
+    hydro_water_reservoir:
+      min: -100000000
+  AT:
+    hydro_pumped_storage:
+      min: -10000000
+    hydro_run-of-river_and_poundage:
+      min: -1000000
+    hydro_water_reservoir:
+      min: -1000000
   BA:
     load:
       max: 2800000
