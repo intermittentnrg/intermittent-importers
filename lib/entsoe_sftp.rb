@@ -4,7 +4,7 @@ module EntsoeSftp
   class Base
     def self.each
       Net::SFTP.start('sftp-transparency.entsoe.eu', ENV['ENTSOE_USER'], :password => ENV['ENTSOE_PASSWORD']) do |sftp|
-        sftp.dir.foreach(self::DIR) do |entry|
+        sftp.dir.entries(self::DIR).sort { |a,b| b.name <=> a.name }.each do |entry|
           next if entry.name =~ /^\./
           time = Time.at(entry.attributes.mtime)
           # if time is greater
