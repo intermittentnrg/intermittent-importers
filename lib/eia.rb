@@ -101,10 +101,7 @@ module Eia
       r = []
       @res.each do |res|
         res['response']['data'].each do |row|
-          if row['value'].nil?
-            logger.warn "Null value #{row.inspect}"
-            next
-          end
+          next if row['value'].nil?
           time = parse_time(row['period'])
           r << {
             time:,
@@ -198,10 +195,7 @@ module Eia
       @res.each do |res|
         res['response']['data'].each do |row|
           raise "Unknown fueltype: #{row['fueltype']}" if FUEL_MAP[row['fueltype']].nil?
-          if row['value'].nil?
-            logger.warn "Null value #{row.inspect}"
-            next
-          end
+          next if row['value'].nil?
           time = parse_time(row['period'])
           country = row['respondent']
           production_type = FUEL_MAP[row['fueltype']]
@@ -299,10 +293,7 @@ module Eia
       r = {}
       @res.each do |res|
         res['response']['data'].each do |row|
-          if row['value'].nil?
-            logger.warn "Null value #{row.inspect}"
-            next
-          end
+          next if row['value'].nil?
           time = parse_time(row['period'])
           from_area = row['fromba']
           to_area = row['toba']
