@@ -87,21 +87,24 @@ class Validate
 
         production_types.each do |production_type_name, rules|
           next unless filters.empty? || filters.any? do |filter|
-            "#{area_code}/#{production_type_name}".include? filter
+            "#{region}/#{area_code}/#{production_type_name}".include? filter
           end
           if production_type_name == "load"
             query = Load
+            if area
+              query = query.where(area_id: area.id)
+            else
+              query = query.joins(:area).where("area.region" => region)
+            end
           else
             production_type = ProductionType.find_by(name: production_type_name)
             raise production_type_name unless production_type
-            apt = area.areas_production_type.find_by!(production_type:)
-            query = Generation.where(areas_production_type: apt)
-          end
-
-          if area
-            query = query.where(area_id: area.id)
-          else
-            query = query.joins(:area).where("area.region" => region)
+            if area
+              apt_ids = area.areas_production_type.where(production_type:).pluck(:id)
+            else
+              apt_ids = production_type.areas_production_type.joins(:area).where("area.region" => region).pluck(:id)
+            end
+            query = Generation.where(areas_production_type_id: apt_ids)
           end
 
           if rules[:min] || rules[:max]
