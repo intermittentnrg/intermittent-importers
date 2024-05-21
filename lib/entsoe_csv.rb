@@ -121,7 +121,7 @@ module EntsoeCsv
       value = (s.to_f*1000)
       value -= (s_neg.to_f*1000) if s_neg
 
-      value
+      value.to_i
     end
 
     def csv
