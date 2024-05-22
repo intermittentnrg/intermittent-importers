@@ -35,7 +35,8 @@ module Out2
         start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
         if data.length > 100_000
           conn = ActiveRecord::Base.connection
-          conn.create_table "generation_copy", id: false, temporary: true do |t|
+          tmptable = "generation_copy_#{source_id}"
+          conn.create_table tmptable, id: false, temporary: true do |t|
             t.integer :areas_production_type_id, limit: 2, null: false
             t.timestamptz :time, null: false
             t.integer :value, null: false
@@ -43,7 +44,7 @@ module Out2
 
           raw_conn = conn.raw_connection
           enco = PG::TextEncoder::CopyRow.new
-          raw_conn.copy_data "COPY generation_copy FROM STDIN", enco do
+          raw_conn.copy_data "COPY #{tmptable} FROM STDIN", enco do
             data.each do |row|
               raw_conn.put_copy_data([row[:areas_production_type_id], row[:time], row[:value]])
             end
@@ -51,17 +52,17 @@ module Out2
           r = conn.execute <<~SQL
             INSERT INTO generation_data (areas_production_type_id, time, value)
             SELECT areas_production_type_id, time, value
-            FROM generation_copy g
+            FROM #{tmptable} g
             WHERE NOT EXISTS (
                   SELECT 1 FROM generation_data g2
                   WHERE g.areas_production_type_id=g2.areas_production_type_id AND g.time=g2.time AND g.value=g2.value AND
-                        time BETWEEN (SELECT MIN(time) FROM generation_copy) AND (SELECT MAX(time) FROM generation_copy)
+                        time BETWEEN (SELECT MIN(time) FROM #{tmptable}) AND (SELECT MAX(time) FROM #{tmptable})
             )
             ON CONFLICT (areas_production_type_id, time)
               DO UPDATE set value = EXCLUDED.value
           SQL
           updated_rows = r.cmd_tuples
-          conn.execute "DROP TABLE generation_copy"
+          conn.drop_table tmptable
         else
           r = ::Generation.upsert_all(data, on_duplicate: Arel.sql('value = EXCLUDED.value WHERE (generation_data.*) IS DISTINCT FROM (EXCLUDED.*)'))
           updated_rows = r.try(:length).to_i
@@ -83,7 +84,8 @@ module Out2
         start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
         if data.length > 100_000
           conn = ActiveRecord::Base.connection
-          conn.create_table "generation_unit_copy", id: false, temporary: false do |t|
+          tmptable = "generation_unit_copy_#{source_id}"
+          conn.create_table tmptable, id: false, temporary: false do |t|
             t.integer :unit_id, limit: 2, null: false
             t.timestamptz :time, null: false
             t.integer :value, null: false
@@ -91,7 +93,7 @@ module Out2
 
           raw_conn = conn.raw_connection
           enco = PG::TextEncoder::CopyRow.new
-          raw_conn.copy_data "COPY generation_unit_copy FROM STDIN", enco do
+          raw_conn.copy_data "COPY #{tmptable} FROM STDIN", enco do
             data.each do |row|
               raw_conn.put_copy_data([row[:unit_id], row[:time], row[:value]])
             end
@@ -99,17 +101,17 @@ module Out2
           r = conn.execute <<~SQL
             INSERT INTO generation_unit (unit_id, time, value)
             SELECT unit_id, time, value
-            FROM generation_unit_copy g
+            FROM #{tmptable} g
             WHERE NOT EXISTS (
                   SELECT 1 FROM generation_unit g2
                   WHERE g.unit_id=g2.unit_id AND g.time=g2.time AND g.value=g2.value AND
-                        time BETWEEN (SELECT MIN(time) FROM generation_unit_copy) AND (SELECT MAX(time) FROM generation_unit_copy)
+                        time BETWEEN (SELECT MIN(time) FROM #{tmptable}) AND (SELECT MAX(time) FROM #{tmptable})
             )
             ON CONFLICT (unit_id, time)
               DO UPDATE set value = EXCLUDED.value
           SQL
           updated_rows = r.cmd_tuples
-          conn.execute "DROP TABLE generation_unit_copy"
+          conn.drop_table tmptable
         else
           data.each_slice(1_000_000) do |data2|
             r = ::GenerationUnit.upsert_all(data2)
