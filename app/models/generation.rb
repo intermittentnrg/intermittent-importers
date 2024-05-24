@@ -61,7 +61,7 @@ class Generation < ActiveRecord::Base
           pt.name <> 'solar_rooftop' AND
           pt.name NOT LIKE 'battery%' AND
           pt.name NOT LIKE 'hydro%' AND
-          g.time BETWEEN '#{from}' AND '#{to}' AND #{where}
+          g.time >= '#{from}' AND g.time < '#{to}' AND #{where}
         GROUP BY 1,2,3
         ON CONFLICT (area_id, production_type_id, time) DO UPDATE SET
           price = EXCLUDED.price,
