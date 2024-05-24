@@ -43,6 +43,11 @@ module AemoNemMms
     include Base
     URL = URL_BASE + "PUBLIC_DVD_DISPATCHREGIONSUM_%Y%m010000.zip"
   end
+  class InterconnectorRes < ::AemoNem::Dispatch
+    include SemanticLogger::Loggable
+    include Base
+    URL = URL_BASE + "PUBLIC_DVD_DISPATCHINTERCONNECTORRES_%Y%m010000.zip"
+  end
 
   class Scada < ::AemoNem::Scada
     include SemanticLogger::Loggable
