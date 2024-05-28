@@ -23,7 +23,7 @@ when 'cloud'
   SemanticLogger.add_appender(
     appender: :http,
     url:      ENV['ES_URL'],
-    read_timeout: 10
+    read_timeout: 60
   )
 when 'test'
   # nothing
