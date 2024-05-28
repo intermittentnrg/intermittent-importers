@@ -215,7 +215,9 @@ module Out2
       r = nil
       if data.present?
         start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-        r = GenerationUnitCapacity.upsert_all(data)
+        data.each_slice(100_000) do |data2|
+          r = GenerationUnitCapacity.upsert_all(data2)
+        end
         duration = 1_000.0 * (Process.clock_gettime(Process::CLOCK_MONOTONIC) - start)
         logger.measure_info("updated #{r.try :length} out of #{data.length} rows for range #{from} - #{to}", duration:)
       end
