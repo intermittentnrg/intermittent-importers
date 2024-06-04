@@ -18,14 +18,17 @@ class Ons
     end
   end
 
+  MAX_RUNTIME = 15.minutes.to_i
   def self.each
     queue_url = ENV['ONS_QUEUE_URL']
     sqs = Aws::SQS::Client.new(region: 'sa-east-1')
     receipt_handles = []
+    start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     loop do
       result = sqs.receive_message({
         queue_url: queue_url,
         max_number_of_messages: 10,
+        visibility_timeout: MAX_RUNTIME,
         wait_time_seconds: 0 # Do not wait to check for the message.
       })
       result.messages.each do |message|
@@ -34,6 +37,11 @@ class Ons
 
         receipt_handles << message.receipt_handle
       end
+
+      # FIXME Prevent long runs.
+      # If it runs for more than 10 mins already processed messages can become visible again.
+      break if (Process.clock_gettime(Process::CLOCK_MONOTONIC) - start) >= MAX_RUNTIME
+
       break if result.messages.length <10
     end
     i=0
