@@ -400,7 +400,6 @@ module AemoWem
     end
 
     def process_rows(all)
-      area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
       all.shift
       r = all.map do |row|
         #Trading Date
@@ -410,7 +409,7 @@ module AemoWem
         #Estimated DPV Generation (MW)
         value = row[3].to_f*1000
         #Extracted At
-        {time:, area_id:, production_type: 'solar_rooftop', value:}
+        {time:, country: 'WEM', production_type: 'solar_rooftop', value:}
       end
       #require 'pry' ; binding.pry
 
@@ -442,7 +441,6 @@ module AemoWem
     end
 
     def process_rows(all)
-      area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
       r = []
       all.shift
       all.each do |row|
@@ -453,7 +451,7 @@ module AemoWem
         value = row[2].to_f*1000
         #Operational Demand (MW)
         #Extracted At
-        r << {time:, area_id:, production_type: 'solar_rooftop', value:}
+        r << {time:, country: 'WEM', production_type: 'solar_rooftop', value:}
       end
       @from = r.first[:time]
       @to = r.last[:time]

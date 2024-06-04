@@ -5,25 +5,23 @@ module Out2
   class Generation < Base
     include SemanticLogger::Loggable
 
+    @@apts = {}
     def self.run(data, from, to, source_id)
       raise unless data
       raise unless from && to
-      areas = {}
-      production_types = {}
-      apts = {}
       data.each do |p|
-        area_id = p.delete(:area_id)
-        area_id ||= (areas[p[:country]] ||= ::Area.where(source: source_id, code: p[:country]).pluck(:id).first) if p[:country]
-        raise p.inspect unless area_id
-        pt_id = (production_types[p[:production_type]] ||= ::ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
-        unless pt_id
-          raise p.inspect
-        end
-        apt_id = apts[[area_id, pt_id]] ||= AreasProductionType.where(source_area_id: area_id, production_type_id: pt_id).pluck(:id).first
+        raise :area_id if p[:area_id]
+        raise :production_type_id if p[:production_type_id]
+        k = [source_id, p[:country], p[:production_type]]
+        apt_id = @@apts[k] ||= AreasProductionType.joins(:source_area, :production_type).where(source_area: {source: source_id, code: p[:country]}, production_type: {name: p[:production_type]}).pluck(:id).first
         unless apt_id
           logger.warn("no apt_id for area_id #{area_id} pt_id #{pt_id}")
+          area_id = ::Area.where(source: source_id, code: p[:country]).pluck(:id).first
+          pt_id = ::ProductionType.where(name: p[:production_type]).pluck(:id).first
+          raise p.inspect unless area_id
+          raise p.inspect unless pt_id
           apt = AreasProductionType.create!(area_id:, source_area_id: area_id, production_type_id: pt_id)
-          apts[[area_id, pt_id]] = apt_id = apt.id
+          @@apts[k] = apt_id = apt.id
         end
         p[:areas_production_type_id] = apt_id
         p.delete :production_type
@@ -142,11 +140,12 @@ module Out2
   class Load < Base
     include SemanticLogger::Loggable
 
+    @@areas = {}
     def self.run(data, from, to, source_id)
       raise unless data
-      areas = {}
       data.each do |p|
-        p[:area_id] = (areas[p[:country]] ||= ::Area.where(source: source_id, code: p[:country]).pluck(:id).first) if p[:country]
+        k = [source_id, p[:country]]
+        p[:area_id] = (@@areas[k] ||= ::Area.where(source: source_id, code: p[:country]).pluck(:id).first) if p[:country]
         p.delete :country
       end
 
@@ -227,14 +226,16 @@ module Out2
   class Transmission
     include SemanticLogger::Loggable
 
+    @@areas = {}
     def self.run(data, from, to, source_id)
       #raise unless @from && @to
-      areas = {}
       #require 'pry' ;binding.pry
 
       data.each do |p|
-        p[:from_area_id] ||= (areas[p[:from_area]] ||= ::Area.where(source: source_id, code: p[:from_area]).pluck(:id).first)
-        p[:to_area_id] ||= (areas[p[:to_area]] ||= ::Area.where(source: source_id, code: p[:to_area]).pluck(:id).first)
+        kfrom = [source_id, p[:from_area]]
+        kto = [source_id, p[:to_area]]
+        p[:from_area_id] ||= (@@areas[kfrom] ||= ::Area.where(source: source_id, code: p[:from_area]).pluck(:id).first)
+        p[:to_area_id] ||= (@@areas[kto] ||= ::Area.where(source: source_id, code: p[:to_area]).pluck(:id).first)
         # unless p[:to_area_id] && p[:to_area]
         #   logger.warn("Creating area #{p[:to_area]}")
         #   a = ::Area.create!(source: source_id, code: p[:to_area], type: 'country', region: nil, enabled: false)

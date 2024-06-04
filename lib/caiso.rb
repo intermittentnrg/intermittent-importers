@@ -111,7 +111,7 @@ module Caiso
     end
 
     def process
-      area_id = from_area_id = Area.where(source: self.class.source_id, code: 'CAISO').pluck(:id).first
+      from_area_id = Area.where(source: self.class.source_id, code: 'CAISO').pluck(:id).first
       to_area_id = Area.where(source: self.class.source_id, code: 'other').pluck(:id).first
 
       fetch
@@ -142,7 +142,7 @@ module Caiso
               time:,
               production_type:,
               value:,
-              area_id:
+              country: 'CAISO'
             }
           end
         end
