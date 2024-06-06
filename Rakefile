@@ -81,12 +81,11 @@ end
 
 namespace :elexon do
   desc "Run refresh tasks"
-  task all: [:generation, :fuelinst, :load, :unit, :interfuelhh]
-  pump_task :generation, Elexon::Generation
+  task all: [:fuelinst, :load]
   pump_task :fuelinst, Elexon::Fuelinst
-  pump_task :interfuelhh, Elexon::Interfuelhh
   pump_task :load, Elexon::Load
-  pump_task :unit, Elexon::Unit
+  loop_task :unit, Elexon::Unit
+  pump_task :generation, Elexon::Generation
 end
 
 pump_task :nationalgrideso, NationalGridEso::DemandLive

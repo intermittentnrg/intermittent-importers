@@ -44,28 +44,6 @@ module Out
   end
 
   module Unit
-    def self.included(klass)
-      klass.extend(ClassMethods)
-    end
-
-    module ClassMethods
-      def self.refresh_to
-        DateTime.now
-      end
-      def parsers_each
-        from =::GenerationUnit.joins(:unit => :area).where("area.source" => self.source_id).where("time > ?", 2.months.ago).maximum(:time)
-        from = from.to_datetime
-        if [::Elexon::Unit].include? self
-          (from..refresh_to).each do |date|
-            yield self.new(date)
-          rescue EmptyError
-            logger.warn "Empty response #{date}"
-          end
-        else
-          raise
-        end
-      end
-    end
     def process
       ::Out2::Unit.run(points, @from, @to, self.class.source_id)
       done!
