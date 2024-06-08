@@ -2,7 +2,8 @@ class Validate
   include SemanticLogger::Loggable
 
   RULES = YAML.load_file("validate.yaml").with_indifferent_access
-  def self.validate_generation(points, source = nil)
+  def self.validate_generation(points, source)
+    return points unless RULES[source]
     areas = {}
 
     logger.benchmark_info('validate generation') do
@@ -10,17 +11,14 @@ class Validate
         area_where = Area
         area_where = area_where.where(source:) if source
         if p[:country]
-          area = areas[p[:country]] ||= area_where.find_by(code: p[:country])
-        elsif p[:area_id]
-          area = areas[p[:area_id]] ||= area_where.find(p[:area_id])
+          area = areas[p[:country]] ||= area_where.find_by(internal_id: p[:country])
         else
           raise p.inspect
         end
+        raise p.inspect unless area
 
-        rule = RULES[area.region]["#{area.code}/#{source}"].try(:[], p[:production_type]) || \
-               RULES[area.region][area.code].try(:[], p[:production_type]) || \
-               {}
-        rule_all = RULES[area.region]['all'].try(:[], p[:production_type]) || {}
+        rule = RULES[source][area.code].try(:[], p[:production_type]) || {}
+        rule_all = RULES[source]['all'].try(:[], p[:production_type]) || {}
 
         min = rule[:min] || rule_all[:min]
         max = rule[:max] || rule_all[:max]
@@ -35,7 +33,8 @@ class Validate
     points
   end
 
-  def self.validate_load(points, source = nil)
+  def self.validate_load(points, source)
+    return points unless RULES[source]
     areas = {}
 
     logger.benchmark_info('validate load') do
@@ -43,15 +42,16 @@ class Validate
         area_where = Area
         area_where = area_where.where(source:) if source
         if p[:country]
-          area = areas[p[:country]] ||= area_where.find_by(code: p[:country])
-        else
+          area = areas[p[:country]] ||= area_where.find_by(internal_id: p[:country])
+        elsif p[:area_id]
           area = areas[p[:area_id]] ||= area_where.find p[:area_id]
+        else
+          raise p.inspect
         end
+        raise p.inspect unless area
 
-        rule = RULES[area.region]["#{area.code}/#{area.source}"].try(:[], :load) || \
-               RULES[area.region][area.code].try(:[], :load) || \
-               {}
-        rule_all = RULES[area.region]['all'].try(:[], :load) || {}
+        rule = RULES[source][area.code].try(:[], :load) || {}
+        rule_all = RULES[source]['all'].try(:[], :load) || {}
 
         min = rule[:min] || rule_all[:min]
         max = rule[:max] || rule_all[:max]
@@ -75,19 +75,13 @@ class Validate
   end
 
   def self.validate_data(delete=false, filters = [])
-    RULES.each do |region, areas|
+    RULES.each do |source, areas|
       areas.each do |area_code, production_types|
-        area_code = area_code.split(/\//)
-        if area_code[1]
-          area = Area.find_by(region: region, code: area_code, source: area_code[1], enabled: true)
-        else
-          area = Area.find_by(region: region, code: area_code, enabled: true) if area_code[0] != 'all'
-        end
-        area_code = area_code[0]
+        area = Area.find_by(source: area_code, code: area_code, enabled: true)
 
         production_types.each do |production_type_name, rules|
           next unless filters.empty? || filters.any? do |filter|
-            "#{region}/#{area_code}/#{production_type_name}".include? filter
+            "#{source}/#{area_code}/#{production_type_name}".include? filter
           end
           if production_type_name == "load"
             query = Load

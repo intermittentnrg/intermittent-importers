@@ -1,3 +1,10 @@
+Copenhagen:
+  id: 5
+  point: !ruby/struct:ActiveRecord::Point
+    x: 55.6759
+    y: 12.5655
+  enabled: true
+  name: Copenhagen
 Luleå:
   id: 2
   point: !ruby/struct:ActiveRecord::Point

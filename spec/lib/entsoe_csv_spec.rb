@@ -20,6 +20,20 @@ RSpec.describe EntsoeCsv::GenerationCSV do
   end
 end
 
+RSpec.describe EntsoeCsv::LoadCSV do
+  subject { EntsoeCsv::LoadCSV }
+  let(:body) do
+    <<-CSV
+DateTime	ResolutionCode	AreaCode	AreaTypeCode	AreaName	MapCode	TotalLoadValue	UpdateTime
+2024-05-22 01:00:00.000	PT15M	10Y1001A1001A83F	CTY	DE CTY	DE	41454.89	2024-05-23 02:01:28.028
+    CSV
+  end
+  it do
+    expect(Load).to receive(:upsert_all)
+    subject.new(StringIO.new(body), '2024_05_ActualTotalLoad_6.1.A.csv', Time.new(2024,5,2)).process
+  end
+end
+
 RSpec.describe EntsoeCsv::PriceCSV do
   subject { EntsoeCsv::PriceCSV }
   let(:body) do

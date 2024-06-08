@@ -13,7 +13,7 @@ module Out2
         raise :area_id if p[:area_id]
         raise :production_type_id if p[:production_type_id]
         k = [source_id, p[:country], p[:production_type]]
-        apt_id = @@apts[k] ||= AreasProductionType.joins(:source_area, :production_type).where(source_area: {source: source_id, code: p[:country]}, production_type: {name: p[:production_type]}).pluck(:id).first
+        apt_id = @@apts[k] ||= AreasProductionType.joins(:source_area, :production_type).where(source_area: {source: source_id, internal_id: p[:country]}, production_type: {name: p[:production_type]}).pluck(:id).first
         unless apt_id
           logger.warn("no apt_id for area_id #{area_id} pt_id #{pt_id}")
           area_id = ::Area.where(source: source_id, code: p[:country]).pluck(:id).first

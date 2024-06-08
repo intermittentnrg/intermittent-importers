@@ -145,7 +145,7 @@ module EntsoeCsv
           time = parse_time(row[0])
           #ResolutionCode
           #AreaCode
-          area_id = parse_area(row[2])
+          country = row[2]
           #AreaTypeCode
           #AreaName
           area_name = row[4]
@@ -159,16 +159,16 @@ module EntsoeCsv
 
           #area_code = row[:area_code]
 
-          k = [time,area_id,production_type]
+          k = [time,country,production_type]
           if r[k] && r[k][:value] != value
             logger.warn("#{area_name} different values #{r[k][:value]} != #{value}")
           end
-          r[k] = {time:, area_id:, production_type:, value:}
+          r[k] = {time:, country:, production_type:, value:}
         end
       end
       #require 'pry';binding.pry
 
-      Validate.validate_generation(r.values)
+      Validate.validate_generation(r.values, self.class.source_id)
     end
   end
 
@@ -279,7 +279,7 @@ module EntsoeCsv
       end
       #require 'pry' ; binding.pry
 
-      Validate::validate_load(r.values)
+      Validate::validate_load(r.values, self.class.source_id)
     end
   end
 

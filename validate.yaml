@@ -1,4 +1,4 @@
-europe:
+entsoe:
   all:
     load:
       min: 1000
@@ -35,12 +35,6 @@ europe:
   FR:
     nuclear:
       min: 15000000
-  GB/elexon:
-    load:
-      min: 10000000
-    nuclear:
-      min: 2000000
-      max: 9000000
   #  min: 10000000
   #FR:
   #  nuclear:
@@ -57,7 +51,18 @@ europe:
 #  XK:
 #    load:
 #      max: 2000000
-usa:
+elexon:
+  GB:
+    load:
+      min: 10000000
+    nuclear:
+      min: 2000000
+      max: 9000000
+caiso:
+  CAISO:
+    load:
+      min: 1000
+eia:
   all:
     load:
       min: 1000

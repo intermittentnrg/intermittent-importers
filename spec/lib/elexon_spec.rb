@@ -11,7 +11,7 @@ RSpec.describe Elexon::Generation do
     let(:current_time) { Time.new(2023,1,1) }
     let(:datapoint_time) { Time.new(2023,1,1) }
     before do
-      areas = Area.find_by! code: 'GB', source: 'elexon'
+      areas = Area.find_by! internal_id: 'GB', source: 'elexon'
       production_type = ProductionType.find_by! name: 'wind'
       apt = areas.areas_production_type.find_by!(production_type:)
       apt.generation.create(time: datapoint_time, value: 1000)

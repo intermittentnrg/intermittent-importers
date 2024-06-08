@@ -112,7 +112,7 @@ module Eia
       end
       #require 'pry' ; binding.pry
 
-      Validate.validate_load(r)
+      Validate.validate_load(r, self.class.source_id)
     end
   end
 
@@ -214,7 +214,7 @@ module Eia
       end
       #require 'pry' ; binding.pry
 
-      Validate.validate_generation(r.values)
+      Validate.validate_generation(r.values, self.class.source_id)
     end
   end
   class Interchange < Base

@@ -149,7 +149,8 @@ module Caiso
       end
       #require 'pry' ; binding.pry
 
-      ::Out2::Generation.run(Validate.validate_generation(r_gen), @from, @to, self.class.source_id)
+      r_gen = Validate.validate_generation(r_gen, self.class.source_id)
+      ::Out2::Generation.run(r_gen, @from, @to, self.class.source_id)
       ::Out2::Transmission.run(r_trans, @from, @to, self.class.source_id)
     end
   end
@@ -195,7 +196,7 @@ module Caiso
       end
       #require 'pry' ; binding.pry
 
-      Validate::validate_load(r)
+      Validate::validate_load(r, self.class.source_id)
     end
   end
 end

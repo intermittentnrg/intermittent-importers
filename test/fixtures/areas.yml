@@ -6,7 +6,7 @@ entsoe_AL:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: AL
   location_id:
   price_area_id:
 entsoe_AM-CTY:
@@ -28,7 +28,7 @@ entsoe_AT:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: AT
   location_id:
   price_area_id:
 entsoe_AZ-CTY:
@@ -50,7 +50,7 @@ entsoe_BA:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: BA
   location_id:
   price_area_id:
 entsoe_BE:
@@ -61,7 +61,7 @@ entsoe_BE:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: BE
   location_id:
   price_area_id:
 entsoe_BG:
@@ -72,7 +72,7 @@ entsoe_BG:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: BG
   location_id:
   price_area_id:
 entsoe_BY:
@@ -105,7 +105,7 @@ entsoe_CH:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: CH
   location_id:
   price_area_id:
 entsoe_CY:
@@ -116,7 +116,7 @@ entsoe_CY:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: CY
   location_id:
   price_area_id:
 entsoe_CZ:
@@ -127,7 +127,7 @@ entsoe_CZ:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: CZ
   location_id:
   price_area_id:
 entsoe_DE:
@@ -138,7 +138,7 @@ entsoe_DE:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: DE
   location_id:
   price_area_id: 52
 entsoe_DE-AT-LU:
@@ -172,7 +172,7 @@ entsoe_DK:
   region: europe
   type: country
   electricitymaps_id:
-  location_id:
+  location_id: 5
   price_area_id:
 entsoe_DK1:
   id: 53
@@ -204,7 +204,7 @@ entsoe_EE:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: EE
   location_id:
   price_area_id:
 entsoe_ES:
@@ -215,7 +215,7 @@ entsoe_ES:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: ES
   location_id:
   price_area_id:
 entsoe_FI:
@@ -237,7 +237,7 @@ entsoe_FR:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: FR
   location_id:
   price_area_id:
 entsoe_GB:
@@ -303,7 +303,7 @@ entsoe_GE:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: GE
   location_id:
   price_area_id:
 entsoe_GR:
@@ -314,7 +314,7 @@ entsoe_GR:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: GR
   location_id:
   price_area_id:
 entsoe_HR:
@@ -325,7 +325,7 @@ entsoe_HR:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: HR
   location_id:
   price_area_id:
 entsoe_HU:
@@ -336,7 +336,7 @@ entsoe_HU:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: HU
   location_id:
   price_area_id:
 entsoe_IE:
@@ -347,7 +347,7 @@ entsoe_IE:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: IE
   location_id:
   price_area_id:
 entsoe_IE(SEM):
@@ -589,7 +589,7 @@ entsoe_LT:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: LT
   location_id:
   price_area_id:
 entsoe_LU:
@@ -600,7 +600,7 @@ entsoe_LU:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: LU
   location_id:
   price_area_id:
 entsoe_LV:
@@ -611,7 +611,7 @@ entsoe_LV:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: LV
   location_id:
   price_area_id:
 entsoe_MD:
@@ -622,7 +622,7 @@ entsoe_MD:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: MD
   location_id:
   price_area_id:
 entsoe_ME:
@@ -633,7 +633,7 @@ entsoe_ME:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: ME
   location_id:
   price_area_id:
 entsoe_MK:
@@ -644,7 +644,7 @@ entsoe_MK:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: MK
   location_id:
   price_area_id:
 entsoe_MT:
@@ -655,7 +655,7 @@ entsoe_MT:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: MT
   location_id:
   price_area_id:
 entsoe_NL:
@@ -666,7 +666,7 @@ entsoe_NL:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: NL
   location_id:
   price_area_id:
 entsoe_NO:
@@ -754,7 +754,7 @@ entsoe_PL:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: PL
   location_id:
   price_area_id:
 entsoe_PT:
@@ -765,7 +765,7 @@ entsoe_PT:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: PT
   location_id:
   price_area_id:
 entsoe_RO:
@@ -776,7 +776,7 @@ entsoe_RO:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: RO
   location_id:
   price_area_id:
 entsoe_RS:
@@ -787,7 +787,7 @@ entsoe_RS:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: RS
   location_id:
   price_area_id:
 entsoe_RU:
@@ -886,7 +886,7 @@ entsoe_SI:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: SI
   location_id:
   price_area_id:
 entsoe_SK:
@@ -897,7 +897,7 @@ entsoe_SK:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: SK
   location_id:
   price_area_id:
 entsoe_TR:
@@ -908,7 +908,7 @@ entsoe_TR:
   enabled: true
   region: europe
   type: zone
-  electricitymaps_id:
+  electricitymaps_id: TR
   location_id:
   price_area_id:
 entsoe_UA:
@@ -919,7 +919,7 @@ entsoe_UA:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: UA
   location_id:
   price_area_id:
 entsoe_UA-BEI:
@@ -963,13 +963,13 @@ entsoe_XK:
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: XK
   location_id:
   price_area_id:
 elexon_BE:
   id: 332
   code: BE
-  internal_id:
+  internal_id: BE
   source: elexon
   enabled: false
   region: europe
@@ -980,7 +980,7 @@ elexon_BE:
 elexon_DK:
   id: 333
   code: DK
-  internal_id:
+  internal_id: DK
   source: elexon
   enabled: false
   region: europe
@@ -991,7 +991,7 @@ elexon_DK:
 elexon_FR:
   id: 334
   code: FR
-  internal_id:
+  internal_id: FR
   source: elexon
   enabled: false
   region: europe
@@ -1002,18 +1002,18 @@ elexon_FR:
 elexon_GB:
   id: 260
   code: GB
-  internal_id:
+  internal_id: GB
   source: elexon
   enabled: true
   region: europe
   type: country
-  electricitymaps_id:
+  electricitymaps_id: GB
   location_id:
   price_area_id:
 elexon_GB_B1620:
   id: 37
   code: GB_B1620
-  internal_id:
+  internal_id: GB_B1620
   source: elexon
   enabled: false
   region: europe
@@ -1024,7 +1024,7 @@ elexon_GB_B1620:
 elexon_GB_B1630:
   id: 259
   code: GB_B1630
-  internal_id:
+  internal_id: GB_B1630
   source: elexon
   enabled: false
   region: europe
@@ -1035,7 +1035,7 @@ elexon_GB_B1630:
 elexon_IE:
   id: 335
   code: IE
-  internal_id:
+  internal_id: IE
   source: elexon
   enabled: false
   region: europe
@@ -1046,7 +1046,7 @@ elexon_IE:
 elexon_NL:
   id: 336
   code: NL
-  internal_id:
+  internal_id: NL
   source: elexon
   enabled: false
   region: europe
@@ -1057,7 +1057,7 @@ elexon_NL:
 elexon_NO:
   id: 337
   code: 'NO'
-  internal_id:
+  internal_id: 'NO'
   source: elexon
   enabled: false
   region: europe
@@ -1068,7 +1068,7 @@ elexon_NO:
 eirgrid_IE:
   id: 38
   code: IE
-  internal_id:
+  internal_id: IE
   source: eirgrid
   enabled: false
   region: europe
@@ -1079,7 +1079,7 @@ eirgrid_IE:
 nordpool_sek_SE1:
   id: 55
   code: SE1
-  internal_id:
+  internal_id: SE1
   source: nordpool_sek
   enabled: false
   region: europe
@@ -1090,7 +1090,7 @@ nordpool_sek_SE1:
 nordpool_sek_SE2:
   id: 56
   code: SE2
-  internal_id:
+  internal_id: SE2
   source: nordpool_sek
   enabled: false
   region: europe
@@ -1101,7 +1101,7 @@ nordpool_sek_SE2:
 nordpool_sek_SE3:
   id: 57
   code: SE3
-  internal_id:
+  internal_id: SE3
   source: nordpool_sek
   enabled: false
   region: europe
@@ -1112,7 +1112,7 @@ nordpool_sek_SE3:
 nordpool_sek_SE4:
   id: 58
   code: SE4
-  internal_id:
+  internal_id: SE4
   source: nordpool_sek
   enabled: false
   region: europe
@@ -1123,7 +1123,7 @@ nordpool_sek_SE4:
 nordpool_DE:
   id: 60
   code: DE
-  internal_id:
+  internal_id: DE
   source: nordpool
   enabled: false
   region: europe
@@ -1134,7 +1134,7 @@ nordpool_DE:
 nordpool_DK1:
   id: 73
   code: DK1
-  internal_id:
+  internal_id: DK1
   source: nordpool
   enabled: false
   region: europe
@@ -1145,7 +1145,7 @@ nordpool_DK1:
 nordpool_DK1A:
   id: 63
   code: DK1A
-  internal_id:
+  internal_id: DK1A
   source: nordpool
   enabled: false
   region: europe
@@ -1156,7 +1156,7 @@ nordpool_DK1A:
 nordpool_DK2:
   id: 65
   code: DK2
-  internal_id:
+  internal_id: DK2
   source: nordpool
   enabled: false
   region: europe
@@ -1167,7 +1167,7 @@ nordpool_DK2:
 nordpool_EE:
   id: 77
   code: EE
-  internal_id:
+  internal_id: EE
   source: nordpool
   enabled: false
   region: europe
@@ -1178,7 +1178,7 @@ nordpool_EE:
 nordpool_FI:
   id: 67
   code: FI
-  internal_id:
+  internal_id: FI
   source: nordpool
   enabled: false
   region: europe
@@ -1189,7 +1189,7 @@ nordpool_FI:
 nordpool_FRE:
   id: 78
   code: FRE
-  internal_id:
+  internal_id: FRE
   source: nordpool
   enabled: false
   region: europe
@@ -1200,7 +1200,7 @@ nordpool_FRE:
 nordpool_LT:
   id: 69
   code: LT
-  internal_id:
+  internal_id: LT
   source: nordpool
   enabled: false
   region: europe
@@ -1211,7 +1211,7 @@ nordpool_LT:
 nordpool_NO1:
   id: 64
   code: NO1
-  internal_id:
+  internal_id: NO1
   source: nordpool
   enabled: false
   region: europe
@@ -1222,7 +1222,7 @@ nordpool_NO1:
 nordpool_NO2:
   id: 88
   code: NO2
-  internal_id:
+  internal_id: NO2
   source: nordpool
   enabled: false
   region: europe
@@ -1233,7 +1233,7 @@ nordpool_NO2:
 nordpool_NO3:
   id: 71
   code: NO3
-  internal_id:
+  internal_id: NO3
   source: nordpool
   enabled: false
   region: europe
@@ -1244,7 +1244,7 @@ nordpool_NO3:
 nordpool_NO4:
   id: 70
   code: NO4
-  internal_id:
+  internal_id: NO4
   source: nordpool
   enabled: false
   region: europe
@@ -1255,7 +1255,7 @@ nordpool_NO4:
 nordpool_PL:
   id: 68
   code: PL
-  internal_id:
+  internal_id: PL
   source: nordpool
   enabled: false
   region: europe
@@ -1266,7 +1266,7 @@ nordpool_PL:
 nordpool_PLC:
   id: 72
   code: PLC
-  internal_id:
+  internal_id: PLC
   source: nordpool
   enabled: false
   region: europe
@@ -1277,7 +1277,7 @@ nordpool_PLC:
 nordpool_SE:
   id: 74
   code: SE
-  internal_id:
+  internal_id: SE
   source: nordpool
   enabled: false
   region: europe
@@ -1288,7 +1288,7 @@ nordpool_SE:
 nordpool_SE1:
   id: 66
   code: SE1
-  internal_id:
+  internal_id: SE1
   source: nordpool
   enabled: false
   region: europe
@@ -1299,7 +1299,7 @@ nordpool_SE1:
 nordpool_SE2:
   id: 59
   code: SE2
-  internal_id:
+  internal_id: SE2
   source: nordpool
   enabled: false
   region: europe
@@ -1310,7 +1310,7 @@ nordpool_SE2:
 nordpool_SE3:
   id: 62
   code: SE3
-  internal_id:
+  internal_id: SE3
   source: nordpool
   enabled: false
   region: europe
@@ -1321,7 +1321,7 @@ nordpool_SE3:
 nordpool_SE4:
   id: 61
   code: SE4
-  internal_id:
+  internal_id: SE4
   source: nordpool
   enabled: false
   region: europe
@@ -1332,7 +1332,7 @@ nordpool_SE4:
 ree_ES-CN-FVLZ:
   id: 89
   code: ES-CN-FVLZ
-  internal_id:
+  internal_id: ES-CN-FVLZ
   source: ree
   enabled: true
   region: canary_islands
@@ -1343,7 +1343,7 @@ ree_ES-CN-FVLZ:
 ieso_CA-MB:
   id: 328
   code: CA-MB
-  internal_id:
+  internal_id: CA-MB
   source: ieso
   enabled: true
   region: canada
@@ -1354,18 +1354,18 @@ ieso_CA-MB:
 ieso_CA-ON:
   id: 90
   code: CA-ON
-  internal_id:
+  internal_id: CA-ON
   source: ieso
   enabled: true
   region: canada
   type: region
-  electricitymaps_id:
+  electricitymaps_id: CA-ON
   location_id:
   price_area_id:
 ieso_CA-QC:
   id: 331
   code: CA-QC
-  internal_id:
+  internal_id: CA-QC
   source: ieso
   enabled: true
   region: canada
@@ -1376,7 +1376,7 @@ ieso_CA-QC:
 ieso_US-MISO:
   id: 329
   code: US-MISO
-  internal_id:
+  internal_id: US-MISO
   source: ieso
   enabled: true
   region: canada
@@ -1387,7 +1387,7 @@ ieso_US-MISO:
 ieso_US-NYISO:
   id: 330
   code: US-NYISO
-  internal_id:
+  internal_id: US-NYISO
   source: ieso
   enabled: true
   region: canada
@@ -1398,7 +1398,7 @@ ieso_US-NYISO:
 nyiso_NYISO:
   id: 91
   code: NYISO
-  internal_id:
+  internal_id: NYISO
   source: nyiso
   enabled: false
   region: usa
@@ -1409,18 +1409,18 @@ nyiso_NYISO:
 caiso_CAISO:
   id: 92
   code: CAISO
-  internal_id:
+  internal_id: CAISO
   source: caiso
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CAL-CISO
   location_id:
   price_area_id:
 caiso_other:
   id: 340
   code: other
-  internal_id:
+  internal_id: other
   source: caiso
   enabled: false
   region: usa
@@ -1436,7 +1436,7 @@ eia_AEC:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-SE-AEC
   location_id:
   price_area_id:
 eia_AECI:
@@ -1447,7 +1447,7 @@ eia_AECI:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-MIDW-AECI
   location_id:
   price_area_id:
 eia_AESO:
@@ -1469,7 +1469,7 @@ eia_AVA:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-AVA
   location_id:
   price_area_id:
 eia_AVRN:
@@ -1480,7 +1480,7 @@ eia_AVRN:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-AVRN
   location_id:
   price_area_id:
 eia_AZPS:
@@ -1491,7 +1491,7 @@ eia_AZPS:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-SW-AZPS
   location_id:
   price_area_id:
 eia_BANC:
@@ -1502,7 +1502,7 @@ eia_BANC:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CAL-BANC
   location_id:
   price_area_id:
 eia_BCHA:
@@ -1524,7 +1524,7 @@ eia_BPAT:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-BPAT
   location_id:
   price_area_id:
 eia_CAL:
@@ -1582,6 +1582,17 @@ eia_CENT:
   electricitymaps_id:
   location_id:
   price_area_id:
+eia_CFE:
+  id: 351
+  code: CFE
+  internal_id: CFE
+  source: eia
+  enabled: false
+  region: usa
+  type: balancing_authority
+  electricitymaps_id:
+  location_id:
+  price_area_id:
 eia_CHPD:
   id: 158
   code: CHPD
@@ -1590,7 +1601,7 @@ eia_CHPD:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-CHPD
   location_id:
   price_area_id:
 eia_CISO:
@@ -1601,7 +1612,7 @@ eia_CISO:
   enabled: false
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CAL-CISO
   location_id:
   price_area_id:
 eia_CPLE:
@@ -1612,7 +1623,7 @@ eia_CPLE:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CAR-CPLE
   location_id:
   price_area_id:
 eia_CPLW:
@@ -1623,7 +1634,7 @@ eia_CPLW:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CAR-CPLW
   location_id:
   price_area_id:
 eia_DEAA:
@@ -1645,7 +1656,7 @@ eia_DOPD:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-DOPD
   location_id:
   price_area_id:
 eia_DUK:
@@ -1656,7 +1667,7 @@ eia_DUK:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CAR-DUK
   location_id:
   price_area_id:
 eia_EEI:
@@ -1678,7 +1689,7 @@ eia_EPE:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-SW-EPE
   location_id:
   price_area_id:
 eia_ERCO:
@@ -1689,7 +1700,7 @@ eia_ERCO:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-TEX-ERCO
   location_id:
   price_area_id:
 eia_FLA:
@@ -1711,7 +1722,7 @@ eia_FMPP:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-FLA-FMPP
   location_id:
   price_area_id:
 eia_FPC:
@@ -1722,7 +1733,7 @@ eia_FPC:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-FLA-FPC
   location_id:
   price_area_id:
 eia_FPL:
@@ -1733,7 +1744,7 @@ eia_FPL:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-FLA-FPL
   location_id:
   price_area_id:
 eia_GCPD:
@@ -1744,7 +1755,7 @@ eia_GCPD:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-GCPD
   location_id:
   price_area_id:
 eia_GLHB:
@@ -1766,7 +1777,7 @@ eia_GRID:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-GRID
   location_id:
   price_area_id:
 eia_GRIF:
@@ -1777,7 +1788,18 @@ eia_GRIF:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-SW-GRIF
+  location_id:
+  price_area_id:
+eia_GRMA:
+  id: 352
+  code: GRMA
+  internal_id: GRMA
+  source: eia
+  enabled: false
+  region: usa
+  type: balancing_authority
+  electricitymaps_id: US-SW-GRMA
   location_id:
   price_area_id:
 eia_GVL:
@@ -1788,7 +1810,7 @@ eia_GVL:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-FLA-GVL
   location_id:
   price_area_id:
 eia_GWA:
@@ -1799,7 +1821,7 @@ eia_GWA:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-GWA
   location_id:
   price_area_id:
 eia_HGMA:
@@ -1810,7 +1832,7 @@ eia_HGMA:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-SW-HGMA
   location_id:
   price_area_id:
 eia_HQT:
@@ -1832,7 +1854,7 @@ eia_HST:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-FLA-HST
   location_id:
   price_area_id:
 eia_IESO:
@@ -1854,7 +1876,7 @@ eia_IID:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CAL-IID
   location_id:
   price_area_id:
 eia_IPCO:
@@ -1865,7 +1887,7 @@ eia_IPCO:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-IPCO
   location_id:
   price_area_id:
 eia_ISNE:
@@ -1876,7 +1898,7 @@ eia_ISNE:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NE-ISNE
   location_id:
   price_area_id:
 eia_JEA:
@@ -1887,7 +1909,7 @@ eia_JEA:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-FLA-JEA
   location_id:
   price_area_id:
 eia_LDWP:
@@ -1898,7 +1920,7 @@ eia_LDWP:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CAL-LDWP
   location_id:
   price_area_id:
 eia_LGEE:
@@ -1909,7 +1931,7 @@ eia_LGEE:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-MIDW-LGEE
   location_id:
   price_area_id:
 eia_MEX:
@@ -1964,7 +1986,7 @@ eia_MISO:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-MIDW-MISO
   location_id:
   price_area_id:
 eia_NBSO:
@@ -1997,7 +2019,7 @@ eia_NEVP:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-NEVP
   location_id:
   price_area_id:
 eia_NSB:
@@ -2008,7 +2030,7 @@ eia_NSB:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-FLA-NSB
   location_id:
   price_area_id:
 eia_NW:
@@ -2030,7 +2052,7 @@ eia_NWMT:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-NWMT
   location_id:
   price_area_id:
 eia_NY:
@@ -2052,7 +2074,7 @@ eia_NYIS:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NY-NYIS
   location_id:
   price_area_id:
 eia_OVEC:
@@ -2074,7 +2096,7 @@ eia_PACE:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-PACE
   location_id:
   price_area_id:
 eia_PACW:
@@ -2085,7 +2107,7 @@ eia_PACW:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-PACW
   location_id:
   price_area_id:
 eia_PGE:
@@ -2096,7 +2118,7 @@ eia_PGE:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-PGE
   location_id:
   price_area_id:
 eia_PJM:
@@ -2107,7 +2129,7 @@ eia_PJM:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-MIDA-PJM
   location_id:
   price_area_id:
 eia_PNM:
@@ -2118,7 +2140,7 @@ eia_PNM:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-SW-PNM
   location_id:
   price_area_id:
 eia_PSCO:
@@ -2129,7 +2151,7 @@ eia_PSCO:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-PSCO
   location_id:
   price_area_id:
 eia_PSEI:
@@ -2140,7 +2162,7 @@ eia_PSEI:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-PSEI
   location_id:
   price_area_id:
 eia_SC:
@@ -2151,7 +2173,7 @@ eia_SC:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CAR-SC
   location_id:
   price_area_id:
 eia_SCEG:
@@ -2162,7 +2184,7 @@ eia_SCEG:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CAR-SCEG
   location_id:
   price_area_id:
 eia_SCL:
@@ -2173,7 +2195,7 @@ eia_SCL:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-SCL
   location_id:
   price_area_id:
 eia_SE:
@@ -2195,7 +2217,7 @@ eia_SEC:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-FLA-SEC
   location_id:
   price_area_id:
 eia_SEPA:
@@ -2206,7 +2228,7 @@ eia_SEPA:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-SE-SEPA
   location_id:
   price_area_id:
 eia_SOCO:
@@ -2217,7 +2239,7 @@ eia_SOCO:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-SE-SOCO
   location_id:
   price_area_id:
 eia_SPA:
@@ -2228,7 +2250,7 @@ eia_SPA:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CENT-SPA
   location_id:
   price_area_id:
 eia_SPC:
@@ -2250,7 +2272,7 @@ eia_SRP:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-SW-SRP
   location_id:
   price_area_id:
 eia_SW:
@@ -2272,7 +2294,7 @@ eia_SWPP:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CENT-SWPP
   location_id:
   price_area_id:
 eia_TAL:
@@ -2283,7 +2305,7 @@ eia_TAL:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-FLA-TAL
   location_id:
   price_area_id:
 eia_TEC:
@@ -2294,7 +2316,7 @@ eia_TEC:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-FLA-TEC
   location_id:
   price_area_id:
 eia_TEN:
@@ -2316,7 +2338,7 @@ eia_TEPC:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-SW-TEPC
   location_id:
   price_area_id:
 eia_TEX:
@@ -2338,7 +2360,7 @@ eia_TIDC:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CAL-TIDC
   location_id:
   price_area_id:
 eia_TPWR:
@@ -2349,7 +2371,7 @@ eia_TPWR:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-TPWR
   location_id:
   price_area_id:
 eia_TVA:
@@ -2360,7 +2382,7 @@ eia_TVA:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-TEN-TVA
   location_id:
   price_area_id:
 eia_US48:
@@ -2382,7 +2404,7 @@ eia_WACM:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-WACM
   location_id:
   price_area_id:
 eia_WALC:
@@ -2393,7 +2415,7 @@ eia_WALC:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-SW-WALC
   location_id:
   price_area_id:
 eia_WAUW:
@@ -2404,7 +2426,7 @@ eia_WAUW:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-WAUW
   location_id:
   price_area_id:
 eia_WWA:
@@ -2415,7 +2437,7 @@ eia_WWA:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-NW-WWA
   location_id:
   price_area_id:
 eia_YAD:
@@ -2426,13 +2448,13 @@ eia_YAD:
   enabled: true
   region: usa
   type: balancing_authority
-  electricitymaps_id:
+  electricitymaps_id: US-CAR-YAD
   location_id:
   price_area_id:
 opennem_NEM-NSW1:
   id: 251
   code: NEM-NSW1
-  internal_id:
+  internal_id: NEM-NSW1
   source: opennem
   enabled: false
   region: australia
@@ -2443,7 +2465,7 @@ opennem_NEM-NSW1:
 opennem_NEM-QLD1:
   id: 252
   code: NEM-QLD1
-  internal_id:
+  internal_id: NEM-QLD1
   source: opennem
   enabled: false
   region: australia
@@ -2454,7 +2476,7 @@ opennem_NEM-QLD1:
 opennem_NEM-SA1:
   id: 253
   code: NEM-SA1
-  internal_id:
+  internal_id: NEM-SA1
   source: opennem
   enabled: false
   region: australia
@@ -2465,7 +2487,7 @@ opennem_NEM-SA1:
 opennem_NEM-TAS1:
   id: 254
   code: NEM-TAS1
-  internal_id:
+  internal_id: NEM-TAS1
   source: opennem
   enabled: false
   region: australia
@@ -2476,7 +2498,7 @@ opennem_NEM-TAS1:
 opennem_NEM-VIC1:
   id: 255
   code: NEM-VIC1
-  internal_id:
+  internal_id: NEM-VIC1
   source: opennem
   enabled: false
   region: australia
@@ -2487,7 +2509,7 @@ opennem_NEM-VIC1:
 opennem_WEM-WEM:
   id: 256
   code: WEM-WEM
-  internal_id:
+  internal_id: WEM-WEM
   source: opennem
   enabled: false
   region: australia
@@ -2498,7 +2520,7 @@ opennem_WEM-WEM:
 nationalgrideso_GB:
   id: 258
   code: GB
-  internal_id:
+  internal_id: GB
   source: nationalgrideso
   enabled: false
   region: europe
@@ -2509,7 +2531,7 @@ nationalgrideso_GB:
 aeso_CA-AB:
   id: 261
   code: CA-AB
-  internal_id:
+  internal_id: CA-AB
   source: aeso
   enabled: false
   region: canada
@@ -2520,7 +2542,7 @@ aeso_CA-AB:
 hydroquebec_CA-QC:
   id: 262
   code: CA-QC
-  internal_id:
+  internal_id: CA-QC
   source: hydroquebec
   enabled: false
   region: canada
@@ -2531,7 +2553,7 @@ hydroquebec_CA-QC:
 nspower_CA-NS:
   id: 263
   code: CA-NS
-  internal_id:
+  internal_id: CA-NS
   source: nspower
   enabled: false
   region: canada
@@ -2542,7 +2564,7 @@ nspower_CA-NS:
 aemo_AU:
   id: 296
   code: AU
-  internal_id:
+  internal_id: AU
   source: aemo
   enabled: false
   region: australia
@@ -2553,7 +2575,7 @@ aemo_AU:
 aemo_NSW1:
   id: 287
   code: NSW1
-  internal_id:
+  internal_id: NSW1
   source: aemo
   enabled: true
   region: australia
@@ -2564,7 +2586,7 @@ aemo_NSW1:
 aemo_QLD1:
   id: 288
   code: QLD1
-  internal_id:
+  internal_id: QLD1
   source: aemo
   enabled: true
   region: australia
@@ -2575,7 +2597,7 @@ aemo_QLD1:
 aemo_SA1:
   id: 286
   code: SA1
-  internal_id:
+  internal_id: SA1
   source: aemo
   enabled: true
   region: australia
@@ -2586,7 +2608,7 @@ aemo_SA1:
 aemo_TAS1:
   id: 289
   code: TAS1
-  internal_id:
+  internal_id: TAS1
   source: aemo
   enabled: true
   region: australia
@@ -2597,7 +2619,7 @@ aemo_TAS1:
 aemo_VIC1:
   id: 290
   code: VIC1
-  internal_id:
+  internal_id: VIC1
   source: aemo
   enabled: true
   region: australia
@@ -2608,7 +2630,7 @@ aemo_VIC1:
 aemo_WEM:
   id: 321
   code: WEM
-  internal_id:
+  internal_id: WEM
   source: aemo
   enabled: true
   region: australia
@@ -2619,18 +2641,18 @@ aemo_WEM:
 tohoku-epco_tohoku:
   id: 322
   code: tohoku
-  internal_id:
+  internal_id: tohoku
   source: tohoku-epco
   enabled: true
   region: japan
   type: region
-  electricitymaps_id:
+  electricitymaps_id: JP-TH
   location_id:
   price_area_id:
 ercot_ERCOT:
   id: 323
   code: ERCOT
-  internal_id:
+  internal_id: ERCOT
   source: ercot
   enabled: false
   region: usa
@@ -2641,18 +2663,18 @@ ercot_ERCOT:
 eskom_ZA:
   id: 324
   code: ZA
-  internal_id:
+  internal_id: ZA
   source: eskom
   enabled: true
   region: south_africa
   type: country
-  electricitymaps_id:
+  electricitymaps_id: ZA
   location_id:
   price_area_id:
 aemo_cp_AU:
   id: 338
   code: AU
-  internal_id:
+  internal_id: AU
   source: aemo_cp
   enabled: false
   region: australia
@@ -2663,10 +2685,164 @@ aemo_cp_AU:
 taipower_TW:
   id: 339
   code: TW
-  internal_id:
+  internal_id: TW
   source: taipower
   enabled: true
   region: taiwan
+  type: country
+  electricitymaps_id: TW
+  location_id:
+  price_area_id:
+ons_AR:
+  id: 357
+  code: AR
+  internal_id: AR
+  source: ons
+  enabled: false
+  region: brazil
+  type: country
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+ons_BR-CS:
+  id: 354
+  code: BR-CS
+  internal_id: BR-CS
+  source: ons
+  enabled: true
+  region: brazil
+  type: region
+  electricitymaps_id: BR-CS
+  location_id:
+  price_area_id:
+ons_BR-N:
+  id: 355
+  code: BR-N
+  internal_id: BR-N
+  source: ons
+  enabled: true
+  region: brazil
+  type: region
+  electricitymaps_id: BR-N
+  location_id:
+  price_area_id:
+ons_BR-NE:
+  id: 356
+  code: BR-NE
+  internal_id: BR-NE
+  source: ons
+  enabled: true
+  region: brazil
+  type: region
+  electricitymaps_id: BR-NE
+  location_id:
+  price_area_id:
+ons_BR-S:
+  id: 353
+  code: BR-S
+  internal_id: BR-S
+  source: ons
+  enabled: true
+  region: brazil
+  type: region
+  electricitymaps_id: BR-S
+  location_id:
+  price_area_id:
+ons_PY:
+  id: 358
+  code: PY
+  internal_id: PY
+  source: ons
+  enabled: false
+  region: brazil
+  type: region
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+ons_UY:
+  id: 359
+  code: UY
+  internal_id: UY
+  source: ons
+  enabled: false
+  region: brazil
+  type: region
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+cammesa_AR:
+  id: 360
+  code: AR
+  internal_id: AR
+  source: cammesa
+  enabled: true
+  region: argentina
+  type: country
+  electricitymaps_id: AR
+  location_id:
+  price_area_id:
+cammesa_BOL:
+  id: 367
+  code: BOL
+  internal_id: BOL
+  source: cammesa
+  enabled: false
+  region: argentina
+  type: country
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+cammesa_BRA:
+  id: 364
+  code: BRA
+  internal_id: BRA
+  source: cammesa
+  enabled: false
+  region: argentina
+  type: country
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+cammesa_CHI:
+  id: 365
+  code: CHI
+  internal_id: CHI
+  source: cammesa
+  enabled: false
+  region: argentina
+  type: country
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+cammesa_PAR:
+  id: 366
+  code: PAR
+  internal_id: PAR
+  source: cammesa
+  enabled: false
+  region: argentina
+  type: country
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+cammesa_URU:
+  id: 363
+  code: URU
+  internal_id: URU
+  source: cammesa
+  enabled: false
+  region: argentina
+  type: country
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+cammesa_other:
+  id: 368
+  code: other
+  internal_id: other
+  source: cammesa
+  enabled: false
+  region: argentina
   type: country
   electricitymaps_id:
   location_id:
