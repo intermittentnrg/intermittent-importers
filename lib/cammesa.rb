@@ -100,7 +100,12 @@ module Cammesa
     URL_TIME_FORMAT = '%d-%m-%Y'
     def fetch
       response = @@faraday.get(URL, {desde: @date, hasta: @date})
-      FastJsonparser.parse(response.body, symbolize_keys: false)
+      r = FastJsonparser.parse(response.body, symbolize_keys: false)
+      if r.is_a?(Hash) && r['status'] == 'NOT_FOUND'
+        raise EmptyError
+      end
+
+      r
     end
 
     def parse_time(row)
