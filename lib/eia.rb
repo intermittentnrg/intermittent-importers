@@ -55,7 +55,7 @@ module Eia
       end
     end
 
-    def self.parsers_each
+    def self.each
       from = ::Load.joins(:area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
@@ -65,8 +65,6 @@ module Eia
     end
 
     def initialize(country: nil, from: nil, to: nil)
-      @from = from
-      @to = to + 1.hour
       query = {
         api_key: ENV['EIA_TOKEN'],
         frequency: 'hourly',
@@ -110,6 +108,8 @@ module Eia
           }
         end
       end
+      @from = r.min { |a,b| a[:time]<=>b[:time] }[:time]
+      @to = r.max { |a,b| a[:time]<=>b[:time] }[:time]
       #require 'pry' ; binding.pry
 
       Validate.validate_load(r, self.class.source_id)
@@ -146,7 +146,7 @@ module Eia
       end
     end
 
-    def self.parsers_each
+    def self.each
       from = ::Generation.joins(:areas_production_type => :area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
@@ -156,8 +156,6 @@ module Eia
     end
 
     def initialize(country: nil, from: nil, to: nil)
-      @from = from
-      @to = to + 1.hour
       query = {
         api_key: ENV['EIA_TOKEN'],
         frequency: 'hourly',
@@ -212,11 +210,14 @@ module Eia
           }
         end
       end
+      @from = r.values.min { |a,b| a[:time]<=>b[:time] }[:time]
+      @to = r.values.max { |a,b| a[:time]<=>b[:time] }[:time]
       #require 'pry' ; binding.pry
 
       Validate.validate_generation(r.values, self.class.source_id)
     end
   end
+
   class Interchange < Base
     include SemanticLogger::Loggable
     include Out::Transmission
@@ -246,7 +247,7 @@ module Eia
       end
     end
 
-    def self.parsers_each
+    def self.each
       from = ::Transmission.joins(:from_area).where("time > ?", 2.months.ago).where(from_area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
@@ -256,8 +257,6 @@ module Eia
     end
 
     def initialize(country: nil, from: nil, to: nil)
-      @from = from
-      @to = to + 1.hour
       query = {
         api_key: ENV['EIA_TOKEN'],
         frequency: 'hourly',
@@ -313,6 +312,8 @@ module Eia
           }
         end
       end
+      @from = r.values.min { |a,b| a[:time]<=>b[:time] }[:time]
+      @to = r.values.max { |a,b| a[:time]<=>b[:time] }[:time]
       #require 'pry' ; binding.pry
 
       r.values

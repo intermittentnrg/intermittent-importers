@@ -21,7 +21,7 @@ RSpec.describe Eia::Generation do
   describe :cli do
   end
 
-  describe :parsers_each do
+  describe :each do
     around(:example) { |ex| Timecop.freeze(current_time, &ex) }
     around(:example) { |ex| VCR.use_cassette('eia_generation_parsers_each', &ex) }
     let(:current_time) { Time.new(2023,1,1) }
@@ -35,7 +35,7 @@ RSpec.describe Eia::Generation do
 
     it do
       expect(::Generation).to receive(:upsert_all)
-      subject.parsers_each &:process
+      subject.each &:process
     end
   end
 end
@@ -46,7 +46,7 @@ RSpec.describe Eia::Load do
   describe :cli do
   end
 
-  describe :parsers_each do
+  describe :each do
     around(:example) { |ex| Timecop.freeze(current_time, &ex) }
     around(:example) { |ex| VCR.use_cassette('eia_load_parsers_each', &ex) }
     let(:current_time) { Time.new(2023,1,1) }
@@ -58,7 +58,7 @@ RSpec.describe Eia::Load do
 
     it do
       expect(::Load).to receive(:upsert_all)
-      subject.parsers_each &:process
+      subject.each &:process
     end
   end
 end
