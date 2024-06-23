@@ -164,10 +164,10 @@ module Eskom
         #r_tran << {from_country: 'ZA', to_country: 'other', time:, value:}
 
         # missing: Thermal_Gen_Excl_Pumping_and_SCO
-        value = row[map['Thermal Generation']].to_f*1000 -
-                row[map['Eskom OCGT SCO']].to_f*1000 -
-                row[map['Eskom Gas SCO']].to_f*1000 -
-                row[map['Hydro Water SCO']].to_f*1000 -
+        value = row[map['Thermal Generation']].to_f*1000 +
+                row[map['Eskom OCGT SCO']].to_f*1000 +
+                row[map['Eskom Gas SCO']].to_f*1000 +
+                row[map['Hydro Water SCO']].to_f*1000 +
                 row[map['Pumped Water SCO Pumping']].to_f*1000
         r_gen << {country: 'ZA', time:, production_type: 'fossil_coal', value:}
 
