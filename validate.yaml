@@ -106,6 +106,9 @@ eia:
   FPC:
     solar:
       max: 3000000
+  ISNE:
+    nuclear:
+      min: 1
   PACE:
     wind:
       max: 3000000
