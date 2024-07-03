@@ -122,3 +122,7 @@ eia:
     hydro:
       min: -10000000
       max: 10000000
+ons:
+  BR-CS:
+    nuclear:
+      max: 3000000
