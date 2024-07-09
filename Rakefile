@@ -81,7 +81,7 @@ end
 
 namespace :elexon do
   desc "Run refresh tasks"
-  task all: [:fuelinst, :load]
+  task all: [:fuelinst, :load, :unit]
   pump_task :fuelinst, Elexon::Fuelinst
   pump_task :load, Elexon::Load
   loop_task :unit, Elexon::Unit
