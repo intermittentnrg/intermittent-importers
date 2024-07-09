@@ -29,6 +29,7 @@ jobs:
           ENTSOE_PASSWORD: ${{ secrets.ENTSOE_PASSWORD }}
           ERCOT_PROXY_API_KEY: ${{ secrets.ERCOT_PROXY_API_KEY }}
           ONS_QUEUE_URL: ${{ secrets.ONS_QUEUE_URL }}
+          TAIPOWER_QUEUE_URL:  ${{ secrets.TAIPOWER_QUEUE_URL }}
           PGHOST: ${{ secrets.PGHOST }}
           PGPORT: ${{ secrets.PGPORT }}
           PGUSER: ${{ secrets.PGUSER }}
