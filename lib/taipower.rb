@@ -4,6 +4,7 @@ require 'fast_jsonparser'
 class Taipower
   include SemanticLogger::Loggable
 
+  TZ = TZInfo::Timezone.get('Asia/Taipei')
   def self.source_id
     'taipower'
   end
@@ -90,6 +91,7 @@ class Taipower
     end
 
     time = Time.strptime(json[''], '%Y-%m-%d %H:%M')
+    time = TZ.local_to_utc(time)
     @from = time
     @to = time + 10.minutes
     @r_gen = {}
