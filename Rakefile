@@ -145,14 +145,6 @@ end
 pump_task :ree, Ree::Generation
 
 desc "Run refresh tasks"
-task :aeso do |t|
-  SemanticLogger.tagged(task: t.to_s) do
-    Aeso::Generation.new.process
-  rescue
-    logger.error "Exception", $!
-  end
-end
-
 task :hydroquebec do |t|
   SemanticLogger.tagged(task: t.to_s) do
     HydroQuebec::Generation.new.process
@@ -170,6 +162,7 @@ end
 pump_task :tohoku, Tohoku::Juyo
 loop_task :ons, Ons
 loop_task :taipower, Taipower
+loop_task :aeso, Aeso
 
 namespace :cammesa do
   task all: [:renovables, :programacion_diaria]
