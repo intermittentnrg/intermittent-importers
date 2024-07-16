@@ -161,7 +161,7 @@ end
 
 pump_task :tohoku, Tohoku::Juyo
 loop_task :ons, Ons
-loop_task :taipower, Taipower
+loop_task :taipower, Taipower::Generation
 loop_task :aeso, Aeso
 
 namespace :cammesa do
