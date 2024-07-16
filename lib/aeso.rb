@@ -1,4 +1,3 @@
-require 'aws-sdk-sqs'
 require 'fastest_csv'
 
 class Aeso
@@ -21,45 +20,9 @@ class Aeso
   end
 
   MAX_RUNTIME = 1.minutes.to_i
-  def self.each
-    queue_url = ENV['AESO_QUEUE_URL']
-    sqs = Aws::SQS::Client.new(region: 'us-east-2')
-    receipt_handles = []
-    start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-    loop do
-      result = sqs.receive_message({
-        queue_url: queue_url,
-        max_number_of_messages: 10,
-        visibility_timeout: MAX_RUNTIME,
-        wait_time_seconds: 0 # Do not wait to check for the message.
-      })
-      result.messages.each do |message|
-        body = message.body
-        yield new(body)
-
-        receipt_handles << message.receipt_handle
-      end
-
-      # FIXME Prevent long runs.
-      # If it runs for more than 10 mins already processed messages can become visible again.
-      break if (Process.clock_gettime(Process::CLOCK_MONOTONIC) - start) >= MAX_RUNTIME
-
-      break if result.messages.length <10
-    end
-    i=0
-    receipt_handles.each_slice(10) do |batch|
-      sqs.delete_message_batch({
-        queue_url: queue_url,
-        entries: batch.map do |receipt_handle|
-          {
-            id: (i += 1).to_s,
-            receipt_handle:
-          }
-        end
-      })
-    end
-    logger.info "deleted #{receipt_handles.length} from SQS"
-  end
+  QUEUE_URL = ENV['AESO_QUEUE_URL']
+  QUEUE_REGION = 'us-east-2'
+  include AwsSqs
 
   def initialize(file_or_body)
     @file_or_body = file_or_body
