@@ -106,7 +106,7 @@ module Out2
         if data.length > 100_000
           conn = ActiveRecord::Base.connection
           tmptable = "generation_unit_copy_#{source_id}"
-          conn.create_table tmptable, id: false, temporary: false do |t|
+          conn.create_table tmptable, id: false, temporary: true do |t|
             t.integer :unit_id, limit: 2, null: false
             t.timestamptz :time, null: false
             t.integer :value, null: false
