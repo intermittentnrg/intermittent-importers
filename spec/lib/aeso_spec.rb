@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe Aeso do
-  subject { Aeso }
+RSpec.describe Aeso::Generation do
+  subject { Aeso::Generation }
   let :csv do
     <<-EOF
 Current Supply Demand Report\r
