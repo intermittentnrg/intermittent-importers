@@ -78,6 +78,7 @@ module Out2
 
     @@units = {}
     def self.run(data, from, to, source_id)
+      raise unless from && to
       updated_rows = nil
       if data.present?
 
@@ -104,35 +105,42 @@ module Out2
 
         start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
         if data.length > 100_000
-          conn = ActiveRecord::Base.connection
-          tmptable = "generation_unit_copy_#{source_id}"
-          conn.create_table tmptable, id: false, temporary: true do |t|
-            t.integer :unit_id, limit: 2, null: false
-            t.timestamptz :time, null: false
-            t.integer :value, null: false
-          end
+          begin
+            GenerationUnit.disable_compression_policy!
+            GenerationUnit.hypertable.chunks.where(range_start: ..to, range_end: from..).each &:decompress!
 
-          raw_conn = conn.raw_connection
-          enco = PG::TextEncoder::CopyRow.new
-          raw_conn.copy_data "COPY #{tmptable} FROM STDIN", enco do
-            data.each do |row|
-              raw_conn.put_copy_data([row[:unit_id], row[:time], row[:value]])
+            conn = ActiveRecord::Base.connection
+            tmptable = "generation_unit_copy_#{source_id}"
+            conn.create_table tmptable, id: false, temporary: true do |t|
+              t.integer :unit_id, limit: 2, null: false
+              t.timestamptz :time, null: false
+              t.integer :value, null: false
             end
+
+            raw_conn = conn.raw_connection
+            enco = PG::TextEncoder::CopyRow.new
+            raw_conn.copy_data "COPY #{tmptable} FROM STDIN", enco do
+              data.each do |row|
+                raw_conn.put_copy_data([row[:unit_id], row[:time], row[:value]])
+              end
+            end
+            r = conn.execute <<~SQL
+              INSERT INTO generation_unit (unit_id, time, value)
+              SELECT unit_id, time, value
+              FROM #{tmptable} g
+              WHERE NOT EXISTS (
+                    SELECT 1 FROM generation_unit g2
+                    WHERE g.unit_id=g2.unit_id AND g.time=g2.time AND g.value=g2.value AND
+                          time BETWEEN (SELECT MIN(time) FROM #{tmptable}) AND (SELECT MAX(time) FROM #{tmptable})
+              )
+              ON CONFLICT (unit_id, time)
+                DO UPDATE set value = EXCLUDED.value
+            SQL
+            updated_rows = r.cmd_tuples
+            conn.drop_table tmptable
+          ensure
+            GenerationUnit.enable_compression_policy!
           end
-          r = conn.execute <<~SQL
-            INSERT INTO generation_unit (unit_id, time, value)
-            SELECT unit_id, time, value
-            FROM #{tmptable} g
-            WHERE NOT EXISTS (
-                  SELECT 1 FROM generation_unit g2
-                  WHERE g.unit_id=g2.unit_id AND g.time=g2.time AND g.value=g2.value AND
-                        time BETWEEN (SELECT MIN(time) FROM #{tmptable}) AND (SELECT MAX(time) FROM #{tmptable})
-            )
-            ON CONFLICT (unit_id, time)
-              DO UPDATE set value = EXCLUDED.value
-          SQL
-          updated_rows = r.cmd_tuples
-          conn.drop_table tmptable
         else
           data.each_slice(1_000_000) do |data2|
             r = ::GenerationUnit.upsert_all(data2)
