@@ -51,7 +51,7 @@ module Aeso
       end
 
       time = Time.strptime(chunks[1].strip, '"Last Update : %B %d, %Y %H:%M"')
-      #time = TZ.local_to_utc(time)
+      time = TZ.local_to_utc(time)
       @from = time
       @to = time + 1.minute
 
