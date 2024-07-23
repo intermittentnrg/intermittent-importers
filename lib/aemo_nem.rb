@@ -399,7 +399,7 @@ module AemoNem
     end
 
     def done!
-      GenerationUnit.aggregate_to_generation(@from, @to, "a.code<>'WEM'")
+      GenerationUnit.aggregate_to_generation(@from, @to, "a.source='aemo' AND a.code<>'WEM'")
       super
     end
   end

@@ -16,6 +16,7 @@ class GenerationUnit < ActiveRecord::Base
   end
 
   def self.aggregate_to_generation(from, to, where)
+    raise unless where.include? 'source'
 
     logger.benchmark_info("aggregate_to_generation #{from} #{to}") do
       sql = <<~SQL
@@ -30,7 +31,6 @@ class GenerationUnit < ActiveRecord::Base
         LEFT JOIN areas_production_types apt ON(u.area_id=apt.area_id AND u.production_type_id=apt.production_type_id)
         WHERE
           g.time >= '#{from}' AND g.time < '#{to}' AND
-          a.source='aemo' AND
           #{where}
         GROUP BY 1,2
         HAVING NOT EXISTS (

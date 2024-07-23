@@ -17,5 +17,5 @@ where = ARGV.shift
 #  puts "#{[from,chunk.range_start].max} #{[to,chunk.range_end].min}"
 (from..to).each do |date|
   #date=date.to_time
-  GenerationUnit.aggregate_to_generation(date, date+1.day, where)
+  GenerationUnit.aggregate_to_generation(date, date+1.day, "a.source='aemo' AND #{where}")
 end

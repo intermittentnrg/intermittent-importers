@@ -101,7 +101,7 @@ module AemoWem
     end
 
     def done!
-      GenerationUnit.aggregate_to_generation(@from, @to, "a.id=#{@area_id}")
+      GenerationUnit.aggregate_to_generation(@from, @to, "a.source='aemo' AND a.id=#{@area_id}")
       super
     end
   end
@@ -178,7 +178,7 @@ module AemoWem
     end
 
     def done!
-      GenerationUnit.aggregate_to_generation(@from, @to, "a.id=#{@area_id}")
+      GenerationUnit.aggregate_to_generation(@from, @to, "a.source='aemo' AND a.id=#{@area_id}")
       super
     end
   end
