@@ -31,7 +31,7 @@ module Aeso
       end
     end
 
-    MAX_RUNTIME = 1.minutes.to_i
+    MAX_RUNTIME = 15.minutes.to_i
     QUEUE_URL = ENV['AESO_QUEUE_URL']
     QUEUE_REGION = 'us-east-2'
     include AwsSqs
