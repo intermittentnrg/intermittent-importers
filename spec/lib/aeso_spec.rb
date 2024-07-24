@@ -12,6 +12,8 @@ Current Supply Demand Report\r
 "Alberta Total Net Generation","10597"\r
 \r
 "HYDRO","894","118","182"\r
+\r
+"British Columbia","642"\r
 EOF
   end
 

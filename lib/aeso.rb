@@ -71,7 +71,16 @@ module Aeso
       end
 
       #transmission
-      #@chunks[4]
+      csv = FastestCSV.parse(chunks[4])
+      r_tran = []
+      csv.each do |row|
+        next if row[0] == 'TOTAL'
+
+        #0: PATH
+        #1: ACTUAL FLOW
+        value = row[1].to_f*1000
+        r_tran << {time:, from_area: 'CA-AB', to_area: row[0], value:}
+      end
 
       #units
       r_unit = process_units(time, :fossil_gas, chunks[5]) +
@@ -86,6 +95,7 @@ module Aeso
 
       ::Out2::Generation.run(r, @from, @to, self.class.source_id)
       ::Out2::Unit.run(r_unit, @from, @to, self.class.source_id)
+      ::Out2::Transmission.run(r_tran, @from, @to, self.class.source_id)
     end
 
     def process_units time, production_type, chunk
