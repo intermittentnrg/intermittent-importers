@@ -34,7 +34,7 @@ module EntsoeSftp
     include SemanticLogger::Loggable
 
     TARGET = EntsoeCsv::UnitCSV
-    DIR = '/TP_export/zip/ActualGenerationOutputPerGenerationUnit_16.1.A'
+    DIR = '/TP_export/zip/ActualGenerationOutputPerGenerationUnit_16.1.A_r2.1'
   end
 
   class Load < Base
