@@ -97,7 +97,7 @@ module EntsoeCsv
     end
 
     def parse_production_type(s)
-      s.gsub(/ /,'_').downcase
+      s.strip.gsub(/ /,'_').downcase
     end
 
     def parse_area(s, fields = {})
@@ -187,32 +187,32 @@ module EntsoeCsv
     }
 
     def points
-      r = []
-      r_cap = []
+      r = {}
+      r_cap = {}
       logger.benchmark_info("csv parse") do
         csv
         units = {}
         csv.each do |row|
-          #0:DateTime
+          #0:DateTime(UTC)
           time = parse_time(row[0])
           #1:ResolutionCode
           #2:AreaCode
-          #3:AreaTypeCode
-          #4:AreaName
+          #3:AreaDisplayName
+          #4:AreaTypeCode
           #5:MapCode
           area_code = row[5]
-          #6:GenerationUnitEIC
+          #6:GenerationUnitCode
           unit_internal_id = row[6]
-          #7:PowerSystemResourceName
+          #7:GenerationUnitName
           unit_name = row[7].force_encoding('UTF-8')
-          #8:ProductionType
+          #8:GenerationUnitType
           production_type = parse_production_type(row[8])
-          #9:ActualGenerationOutput
-          #10:ActualConsumption
+          #9:ActualGenerationOutput(MW)
+          #10:ActualConsumption(MW)
           value = parse_value(row[9], row[10])
-          #11:InstalledGenCapacity
+          #11:GenerationUnitInstalledCapacity(MW)
           capacity = parse_value(row[11])
-          #12:UpdateTime
+          #12:UpdateTime(UTC)
 
           unit_id = units[unit_internal_id]
           unless unit_id
@@ -229,20 +229,27 @@ module EntsoeCsv
             unit_id = units[unit_internal_id] = unit.id
 
             if unit.name != unit_name
-              logger.warn "#{unit.internal_id} Mismatched name #{unit.name} != #{unit_name}"
+              logger.warn "#{unit.internal_id} Mismatched name old #{unit.name.inspect} != new #{unit_name.inspect}"
             end
             if unit.production_type != production_type
-              logger.warn "#{unit.name} #{unit.internal_id} Mismatched production_type: #{unit.production_type.name} != #{production_type.name}"
+              logger.warn "#{unit.name} #{unit.internal_id} Mismatched production_type: old #{unit.production_type.name} != new #{production_type.name}"
             end
           end
 
-          r << {unit_id:, time:,value:}
-          r_cap << {unit_id:, time:, value: capacity}
+          k = [time, unit_id]
+          if r[k] && value != r[k][:value]
+            logger.error "duplicate data with different output #{unit_internal_id} #{value} != #{r[k][:value]}"
+          end
+          if r_cap[k] && capacity != r_cap[k][:value]
+            logger.error "duplicate data with different capacites #{unit_internal_id} #{capacity} != #{r_cap[k][:value]}"
+          end
+          r[k] = {unit_id:, time:, value:}
+          r_cap[k] = {unit_id:, time:, value: capacity}
         end
       end
-      Out2::UnitCapacity.run(r_cap, @from, @to, self.class.source_id)
+      Out2::UnitCapacity.run(r_cap.values, @from, @to, self.class.source_id)
 
-      r
+      r.values
     end
   end
 
