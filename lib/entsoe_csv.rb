@@ -141,19 +141,18 @@ module EntsoeCsv
         csv.each do |row|
           next if row[3] == 'CTA'
 
-          #DateTime
+          #0:DateTime
           time = parse_time(row[0])
-          #ResolutionCode
-          #AreaCode
+          #1:ResolutionCode
+          #2:AreaCode
           country = row[2]
-          #AreaTypeCode
-          #AreaName
-          area_name = row[4]
-          #MapCode
-          #ProductionType
+          #3:AreaTypeCode
+          #4:AreaName
+          #5:MapCode
+          #6:ProductionType
           production_type = parse_production_type(row[6])
-          #ActualGenerationOutput
-          #ActualConsumption
+          #7:ActualGenerationOutput
+          #8:ActualConsumption
           value = parse_value(row[7], row[8])
           #9:UpdateTime
 
@@ -472,9 +471,9 @@ module EntsoeCsv
         csv.each do |row|
           next if row[3] == 'CTA' || row[7] == 'CTA'
 
-          #DateTime
+          #0:DateTime
           time = parse_time(row[0])
-          #ResolutionCode
+          #1:ResolutionCode
           #2:OutAreaCode
           to_area_internal_id = row[2]
           #3:OutAreaTypeCode
