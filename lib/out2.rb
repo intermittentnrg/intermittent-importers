@@ -16,7 +16,7 @@ module Out2
         apt_id = @@apts[k] ||= AreasProductionType.joins(:source_area, :production_type).where(source_area: {source: source_id, internal_id: p[:country]}, production_type: {name: p[:production_type]}).pluck(:id).first
         unless apt_id
           logger.warn("no apt_id for #{p[:country]} pt #{p[:production_type]}")
-          area_id = ::Area.where(source: source_id, code: p[:country]).pluck(:id).first
+          area_id = ::Area.where(source: source_id, internal_id: p[:country]).pluck(:id).first
           pt_id = ::ProductionType.where(name: p[:production_type]).pluck(:id).first
           raise p.inspect unless area_id
           raise p.inspect unless pt_id
