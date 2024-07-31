@@ -3,18 +3,7 @@ require 'spec_helper'
 RSpec.describe Aeso::Generation do
   subject { Aeso::Generation }
   let :csv do
-    <<-EOF
-Current Supply Demand Report\r
-\r
-\r
-"Last Update : May 10, 2024 16:19"\r
-\r
-"Alberta Total Net Generation","10597"\r
-\r
-"HYDRO","894","118","182"\r
-\r
-"British Columbia","642"\r
-EOF
+    File.read 'spec/fixtures/aeso-csdreport.csv'
   end
 
   describe :cli do

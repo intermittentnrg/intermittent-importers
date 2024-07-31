@@ -1,0 +1,32 @@
+Current Supply Demand Report
+
+
+"Last Update : May 10, 2024 16:19"
+
+"Alberta Total Net Generation","10597"
+"Net Actual Interchange","617"
+"Alberta Internal Load (AIL)","9980"
+"Net-To-Grid Generation","8199"
+"Contingency Reserve Required","473"
+"Dispatched Contingency Reserve (DCR)","474"
+"Dispatched Contingency Reserve -Gen","368"
+"Dispatched Contingency Reserve -Other","106"
+"LSSi Armed Dispatch","0"
+"LSSi Offered Volume","211"
+"Long Lead Time Volume","555"
+
+"GAS","12657","6757","130"
+"HYDRO","894","118","182"
+"ENERGY STORAGE","190","0","49"
+"SOLAR","1650","1327","0"
+"WIND","4481","1492","0"
+"OTHER","444","238","0"
+"DUAL FUEL","466","465","0"
+"COAL","420","200","7"
+"TOTAL","21202","10597","368"
+
+"British Columbia","642"
+"Montana","26"
+"Saskatchewan","-51"
+"TOTAL","617"
+

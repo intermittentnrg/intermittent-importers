@@ -55,6 +55,14 @@ module Aeso
       @from = time
       @to = time + 1.minute
 
+      # summary
+      csv = FastestCSV.parse(chunks[2])
+      raise unless csv[2][0] == 'Alberta Internal Load (AIL)'
+      value = csv[2][1].to_f*1000
+      r_load = [
+        {time:, country: 'CA-AB', value:}
+      ]
+
       r = []
       csv = FastestCSV.parse(chunks[3])
       csv.each do |row|
@@ -93,6 +101,7 @@ module Aeso
                process_units(time, :fossil_coal, chunks[12])
       #require 'pry' ; binding.pry
 
+      ::Out2::Load.run(r_load, @from, @to, self.class.source_id)
       ::Out2::Generation.run(r, @from, @to, self.class.source_id)
       ::Out2::Unit.run(r_unit, @from, @to, self.class.source_id)
       ::Out2::Transmission.run(r_tran, @from, @to, self.class.source_id)
