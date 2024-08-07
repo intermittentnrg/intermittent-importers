@@ -106,8 +106,8 @@ module Out2
         start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
         if data.length > 100_000
           begin
-            GenerationUnit.disable_compression_policy!
-            GenerationUnit.hypertable.chunks.where(range_start: ..to, range_end: from..).each &:decompress!
+            #GenerationUnit.disable_compression_policy!
+            #GenerationUnit.hypertable.chunks.where(range_start: ..to, range_end: from..).each &:decompress!
 
             conn = ActiveRecord::Base.connection
             tmptable = "generation_unit_copy_#{source_id}"
@@ -139,7 +139,7 @@ module Out2
             updated_rows = r.cmd_tuples
             conn.drop_table tmptable
           ensure
-            GenerationUnit.enable_compression_policy!
+            #GenerationUnit.enable_compression_policy!
           end
         else
           data.each_slice(1_000_000) do |data2|
