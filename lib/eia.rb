@@ -312,6 +312,7 @@ module Eia
           }
         end
       end
+      return [] if r.empty?
       @from = r.values.min { |a,b| a[:time]<=>b[:time] }[:time]
       @to = r.values.max { |a,b| a[:time]<=>b[:time] }[:time]
       #require 'pry' ; binding.pry
