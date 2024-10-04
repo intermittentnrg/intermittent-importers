@@ -160,7 +160,7 @@ module EntsoeCsv
 
           k = [time,country,production_type]
           if r[k] && r[k][:value] != value
-            logger.warn("#{area_name} different values #{r[k][:value]} != #{value}")
+            logger.warn("#{country} different values #{r[k][:value]} != #{value}")
           end
           r[k] = {time:, country:, production_type:, value:}
         end
