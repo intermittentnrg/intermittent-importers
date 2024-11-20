@@ -48,7 +48,7 @@ module EntsoeSftp
     include SemanticLogger::Loggable
 
     TARGET = EntsoeCsv::PriceCSV
-    DIR = '/TP_export/zip/DayAheadPrices_12.1.D'
+    DIR = '/TP_export/zip/EnergyPrices_12.1.D_r3'
   end
 
   class Transmission < Base

@@ -89,11 +89,12 @@ module EntsoeCsv
   end
 
   class BaseFastestCSV < BaseCSV
+    TIME_FORMAT = '%Y-%m-%d %H:%M:%S.%L'
     def parse_time(s)
       return @last_t if @last_s == s
 
       @last_s = s
-      @last_t = Time.strptime(s, '%Y-%m-%d %H:%M:%S.%L')
+      @last_t = Time.strptime(s, self.class::TIME_FORMAT)
     end
 
     def parse_production_type(s)
@@ -293,24 +294,28 @@ module EntsoeCsv
     include SemanticLogger::Loggable
     include Out::Price
 
+    TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+
     def points_price
       r = {}
       logger.benchmark_info("csv parse") do
         csv.each do |row|
-          next if row[1] != 'PT60M'
-          #DateTime
-          time = parse_time(row[0])
-          #ResolutionCode
-          #AreaCode
-          area_id = parse_area(row[2])
-          #AreaTypeCode
-          #AreaName
-          area_name = row[4]
-          #MapCode
-          #Price
-          value = row[6].to_f*100
-          #Curency
-          #8:UpdateTime
+          next unless row[2] == 'PT60M'
+          #0: InstanceCode
+          #1: DateTime(UTC)
+          time = parse_time(row[1])
+          #2: ResolutionCode
+          #3: AreaCode
+          area_id = parse_area(row[3])
+          #4: AreaDisplayName
+          #5: AreaTypeCode
+          #6: MapCode
+          #7: ContractType
+          #8: Sequence
+          #9; Price[Currency/MWh]
+          value = row[9].to_f*100
+          #10: Currency
+          #11: UpdateTime(UTC)
 
           k = [time,area_id]
           if r[k] && r[k][:value] != value

@@ -38,8 +38,8 @@ RSpec.describe EntsoeCsv::PriceCSV do
   subject { EntsoeCsv::PriceCSV }
   let(:body) do
     <<-CSV
-DateTime	ResolutionCode	AreaCode	AreaTypeCode	AreaName	MapCode	Price	Currency	UpdateTime
-2023-09-01 00:00:00.000	PT60M	10Y1001A1001A82H	BZN	DE-LU BZN	DE_LU	93.29	EUR	2023-08-31 13:26:14.014
+InstanceCode    DateTime(UTC)   ResolutionCode  AreaCode        AreaDisplayName AreaTypeCode    MapCode ContractType    Sequence        Price[Currency/MWh]     Currency        UpdateTime(UTC)
+c1058421508e8ba08cc6a260cdcd55ad	2023-09-01 00:00:00	PT60M	10Y1001A1001A82H	DE-LU	BZN	DE_LU	Day-ahead	1	93.29	EUR	2023-08-31 13:26:14
 CSV
   end
   describe '#points_price' do
