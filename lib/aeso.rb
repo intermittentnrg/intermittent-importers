@@ -204,6 +204,7 @@ module Aeso
 
     def self.each
       from = ::Price.joins(:area).where(areas: {source: self.source_id, code: 'CA-AB'}).where("time > ?", 2.month.ago).pluck(Arel.sql("LAST(time, time)")).first
+      return unless from
       from = TZ.utc_to_local(from).to_date
       to = Time.now.in_time_zone(TZ).to_date
 
