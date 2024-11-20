@@ -9,12 +9,16 @@ module Eia
       "eia"
     end
     FUEL_MAP = {
+      'BAT' => 'battery',
       'COL' => 'fossil_hard_coal',
       'NG' => 'fossil_gas',
       'NUC' => 'nuclear',
       'OIL' => 'fossil_oil',
       'OTH' => 'other',
+      'PS' => 'hydro_pumped_storage',
+      'SNB' => 'solar_with_battery',
       'SUN' => 'solar',
+      'UES' => 'unknown_storage',
       'WAT' => 'hydro',
       'WND' => 'wind',
       'UNK' => 'unknown'
