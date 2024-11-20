@@ -45,8 +45,7 @@ gem 'pgsync'
 
 # Tweet screenshot
 gem 'selenium-webdriver'
-gem 'oauth'
-gem 'typhoeus'
+gem "x", "~> 0.14.1"
 
 group :test do
   gem 'rspec'
