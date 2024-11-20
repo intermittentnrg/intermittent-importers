@@ -36,6 +36,9 @@ class Ons
   def process
     if @file_or_body[0] == '{'
       json = FastJsonparser.parse(@file_or_body, symbolize_keys: false)
+    elsif @file_or_body[0..5] == '<head>'
+      logger.error "Body is HTML: #{@file_or_body}"
+      return
     else
       json = FastJsonparser.load(@file_or_body, symbolize_keys: false)
     end
