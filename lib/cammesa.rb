@@ -285,6 +285,7 @@ module Cammesa
         end
       end
       #binding.irb
+      return if r_gen.blank?
       @from = r_gen.first[:time]
       @to = r_gen.last[:time]
 
