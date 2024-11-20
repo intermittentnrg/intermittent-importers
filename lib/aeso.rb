@@ -91,7 +91,7 @@ module Aeso
 
         #0: PATH
         #1: ACTUAL FLOW
-        value = row[1].to_f*1000
+        value = -row[1].to_f*1000
         r_tran << {time:, from_area: 'CA-AB', to_area: row[0], value:}
       end
 
