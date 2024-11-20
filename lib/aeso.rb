@@ -13,6 +13,10 @@ module Aeso
     PT_MAP = {
       "ENERGY STORAGE" => :battery,
       "GAS" => :fossil_gas,
+      "COGENERATION" => :fossil_gas,
+      "COMBINED CYCLE" => :fossil_gas,
+      "GAS FIRED STEAM" => :fossil_gas,
+      "SIMPLE CYCLE" => :fossil_gas,
       "COAL" => :fossil_hard_coal
     }
   end
@@ -63,19 +67,20 @@ module Aeso
         {time:, country: 'CA-AB', value:}
       ]
 
-      r = []
+      r_gen = {}
       csv = FastestCSV.parse(chunks[3])
       csv.each do |row|
         production_type = PT_MAP[row[0]] || row[0].downcase.gsub(/ /, '_')
         next if production_type == 'total'
         value = row[2].to_f*1000
 
-        r << {
+        r_gen[production_type] ||= {
           time:,
           country: 'CA-AB',
           production_type: production_type,
-          value: value
+          value: 0
         }
+        r_gen[production_type][:value] += value
       end
 
       #transmission
@@ -102,7 +107,7 @@ module Aeso
       #require 'pry' ; binding.pry
 
       ::Out2::Load.run(r_load, @from, @to, self.class.source_id)
-      ::Out2::Generation.run(r, @from, @to, self.class.source_id)
+      ::Out2::Generation.run(r_gen.values, @from, @to, self.class.source_id)
       ::Out2::Unit.run(r_unit, @from, @to, self.class.source_id)
       ::Out2::Transmission.run(r_tran, @from, @to, self.class.source_id)
     end
