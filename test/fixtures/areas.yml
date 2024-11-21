@@ -2902,3 +2902,16 @@ cammesa_other:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+cenace_MX:
+  id: 375
+  code: MX
+  internal_id: MX
+  source: cenace
+  enabled: true
+  region: mexico
+  type: country
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+  name:
