@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require './lib/init'
 require './lib/activerecord-connect'
+require 'chronic'
 logger = SemanticLogger['stream-entsoe-generation.rb']
 
 if ARGV.length < 2

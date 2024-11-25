@@ -50,13 +50,15 @@ module Entsoe
       end
     end
 
-    def points_selector(&block)
-      @doc.locate('*/TimeSeries').each(&block)
+    def points_selector
+      @doc.locate('*/TimeSeries').each do |ts|
+        @country = ts.locate('outBiddingZone_Domain.mRID').first.text
+        yield ts
+      end
     end
     def points
       r=[]
       points_selector do |ts|
-        next if is_a?(Generation) && ts.locate('outBiddingZone_Domain.mRID').first
         #unless ts.locate('inBiddingZone_Domain.mRID').first
         #  require 'pry' ; binding.pry
         #end
@@ -130,8 +132,16 @@ module Entsoe
       fetch
     end
 
+    def points_selector
+      @doc.locate('*/TimeSeries').each do |ts|
+        next if ts.locate('outBiddingZone_Domain.mRID').first
+        @country = ts.locate('inBiddingZone_Domain.mRID').first.text
+        yield ts
+      end
+    end
+
     def points_generation
-      Validate.validate_generation(points)
+      Validate.validate_generation(points, self.class.source_id)
     end
   end
 
@@ -202,7 +212,7 @@ module Entsoe
       data = points
       data.each { |p| p.except!(:process_type, :production_type) }
 
-      Validate.validate_load(data)
+      Validate.validate_load(data, self.class.source_id)
     end
     def point(p)
       {
@@ -214,6 +224,7 @@ module Entsoe
   end
 
   #4.2.10. Day Ahead Prices [12.1.D]
+  #12.1.D Energy Prices
   #GET /api?documentType=A44&in_Domain=10YCZ-CEPS-----N&out_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Price < Base
     include SemanticLogger::Loggable
@@ -223,7 +234,9 @@ module Entsoe
       super(**kwargs)
       @country = country
       @options[:documentType] = 'A44'
-      @options[:in_domain] = @options[:out_Domain] = COUNTRIES[country.to_sym]
+      #@options['contract_MarketAgreement.type'] = 'A01'
+      internal_id = Area.where(source: self.class.source_id, code: country).pluck(:internal_id).first
+      @options[:in_domain] = @options[:out_Domain] = internal_id
       fetch
     end
 
@@ -259,6 +272,14 @@ module Entsoe
       @options[:in_Domain] = COUNTRIES[to_area.to_sym]
       #puts @options.inspect
       fetch
+    end
+
+    def points_selector
+      @doc.locate('*/TimeSeries').each do |ts|
+        @from_area = ts.locate('out_Domain.mRID').first.text
+        @to_area = ts.locate('in_Domain.mRID').first.text
+        yield ts
+      end
     end
 
     # def points

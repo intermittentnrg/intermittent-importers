@@ -97,6 +97,7 @@ namespace :entsoe do
   loop_task :unit, EntsoeSftp::Unit
   loop_task :load, EntsoeSftp::Load
   loop_task :price, EntsoeSftp::Price
+  pump_task :price_api, Entsoe::Price
   loop_task :transmission, EntsoeSftp::Transmission
 end
 
