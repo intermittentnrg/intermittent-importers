@@ -1,0 +1,164 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://web-api.tp.entsoe.eu/api?TimeInterval=2023-07-27/2023-07-28&documentType=A65&outBiddingZone_Domain=10Y1001C--00100H&processType=A16&securityToken=<TOKEN>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.10
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 10 Aug 2023 01:08:49 GMT
+      Server:
+      - Apache
+      Strict-Transport-Security:
+      - max-age=31536000 ; includeSubDomains
+      X-Powered-By:
+      - Undertow/1
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - text/xml
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <GL_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-6:generationloaddocument:3:0">
+            <mRID>adf517cf8640437aa06cb8b54522c4ed</mRID>
+            <revisionNumber>1</revisionNumber>
+            <type>A65</type>
+            <process.processType>A16</process.processType>
+            <sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
+            <sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
+            <receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
+            <receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>
+            <createdDateTime>2023-08-10T01:08:49Z</createdDateTime>
+            <time_Period.timeInterval>
+                <start>2023-07-27T00:00Z</start>
+                <end>2023-07-28T00:00Z</end>
+            </time_Period.timeInterval>
+            <TimeSeries>
+                <mRID>1</mRID>
+                <businessType>A04</businessType>
+                <objectAggregation>A01</objectAggregation>
+                <outBiddingZone_Domain.mRID codingScheme="A01">10Y1001C--00100H</outBiddingZone_Domain.mRID>
+                <quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>
+                <curveType>A01</curveType>
+                <Period>
+                    <timeInterval>
+                        <start>2023-07-27T00:00Z</start>
+                        <end>2023-07-28T00:00Z</end>
+                    </timeInterval>
+                    <resolution>PT60M</resolution>
+                    <Point>
+                        <position>1</position>
+                        <quantity>432</quantity>
+                    </Point>
+                    <Point>
+                        <position>2</position>
+                        <quantity>407</quantity>
+                    </Point>
+                    <Point>
+                        <position>3</position>
+                        <quantity>406</quantity>
+                    </Point>
+                    <Point>
+                        <position>4</position>
+                        <quantity>406</quantity>
+                    </Point>
+                    <Point>
+                        <position>5</position>
+                        <quantity>438</quantity>
+                    </Point>
+                    <Point>
+                        <position>6</position>
+                        <quantity>505</quantity>
+                    </Point>
+                    <Point>
+                        <position>7</position>
+                        <quantity>624</quantity>
+                    </Point>
+                    <Point>
+                        <position>8</position>
+                        <quantity>735</quantity>
+                    </Point>
+                    <Point>
+                        <position>9</position>
+                        <quantity>752</quantity>
+                    </Point>
+                    <Point>
+                        <position>10</position>
+                        <quantity>748</quantity>
+                    </Point>
+                    <Point>
+                        <position>11</position>
+                        <quantity>1283570</quantity>
+                    </Point>
+                    <Point>
+                        <position>12</position>
+                        <quantity>717</quantity>
+                    </Point>
+                    <Point>
+                        <position>13</position>
+                        <quantity>712</quantity>
+                    </Point>
+                    <Point>
+                        <position>14</position>
+                        <quantity>716</quantity>
+                    </Point>
+                    <Point>
+                        <position>15</position>
+                        <quantity>718</quantity>
+                    </Point>
+                    <Point>
+                        <position>16</position>
+                        <quantity>684</quantity>
+                    </Point>
+                    <Point>
+                        <position>17</position>
+                        <quantity>664</quantity>
+                    </Point>
+                    <Point>
+                        <position>18</position>
+                        <quantity>652</quantity>
+                    </Point>
+                    <Point>
+                        <position>19</position>
+                        <quantity>672</quantity>
+                    </Point>
+                    <Point>
+                        <position>20</position>
+                        <quantity>661</quantity>
+                    </Point>
+                    <Point>
+                        <position>21</position>
+                        <quantity>618</quantity>
+                    </Point>
+                    <Point>
+                        <position>22</position>
+                        <quantity>631</quantity>
+                    </Point>
+                    <Point>
+                        <position>23</position>
+                        <quantity>580</quantity>
+                    </Point>
+                    <Point>
+                        <position>24</position>
+                        <quantity>495</quantity>
+                    </Point>
+                </Period>
+            </TimeSeries>
+        </GL_MarketDocument>
+  recorded_at: Thu, 10 Aug 2023 01:08:49 GMT
+recorded_with: VCR 6.2.0

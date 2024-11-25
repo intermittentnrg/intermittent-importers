@@ -1,0 +1,139 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://transparency.entsoe.eu/api?TimeInterval=2021-01-01/2021-01-02&documentType=A69&in_Domain=10YFR-RTE------C&processType=A18&securityToken=<TOKEN>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 21 Nov 2021 21:55:43 GMT
+      Server:
+      - Apache
+      Strict-Transport-Security:
+      - max-age=31536000 ; includeSubDomains
+      X-Powered-By:
+      - Undertow/1
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - text/xml
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<GL_MarketDocument xmlns=\"urn:iec62325.351:tc57wg16:451-6:generationloaddocument:3:0\">\n\t<mRID>c54498bc17a64ca78a1ff2424a6ad1f2</mRID>\n\t<revisionNumber>1</revisionNumber>\n\t<type>A69</type>\n\t<process.processType>A18</process.processType>\n\t<sender_MarketParticipant.mRID
+        codingScheme=\"A01\">10X1001A1001A450</sender_MarketParticipant.mRID>\n\t<sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>\n\t<receiver_MarketParticipant.mRID
+        codingScheme=\"A01\">10X1001A1001A450</receiver_MarketParticipant.mRID>\n\t<receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>\n\t<createdDateTime>2021-11-21T21:55:44Z</createdDateTime>\n\t<time_Period.timeInterval>\n\t\t<start>2020-12-31T23:00Z</start>\n\t\t<end>2021-01-02T23:00Z</end>\n\t</time_Period.timeInterval>\n\t<TimeSeries>\n\t\t<mRID>1</mRID>\n\t\t<businessType>A94</businessType>\n\t\t<objectAggregation>A08</objectAggregation>\n\t\t<inBiddingZone_Domain.mRID
+        codingScheme=\"A01\">10YFR-RTE------C</inBiddingZone_Domain.mRID>\n\t\t<quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>\n\t\t<curveType>A01</curveType>\n\t\t<MktPSRType>\n\t\t\t<psrType>B16</psrType>\n\t\t</MktPSRType>\n\t\t<Period>\n\t\t\t<timeInterval>\n\t\t\t\t<start>2020-12-31T23:00Z</start>\n\t\t\t\t<end>2021-01-01T23:00Z</end>\n\t\t\t</timeInterval>\n\t\t\t<resolution>PT60M</resolution>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>1</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>2</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>3</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>4</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>5</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>6</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>7</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>8</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>9</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>10</position>\n
+        \                       <quantity>106</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>11</position>\n
+        \                       <quantity>738</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>12</position>\n
+        \                       <quantity>1557</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>13</position>\n
+        \                       <quantity>2094</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>14</position>\n
+        \                       <quantity>2323</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>15</position>\n
+        \                       <quantity>2088</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>16</position>\n
+        \                       <quantity>1410</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>17</position>\n
+        \                       <quantity>555</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>18</position>\n
+        \                       <quantity>34</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>19</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>20</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>21</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>22</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>23</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>24</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t</Period>\n\t</TimeSeries>\n\t<TimeSeries>\n\t\t<mRID>2</mRID>\n\t\t<businessType>A93</businessType>\n\t\t<objectAggregation>A08</objectAggregation>\n\t\t<inBiddingZone_Domain.mRID
+        codingScheme=\"A01\">10YFR-RTE------C</inBiddingZone_Domain.mRID>\n\t\t<quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>\n\t\t<curveType>A01</curveType>\n\t\t<MktPSRType>\n\t\t\t<psrType>B19</psrType>\n\t\t</MktPSRType>\n\t\t<Period>\n\t\t\t<timeInterval>\n\t\t\t\t<start>2020-12-31T23:00Z</start>\n\t\t\t\t<end>2021-01-01T23:00Z</end>\n\t\t\t</timeInterval>\n\t\t\t<resolution>PT60M</resolution>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>1</position>\n
+        \                       <quantity>1157</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>2</position>\n
+        \                       <quantity>1074</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>3</position>\n
+        \                       <quantity>1135</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>4</position>\n
+        \                       <quantity>1197</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>5</position>\n
+        \                       <quantity>1260</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>6</position>\n
+        \                       <quantity>1243</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>7</position>\n
+        \                       <quantity>1227</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>8</position>\n
+        \                       <quantity>1214</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>9</position>\n
+        \                       <quantity>1180</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>10</position>\n
+        \                       <quantity>1147</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>11</position>\n
+        \                       <quantity>1115</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>12</position>\n
+        \                       <quantity>1062</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>13</position>\n
+        \                       <quantity>1011</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>14</position>\n
+        \                       <quantity>960</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>15</position>\n
+        \                       <quantity>1048</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>16</position>\n
+        \                       <quantity>1136</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>17</position>\n
+        \                       <quantity>1224</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>18</position>\n
+        \                       <quantity>1277</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>19</position>\n
+        \                       <quantity>1331</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>20</position>\n
+        \                       <quantity>1386</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>21</position>\n
+        \                       <quantity>1388</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>22</position>\n
+        \                       <quantity>1391</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>23</position>\n
+        \                       <quantity>1394</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>24</position>\n
+        \                       <quantity>1359</quantity>\n\t\t\t\t</Point>\n\t\t</Period>\n\t</TimeSeries>\n\t<TimeSeries>\n\t\t<mRID>3</mRID>\n\t\t<businessType>A94</businessType>\n\t\t<objectAggregation>A08</objectAggregation>\n\t\t<inBiddingZone_Domain.mRID
+        codingScheme=\"A01\">10YFR-RTE------C</inBiddingZone_Domain.mRID>\n\t\t<quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>\n\t\t<curveType>A01</curveType>\n\t\t<MktPSRType>\n\t\t\t<psrType>B16</psrType>\n\t\t</MktPSRType>\n\t\t<Period>\n\t\t\t<timeInterval>\n\t\t\t\t<start>2021-01-01T23:00Z</start>\n\t\t\t\t<end>2021-01-02T23:00Z</end>\n\t\t\t</timeInterval>\n\t\t\t<resolution>PT60M</resolution>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>1</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>2</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>3</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>4</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>5</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>6</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>7</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>8</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>9</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>10</position>\n
+        \                       <quantity>121</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>11</position>\n
+        \                       <quantity>767</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>12</position>\n
+        \                       <quantity>1646</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>13</position>\n
+        \                       <quantity>2260</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>14</position>\n
+        \                       <quantity>2438</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>15</position>\n
+        \                       <quantity>2203</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>16</position>\n
+        \                       <quantity>1530</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>17</position>\n
+        \                       <quantity>622</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>18</position>\n
+        \                       <quantity>42</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>19</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>20</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>21</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>22</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>23</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>24</position>\n
+        \                       <quantity>0</quantity>\n\t\t\t\t</Point>\n\t\t</Period>\n\t</TimeSeries>\n\t<TimeSeries>\n\t\t<mRID>4</mRID>\n\t\t<businessType>A93</businessType>\n\t\t<objectAggregation>A08</objectAggregation>\n\t\t<inBiddingZone_Domain.mRID
+        codingScheme=\"A01\">10YFR-RTE------C</inBiddingZone_Domain.mRID>\n\t\t<quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>\n\t\t<curveType>A01</curveType>\n\t\t<MktPSRType>\n\t\t\t<psrType>B19</psrType>\n\t\t</MktPSRType>\n\t\t<Period>\n\t\t\t<timeInterval>\n\t\t\t\t<start>2021-01-01T23:00Z</start>\n\t\t\t\t<end>2021-01-02T23:00Z</end>\n\t\t\t</timeInterval>\n\t\t\t<resolution>PT60M</resolution>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>1</position>\n
+        \                       <quantity>1324</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>2</position>\n
+        \                       <quantity>1288</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>3</position>\n
+        \                       <quantity>1369</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>4</position>\n
+        \                       <quantity>1450</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>5</position>\n
+        \                       <quantity>1531</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>6</position>\n
+        \                       <quantity>1636</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>7</position>\n
+        \                       <quantity>1741</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>8</position>\n
+        \                       <quantity>1857</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>9</position>\n
+        \                       <quantity>1873</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>10</position>\n
+        \                       <quantity>1893</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>11</position>\n
+        \                       <quantity>1894</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>12</position>\n
+        \                       <quantity>2045</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>13</position>\n
+        \                       <quantity>2201</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>14</position>\n
+        \                       <quantity>2357</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>15</position>\n
+        \                       <quantity>2422</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>16</position>\n
+        \                       <quantity>2486</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>17</position>\n
+        \                       <quantity>2551</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>18</position>\n
+        \                       <quantity>2571</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>19</position>\n
+        \                       <quantity>2591</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>20</position>\n
+        \                       <quantity>2612</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>21</position>\n
+        \                       <quantity>2577</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>22</position>\n
+        \                       <quantity>2541</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>23</position>\n
+        \                       <quantity>2505</quantity>\n\t\t\t\t</Point>\n\t\t\t\t<Point>\n\t\t\t\t\t<position>24</position>\n
+        \                       <quantity>2402</quantity>\n\t\t\t\t</Point>\n\t\t</Period>\n\t</TimeSeries>\n</GL_MarketDocument>"
+  recorded_at: Sun, 21 Nov 2021 21:55:44 GMT
+recorded_with: VCR 6.0.0
