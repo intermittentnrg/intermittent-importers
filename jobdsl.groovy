@@ -63,20 +63,33 @@ pipelineJob("intermittency-${BRANCH_NAME}/manual") {
   }
 }
 
-pipelineJob("intermittency-${BRANCH_NAME}/tweet") {
-  previousNames("intermittency-${BRANCH_NAME}-tweet")
+pipelineJob("intermittency-${BRANCH_NAME}/post-pricemap") {
   environmentVariables(TAG: TAG, BRANCH_NAME: BRANCH_NAME)
+  properties {
+  if (BRANCH_NAME == "master") {
+      pipelineTriggers {
+        triggers {
+          cron {
+            spec('''
+	      TZ=Europe/Stockholm
+	      0 15  * * *
+	    ''')
+          }
+        }
+      }
+    }
+  }
   definition {
     cpsScm {
       scm {
-        git {
-          remote {
-            url('git@git-server:intermittency.git')
-            credentials('gitolite-jenkins')
-          }
-          branches(BRANCH_NAME)
-          scriptPath('Jenkinsfile.tweet')
-        }
+	git {
+	  remote {
+	    url('git@git-server:intermittency.git')
+	    credentials('gitolite-jenkins')
+	  }
+	  branches(BRANCH_NAME)
+	  scriptPath('Jenkinsfile.post-pricemap')
+	}
       }
     }
   }
