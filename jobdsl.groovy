@@ -71,8 +71,7 @@ pipelineJob("intermittency-${BRANCH_NAME}/post-pricemap") {
         triggers {
           cron {
             spec('''
-	      TZ=Europe/Stockholm
-	      0 15  * * *
+	      30 14 * * *
 	    ''')
           }
         }
