@@ -89,7 +89,9 @@ module Ieso
     def self.each
       logger.info("Fetch #{self::URL}")
       http = @@faraday.get(self::URL)
-      http.body.split(/\n/).each do |row|
+      rows = http.body.split(/\n/)
+      raise 'no entries' if rows.empty?
+      rows.each do |row|
         m = row.match(%r|<a href="(.*?)">.*</a>\s{2,}(.*?)\s{2,}|)
         next unless m
         next unless select_file?(m[1])
@@ -120,7 +122,7 @@ module Ieso
     include SemanticLogger::Loggable
     include Out::Load
 
-    URL = 'http://reports.ieso.ca/public/RealtimeConstTotals/'
+    URL = 'https://reports-public.ieso.ca/public/RealtimeConstTotals/'
     #URL_FORMAT = URL + 'PUB_RealtimeConstTotals_%Y%m%d%H.csv'
     #PERIOD = 5.minutes
 
@@ -170,7 +172,7 @@ module Ieso
     include SemanticLogger::Loggable
     include Out::Load
 
-    URL_FORMAT = 'http://reports.ieso.ca/public/Demand/PUB_Demand_%Y.csv'
+    URL_FORMAT = 'https://reports-public.ieso.ca/public/Demand/PUB_Demand_%Y.csv'
     PERIOD = 1.year
 
     def self.cli(args)
@@ -238,7 +240,7 @@ module Ieso
       end
     end
 
-    URL_FORMAT = 'http://reports.ieso.ca/public/GenOutputCapabilityMonth/PUB_GenOutputCapabilityMonth_%Y%m.csv'
+    URL_FORMAT = 'https://reports-public.ieso.ca/public/GenOutputCapabilityMonth/PUB_GenOutputCapabilityMonth_%Y%m.csv'
     PERIOD = 1.month
 
     def initialize(date)
@@ -289,7 +291,7 @@ module Ieso
       raise 'FIXME'
     end
 
-    URL = 'http://reports.ieso.ca/public/GenOutputCapability/'
+    URL = 'https://reports-public.ieso.ca/public/GenOutputCapability/'
     #PERIOD = 1.day
 
     def self.select_file? url
@@ -341,7 +343,7 @@ module Ieso
     include SemanticLogger::Loggable
     include Out::Generation
 
-    URL_FORMAT = 'http://reports.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_%Y.xml'
+    URL_FORMAT = 'https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_%Y.xml'
     PERIOD = 1.year
 
     def self.cli(args)
@@ -398,8 +400,8 @@ module Ieso
     include SemanticLogger::Loggable
     include Out::Price
 
-    URL = 'http://reports.ieso.ca/public/DispUnconsHOEP/'
-    #URL_FORMAT = 'http://reports.ieso.ca/public/DispUnconsHOEP/PUB_DispUnconsHOEP_%Y%m%d.csv'
+    URL = 'https://reports-public.ieso.ca/public/DispUnconsHOEP/'
+    #URL_FORMAT = 'https://reports-public.ieso.ca/public/DispUnconsHOEP/PUB_DispUnconsHOEP_%Y%m%d.csv'
     #PERIOD = 1.day
 
     def self.cli(args)
@@ -448,7 +450,7 @@ module Ieso
       e.process
     end
 
-    URL_FORMAT = 'http://reports.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_%Y.csv'
+    URL_FORMAT = 'https://reports-public.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_%Y.csv'
     PERIOD = 1.year
 
     def points_price
@@ -488,7 +490,7 @@ module Ieso
     include SemanticLogger::Loggable
     include Out::Transmission
 
-    URL_FORMAT = 'http://reports.ieso.ca/public/IntertieScheduleFlow/PUB_IntertieScheduleFlow_%Y%m%d.xml'
+    URL_FORMAT = 'https://reports-public.ieso.ca/public/IntertieScheduleFlow/PUB_IntertieScheduleFlow_%Y%m%d.xml'
     PERIOD = 1.day
     MAP_EXCHANGE = {
       "MANITOBA" => ["CA-ON", "CA-MB"],
@@ -566,7 +568,7 @@ module Ieso
     include SemanticLogger::Loggable
     include Out::Transmission
 
-    URL_FORMAT = 'http://reports.ieso.ca/public/IntertieScheduleFlowYear/PUB_IntertieScheduleFlowYear_%Y.csv'
+    URL_FORMAT = 'https://reports-public.ieso.ca/public/IntertieScheduleFlowYear/PUB_IntertieScheduleFlowYear_%Y.csv'
     PERIOD = 1.year
     MAP_EXCHANGE = Intertie::MAP_EXCHANGE
 

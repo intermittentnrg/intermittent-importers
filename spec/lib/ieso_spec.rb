@@ -10,7 +10,7 @@ CSV
   context :cli do
     context 'with date' do
       it do
-        stub_request(:get, 'http://reports.ieso.ca/public/Demand/PUB_Demand_2023.csv').
+        stub_request(:get, 'https://reports-public.ieso.ca/public/Demand/PUB_Demand_2023.csv').
           to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
         expect(::Load).to receive(:upsert_all)
         subject.cli(['2023-10-01'])
@@ -31,7 +31,7 @@ RSpec.describe Ieso::UnitMonth do
     context 'with date range'
     context 'with date' do
       it do
-        stub_request(:get, 'http://reports.ieso.ca/public/GenOutputCapabilityMonth/PUB_GenOutputCapabilityMonth_202310.csv').
+        stub_request(:get, 'https://reports-public.ieso.ca/public/GenOutputCapabilityMonth/PUB_GenOutputCapabilityMonth_202310.csv').
           to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
         expect(::GenerationUnit).to receive(:upsert_all)
         subject.cli(['2023-10-01'])
@@ -134,7 +134,7 @@ XML
   context :cli do
     context 'with date' do
       it do
-        stub_request(:get, 'http://reports.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2023.xml').
+        stub_request(:get, 'https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2023.xml').
         to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
         expect(Generation).to receive(:upsert_all)
         subject.cli(['2023-10-01'])

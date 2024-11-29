@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://reports.ieso.ca/public/GenOutputCapability/PUB_GenOutputCapability_20230901.xml
+    uri: https://reports-public.ieso.ca/public/GenOutputCapability/PUB_GenOutputCapability_20230901.xml
     body:
       encoding: US-ASCII
       string: ''

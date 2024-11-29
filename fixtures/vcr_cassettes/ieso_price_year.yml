@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://reports.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_2023.csv
+    uri: https://reports-public.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_2023.csv
     body:
       encoding: US-ASCII
       string: ''
