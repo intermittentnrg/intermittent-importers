@@ -274,7 +274,7 @@ module Ieso
           next if value.nil?
           time = date + hour.to_i.hours
           time = TZ.local_to_utc(time)
-          value = value.to_f*1000
+          value = value.to_i*1000
           r << {time:, unit_id: unit.id, value:}
         end
       end
@@ -365,7 +365,8 @@ module Ieso
         end
       else
         $stderr.puts "#{$0} <from> <to>"
-        $stderr.puts "#{$0} <date_or_path>"
+        $stderr.puts "#{$0} <date>"
+        $stderr.puts "#{$0} <path>"
         exit 1
       end
     end
