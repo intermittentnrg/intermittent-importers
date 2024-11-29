@@ -18,11 +18,13 @@ spec:
 ) {
   node(POD_LABEL) {
     container('app') {
-      parallel all: {
-        stage('all') {
-          tasks = "all"
-          sh "cd /app ; bundle exec rake -j4 ${tasks}"
-        }
+      stage('all') {
+	sh "cd /app ; bundle exec rake -j4 all"
+      }
+      if (env.BRANCH_NAME == 'master') {
+        stage('refresh') {
+          sh 'sh -c \'pgsync --from ${PGDATABASE} --to ${PGSYNC_TO} --to-safe --schemas intermittency --overwrite units\''
+	}
       }
     }
   }
