@@ -2547,7 +2547,7 @@ aeso_CA-AB:
   enabled: true
   region: canada
   type: region
-  electricitymaps_id:
+  electricitymaps_id: CA-AB
   location_id:
   price_area_id:
 aeso_CA-AB-hourly:
@@ -2555,7 +2555,7 @@ aeso_CA-AB-hourly:
   code: CA-AB-hourly
   internal_id: CA-AB-hourly
   source: aeso
-  enabled: true
+  enabled: false
   region: canada
   type: region
   electricitymaps_id:
