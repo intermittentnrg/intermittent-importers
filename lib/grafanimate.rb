@@ -163,7 +163,7 @@ module Grafanimate
     URL = "http://grafana.monitoring/d/fa529e06-ff34-415d-adf1-dde1a6f28350/prices-plotly-map?orgId=1&var-region=europe&var-area=All&var-scale_max=300&var-min_interval=5m&var-frame_duration=150&kiosk"
     CROP = 'crop=1074:953:104:52'
     def initialize
-     super(URL, 1.days.ago.beginning_of_day, 2.days.from_now.beginning_of_day - 1.hour)
+     super(URL, Time.now.beginning_of_day, 2.days.from_now.beginning_of_day - 1.hour)
     end
   end
   class NuclearMap < Base

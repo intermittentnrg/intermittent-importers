@@ -20,7 +20,7 @@ X::MediaUploader.await_processing(client:, media:)
 
 text = <<-EOF
 Europe electricity day ahead hourly spot price.
-Yesterday, today and tomorrow. UTC.
+Today and tomorrow. UTC.
 Range capped at €300/MWh.
 (testing automated posting)
 EOF
