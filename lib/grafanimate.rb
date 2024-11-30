@@ -5,8 +5,7 @@ require "selenium-webdriver"
 module Grafanimate
   class Base
     #CROP = false
-    CROP = 'crop=1074:953:104:52'
-    #SELENIUM_URL = "http://localhost:4444/wd/hub"
+    CROP = 'crop=1074:953:104:175'
     SELENIUM_URL = ENV['SELENIUM_URL']
 
     TIME_FORMAT = '%Y-%m-%d %H:%M'
@@ -30,6 +29,10 @@ module Grafanimate
 
     def wait_for_panels
       @wait.until { @driver.execute_script("panels = Object.values(window.grafanaRuntime.getPanelData());return panels.length && panels.every(function(o) {return o?.state=='Done'})") }
+      sleep 0.5
+    end
+    def wait_for_scene_state
+      @wait.until { @driver.execute_script("return __grafanaSceneContext.state.$data._state.data.state == 'Done'") }
       sleep 0.5
     end
 
@@ -123,12 +126,41 @@ module Grafanimate
         t += 1.hour
       end
     end
+
+    def scenesapi
+      body = @driver.find_element(:tag_name, 'body')
+      @wait.until do
+        tests = []
+        tests << !body.text.include?('Loading')
+        #tests << (@driver.execute_script("panels = Object.values(window.grafanaRuntime.getPanelData());return !!panels.length && panels.every(function(o) {return o?.state=='Done'})") rescue false)
+        tests << @driver.execute_script("return __grafanaSceneContext.state.$data._state.data.state == 'Done'")
+        tests << @driver.execute_script("return __grafanaSceneContext.state.$data._state.data.series.length > 0")
+        break if tests.all?
+        if tests.any?
+          logger.warn "Inconsistent tests: #{tests.inspect}"
+        end
+
+        false
+      end
+
+      t = @from
+      until t >= @to
+        @driver.execute_script <<-JS
+          __grafanaSceneContext.state.$timeRange.setState({ from: '#{t.strftime(TIME_FORMAT)}', to: '#{(t+1.hour).strftime(TIME_FORMAT)}' });
+          __grafanaSceneContext.state.$timeRange.onRefresh();
+        JS
+        wait_for_scene_state
+        screenshot(t)
+
+        t += 1.hour
+      end
+    end
   end
 
   class PriceMap < Base
     include SemanticLogger::Loggable
 
-    URL = "http://grafana.monitoring/d/fa529e06-ff34-415d-adf1-dde1a6f28350/prices-plotly-map?orgId=1&var-region=europe&var-area=All&var-scale_max=300&var-min_interval=5m&var-frame_duration=150"
+    URL = "http://grafana.monitoring/d/fa529e06-ff34-415d-adf1-dde1a6f28350/prices-plotly-map?orgId=1&var-region=europe&var-area=All&var-scale_max=300&var-min_interval=5m&var-frame_duration=150&kiosk"
     CROP = 'crop=1074:953:104:52'
     def initialize
      super(URL, 1.days.ago.beginning_of_day, 2.days.from_now.beginning_of_day - 1.hour)
