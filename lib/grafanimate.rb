@@ -28,11 +28,27 @@ module Grafanimate
 
     def wait_for_panels
       @wait.until { @driver.execute_script("panels = Object.values(window.grafanaRuntime.getPanelData());return panels.length && panels.every(function(o) {return o?.state=='Done'})") }
-      sleep 0.5
     end
     def wait_for_scene_state
       @wait.until { @driver.execute_script("return __grafanaSceneContext.state.$data._state.data.state == 'Done'") }
-      sleep 0.5
+    end
+    def wait_multiple
+      body = @driver.find_element(:tag_name, 'body')
+      @wait.until do
+        tests = []
+        tests << !body.text.include?('Loading')
+        #tests << (@driver.execute_script("panels = Object.values(window.grafanaRuntime.getPanelData());return panels.length && panels.every(function(o) {return o?.state=='Done'})") rescue false)<
+        tests << @driver.execute_script("return __grafanaSceneContext.state.$data._state.data.state == 'Done'")
+        tests << @driver.execute_script("return __grafanaSceneContext.state.$data._state.data.series.length > 0")
+        tests << @driver.execute_script("return document.querySelector('[aria-label=\"Refresh\"]')")
+        tests << @driver.execute_script("return !document.querySelector('[aria-label=\"Cancel\"]')")
+        break if tests.all?
+        if tests.any?
+          logger.warn "Inconsistent tests: #{tests.inspect}"
+        end
+
+        false
+      end
     end
 
     def screenshot(t)
@@ -75,19 +91,7 @@ module Grafanimate
 
     def scenesapi
       body = @driver.find_element(:tag_name, 'body')
-      @wait.until do
-        tests = []
-        tests << !body.text.include?('Loading')
-        #tests << (@driver.execute_script("panels = Object.values(window.grafanaRuntime.getPanelData());return !!panels.length && panels.every(function(o) {return o?.state=='Done'})") rescue false)
-        tests << @driver.execute_script("return __grafanaSceneContext.state.$data._state.data.state == 'Done'")
-        tests << @driver.execute_script("return __grafanaSceneContext.state.$data._state.data.series.length > 0")
-        break if tests.all?
-        if tests.any?
-          logger.warn "Inconsistent tests: #{tests.inspect}"
-        end
-
-        false
-      end
+      wait_multiple
 
       t = @from
       until t >= @to
@@ -95,7 +99,8 @@ module Grafanimate
           __grafanaSceneContext.state.$timeRange.setState({ from: '#{t.strftime(TIME_FORMAT)}', to: '#{(t+1.hour).strftime(TIME_FORMAT)}' });
           __grafanaSceneContext.state.$timeRange.onRefresh();
         JS
-        wait_for_scene_state
+        sleep 0.1
+        wait_multiple
         screenshot(t)
 
         t += 1.hour
@@ -112,17 +117,23 @@ module Grafanimate
      super(URL, Time.now.beginning_of_day, 2.days.from_now.beginning_of_day - 1.hour)
     end
   end
+
+  class TransmissionMap < Base
+    include SemanticLogger::Loggable
+
+    URL = "http://grafana.monitoring/d/ae4xmqh628a9sf/transmission-plotly-map?orgId=1&var-region=europe&var-area=$__all&var-min_interval=1h"
+    CROP = 'crop=1074:953:104:226'
+    def initialize
+      #super(URL, 7.days.ago.beginning_of_day, Time.now.beginning_of_day - 1.hour)
+      super(URL, 7.days.ago.beginning_of_day, Time.now.beginning_of_day - 1.hour)
+    end
+  end
+
   class NuclearMap < Base
     URL = "http://grafana.monitoring/d/adk4o41xfjncwb/generation-of-peak-plotly-map?from=now-30d&to=now&orgId=1&var-region=argentina&var-region=brazil&var-region=canada&var-region=europe&var-region=south_africa&var-region=taiwan&var-region=usa&var-area=All&var-production_type=14&var-min_interval=1h&var-colorscale=Electric"
     CROP = 'crop=1074:953:104:52'
     def initialize
      super(URL, 1.day.ago.beginning_of_day, Date.tomorrow - 1.hour)
-    end
-
-    def wait_for_panels
-      #ignore hidden extra panel
-      @wait.until { @driver.execute_script("return window.grafanaRuntime.getPanelData()[2].state == 'Done'") }
-      sleep 0.5
     end
   end
 end

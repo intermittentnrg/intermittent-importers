@@ -1,0 +1,32 @@
+podTemplate(yaml: """
+kind: Pod
+spec:
+  containers:
+    - name: app
+      image: docker-registry:5000/intermittency:${env.TAG}
+      command: ['/bin/cat']
+      tty: true
+      envFrom:
+        - secretRef:
+            name: intermittency-${env.BRANCH_NAME}
+      resources:
+        requests:
+          memory: "1Gi"
+          cpu: "1"
+"""
+) {
+  node(POD_LABEL) {
+    container('app') {
+      stage('rake entsoe:price_api') {
+	sh "cd /app ; rake entsoe:price_api"
+      }
+      stage('grafanimate') {
+        sh "mkdir /app/render"
+	sh "cd /app ; ruby scripts/grafanimate-transmissionmap.rb"
+	sh "cd /app ; ruby scripts/grafanimate-transmissionmap-render.rb"
+	sh "cp /app/render.mp4 ."
+	archiveArtifacts 'render.mp4'
+      }
+    }
+  }
+}
