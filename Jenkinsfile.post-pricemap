@@ -20,12 +20,10 @@ spec:
       stage('rake entsoe:price_api') {
 	sh "cd /app ; rake entsoe:price_api"
       }
-      stage('grafanimate-pricemap.rb') {
+      stage('grafanimate') {
         sh "mkdir /app/render"
 	sh "cd /app ; ruby scripts/grafanimate-pricemap.rb"
-      }
-      stage('grafanimate-render.rb') {
-	sh "cd /app ; ruby scripts/grafanimate-render.rb"
+	sh "cd /app ; ruby scripts/grafanimate-pricemap-render.rb"
 	sh "cp /app/render.mp4 ."
 	archiveArtifacts 'render.mp4'
       }
