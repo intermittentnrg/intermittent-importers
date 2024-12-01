@@ -29,6 +29,9 @@ spec:
 	sh "cp /app/render.mp4 ."
 	archiveArtifacts 'render.mp4'
       }
+      if (currentBuild.getBuildCauses()[0].userId != null) {
+        input 'Publish result?'
+      }
       stage('grafanimate-upload-x.rb') {
 	sh "cd /app ; ruby scripts/grafanimate-upload-x.rb"
       }
