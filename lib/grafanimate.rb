@@ -74,59 +74,6 @@ module Grafanimate
       @driver.quit
     end
 
-    def timepicker
-      t = @from
-      until t >= @to
-        @driver.find_element(:css, 'button[data-testid="data-testid TimePicker Open Button"]').click
-        e = @driver.find_element(:css, 'input[data-testid="data-testid Time Range from field"]')
-        e.clear
-        e.send_keys t.strftime TIME_FORMAT
-
-        e = @driver.find_element(:css, 'input[data-testid="data-testid Time Range to field"]')
-        e.clear
-        e.send_keys (t+1.hour).strftime TIME_FORMAT
-
-        @driver.find_element(:css, 'button[data-testid="data-testid TimePicker submit button"]').click
-
-        e = @driver.find_element(:tag_name, 'body')
-        2.times { e.send_keys 'dk' }
-        @driver.find_element(:css, 'button[aria-label="Close alert"]').click
-
-        wait_for_panels
-        screenshot(t)
-        e.send_keys 'dk'
-
-        t += 1.hour
-      end
-    end
-
-    def timestepper
-      @driver.find_element(:css, 'button[data-testid="data-testid TimePicker Open Button"]').click
-      e = @driver.find_element(:css, 'input[data-testid="data-testid Time Range from field"]')
-      e.clear
-      e.send_keys @from.strftime TIME_FORMAT
-
-      e = @driver.find_element(:css, 'input[data-testid="data-testid Time Range to field"]')
-      e.clear
-      e.send_keys (@from+2.hours).strftime TIME_FORMAT
-
-      @driver.find_element(:css, 'button[data-testid="data-testid TimePicker submit button"]').click
-
-      body = @driver.find_element(:tag_name, 'body')
-      2.times { body.send_keys 'dk' }
-      @driver.find_element(:css, 'button[aria-label="Close alert"]').click
-
-      t = @from
-      until t >= @to
-        body.send_keys 't'
-        body.send_keys :right
-        wait_for_panels
-        screenshot(t)
-
-        t += 1.hour
-      end
-    end
-
     def scenesapi
       body = @driver.find_element(:tag_name, 'body')
       @wait.until do
