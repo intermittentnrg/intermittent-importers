@@ -1,0 +1,3376 @@
+entsoe_AT_entsoe_CH:
+  id: 10
+  from_area_id: 1
+  to_area_id: 5
+entsoe_AT_entsoe_CZ:
+  id: 462
+  from_area_id: 1
+  to_area_id: 6
+entsoe_AT_entsoe_DE:
+  id: 707
+  from_area_id: 1
+  to_area_id: 7
+entsoe_AT_entsoe_HU:
+  id: 150
+  from_area_id: 1
+  to_area_id: 16
+entsoe_AT_entsoe_IT:
+  id: 714
+  from_area_id: 1
+  to_area_id: 18
+entsoe_AT_entsoe_SI:
+  id: 75
+  from_area_id: 1
+  to_area_id: 35
+entsoe_AT_entsoe_DE-LU:
+  id: 457
+  from_area_id: 1
+  to_area_id: 52
+entsoe_AT_entsoe_IT-NO:
+  id: 676
+  from_area_id: 1
+  to_area_id: 266
+entsoe_BA_entsoe_HR:
+  id: 622
+  from_area_id: 2
+  to_area_id: 15
+entsoe_BA_entsoe_ME:
+  id: 221
+  from_area_id: 2
+  to_area_id: 22
+entsoe_BA_entsoe_RS:
+  id: 222
+  from_area_id: 2
+  to_area_id: 29
+entsoe_BE_entsoe_DE:
+  id: 65
+  from_area_id: 3
+  to_area_id: 7
+entsoe_BE_entsoe_FR:
+  id: 312
+  from_area_id: 3
+  to_area_id: 12
+entsoe_BE_entsoe_GB:
+  id: 417
+  from_area_id: 3
+  to_area_id: 13
+entsoe_BE_entsoe_LU:
+  id: 389
+  from_area_id: 3
+  to_area_id: 20
+entsoe_BE_entsoe_NL:
+  id: 732
+  from_area_id: 3
+  to_area_id: 24
+entsoe_BE_entsoe_DE-LU:
+  id: 51
+  from_area_id: 3
+  to_area_id: 52
+entsoe_BE_entsoe_GB-CTY:
+  id: 374
+  from_area_id: 3
+  to_area_id: 280
+entsoe_BE_entsoe_DE-AT-LU:
+  id: 283
+  from_area_id: 3
+  to_area_id: 285
+entsoe_BG_entsoe_GR:
+  id: 686
+  from_area_id: 4
+  to_area_id: 14
+entsoe_BG_entsoe_MK:
+  id: 123
+  from_area_id: 4
+  to_area_id: 23
+entsoe_BG_entsoe_RO:
+  id: 822
+  from_area_id: 4
+  to_area_id: 28
+entsoe_BG_entsoe_RS:
+  id: 228
+  from_area_id: 4
+  to_area_id: 29
+entsoe_BG_entsoe_TR:
+  id: 357
+  from_area_id: 4
+  to_area_id: 309
+entsoe_CH_entsoe_AT:
+  id: 583
+  from_area_id: 5
+  to_area_id: 1
+entsoe_CH_entsoe_DE:
+  id: 397
+  from_area_id: 5
+  to_area_id: 7
+entsoe_CH_entsoe_FR:
+  id: 433
+  from_area_id: 5
+  to_area_id: 12
+entsoe_CH_entsoe_IT:
+  id: 621
+  from_area_id: 5
+  to_area_id: 18
+entsoe_CH_entsoe_DE-LU:
+  id: 394
+  from_area_id: 5
+  to_area_id: 52
+entsoe_CH_entsoe_IT-NO:
+  id: 420
+  from_area_id: 5
+  to_area_id: 266
+entsoe_CH_entsoe_DE-AT-LU:
+  id: 599
+  from_area_id: 5
+  to_area_id: 285
+entsoe_CH_entsoe_IT-North-CH:
+  id: 789
+  from_area_id: 5
+  to_area_id: 300
+entsoe_CZ_entsoe_AT:
+  id: 174
+  from_area_id: 6
+  to_area_id: 1
+entsoe_CZ_entsoe_DE:
+  id: 780
+  from_area_id: 6
+  to_area_id: 7
+entsoe_CZ_entsoe_PL:
+  id: 644
+  from_area_id: 6
+  to_area_id: 26
+entsoe_CZ_entsoe_SK:
+  id: 407
+  from_area_id: 6
+  to_area_id: 36
+entsoe_CZ_entsoe_DE-LU:
+  id: 637
+  from_area_id: 6
+  to_area_id: 52
+entsoe_CZ_entsoe_DE-AT-LU:
+  id: 364
+  from_area_id: 6
+  to_area_id: 285
+entsoe_DE_entsoe_AT:
+  id: 429
+  from_area_id: 7
+  to_area_id: 1
+entsoe_DE_entsoe_BE:
+  id: 694
+  from_area_id: 7
+  to_area_id: 3
+entsoe_DE_entsoe_CH:
+  id: 379
+  from_area_id: 7
+  to_area_id: 5
+entsoe_DE_entsoe_CZ:
+  id: 545
+  from_area_id: 7
+  to_area_id: 6
+entsoe_DE_entsoe_DK:
+  id: 635
+  from_area_id: 7
+  to_area_id: 8
+entsoe_DE_entsoe_FR:
+  id: 696
+  from_area_id: 7
+  to_area_id: 12
+entsoe_DE_entsoe_LU:
+  id: 452
+  from_area_id: 7
+  to_area_id: 20
+entsoe_DE_entsoe_NL:
+  id: 108
+  from_area_id: 7
+  to_area_id: 24
+entsoe_DE_entsoe_NO:
+  id: 347
+  from_area_id: 7
+  to_area_id: 25
+entsoe_DE_entsoe_PL:
+  id: 328
+  from_area_id: 7
+  to_area_id: 26
+entsoe_DE_entsoe_SE:
+  id: 20
+  from_area_id: 7
+  to_area_id: 30
+entsoe_DK_entsoe_DE:
+  id: 147
+  from_area_id: 8
+  to_area_id: 7
+entsoe_DK_entsoe_NL:
+  id: 184
+  from_area_id: 8
+  to_area_id: 24
+entsoe_DK_entsoe_NO:
+  id: 218
+  from_area_id: 8
+  to_area_id: 25
+entsoe_DK_entsoe_SE:
+  id: 718
+  from_area_id: 8
+  to_area_id: 30
+entsoe_DK_entsoe_GB-CTY:
+  id: 306
+  from_area_id: 8
+  to_area_id: 280
+entsoe_EE_entsoe_FI:
+  id: 203
+  from_area_id: 9
+  to_area_id: 11
+entsoe_EE_entsoe_LV:
+  id: 376
+  from_area_id: 9
+  to_area_id: 21
+entsoe_EE_entsoe_RU:
+  id: 241
+  from_area_id: 9
+  to_area_id: 310
+entsoe_EE_entsoe_RU-BZN:
+  id: 39
+  from_area_id: 9
+  to_area_id: 313
+entsoe_ES_entsoe_FR:
+  id: 465
+  from_area_id: 10
+  to_area_id: 12
+entsoe_ES_entsoe_PT:
+  id: 240
+  from_area_id: 10
+  to_area_id: 27
+entsoe_FI_entsoe_EE:
+  id: 666
+  from_area_id: 11
+  to_area_id: 9
+entsoe_FI_entsoe_NO:
+  id: 703
+  from_area_id: 11
+  to_area_id: 25
+entsoe_FI_entsoe_SE:
+  id: 811
+  from_area_id: 11
+  to_area_id: 30
+entsoe_FI_entsoe_SE1:
+  id: 786
+  from_area_id: 11
+  to_area_id: 31
+entsoe_FI_entsoe_SE3:
+  id: 772
+  from_area_id: 11
+  to_area_id: 33
+entsoe_FI_entsoe_NO4:
+  id: 795
+  from_area_id: 11
+  to_area_id: 44
+entsoe_FI_entsoe_RU:
+  id: 774
+  from_area_id: 11
+  to_area_id: 310
+entsoe_FI_entsoe_RU-BZN:
+  id: 173
+  from_area_id: 11
+  to_area_id: 313
+entsoe_FR_entsoe_BE:
+  id: 227
+  from_area_id: 12
+  to_area_id: 3
+entsoe_FR_entsoe_CH:
+  id: 137
+  from_area_id: 12
+  to_area_id: 5
+entsoe_FR_entsoe_DE:
+  id: 276
+  from_area_id: 12
+  to_area_id: 7
+entsoe_FR_entsoe_ES:
+  id: 612
+  from_area_id: 12
+  to_area_id: 10
+entsoe_FR_entsoe_GB:
+  id: 245
+  from_area_id: 12
+  to_area_id: 13
+entsoe_FR_entsoe_IT:
+  id: 458
+  from_area_id: 12
+  to_area_id: 18
+entsoe_FR_entsoe_DE-LU:
+  id: 134
+  from_area_id: 12
+  to_area_id: 52
+entsoe_FR_entsoe_IT-NO:
+  id: 308
+  from_area_id: 12
+  to_area_id: 266
+entsoe_FR_entsoe_GB-CTY:
+  id: 303
+  from_area_id: 12
+  to_area_id: 280
+entsoe_FR_entsoe_DE-AT-LU:
+  id: 149
+  from_area_id: 12
+  to_area_id: 285
+entsoe_FR_entsoe_IT-North-FR:
+  id: 96
+  from_area_id: 12
+  to_area_id: 304
+entsoe_FR_entsoe_GB(IFA2)-BZN:
+  id: 578
+  from_area_id: 12
+  to_area_id: 314
+entsoe_FR_entsoe_GB(ElecLink):
+  id: 521
+  from_area_id: 12
+  to_area_id: 319
+entsoe_FR_entsoe_GB(IFA)-BZN:
+  id: 634
+  from_area_id: 12
+  to_area_id: 320
+entsoe_GB_entsoe_BE:
+  id: 298
+  from_area_id: 13
+  to_area_id: 3
+entsoe_GB_entsoe_FR:
+  id: 101
+  from_area_id: 13
+  to_area_id: 12
+entsoe_GB_entsoe_NL:
+  id: 517
+  from_area_id: 13
+  to_area_id: 24
+entsoe_GB_entsoe_NO2:
+  id: 196
+  from_area_id: 13
+  to_area_id: 42
+entsoe_GB_entsoe_DK1:
+  id: 572
+  from_area_id: 13
+  to_area_id: 53
+entsoe_GB_entsoe_IE(SEM):
+  id: 13
+  from_area_id: 13
+  to_area_id: 278
+entsoe_GR_entsoe_BG:
+  id: 97
+  from_area_id: 14
+  to_area_id: 4
+entsoe_GR_entsoe_IT:
+  id: 449
+  from_area_id: 14
+  to_area_id: 18
+entsoe_GR_entsoe_MK:
+  id: 560
+  from_area_id: 14
+  to_area_id: 23
+entsoe_GR_entsoe_IT-SO:
+  id: 619
+  from_area_id: 14
+  to_area_id: 269
+entsoe_GR_entsoe_AL:
+  id: 388
+  from_area_id: 14
+  to_area_id: 273
+entsoe_GR_entsoe_IT-BR:
+  id: 799
+  from_area_id: 14
+  to_area_id: 275
+entsoe_GR_entsoe_IT-GR:
+  id: 805
+  from_area_id: 14
+  to_area_id: 302
+entsoe_GR_entsoe_TR:
+  id: 338
+  from_area_id: 14
+  to_area_id: 309
+entsoe_HR_entsoe_BA:
+  id: 763
+  from_area_id: 15
+  to_area_id: 2
+entsoe_HR_entsoe_HU:
+  id: 701
+  from_area_id: 15
+  to_area_id: 16
+entsoe_HR_entsoe_RS:
+  id: 67
+  from_area_id: 15
+  to_area_id: 29
+entsoe_HR_entsoe_SI:
+  id: 178
+  from_area_id: 15
+  to_area_id: 35
+entsoe_HU_entsoe_AT:
+  id: 768
+  from_area_id: 16
+  to_area_id: 1
+entsoe_HU_entsoe_HR:
+  id: 456
+  from_area_id: 16
+  to_area_id: 15
+entsoe_HU_entsoe_RO:
+  id: 409
+  from_area_id: 16
+  to_area_id: 28
+entsoe_HU_entsoe_RS:
+  id: 743
+  from_area_id: 16
+  to_area_id: 29
+entsoe_HU_entsoe_SI:
+  id: 826
+  from_area_id: 16
+  to_area_id: 35
+entsoe_HU_entsoe_SK:
+  id: 580
+  from_area_id: 16
+  to_area_id: 36
+entsoe_HU_entsoe_UA-BEI:
+  id: 502
+  from_area_id: 16
+  to_area_id: 270
+entsoe_HU_entsoe_UA-IPS:
+  id: 313
+  from_area_id: 16
+  to_area_id: 283
+entsoe_HU_entsoe_UA:
+  id: 584
+  from_area_id: 16
+  to_area_id: 284
+entsoe_HU_entsoe_DE-AT-LU:
+  id: 638
+  from_area_id: 16
+  to_area_id: 285
+entsoe_IE_entsoe_GB-CTY:
+  id: 436
+  from_area_id: 17
+  to_area_id: 280
+entsoe_IT_entsoe_AT:
+  id: 590
+  from_area_id: 18
+  to_area_id: 1
+entsoe_IT_entsoe_CH:
+  id: 796
+  from_area_id: 18
+  to_area_id: 5
+entsoe_IT_entsoe_FR:
+  id: 207
+  from_area_id: 18
+  to_area_id: 12
+entsoe_IT_entsoe_GR:
+  id: 438
+  from_area_id: 18
+  to_area_id: 14
+entsoe_IT_entsoe_ME:
+  id: 361
+  from_area_id: 18
+  to_area_id: 22
+entsoe_IT_entsoe_SI:
+  id: 216
+  from_area_id: 18
+  to_area_id: 35
+entsoe_IT_entsoe_MT:
+  id: 46
+  from_area_id: 18
+  to_area_id: 311
+entsoe_LT_entsoe_LV:
+  id: 182
+  from_area_id: 19
+  to_area_id: 21
+entsoe_LT_entsoe_PL:
+  id: 675
+  from_area_id: 19
+  to_area_id: 26
+entsoe_LT_entsoe_SE:
+  id: 451
+  from_area_id: 19
+  to_area_id: 30
+entsoe_LT_entsoe_SE4:
+  id: 155
+  from_area_id: 19
+  to_area_id: 34
+entsoe_LT_entsoe_RU-KGD:
+  id: 664
+  from_area_id: 19
+  to_area_id: 305
+entsoe_LT_entsoe_BY|BZ:
+  id: 82
+  from_area_id: 19
+  to_area_id: 306
+entsoe_LT_entsoe_BY:
+  id: 251
+  from_area_id: 19
+  to_area_id: 308
+entsoe_LT_entsoe_RU:
+  id: 702
+  from_area_id: 19
+  to_area_id: 310
+entsoe_LU_entsoe_BE:
+  id: 466
+  from_area_id: 20
+  to_area_id: 3
+entsoe_LU_entsoe_DE:
+  id: 280
+  from_area_id: 20
+  to_area_id: 7
+entsoe_LV_entsoe_EE:
+  id: 817
+  from_area_id: 21
+  to_area_id: 9
+entsoe_LV_entsoe_LT:
+  id: 819
+  from_area_id: 21
+  to_area_id: 19
+entsoe_LV_entsoe_RU:
+  id: 587
+  from_area_id: 21
+  to_area_id: 310
+entsoe_LV_entsoe_RU-BZN:
+  id: 55
+  from_area_id: 21
+  to_area_id: 313
+entsoe_ME_entsoe_BA:
+  id: 94
+  from_area_id: 22
+  to_area_id: 2
+entsoe_ME_entsoe_IT:
+  id: 431
+  from_area_id: 22
+  to_area_id: 18
+entsoe_ME_entsoe_RS:
+  id: 370
+  from_area_id: 22
+  to_area_id: 29
+entsoe_ME_entsoe_XK:
+  id: 269
+  from_area_id: 22
+  to_area_id: 40
+entsoe_ME_entsoe_IT-CSO:
+  id: 104
+  from_area_id: 22
+  to_area_id: 265
+entsoe_ME_entsoe_AL:
+  id: 163
+  from_area_id: 22
+  to_area_id: 273
+entsoe_MK_entsoe_BG:
+  id: 674
+  from_area_id: 23
+  to_area_id: 4
+entsoe_MK_entsoe_GR:
+  id: 318
+  from_area_id: 23
+  to_area_id: 14
+entsoe_MK_entsoe_RS:
+  id: 633
+  from_area_id: 23
+  to_area_id: 29
+entsoe_MK_entsoe_XK:
+  id: 366
+  from_area_id: 23
+  to_area_id: 40
+entsoe_NL_entsoe_BE:
+  id: 741
+  from_area_id: 24
+  to_area_id: 3
+entsoe_NL_entsoe_DE:
+  id: 596
+  from_area_id: 24
+  to_area_id: 7
+entsoe_NL_entsoe_DK:
+  id: 44
+  from_area_id: 24
+  to_area_id: 8
+entsoe_NL_entsoe_GB:
+  id: 757
+  from_area_id: 24
+  to_area_id: 13
+entsoe_NL_entsoe_NO:
+  id: 444
+  from_area_id: 24
+  to_area_id: 25
+entsoe_NL_entsoe_NO2:
+  id: 592
+  from_area_id: 24
+  to_area_id: 42
+entsoe_NL_entsoe_DE-LU:
+  id: 783
+  from_area_id: 24
+  to_area_id: 52
+entsoe_NL_entsoe_DK1:
+  id: 717
+  from_area_id: 24
+  to_area_id: 53
+entsoe_NL_entsoe_GB-CTY:
+  id: 37
+  from_area_id: 24
+  to_area_id: 280
+entsoe_NL_entsoe_DE-AT-LU:
+  id: 408
+  from_area_id: 24
+  to_area_id: 285
+entsoe_NO_entsoe_DE:
+  id: 80
+  from_area_id: 25
+  to_area_id: 7
+entsoe_NO_entsoe_DK:
+  id: 320
+  from_area_id: 25
+  to_area_id: 8
+entsoe_NO_entsoe_FI:
+  id: 396
+  from_area_id: 25
+  to_area_id: 11
+entsoe_NO_entsoe_NL:
+  id: 654
+  from_area_id: 25
+  to_area_id: 24
+entsoe_NO_entsoe_SE:
+  id: 798
+  from_area_id: 25
+  to_area_id: 30
+entsoe_NO_entsoe_GB-CTY:
+  id: 723
+  from_area_id: 25
+  to_area_id: 280
+entsoe_PL_entsoe_CZ:
+  id: 360
+  from_area_id: 26
+  to_area_id: 6
+entsoe_PL_entsoe_DE:
+  id: 410
+  from_area_id: 26
+  to_area_id: 7
+entsoe_PL_entsoe_LT:
+  id: 726
+  from_area_id: 26
+  to_area_id: 19
+entsoe_PL_entsoe_SE:
+  id: 52
+  from_area_id: 26
+  to_area_id: 30
+entsoe_PL_entsoe_SE4:
+  id: 440
+  from_area_id: 26
+  to_area_id: 34
+entsoe_PL_entsoe_SK:
+  id: 841
+  from_area_id: 26
+  to_area_id: 36
+entsoe_PL_entsoe_DE-LU:
+  id: 187
+  from_area_id: 26
+  to_area_id: 52
+entsoe_PL_entsoe_UA-IPS:
+  id: 185
+  from_area_id: 26
+  to_area_id: 283
+entsoe_PL_entsoe_UA:
+  id: 49
+  from_area_id: 26
+  to_area_id: 284
+entsoe_PL_entsoe_DE-AT-LU:
+  id: 270
+  from_area_id: 26
+  to_area_id: 285
+entsoe_PL_entsoe_UA-DobTPP BZN:
+  id: 220
+  from_area_id: 26
+  to_area_id: 325
+entsoe_PT_entsoe_ES:
+  id: 490
+  from_area_id: 27
+  to_area_id: 10
+entsoe_RO_entsoe_BG:
+  id: 626
+  from_area_id: 28
+  to_area_id: 4
+entsoe_RO_entsoe_HU:
+  id: 146
+  from_area_id: 28
+  to_area_id: 16
+entsoe_RO_entsoe_RS:
+  id: 535
+  from_area_id: 28
+  to_area_id: 29
+entsoe_RO_entsoe_UA-BEI:
+  id: 326
+  from_area_id: 28
+  to_area_id: 270
+entsoe_RO_entsoe_MD:
+  id: 842
+  from_area_id: 28
+  to_area_id: 271
+entsoe_RO_entsoe_UA-IPS:
+  id: 735
+  from_area_id: 28
+  to_area_id: 283
+entsoe_RO_entsoe_UA:
+  id: 375
+  from_area_id: 28
+  to_area_id: 284
+entsoe_RS_entsoe_BA:
+  id: 330
+  from_area_id: 29
+  to_area_id: 2
+entsoe_RS_entsoe_BG:
+  id: 555
+  from_area_id: 29
+  to_area_id: 4
+entsoe_RS_entsoe_HR:
+  id: 454
+  from_area_id: 29
+  to_area_id: 15
+entsoe_RS_entsoe_HU:
+  id: 648
+  from_area_id: 29
+  to_area_id: 16
+entsoe_RS_entsoe_ME:
+  id: 191
+  from_area_id: 29
+  to_area_id: 22
+entsoe_RS_entsoe_MK:
+  id: 539
+  from_area_id: 29
+  to_area_id: 23
+entsoe_RS_entsoe_RO:
+  id: 363
+  from_area_id: 29
+  to_area_id: 28
+entsoe_RS_entsoe_XK:
+  id: 509
+  from_area_id: 29
+  to_area_id: 40
+entsoe_RS_entsoe_AL:
+  id: 259
+  from_area_id: 29
+  to_area_id: 273
+entsoe_SE_entsoe_DE:
+  id: 141
+  from_area_id: 30
+  to_area_id: 7
+entsoe_SE_entsoe_DK:
+  id: 103
+  from_area_id: 30
+  to_area_id: 8
+entsoe_SE_entsoe_FI:
+  id: 643
+  from_area_id: 30
+  to_area_id: 11
+entsoe_SE_entsoe_LT:
+  id: 730
+  from_area_id: 30
+  to_area_id: 19
+entsoe_SE_entsoe_NO:
+  id: 183
+  from_area_id: 30
+  to_area_id: 25
+entsoe_SE_entsoe_PL:
+  id: 158
+  from_area_id: 30
+  to_area_id: 26
+entsoe_SE1_entsoe_FI:
+  id: 302
+  from_area_id: 31
+  to_area_id: 11
+entsoe_SE1_entsoe_SE2:
+  id: 202
+  from_area_id: 31
+  to_area_id: 32
+entsoe_SE1_entsoe_NO4:
+  id: 692
+  from_area_id: 31
+  to_area_id: 44
+entsoe_SE2_entsoe_SE1:
+  id: 646
+  from_area_id: 32
+  to_area_id: 31
+entsoe_SE2_entsoe_SE3:
+  id: 594
+  from_area_id: 32
+  to_area_id: 33
+entsoe_SE2_entsoe_NO3:
+  id: 661
+  from_area_id: 32
+  to_area_id: 43
+entsoe_SE2_entsoe_NO4:
+  id: 837
+  from_area_id: 32
+  to_area_id: 44
+entsoe_SE3_entsoe_FI:
+  id: 671
+  from_area_id: 33
+  to_area_id: 11
+entsoe_SE3_entsoe_SE2:
+  id: 467
+  from_area_id: 33
+  to_area_id: 32
+entsoe_SE3_entsoe_SE4:
+  id: 499
+  from_area_id: 33
+  to_area_id: 34
+entsoe_SE3_entsoe_NO1:
+  id: 765
+  from_area_id: 33
+  to_area_id: 41
+entsoe_SE3_entsoe_DK1:
+  id: 746
+  from_area_id: 33
+  to_area_id: 53
+entsoe_SE4_entsoe_LT:
+  id: 244
+  from_area_id: 34
+  to_area_id: 19
+entsoe_SE4_entsoe_PL:
+  id: 525
+  from_area_id: 34
+  to_area_id: 26
+entsoe_SE4_entsoe_SE3:
+  id: 362
+  from_area_id: 34
+  to_area_id: 33
+entsoe_SE4_entsoe_DE-LU:
+  id: 562
+  from_area_id: 34
+  to_area_id: 52
+entsoe_SE4_entsoe_DK2:
+  id: 319
+  from_area_id: 34
+  to_area_id: 54
+entsoe_SE4_entsoe_DE-AT-LU:
+  id: 285
+  from_area_id: 34
+  to_area_id: 285
+entsoe_SI_entsoe_AT:
+  id: 354
+  from_area_id: 35
+  to_area_id: 1
+entsoe_SI_entsoe_HR:
+  id: 161
+  from_area_id: 35
+  to_area_id: 15
+entsoe_SI_entsoe_HU:
+  id: 217
+  from_area_id: 35
+  to_area_id: 16
+entsoe_SI_entsoe_IT:
+  id: 711
+  from_area_id: 35
+  to_area_id: 18
+entsoe_SI_entsoe_IT-NO:
+  id: 310
+  from_area_id: 35
+  to_area_id: 266
+entsoe_SI_entsoe_DE-AT-LU:
+  id: 212
+  from_area_id: 35
+  to_area_id: 285
+entsoe_SK_entsoe_CZ:
+  id: 416
+  from_area_id: 36
+  to_area_id: 6
+entsoe_SK_entsoe_HU:
+  id: 258
+  from_area_id: 36
+  to_area_id: 16
+entsoe_SK_entsoe_PL:
+  id: 813
+  from_area_id: 36
+  to_area_id: 26
+entsoe_SK_entsoe_UA-BEI:
+  id: 226
+  from_area_id: 36
+  to_area_id: 270
+entsoe_SK_entsoe_UA-IPS:
+  id: 385
+  from_area_id: 36
+  to_area_id: 283
+entsoe_SK_entsoe_UA:
+  id: 257
+  from_area_id: 36
+  to_area_id: 284
+entsoe_XK_entsoe_ME:
+  id: 382
+  from_area_id: 40
+  to_area_id: 22
+entsoe_XK_entsoe_MK:
+  id: 412
+  from_area_id: 40
+  to_area_id: 23
+entsoe_XK_entsoe_RS:
+  id: 471
+  from_area_id: 40
+  to_area_id: 29
+entsoe_XK_entsoe_AL:
+  id: 520
+  from_area_id: 40
+  to_area_id: 273
+entsoe_NO1_entsoe_SE3:
+  id: 550
+  from_area_id: 41
+  to_area_id: 33
+entsoe_NO1_entsoe_NO2:
+  id: 171
+  from_area_id: 41
+  to_area_id: 42
+entsoe_NO1_entsoe_NO3:
+  id: 317
+  from_area_id: 41
+  to_area_id: 43
+entsoe_NO1_entsoe_NO5:
+  id: 568
+  from_area_id: 41
+  to_area_id: 45
+entsoe_NO2_entsoe_GB:
+  id: 164
+  from_area_id: 42
+  to_area_id: 13
+entsoe_NO2_entsoe_NL:
+  id: 70
+  from_area_id: 42
+  to_area_id: 24
+entsoe_NO2_entsoe_NO1:
+  id: 236
+  from_area_id: 42
+  to_area_id: 41
+entsoe_NO2_entsoe_NO5:
+  id: 705
+  from_area_id: 42
+  to_area_id: 45
+entsoe_NO2_entsoe_DE-LU:
+  id: 42
+  from_area_id: 42
+  to_area_id: 52
+entsoe_NO2_entsoe_DK1:
+  id: 211
+  from_area_id: 42
+  to_area_id: 53
+entsoe_NO3_entsoe_SE2:
+  id: 476
+  from_area_id: 43
+  to_area_id: 32
+entsoe_NO3_entsoe_NO1:
+  id: 776
+  from_area_id: 43
+  to_area_id: 41
+entsoe_NO3_entsoe_NO4:
+  id: 659
+  from_area_id: 43
+  to_area_id: 44
+entsoe_NO3_entsoe_NO5:
+  id: 292
+  from_area_id: 43
+  to_area_id: 45
+entsoe_NO4_entsoe_FI:
+  id: 286
+  from_area_id: 44
+  to_area_id: 11
+entsoe_NO4_entsoe_SE1:
+  id: 405
+  from_area_id: 44
+  to_area_id: 31
+entsoe_NO4_entsoe_SE2:
+  id: 712
+  from_area_id: 44
+  to_area_id: 32
+entsoe_NO4_entsoe_NO3:
+  id: 145
+  from_area_id: 44
+  to_area_id: 43
+entsoe_NO5_entsoe_NO1:
+  id: 26
+  from_area_id: 45
+  to_area_id: 41
+entsoe_NO5_entsoe_NO2:
+  id: 304
+  from_area_id: 45
+  to_area_id: 42
+entsoe_NO5_entsoe_NO3:
+  id: 670
+  from_area_id: 45
+  to_area_id: 43
+entsoe_DE-LU_entsoe_AT:
+  id: 15
+  from_area_id: 52
+  to_area_id: 1
+entsoe_DE-LU_entsoe_BE:
+  id: 189
+  from_area_id: 52
+  to_area_id: 3
+entsoe_DE-LU_entsoe_CH:
+  id: 496
+  from_area_id: 52
+  to_area_id: 5
+entsoe_DE-LU_entsoe_CZ:
+  id: 791
+  from_area_id: 52
+  to_area_id: 6
+entsoe_DE-LU_entsoe_FR:
+  id: 614
+  from_area_id: 52
+  to_area_id: 12
+entsoe_DE-LU_entsoe_NL:
+  id: 494
+  from_area_id: 52
+  to_area_id: 24
+entsoe_DE-LU_entsoe_PL:
+  id: 85
+  from_area_id: 52
+  to_area_id: 26
+entsoe_DE-LU_entsoe_SE4:
+  id: 691
+  from_area_id: 52
+  to_area_id: 34
+entsoe_DE-LU_entsoe_NO2:
+  id: 554
+  from_area_id: 52
+  to_area_id: 42
+entsoe_DE-LU_entsoe_DK1:
+  id: 77
+  from_area_id: 52
+  to_area_id: 53
+entsoe_DE-LU_entsoe_DK2:
+  id: 122
+  from_area_id: 52
+  to_area_id: 54
+entsoe_DK1_entsoe_GB:
+  id: 350
+  from_area_id: 53
+  to_area_id: 13
+entsoe_DK1_entsoe_NL:
+  id: 60
+  from_area_id: 53
+  to_area_id: 24
+entsoe_DK1_entsoe_SE3:
+  id: 469
+  from_area_id: 53
+  to_area_id: 33
+entsoe_DK1_entsoe_NO2:
+  id: 609
+  from_area_id: 53
+  to_area_id: 42
+entsoe_DK1_entsoe_DE-LU:
+  id: 510
+  from_area_id: 53
+  to_area_id: 52
+entsoe_DK1_entsoe_DK2:
+  id: 264
+  from_area_id: 53
+  to_area_id: 54
+entsoe_DK1_entsoe_DE-AT-LU:
+  id: 168
+  from_area_id: 53
+  to_area_id: 285
+entsoe_DK2_entsoe_SE4:
+  id: 344
+  from_area_id: 54
+  to_area_id: 34
+entsoe_DK2_entsoe_DE-LU:
+  id: 602
+  from_area_id: 54
+  to_area_id: 52
+entsoe_DK2_entsoe_DK1:
+  id: 142
+  from_area_id: 54
+  to_area_id: 53
+entsoe_DK2_entsoe_DE-AT-LU:
+  id: 820
+  from_area_id: 54
+  to_area_id: 285
+nordpool_SE2_nordpool_SE3:
+  id: 81
+  from_area_id: 59
+  to_area_id: 62
+nordpool_SE2_nordpool_SE1:
+  id: 293
+  from_area_id: 59
+  to_area_id: 66
+nordpool_SE2_nordpool_NO4:
+  id: 800
+  from_area_id: 59
+  to_area_id: 70
+nordpool_SE2_nordpool_NO3:
+  id: 816
+  from_area_id: 59
+  to_area_id: 71
+nordpool_DE_nordpool_SE4:
+  id: 234
+  from_area_id: 60
+  to_area_id: 61
+nordpool_SE4_nordpool_DE:
+  id: 86
+  from_area_id: 61
+  to_area_id: 60
+nordpool_SE4_nordpool_SE3:
+  id: 230
+  from_area_id: 61
+  to_area_id: 62
+nordpool_SE4_nordpool_DK2:
+  id: 192
+  from_area_id: 61
+  to_area_id: 65
+nordpool_SE4_nordpool_PL:
+  id: 804
+  from_area_id: 61
+  to_area_id: 68
+nordpool_SE4_nordpool_LT:
+  id: 744
+  from_area_id: 61
+  to_area_id: 69
+nordpool_SE4_nordpool_PLC:
+  id: 359
+  from_area_id: 61
+  to_area_id: 72
+nordpool_SE3_nordpool_SE2:
+  id: 840
+  from_area_id: 62
+  to_area_id: 59
+nordpool_SE3_nordpool_SE4:
+  id: 301
+  from_area_id: 62
+  to_area_id: 61
+nordpool_SE3_nordpool_DK1A:
+  id: 252
+  from_area_id: 62
+  to_area_id: 63
+nordpool_SE3_nordpool_NO1:
+  id: 198
+  from_area_id: 62
+  to_area_id: 64
+nordpool_SE3_nordpool_FI:
+  id: 172
+  from_area_id: 62
+  to_area_id: 67
+nordpool_SE3_nordpool_DK1:
+  id: 31
+  from_area_id: 62
+  to_area_id: 73
+nordpool_DK1A_nordpool_SE3:
+  id: 505
+  from_area_id: 63
+  to_area_id: 62
+nordpool_DK1A_nordpool_NO2:
+  id: 33
+  from_area_id: 63
+  to_area_id: 88
+nordpool_NO1_nordpool_SE3:
+  id: 179
+  from_area_id: 64
+  to_area_id: 62
+nordpool_DK2_nordpool_SE4:
+  id: 771
+  from_area_id: 65
+  to_area_id: 61
+nordpool_SE1_nordpool_SE2:
+  id: 687
+  from_area_id: 66
+  to_area_id: 59
+nordpool_SE1_nordpool_FI:
+  id: 589
+  from_area_id: 66
+  to_area_id: 67
+nordpool_SE1_nordpool_NO4:
+  id: 481
+  from_area_id: 66
+  to_area_id: 70
+nordpool_FI_nordpool_SE3:
+  id: 710
+  from_area_id: 67
+  to_area_id: 62
+nordpool_FI_nordpool_SE1:
+  id: 482
+  from_area_id: 67
+  to_area_id: 66
+nordpool_FI_nordpool_EE:
+  id: 829
+  from_area_id: 67
+  to_area_id: 77
+nordpool_FI_nordpool_FRE:
+  id: 229
+  from_area_id: 67
+  to_area_id: 78
+nordpool_PL_nordpool_SE4:
+  id: 556
+  from_area_id: 68
+  to_area_id: 61
+nordpool_PL_nordpool_LT:
+  id: 14
+  from_area_id: 68
+  to_area_id: 69
+nordpool_PL_nordpool_PLC:
+  id: 778
+  from_area_id: 68
+  to_area_id: 72
+nordpool_LT_nordpool_SE4:
+  id: 569
+  from_area_id: 69
+  to_area_id: 61
+nordpool_LT_nordpool_PL:
+  id: 400
+  from_area_id: 69
+  to_area_id: 68
+nordpool_LT_nordpool_PLC:
+  id: 421
+  from_area_id: 69
+  to_area_id: 72
+nordpool_NO4_nordpool_SE2:
+  id: 177
+  from_area_id: 70
+  to_area_id: 59
+nordpool_NO4_nordpool_SE1:
+  id: 210
+  from_area_id: 70
+  to_area_id: 66
+nordpool_NO3_nordpool_SE2:
+  id: 715
+  from_area_id: 71
+  to_area_id: 59
+nordpool_PLC_nordpool_SE4:
+  id: 468
+  from_area_id: 72
+  to_area_id: 61
+nordpool_PLC_nordpool_PL:
+  id: 156
+  from_area_id: 72
+  to_area_id: 68
+nordpool_PLC_nordpool_LT:
+  id: 243
+  from_area_id: 72
+  to_area_id: 69
+nordpool_DK1_nordpool_SE3:
+  id: 606
+  from_area_id: 73
+  to_area_id: 62
+nordpool_DK1_nordpool_NO2:
+  id: 295
+  from_area_id: 73
+  to_area_id: 88
+nordpool_EE_nordpool_FI:
+  id: 278
+  from_area_id: 77
+  to_area_id: 67
+nordpool_FRE_nordpool_FI:
+  id: 563
+  from_area_id: 78
+  to_area_id: 67
+nordpool_NO2_nordpool_DK1A:
+  id: 814
+  from_area_id: 88
+  to_area_id: 63
+nordpool_NO2_nordpool_DK1:
+  id: 547
+  from_area_id: 88
+  to_area_id: 73
+ieso_CA-ON_ieso_CA-MB:
+  id: 275
+  from_area_id: 90
+  to_area_id: 328
+ieso_CA-ON_ieso_US-MISO:
+  id: 450
+  from_area_id: 90
+  to_area_id: 329
+ieso_CA-ON_ieso_US-NYISO:
+  id: 534
+  from_area_id: 90
+  to_area_id: 330
+ieso_CA-ON_ieso_CA-QC:
+  id: 812
+  from_area_id: 90
+  to_area_id: 331
+caiso_CAISO_caiso_other:
+  id: 668
+  from_area_id: 92
+  to_area_id: 340
+eia_BANC_eia_CISO:
+  id: 144
+  from_area_id: 93
+  to_area_id: 112
+eia_BANC_eia_BPAT:
+  id: 460
+  from_area_id: 93
+  to_area_id: 153
+eia_BANC_eia_TIDC:
+  id: 334
+  from_area_id: 93
+  to_area_id: 166
+eia_SC_eia_SEPA:
+  id: 239
+  from_area_id: 94
+  to_area_id: 114
+eia_SC_eia_SOCO:
+  id: 23
+  from_area_id: 94
+  to_area_id: 123
+eia_SC_eia_DUK:
+  id: 300
+  from_area_id: 94
+  to_area_id: 143
+eia_SC_eia_SCEG:
+  id: 29
+  from_area_id: 94
+  to_area_id: 148
+eia_SC_eia_CPLE:
+  id: 577
+  from_area_id: 94
+  to_area_id: 151
+eia_NYIS_eia_ISNE:
+  id: 488
+  from_area_id: 95
+  to_area_id: 111
+eia_NYIS_eia_PJM:
+  id: 201
+  from_area_id: 95
+  to_area_id: 118
+eia_NYIS_eia_IESO:
+  id: 601
+  from_area_id: 95
+  to_area_id: 343
+eia_NYIS_eia_HQT:
+  id: 365
+  from_area_id: 95
+  to_area_id: 344
+eia_GRID_eia_WALC:
+  id: 740
+  from_area_id: 96
+  to_area_id: 104
+eia_GRID_eia_SRP:
+  id: 524
+  from_area_id: 96
+  to_area_id: 113
+eia_GRID_eia_BPAT:
+  id: 263
+  from_area_id: 96
+  to_area_id: 153
+eia_GRID_eia_PNM:
+  id: 1
+  from_area_id: 96
+  to_area_id: 154
+eia_JEA_eia_FPL:
+  id: 669
+  from_area_id: 97
+  to_area_id: 110
+eia_JEA_eia_FMPP:
+  id: 653
+  from_area_id: 97
+  to_area_id: 139
+eia_JEA_eia_SEC:
+  id: 224
+  from_area_id: 97
+  to_area_id: 142
+eia_TEN_entsoe_SE:
+  id: 175
+  from_area_id: 98
+  to_area_id: 30
+eia_TEN_nordpool_SE:
+  id: 314
+  from_area_id: 98
+  to_area_id: 74
+eia_TEN_eia_CAR:
+  id: 69
+  from_area_id: 98
+  to_area_id: 106
+eia_TEN_eia_SE:
+  id: 523
+  from_area_id: 98
+  to_area_id: 129
+eia_TEN_eia_MIDW:
+  id: 495
+  from_area_id: 98
+  to_area_id: 133
+eia_TEN_eia_MIDA:
+  id: 567
+  from_area_id: 98
+  to_area_id: 140
+eia_MISO_eia_SWPP:
+  id: 406
+  from_area_id: 99
+  to_area_id: 101
+eia_MISO_eia_PJM:
+  id: 284
+  from_area_id: 99
+  to_area_id: 118
+eia_MISO_eia_TVA:
+  id: 84
+  from_area_id: 99
+  to_area_id: 121
+eia_MISO_eia_SOCO:
+  id: 749
+  from_area_id: 99
+  to_area_id: 123
+eia_MISO_eia_AECI:
+  id: 48
+  from_area_id: 99
+  to_area_id: 132
+eia_MISO_eia_LGEE:
+  id: 305
+  from_area_id: 99
+  to_area_id: 159
+eia_MISO_eia_SPA:
+  id: 50
+  from_area_id: 99
+  to_area_id: 165
+eia_MISO_eia_GLHB:
+  id: 414
+  from_area_id: 99
+  to_area_id: 169
+eia_MISO_eia_AEC:
+  id: 21
+  from_area_id: 99
+  to_area_id: 247
+eia_MISO_eia_EEI:
+  id: 152
+  from_area_id: 99
+  to_area_id: 250
+eia_MISO_eia_IESO:
+  id: 40
+  from_area_id: 99
+  to_area_id: 343
+eia_MISO_eia_MHEB:
+  id: 818
+  from_area_id: 99
+  to_area_id: 348
+eia_LDWP_eia_WALC:
+  id: 151
+  from_area_id: 100
+  to_area_id: 104
+eia_LDWP_eia_CISO:
+  id: 87
+  from_area_id: 100
+  to_area_id: 112
+eia_LDWP_eia_NEVP:
+  id: 528
+  from_area_id: 100
+  to_area_id: 125
+eia_LDWP_eia_AZPS:
+  id: 522
+  from_area_id: 100
+  to_area_id: 130
+eia_LDWP_eia_PACE:
+  id: 190
+  from_area_id: 100
+  to_area_id: 136
+eia_LDWP_eia_BPAT:
+  id: 558
+  from_area_id: 100
+  to_area_id: 153
+eia_SWPP_eia_MISO:
+  id: 724
+  from_area_id: 101
+  to_area_id: 99
+eia_SWPP_eia_WACM:
+  id: 427
+  from_area_id: 101
+  to_area_id: 103
+eia_SWPP_eia_WAUW:
+  id: 72
+  from_area_id: 101
+  to_area_id: 115
+eia_SWPP_eia_EPE:
+  id: 43
+  from_area_id: 101
+  to_area_id: 124
+eia_SWPP_eia_ERCO:
+  id: 116
+  from_area_id: 101
+  to_area_id: 131
+eia_SWPP_eia_AECI:
+  id: 620
+  from_area_id: 101
+  to_area_id: 132
+eia_SWPP_eia_PSCO:
+  id: 315
+  from_area_id: 101
+  to_area_id: 138
+eia_SWPP_eia_PNM:
+  id: 731
+  from_area_id: 101
+  to_area_id: 154
+eia_SWPP_eia_SPA:
+  id: 262
+  from_area_id: 101
+  to_area_id: 165
+eia_SWPP_eia_SPC:
+  id: 371
+  from_area_id: 101
+  to_area_id: 346
+eia_TEC_eia_FPL:
+  id: 154
+  from_area_id: 102
+  to_area_id: 110
+eia_TEC_eia_FPC:
+  id: 253
+  from_area_id: 102
+  to_area_id: 122
+eia_TEC_eia_FMPP:
+  id: 277
+  from_area_id: 102
+  to_area_id: 139
+eia_TEC_eia_SEC:
+  id: 131
+  from_area_id: 102
+  to_area_id: 142
+eia_WACM_eia_SWPP:
+  id: 268
+  from_area_id: 103
+  to_area_id: 101
+eia_WACM_eia_WALC:
+  id: 474
+  from_area_id: 103
+  to_area_id: 104
+eia_WACM_eia_WAUW:
+  id: 835
+  from_area_id: 103
+  to_area_id: 115
+eia_WACM_eia_AZPS:
+  id: 35
+  from_area_id: 103
+  to_area_id: 130
+eia_WACM_eia_PACE:
+  id: 833
+  from_area_id: 103
+  to_area_id: 136
+eia_WACM_eia_PSCO:
+  id: 205
+  from_area_id: 103
+  to_area_id: 138
+eia_WACM_eia_PNM:
+  id: 199
+  from_area_id: 103
+  to_area_id: 154
+eia_WALC_eia_GRID:
+  id: 446
+  from_area_id: 104
+  to_area_id: 96
+eia_WALC_eia_LDWP:
+  id: 92
+  from_area_id: 104
+  to_area_id: 100
+eia_WALC_eia_WACM:
+  id: 512
+  from_area_id: 104
+  to_area_id: 103
+eia_WALC_eia_IID:
+  id: 107
+  from_area_id: 104
+  to_area_id: 109
+eia_WALC_eia_CISO:
+  id: 369
+  from_area_id: 104
+  to_area_id: 112
+eia_WALC_eia_SRP:
+  id: 493
+  from_area_id: 104
+  to_area_id: 113
+eia_WALC_eia_NEVP:
+  id: 448
+  from_area_id: 104
+  to_area_id: 125
+eia_WALC_eia_AZPS:
+  id: 118
+  from_area_id: 104
+  to_area_id: 130
+eia_WALC_eia_TEPC:
+  id: 157
+  from_area_id: 104
+  to_area_id: 134
+eia_WALC_eia_GRIF:
+  id: 809
+  from_area_id: 104
+  to_area_id: 144
+eia_NW_eia_SW:
+  id: 479
+  from_area_id: 105
+  to_area_id: 116
+eia_NW_eia_CAL:
+  id: 781
+  from_area_id: 105
+  to_area_id: 117
+eia_NW_eia_CENT:
+  id: 261
+  from_area_id: 105
+  to_area_id: 155
+eia_NW_eia_CAN:
+  id: 170
+  from_area_id: 105
+  to_area_id: 341
+eia_CAR_entsoe_SE:
+  id: 484
+  from_area_id: 106
+  to_area_id: 30
+eia_CAR_nordpool_SE:
+  id: 773
+  from_area_id: 106
+  to_area_id: 74
+eia_CAR_eia_TEN:
+  id: 143
+  from_area_id: 106
+  to_area_id: 98
+eia_CAR_eia_SE:
+  id: 667
+  from_area_id: 106
+  to_area_id: 129
+eia_CAR_eia_MIDA:
+  id: 453
+  from_area_id: 106
+  to_area_id: 140
+eia_IPCO_eia_NWMT:
+  id: 618
+  from_area_id: 107
+  to_area_id: 120
+eia_IPCO_eia_NEVP:
+  id: 777
+  from_area_id: 107
+  to_area_id: 125
+eia_IPCO_eia_AVA:
+  id: 802
+  from_area_id: 107
+  to_area_id: 128
+eia_IPCO_eia_PACE:
+  id: 790
+  from_area_id: 107
+  to_area_id: 136
+eia_IPCO_eia_PACW:
+  id: 424
+  from_area_id: 107
+  to_area_id: 137
+eia_IPCO_eia_BPAT:
+  id: 447
+  from_area_id: 107
+  to_area_id: 153
+eia_NE_eia_NY:
+  id: 491
+  from_area_id: 108
+  to_area_id: 135
+eia_NE_eia_CAN:
+  id: 193
+  from_area_id: 108
+  to_area_id: 341
+eia_IID_eia_WALC:
+  id: 387
+  from_area_id: 109
+  to_area_id: 104
+eia_IID_eia_CISO:
+  id: 352
+  from_area_id: 109
+  to_area_id: 112
+eia_IID_eia_AZPS:
+  id: 548
+  from_area_id: 109
+  to_area_id: 130
+eia_FPL_eia_JEA:
+  id: 30
+  from_area_id: 110
+  to_area_id: 97
+eia_FPL_eia_TEC:
+  id: 242
+  from_area_id: 110
+  to_area_id: 102
+eia_FPL_eia_FPC:
+  id: 54
+  from_area_id: 110
+  to_area_id: 122
+eia_FPL_eia_SOCO:
+  id: 470
+  from_area_id: 110
+  to_area_id: 123
+eia_FPL_eia_FMPP:
+  id: 642
+  from_area_id: 110
+  to_area_id: 139
+eia_FPL_eia_HST:
+  id: 130
+  from_area_id: 110
+  to_area_id: 141
+eia_FPL_eia_SEC:
+  id: 111
+  from_area_id: 110
+  to_area_id: 142
+eia_FPL_eia_GVL:
+  id: 329
+  from_area_id: 110
+  to_area_id: 157
+eia_FPL_eia_NSB:
+  id: 167
+  from_area_id: 110
+  to_area_id: 248
+eia_ISNE_eia_NYIS:
+  id: 672
+  from_area_id: 111
+  to_area_id: 95
+eia_ISNE_eia_HQT:
+  id: 223
+  from_area_id: 111
+  to_area_id: 344
+eia_ISNE_eia_NBSO:
+  id: 473
+  from_area_id: 111
+  to_area_id: 345
+eia_CISO_eia_BANC:
+  id: 17
+  from_area_id: 112
+  to_area_id: 93
+eia_CISO_eia_LDWP:
+  id: 215
+  from_area_id: 112
+  to_area_id: 100
+eia_CISO_eia_WALC:
+  id: 139
+  from_area_id: 112
+  to_area_id: 104
+eia_CISO_eia_IID:
+  id: 209
+  from_area_id: 112
+  to_area_id: 109
+eia_CISO_eia_SRP:
+  id: 498
+  from_area_id: 112
+  to_area_id: 113
+eia_CISO_eia_NEVP:
+  id: 11
+  from_area_id: 112
+  to_area_id: 125
+eia_CISO_eia_AZPS:
+  id: 604
+  from_area_id: 112
+  to_area_id: 130
+eia_CISO_eia_PACW:
+  id: 435
+  from_area_id: 112
+  to_area_id: 137
+eia_CISO_eia_BPAT:
+  id: 119
+  from_area_id: 112
+  to_area_id: 153
+eia_CISO_eia_TIDC:
+  id: 824
+  from_area_id: 112
+  to_area_id: 166
+eia_CISO_eia_CEN:
+  id: 99
+  from_area_id: 112
+  to_area_id: 347
+eia_CISO_eia_CFE:
+  id: 74
+  from_area_id: 112
+  to_area_id: 351
+eia_SRP_eia_GRID:
+  id: 575
+  from_area_id: 113
+  to_area_id: 96
+eia_SRP_eia_WALC:
+  id: 570
+  from_area_id: 113
+  to_area_id: 104
+eia_SRP_eia_CISO:
+  id: 541
+  from_area_id: 113
+  to_area_id: 112
+eia_SRP_eia_AZPS:
+  id: 289
+  from_area_id: 113
+  to_area_id: 130
+eia_SRP_eia_TEPC:
+  id: 343
+  from_area_id: 113
+  to_area_id: 134
+eia_SRP_eia_PNM:
+  id: 566
+  from_area_id: 113
+  to_area_id: 154
+eia_SRP_eia_HGMA:
+  id: 752
+  from_area_id: 113
+  to_area_id: 162
+eia_SRP_eia_DEAA:
+  id: 588
+  from_area_id: 113
+  to_area_id: 163
+eia_SEPA_eia_SC:
+  id: 321
+  from_area_id: 114
+  to_area_id: 94
+eia_SEPA_eia_SOCO:
+  id: 100
+  from_area_id: 114
+  to_area_id: 123
+eia_SEPA_eia_DUK:
+  id: 267
+  from_area_id: 114
+  to_area_id: 143
+eia_SEPA_eia_SCEG:
+  id: 472
+  from_area_id: 114
+  to_area_id: 148
+eia_WAUW_eia_SWPP:
+  id: 322
+  from_area_id: 115
+  to_area_id: 101
+eia_WAUW_eia_WACM:
+  id: 288
+  from_area_id: 115
+  to_area_id: 103
+eia_WAUW_eia_NWMT:
+  id: 195
+  from_area_id: 115
+  to_area_id: 120
+eia_SW_eia_NW:
+  id: 704
+  from_area_id: 116
+  to_area_id: 105
+eia_SW_eia_CAL:
+  id: 332
+  from_area_id: 116
+  to_area_id: 117
+eia_SW_eia_CENT:
+  id: 430
+  from_area_id: 116
+  to_area_id: 155
+eia_CAL_eia_NW:
+  id: 162
+  from_area_id: 117
+  to_area_id: 105
+eia_CAL_eia_SW:
+  id: 615
+  from_area_id: 117
+  to_area_id: 116
+eia_CAL_eia_MEX:
+  id: 399
+  from_area_id: 117
+  to_area_id: 349
+eia_PJM_eia_NYIS:
+  id: 128
+  from_area_id: 118
+  to_area_id: 95
+eia_PJM_eia_MISO:
+  id: 605
+  from_area_id: 118
+  to_area_id: 99
+eia_PJM_eia_TVA:
+  id: 760
+  from_area_id: 118
+  to_area_id: 121
+eia_PJM_eia_DUK:
+  id: 165
+  from_area_id: 118
+  to_area_id: 143
+eia_PJM_eia_CPLE:
+  id: 188
+  from_area_id: 118
+  to_area_id: 151
+eia_PJM_eia_CPLW:
+  id: 169
+  from_area_id: 118
+  to_area_id: 152
+eia_PJM_eia_LGEE:
+  id: 386
+  from_area_id: 118
+  to_area_id: 159
+eia_PJM_eia_OVEC:
+  id: 219
+  from_area_id: 118
+  to_area_id: 249
+eia_TEX_eia_CENT:
+  id: 463
+  from_area_id: 119
+  to_area_id: 155
+eia_TEX_eia_MEX:
+  id: 689
+  from_area_id: 119
+  to_area_id: 349
+eia_NWMT_eia_IPCO:
+  id: 349
+  from_area_id: 120
+  to_area_id: 107
+eia_NWMT_eia_WAUW:
+  id: 516
+  from_area_id: 120
+  to_area_id: 115
+eia_NWMT_eia_AVA:
+  id: 415
+  from_area_id: 120
+  to_area_id: 128
+eia_NWMT_eia_PACE:
+  id: 307
+  from_area_id: 120
+  to_area_id: 136
+eia_NWMT_eia_BPAT:
+  id: 88
+  from_area_id: 120
+  to_area_id: 153
+eia_NWMT_eia_WWA:
+  id: 832
+  from_area_id: 120
+  to_area_id: 161
+eia_NWMT_eia_GWA:
+  id: 2
+  from_area_id: 120
+  to_area_id: 168
+eia_NWMT_eia_AESO:
+  id: 727
+  from_area_id: 120
+  to_area_id: 342
+eia_TVA_eia_MISO:
+  id: 402
+  from_area_id: 121
+  to_area_id: 99
+eia_TVA_eia_PJM:
+  id: 511
+  from_area_id: 121
+  to_area_id: 118
+eia_TVA_eia_SOCO:
+  id: 721
+  from_area_id: 121
+  to_area_id: 123
+eia_TVA_eia_AECI:
+  id: 426
+  from_area_id: 121
+  to_area_id: 132
+eia_TVA_eia_DUK:
+  id: 27
+  from_area_id: 121
+  to_area_id: 143
+eia_TVA_eia_CPLW:
+  id: 341
+  from_area_id: 121
+  to_area_id: 152
+eia_TVA_eia_LGEE:
+  id: 631
+  from_area_id: 121
+  to_area_id: 159
+eia_TVA_eia_EEI:
+  id: 660
+  from_area_id: 121
+  to_area_id: 250
+eia_FPC_eia_TEC:
+  id: 297
+  from_area_id: 122
+  to_area_id: 102
+eia_FPC_eia_FPL:
+  id: 432
+  from_area_id: 122
+  to_area_id: 110
+eia_FPC_eia_SOCO:
+  id: 639
+  from_area_id: 122
+  to_area_id: 123
+eia_FPC_eia_FMPP:
+  id: 95
+  from_area_id: 122
+  to_area_id: 139
+eia_FPC_eia_SEC:
+  id: 5
+  from_area_id: 122
+  to_area_id: 142
+eia_FPC_eia_GVL:
+  id: 561
+  from_area_id: 122
+  to_area_id: 157
+eia_FPC_eia_TAL:
+  id: 531
+  from_area_id: 122
+  to_area_id: 160
+eia_FPC_eia_NSB:
+  id: 651
+  from_area_id: 122
+  to_area_id: 248
+eia_SOCO_eia_SC:
+  id: 335
+  from_area_id: 123
+  to_area_id: 94
+eia_SOCO_eia_MISO:
+  id: 652
+  from_area_id: 123
+  to_area_id: 99
+eia_SOCO_eia_FPL:
+  id: 697
+  from_area_id: 123
+  to_area_id: 110
+eia_SOCO_eia_SEPA:
+  id: 830
+  from_area_id: 123
+  to_area_id: 114
+eia_SOCO_eia_TVA:
+  id: 413
+  from_area_id: 123
+  to_area_id: 121
+eia_SOCO_eia_FPC:
+  id: 751
+  from_area_id: 123
+  to_area_id: 122
+eia_SOCO_eia_DUK:
+  id: 346
+  from_area_id: 123
+  to_area_id: 143
+eia_SOCO_eia_SCEG:
+  id: 685
+  from_area_id: 123
+  to_area_id: 148
+eia_SOCO_eia_TAL:
+  id: 598
+  from_area_id: 123
+  to_area_id: 160
+eia_SOCO_eia_AEC:
+  id: 549
+  from_area_id: 123
+  to_area_id: 247
+eia_EPE_eia_SWPP:
+  id: 380
+  from_area_id: 124
+  to_area_id: 101
+eia_EPE_eia_TEPC:
+  id: 340
+  from_area_id: 124
+  to_area_id: 134
+eia_EPE_eia_PNM:
+  id: 45
+  from_area_id: 124
+  to_area_id: 154
+eia_NEVP_eia_LDWP:
+  id: 213
+  from_area_id: 125
+  to_area_id: 100
+eia_NEVP_eia_WALC:
+  id: 677
+  from_area_id: 125
+  to_area_id: 104
+eia_NEVP_eia_IPCO:
+  id: 113
+  from_area_id: 125
+  to_area_id: 107
+eia_NEVP_eia_CISO:
+  id: 529
+  from_area_id: 125
+  to_area_id: 112
+eia_NEVP_eia_PACE:
+  id: 503
+  from_area_id: 125
+  to_area_id: 136
+eia_NEVP_eia_BPAT:
+  id: 124
+  from_area_id: 125
+  to_area_id: 153
+eia_YAD_eia_DUK:
+  id: 180
+  from_area_id: 126
+  to_area_id: 143
+eia_YAD_eia_CPLE:
+  id: 181
+  from_area_id: 126
+  to_area_id: 151
+eia_PGE_eia_PACW:
+  id: 607
+  from_area_id: 127
+  to_area_id: 137
+eia_PGE_eia_BPAT:
+  id: 401
+  from_area_id: 127
+  to_area_id: 153
+eia_AVA_eia_IPCO:
+  id: 679
+  from_area_id: 128
+  to_area_id: 107
+eia_AVA_eia_NWMT:
+  id: 722
+  from_area_id: 128
+  to_area_id: 120
+eia_AVA_eia_PACW:
+  id: 747
+  from_area_id: 128
+  to_area_id: 137
+eia_AVA_eia_BPAT:
+  id: 281
+  from_area_id: 128
+  to_area_id: 153
+eia_AVA_eia_CHPD:
+  id: 782
+  from_area_id: 128
+  to_area_id: 158
+eia_AVA_eia_GCPD:
+  id: 342
+  from_area_id: 128
+  to_area_id: 167
+eia_SE_eia_TEN:
+  id: 91
+  from_area_id: 129
+  to_area_id: 98
+eia_SE_eia_CAR:
+  id: 600
+  from_area_id: 129
+  to_area_id: 106
+eia_SE_eia_MIDW:
+  id: 530
+  from_area_id: 129
+  to_area_id: 133
+eia_SE_eia_FLA:
+  id: 557
+  from_area_id: 129
+  to_area_id: 145
+eia_AZPS_eia_LDWP:
+  id: 32
+  from_area_id: 130
+  to_area_id: 100
+eia_AZPS_eia_WACM:
+  id: 337
+  from_area_id: 130
+  to_area_id: 103
+eia_AZPS_eia_WALC:
+  id: 762
+  from_area_id: 130
+  to_area_id: 104
+eia_AZPS_eia_IID:
+  id: 47
+  from_area_id: 130
+  to_area_id: 109
+eia_AZPS_eia_CISO:
+  id: 564
+  from_area_id: 130
+  to_area_id: 112
+eia_AZPS_eia_SRP:
+  id: 716
+  from_area_id: 130
+  to_area_id: 113
+eia_AZPS_eia_TEPC:
+  id: 761
+  from_area_id: 130
+  to_area_id: 134
+eia_AZPS_eia_PACE:
+  id: 41
+  from_area_id: 130
+  to_area_id: 136
+eia_AZPS_eia_PNM:
+  id: 708
+  from_area_id: 130
+  to_area_id: 154
+eia_AZPS_eia_GRMA:
+  id: 565
+  from_area_id: 130
+  to_area_id: 352
+eia_ERCO_eia_SWPP:
+  id: 823
+  from_area_id: 131
+  to_area_id: 101
+eia_ERCO_eia_CEN:
+  id: 755
+  from_area_id: 131
+  to_area_id: 347
+eia_ERCO_eia_CFE:
+  id: 208
+  from_area_id: 131
+  to_area_id: 351
+eia_AECI_eia_MISO:
+  id: 624
+  from_area_id: 132
+  to_area_id: 99
+eia_AECI_eia_SWPP:
+  id: 204
+  from_area_id: 132
+  to_area_id: 101
+eia_AECI_eia_TVA:
+  id: 690
+  from_area_id: 132
+  to_area_id: 121
+eia_AECI_eia_SPA:
+  id: 148
+  from_area_id: 132
+  to_area_id: 165
+eia_MIDW_entsoe_SE:
+  id: 24
+  from_area_id: 133
+  to_area_id: 30
+eia_MIDW_nordpool_SE:
+  id: 93
+  from_area_id: 133
+  to_area_id: 74
+eia_MIDW_eia_TEN:
+  id: 630
+  from_area_id: 133
+  to_area_id: 98
+eia_MIDW_eia_SE:
+  id: 709
+  from_area_id: 133
+  to_area_id: 129
+eia_MIDW_eia_MIDA:
+  id: 127
+  from_area_id: 133
+  to_area_id: 140
+eia_MIDW_eia_CENT:
+  id: 423
+  from_area_id: 133
+  to_area_id: 155
+eia_MIDW_eia_CAN:
+  id: 641
+  from_area_id: 133
+  to_area_id: 341
+eia_TEPC_eia_WALC:
+  id: 553
+  from_area_id: 134
+  to_area_id: 104
+eia_TEPC_eia_SRP:
+  id: 120
+  from_area_id: 134
+  to_area_id: 113
+eia_TEPC_eia_EPE:
+  id: 176
+  from_area_id: 134
+  to_area_id: 124
+eia_TEPC_eia_AZPS:
+  id: 7
+  from_area_id: 134
+  to_area_id: 130
+eia_TEPC_eia_PNM:
+  id: 610
+  from_area_id: 134
+  to_area_id: 154
+eia_NY_eia_NE:
+  id: 233
+  from_area_id: 135
+  to_area_id: 108
+eia_NY_eia_MIDA:
+  id: 392
+  from_area_id: 135
+  to_area_id: 140
+eia_NY_eia_CAN:
+  id: 688
+  from_area_id: 135
+  to_area_id: 341
+eia_PACE_eia_LDWP:
+  id: 543
+  from_area_id: 136
+  to_area_id: 100
+eia_PACE_eia_WACM:
+  id: 445
+  from_area_id: 136
+  to_area_id: 103
+eia_PACE_eia_IPCO:
+  id: 628
+  from_area_id: 136
+  to_area_id: 107
+eia_PACE_eia_NWMT:
+  id: 478
+  from_area_id: 136
+  to_area_id: 120
+eia_PACE_eia_NEVP:
+  id: 311
+  from_area_id: 136
+  to_area_id: 125
+eia_PACE_eia_AZPS:
+  id: 356
+  from_area_id: 136
+  to_area_id: 130
+eia_PACE_eia_PACW:
+  id: 98
+  from_area_id: 136
+  to_area_id: 137
+eia_PACW_eia_IPCO:
+  id: 767
+  from_area_id: 137
+  to_area_id: 107
+eia_PACW_eia_CISO:
+  id: 834
+  from_area_id: 137
+  to_area_id: 112
+eia_PACW_eia_PGE:
+  id: 636
+  from_area_id: 137
+  to_area_id: 127
+eia_PACW_eia_AVA:
+  id: 56
+  from_area_id: 137
+  to_area_id: 128
+eia_PACW_eia_PACE:
+  id: 443
+  from_area_id: 137
+  to_area_id: 136
+eia_PACW_eia_BPAT:
+  id: 489
+  from_area_id: 137
+  to_area_id: 153
+eia_PACW_eia_AVRN:
+  id: 623
+  from_area_id: 137
+  to_area_id: 156
+eia_PACW_eia_GCPD:
+  id: 593
+  from_area_id: 137
+  to_area_id: 167
+eia_PSCO_eia_SWPP:
+  id: 748
+  from_area_id: 138
+  to_area_id: 101
+eia_PSCO_eia_WACM:
+  id: 538
+  from_area_id: 138
+  to_area_id: 103
+eia_PSCO_eia_PNM:
+  id: 719
+  from_area_id: 138
+  to_area_id: 154
+eia_FMPP_eia_JEA:
+  id: 272
+  from_area_id: 139
+  to_area_id: 97
+eia_FMPP_eia_TEC:
+  id: 806
+  from_area_id: 139
+  to_area_id: 102
+eia_FMPP_eia_FPL:
+  id: 18
+  from_area_id: 139
+  to_area_id: 110
+eia_FMPP_eia_FPC:
+  id: 249
+  from_area_id: 139
+  to_area_id: 122
+eia_MIDA_eia_TEN:
+  id: 838
+  from_area_id: 140
+  to_area_id: 98
+eia_MIDA_eia_CAR:
+  id: 683
+  from_area_id: 140
+  to_area_id: 106
+eia_MIDA_eia_MIDW:
+  id: 339
+  from_area_id: 140
+  to_area_id: 133
+eia_MIDA_eia_NY:
+  id: 153
+  from_area_id: 140
+  to_area_id: 135
+eia_HST_eia_FPL:
+  id: 508
+  from_area_id: 141
+  to_area_id: 110
+eia_SEC_eia_JEA:
+  id: 439
+  from_area_id: 142
+  to_area_id: 97
+eia_SEC_eia_TEC:
+  id: 391
+  from_area_id: 142
+  to_area_id: 102
+eia_SEC_eia_FPL:
+  id: 325
+  from_area_id: 142
+  to_area_id: 110
+eia_SEC_eia_FPC:
+  id: 419
+  from_area_id: 142
+  to_area_id: 122
+eia_DUK_eia_SC:
+  id: 706
+  from_area_id: 143
+  to_area_id: 94
+eia_DUK_eia_SEPA:
+  id: 514
+  from_area_id: 143
+  to_area_id: 114
+eia_DUK_eia_PJM:
+  id: 552
+  from_area_id: 143
+  to_area_id: 118
+eia_DUK_eia_TVA:
+  id: 336
+  from_area_id: 143
+  to_area_id: 121
+eia_DUK_eia_SOCO:
+  id: 345
+  from_area_id: 143
+  to_area_id: 123
+eia_DUK_eia_YAD:
+  id: 758
+  from_area_id: 143
+  to_area_id: 126
+eia_DUK_eia_SCEG:
+  id: 296
+  from_area_id: 143
+  to_area_id: 148
+eia_DUK_eia_CPLE:
+  id: 106
+  from_area_id: 143
+  to_area_id: 151
+eia_DUK_eia_CPLW:
+  id: 355
+  from_area_id: 143
+  to_area_id: 152
+eia_GRIF_eia_WALC:
+  id: 769
+  from_area_id: 144
+  to_area_id: 104
+eia_FLA_entsoe_SE:
+  id: 745
+  from_area_id: 145
+  to_area_id: 30
+eia_FLA_nordpool_SE:
+  id: 591
+  from_area_id: 145
+  to_area_id: 74
+eia_FLA_eia_SE:
+  id: 526
+  from_area_id: 145
+  to_area_id: 129
+eia_US48_eia_CAN:
+  id: 58
+  from_area_id: 146
+  to_area_id: 341
+eia_US48_eia_MEX:
+  id: 138
+  from_area_id: 146
+  to_area_id: 349
+eia_SCL_eia_PSEI:
+  id: 544
+  from_area_id: 147
+  to_area_id: 149
+eia_SCL_eia_BPAT:
+  id: 663
+  from_area_id: 147
+  to_area_id: 153
+eia_SCEG_eia_SC:
+  id: 135
+  from_area_id: 148
+  to_area_id: 94
+eia_SCEG_eia_SEPA:
+  id: 425
+  from_area_id: 148
+  to_area_id: 114
+eia_SCEG_eia_SOCO:
+  id: 713
+  from_area_id: 148
+  to_area_id: 123
+eia_SCEG_eia_DUK:
+  id: 603
+  from_area_id: 148
+  to_area_id: 143
+eia_SCEG_eia_CPLE:
+  id: 573
+  from_area_id: 148
+  to_area_id: 151
+eia_PSEI_eia_SCL:
+  id: 90
+  from_area_id: 149
+  to_area_id: 147
+eia_PSEI_eia_BPAT:
+  id: 105
+  from_area_id: 149
+  to_area_id: 153
+eia_PSEI_eia_CHPD:
+  id: 632
+  from_area_id: 149
+  to_area_id: 158
+eia_PSEI_eia_TPWR:
+  id: 608
+  from_area_id: 149
+  to_area_id: 164
+eia_PSEI_eia_GCPD:
+  id: 237
+  from_area_id: 149
+  to_area_id: 167
+eia_DOPD_eia_BPAT:
+  id: 574
+  from_area_id: 150
+  to_area_id: 153
+eia_DOPD_eia_CHPD:
+  id: 16
+  from_area_id: 150
+  to_area_id: 158
+eia_CPLE_eia_SC:
+  id: 507
+  from_area_id: 151
+  to_area_id: 94
+eia_CPLE_eia_PJM:
+  id: 787
+  from_area_id: 151
+  to_area_id: 118
+eia_CPLE_eia_YAD:
+  id: 121
+  from_area_id: 151
+  to_area_id: 126
+eia_CPLE_eia_DUK:
+  id: 73
+  from_area_id: 151
+  to_area_id: 143
+eia_CPLE_eia_SCEG:
+  id: 324
+  from_area_id: 151
+  to_area_id: 148
+eia_CPLW_eia_PJM:
+  id: 351
+  from_area_id: 152
+  to_area_id: 118
+eia_CPLW_eia_TVA:
+  id: 404
+  from_area_id: 152
+  to_area_id: 121
+eia_CPLW_eia_DUK:
+  id: 197
+  from_area_id: 152
+  to_area_id: 143
+eia_BPAT_eia_BANC:
+  id: 527
+  from_area_id: 153
+  to_area_id: 93
+eia_BPAT_eia_GRID:
+  id: 801
+  from_area_id: 153
+  to_area_id: 96
+eia_BPAT_eia_LDWP:
+  id: 206
+  from_area_id: 153
+  to_area_id: 100
+eia_BPAT_eia_IPCO:
+  id: 327
+  from_area_id: 153
+  to_area_id: 107
+eia_BPAT_eia_CISO:
+  id: 506
+  from_area_id: 153
+  to_area_id: 112
+eia_BPAT_eia_NWMT:
+  id: 576
+  from_area_id: 153
+  to_area_id: 120
+eia_BPAT_eia_NEVP:
+  id: 810
+  from_area_id: 153
+  to_area_id: 125
+eia_BPAT_eia_PGE:
+  id: 28
+  from_area_id: 153
+  to_area_id: 127
+eia_BPAT_eia_AVA:
+  id: 383
+  from_area_id: 153
+  to_area_id: 128
+eia_BPAT_eia_PACW:
+  id: 551
+  from_area_id: 153
+  to_area_id: 137
+eia_BPAT_eia_SCL:
+  id: 839
+  from_area_id: 153
+  to_area_id: 147
+eia_BPAT_eia_PSEI:
+  id: 225
+  from_area_id: 153
+  to_area_id: 149
+eia_BPAT_eia_DOPD:
+  id: 821
+  from_area_id: 153
+  to_area_id: 150
+eia_BPAT_eia_AVRN:
+  id: 611
+  from_area_id: 153
+  to_area_id: 156
+eia_BPAT_eia_CHPD:
+  id: 625
+  from_area_id: 153
+  to_area_id: 158
+eia_BPAT_eia_TPWR:
+  id: 110
+  from_area_id: 153
+  to_area_id: 164
+eia_BPAT_eia_GCPD:
+  id: 271
+  from_area_id: 153
+  to_area_id: 167
+eia_BPAT_eia_BCHA:
+  id: 132
+  from_area_id: 153
+  to_area_id: 350
+eia_PNM_eia_GRID:
+  id: 827
+  from_area_id: 154
+  to_area_id: 96
+eia_PNM_eia_SWPP:
+  id: 828
+  from_area_id: 154
+  to_area_id: 101
+eia_PNM_eia_WACM:
+  id: 64
+  from_area_id: 154
+  to_area_id: 103
+eia_PNM_eia_EPE:
+  id: 629
+  from_area_id: 154
+  to_area_id: 124
+eia_PNM_eia_AZPS:
+  id: 483
+  from_area_id: 154
+  to_area_id: 130
+eia_PNM_eia_TEPC:
+  id: 738
+  from_area_id: 154
+  to_area_id: 134
+eia_PNM_eia_PSCO:
+  id: 497
+  from_area_id: 154
+  to_area_id: 138
+eia_CENT_eia_NW:
+  id: 729
+  from_area_id: 155
+  to_area_id: 105
+eia_CENT_eia_SW:
+  id: 112
+  from_area_id: 155
+  to_area_id: 116
+eia_CENT_eia_TEX:
+  id: 759
+  from_area_id: 155
+  to_area_id: 119
+eia_CENT_eia_MIDW:
+  id: 784
+  from_area_id: 155
+  to_area_id: 133
+eia_CENT_eia_CAN:
+  id: 655
+  from_area_id: 155
+  to_area_id: 341
+eia_AVRN_eia_PACW:
+  id: 754
+  from_area_id: 156
+  to_area_id: 137
+eia_AVRN_eia_BPAT:
+  id: 673
+  from_area_id: 156
+  to_area_id: 153
+eia_GVL_eia_FPL:
+  id: 22
+  from_area_id: 157
+  to_area_id: 110
+eia_GVL_eia_FPC:
+  id: 785
+  from_area_id: 157
+  to_area_id: 122
+eia_CHPD_eia_AVA:
+  id: 12
+  from_area_id: 158
+  to_area_id: 128
+eia_CHPD_eia_PSEI:
+  id: 640
+  from_area_id: 158
+  to_area_id: 149
+eia_CHPD_eia_DOPD:
+  id: 844
+  from_area_id: 158
+  to_area_id: 150
+eia_CHPD_eia_BPAT:
+  id: 441
+  from_area_id: 158
+  to_area_id: 153
+eia_LGEE_eia_MISO:
+  id: 232
+  from_area_id: 159
+  to_area_id: 99
+eia_LGEE_eia_PJM:
+  id: 89
+  from_area_id: 159
+  to_area_id: 118
+eia_LGEE_eia_TVA:
+  id: 358
+  from_area_id: 159
+  to_area_id: 121
+eia_LGEE_eia_GLHB:
+  id: 613
+  from_area_id: 159
+  to_area_id: 169
+eia_LGEE_eia_OVEC:
+  id: 770
+  from_area_id: 159
+  to_area_id: 249
+eia_LGEE_eia_EEI:
+  id: 34
+  from_area_id: 159
+  to_area_id: 250
+eia_TAL_eia_FPC:
+  id: 238
+  from_area_id: 160
+  to_area_id: 122
+eia_TAL_eia_SOCO:
+  id: 581
+  from_area_id: 160
+  to_area_id: 123
+eia_WWA_eia_NWMT:
+  id: 585
+  from_area_id: 161
+  to_area_id: 120
+eia_HGMA_eia_SRP:
+  id: 519
+  from_area_id: 162
+  to_area_id: 113
+eia_DEAA_eia_SRP:
+  id: 260
+  from_area_id: 163
+  to_area_id: 113
+eia_TPWR_eia_PSEI:
+  id: 485
+  from_area_id: 164
+  to_area_id: 149
+eia_TPWR_eia_BPAT:
+  id: 650
+  from_area_id: 164
+  to_area_id: 153
+eia_SPA_eia_MISO:
+  id: 662
+  from_area_id: 165
+  to_area_id: 99
+eia_SPA_eia_SWPP:
+  id: 9
+  from_area_id: 165
+  to_area_id: 101
+eia_SPA_eia_AECI:
+  id: 437
+  from_area_id: 165
+  to_area_id: 132
+eia_TIDC_eia_BANC:
+  id: 136
+  from_area_id: 166
+  to_area_id: 93
+eia_TIDC_eia_CISO:
+  id: 532
+  from_area_id: 166
+  to_area_id: 112
+eia_GCPD_eia_AVA:
+  id: 378
+  from_area_id: 167
+  to_area_id: 128
+eia_GCPD_eia_PACW:
+  id: 807
+  from_area_id: 167
+  to_area_id: 137
+eia_GCPD_eia_PSEI:
+  id: 734
+  from_area_id: 167
+  to_area_id: 149
+eia_GCPD_eia_BPAT:
+  id: 25
+  from_area_id: 167
+  to_area_id: 153
+eia_GWA_eia_NWMT:
+  id: 808
+  from_area_id: 168
+  to_area_id: 120
+eia_GLHB_eia_MISO:
+  id: 739
+  from_area_id: 169
+  to_area_id: 99
+eia_GLHB_eia_LGEE:
+  id: 737
+  from_area_id: 169
+  to_area_id: 159
+eia_AEC_eia_MISO:
+  id: 586
+  from_area_id: 247
+  to_area_id: 99
+eia_AEC_eia_SOCO:
+  id: 764
+  from_area_id: 247
+  to_area_id: 123
+eia_NSB_eia_FPL:
+  id: 333
+  from_area_id: 248
+  to_area_id: 110
+eia_NSB_eia_FPC:
+  id: 422
+  from_area_id: 248
+  to_area_id: 122
+eia_OVEC_eia_PJM:
+  id: 348
+  from_area_id: 249
+  to_area_id: 118
+eia_OVEC_eia_LGEE:
+  id: 331
+  from_area_id: 249
+  to_area_id: 159
+eia_EEI_eia_MISO:
+  id: 274
+  from_area_id: 250
+  to_area_id: 99
+eia_EEI_eia_TVA:
+  id: 693
+  from_area_id: 250
+  to_area_id: 121
+eia_EEI_eia_LGEE:
+  id: 720
+  from_area_id: 250
+  to_area_id: 159
+elexon_GB_elexon_BE:
+  id: 279
+  from_area_id: 260
+  to_area_id: 332
+elexon_GB_elexon_DK:
+  id: 372
+  from_area_id: 260
+  to_area_id: 333
+elexon_GB_elexon_FR:
+  id: 831
+  from_area_id: 260
+  to_area_id: 334
+elexon_GB_elexon_IE:
+  id: 658
+  from_area_id: 260
+  to_area_id: 335
+elexon_GB_elexon_NL:
+  id: 115
+  from_area_id: 260
+  to_area_id: 336
+elexon_GB_elexon_NO:
+  id: 8
+  from_area_id: 260
+  to_area_id: 337
+aeso_CA-AB_aeso_British Columbia:
+  id: 571
+  from_area_id: 261
+  to_area_id: 371
+aeso_CA-AB_aeso_Montana:
+  id: 656
+  from_area_id: 261
+  to_area_id: 372
+aeso_CA-AB_aeso_Saskatchewan:
+  id: 68
+  from_area_id: 261
+  to_area_id: 373
+entsoe_IT-CNO_entsoe_IT-CSO:
+  id: 579
+  from_area_id: 264
+  to_area_id: 265
+entsoe_IT-CNO_entsoe_IT-NO:
+  id: 273
+  from_area_id: 264
+  to_area_id: 266
+entsoe_IT-CNO_entsoe_IT-SACODC:
+  id: 492
+  from_area_id: 264
+  to_area_id: 298
+entsoe_IT-CSO_entsoe_ME:
+  id: 411
+  from_area_id: 265
+  to_area_id: 22
+entsoe_IT-CSO_entsoe_IT-CNO:
+  id: 282
+  from_area_id: 265
+  to_area_id: 264
+entsoe_IT-CSO_entsoe_IT-SAR:
+  id: 616
+  from_area_id: 265
+  to_area_id: 267
+entsoe_IT-CSO_entsoe_IT-SO:
+  id: 700
+  from_area_id: 265
+  to_area_id: 269
+entsoe_IT-NO_entsoe_AT:
+  id: 79
+  from_area_id: 266
+  to_area_id: 1
+entsoe_IT-NO_entsoe_CH:
+  id: 788
+  from_area_id: 266
+  to_area_id: 5
+entsoe_IT-NO_entsoe_FR:
+  id: 61
+  from_area_id: 266
+  to_area_id: 12
+entsoe_IT-NO_entsoe_SI:
+  id: 71
+  from_area_id: 266
+  to_area_id: 35
+entsoe_IT-NO_entsoe_IT-CNO:
+  id: 114
+  from_area_id: 266
+  to_area_id: 264
+entsoe_IT-NO_entsoe_DE-AT-LU:
+  id: 533
+  from_area_id: 266
+  to_area_id: 285
+entsoe_IT-SAR_entsoe_IT-CSO:
+  id: 254
+  from_area_id: 267
+  to_area_id: 265
+entsoe_IT-SAR_entsoe_IT-SACODC:
+  id: 665
+  from_area_id: 267
+  to_area_id: 298
+entsoe_IT-SAR_entsoe_IT-SACOAC:
+  id: 464
+  from_area_id: 267
+  to_area_id: 299
+entsoe_IT-SIC_entsoe_IT-CA:
+  id: 434
+  from_area_id: 268
+  to_area_id: 274
+entsoe_IT-SIC_entsoe_IT-PR:
+  id: 166
+  from_area_id: 268
+  to_area_id: 277
+entsoe_IT-SIC_entsoe_IT-Rossano:
+  id: 843
+  from_area_id: 268
+  to_area_id: 281
+entsoe_IT-SIC_entsoe_MT:
+  id: 381
+  from_area_id: 268
+  to_area_id: 311
+entsoe_IT-SO_entsoe_GR:
+  id: 825
+  from_area_id: 269
+  to_area_id: 14
+entsoe_IT-SO_entsoe_IT-CSO:
+  id: 393
+  from_area_id: 269
+  to_area_id: 265
+entsoe_IT-SO_entsoe_IT-CA:
+  id: 418
+  from_area_id: 269
+  to_area_id: 274
+entsoe_IT-SO_entsoe_IT-BR:
+  id: 53
+  from_area_id: 269
+  to_area_id: 275
+entsoe_IT-SO_entsoe_IT-FO:
+  id: 582
+  from_area_id: 269
+  to_area_id: 276
+entsoe_IT-SO_entsoe_IT-Rossano:
+  id: 373
+  from_area_id: 269
+  to_area_id: 281
+entsoe_UA-BEI_entsoe_HU:
+  id: 133
+  from_area_id: 270
+  to_area_id: 16
+entsoe_UA-BEI_entsoe_RO:
+  id: 428
+  from_area_id: 270
+  to_area_id: 28
+entsoe_UA-BEI_entsoe_SK:
+  id: 542
+  from_area_id: 270
+  to_area_id: 36
+entsoe_MD_entsoe_RO:
+  id: 681
+  from_area_id: 271
+  to_area_id: 28
+entsoe_MD_entsoe_UA-IPS:
+  id: 766
+  from_area_id: 271
+  to_area_id: 283
+entsoe_MD_entsoe_UA:
+  id: 699
+  from_area_id: 271
+  to_area_id: 284
+entsoe_GE_entsoe_TR:
+  id: 194
+  from_area_id: 272
+  to_area_id: 309
+entsoe_GE_entsoe_RU:
+  id: 291
+  from_area_id: 272
+  to_area_id: 310
+entsoe_GE_entsoe_RU-BZN:
+  id: 753
+  from_area_id: 272
+  to_area_id: 313
+entsoe_GE_entsoe_AM-CTY:
+  id: 750
+  from_area_id: 272
+  to_area_id: 316
+entsoe_GE_entsoe_AZ-CTY:
+  id: 537
+  from_area_id: 272
+  to_area_id: 318
+entsoe_AL_entsoe_GR:
+  id: 459
+  from_area_id: 273
+  to_area_id: 14
+entsoe_AL_entsoe_ME:
+  id: 680
+  from_area_id: 273
+  to_area_id: 22
+entsoe_AL_entsoe_RS:
+  id: 160
+  from_area_id: 273
+  to_area_id: 29
+entsoe_AL_entsoe_XK:
+  id: 19
+  from_area_id: 273
+  to_area_id: 40
+entsoe_IT-CA_entsoe_IT-SIC:
+  id: 684
+  from_area_id: 274
+  to_area_id: 268
+entsoe_IT-CA_entsoe_IT-SO:
+  id: 59
+  from_area_id: 274
+  to_area_id: 269
+entsoe_IT-BR_entsoe_GR:
+  id: 102
+  from_area_id: 275
+  to_area_id: 14
+entsoe_IT-BR_entsoe_IT-SO:
+  id: 398
+  from_area_id: 275
+  to_area_id: 269
+entsoe_IT-FO_entsoe_IT-SO:
+  id: 756
+  from_area_id: 276
+  to_area_id: 269
+entsoe_IT-PR_entsoe_IT-SIC:
+  id: 140
+  from_area_id: 277
+  to_area_id: 268
+entsoe_IE(SEM)_entsoe_GB:
+  id: 793
+  from_area_id: 278
+  to_area_id: 13
+entsoe_GB-CTY_entsoe_BE:
+  id: 126
+  from_area_id: 280
+  to_area_id: 3
+entsoe_GB-CTY_entsoe_DK:
+  id: 540
+  from_area_id: 280
+  to_area_id: 8
+entsoe_GB-CTY_entsoe_FR:
+  id: 66
+  from_area_id: 280
+  to_area_id: 12
+entsoe_GB-CTY_entsoe_IE:
+  id: 294
+  from_area_id: 280
+  to_area_id: 17
+entsoe_GB-CTY_entsoe_NL:
+  id: 597
+  from_area_id: 280
+  to_area_id: 24
+entsoe_GB-CTY_entsoe_NO:
+  id: 779
+  from_area_id: 280
+  to_area_id: 25
+entsoe_IT-Rossano_entsoe_IT-SIC:
+  id: 38
+  from_area_id: 281
+  to_area_id: 268
+entsoe_IT-Rossano_entsoe_IT-SO:
+  id: 515
+  from_area_id: 281
+  to_area_id: 269
+entsoe_UA-IPS_entsoe_HU:
+  id: 129
+  from_area_id: 283
+  to_area_id: 16
+entsoe_UA-IPS_entsoe_PL:
+  id: 159
+  from_area_id: 283
+  to_area_id: 26
+entsoe_UA-IPS_entsoe_RO:
+  id: 455
+  from_area_id: 283
+  to_area_id: 28
+entsoe_UA-IPS_entsoe_SK:
+  id: 246
+  from_area_id: 283
+  to_area_id: 36
+entsoe_UA-IPS_entsoe_MD:
+  id: 395
+  from_area_id: 283
+  to_area_id: 271
+entsoe_UA-IPS_entsoe_BY|BZ:
+  id: 6
+  from_area_id: 283
+  to_area_id: 306
+entsoe_UA-IPS_entsoe_RU-BZN:
+  id: 186
+  from_area_id: 283
+  to_area_id: 313
+entsoe_UA_entsoe_HU:
+  id: 803
+  from_area_id: 284
+  to_area_id: 16
+entsoe_UA_entsoe_PL:
+  id: 815
+  from_area_id: 284
+  to_area_id: 26
+entsoe_UA_entsoe_RO:
+  id: 736
+  from_area_id: 284
+  to_area_id: 28
+entsoe_UA_entsoe_SK:
+  id: 117
+  from_area_id: 284
+  to_area_id: 36
+entsoe_UA_entsoe_MD:
+  id: 742
+  from_area_id: 284
+  to_area_id: 271
+entsoe_UA_entsoe_BY|BZ:
+  id: 682
+  from_area_id: 284
+  to_area_id: 306
+entsoe_UA_entsoe_BY:
+  id: 500
+  from_area_id: 284
+  to_area_id: 308
+entsoe_UA_entsoe_RU:
+  id: 3
+  from_area_id: 284
+  to_area_id: 310
+entsoe_UA_entsoe_RU-BZN:
+  id: 733
+  from_area_id: 284
+  to_area_id: 313
+entsoe_DE-AT-LU_entsoe_BE:
+  id: 775
+  from_area_id: 285
+  to_area_id: 3
+entsoe_DE-AT-LU_entsoe_CH:
+  id: 649
+  from_area_id: 285
+  to_area_id: 5
+entsoe_DE-AT-LU_entsoe_CZ:
+  id: 645
+  from_area_id: 285
+  to_area_id: 6
+entsoe_DE-AT-LU_entsoe_FR:
+  id: 559
+  from_area_id: 285
+  to_area_id: 12
+entsoe_DE-AT-LU_entsoe_HU:
+  id: 214
+  from_area_id: 285
+  to_area_id: 16
+entsoe_DE-AT-LU_entsoe_NL:
+  id: 255
+  from_area_id: 285
+  to_area_id: 24
+entsoe_DE-AT-LU_entsoe_PL:
+  id: 4
+  from_area_id: 285
+  to_area_id: 26
+entsoe_DE-AT-LU_entsoe_SE4:
+  id: 797
+  from_area_id: 285
+  to_area_id: 34
+entsoe_DE-AT-LU_entsoe_SI:
+  id: 536
+  from_area_id: 285
+  to_area_id: 35
+entsoe_DE-AT-LU_entsoe_DK1:
+  id: 546
+  from_area_id: 285
+  to_area_id: 53
+entsoe_DE-AT-LU_entsoe_DK2:
+  id: 76
+  from_area_id: 285
+  to_area_id: 54
+entsoe_DE-AT-LU_entsoe_IT-NO:
+  id: 235
+  from_area_id: 285
+  to_area_id: 266
+entsoe_DE-AT-LU_entsoe_IT-North-AT:
+  id: 323
+  from_area_id: 285
+  to_area_id: 303
+aemo_NSW1_aemo_QLD1:
+  id: 109
+  from_area_id: 287
+  to_area_id: 288
+aemo_TAS1_aemo_VIC1:
+  id: 57
+  from_area_id: 289
+  to_area_id: 290
+aemo_VIC1_aemo_SA1:
+  id: 247
+  from_area_id: 290
+  to_area_id: 286
+aemo_VIC1_aemo_NSW1:
+  id: 78
+  from_area_id: 290
+  to_area_id: 287
+entsoe_IT-SACODC_entsoe_IT-CNO:
+  id: 501
+  from_area_id: 298
+  to_area_id: 264
+entsoe_IT-SACODC_entsoe_IT-SAR:
+  id: 475
+  from_area_id: 298
+  to_area_id: 267
+entsoe_IT-SACOAC_entsoe_IT-SAR:
+  id: 836
+  from_area_id: 299
+  to_area_id: 267
+entsoe_IT-North-CH_entsoe_CH:
+  id: 698
+  from_area_id: 300
+  to_area_id: 5
+entsoe_IT-GR_entsoe_GR:
+  id: 486
+  from_area_id: 302
+  to_area_id: 14
+entsoe_IT-North-AT_entsoe_DE-AT-LU:
+  id: 36
+  from_area_id: 303
+  to_area_id: 285
+entsoe_IT-North-FR_entsoe_FR:
+  id: 265
+  from_area_id: 304
+  to_area_id: 12
+entsoe_RU-KGD_entsoe_LT:
+  id: 595
+  from_area_id: 305
+  to_area_id: 19
+entsoe_BY|BZ_entsoe_LT:
+  id: 368
+  from_area_id: 306
+  to_area_id: 19
+entsoe_BY|BZ_entsoe_UA-IPS:
+  id: 287
+  from_area_id: 306
+  to_area_id: 283
+entsoe_BY|BZ_entsoe_UA:
+  id: 62
+  from_area_id: 306
+  to_area_id: 284
+entsoe_BY_entsoe_LT:
+  id: 299
+  from_area_id: 308
+  to_area_id: 19
+entsoe_BY_entsoe_UA:
+  id: 442
+  from_area_id: 308
+  to_area_id: 284
+entsoe_TR_entsoe_BG:
+  id: 83
+  from_area_id: 309
+  to_area_id: 4
+entsoe_TR_entsoe_GR:
+  id: 487
+  from_area_id: 309
+  to_area_id: 14
+entsoe_TR_entsoe_GE:
+  id: 794
+  from_area_id: 309
+  to_area_id: 272
+entsoe_RU_entsoe_EE:
+  id: 390
+  from_area_id: 310
+  to_area_id: 9
+entsoe_RU_entsoe_FI:
+  id: 309
+  from_area_id: 310
+  to_area_id: 11
+entsoe_RU_entsoe_LT:
+  id: 353
+  from_area_id: 310
+  to_area_id: 19
+entsoe_RU_entsoe_LV:
+  id: 504
+  from_area_id: 310
+  to_area_id: 21
+entsoe_RU_entsoe_GE:
+  id: 678
+  from_area_id: 310
+  to_area_id: 272
+entsoe_RU_entsoe_UA:
+  id: 200
+  from_area_id: 310
+  to_area_id: 284
+entsoe_MT_entsoe_IT:
+  id: 461
+  from_area_id: 311
+  to_area_id: 18
+entsoe_MT_entsoe_IT-SIC:
+  id: 316
+  from_area_id: 311
+  to_area_id: 268
+entsoe_MT_entsoe_IT-Malta BZN:
+  id: 248
+  from_area_id: 311
+  to_area_id: 326
+entsoe_RU-BZN_entsoe_EE:
+  id: 403
+  from_area_id: 313
+  to_area_id: 9
+entsoe_RU-BZN_entsoe_FI:
+  id: 290
+  from_area_id: 313
+  to_area_id: 11
+entsoe_RU-BZN_entsoe_LV:
+  id: 518
+  from_area_id: 313
+  to_area_id: 21
+entsoe_RU-BZN_entsoe_GE:
+  id: 657
+  from_area_id: 313
+  to_area_id: 272
+entsoe_RU-BZN_entsoe_UA-IPS:
+  id: 256
+  from_area_id: 313
+  to_area_id: 283
+entsoe_RU-BZN_entsoe_UA:
+  id: 477
+  from_area_id: 313
+  to_area_id: 284
+entsoe_GB(IFA2)-BZN_entsoe_FR:
+  id: 377
+  from_area_id: 314
+  to_area_id: 12
+entsoe_AM-CTY_entsoe_GE:
+  id: 125
+  from_area_id: 316
+  to_area_id: 272
+entsoe_AZ-CTY_entsoe_GE:
+  id: 384
+  from_area_id: 318
+  to_area_id: 272
+entsoe_GB(ElecLink)_entsoe_FR:
+  id: 627
+  from_area_id: 319
+  to_area_id: 12
+entsoe_GB(IFA)-BZN_entsoe_FR:
+  id: 367
+  from_area_id: 320
+  to_area_id: 12
+entsoe_UA-DobTPP BZN_entsoe_PL:
+  id: 250
+  from_area_id: 325
+  to_area_id: 26
+entsoe_IT-Malta BZN_entsoe_MT:
+  id: 266
+  from_area_id: 326
+  to_area_id: 311
+eia_GRMA_eia_AZPS:
+  id: 231
+  from_area_id: 352
+  to_area_id: 130
+ons_BR-S_ons_BR-CS:
+  id: 792
+  from_area_id: 353
+  to_area_id: 354
+ons_BR-S_ons_AR:
+  id: 480
+  from_area_id: 353
+  to_area_id: 357
+ons_BR-S_ons_PY:
+  id: 728
+  from_area_id: 353
+  to_area_id: 358
+ons_BR-S_ons_UY:
+  id: 695
+  from_area_id: 353
+  to_area_id: 359
+ons_BR-CS_ons_BR-N:
+  id: 513
+  from_area_id: 354
+  to_area_id: 355
+ons_BR-CS_ons_BR-NE:
+  id: 63
+  from_area_id: 354
+  to_area_id: 356
+ons_BR-N_ons_BR-NE:
+  id: 617
+  from_area_id: 355
+  to_area_id: 356
+cammesa_AR_cammesa_other:
+  id: 647
+  from_area_id: 360
+  to_area_id: 368
+cammesa_other_cammesa_AR:
+  id: 725
+  from_area_id: 368
+  to_area_id: 360

@@ -1,8 +1,9 @@
 class Transmission < ActiveRecord::Base
-  self.table_name = 'transmission'
+  self.table_name = 'transmission_data'
   acts_as_hypertable time_column: 'time'
   belongs_to :from_area, class_name: 'Area'
   belongs_to :to_area, class_name: 'Area'
+  belongs_to :areas_area
 
   def self.enable_compression_policy!
     connection.execute <<~SQL

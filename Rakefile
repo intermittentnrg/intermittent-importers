@@ -215,3 +215,14 @@ task :fixtures_apt do
     end
   end
 end
+
+
+desc 'Export areas areas to test/fixtures/areas_areas.yml'
+task :fixtures_aa do
+  File.open("test/fixtures/areas_areas.yml", 'w') do |f|
+    AreasArea.order(:from_area_id, :to_area_id).all.each do |aa|
+      f.write({"#{aa.from_area.source}_#{aa.from_area.code}_#{aa.to_area.source}_#{aa.to_area.code}" => aa.attributes }.
+               to_yaml.sub!(/---\s?/, ""))
+    end
+  end
+end

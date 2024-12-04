@@ -258,6 +258,7 @@ module Out2
     include SemanticLogger::Loggable
 
     @@areas = {}
+    @@aas = {}
     def self.run(data, from, to, source_id)
       #raise unless @from && @to
       #require 'pry' ;binding.pry
@@ -267,11 +268,16 @@ module Out2
         kto = [source_id, p[:to_area]]
         p[:from_area_id] ||= (@@areas[kfrom] ||= ::Area.where(source: source_id, code: p[:from_area]).pluck(:id).first)
         p[:to_area_id] ||= (@@areas[kto] ||= ::Area.where(source: source_id, code: p[:to_area]).pluck(:id).first)
-        # unless p[:to_area_id] && p[:to_area]
-        #   logger.warn("Creating area #{p[:to_area]}")
+        kaa = [source_id, p[:from_area_id], p[:to_area_id]]
+        p[:areas_area_id] ||= (@@aas[kaa] ||= ::AreasArea.where(
+                                 from_area_id: p[:from_area_id],
+                                 to_area_id: p[:to_area_id]
+                               ).pluck(:id).first)
+        unless p[:areas_area_id]
+          logger.error("Missing AreasArea #{p.inspect}")
         #   a = ::Area.create!(source: source_id, code: p[:to_area], type: 'country', region: nil, enabled: false)
         #   p[:to_area_id] = areas[p[:to_area]] = a.id
-        # end
+        end
         p.delete :from_area
         p.delete :to_area
       end
@@ -279,7 +285,7 @@ module Out2
       r = nil
       if data.present?
         start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-        r = ::Transmission.upsert_all(data, on_duplicate: Arel.sql('value = EXCLUDED.value WHERE (transmission.*) IS DISTINCT FROM (EXCLUDED.*)'))
+        r = ::Transmission.upsert_all(data, on_duplicate: Arel.sql('value = EXCLUDED.value WHERE (transmission_data.*) IS DISTINCT FROM (EXCLUDED.*)'))
         duration = 1_000.0 * (Process.clock_gettime(Process::CLOCK_MONOTONIC) - start)
         logger.measure_info("updated #{r.try :length} out of #{data.length} rows for range #{from} - #{to}", duration:)
       end
