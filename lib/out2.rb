@@ -44,7 +44,7 @@ module Out2
           enco = PG::TextEncoder::CopyRow.new
           raw_conn.copy_data "COPY #{tmptable} FROM STDIN", enco do
             data.each do |row|
-              raw_conn.put_copy_data([row[:areas_production_type_id], row[:time], row[:value]])
+              raw_conn.put_copy_data([row[:areas_production_type_id], row[:time], row[:value].round])
             end
           end
           r = conn.execute <<~SQL
@@ -121,7 +121,7 @@ module Out2
             enco = PG::TextEncoder::CopyRow.new
             raw_conn.copy_data "COPY #{tmptable} FROM STDIN", enco do
               data.each do |row|
-                raw_conn.put_copy_data([row[:unit_id], row[:time], row[:value]])
+                raw_conn.put_copy_data([row[:unit_id], row[:time], row[:value].round])
               end
             end
             r = conn.execute <<~SQL
