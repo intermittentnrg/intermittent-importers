@@ -279,7 +279,9 @@ module Out2
         #   p[:to_area_id] = areas[p[:to_area]] = a.id
         end
         p.delete :from_area
+        p.delete :from_area_id
         p.delete :to_area
+        p.delete :to_area_id
       end
 
       r = nil
