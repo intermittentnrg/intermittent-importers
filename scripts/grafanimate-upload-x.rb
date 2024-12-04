@@ -19,10 +19,8 @@ media = X::MediaUploader.chunked_upload(client:, file_path:, media_category:)
 X::MediaUploader.await_processing(client:, media:)
 
 text = <<-EOF
-Europe electricity day ahead hourly spot price.
-Today and tomorrow. UTC.
+Today & tomorrows day ahead spot price. UTC.
 Range capped at €300/MWh.
-(testing automated posting)
 EOF
 tweet_body = {text:, media: {media_ids: [media["media_id_string"]]}}
 
