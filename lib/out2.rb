@@ -275,6 +275,8 @@ module Out2
                                ).pluck(:id).first)
         unless p[:areas_area_id]
           logger.error("Missing AreasArea #{p.inspect}")
+          aa = AreasArea.create(from_area_id: p[:from_area_id], to_area_id: p[:to_area_id])
+          @@aas[kaa] = p[:areas_area_id] = aa.id
         #   a = ::Area.create!(source: source_id, code: p[:to_area], type: 'country', region: nil, enabled: false)
         #   p[:to_area_id] = areas[p[:to_area]] = a.id
         end
