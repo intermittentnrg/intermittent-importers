@@ -10,5 +10,7 @@ unless Rails.env.test?
   end
 end
 
+ActiveSupport.on_load(:active_record) { extend Timescaledb::ActsAsHypertable }
+
 #ActiveRecord::Base.logger = SemanticLogger::Logger.new(STDOUT)
 #ActiveRecord::Base.logger = Logger.new(STDOUT)

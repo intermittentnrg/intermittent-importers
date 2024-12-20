@@ -14,6 +14,8 @@ unless Rails.env.test?
 end
 #ActiveRecord::Base.logger = Logger.new(STDOUT)
 
+ActiveSupport.on_load(:active_record) { extend Timescaledb::ActsAsHypertable }
+
 def pump_task(name, source)
   desc "Run refresh task"
   task name do |t|
