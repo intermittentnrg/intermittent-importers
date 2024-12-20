@@ -66,7 +66,7 @@ GEM
       tzinfo
     chronic (0.10.2)
     coderay (1.1.3)
-    concurrent-ruby (1.2.3)
+    concurrent-ruby (1.3.4)
     connection_pool (2.4.1)
     crack (0.4.5)
       rexml
@@ -110,7 +110,7 @@ GEM
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
-    i18n (1.14.4)
+    i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
     irb (1.13.0)
@@ -124,10 +124,10 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.4)
-    minitest (5.22.3)
+    minitest (5.25.4)
     multi_json (1.15.0)
     multi_xml (0.6.0)
-    mutex_m (0.2.0)
+    mutex_m (0.3.0)
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
     net-sftp (4.0.0)
@@ -136,9 +136,10 @@ GEM
     nokogiri (1.15.4)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
+    ostruct (0.6.1)
     ox (2.14.17)
     parallel (1.23.0)
-    pg (1.5.4)
+    pg (1.5.9)
     pgsync (0.7.4)
       parallel
       pg (>= 0.18.2)
@@ -218,10 +219,11 @@ GEM
     stringio (3.1.0)
     thor (1.2.2)
     timecop (0.9.8)
-    timeout (0.4.1)
-    timescaledb (0.2.8)
+    timeout (0.4.3)
+    timescaledb (0.3.1)
       activerecord
       activesupport
+      ostruct
       pg (~> 1.2)
     tty-cursor (0.7.1)
     tty-spinner (0.9.3)
