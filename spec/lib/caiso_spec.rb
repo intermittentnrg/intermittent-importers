@@ -25,7 +25,7 @@ RSpec.describe Caiso::FuelSource do
     context "refreshes previous day if data missing" do
       let(:current_time) { Time.new(2023,1,1,6) }
       it do
-        req = stub_request(:get, 'https://www.caiso.com/outlook/SP/History/20221231/fuelsource.csv').
+        req = stub_request(:get, 'https://www.caiso.com/outlook/history/20221231/fuelsource.csv').
                 to_return(body: '\n')
         allow(Time).to receive(:strptime)
         subject.parsers_each(&:fetch)
@@ -69,7 +69,7 @@ RSpec.describe Caiso::Load do
     context "refreshes previous day if data missing" do
       let(:current_time) { Time.new(2023,1,1,6) }
       it do
-        req = stub_request(:get, 'https://www.caiso.com/outlook/SP/History/20221231/netdemand.csv').
+        req = stub_request(:get, 'https://www.caiso.com/outlook/history/20221231/netdemand.csv').
                 to_return(body: '\n')
         allow(Time).to receive(:strptime)
         subject.parsers_each(&:fetch)

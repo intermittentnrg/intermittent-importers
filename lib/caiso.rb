@@ -106,8 +106,8 @@ module Caiso
 
     def initialize(date)
       super
-      #current: /outlook/SP/fuelsource.csv
-      @url = "https://www.caiso.com/outlook/SP/History/#{date.strftime('%Y%m%d')}/fuelsource.csv"
+      #current: /outlook/current/fuelsource.csv
+      @url = "https://www.caiso.com/outlook/history/#{date.strftime('%Y%m%d')}/fuelsource.csv"
     end
 
     def process
@@ -172,8 +172,8 @@ module Caiso
 
     def initialize(date)
       super
-      #current: /outlook/SP/netdemand.csv
-      @url = "https://www.caiso.com/outlook/SP/History/#{date.strftime('%Y%m%d')}/netdemand.csv"
+      #current: /outlook/current/netdemand.csv
+      @url = "https://www.caiso.com/outlook/history/#{date.strftime('%Y%m%d')}/netdemand.csv"
     end
 
     def points_load

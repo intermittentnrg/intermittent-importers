@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://www.caiso.com/outlook/SP/History/20191103/netdemand.csv
+    uri: https://www.caiso.com/outlook/history/20191103/netdemand.csv
     body:
       encoding: US-ASCII
       string: ''

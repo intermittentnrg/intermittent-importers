@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://www.caiso.com/outlook/SP/History/20230101/fuelsource.csv
+    uri: https://www.caiso.com/outlook/history/20230101/fuelsource.csv
     body:
       encoding: US-ASCII
       string: ''
