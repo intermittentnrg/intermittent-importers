@@ -1,23 +1,16 @@
 # frozen_string_literal: true
 
+# Add your own tasks in files placed in lib/tasks ending in .rake,
+# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
+
 require 'English'
-require './lib/init'
+require_relative "config/application"
+
+Rails.application.load_tasks
+
 @logger = logger = SemanticLogger['Rakefile']
 
-require 'active_record_migrations'
-ActiveRecordMigrations.load_tasks
-ActiveRecordMigrations.configure do |c|
-  c.schema_format = :sql
-end
-ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.datetime_type = :timestamptz
-unless Rails.env.test?
-  ActiveRecord::ConnectionAdapters::AbstractAdapter.set_callback :checkout, :after do |conn|
-    conn.exec_query 'SET timescaledb.max_tuples_decompressed_per_dml_transaction TO 1000000'
-  end
-end
-# ActiveRecord::Base.logger = Logger.new(STDOUT)
-
-ActiveSupport.on_load(:active_record) { extend Timescaledb::ActsAsHypertable }
+#ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 def chain_task(name, clazz)
   desc 'Run refresh task with chaining API'
