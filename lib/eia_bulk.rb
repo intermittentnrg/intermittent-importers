@@ -75,7 +75,7 @@ module EiaBulk
   class Generation < Base
     include SemanticLogger::Loggable
 
-    V_USA = Validate::RULES['usa']
+    V_USA = Validate::RULES['eia']
     V_USA_ALL = V_USA['all']
     BULK_TABLE = "eia_bulk_generation"
     TARGET_MODEL = ::Generation
@@ -143,7 +143,7 @@ module EiaBulk
   class Demand < Base
     include SemanticLogger::Loggable
 
-    V_USA = Validate::RULES['usa']
+    V_USA = Validate::RULES['eia']
     V_USA_ALL = V_USA['all']
     BULK_TABLE = "eia_bulk_demand"
     TARGET_MODEL = Load
