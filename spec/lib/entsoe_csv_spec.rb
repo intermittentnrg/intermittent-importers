@@ -20,6 +20,26 @@ RSpec.describe EntsoeCsv::GenerationCSV do
   end
 end
 
+RSpec.describe EntsoeCsv::UnitCSV do
+  subject { EntsoeCsv::UnitCSV }
+  let(:body) do
+    <<-CSV
+DateTime (UTC)	ResolutionCode	AreaCode	AreaDisplayName	AreaTypeCode	MapCode	GenerationUnitCode	GenerationUnitName	GenerationUnitType	ActualGenerationOutput(MW)	ActualConsumption(MW)	GenerationUnitInstalledCapacity(MW)	UpdateTime(UTC)
+2024-07-01 00:00:00.000	PT60M	10YAT-APG------L	Austria (AT)	BZN/CTA	AT	14W-TZH-TU-----N	Häusling	Hydro Pumped Storage	0.00		400.00	2024-07-06 00:16:32.032
+2024-07-01 01:00:00.000	PT60M	10YAT-APG------L	Austria (AT)	BZN/CTA	AT	14W-TZH-TU-----N	Häusling	Hydro Pumped Storage	0.00		400.00	2024-07-06 01:16:34.034
+2024-07-01 02:00:00.000	PT60M	10YAT-APG------L	Austria (AT)	BZN/CTA	AT	14W-TZH-TU-----N	Häusling	Hydro Pumped Storage	0.00		4000.00	2024-07-06 02:16:50.050
+CSV
+  end
+  it "deduplicates capacity data" do
+    expect(GenerationUnit).to receive(:upsert_all)
+    expect(GenerationUnitCapacity).to receive(:upsert_all).with([
+                                                                  {unit_id: 544, time: Time.parse('2024-07-01 00:00:00'), value:400000},
+                                                                  {unit_id: 544, time: Time.parse('2024-07-01 02:00:00'), value:4000000}
+                                                                ])
+    subject.new(StringIO.new(body), '2024_07_ActualGenerationOutputPerGenerationUnit_16.1.A_r2.1.csv', Time.new(2024,7,2)).process
+  end
+end
+
 RSpec.describe EntsoeCsv::LoadCSV do
   subject { EntsoeCsv::LoadCSV }
   let(:body) do

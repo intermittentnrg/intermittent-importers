@@ -47,3 +47,10 @@ WDGPH1:
   production_type_id: 27
   internal_id: WDGPH1
   name: WDGPH1
+
+544:
+  id: 544
+  area_id: 1
+  production_type_id: 10
+  internal_id: 14W-TZH-TU-----N
+  name: Häusling

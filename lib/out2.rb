@@ -243,6 +243,20 @@ module Out2
 
     def self.run(data, from, to, source_id)
       r = nil
+
+      capacities = {}
+      data.delete_if do |p|
+        capacity = capacities[p[:unit_id]] ||= GenerationUnitCapacity.where(unit_id: p[:unit_id], time: ..p[:time]).pluck(:value).first
+
+        if capacity != p[:value]
+          capacities[p[:unit_id]] = p[:value]
+
+          next false
+        end
+
+        true
+      end
+
       if data.present?
         start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
         data.each_slice(100_000) do |data2|
