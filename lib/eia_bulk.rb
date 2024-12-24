@@ -51,14 +51,13 @@ module EiaBulk
 
     def self.copy
       self::TARGET_MODEL.disable_compression_policy!
-      ranges = ActiveRecord::Base.connection.select_rows("SELECT range_start,range_end,chunk_name FROM timescaledb_information.chunks WHERE hypertable_schema='intermittency' AND hypertable_name='#{self::TARGET_MODEL.table_name}' ORDER BY range_start DESC")
-      ranges.each do |range_start, range_end, chunk_name|
-        logger.benchmark_info("decompress chunk #{chunk_name}") do
-        ActiveRecord::Base.connection.execute("SELECT decompress_chunk('_timescaledb_internal.#{chunk_name}')");
+      self::TARGET_MODEL.chunks.each do |chunk|
+        logger.benchmark_info("decompress chunk #{chunk.chunk_name}") do
+          chunk.decompress!
         rescue ActiveRecord::StatementInvalid
           raise unless $!.cause.is_a? PG::DuplicateObject
         end
-        logger.benchmark_info("INSERT SELECT BETWEEN #{range_start} AND #{range_end}")  do
+        logger.benchmark_info("INSERT SELECT BETWEEN #{chunk.range_start} AND #{chunk.range_end}") do
           ActiveRecord::Base.connection.execute copy_sql(range_start, range_end)
         end
       end
