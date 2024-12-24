@@ -109,7 +109,7 @@ module EiaBulk
         r = json['data'].each do |p|
           next nil unless p[1]
           time = parse_time(p[0])
-          value = (p[1]*1000).to_i
+          value = (p[1].to_i*1000)
           v1 = V_USA[country].try(:[], production_type) || {}
           v2 = V_USA_ALL.try(:[], production_type) || {}
           min = v1[:min]||v2[:min]
@@ -169,7 +169,7 @@ module EiaBulk
         json = FastJsonparser.parse(line, symbolize_keys: false)
         r = json['data'].each do |p|
           next nil unless p[1]
-          value = (p[1]*1000).to_i
+          value = (p[1].to_i*1000)
           time = parse_time(p[0])
 
           v1 = V_USA[country].try(:[], 'load') || {}
@@ -228,7 +228,7 @@ module EiaBulk
           next nil unless p[1]
           time = parse_time(p[0])
           # invert value. export need to be measured as drain on from_area, but EIA measures output to to_area
-          value = -(p[1]*1000).to_i
+          value = -(p[1].to_i*1000)
           value = [value, -2147483648].max
           value = [value, 2147483647].min
 
