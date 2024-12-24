@@ -8,7 +8,7 @@ module EiaBulk
     end
 
     def self.cli(args)
-      unless args.length == 1
+      if args.length < 1
         $stderr.puts "#{$0}: <file>"
         return
       end
@@ -43,6 +43,7 @@ module EiaBulk
           m = line.match(/"series_id":"(.*?)"/)
           next unless m
           @series = m[1]
+          next unless @series.include?(@filter) if @filter
           process_line(line) { |row| conn.put_copy_data(row) }
         end
       end
@@ -79,7 +80,7 @@ module EiaBulk
     BULK_TABLE = "eia_bulk_generation"
     TARGET_MODEL = ::Generation
 
-    def initialize(args)
+    def initialize(*args)
       super
       ActiveRecord::Base.connection.create_enum :eia_bulk_production_type, %w[fossil_gas fossil_hard_coal fossil_oil hydro nuclear other solar wind unknown]
       ActiveRecord::Base.connection.create_table BULK_TABLE, id: false, temporary: true do |t|
@@ -147,7 +148,7 @@ module EiaBulk
     BULK_TABLE = "eia_bulk_demand"
     TARGET_MODEL = Load
 
-    def initialize(args)
+    def initialize(*args)
       super
       ActiveRecord::Base.connection.create_table BULK_TABLE, id: false, temporary: true do |t|
         t.timestamptz :time, null: false
@@ -200,7 +201,7 @@ module EiaBulk
     BULK_TABLE = "eia_bulk_interchange"
     TARGET_MODEL = Transmission
 
-    def initialize(args)
+    def initialize(*args)
       super
       ActiveRecord::Base.connection.create_table BULK_TABLE, id: false, temporary: true do |t|
         t.timestamptz :time, null: false
