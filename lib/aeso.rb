@@ -122,7 +122,7 @@ module Aeso
 
         #0: ASSET
         unit = row[0]
-        unit.sub! /.*\((.*)\)/, '\1'
+        unit.sub! /.*\((.*)\).*/, '\1'
         #1: MC - Maximum Capability
         #2: TNG - Total Net Generation
         value = row[2].to_f*1000
