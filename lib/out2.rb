@@ -73,34 +73,38 @@ module Out2
     end
   end
 
-  class Unit < Base
+  class BaseUnit < Base
+    @@units = {}
+    def self.preprocess_data(data, source_id)
+      data.each do |p|
+        if p[:country] && p[:unit] && p[:production_type]
+          k = [source_id, p[:production_type], p[:unit]]
+          p[:unit_id] = (@@units[k] ||= ::Unit.joins(:production_type, :area).where(internal_id: p[:unit], area: {source: source_id, code: p[:country]}, production_type: {name: p[:production_type]}).pluck(:id).first)
+          unless p[:unit_id]
+            logger.warn("creating unit for #{p[:country]}/#{p[:production_type]}/#{p[:unit]}")
+            area_id = ::Area.where(source: source_id, code: p[:country]).pluck(:id).first
+            pt_id = ::ProductionType.where(name: p[:production_type]).pluck(:id).first
+            raise p.inspect unless area_id
+            raise p.inspect unless pt_id
+            unit = ::Unit.create!(area_id:, production_type_id: pt_id, internal_id: p[:unit])
+            @@units[k] = p[:unit_id] = unit.id
+          end
+          p.delete :country
+          p.delete :unit
+          p.delete :production_type
+        end
+      end
+    end
+  end
+
+  class Unit < BaseUnit
     include SemanticLogger::Loggable
 
-    @@units = {}
     def self.run(data, from, to, source_id)
       raise unless from && to
       updated_rows = nil
       if data.present?
-
-        data.each do |p|
-          if p[:country] && p[:unit] && p[:production_type]
-            k = [source_id, p[:production_type], p[:unit]]
-            p[:unit_id] = (@@units[k] ||= ::Unit.joins(:production_type, :area).where(internal_id: p[:unit], area: {source: source_id, code: p[:country]}, production_type: {name: p[:production_type]}).pluck(:id).first)
-            unless p[:unit_id]
-              require 'pry' ; binding.pry
-              logger.warn("creating unit for #{p[:country]}/#{p[:production_type]}/#{p[:unit]}")
-              area_id = ::Area.where(source: source_id, code: p[:country]).pluck(:id).first
-              pt_id = ::ProductionType.where(name: p[:production_type]).pluck(:id).first
-              raise p.inspect unless area_id
-              raise p.inspect unless pt_id
-              unit = ::Unit.create!(area_id:, production_type_id: pt_id, internal_id: p[:unit])
-              @@units[k] = p[:unit_id] = unit.id
-            end
-            p.delete :country
-            p.delete :unit
-            p.delete :production_type
-          end
-        end
+        preprocess_data(data, source_id)
         #require 'pry' ; binding.pry
 
         start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
@@ -152,6 +156,7 @@ module Out2
       end
     end
   end
+
   class UnitHires
     include SemanticLogger::Loggable
 
@@ -238,11 +243,13 @@ module Out2
     end
   end
 
-  class UnitCapacity
+  class UnitCapacity < BaseUnit
     include SemanticLogger::Loggable
 
     def self.run(data, from, to, source_id)
       r = nil
+
+      preprocess_data(data, source_id)
 
       capacities = {}
       data.delete_if do |p|
