@@ -12,7 +12,6 @@ module Entsoe
     end
 
     def initialize from: DateTime.now.beginning_of_day, to: DateTime.now.beginning_of_hour, psr_type: nil
-      raise "#{from} == #{to}" if from==to
       from = from.strftime('%Y-%m-%d') unless from.is_a? String
       to = to.strftime('%Y-%m-%d') unless to.is_a? String
       @from = from
@@ -66,12 +65,24 @@ module Entsoe
         #2020-12-31T23:00Z
         start = Time.strptime(ts.locate('Period/timeInterval/start/^String').first, '%Y-%m-%dT%H:%M%z')
         resolution = ts.locate('Period/resolution/^String').first.match(/^PT(\d+)M$/) { |m| m[1].to_i }
+        gapfill = ts.locate('curveType/^String').first == 'A03'
 
         psr = ts.locate('MktPSRType/psrType/^String').first
         @production_type = PARAMETER_DESC[psr.to_sym].downcase.tr_s(' ', '_') if psr
 
         data = ts.locate('Period/Point').each do |p|
-          @time = start + ((p.locate('position/^String').first.to_i - 1) * resolution).minutes
+          @position = (p.locate('position/^String').first.to_i - 1)
+          @time = start + (@position * resolution).minutes
+
+          if gapfill && @last_position && @last_position + 1 != @position
+            ((@last_position+1)...@position).each do |gap_position|
+              time = start + (gap_position * resolution).minutes
+              gap_point = r.last.dup
+              gap_point[:time] = time
+              r << gap_point
+            end
+          end
+          @last_position = @position
           @last_time = @time
           r << point(p)
         end
