@@ -158,8 +158,9 @@ module Aeso
     TZ_MST = TZInfo::Timezone.get('MST')
     def process_file body
       r = []
+      r_cap = []
       csv = FastestCSV.parse body, row_sep: "\r\n"
-      country = Time.strptime(csv[2][0], '%Y-%m-%d %H:%M').min == 0 ? 'CA-AB-hourly' : 'CA-AB'
+      country = 'CA-AB'
       csv.shift
       csv.each do |row|
         #0: Date (MST)
@@ -173,6 +174,7 @@ module Aeso
         #5: Volume
         value = (row[5].to_f*1000).round
         #6: Maximum Capability
+        cap = (row[6].to_f*1000).round
         #7: System Capability
         #8: Fuel Type
         production_type = PT_MAP[row[8]] || row[8].downcase.gsub(/ /, '_')
@@ -180,12 +182,14 @@ module Aeso
         #10: Planning Area
         #11: Region
         r << {time:, country:, production_type:, unit:, value:}
+        r_cap << {time:, country:, production_type:, unit:, value: cap}
       end
       #require 'pry' ; binding.pry
       from = r.first[:time]
       to = r.last[:time]
 
       ::Out2::Unit.run(r, from, to, self.class.source_id)
+      ::Out2::UnitCapacity.run(r_cap, from, to, self.class.source_id)
     end
   end
 
