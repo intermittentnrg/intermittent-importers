@@ -124,6 +124,8 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.4)
+    minisky (0.5.0)
+      base64 (~> 0.1)
     minitest (5.25.4)
     multi_json (1.15.0)
     multi_xml (0.6.0)
@@ -264,6 +266,7 @@ DEPENDENCIES
   fastest_csv!
   httparty
   mdb
+  minisky (~> 0.5.0)
   net-sftp
   ox
   pg
