@@ -33,6 +33,9 @@ spec:
       stage('grafanimate-upload-x.rb') {
 	sh "cd /app ; ruby scripts/grafanimate-upload-x.rb"
       }
+      stage('grafanimate-upload-bsky.rb') {
+	sh "cd /app ; ruby scripts/grafanimate-upload-bsky.rb"
+      }
     }
   }
 }
