@@ -15,6 +15,7 @@ module Eia
       'NG' => 'fossil_gas',
       'NUC' => 'nuclear',
       'OIL' => 'fossil_oil',
+      'OES' => 'storage',
       'OTH' => 'other',
       'PS' => 'hydro_pumped_storage',
       'SNB' => 'solar_with_battery',
