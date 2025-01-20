@@ -38,6 +38,7 @@ tweet_id = tweet["data"]["id"]
 puts tweet_id
 
 if social_thread.reply?
+  client.delete("users/#{ENV['TWITTER_USER_ID']}/retweets/#{social_thread.reply['in_reply_to_tweet_id']}")
   client.post("users/#{ENV['TWITTER_USER_ID']}/retweets", {tweet_id:}.to_json)
 end
 
