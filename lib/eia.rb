@@ -11,6 +11,7 @@ module Eia
     FUEL_MAP = {
       'BAT' => 'battery',
       'COL' => 'fossil_hard_coal',
+      'GEO' => 'geothermal',
       'NG' => 'fossil_gas',
       'NUC' => 'nuclear',
       'OIL' => 'fossil_oil',
