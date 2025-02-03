@@ -11,13 +11,12 @@ Follow [@IntermittentNRG](https://x.com/IntermittentNRG) for updates.
 🌎 **Americas**
 - 🇺🇸 ⚡ [CAISO (California Independent System Operator)](lib/caiso.rb)
 - 🇺🇸 🔋 [EIA (U.S. Energy Information Administration)](lib/eia.rb)
-- 🇺🇸 💡 [ERCOT (Electric Reliability Council of Texas)](lib/ercot.rb)
-- 🇺🇸 🔌 [NYISO (New York Independent System Operator)](lib/nyiso.rb)
+- 🇺🇸 💡 [ERCOT (Electric Reliability Council of Texas)](lib/ercot.rb) (unused)
+- 🇺🇸 🔌 [NYISO (New York Independent System Operator)](lib/nyiso.rb) (unused)
 - 🇨🇦 ⚡ [AESO (Alberta Electric System Operator)](lib/aeso.rb)
-- 🇨🇦 🔋 [HYDRO-QUÉBEC](lib/hydro_quebec.rb)
+- 🇨🇦 🔋 [HYDRO-QUÉBEC](lib/hydro_quebec.rb) (WIP, lacks history)
 - 🇨🇦 💡 [IESO (Independent Electricity System Operator - Ontario)](lib/ieso.rb)
-- 🇨🇦 🔌 [NS Power (Nova Scotia Power)](lib/ns_power.rb)
-- 🇧🇷 ⚡ [ANEEL (Brazilian Electricity Regulatory Agency)](lib/aneel.rb)
+- 🇨🇦 🔌 [NS Power (Nova Scotia Power)](lib/ns_power.rb) (WIP, only reports generation in %)
 - 🇧🇷 🔋 [ONS (National System Operator - Brazil)](lib/ons.rb)
 - 🇦🇷 💡 [CAMMESA (Wholesale Electricity Market Administrator - Argentina)](lib/cammesa.rb)
 
@@ -25,10 +24,7 @@ Follow [@IntermittentNRG](https://x.com/IntermittentNRG) for updates.
 - 🇪🇺 ⚡ [ENTSOE (European Network of Transmission System Operators for Electricity)](lib/entsoe.rb)
 - 🇬🇧 🔋 [ELEXON (GB Electricity Market)](lib/elexon.rb)
 - 🇬🇧 💡 [National Grid ESO (Great Britain)](lib/national_grid.rb)
-- 🇮🇪 🔌 [EIRGRID (Ireland's Electricity Grid Operator)](lib/eirgrid.rb)
 - 🇪🇸 ⚡ [REE (Red Eléctrica de España)](lib/ree.rb)
-- 🇸🇪 🔋 [SVK (Svenska Kraftnät - Sweden)](lib/svk.rb)
-- 🇪🇺 💡 [NORDPOOL (Nordic Power Exchange)](lib/nordpool.rb)
 
 🌏 **Asia-Pacific**
 - 🇦🇺 ⚡ [AEMO (Australian Energy Market Operator)](lib/aemo.rb)
@@ -131,9 +127,16 @@ When contributing:
 6. Leverage the fast parsers (FastJsonparser, FastestCSV) for data processing
 7. Follow the established data validation patterns
 
+To setup the database, run:
+
+```bash
+rake db:setup
+```
+
 ## Rake Tasks
 
 The system provides various Rake tasks for data collection:
+
 
 ```bash
 # ENTSOE data collection
@@ -152,7 +155,16 @@ rake elexon:unit             # Collect unit data
 # Other market operators
 rake aemo:all                # Run all AEMO tasks
 rake nordpool:all            # Run all Nordpool tasks
+
 ```
+
+Production tasks:
+
+```bash
+rake -j4 all                 # Runs all collection tasks
+```
+
+Also used in Jenkinsfile and GH actions. Remember that it can also run multiple tasks in parallel via -j4.
 
 ## Database Schema
 
@@ -176,32 +188,43 @@ erDiagram
         string name2
         boolean enabled
     }
+    AreasProductionTypes {
+        int id PK
+        int area_id FK
+        int production_type_id FK
+    }
     Units {
         int id PK
         int area_id FK
         int production_type_id FK
+        int areas_production_type_id FK
         string internal_id
         string code
     }
     GenerationUnits {
         int unit_id PK,FK
-        timestamp time PK
+        timestamptz time PK
+        int value
+    }
+    GenerationData {
+        int areas_production_type_id PK,FK
+        timestamptz time PK
         int value
     }
     Generation {
-        int area_id PK,FK
-        int production_type_id PK,FK
-        timestamp time PK
+        int area_id FK
+        int production_type_id FK
+        timestamptz time PK
         int value
     }
     Load {
         int area_id PK,FK
-        timestamp time PK
+        timestamptz time PK
         int value
     }
     Transmission {
         int areas_area_id FK
-        timestamp time PK
+        timestamptz time PK
         int value
     }
     AreasAreas {
@@ -211,7 +234,7 @@ erDiagram
     }
     Prices {
         int area_id PK,FK
-        timestamp time PK
+        timestamptz time PK
         decimal value
     }
     DataFiles {
@@ -221,13 +244,14 @@ erDiagram
     }
 
     Areas ||--o{ Units : "has"
-    Areas ||--o{ Generation : "has"
+    Areas ||--o{ AreasProductionTypes : "has"
     Areas ||--o{ Load : "has"
     Areas ||--o{ Prices : "has"
     Areas ||--o{ AreasAreas : "from"
     Areas ||--o{ AreasAreas : "to"
     ProductionTypes ||--o{ Units : "type"
-    ProductionTypes ||--o{ Generation : "type"
+    ProductionTypes ||--o{ AreasProductionTypes : "type"
+    AreasProductionTypes ||--o{ GenerationData : "generates"
     Units ||--o{ GenerationUnits : "generates"
     AreasAreas ||--o{ Transmission : "connects"
 ```
@@ -235,15 +259,18 @@ erDiagram
 Key features of the schema:
 
 1. **Time-Series Tables**
-   - `generation`, `load`, `transmission`, `prices` - Core time-series data
-   - Optimized with TimescaleDB hypertables
+   - `generation_data` - Core time-series data for generation
+   - `generation` - View for compatibility and simpler querying
+   - `load`, `transmission`, `prices` - Other core time-series data
+   - All optimized with TimescaleDB hypertables
+   - All time columns use `timestamptz` (timestamp with timezone) type
    - Compressed for efficient storage
 
 2. **Reference Tables**
    - `areas` - Geographic/market regions
    - `production_types` - Types of power generation
-   - `units` - Individual generation units
-   - `areas_areas` - Area interconnections
+   - `areas_production_types` - Links areas with their production types
+   - `units` - Individual generation units (supports both direct area/production_type references and areas_production_type_id)
 
 3. **Tracking Tables**
    - `data_files` - Import tracking and deduplication
@@ -254,4 +281,8 @@ Key features of the schema:
    - Specialized indices for time-range queries
    - Compression policies for historical data
 
+5. **Join Tables**
+   - `areas_areas` - Area interconnections
+   - `areas_production_types` - Area-specific production types
 
+A learning here is that previously the `transmission` table had `from_area_id` and `to_area_id` columns. Moving these to a separate `areas_areas` table reduces table size, improves indexing, simplifies query plans etc. Similarly, `generation_data` now uses `areas_production_type_id` instead of separate area and production type columns, though the `generation` view maintains the old interface for compatibility.
