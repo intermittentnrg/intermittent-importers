@@ -206,7 +206,7 @@ erDiagram
         timestamptz time PK
         int value
     }
-    Generation {
+    GenerationData {
         int area_id FK
         int production_type_id FK
         int areas_production_type_id FK
