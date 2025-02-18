@@ -76,9 +76,16 @@ module EntsoeCsv
 
       area_id
     end
-    def parse_production_type(row)
-      row[:production_type].gsub(/ /,'_').downcase
+
+    PT_MAP = {
+      'energy_storage' => 'storage'
+    }
+    def parse_production_type(s)
+      pt = s.strip.gsub(/ /,'_').downcase
+
+      PT_MAP[pt] || pt
     end
+
     def parse_value(row)
       (row[:value].to_f*1000).to_i - (row[:value_negative].to_f*1000).to_i
     end
@@ -95,10 +102,6 @@ module EntsoeCsv
 
       @last_s = s
       @last_t = Time.strptime(s, self.class::TIME_FORMAT)
-    end
-
-    def parse_production_type(s)
-      s.strip.gsub(/ /,'_').downcase
     end
 
     def parse_area(s, fields = {})
@@ -357,7 +360,7 @@ module EntsoeCsv
           time = parse_time(row)
           area_id = parse_area(row)
           value = row[:capacity].to_f*1000
-          production_type = parse_production_type(row)
+          production_type = parse_production_type(row[:production_type])
           k = [area_id,production_type,time]
           if r[k] && r[k][:value] != value
             logger.warn("#{time} #{row[:area_internal_id]} #{row[:area_name]} different values #{r[k][:value]} != #{value}")
