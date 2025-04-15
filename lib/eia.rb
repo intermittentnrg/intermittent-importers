@@ -23,6 +23,7 @@ module Eia
       'UES' => 'unknown_storage',
       'WAT' => 'hydro',
       'WND' => 'wind',
+      'WNB' => 'wind_with_battery',
       'UNK' => 'unknown'
     }
 
