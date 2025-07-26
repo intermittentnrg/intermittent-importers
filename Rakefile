@@ -54,7 +54,7 @@ task :ping do |t|
 end
 
 desc "Run all refresh tasks"
-multitask all: ['entsoe:all', 'aemo:all', 'ieso:all', 'eia:all', :ercot, 'caiso:all', 'elexon:all', :nationalgrideso, :opennem, :ree, 'aeso:all', :hydroquebec, :tohoku, 'eskom:all', :ons, 'cammesa:all', :taipower]
+multitask all: ['entsoe:all', 'aemo:all', 'ieso:all', 'eia:all', :ercot, 'caiso:all', 'elexon:all', :nationalgrideso, :ree, 'aeso:all', :hydroquebec, :tohoku, 'eskom:all', :ons, 'cammesa:all', :taipower]
 namespace :ieso do
   desc "Run refresh tasks"
   task all: [:unit, :load, :price, :intertie]
