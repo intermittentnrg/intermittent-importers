@@ -19,6 +19,7 @@ SemanticLogger.application = Rails.env.to_s
 SemanticLogger.environment = Rails.env.to_s
 SemanticLogger.add_appender(io: $stderr, formatter: :color)
 case Rails.env
+when 'cloud'
 when 'test'
   # nothing
 else
