@@ -303,7 +303,6 @@ module EntsoeCsv
       r = {}
       logger.benchmark_info("csv parse") do
         csv.each do |row|
-          next unless row[2] == 'PT60M'
           #0: InstanceCode
           #1: DateTime(UTC)
           time = parse_time(row[1])
@@ -314,7 +313,9 @@ module EntsoeCsv
           #5: AreaTypeCode
           #6: MapCode
           #7: ContractType
+          next unless row[7] == 'Day-ahead'
           #8: Sequence
+          next unless row[8].blank? || row[8] == '1'
           #9; Price[Currency/MWh]
           value = row[9].to_f*100
           #10: Currency
