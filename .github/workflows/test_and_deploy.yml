@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3.0
+          ruby-version: 3.4.7
           bundler-cache: true
       - name: rake db:migrate db:fixtures:load
         run: |
@@ -50,7 +50,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3.0
+          ruby-version: 3.4.7
           bundler-cache: true
       - name: rake db:migrate
         env:

@@ -71,10 +71,12 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    csv (3.3.5)
     database_cleaner-active_record (2.1.0)
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
+    date (3.4.1)
     diff-lcs (1.5.0)
     docile (1.4.0)
     dotenv (2.8.1)
@@ -150,7 +152,8 @@ GEM
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    psych (5.1.2)
+    psych (5.2.6)
+      date
       stringio
     public_suffix (5.0.3)
     racc (1.7.1)
@@ -182,7 +185,7 @@ GEM
       psych (>= 4.0.0)
     reline (0.5.5)
       io-console (~> 0.5)
-    rexml (3.2.6)
+    rexml (3.4.4)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
       rspec-expectations (~> 3.12.0)
@@ -218,7 +221,7 @@ GEM
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
     slop (4.10.1)
-    stringio (3.1.0)
+    stringio (3.1.7)
     thor (1.2.2)
     timecop (0.9.8)
     timeout (0.4.3)
@@ -241,7 +244,7 @@ GEM
     websocket (1.2.10)
     x (0.14.1)
     zeitwerk (2.6.12)
-    zlib (3.0.0)
+    zlib (3.2.1)
 
 PLATFORMS
   ruby
@@ -253,6 +256,7 @@ DEPENDENCIES
   aws-sdk-sqs
   business_time
   chronic
+  csv
   database_cleaner-active_record
   dotenv
   elasticsearch

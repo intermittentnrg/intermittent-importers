@@ -323,7 +323,7 @@ module EntsoeCsv
 
           k = [time,area_id]
           if r[k] && r[k][:value] != value
-            logger.warn("#{time} #{area_name} different values #{r[k][:value]} != #{value}")
+            logger.warn("#{time} #{area_id} different values #{r[k][:value]} != #{value}")
           end
           r[k] = {time:, area_id:, value:}
         end
