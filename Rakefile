@@ -95,12 +95,12 @@ pump_task :nationalgrideso, NationalGridEso::DemandLive
 namespace :entsoe do
   desc "Run refresh tasks"
   task all: [:generation, :unit, :load, :price, :transmission]
-  loop_task :generation, EntsoeSftp::Generation
-  loop_task :unit, EntsoeSftp::Unit
-  loop_task :load, EntsoeSftp::Load
-  loop_task :price, EntsoeSftp::Price
+  loop_task :generation, EntsoeFms::Generation
+  loop_task :unit, EntsoeFms::Unit
+  loop_task :load, EntsoeFms::Load
+  loop_task :price, EntsoeFms::Price
   pump_task :price_api, Entsoe::Price
-  loop_task :transmission, EntsoeSftp::Transmission
+  loop_task :transmission, EntsoeFms::Transmission
 end
 
 namespace :nordpool do

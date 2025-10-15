@@ -8,7 +8,7 @@ module EntsoeCsv
       "entsoe"
     end
 
-    def initialize(file_or_io, name_if_io = nil, time_if_io = nil)
+    def initialize(file_or_io, name_if_io = nil, time_if_io = nil, zip = false)
       @areas = {}
       if file_or_io.is_a?(String) # url
         raise if name_if_io || time_if_io
@@ -27,7 +27,7 @@ module EntsoeCsv
         @filename = name_if_io
         @filedate = time_if_io
 
-        if @filename =~ /\.zip$/i
+        if zip || @filename =~ /\.zip$/i
           zip = Zip::File.open_buffer(file_or_io) do |io|
             @file = StringIO.new(io.entries.first.get_input_stream.read)
           end
