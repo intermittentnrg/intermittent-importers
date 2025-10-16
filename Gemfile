@@ -21,6 +21,7 @@ gem 'rake'
 gem 'semantic_logger'
 gem 'elasticsearch'
 
+gem 'octokit'
 
 # Parsers
 gem 'chronic'
