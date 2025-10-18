@@ -444,6 +444,8 @@ module EntsoeCsv
     include SemanticLogger::Loggable
     include Out::Transmission
 
+    TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+
     def self.cli(args)
       if args.empty?
         $stderr.puts "#{$0} [file ...]"
@@ -456,57 +458,41 @@ module EntsoeCsv
       end
     end
 
-    HEADERS = [
-      :time, #DateTime
-      :resolution, #ResolutionCode
-      :out_area_internal_id, #OutAreaCode
-      :out_area_type, #OutAreaTypeCode
-      :out_area_name, #OutAreaName
-      :out_area_code, #OutMapCode
-      :in_area_internal_id, #InAreaCode
-      :in_area_type, #InAreaTypeCode
-      :in_area_name, #InAreaName
-      :in_area_code, #InMapCode
-      :value, #FlowValue
-      :_update_time #UpdateTime
-    ]
     AREA_TYPE_MAP = {
+      'BZN/CTA/CTY' => :country,
+      'CTY' => :country,
       'BZN' => :zone,
-      'CTY' => :country
     }
     def points
       r = {}
       logger.benchmark_info("csv parse") do
         csv.each do |row|
-          next if row[3] == 'CTA' || row[7] == 'CTA'
+          next if row[4] == 'CTA' || row[8] == 'CTA'
 
-          #0:DateTime
+          #0:DateTime(UTC)
           time = parse_time(row[0])
           #1:ResolutionCode
           #2:OutAreaCode
           to_area_internal_id = row[2]
-          #3:OutAreaTypeCode
-          to_area_type = AREA_TYPE_MAP[row[3]]
-          #4:OutAreaName
-          to_area_code = row[4]
-          #5:OutMapCode
+          #3:OutAreaDisplayName
+          #4:OutAreaTypeCode
+          to_area_type = AREA_TYPE_MAP[row[4]]
+          #5:OutAreaMapCode
+          to_area_code = row[5]
           to_area_id = parse_area(to_area_internal_id, {type: to_area_type, code: to_area_code})
 
           #6:InAreaCode
           from_area_internal_id = row[6]
-          #7:InAreaTypeCode
-          from_area_type = AREA_TYPE_MAP[row[7]]
-          #8:InAreaName
-          from_area_code = row[8]
-          #9:InMapCode
-
+          #7:InAreaDisplayName
+          #8:InAreaTypeCode
+          from_area_type = AREA_TYPE_MAP[row[8]]
+          #9:InAreaMapCode
+          from_area_code = row[9]
           from_area_id = parse_area(from_area_internal_id, {type: from_area_type, code: from_area_code})
 
-          #FlowValue
+          #10:Flow[MW]
           value = (row[10].to_f*1000).to_i
-          #11:UpdateTime
-          #skip values >= 100GW
-          next if value >= 100_000_000
+          #11:UpdateTime(UTC)
 
           k = [to_area_id,from_area_id,time]
           if r[k] && r[k][:value] != value

@@ -105,7 +105,7 @@ class EntsoeFms
     include SemanticLogger::Loggable
 
     TARGET = EntsoeCsv::TransmissionCSV
-    DIR = '/TP_export/PhysicalFlows_12.1.G/'
+    DIR = '/TP_export/PhysicalFlows_12.1.G_r3/'
   end
 
   class Capacity < Base
