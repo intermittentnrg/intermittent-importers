@@ -387,22 +387,8 @@ module EntsoeCsv
     end
   end
 
-  class UnitCapacityCSV < BaseCSV
+  class UnitCapacityCSV < BaseFastestCSV
     include SemanticLogger::Loggable
-
-    HEADERS = [
-      :internal_id, #EICCode
-      :name, # Name
-      :valid_from, # ValidFrom
-      :valid_to, # ValidTo
-      :status, # Status
-      :type, # Type
-      :location, # Location
-      :value, # InstalledCapacity
-      :_cta, # ControlArea
-      :area_id, # BiddingZone
-      :_voltage # Voltage
-    ]
 
     def self.cli(args)
       if args.empty?
@@ -419,16 +405,33 @@ module EntsoeCsv
     def parse_filename
     end
 
+    #Production and Generation units have different EIC codes making the output of this small
+    #EIC parent of production unit = generation unit EIC
+    #Map can be found on https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+    # EIC Type Code = Resource Object W
     def points_unit_capacity
       r={}
-      csv
       logger.benchmark_info("csv parse") do
-        loop do
-          row = @csv.next
-          time = Time.strptime(row[:valid_from], '%Y-%m-%d %H:%M:%S.%L')
-          unit = Unit.includes(:area).where(area: {source:'entsoe'}).find_by(internal_id: row[:internal_id])
+        csv.each do |row|
+          #0: EICCode
+          unit = Unit.includes(:area).where(area: {source:'entsoe'}).find_by(internal_id: row[0])
+          unless unit
+            puts "Missing #{row[6]}/#{row[1]}"
+            require 'pry' ; binding.pry
+          end
           next unless unit
-          value = row[:value].to_f*1000
+          #1: Name
+          #2: ValidFrom
+          time = parse_time(row[2])
+          #3: ValidTo
+          #4: Status
+          #5: Type
+          #6: Location
+          #7: InstalledCapacity
+          value = row[7].to_f*1000
+          #8: ControlArea
+          #9: BiddingZone
+          #10: Voltage
 
           k = [unit.id, time]
           if r[k]
