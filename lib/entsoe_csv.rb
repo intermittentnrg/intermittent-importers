@@ -334,34 +334,42 @@ module EntsoeCsv
     end
   end
 
-  class CapacityCSV < BaseCSV
+  class CapacityCSV < BaseFastestCSV
     include SemanticLogger::Loggable
-    #include Out::Price
 
-    HEADERS = [
-      :time, #DateTime
-      :resolution, #ResolutionCode
-      :area_internal_id, #AreaCode
-      :area_type, #AreaTypeCode
-      :area_name, #AreaName
-      :area_code, #MapCode
-      :production_type, #ProductionType
-      :capacity, #AggregatedInstalledCapacity
-      :deleted, #DeletedFlag
-      :update_time #UpdateTime
-    ]
+    TIME_FORMAT = '%Y %Z'
+    def parse_filename
+      #sets @from and @to
+    end
+    def parse_time(s)
+      return @last_t if @last_s == s
+
+      @last_s = s
+      @last_t = DateTime.strptime(s, self.class::TIME_FORMAT).to_time
+    end
 
     def points_capacity
       r = {}
-      csv
       logger.benchmark_info("csv parse") do
-        loop do
-          row = @csv.next
-          next if row[:area_type] == 'CTA'
-          time = parse_time(row)
-          area_id = parse_area(row)
-          value = row[:capacity].to_f*1000
-          production_type = parse_production_type(row[:production_type])
+        csv.each do |row|
+          #0: Year
+          #1: TimeZone
+          time = parse_time("#{row[0]} #{row[1]}")
+          #2: ResolutionCode
+          raise row[2] unless row[2] == 'P1Y'
+          #3: AreaCode
+          next if row[5] == 'CTA'
+          area_id = parse_area(row[3])
+          #4: AreaDisplayName
+          #5: AreaTypeCode
+          #6: AreaMapCode
+          #7: ProductionType
+          production_type = parse_production_type(row[7])
+
+          #8: AggregatedInstalledCapacity[MW]
+          value = row[8].to_f*1000
+
+          #9: UpdateTime(UTC)
           k = [area_id,production_type,time]
           if r[k] && r[k][:value] != value
             logger.warn("#{time} #{row[:area_internal_id]} #{row[:area_name]} different values #{r[k][:value]} != #{value}")

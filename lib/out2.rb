@@ -230,7 +230,13 @@ module Out2
         area = areas[p[:area_id]] ||= Area.find(p[:area_id])
         p[:production_type_id] = (production_types[p[:production_type]] ||= ::ProductionType.where(name: p[:production_type]).pluck(:id).first) if p[:production_type]
         p[:areas_production_type_id] = area.areas_production_type.where(production_type_id: p[:production_type_id]).pluck(:id).first
+        unless p[:areas_production_type_id]
+          logger.error("Missing AreasProductionType #{p.inspect}")
+          next
+        end
+        p.delete :area_id
         p.delete :production_type
+        p.delete :production_type_id
       end
 
       r = nil
@@ -295,7 +301,7 @@ module Out2
                                  to_area_id: p[:to_area_id]
                                ).pluck(:id).first)
         unless p[:areas_area_id]
-          logger.error("Missing AreasArea #{p.inspect}")
+          logger.warn("Missing AreasArea #{p.inspect}")
           aa = AreasArea.create(from_area_id: p[:from_area_id], to_area_id: p[:to_area_id])
           @@aas[kaa] = p[:areas_area_id] = aa.id
         #   a = ::Area.create!(source: source_id, code: p[:to_area], type: 'country', region: nil, enabled: false)

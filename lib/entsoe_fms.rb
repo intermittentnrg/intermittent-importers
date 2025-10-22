@@ -112,7 +112,7 @@ class EntsoeFms
     include SemanticLogger::Loggable
 
     TARGET = EntsoeCsv::CapacityCSV
-    DIR = '/TP_export/InstalledGenerationCapacityAggregated_14.1.A/'
+    DIR = '/TP_export/InstalledGenerationCapacityAggregated_14.1.A_r3/'
   end
 
   class UnitCapacity < Base
