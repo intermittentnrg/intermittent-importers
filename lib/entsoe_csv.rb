@@ -1,9 +1,8 @@
 require 'zip'
-require 'csv'
 require 'fastest_csv'
 
 module EntsoeCsv
-  class BaseCSV
+  class BaseFastestCSV
     def self.source_id
       "entsoe"
     end
@@ -40,41 +39,10 @@ module EntsoeCsv
       parse_filename
     end
 
-    def csv
-      @csv = CSV.new(@file,
-                     col_sep: "\t",
-                     liberal_parsing: true,
-                     headers: self.class::HEADERS).each
-      @csv.next
-    end
-
     def parse_filename
       m = /^(\d{4})_(\d{2})_/.match(@filename)
       @from = Date.new m[1].to_i, m[2].to_i
       @to = @from + 1.month
-    end
-
-    def parse_time(row)
-      s = row[:time]
-      return @last_t if @last_s == s
-
-      @last_s = s
-      @last_t = Time.strptime(s, '%Y-%m-%d %H:%M:%S.%L')
-    end
-    def parse_area(row, k = :area_internal_id)
-      area_id = @areas[row[k]] ||= ::Area.where(internal_id: row[k], source: self.class.source_id).pluck(:id).first
-      unless area_id
-        if k == :out_area_internal_id
-          area = Area.new internal_id: row[k], code: row[:out_area_name].gsub(/ /, '-'), type: row[:out_area_type] == 'CTY' ? 'country' : 'zone', region: 'europe', source: self.class.source_id
-        elsif k == :in_area_internal_id
-          area = Area.new internal_id: row[k], code: row[:in_area_name].gsub(/ /, '-'), type: row[:in_area_type] == 'CTY' ? 'country' : 'zone', region: 'europe', source: self.class.source_id
-        end
-        require 'pry' ; binding.pry
-        area.save!
-        area_id = @areas[row[k]] = area.id
-      end
-
-      area_id
     end
 
     PT_MAP = {
@@ -86,16 +54,6 @@ module EntsoeCsv
       PT_MAP[pt] || pt
     end
 
-    def parse_value(row)
-      (row[:value].to_f*1000).to_i - (row[:value_negative].to_f*1000).to_i
-    end
-    def done!
-      DataFile.upsert({path: @filename, source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
-      logger.info "done! #{@filename}"
-    end
-  end
-
-  class BaseFastestCSV < BaseCSV
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S.%L'
     def parse_time(s)
       return @last_t if @last_s == s
@@ -130,6 +88,11 @@ module EntsoeCsv
 
     def csv
       FastestCSV.new(@file, col_sep: "\t", skip_header: true) #.enum_for(:each)
+    end
+
+    def done!
+      DataFile.upsert({path: @filename, source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
+      logger.info "done! #{@filename}"
     end
   end
 
