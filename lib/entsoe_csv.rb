@@ -100,26 +100,28 @@ module EntsoeCsv
     include SemanticLogger::Loggable
     include Out::Generation
 
+    TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+
     def points_generation
       r = {}
       logger.benchmark_info("csv parse") do
-        csv
         #require 'pry' ; binding.pry
         csv.each do |row|
-          next if row[3] == 'CTA'
+          next if row[4] == 'CTA'
 
-          #0:DateTime
+          #0:DateTime(UTC)
           time = parse_time(row[0])
           #1:ResolutionCode
           #2:AreaCode
           country = row[2]
-          #3:AreaTypeCode
-          #4:AreaName
-          #5:MapCode
+          #3:AreaDisplayName
+          #4:AreaTypeCode
+          #5:AreaMapCode
           #6:ProductionType
           production_type = parse_production_type(row[6])
-          #7:ActualGenerationOutput
-          #8:ActualConsumption
+          #7:ActualGenerationOutput[MW]
+          #8:ActualConsumption[MW]
+          #9:UpdateTime(UTC)
           value = parse_value(row[7], row[8])
           #9:UpdateTime
 

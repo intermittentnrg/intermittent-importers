@@ -77,7 +77,7 @@ class EntsoeFms
     include SemanticLogger::Loggable
 
     TARGET = EntsoeCsv::GenerationCSV
-    DIR = '/TP_export/AggregatedGenerationPerType_16.1.B_C/'
+    DIR = '/TP_export/AggregatedGenerationPerType_16.1.B_C_r3/'
   end
 
   class Unit < Base
