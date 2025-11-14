@@ -225,25 +225,27 @@ module EntsoeCsv
     include SemanticLogger::Loggable
     include Out::Load
 
+    TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+
     def points_load
       r = {}
       logger.benchmark_info("csv parse") do
         csv
         csv.each do |row|
-          next if row[3] == 'CTA'
-          #DateTime
+          next if row[4] == 'CTA'
+          #0:DateTime(UTC)
           time = parse_time(row[0])
-          #ResolutionCode
-          #AreaCode
+          #1:ResolutionCode
+          #2:AreaCode
           area_id = parse_area(row[2])
-          #AreaTypeCode
-          #AreaName
-          area_name = row[4]
-          #MapCode
+          #3:AreaDisplayName
+          area_name = row[3]
+          #4:AreaTypeCode
+          #5:AreaMapCode
           area_code = row[5]
-          #TotalLoadvalue
+          #6:TotalLoad[MW]
           value = row[6].to_f*1000
-          #7:UpdateTime
+          #7:UpdateTime(UTC)
 
           k = [time,area_id]
           if r[k] && r[k][:value] != value

@@ -91,7 +91,7 @@ class EntsoeFms
     include SemanticLogger::Loggable
 
     TARGET = EntsoeCsv::LoadCSV
-    DIR = '/TP_export/ActualTotalLoad_6.1.A/'
+    DIR = '/TP_export/ActualTotalLoad_6.1.A_r3/'
   end
 
   class Price < Base
