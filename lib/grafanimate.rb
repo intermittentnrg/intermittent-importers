@@ -62,8 +62,8 @@ module Grafanimate
     def self.render
       #video_framerate = 1.5
       #video_fps = 30
-      video_framerate = 5
-      video_fps = 5
+      video_framerate = 10
+      video_fps = 10
       source = 'render/*.png'
       target = 'render.mp4'
       vf = []
@@ -96,14 +96,14 @@ module Grafanimate
       t = @from
       while t <= @to
         @driver.execute_script <<-JS
-          __grafanaSceneContext.state.$timeRange.setState({ from: '#{t.strftime(TIME_FORMAT)}', to: '#{(t+1.hour).strftime(TIME_FORMAT)}' });
+          __grafanaSceneContext.state.$timeRange.setState({ from: '#{t.strftime(TIME_FORMAT)}', to: '#{(t+15.minute).strftime(TIME_FORMAT)}' });
           __grafanaSceneContext.state.$timeRange.onRefresh();
         JS
         sleep 0.1
         wait_multiple
         screenshot(t)
 
-        t += 1.hour
+        t += 15.minutes
       end
     end
   end
@@ -116,7 +116,7 @@ module Grafanimate
     def initialize
       tz = TZInfo::Timezone.get('Europe/Berlin')
       from = tz.local_to_utc(1.day.from_now.beginning_of_day)
-      to = tz.local_to_utc(1.day.from_now.end_of_day.beginning_of_hour)
+      to = tz.local_to_utc(2.days.from_now.beginning_of_day - 15.minutes)
       super(URL, from, to)
     end
   end

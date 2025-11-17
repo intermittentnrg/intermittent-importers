@@ -18,23 +18,23 @@ spec:
   node(POD_LABEL) {
     container('app') {
       stage('rake entsoe:price_api') {
-	sh "cd /app ; rake entsoe:price_api"
+        sh "cd /app ; rake entsoe:price_api"
       }
       stage('grafanimate') {
         sh "mkdir /app/render"
-	sh "cd /app ; ruby scripts/grafanimate-pricemap.rb"
-	sh "cd /app ; ruby scripts/grafanimate-pricemap-render.rb"
-	sh "cp /app/render.mp4 ."
-	archiveArtifacts 'render.mp4'
+        sh "cd /app ; ruby scripts/grafanimate-pricemap.rb"
+        sh "cd /app ; ruby scripts/grafanimate-pricemap-render.rb"
+        sh "cp /app/render.mp4 ."
+        archiveArtifacts 'render.mp4'
       }
       if (currentBuild.getBuildCauses()[0].userId != null) {
         input 'Publish result?'
       }
       stage('grafanimate-upload-x.rb') {
-	sh "cd /app ; ruby scripts/grafanimate-upload-x.rb"
+        sh "cd /app ; ruby scripts/grafanimate-upload-x.rb"
       }
       stage('grafanimate-upload-bsky.rb') {
-	sh "cd /app ; ruby scripts/grafanimate-upload-bsky.rb"
+        sh "cd /app ; ruby scripts/grafanimate-upload-bsky.rb"
       }
     }
   }
