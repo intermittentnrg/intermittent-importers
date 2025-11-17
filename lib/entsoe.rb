@@ -256,7 +256,8 @@ module Entsoe
     end
     def points_selector
       @doc.locate('*/TimeSeries').each do |ts|
-        next unless ts.locate('Period/resolution/^String') == ['PT60M']
+        s = ts.locate('classificationSequence_AttributeInstanceComponent.position/^String')
+        next unless s == ['1'] || s.empty?
         yield ts
       end
     end
