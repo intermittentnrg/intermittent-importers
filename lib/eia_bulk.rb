@@ -59,7 +59,7 @@ module EiaBulk
           raise unless $!.cause.is_a? PG::DuplicateObject
         end
         logger.benchmark_info("INSERT SELECT BETWEEN #{chunk.range_start} AND #{chunk.range_end}") do
-          ActiveRecord::Base.connection.execute copy_sql(range_start, range_end)
+          ActiveRecord::Base.connection.execute copy_sql(chunk.range_start, chunk.range_end)
         end
       end
       self::TARGET_MODEL.enable_compression_policy!
