@@ -12,19 +12,22 @@ spec:
             name: intermittency-${env.BRANCH_NAME}
       resources:
         requests:
-          memory: "1Gi"
-          cpu: "1"
+          memory: 3.5Gi
+          cpu: 500m
+        limits:
+          memory: 4Gi
+          cpu: 1000m
 """
 ) {
   node(POD_LABEL) {
     container('app') {
       stage('all') {
-	sh "cd /app ; bundle exec rake -j4 all"
+        sh "cd /app ; bundle exec rake -j4 all"
       }
       if (env.BRANCH_NAME == 'master') {
         stage('refresh') {
           sh 'sh -c \'pgsync --from ${PGDATABASE} --to ${PGSYNC_TO} --to-safe --schemas intermittency --overwrite units,areas_production_types\''
-	}
+        }
       }
     }
   }
