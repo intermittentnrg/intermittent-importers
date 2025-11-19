@@ -44,7 +44,10 @@ CSV
         AemoNem::Trading.new(url)
       end
     end
-    it { expect(subject.points_price.first[:time].utc).to eq Time.new(2023,8,30,8) }
+    it do
+      expect(Out2::Price).to receive(:run).with(array_including(hash_including(:time => Time.new(2023,8,30,8))), anything, anything, anything)
+      subject.process
+    end
 
     context 'NSW1' do
       subject :nsw do

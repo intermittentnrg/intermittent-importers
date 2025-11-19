@@ -15,7 +15,7 @@ to = Chronic.parse(ARGV.shift)
   SemanticLogger.tagged(country:) do
     area_id = Area.where(source: Entsoe::Generation.source_id, code: country).pluck(:id).first
     e = Entsoe::Price.new(country:, from:, to:)
-    e.process_price
+    e.process
   rescue
     logger.error "Exception processing #{country}", $!
   end

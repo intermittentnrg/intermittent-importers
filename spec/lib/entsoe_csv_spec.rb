@@ -58,8 +58,8 @@ RSpec.describe EntsoeCsv::PriceCSV do
   subject { EntsoeCsv::PriceCSV }
   let(:body) do
     <<-CSV
-InstanceCode    DateTime(UTC)   ResolutionCode  AreaCode        AreaDisplayName AreaTypeCode    MapCode ContractType    Sequence        Price[Currency/MWh]     Currency        UpdateTime(UTC)
-c1058421508e8ba08cc6a260cdcd55ad	2023-09-01 00:00:00	PT60M	10Y1001A1001A82H	DE-LU	BZN	DE_LU	Day-ahead	1	93.29	EUR	2023-08-31 13:26:14
+InstanceCode	DateTime(UTC)	ResolutionCode	AreaCode	AreaDisplayName	AreaTypeCode	MapCode	ContractType	Sequence	Price[Currency/MWh]	Currency	UpdateTime(UTC)
+2ede04b15f2b8c907fb1e2fba9de7527	2023-09-01 00:00:00	PT60M	10Y1001A1001A82H	DE-LU	BZN	DE_LU	Day-ahead	1	93.29	EUR	2024-10-07 06:23:24
 CSV
   end
   describe '#points_price' do
@@ -67,7 +67,7 @@ CSV
     end
     it do
       expect(Price).to receive(:upsert_all).with(array_including(hash_including(value: 9329)))
-      subject.new(StringIO.new(body), '2023_09_DayAheadPrices_12.1.D.csv', Time.new(2023,9,2)).process
+      subject.new(StringIO.new(body), '2023_09_EnergyPrices_12.1.D_r3.csv', Time.new(2023,9,2)).process
     end
   end
 end

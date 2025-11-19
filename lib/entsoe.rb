@@ -239,7 +239,21 @@ module Entsoe
   #GET /api?documentType=A44&in_Domain=10YCZ-CEPS-----N&out_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Price < Base
     include SemanticLogger::Loggable
-    include Out::Price
+
+    def self.parsers_each
+      ::Price.joins(:area).group(:'area.code').where("time > ?", 6.month.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+        SemanticLogger.tagged(country) do
+          from = from.to_datetime
+          to = [from + 1.year, DateTime.tomorrow.to_datetime.beginning_of_hour].min
+          if from.to_date == to
+            logger.warn "data is up to date"
+            next
+          end
+
+          yield self.new(country: country, from: from, to: to)
+        end
+      end
+    end
 
     def initialize(country:, **kwargs)
       super(**kwargs)
@@ -249,15 +263,18 @@ module Entsoe
       internal_id = Area.where(source: self.class.source_id, code: country).pluck(:internal_id).first
       @options[:in_domain] = @options[:out_Domain] = internal_id
       fetch
+      @first_s = nil
     end
 
-    def points_price
-      points
-    end
     def points_selector
       @doc.locate('*/TimeSeries').each do |ts|
         s = ts.locate('classificationSequence_AttributeInstanceComponent.position/^String')
-        next unless s == ['1'] || s.empty?
+        if @first_s.nil? && (s.empty? || s == ['1'])
+          @first_s = s
+        elsif s == @first_s
+        else
+          next
+        end
         yield ts
       end
     end
@@ -267,6 +284,9 @@ module Entsoe
         time: @time,
         value: p.locate('price.amount/^String').first.to_f*100
       }
+    end
+    def process
+      ::Out2::Price.run(points, @from, @to, self.class.source_id)
     end
   end
 

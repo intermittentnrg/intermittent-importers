@@ -89,9 +89,6 @@ module Aemo
       @last_t = self.class::TZ.local_to_utc(Time.strptime(s, self.class::ROW_TIME_FORMAT))
     end
 
-    def points_price
-      @r
-    end
     def points_generation
       @r
     end

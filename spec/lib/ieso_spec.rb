@@ -151,10 +151,10 @@ RSpec.describe Ieso::PriceYear do
   subject { Ieso::PriceYear }
   around(:example) { |ex| VCR.use_cassette('ieso_price_year', &ex) }
   let(:date) { Date.new(2023,1,1) }
-  context '#points_price' do
+  context '#process' do
     it do
-      prices = subject.new(date).points_price
-      expect(prices.first).to include(value: 1442)
+      expect(Out2::Price).to receive(:run).with(array_including(hash_including(value: 1442)), anything, anything, anything)
+      subject.new(date).process
     end
   end
 end

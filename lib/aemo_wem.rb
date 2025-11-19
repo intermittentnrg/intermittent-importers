@@ -260,7 +260,6 @@ module AemoWem
 
   class ReferenceTradingPrice < Base
     include SemanticLogger::Loggable
-    include Out::Price
 
     URL = 'http://data.wa.aemo.com.au/public/market-data/wemde/referenceTradingPrice/previous/'
     FILE_FORMAT = 'ReferenceTradingPrice_%Y%m%d.zip'
@@ -274,6 +273,9 @@ module AemoWem
     def process_file(body)
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
       json = FastJsonparser.parse(body, symbolize_keys: false)
+      if json.is_a?(Array) && json.length == 1
+        json = json.first
+      end
       r = json['data']['referenceTradingPrices'].map do |row|
         time = Time.strptime(row['tradingInterval'], TIME_FORMAT)
         time = TZ.local_to_utc(time)
@@ -281,6 +283,10 @@ module AemoWem
 
         {time:, area_id:, value:}
       end
+    end
+    def process
+      ::Out2::Price.run(@r, @from, @to, self.class.source_id)
+      done!
     end
   end
 
@@ -468,7 +474,6 @@ module AemoWem
 
   class BalancingHistoric < Base
     include SemanticLogger::Loggable
-    include Out::Price
 
     URL = 'https://data.wa.aemo.com.au/datafiles/historical-balancing-prices/pre-balancing-market-data.csv'
 
@@ -493,6 +498,10 @@ module AemoWem
       #require 'pry' ; binding.pry
 
       r
+    end
+    def process
+      ::Out2::Price.run(@r, @from, @to, self.class.source_id)
+      done!
     end
   end
 end

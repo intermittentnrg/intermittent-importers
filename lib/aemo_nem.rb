@@ -11,7 +11,6 @@ module AemoNem
 
   class Trading < Base
     include SemanticLogger::Loggable
-    include Out::Price
 
     URL = "https://nemweb.com.au/Reports/Current/TradingIS_Reports/"
 
@@ -57,6 +56,11 @@ module AemoNem
 
         {time:, country:, value:}
       end
+    end
+
+    def process
+      ::Out2::Price.run(@r, @from, @to, self.class.source_id)
+      done!
     end
   end
 

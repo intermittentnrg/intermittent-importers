@@ -399,7 +399,6 @@ module Ieso
 
   class Price < BaseDirectory
     include SemanticLogger::Loggable
-    include Out::Price
 
     URL = 'https://reports-public.ieso.ca/public/DispUnconsHOEP/'
     #URL_FORMAT = 'https://reports-public.ieso.ca/public/DispUnconsHOEP/PUB_DispUnconsHOEP_%Y%m%d.csv'
@@ -413,7 +412,7 @@ module Ieso
       url =~ /PUB_DispUnconsHOEP_\d+\.csv/
     end
 
-    def points_price
+    def process
       fetch
       csv = FastestCSV.parse(@body)
       date = csv[0][1]
@@ -432,13 +431,13 @@ module Ieso
         }
       end
 
-      r
+      ::Out2::Price.run(r, @from, @to, self.class.source_id)
+      done!
     end
   end
 
   class PriceYear < Base
     include SemanticLogger::Loggable
-    include Out::Price
 
     def self.cli(args)
       if args.length != 1
@@ -454,7 +453,7 @@ module Ieso
     URL_FORMAT = 'https://reports-public.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_%Y.csv'
     PERIOD = 1.year
 
-    def points_price
+    def process
       fetch
       r = []
       csv = FastestCSV.parse(@body)
@@ -483,7 +482,8 @@ module Ieso
       end
       #require 'pry' ; binding.pry
 
-      r
+      ::Out2::Price.run(r, @from, @to, self.class.source_id)
+      done!
     end
   end
 

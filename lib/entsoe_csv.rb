@@ -262,11 +262,16 @@ module EntsoeCsv
 
   class PriceCSV < BaseFastestCSV
     include SemanticLogger::Loggable
-    include Out::Price
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-    def points_price
+    def initialize(file_or_io, name_if_io = nil, time_if_io = nil, zip = false)
+      super
+      @first_s = {}
+    end
+
+    def process
+      first_s = []
       r = {}
       logger.benchmark_info("csv parse") do
         csv.each do |row|
@@ -282,7 +287,12 @@ module EntsoeCsv
           #7: ContractType
           next unless row[7] == 'Day-ahead'
           #8: Sequence
-          next unless row[8].blank? || row[8] == '1'
+          if @first_s[area_id].nil? && (row[8].empty? || row[8] == '1')
+            @first_s[area_id] = row[8]
+          elsif row[8] == @first_s[area_id]
+          else
+            next
+          end
           #9; Price[Currency/MWh]
           value = row[9].to_f*100
           #10: Currency
@@ -297,7 +307,8 @@ module EntsoeCsv
       end
       #require 'pry' ; binding.pry
 
-      r.values
+      ::Out2::Price.run(r.values, @from, @to, self.class.source_id)
+      done!
     end
   end
 

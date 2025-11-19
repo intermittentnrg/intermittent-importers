@@ -112,41 +112,6 @@ module Out
     end
   end
 
-  module Price
-    def self.included(klass)
-      klass.extend(ClassMethods)
-    end
-
-    module ClassMethods
-      def parsers_each
-        ::Price.joins(:area).group(:'area.code').where("time > ?", 6.month.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
-          SemanticLogger.tagged(country) do
-            from = from.to_datetime
-            to = [from + 1.year, DateTime.tomorrow.to_datetime.beginning_of_hour].min
-            if from.to_date == to
-              logger.warn "data is up to date"
-              next
-            end
-
-            yield self.new(country: country, from: from, to: to)
-          end
-        end
-      end
-    end
-
-    def process
-      process_price
-    end
-    def process_price
-      ::Out2::Price.run(points_price, @from, @to, self.class.source_id)
-      done!
-    end
-    def done!
-      super
-    rescue NoMethodError
-    end
-  end
-
   module Transmission
     def self.included(klass)
       klass.extend(ClassMethods)
