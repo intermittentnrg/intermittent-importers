@@ -128,15 +128,7 @@ module Out
               next
             end
 
-            if self == ::Nordpool::PriceSEK
-              (from..to).each do |date|
-                yield self.new date
-              rescue EmptyError
-                logger.warn "Empty response #{date}"
-              end
-            else
-              yield self.new(country: country, from: from, to: to)
-            end
+            yield self.new(country: country, from: from, to: to)
           end
         end
       end
@@ -175,15 +167,7 @@ module Out
           SemanticLogger.tagged("#{from_area} > #{to_area}") do
             # support source per day and date-range
             #require 'pry' ; binding.pry
-            if self == Nordpool::Transmission
-              (from..to).each do |date|
-                yield self.new date
-              rescue EmptyError
-                logger.warn "Empty response #{date}"
-              end
-            else
-              yield self.new(from_area: from_area, to_area: to_area, from: from, to: to)
-            end
+            yield self.new(from_area: from_area, to_area: to_area, from: from, to: to)
           end
         end
       end

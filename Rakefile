@@ -103,15 +103,6 @@ namespace :entsoe do
   loop_task :transmission, EntsoeFms::Transmission
 end
 
-namespace :nordpool do
-  desc "Run refresh tasks"
-  task all: [:transmission, :capacity, :price]
-  pump_task :transmission, Nordpool::Transmission
-  pump_task :capacity, Nordpool::Capacity
-  pump_task :price, Nordpool::Price
-  pump_task :price_sek, Nordpool::PriceSEK
-end
-
 namespace :aemo do
   desc "Run refresh tasks"
   task all: ['nem:all', 'wem:all']
