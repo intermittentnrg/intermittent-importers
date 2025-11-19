@@ -112,8 +112,6 @@ namespace :nordpool do
   pump_task :price_sek, Nordpool::PriceSEK
 end
 
-oneshot_task :opennem, Opennem::Latest
-
 namespace :aemo do
   desc "Run refresh tasks"
   task all: ['nem:all', 'wem:all']
