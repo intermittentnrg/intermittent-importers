@@ -17,6 +17,7 @@ module Ieso
       "WIND" => "wind_onshore",
       "SOLAR" => "solar",
       "BIOFUEL" => "biomass",
+      "OTHER" => "other",
     }
     def self.source_id
       "ieso"
