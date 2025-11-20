@@ -61,7 +61,6 @@ end until status['jobStatus']['blob']
 ### POST
 text = <<-EOF
 Day ahead spot prices tomorrow #{Date.tomorrow.strftime('%a %b %-d')} UTC
-Range capped at €300/MWh.
 EOF
 
 # facets = [{

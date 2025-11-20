@@ -28,7 +28,6 @@ X::MediaUploader.await_processing(client:, media:)
 
 text = <<-EOF
 Day ahead spot prices tomorrow #{Date.tomorrow.strftime('%a %b %-d')} UTC
-Range capped at €300/MWh.
 EOF
 tweet_body = {text:, media: {media_ids: [media["media_id_string"]]}}
 tweet_body["reply"] = social_thread.reply if social_thread.reply?
