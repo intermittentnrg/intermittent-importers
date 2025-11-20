@@ -74,13 +74,13 @@ module Ieso
       logger.info "done! #{File.basename(@url)}"
     end
 
-    def parse_unit(unit_internal_id, production_type)
+    def parse_unit(unit_internal_id, production_type_name)
       @area ||= Area.find_by!(source: self.class.source_id, code: 'CA-ON')
 
-      @units[unit_internal_id] ||= ::Unit.
-                                     create_with(name: unit_internal_id,
-                                                 production_type:).
-                                     find_or_create_by!(area: @area, internal_id: unit_internal_id)
+      @units[unit_internal_id] ||= ::Unit.find_or_create_by!(area: @area, internal_id: unit_internal_id) do |unit|
+        unit.name = unit_internal_id
+        unit.production_type = ProductionType.find_by!(name: production_type_name)
+      end
     end
   end
 
@@ -215,7 +215,6 @@ module Ieso
 
   class UnitMonth < Base
     include SemanticLogger::Loggable
-    include Out::Unit
 
     def self.cli(args)
       case args.length
@@ -249,39 +248,41 @@ module Ieso
       @units = {}
     end
 
-    def points
+    def process
       fetch
       @from = TZ.utc_to_local(@from.to_time.beginning_of_month)
       @to = @from + 1.month
 
       r = []
-      CSV.parse(@body, skip_lines: /^(\\|Delivery Date)/, headers: false) do |row|
-        #0:Delivery Date
-        date = Time.strptime(row[0], '%Y-%m-%d')
-        #1:Generator
-        unit_internal_id = row[1]
-        #2:Fuel Type
-        type = FUEL_MAP[row[2]]
-        #3:Measurement
-        measurement = row[3]
-        next unless measurement == "Output"
+      logger.benchmark_info("csv parse") do
+        csv = FastestCSV.parse(@body)
+        csv[4..].each do |row|
+          #0:Delivery Date
+          date = Time.strptime(row[0], '%Y-%m-%d')
+          #1:Generator
+          unit_internal_id = row[1]
+          #2:Fuel Type
+          type = FUEL_MAP[row[2]]
+          #3:Measurement
+          measurement = row[3]
+          next unless measurement == "Output"
 
-        production_type = ProductionType.find_by!(name: type)
-        unit = parse_unit(unit_internal_id, production_type)
+          unit = parse_unit(unit_internal_id, type)
 
-        #4..:Hour X
-        hours = row[4..]
-        hours.each_with_index do |value, hour|
-          next if value.nil?
-          time = date + hour.to_i.hours
-          time = TZ.local_to_utc(time)
-          value = value.to_i*1000
-          r << {time:, unit_id: unit.id, value:}
+          #4..:Hour X
+          hours = row[4..]
+          hours.each_with_index do |value, hour|
+            next if value.nil?
+            time = date + hour.to_i.hours
+            time = TZ.local_to_utc(time)
+            value = value.to_i*1000
+            r << {time:, unit_id: unit.id, value:}
+          end
         end
       end
       #require 'pry' ; binding.pry
 
-      r
+      Out2::Unit.run(r, @from, @to, self.class.source_id)
     end
   end
 
@@ -317,8 +318,7 @@ module Ieso
       doc[:Generators][:Generator].each do |g|
         unit_internal_id = g[:GeneratorName]
         type = FUEL_MAP[g[:FuelType]]
-        production_type = ProductionType.find_by!(name: type)
-        unit = parse_unit(unit_internal_id, production_type)
+        unit = parse_unit(unit_internal_id, type)
 
         out_sum = fuel_sums[type] ||= {}
         g[:Outputs][:Output].each do |o|

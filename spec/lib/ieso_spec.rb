@@ -23,7 +23,11 @@ RSpec.describe Ieso::UnitMonth do
   subject { Ieso::UnitMonth }
   let(:body) do
     <<-CSV
-2023-10-01,ABKENORA,HYDRO,Output,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+\\Generator Output Capability Month Report,,,,,,,,,,,,,,,,,,,,,,,,,,,
+\\Created at 2023-11-01 06:00:14,,,,,,,,,,,,,,,,,,,,,,,,,,,
+\\For October 2023,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Delivery Date,Generator,Fuel Type,Measurement,Hour 1,Hour 2,Hour 3,Hour 4,Hour 5,Hour 6,Hour 7,Hour 8,Hour 9,Hour 10,Hour 11,Hour 12,Hour 13,Hour 14,Hour 15,Hour 16,Hour 17,Hour 18,Hour 19,Hour 20,Hour 21,Hour 22,Hour 23,Hour 24
+2023-10-01,ABKENORA,HYDRO,Output,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
     CSV
   end
 
