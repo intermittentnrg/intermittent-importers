@@ -66,13 +66,12 @@ pipelineJob("intermittency-${BRANCH_NAME}/manual") {
 pipelineJob("intermittency-${BRANCH_NAME}/post-pricemap") {
   environmentVariables(TAG: TAG, BRANCH_NAME: BRANCH_NAME)
   properties {
-  if (BRANCH_NAME == "master") {
+    disableConcurrentBuilds()
+    if (BRANCH_NAME == "master") {
       pipelineTriggers {
         triggers {
           cron {
-            spec('''
-	      30 14 * * *
-	    ''')
+            spec('30 14 * * *')
           }
         }
       }
@@ -81,14 +80,14 @@ pipelineJob("intermittency-${BRANCH_NAME}/post-pricemap") {
   definition {
     cpsScm {
       scm {
-	git {
-	  remote {
-	    url('git@git-server:intermittency.git')
-	    credentials('gitolite-jenkins')
-	  }
-	  branches(BRANCH_NAME)
-	  scriptPath('Jenkinsfile.post-pricemap')
-	}
+        git {
+          remote {
+            url('git@git-server:intermittency.git')
+            credentials('gitolite-jenkins')
+          }
+          branches(BRANCH_NAME)
+          scriptPath('Jenkinsfile.post-pricemap')
+        }
       }
     }
   }
