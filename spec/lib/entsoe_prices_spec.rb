@@ -3,7 +3,7 @@ require './spec/spec_helper'
 RSpec.describe Entsoe::Price do
   subject(:e) do
     VCR.use_cassette("prices_#{country}") do
-      Entsoe::Price.new(country:, from: '2021-01-01', to: '2021-01-02').tap(&:points)
+      Entsoe::Price.new(country:, from: Date.new(2021, 01, 01), to: Date.new(2021, 01, 02)).tap(&:points)
     end
   end
   describe 'SE1' do
@@ -18,7 +18,7 @@ RSpec.describe Entsoe::Price do
   context 'gapfill' do
     subject(:e) do
       VCR.use_cassette("prices_gapfill") do
-        Entsoe::Price.new(country: 'PT', from: '2024-12-29', to: '2024-12-29')
+        Entsoe::Price.new(country: 'PT', from: Date.new(2024, 12, 29), to: Date.new(2024, 12, 29))
       end
     end
     it { expect(subject.points).to have(24).items }

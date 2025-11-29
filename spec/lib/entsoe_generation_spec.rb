@@ -7,8 +7,8 @@ RSpec.describe Entsoe::Generation do
       subject.new(country:, from:, to:)
     end
   end
-  let(:from) { '2021-01-01' }
-  let(:to) { '2021-01-02' }
+  let(:from) { Date.new 2021, 01, 01 }
+  let(:to) { Date.new 2021, 01, 02 }
 
   describe 'DE 2021-01-01' do
     let(:country) { 'DE' }
@@ -37,8 +37,8 @@ RSpec.describe Entsoe::Generation do
 
   xdescribe 'NO 2021-11-23' do
     let(:country) { 'NO' }
-    let(:from) { '2021-11-23' }
-    let(:to) { '2021-11-24' }
+    let(:from) { Date.new 2021, 11, 23 }
+    let(:to) { Date.new 2021, 11, 24 }
     describe "wind_onshore" do
       let(:wind_onshore) { e.points.select { |p| p[:production_type] == 'wind_onshore' } }
       it { expect(wind_onshore).to have_at_least(18).items }

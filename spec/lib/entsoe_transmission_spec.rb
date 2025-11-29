@@ -2,8 +2,8 @@ require './spec/spec_helper'
 
 RSpec.describe Entsoe::Transmission do
   subject { Entsoe::Transmission }
-  let(:from) { '2021-01-01' }
-  let(:to) { '2021-01-02' }
+  let(:from) { Date.new 2021, 01, 01 }
+  let(:to) { Date.new 2021, 01, 02 }
   let(:from_area) { 'SE4' }
   let(:to_area) { 'DE-LU' }
   let(:points) do

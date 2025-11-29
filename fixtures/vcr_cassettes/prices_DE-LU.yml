@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://web-api.tp.entsoe.eu/api?TimeInterval=2021-01-01/2021-01-02&documentType=A44&in_domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&securityToken=<TOKEN>
+    uri: https://web-api.tp.entsoe.eu/api?documentType=A44&in_domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodEnd=202101020000&periodStart=202101010000&securityToken=<TOKEN>
     body:
       encoding: US-ASCII
       string: ''
@@ -16,33 +16,39 @@ http_interactions:
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Date:
-      - Mon, 17 Nov 2025 15:53:18 GMT
-      Server:
-      - Apache
-      Strict-Transport-Security:
-      - max-age=31536000 ; includeSubDomains
-      Content-Disposition:
-      - inline; filename="Energy_Prices_202101010000-202101020000.xml"
-      Transfer-Encoding:
-      - chunked
+      - Sat, 29 Nov 2025 18:31:31 GMT
       Content-Type:
       - text/xml
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Content-Disposition:
+      - inline; filename="Energy_Prices_202101010000-202101020000.xml"
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Vary:
+      - accept-encoding
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
-      encoding: UTF-8
+      encoding: ASCII-8BIT
       string: |-
         <?xml version="1.0" encoding="utf-8"?>
           <Publication_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-3:publicationdocument:7:3">
-            <mRID>02befae3d7a4459fa7e6cc3ca91f0feb</mRID>
+            <mRID>801d9c7742994f27a330a81c43250b93</mRID>
             <revisionNumber>1</revisionNumber>
             <type>A44</type>
             <sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
             <sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
             <receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
             <receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>
-            <createdDateTime>2025-11-17T15:53:18Z</createdDateTime>
+            <createdDateTime>2025-11-29T18:31:31Z</createdDateTime>
             <period.timeInterval>
               <start>2020-12-31T23:00Z</start>
               <end>2021-01-02T23:00Z</end>
@@ -1080,5 +1086,5 @@ http_interactions:
                   </Period>
               </TimeSeries>
           </Publication_MarketDocument>
-  recorded_at: Mon, 17 Nov 2025 15:53:18 GMT
+  recorded_at: Sat, 29 Nov 2025 18:31:33 GMT
 recorded_with: VCR 6.2.0

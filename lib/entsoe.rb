@@ -12,21 +12,14 @@ module Entsoe
     end
 
     def initialize from: DateTime.now.beginning_of_day, to: DateTime.now.beginning_of_hour, psr_type: nil
-      from = from.strftime('%Y-%m-%d') unless from.is_a? String
-      to = to.strftime('%Y-%m-%d') unless to.is_a? String
+      from = from.strftime('%Y%m%d%H%M') unless from.is_a? String
+      to = to.strftime('%Y%m%d%H%M') unless to.is_a? String
       @from = from
       @to = to
-      @options = {
-        #psrType: 'B16',
-        #in_Domain: '10YCZ-CEPS-----N',
-        #periodStart:'202109200000',
-        #periodEnd:  '202109220000',
-        securityToken: ENV['ENTSOE_TOKEN']
-      }
+      @options = {securityToken: ENV['ENTSOE_TOKEN']}
       @options[:psrType] = psr_type if psr_type.present?
-      #@options[:periodStart] = options[:start] || '202109202300'
-      #@options[:periodEnd] = options[:end] || '202109222300'
-      @options[:TimeInterval] = "#{from}/#{to}"
+      @options[:periodStart] = from
+      @options[:periodEnd] = to
     end
 
     def fetch

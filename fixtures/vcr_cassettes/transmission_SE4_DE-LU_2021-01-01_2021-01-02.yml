@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: https://web-api.tp.entsoe.eu/api?TimeInterval=2021-01-01/2021-01-02&documentType=A11&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A47J&securityToken=<TOKEN>
+    uri: https://web-api.tp.entsoe.eu/api?documentType=A11&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A47J&periodEnd=202101020000&periodStart=202101010000&securityToken=<TOKEN>
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Faraday v2.7.10
+      - Faraday v2.7.11
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -16,27 +16,154 @@ http_interactions:
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Date:
-      - Fri, 21 Jul 2023 00:15:37 GMT
-      Server:
-      - Apache
-      Strict-Transport-Security:
-      - max-age=31536000 ; includeSubDomains
-      X-Powered-By:
-      - Undertow/1
-      Transfer-Encoding:
-      - chunked
+      - Sat, 29 Nov 2025 18:31:14 GMT
       Content-Type:
       - text/xml
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Content-Disposition:
+      - inline; filename="Physical Flows_202101010000-202101020000.xml"
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Vary:
+      - accept-encoding
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
     body:
-      encoding: UTF-8
-      string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Publication_MarketDocument
-        xmlns=\"urn:iec62325.351:tc57wg16:451-3:publicationdocument:7:0\">\n\t<mRID>bdf4352e669a4779a85fd1051c08bf61</mRID>\n\t<revisionNumber>1</revisionNumber>\n\t<type>A11</type>\n\t<sender_MarketParticipant.mRID
-        codingScheme=\"A01\">10X1001A1001A450</sender_MarketParticipant.mRID>\n\t<sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>\n\t<receiver_MarketParticipant.mRID
-        codingScheme=\"A01\">10X1001A1001A450</receiver_MarketParticipant.mRID>\n\t<receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>\n\t<createdDateTime>2023-07-21T00:15:37Z</createdDateTime>\n\t<period.timeInterval>\n\t\t<start>2021-01-01T00:00Z</start>\n\t\t<end>2021-01-02T00:00Z</end>\n\t</period.timeInterval>\n\t<TimeSeries>\n\t\t<mRID>1</mRID>\n\t\t<businessType>A66</businessType>\n\t\t<in_Domain.mRID
-        codingScheme=\"A01\">10Y1001A1001A82H</in_Domain.mRID>\n\t\t<out_Domain.mRID
-        codingScheme=\"A01\">10Y1001A1001A47J</out_Domain.mRID>\n\t\t<quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>\n\t\t<curveType>A01</curveType>\n\t\t\t<Period>\n\t\t\t\t<timeInterval>\n\t\t\t\t\t<start>2021-01-01T00:00Z</start>\n\t\t\t\t\t<end>2021-01-02T00:00Z</end>\n\t\t\t\t</timeInterval>\n\t\t\t\t<resolution>PT60M</resolution>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>1</position>\n\t\t\t\t\t\t<quantity>607</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>2</position>\n\t\t\t\t\t\t<quantity>606</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>3</position>\n\t\t\t\t\t\t<quantity>606</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>4</position>\n\t\t\t\t\t\t<quantity>607</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>5</position>\n\t\t\t\t\t\t<quantity>606</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>6</position>\n\t\t\t\t\t\t<quantity>607</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>7</position>\n\t\t\t\t\t\t<quantity>607</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>8</position>\n\t\t\t\t\t\t<quantity>607</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>9</position>\n\t\t\t\t\t\t<quantity>607</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>10</position>\n\t\t\t\t\t\t<quantity>606</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>11</position>\n\t\t\t\t\t\t<quantity>607</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>12</position>\n\t\t\t\t\t\t<quantity>607</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>13</position>\n\t\t\t\t\t\t<quantity>606</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>14</position>\n\t\t\t\t\t\t<quantity>607</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>15</position>\n\t\t\t\t\t\t<quantity>419</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>16</position>\n\t\t\t\t\t\t<quantity>179</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>17</position>\n\t\t\t\t\t\t<quantity>537</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>18</position>\n\t\t\t\t\t\t<quantity>606</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>19</position>\n\t\t\t\t\t\t<quantity>606</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>20</position>\n\t\t\t\t\t\t<quantity>605</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>21</position>\n\t\t\t\t\t\t<quantity>606</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>22</position>\n\t\t\t\t\t\t<quantity>606</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>23</position>\n\t\t\t\t\t\t<quantity>606</quantity>\n\t\t\t\t\t</Point>\n\t\t\t\t\t<Point>\n\t\t\t\t\t\t<position>24</position>\n\t\t\t\t\t\t<quantity>606</quantity>\n\t\t\t\t\t</Point>\n\t\t\t</Period>\n\t</TimeSeries>\n</Publication_MarketDocument>"
-  recorded_at: Fri, 21 Jul 2023 00:15:37 GMT
+      encoding: ASCII-8BIT
+      string: |-
+        <?xml version="1.0" encoding="utf-8"?>
+        <Publication_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-3:publicationdocument:7:0">
+          <mRID>0263a1e11cfd41e4bbedef48527d84e9</mRID>
+          <revisionNumber>1</revisionNumber>
+          <type>A11</type>
+          <sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
+          <sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
+          <receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
+          <receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>
+          <createdDateTime>2025-11-29T18:31:14Z</createdDateTime>
+          <period.timeInterval>
+            <start>2021-01-01T00:00Z</start>
+            <end>2021-01-02T00:00Z</end>
+          </period.timeInterval>
+            <TimeSeries>
+              <mRID>1</mRID>
+              <businessType>A66</businessType>
+              <in_Domain.mRID codingScheme="A01">10Y1001A1001A82H</in_Domain.mRID>
+              <out_Domain.mRID codingScheme="A01">10Y1001A1001A47J</out_Domain.mRID>
+              <quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>
+              <curveType>A03</curveType>
+                <Period>
+                  <timeInterval>
+                    <start>2021-01-01T00:00Z</start>
+                    <end>2021-01-02T00:00Z</end>
+                  </timeInterval>
+                  <resolution>PT60M</resolution>
+                    <Point>
+                      <position>1</position>
+                      <quantity>606.61</quantity>
+                    </Point>
+                    <Point>
+                      <position>2</position>
+                      <quantity>606.45</quantity>
+                    </Point>
+                    <Point>
+                      <position>3</position>
+                      <quantity>606.21</quantity>
+                    </Point>
+                    <Point>
+                      <position>4</position>
+                      <quantity>606.68</quantity>
+                    </Point>
+                    <Point>
+                      <position>5</position>
+                      <quantity>606.43</quantity>
+                    </Point>
+                    <Point>
+                      <position>6</position>
+                      <quantity>606.86</quantity>
+                    </Point>
+                    <Point>
+                      <position>7</position>
+                      <quantity>607.01</quantity>
+                    </Point>
+                    <Point>
+                      <position>8</position>
+                      <quantity>607.17</quantity>
+                    </Point>
+                    <Point>
+                      <position>9</position>
+                      <quantity>606.6</quantity>
+                    </Point>
+                    <Point>
+                      <position>10</position>
+                      <quantity>606.38</quantity>
+                    </Point>
+                    <Point>
+                      <position>11</position>
+                      <quantity>606.62</quantity>
+                    </Point>
+                    <Point>
+                      <position>12</position>
+                      <quantity>606.6</quantity>
+                    </Point>
+                    <Point>
+                      <position>13</position>
+                      <quantity>606.07</quantity>
+                    </Point>
+                    <Point>
+                      <position>14</position>
+                      <quantity>606.58</quantity>
+                    </Point>
+                    <Point>
+                      <position>15</position>
+                      <quantity>419.45</quantity>
+                    </Point>
+                    <Point>
+                      <position>16</position>
+                      <quantity>178.74</quantity>
+                    </Point>
+                    <Point>
+                      <position>17</position>
+                      <quantity>536.76</quantity>
+                    </Point>
+                    <Point>
+                      <position>18</position>
+                      <quantity>605.71</quantity>
+                    </Point>
+                    <Point>
+                      <position>19</position>
+                      <quantity>605.8</quantity>
+                    </Point>
+                    <Point>
+                      <position>20</position>
+                      <quantity>605.43</quantity>
+                    </Point>
+                    <Point>
+                      <position>21</position>
+                      <quantity>605.74</quantity>
+                    </Point>
+                    <Point>
+                      <position>22</position>
+                      <quantity>605.93</quantity>
+                    </Point>
+                    <Point>
+                      <position>23</position>
+                      <quantity>605.77</quantity>
+                    </Point>
+                    <Point>
+                      <position>24</position>
+                      <quantity>606.31</quantity>
+                    </Point>
+                </Period>
+            </TimeSeries>
+        </Publication_MarketDocument>
+  recorded_at: Sat, 29 Nov 2025 18:31:16 GMT
 recorded_with: VCR 6.2.0
