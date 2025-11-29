@@ -109,24 +109,6 @@ module Entsoe
     end
   end
 
-  #4.4.5. Current Generation Forecasts for Wind and Solar [14.1.D]
-  #GET /api?documentType=A69&processType=A18&psrType=B16&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
-  class WindSolar < Base
-    def initialize(country: nil, **kwargs)
-      super(**kwargs)
-      @country = country
-      @options[:documentType] = 'A69'
-      @options[:processType] = PROCESS_TYPES[:current]
-      @options[:in_Domain] = COUNTRIES[country.to_sym]
-      fetch
-    end
-    def points
-      data = super
-      data.each { |p| p.slice!(:country) }
-      data
-    end
-  end
-
   #4.4.8. Aggregated Generation per Type [16.1.B&C]
   #GET /api?documentType=A75&processType=A16&psrType=B02&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Generation < Base
