@@ -109,7 +109,7 @@ module Entsoe
     end
   end
 
-  #4.4.8. Aggregated Generation per Type [16.1.B&C]
+  #16.1.B&C Actual Generation per Production Type
   #GET /api?documentType=A75&processType=A16&psrType=B02&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Generation < Base
     include SemanticLogger::Loggable
@@ -138,6 +138,8 @@ module Entsoe
     end
   end
 
+  #16.1.A Actual Generation per Generation Unit
+  #https://web-api.tp.entsoe.eu/api?documentType=A73&processType=A16&in_Domain=10YBE----------2&periodStart=202308152200&periodEnd=202308162200
   class Unit < Base
     include SemanticLogger::Loggable
     include Out::Unit
@@ -186,8 +188,8 @@ module Entsoe
     end
   end
 
-  #4.1.1. Actual Total Load [6.1.A]
-  #GET /api?documentType=A65&processType=A16&outBiddingZone_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
+  #6.1.A Actual Total Load
+  #https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10YCZ-CEPS-----N&periodStart=202303030000&periodEnd=202303060000
   class Load < Base
     include SemanticLogger::Loggable
     include Out::Load
@@ -216,9 +218,8 @@ module Entsoe
     end
   end
 
-  #4.2.10. Day Ahead Prices [12.1.D]
   #12.1.D Energy Prices
-  #GET /api?documentType=A44&in_Domain=10YCZ-CEPS-----N&out_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
+  #https://web-api.tp.entsoe.eu/api?documentType=A44&periodStart=202407272200&periodEnd=202407282200&out_Domain=10YAT-APG------L&in_Domain=10YAT-APG------L
   class Price < Base
     include SemanticLogger::Loggable
 
@@ -272,8 +273,8 @@ module Entsoe
     end
   end
 
-  #4.2.15. Physical Flows [12.1.G]
-  #GET /api?documentType=A11&in_Domain=10YCZ-CEPS-----N&out_Domain=10YSK-SEPS-----K&periodStart=201512312300&periodEnd=201612312300
+  #12.1.G Cross-Border Physical Flows
+  #https://web-api.tp.entsoe.eu/api?documentType=A11&out_Domain=10YDE-RWENET---I&in_Domain=10YBE----------2&periodStart=202308232200&periodEnd=202308242200
   class Transmission < Base
     include SemanticLogger::Loggable
     include Out::Transmission
