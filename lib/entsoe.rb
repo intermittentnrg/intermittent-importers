@@ -244,13 +244,10 @@ module Entsoe
 
     def points_selector
       @doc.locate('*/TimeSeries').each do |ts|
+        s = ts.locate('contract_MarketAgreement.type/^String')
+        next unless s == ['A01'] #Day ahead
         s = ts.locate('classificationSequence_AttributeInstanceComponent.position/^String')
-        if @first_s.nil? && (s.empty? || s == ['1'])
-          @first_s = s
-        elsif s == @first_s
-        else
-          next
-        end
+        next unless s == ['1'] || s.empty?
         yield ts
       end
     end

@@ -287,12 +287,7 @@ module EntsoeCsv
           #7: ContractType
           next unless row[7] == 'Day-ahead'
           #8: Sequence
-          if @first_s[area_id].nil? && (row[8].empty? || row[8] == '1')
-            @first_s[area_id] = row[8]
-          elsif row[8] == @first_s[area_id]
-          else
-            next
-          end
+          next unless row[8].blank? || row[8] == '1'
           #9; Price[Currency/MWh]
           value = row[9].to_f*100
           #10: Currency
