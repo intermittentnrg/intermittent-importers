@@ -13,7 +13,10 @@ RSpec.describe Eia::Generation do
       let(:country) { 'BANC' }
       let(:from) { '2019-07-25' }
       let(:to) { '2019-07-26' }
-      it { expect(e.points_generation.map { |p| p[:value] }.max).to be < 400000000 }
+      it do
+        expect(Out2::Generation).to receive(:run).with(array_including(hash_excluding({value: 400000000..})), anything, anything, anything)
+        e.process
+      end
       include_examples "logs error", "generation"
     end
   end

@@ -42,9 +42,8 @@ module Cammesa
 
   # https://cammesaweb.cammesa.com/
   # class Generacion < Base
-  #   include Out::Generation
   #   include SemanticLogger::Loggable
-  #   def points_generation
+  #   def process
   #     #binding.irb
   #     r = []
   #     country = 'AR'
@@ -58,13 +57,12 @@ module Cammesa
   #     @from = r.first[:time]
   #     @to = r.last[:time]
 
-  #     r
+  #     Out2::Generation.run(r, @from, @to, self.class.source_id)
   #   end
   # end
 
   # https://cammesaweb.cammesa.com/generacion-real/
   class Renovables < Base
-    include Out::Generation
     include SemanticLogger::Loggable
 
     def self.parsers_each
@@ -111,7 +109,7 @@ module Cammesa
     def parse_time(row)
       Time.strptime(row['momento'], TIME_FORMAT)
     end
-    def points_generation
+    def process
       r = []
       json = fetch
       country = 'AR'
@@ -126,7 +124,7 @@ module Cammesa
       @from = r.first[:time]
       @to = r.last[:time]
 
-      r
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 

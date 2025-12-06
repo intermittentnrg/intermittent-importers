@@ -342,7 +342,6 @@ module Ieso
 
   class GenerationMonth < Base
     include SemanticLogger::Loggable
-    include Out::Generation
 
     URL_FORMAT = 'https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_%Y.xml'
     PERIOD = 1.year
@@ -372,7 +371,7 @@ module Ieso
       end
     end
 
-    def points_generation
+    def process
       #@to = @from.end_of_year
       fetch
       r = []
@@ -394,7 +393,8 @@ module Ieso
       end
       #require 'pry' ; binding.pry
 
-      r
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      done!
     end
   end
 

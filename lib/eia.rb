@@ -125,7 +125,6 @@ module Eia
 
   class Generation < Base
     include SemanticLogger::Loggable
-    include Out::Generation
 
     URL = "https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/"
 
@@ -195,7 +194,7 @@ module Eia
       end
     end
 
-    def points_generation
+    def process
       r = {}
       @res.each do |res|
         res['response']['data'].each do |row|
@@ -221,7 +220,8 @@ module Eia
       @to = r.values.max { |a,b| a[:time]<=>b[:time] }[:time]
       #require 'pry' ; binding.pry
 
-      Validate.validate_generation(r.values, self.class.source_id)
+      r = Validate.validate_generation(r.values, self.class.source_id)
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 

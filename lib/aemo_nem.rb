@@ -14,8 +14,8 @@ module AemoNem
 
     URL = "https://nemweb.com.au/Reports/Current/TradingIS_Reports/"
 
-    def process_rows(all)
-      all.select { |row| row[0..2] == ['D','TRADING','PRICE'] }.map do |row|
+    def process
+      r = csv.select { |row| row[0..2] == ['D','TRADING','PRICE'] }.map do |row|
         # I
         # TRADING
         # PRICE
@@ -56,17 +56,14 @@ module AemoNem
 
         {time:, country:, value:}
       end
-    end
 
-    def process
-      ::Out2::Price.run(@r, @from, @to, self.class.source_id)
+      Out2::Price.run(r, @from, @to, self.class.source_id)
       done!
     end
   end
 
   class Dispatch < Base
     include SemanticLogger::Loggable
-    include Out::Load
 
     URL = 'https://nemweb.com.au/Reports/Current/DispatchIS_Reports/'
 
@@ -85,7 +82,8 @@ module AemoNem
       'VIC1-NSW1' => ['VIC1', 'NSW1'],
       'VIC1-NSW1-2' => ['VIC1', 'NSW1'],
     }
-    def process_rows(all)
+    def process
+      all = csv
 
       #from_area_id = Area.find_by source: self.class.source_id, code: 'TAS1'
       #to_area_id = Area.find_by source: self.class.source_id, code: 'VIC1'
@@ -263,13 +261,13 @@ module AemoNem
       end
       #require 'pry' ; binding.pry
 
-      r_gen.values
+      Out2::Load.run(r_gen.values, @from, @to, self.class.source_id)
+      done!
     end
   end
 
   class CauserPays < Base
     include SemanticLogger::Loggable
-    include Out::UnitHires
 
     URL = 'http://www.nemweb.com.au/Reports/Current/Causer_Pays/'
     FILE_MATCHER = /FCAS_(\d{12}).zip/
@@ -312,13 +310,13 @@ module AemoNem
     ROW_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
     @@units = {}
-    def process_rows(all)
+    def process
       default_area_id = Area.where(type: 'country', source: self.class.source_id).pluck(:id).first
       default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
 
       r = []
       logger.benchmark_info("parse csv") do
-        all.each do |row|
+        csv.each do |row|
           time = parse_time(row[0])
           unit_internal_id = self.class.elements[row[1].to_i]
           next unless unit_internal_id
@@ -340,13 +338,13 @@ module AemoNem
       end
       #require 'pry' ; binding.pry
 
-      r
+      Out2::UnitHires.run(r, @from, @to, self.class.source_id)
+      done!
     end
   end
 
   class Scada < Base
     include SemanticLogger::Loggable
-    include Out::Unit
 
     URL = 'https://nemweb.com.au/Reports/Current/Dispatch_SCADA/'
     FILE_MATCHER = /PUBLIC_DISPATCHSCADA_(\d{12})_/
@@ -368,13 +366,13 @@ module AemoNem
       @@units = {}
     end
     @@units = {}
-    def process_rows(all)
+    def process
       # require 'pry' ; binding.pry
       default_area_id = Area.where(type: 'country', source: self.class.source_id).pluck(:id).first
       default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
 
       r = logger.benchmark_info("parse csv") do
-        all.select { |row| row[0..2] == ['D','DISPATCH','UNIT_SCADA'] }.map do |row|
+        csv.select { |row| row[0..2] == ['D','DISPATCH','UNIT_SCADA'] }.map do |row|
           # I
           # DISPATCH
           # UNIT_SCADA
@@ -399,7 +397,8 @@ module AemoNem
       end
       #require 'pry' ; binding.pry
 
-      r
+      Out2::Unit.run(r, @from, @to, self.class.source_id)
+      done!
     end
 
     def done!
@@ -408,64 +407,12 @@ module AemoNem
     end
   end
 
-  class GenUnits < Base
-    include SemanticLogger::Loggable
-
-    @@units = {}
-    def process_rows(all)
-      raise 'not used'
-      logger.benchmark_info("parse csv") do
-        all.select { |row| row[0..2] == ['D','PARTICIPANT_REGISTRATION','GENUNITS'] }.map do |row|
-          #I
-          #PARTICIPANT_REGISTRATION
-          #GENUNITS
-          #2
-          #GENSETID
-          unit_internal_id = row[4]
-          unit_id = @@units[unit_internal_id] ||= Unit.where(internal_id: unit_internal_id).pluck(:id).first
-          unless unit_id
-            logger.warn("No unit #{unit_internal_id}")
-            next
-          end
-          #STATIONID
-          #SETLOSSFACTOR
-          #CDINDICATOR
-          #AGCFLAG
-          #SPINNINGFLAG
-          #VOLTLEVEL
-          #REGISTEREDCAPACITY
-          #value = row[11].to_f*1000
-          #DISPATCHTYPE
-          #STARTTYPE
-          #MKTGENERATORIND
-          #NORMALSTATUS
-          #MAXCAPACITY
-          #GENSETTYPE
-          #GENSETNAME
-          #LASTCHANGED
-          time = parse_time(row[19])
-          #CO2E_EMISSIONS_FACTOR
-          #CO2E_ENERGY_SOURCE
-          #CO2E_DATA_SOURCE
-
-          {unit_id:, time:, value:}
-        end.compact
-      end
-    end
-    def process
-      #require 'pry' ; binding.pry
-      Out2::UnitCapacity.run(@r, @from, @to, self.class.source_id)
-      super
-    end
-  end
-
   class DuDetail < Base
     include SemanticLogger::Loggable
 
-    #def initialize *args
-    #end
     @@units = {}
-    def process_rows(all)
+    def process
+      all = csv
       r = {}
       logger.benchmark_info("parse csv") do
         headers = Hash[all[1].each_with_index.to_a]
@@ -511,19 +458,13 @@ module AemoNem
       end
       #require 'pry' ; binding.pry
 
-      r.values
-    end
-
-    def process
-      #require 'pry' ; binding.pry
-      Out2::UnitCapacity.run(@r, @from, @to, self.class.source_id)
-      super
+      Out2::UnitCapacity.run(r.values, @from, @to, self.class.source_id)
+      done!
     end
   end
 
   class RooftopPv < Base
     include SemanticLogger::Loggable
-    include Out::Generation
 
     URL = "https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/"
 
@@ -543,8 +484,8 @@ module AemoNem
       super && url =~ /PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_/
     end
 
-    def process_rows(all)
-      r = all.select { |row| row[0..2] == ['D','ROOFTOP','ACTUAL'] && row[8] == 'MEASUREMENT' }.map do |row|
+    def process
+      r = csv.select { |row| row[0..2] == ['D','ROOFTOP','ACTUAL'] && row[8] == 'MEASUREMENT' }.map do |row|
         # I
         # ROOFTOP
         # ACTUAL
@@ -564,7 +505,8 @@ module AemoNem
       end
       r.compact!
 
-      r
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      done!
     end
 
     def done!

@@ -90,11 +90,10 @@ module Eskom
 
   class Generation < Base
     include SemanticLogger::Loggable
-    include Out::Generation
 
     URL_FORMAT = "https://www.eskom.co.za/dataportal/wp-content/uploads/%Y/%m/Station_Build_Up.csv"
 
-    def points_generation
+    def process
       fetch
       r = []
       logger.benchmark_info('csv parse') do
@@ -140,7 +139,8 @@ module Eskom
       @to = r.last[:time]
       #require 'pry' ; binding.pry
 
-      r
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      done!
     end
   end
 

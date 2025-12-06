@@ -1,48 +1,4 @@
 module Out
-  module Generation
-    def self.included(klass)
-      klass.extend(ClassMethods)
-    end
-
-    module ClassMethods
-      def parsers_each
-        ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
-          from2 = from
-          from = from.in_time_zone(self::TZ).to_datetime
-          to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
-          to = to.in_time_zone(self::TZ).to_datetime
-          SemanticLogger.tagged(country) do
-            # support source per day and date-range
-            #require 'pry' ; binding.pry
-            if [::Elexon::Generation, ::Elexon::Fuelinst, ::Ree::Generation].include? self
-              logger.info("Refresh from #{from} calculated from last point #{from2}")
-              (from..to).each do |date|
-                yield self.new date
-              rescue EmptyError
-                logger.warn "Empty response #{date}"
-              end
-            else
-              yield self.new(country: country, from: from, to: to)
-            end
-          end
-        end
-      end
-    end
-
-    def process
-      process_generation
-    end
-    def process_generation
-      data = points_generation
-      ::Out2::Generation.run(data, @from, @to, self.class.source_id)
-      done!
-    end
-    def done!
-      super
-    rescue NoMethodError
-    end
-  end
-
   module Unit
     def process
       ::Out2::Unit.run(points, @from, @to, self.class.source_id)

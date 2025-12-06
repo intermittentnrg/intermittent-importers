@@ -7,7 +7,6 @@ module HydroQuebec
   end
   class Generation < Base
     include SemanticLogger::Loggable
-    include Out::Generation
 
     def initialize()
       url = "https://www.hydroquebec.com/data/documents-donnees/donnees-ouvertes/json/production.json"
@@ -31,7 +30,7 @@ module HydroQuebec
       "eolien" => :wind,
       "autres" => :biomass
     }
-    def points_generation
+    def process
       r=[]
       @json["details"].each do |row|
         time = Time.parse(row["date"])
@@ -47,7 +46,7 @@ module HydroQuebec
       end
       #require 'pry' ; binding.pry
 
-      r
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 end

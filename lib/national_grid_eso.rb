@@ -19,7 +19,6 @@ module NationalGridEso
 
   class DemandLive < Base
     include SemanticLogger::Loggable
-    include Out::Generation
 
     def self.cli(args)
       if args.length == 0
@@ -60,7 +59,7 @@ module NationalGridEso
       end
     end
 
-    def points_generation
+    def process
       r = []
       @json[:result][:records].each do |row|
         next if row[:FORECAST_ACTUAL_INDICATOR] == 'F'
@@ -71,15 +70,14 @@ module NationalGridEso
         r << {country: 'GB', production_type: 'hydro_pumped_storage_charging', time:, value: -row[:PUMP_STORAGE_PUMPING].to_f*1000}
       end
       @to = r.last[:time]
-      #require 'pry' ; binding.pry
 
-      r
+      #require 'pry' ; binding.pry
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 
   class Demand < Base
     include SemanticLogger::Loggable
-    include Out::Generation
 
     def self.parsers_each
       yield self.new
@@ -134,7 +132,7 @@ module NationalGridEso
       @from = r.first[:time]
       @to = r.last[:time]
 
-      r
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 

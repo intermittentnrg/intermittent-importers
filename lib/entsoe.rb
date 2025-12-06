@@ -113,7 +113,6 @@ module Entsoe
   #GET /api?documentType=A75&processType=A16&psrType=B02&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Generation < Base
     include SemanticLogger::Loggable
-    include Out::Generation
 
     def initialize(country: nil, **kwargs)
       super(**kwargs)
@@ -133,8 +132,10 @@ module Entsoe
       end
     end
 
-    def points_generation
-      Validate.validate_generation(points, self.class.source_id)
+    def process
+      r = Validate.validate_generation(points, self.class.source_id)
+
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 

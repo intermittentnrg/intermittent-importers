@@ -22,7 +22,7 @@ RSpec.describe Entsoe::Generation do
     describe :process do
       it do
         expect(Generation).to receive(:upsert_all)
-        e.process_generation
+        e.process
       end
     end
   end

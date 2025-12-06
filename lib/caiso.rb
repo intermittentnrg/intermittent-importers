@@ -74,7 +74,6 @@ module Caiso
 
   class FuelSource < Base
     include SemanticLogger::Loggable
-    include Out::Generation
 
     def self.parsers_each
       from = ::Generation.joins(:areas_production_type => :area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)

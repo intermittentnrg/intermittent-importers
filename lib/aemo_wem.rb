@@ -54,7 +54,6 @@ module AemoWem
 
   class ScadaReform < Base
     include SemanticLogger::Loggable
-    include Out::Unit
 
     URL = 'http://data.wa.aemo.com.au/public/market-data/wemde/facilityScada/previous/'
     FILE_FORMAT = 'FacilityScada_%Y%m%d.zip'
@@ -85,8 +84,8 @@ module AemoWem
                                      find_or_create_by!(internal_id: unit_internal_id)
     end
 
-    def process_file(body)
-      json = FastJsonparser.parse(body, symbolize_keys: false)
+    def process
+      json = FastJsonparser.parse(fetch, symbolize_keys: false)
       r = json['data']['facilityScadaDispatchIntervals'].map do |row|
         time = Time.strptime(row['dispatchInterval'], TIME_FORMAT)
         time = TZ.local_to_utc(time)
@@ -97,7 +96,8 @@ module AemoWem
         {time:, unit_id: unit.id, value:}
       end
 
-      r
+      Out2::Unit.run(r, @from, @to, self.class.source_id)
+      done!
     end
 
     def done!
@@ -108,7 +108,6 @@ module AemoWem
 
   class Scada < Base
     include SemanticLogger::Loggable
-    include Out::Unit
 
     URL = "https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/"
     # MANIFEST: https://data.wa.aemo.com.au/public/public-data/manifests/facility-scada.yaml
@@ -145,7 +144,8 @@ module AemoWem
                                      find_or_create_by!(internal_id: unit_internal_id)
     end
 
-    def process_rows(all)
+    def process
+      all = csv
       all.shift
       dups = Set.new
       r = logger.benchmark_info("parse csv") do
@@ -174,7 +174,8 @@ module AemoWem
       r.compact!
       #require 'pry' ; binding.pry
 
-      r
+      Out2::Unit.run(r, @from, @to, self.class.source_id)
+      done!
     end
 
     def done!
@@ -185,7 +186,6 @@ module AemoWem
 
   class OperationalDemand < Base
     include SemanticLogger::Loggable
-    include Out::Load
 
     URL = 'http://data.wa.aemo.com.au/public/market-data/wemde/operationalDemandWithdrawal/dailyFiles/'
     FILE_FORMAT = 'OperationalDemandAndWithdrawal_%Y-%m-%d.json'
@@ -199,7 +199,7 @@ module AemoWem
     def process_file(body)
       #require 'pry';binding.pry
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
-      json = FastJsonparser.parse(body.read, symbolize_keys: false)
+      json = FastJsonparser.parse(fetch, symbolize_keys: false)
       r = json['data']['data'].map do |row|
         time = Time.strptime(row['dispatchInterval'], TIME_FORMAT)
         time = TZ.local_to_utc(time)
@@ -207,6 +207,9 @@ module AemoWem
 
         {time:, area_id:, value:}
       end
+
+      Out2::Load.run(r, @from, @to, self.class.source_id)
+      done!
     end
   end
 
@@ -222,9 +225,9 @@ module AemoWem
       url =~ /.zip$/i
     end
 
-    def process_file(body)
+    def process
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
-      json = FastJsonparser.parse(body, symbolize_keys: false)
+      json = FastJsonparser.parse(fetch, symbolize_keys: false)
       if json.is_a?(Array) && json.length == 1
         json = json.first
       end
@@ -235,9 +238,8 @@ module AemoWem
 
         {time:, area_id:, value:}
       end
-    end
-    def process
-      ::Out2::Price.run(@r, @from, @to, self.class.source_id)
+
+      Out2::Price.run(r, @from, @to, self.class.source_id)
       done!
     end
   end
@@ -251,9 +253,9 @@ module AemoWem
 
     # FIXME: set @from and @to
 
-    def process_rows(all)
+    def process
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
-
+      all = csv
       all.shift
       load_r = []
       price_r = []
@@ -280,12 +282,15 @@ module AemoWem
 
       Out2::Load.run(load_r, @from, @to, self.class.source_id)
       Out2::Price.run(price_r, @from, @to, self.class.source_id)
+      done!
     end
   end
 
   class BalancingLive < Balancing
     include SemanticLogger::Loggable
+
     URL = "https://data.wa.aemo.com.au/public/infographic/neartime/pulse.csv"
+
     def self.cli(args)
       if args.length > 1
         $stderr.puts "#{$0} [file.csv]"
@@ -302,11 +307,11 @@ module AemoWem
     #  TZ.local_to_utc(Time.strptime(s, "%m/%d/%Y %H:%M:%S"))
     #end
 
-    def process_rows(all)
+    def process
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
       load_r = []
       price_r = []
-
+      all = csv
       all.shift
       all.each do |row|
         # TRADING_DAY_INTERVAL
@@ -335,12 +340,12 @@ module AemoWem
 
       Out2::Load.run(load_r, @from, @to, self.class.source_id)
       Out2::Price.run(price_r, @from, @to, self.class.source_id)
+      done!
     end
   end
 
   class DistributedPv < Base
     include SemanticLogger::Loggable
-    include Out::Generation
 
     URL = 'https://data.wa.aemo.com.au/public/public-data/datafiles/distributed-pv/'
     FILE_FORMAT = 'distributed-pv-%Y.csv'
@@ -357,7 +362,8 @@ module AemoWem
       super
     end
 
-    def process_rows(all)
+    def process
+      all = csv
       all.shift
       r = all.map do |row|
         #Trading Date
@@ -371,7 +377,8 @@ module AemoWem
       end
       #require 'pry' ; binding.pry
 
-      r
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      done!
     end
 
     def done!
@@ -382,7 +389,6 @@ module AemoWem
 
   class DistributedPvLive < Base
     include SemanticLogger::Loggable
-    include Out::Generation
 
     URL = 'https://wa.aemo.com.au/aemo/data/wa/infographic/dpvopdemand/distributed-pv_opdemand.csv'
 
@@ -398,8 +404,9 @@ module AemoWem
       super(url_or_path)
     end
 
-    def process_rows(all)
+    def process
       r = []
+      all = csv
       all.shift
       all.each do |row|
         #Trading Interval
@@ -415,7 +422,8 @@ module AemoWem
       @to = r.last[:time]
       #require 'pry' ; binding.pry
 
-      r
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      done!
     end
 
     def done!
@@ -429,8 +437,9 @@ module AemoWem
 
     URL = 'https://data.wa.aemo.com.au/datafiles/historical-balancing-prices/pre-balancing-market-data.csv'
 
-    def process_rows(all)
+    def process
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
+      all = csv
       all.shift
       r = all.map do |row|
         #Trade Date
@@ -449,10 +458,7 @@ module AemoWem
       end
       #require 'pry' ; binding.pry
 
-      r
-    end
-    def process
-      ::Out2::Price.run(@r, @from, @to, self.class.source_id)
+      Out2::Price.run(r, @from, @to, self.class.source_id)
       done!
     end
   end

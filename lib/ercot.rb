@@ -11,7 +11,6 @@ module Ercot
 
   class Generation < Base
     include SemanticLogger::Loggable
-    include Out::Generation
 
     def self.cli(args)
       if args[0]
@@ -37,7 +36,7 @@ module Ercot
       @path = path
     end
 
-    def points_generation
+    def process
       if @path
         json = FastJsonparser.load(@path)
       else
@@ -67,7 +66,7 @@ module Ercot
       @from = r.first[:time]
       @to = r.last[:time]
 
-      r
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 end

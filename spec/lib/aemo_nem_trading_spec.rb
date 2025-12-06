@@ -50,12 +50,9 @@ CSV
     end
 
     context 'NSW1' do
-      subject :nsw do
-        e.points.select { |row| row[:country] == 'NSW1' }.first
-      end
-      #it { require 'pry' ; binding.pry }
       it "has expected price" do
-        expect(nsw[:value]).to eq 29999
+        expect(Out2::Price).to receive(:run).with(array_including(hash_including(value: 29999)), anything, anything, anything)
+        e.process
       end
     end
   end

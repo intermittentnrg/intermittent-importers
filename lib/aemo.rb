@@ -48,34 +48,31 @@ module Aemo
         http = logger.benchmark_info("Fetch #{@url}") do
           http = @@faraday.get(@url)
         end
-        file = StringIO.new(http.body)
+        @file = StringIO.new(http.body)
       else # io
-        file = url_or_io
+        @file = url_or_io
         @url = name_if_io
       end
+    end
 
+    def fetch
       if @url =~ /\.zip$/
-        zip = Zip::InputStream.new(file)
+        zip = Zip::InputStream.new(@file)
         @r = []
-        while zip.get_next_entry
-          body = zip.read
-          @r += process_file(body)
-       end
+        zip.get_next_entry
+        body = zip.read
+        raise 'FIXME' if zip.get_next_entry
+
+        body
       else
-        @r = process_file(file)
+        @file
       end
-
-      #require 'pry' ; binding.pry
-
     end
 
-    def process_file(body)
-      process_rows(CSV.new(body).to_a)
+    def csv
+      CSV.new(fetch).to_a
     end
 
-    def process
-      done!
-    end
     def done!
       DataFile.upsert({path: File.basename(@url), source: self.class.source_id, updated_at: Time.now}, unique_by: [:source, :path])
       logger.info "done! #{@url}"

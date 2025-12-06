@@ -51,7 +51,21 @@ module Elexon
   # https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/FUELINST
   class Fuelinst < BaseCSV
     include SemanticLogger::Loggable
-    include Out::Generation
+    def self.parsers_each
+      ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+        from2 = from
+        from = from.in_time_zone(self::TZ).to_datetime
+        to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
+        to = to.in_time_zone(self::TZ).to_datetime
+        SemanticLogger.tagged(country) do
+          (from..to).each do |date|
+            yield self.new date
+          rescue EmptyError
+            logger.warn "Empty response #{date}"
+          end
+        end
+      end
+    end
 
     def self.cli(args)
       if args.length == 1 && args.first.include?('.')
@@ -142,7 +156,22 @@ module Elexon
   # https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/AGPT
   class Generation < BaseCSV
     include SemanticLogger::Loggable
-    include Out::Generation
+
+    def self.parsers_each
+      ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+        from2 = from
+        from = from.in_time_zone(self::TZ).to_datetime
+        to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
+        to = to.in_time_zone(self::TZ).to_datetime
+        SemanticLogger.tagged(country) do
+          (from..to).each do |date|
+            yield self.new date
+          rescue EmptyError
+            logger.warn "Empty response #{date}"
+          end
+        end
+      end
+    end
 
     def self.cli(args)
       if args.length != 2
@@ -167,7 +196,8 @@ module Elexon
       @options[:publishDateTimeFrom] = @from.strftime(DATETIME_FORMAT)
       @options[:publishDateTimeTo] = @to.strftime(DATETIME_FORMAT)
     end
-    def points_generation
+
+    def process
       r = {}
       fetch
       @csv.each do |row|
@@ -189,7 +219,9 @@ module Elexon
         r[k] ||= {country: 'GB_B1620', production_type:, time:, value:}
       end
 
-      Validate.validate_generation(r.values, self.class.source_id)
+      r = Validate.validate_generation(r.values, self.class.source_id)
+
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 

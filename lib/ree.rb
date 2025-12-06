@@ -4,7 +4,6 @@ require 'chronic'
 class Ree
   class Generation
     include SemanticLogger::Loggable
-    include Out::Generation
 
     def self.cli(args)
       if args.length != 2
@@ -71,7 +70,7 @@ class Ree
       'efl' => false, # exchange ??
       'dem' => false, #FIXME demand
     }
-    def points_generation
+    def process
       r = []
       json = JSON.parse(@res.body.gsub(/^\w+\(|[^}]+$/,'\1'))
       raise @res.body unless json["valoresHorariosGeneracion"]
@@ -101,7 +100,7 @@ class Ree
       end
       #require 'pry' ; binding.pry
 
-      r
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 end

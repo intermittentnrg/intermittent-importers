@@ -98,14 +98,12 @@ module EntsoeCsv
 
   class GenerationCSV < BaseFastestCSV
     include SemanticLogger::Loggable
-    include Out::Generation
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-    def points_generation
+    def process
       r = {}
       logger.benchmark_info("csv parse") do
-        #require 'pry' ; binding.pry
         csv.each do |row|
           next if row[4] == 'CTA'
 
@@ -136,7 +134,9 @@ module EntsoeCsv
       end
       #require 'pry';binding.pry
 
-      Validate.validate_generation(r.values, self.class.source_id)
+      r = Validate.validate_generation(r.values, self.class.source_id)
+      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      done!
     end
   end
 
