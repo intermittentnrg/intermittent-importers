@@ -142,7 +142,8 @@ module EntsoeCsv
 
   class UnitCSV < BaseFastestCSV
     include SemanticLogger::Loggable
-    include Out::Unit
+
+    TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
     AREA_CODE_OVERRIDE = {
       'DE_Amprion' => 'DE',
@@ -154,9 +155,8 @@ module EntsoeCsv
       'UA_BEI' => 'UA'
     }
 
-    def points
+    def process
       r = {}
-      r_cap = {}
       logger.benchmark_info("csv parse") do
         csv
         units = {}
@@ -165,22 +165,20 @@ module EntsoeCsv
           time = parse_time(row[0])
           #1:ResolutionCode
           #2:AreaCode
+          area_code = row[2]
           #3:AreaDisplayName
           #4:AreaTypeCode
-          #5:MapCode
-          area_code = row[5]
+          #5:AreaMapCode
           #6:GenerationUnitCode
           unit_internal_id = row[6]
           #7:GenerationUnitName
           unit_name = row[7].force_encoding('UTF-8')
           #8:GenerationUnitType
           production_type = parse_production_type(row[8])
-          #9:ActualGenerationOutput(MW)
-          #10:ActualConsumption(MW)
+          #9:ActualGenerationOutput[MW]
+          #10:ActualConsumption[MW]
           value = parse_value(row[9], row[10])
-          #11:GenerationUnitInstalledCapacity(MW)
-          capacity = parse_value(row[11])
-          #12:UpdateTime(UTC)
+          #11:UpdateTime(UTC)
 
           unit_id = units[unit_internal_id]
           unless unit_id
@@ -208,16 +206,11 @@ module EntsoeCsv
           if r[k] && value != r[k][:value]
             logger.error "duplicate data with different output #{unit_internal_id} #{value} != #{r[k][:value]}"
           end
-          if r_cap[k] && capacity != r_cap[k][:value]
-            logger.error "duplicate data with different capacites #{unit_internal_id} #{capacity} != #{r_cap[k][:value]}"
-          end
           r[k] = {unit_id:, time:, value:}
-          r_cap[k] = {unit_id:, time:, value: capacity}
         end
       end
-      Out2::UnitCapacity.run(r_cap.values, @from, @to, self.class.source_id)
 
-      r.values
+      Out2::Unit.run(r.values, @from, @to, self.class.source_id)
     end
   end
 

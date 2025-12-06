@@ -84,7 +84,7 @@ class EntsoeFms
     include SemanticLogger::Loggable
 
     TARGET = EntsoeCsv::UnitCSV
-    DIR = '/TP_export/ActualGenerationOutputPerGenerationUnit_16.1.A_r2.1/'
+    DIR = '/TP_export/ActualGenerationOutputPerGenerationUnit_16.1.A_r3/'
   end
 
   class Load < Base
