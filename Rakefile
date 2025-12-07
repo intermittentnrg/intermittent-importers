@@ -121,7 +121,7 @@ namespace :aemo do
     loop_task :scada_reform, AemoWem::ScadaReform
     loop_task :reference_trading_price, AemoWem::ReferenceTradingPrice
     loop_task :operational_demand, AemoWem::OperationalDemand
-    oneshot_task :scada, AemoWem::ScadaLive
+    loop_task :scada, AemoWem::Scada
     loop_task :distributed_pv, AemoWem::DistributedPv
     #loop_task :balancing, AemoWem::Balancing
     oneshot_task :balancing, AemoWem::BalancingLive

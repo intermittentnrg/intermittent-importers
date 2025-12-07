@@ -183,54 +183,6 @@ module AemoWem
     end
   end
 
-  class ScadaLive < Scada
-    include SemanticLogger::Loggable
-    URL = "https://wa.aemo.com.au/aemo/data/wa/infographic/facility-intervals-last96.csv"
-    def self.cli(args)
-      if args.length > 1
-        $stderr.puts "#{$0} [file.csv]"
-        exit 1
-      end
-      self.new(*args).process
-    end
-
-    def initialize(url_or_path = URL)
-      super(url_or_path)
-    end
-
-    def parse_time_from_filename(file)
-    end
-
-    def process_rows(all)
-      all.shift
-      r = all.map do |row|
-        #PERIOD
-        time = parse_time(row[0])
-        #PARTICIPANT_CODE
-        #FACILITY_CODE
-        unit = parse_unit(row[2])
-        unit_id = unit.id
-        #ACTUAL_MW
-        value = row[3].to_f*1000
-        #PCT_ALT_FUEL
-        #PEAK_MW
-        #OUTAGE_MW
-        #PEAK_OUTAGE_MW
-        #POTENTIAL_MWH
-        #INTERVALS_GENERATING
-        #TOTAL_INTERVALS
-        #PCT_GENERATING
-        #AS_AT
-        {time:, unit_id:, value:}
-      end
-      @from = r.first[:time]
-      @to = r.last[:time]
-      #require 'pry' ; binding.pry
-
-      r
-    end
-  end
-
   class OperationalDemand < Base
     include SemanticLogger::Loggable
     include Out::Load

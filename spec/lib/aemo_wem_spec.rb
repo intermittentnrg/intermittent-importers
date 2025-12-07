@@ -127,41 +127,6 @@ CSV
   end
 end
 
-RSpec.describe AemoWem::ScadaLive do
-  describe :cli do
-    subject { AemoWem::ScadaLive }
-    let(:datafile_name) { 'facility-intervals-last96.csv' }
-    let(:body) do
-        <<-CSV
-PERIOD,PARTICIPANT_CODE,FACILITY_CODE,ACTUAL_MW,PCT_ALT_FUEL,PEAK_MW,OUTAGE_MW,PEAK_OUTAGE_MW,POTENTIAL_MWH,INTERVALS_GENERATING,TOTAL_INTERVALS,PCT_GENERATING,AS_AT
-2023-09-12 02:00:00,"ALBGRAS","ALBANY_WF1",5.62,0,5.62,,,2.7725,1,1,1,"2023-09-14 02:00:00"
-CSV
-    end
-
-    context 'without argument' do
-      it do
-        stub_request(:get, 'https://wa.aemo.com.au/aemo/data/wa/infographic/facility-intervals-last96.csv').
-          to_return(body:)
-        expect(GenerationUnit).to receive(:upsert_all)
-        subject.cli([])
-      end
-    end
-
-    context 'with filename.csv' do
-      let(:args) { [datafile_name] }
-      before do
-        expect(File).to receive(:open) { StringIO.new(body) }
-      end
-      it do
-        expect(GenerationUnit).to receive(:upsert_all)
-        subject.cli(args)
-      end
-    end
-  end
-end
-
-
-
 RSpec.describe AemoWem::Balancing do
   subject { AemoWem::Balancing }
 
