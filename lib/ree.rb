@@ -1,9 +1,40 @@
 require 'httparty'
+require 'chronic'
 
 class Ree
   class Generation
     include SemanticLogger::Loggable
     include Out::Generation
+
+    def self.cli(args)
+      if args.length != 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      end
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+
+      (from...to).each do |time|
+        e = self.new(time)
+        e.process
+      end
+    end
+
+    def self.parsers_each
+      ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+        from2 = from
+        from = from.in_time_zone(self::TZ).to_datetime
+        to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
+        to = to.in_time_zone(self::TZ).to_datetime
+        SemanticLogger.tagged(country) do
+          (from..to).each do |date|
+            yield self.new date
+          rescue EmptyError
+            logger.warn "Empty response #{date}"
+          end
+        end
+      end
+    end
 
     TZ = TZInfo::Timezone.get('Atlantic/Canary')
     def self.source_id
@@ -27,13 +58,18 @@ class Ree
       #require 'pry' ; binding.pry
     end
     PRODUCTION_TYPES = {
-      "die" => "fossil_oil",
-      "gas" => "fossil_gas",
-      "eol" => "wind_onshore",
-      "cc" => "fossil_gas",
-      "vap" => "fossil_oil",
-      "fot" => "solar",
-      "hid" => "hydro_pumped_storage"
+      'die' => 'fossil_oil',
+      'gas' => 'fossil_gas',
+      'eol' => 'wind_onshore',
+      'cc' => false, #'fossil_gas',
+      'vap' => false, #'fossil_oil',
+      'fot' => 'solar',
+      'hid' => 'hydro_pumped_storage',
+      'gnhd' => false, # Hydro
+      'turb' => false, # Pumping Turbine
+      'conb' => false, # Pumping consumption
+      'efl' => false, # exchange ??
+      'dem' => false, #FIXME demand
     }
     def points_generation
       r = []
@@ -52,10 +88,9 @@ class Ree
         time = Time.strptime(time, '%Y-%m-%d %H:%M')
         time = TZ.local_to_utc(time) { |periods| periods[leap] }
 
-        row.delete "dem" #FIXME demand
-        row.delete "vap"
-        row.delete "cc"
         row.each do |k,value|
+          raise k if PRODUCTION_TYPES[k].nil?
+          next if PRODUCTION_TYPES[k] == false
           r << {
             time: time,
             country: 'ES-CN-FVLZ',
