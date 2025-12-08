@@ -43,7 +43,7 @@ module NationalGridEso
 
     def initialize(from)
       @from = from
-      url = 'https://api.nationalgrideso.com/api/3/action/datastore_search_sql'
+      url = 'https://api.neso.energy/api/3/action/datastore_search_sql'
       options = {}
       options[:sql] = %Q{SELECT * FROM "177f6fa4-ae49-4182-81ea-0c6b35f26ca6" WHERE "SETTLEMENT_DATE" >= '#{from}' AND "SETTLEMENT_DATE" <= '#{TZ.now}' AND "FORECAST_ACTUAL_INDICATOR" = 'A'}
       options[:records_format] = 'csv'
