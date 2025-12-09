@@ -1,4 +1,5 @@
 # coding: utf-8
+require 'faraday/retry'
 require 'faraday/gzip'
 require 'ox'
 
@@ -25,6 +26,12 @@ module Entsoe
     def fetch
       res = logger.benchmark_info("https://web-api.tp.entsoe.eu/api #{@from} #{@to}") do
         faraday = Faraday.new(request: {timeout: 600}) do |f|
+          f.request :retry, {
+            retry_statuses: [500, 502],
+            interval: 1,
+            backoff_factor: 2,
+            max: 5
+          }
           #f.request :gzip
           #f.response :logger, logger
         end
