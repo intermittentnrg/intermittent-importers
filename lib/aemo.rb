@@ -43,14 +43,25 @@ module Aemo
       nil
     end
 
-    def initialize(url_or_io, name_if_io = nil)
+    HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
+    def initialize(url_or_io, name_if_io = nil, filedate = nil)
       if url_or_io.is_a?(String) # url
         @url = url_or_io
-        http = logger.benchmark_info("Fetch #{@url}") do
-          http = @@faraday.get(@url)
+        @filedate = DataFile.where(path: File.basename(@url), source: self.class.source_id).pluck(:updated_at).first
+        res = logger.benchmark_info("Fetch #{@url}") do
+          @@faraday.get(@url) do |req|
+            if @filedate
+              req.headers['If-Modified-Since'] = @filedate.strftime(HTTP_DATE_FORMAT)
+            end
+          end
         end
-        @file = StringIO.new(http.body)
+        if res.status == 304 #Not Modified
+          raise EmptyError
+        end
+        @filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
+        @file = StringIO.new(res.body)
       else # io
+        @filedate = filedate
         @file = url_or_io
         @url = name_if_io
       end
@@ -73,8 +84,8 @@ module Aemo
     end
 
     def done!
-      DataFile.upsert({path: File.basename(@url), source: self.class.source_id, updated_at: Time.now}, unique_by: [:source, :path])
-      logger.info "done! #{@url}"
+      DataFile.upsert({path: File.basename(@url), source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
+      logger.info "done! #{File.basename(@url)}"
     end
 
     ROW_TIME_FORMAT = '%Y/%m/%d %H:%M:%S'

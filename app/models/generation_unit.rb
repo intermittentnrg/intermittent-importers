@@ -33,11 +33,6 @@ class GenerationUnit < ActiveRecord::Base
           g.time >= '#{from}' AND g.time < '#{to}' AND
           #{where}
         GROUP BY 1,2
-        HAVING NOT EXISTS (
-          SELECT 1 FROM generation_data g2
-          WHERE apt.id=g2.areas_production_type_id AND time=g2.time AND value=g2.value AND
-                g2.time >= '#{from}' AND g2.time < '#{to}'
-        )
         ON CONFLICT (areas_production_type_id, time)
           DO UPDATE set value = EXCLUDED.value WHERE generation_data.value<>EXCLUDED.value
       SQL

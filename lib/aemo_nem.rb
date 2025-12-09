@@ -11,7 +11,7 @@ module AemoNem
     def validate_filename!(name)
       m = name.match(self.class::FILE_MATCHER)
       raise ArgumentError, "invalid filename: #{name}" unless m
-      @from = Time.strptime(m[1], FILE_FORMAT)
+      @from = Time.strptime(m[1], self.class::FILE_FORMAT)
     end
   end
 
@@ -357,7 +357,7 @@ module AemoNem
     FILE_MATCHER = /PUBLIC_DISPATCHSCADA_(\d{12})_/
     FILE_FORMAT = '%Y%m%d%H%M'
 
-    def initialize(url_or_io, name_if_io = nil)
+    def initialize(url_or_io, name_if_io = nil, filedate = nil)
       unless @from
         name = File.basename(name_if_io || url_or_io)
         validate_filename!(name)
