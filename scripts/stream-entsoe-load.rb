@@ -10,9 +10,9 @@ end
 from = Chronic.parse(ARGV.shift)
 to = Chronic.parse(ARGV.shift)
 
-(ARGV.present? ? ARGV : Entsoe::DOMAIN_MAPPINGS.keys).each do |country|
+(ARGV.present? ? ARGV : EntsoeApi::DOMAIN_MAPPINGS.keys).each do |country|
   SemanticLogger.tagged(country:) do
-    e = Entsoe::Load.new(country:, from:, to:)
+    e = EntsoeApi::Load.new(country:, from:, to:)
     e.process
   end
 rescue

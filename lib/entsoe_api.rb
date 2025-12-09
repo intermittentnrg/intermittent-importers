@@ -3,7 +3,7 @@ require 'faraday/retry'
 require 'faraday/gzip'
 require 'ox'
 
-module Entsoe
+module EntsoeApi
   DEFAULT_START = DateTime.parse('2014-01-01')
 
   class Base

@@ -1,7 +1,7 @@
 require './spec/spec_helper'
 
-RSpec.describe Entsoe::Transmission do
-  subject { Entsoe::Transmission }
+RSpec.describe EntsoeApi::Transmission do
+  subject { EntsoeApi::Transmission }
   let(:from) { Date.new 2021, 01, 01 }
   let(:to) { Date.new 2021, 01, 02 }
   let(:from_area) { 'SE4' }

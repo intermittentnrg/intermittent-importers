@@ -1,7 +1,7 @@
 require './spec/spec_helper'
 
-RSpec.describe Entsoe::Generation do
-  subject { Entsoe::Generation }
+RSpec.describe EntsoeApi::Generation do
+  subject { EntsoeApi::Generation }
   let(:e) do
     VCR.use_cassette("generation_#{country}_#{from}_#{to}") do
       subject.new(country:, from:, to:)
