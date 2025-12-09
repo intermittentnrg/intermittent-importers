@@ -7,6 +7,12 @@ module AemoNem
     TZ = TZInfo::Timezone.get('Etc/GMT-10')
     URL_BASE = "https://nemweb.com.au"
     INDEX_TIME_FORMAT = "%A, %B %d, %Y %l:%M %p"
+
+    def validate_filename!(name)
+      m = name.match(self.class::FILE_MATCHER)
+      raise ArgumentError, "invalid filename: #{name}" unless m
+      @from = Time.strptime(m[1], FILE_FORMAT)
+    end
   end
 
   class Trading < Base
@@ -278,6 +284,7 @@ module AemoNem
     def initialize(url_or_io, name_if_io = nil)
       unless @from
         name = File.basename(name_if_io || url_or_io)
+        validate_filename!(name)
         m = name.match(FILE_MATCHER)
         raise ArgumentError, 'invalid filename' unless m
         @from = Time.strptime(m[1], FILE_FORMAT)
@@ -353,9 +360,7 @@ module AemoNem
     def initialize(url_or_io, name_if_io = nil)
       unless @from
         name = File.basename(name_if_io || url_or_io)
-        m = name.match(FILE_MATCHER)
-        raise ArgumentError, 'invalid filename' unless m
-        @from = Time.strptime(m[1], FILE_FORMAT)
+        validate_filename!(name)
         @from = TZ.local_to_utc(@from)
         @to = @from + 5.minutes
       end

@@ -1,14 +1,15 @@
-require 'faraday-http-cache'
 require 'faraday/net_http_persistent'
 require 'zip'
-require 'csv'
+require 'fastest_csv'
 
 module Aemo
   class Base
+    include SemanticLogger::Loggable
+
     @@store = ActiveSupport::Cache::FileStore.new "tmp/"
     @@faraday = Faraday.new do |f|
       f.adapter :net_http_persistent
-      f.use :http_cache, store: @store, serializer: Marshal
+      f.response :raise_error
       #f.response :logger, logger
     end
 
@@ -22,9 +23,9 @@ module Aemo
 
     def self.each
       logger.info("Fetch #{self::URL}")
-      http = @@faraday.get(self::URL)
+      res = @@faraday.get(self::URL)
 
-      http.body.split(/<br>/).each do |row|
+      res.body.split(/<br>/).each do |row|
         m = row.match(/(.*)\s+\d+\s+<A HREF="(.*?)"/)
         next unless m
         next unless select_file?(m[2])
@@ -57,20 +58,18 @@ module Aemo
 
     def fetch
       if @url =~ /\.zip$/
-        zip = Zip::InputStream.new(@file)
-        @r = []
-        zip.get_next_entry
-        body = zip.read
-        raise 'FIXME' if zip.get_next_entry
+        Zip::File.open(@file, buffer: true) do |zip|
+          raise 'FIXME' unless zip.count == 1
 
-        body
+          zip.entries.first.get_input_stream.read
+        end
       else
         @file
       end
     end
 
     def csv
-      CSV.new(fetch).to_a
+      FastestCSV.parse(fetch, row_sep: "\r\n")
     end
 
     def done!
@@ -86,9 +85,6 @@ module Aemo
       @last_t = self.class::TZ.local_to_utc(Time.strptime(s, self.class::ROW_TIME_FORMAT))
     end
 
-    def points_generation
-      @r
-    end
     def points_load
       @r
     end
