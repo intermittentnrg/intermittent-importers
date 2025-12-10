@@ -39,12 +39,10 @@ module Tohoku
       return if @csv
 
       @url = "https://setsuden.nw.tohoku-epco.co.jp/common/demand/juyo_02_#{@from.strftime('%Y%m%d')}.csv"
-      @filedate = DataFile.where(path: File.basename(@url), source: self.class.source_id).pluck(:updated_at).first
+      last_modified = DataFile.last_modified(@url, self.class.source_id)
       logger.benchmark_info(@url) do
         res = Faraday.get(@url, debug_output: $stdout) do |req|
-          if @filedate
-            req.headers['If-Modified-Since'] = @filedate.strftime(HTTP_DATE_FORMAT)
-          end
+          req.headers['If-Modified-Since'] = last_modified if last_modified
         end
         if res.status == 304 #Not Modified
           raise EmptyError

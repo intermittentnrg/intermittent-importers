@@ -42,12 +42,10 @@ module Caiso
     end
 
     def fetch
-      @filedate = DataFile.where(path: @url, source: self.class.source_id).pluck(:updated_at).first
+      last_modified = DataFile.last_modified(@url, self.class.source_id)
       @csv = logger.benchmark_info(@url) do
         @res = @@faraday.get(@url) do |req|
-          if @filedate
-            req.headers['If-Modified-Since'] = @filedate.strftime(HTTP_DATE_FORMAT)
-          end
+          req.headers['If-Modified-Since'] = last_modified if last_modified
         end
         FastestCSV.parse(@res.body, row_sep: "\r\n")
       end

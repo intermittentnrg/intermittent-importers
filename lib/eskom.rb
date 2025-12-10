@@ -28,12 +28,10 @@ module Eskom
     def fetch
       if @from.is_a? Date
         @url = @from.strftime(self.class::URL_FORMAT)
-        @filedate = DataFile.where(path: File.basename(@url), source: self.class.source_id).pluck(:updated_at).first
+        last_modified = DataFile.last_modified(@url, self.class.source_id)
         res = logger.benchmark_info(@url) do
           Faraday.get(@url) do |req|
-            if @filedate
-              req.headers['If-Modified-Since'] = @filedate.strftime(HTTP_DATE_FORMAT)
-            end
+            req.headers['If-Modified-Since'] = last_modified if last_modified
           end
         end
         if res.status == 304 #Not Modified
