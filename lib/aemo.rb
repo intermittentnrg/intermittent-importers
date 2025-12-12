@@ -37,53 +37,66 @@ module Aemo
           logger.debug "already processed #{File.basename(url)}"
           next
         end
-        yield self.new(url)
+        yield url
       end
 
       nil
     end
 
+    def initialize
+      @datafiles = []
+    end
+
     HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
-    def initialize(url_or_io, name_if_io = nil, filedate = nil)
-      if url_or_io.is_a?(String) # url
-        @url = url_or_io
-        last_modified = DataFile.last_modified(@url, self.class.source_id)
-        res = logger.benchmark_info("Fetch #{@url}") do
-          @@faraday.get(@url) do |req|
-            req.headers['If-Modified-Since'] = last_modified if last_modified
-          end
+    def add_url url
+      last_modified = DataFile.last_modified(url, self.class.source_id)
+      res = logger.benchmark_info("Fetch #{url}") do
+        @@faraday.get(url) do |req|
+          req.headers['If-Modified-Since'] = last_modified if last_modified
         end
-        if res.status == 304 #Not Modified
-          raise EmptyError
-        end
-        @filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
-        @file = StringIO.new(res.body)
-      else # io
-        @filedate = filedate
-        @file = url_or_io
-        @url = name_if_io
       end
+      if res.status == 304 #Not Modified
+        raise EmptyError
+      end
+      last_modified = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
+      add_buffer(res.body, url, last_modified)
+
+      self
     end
 
-    def fetch
-      if @url =~ /\.zip$/
-        Zip::File.open(@file, buffer: true) do |zip|
+    def add_file path
+      file = File.open(path)
+      add_buffer(file.read, path, file.mtime)
+
+      self
+    end
+
+    def add_buffer(data, name, date)
+      if name =~ /\.zip$/
+        Zip::File.open_buffer(data) do |zip|
           raise 'FIXME' unless zip.count == 1
-
-          zip.entries.first.get_input_stream.read
+          zip_entry = zip.entries.first
+          data = zip_entry.get_input_stream.read
+          name = zip_entry.name
+          date = zip_entry.mtime
         end
-      else
-        @file
       end
+      parse_filename!(name)
+
+      @datafiles << {path: File.basename(name), updated_at: date, source: self.class.source_id}
+      add_buffer2(data)
+
+      self
     end
 
-    def csv
-      FastestCSV.parse(fetch, row_sep: "\r\n")
+    def add_buffer2 data
+      add_csv(FastestCSV.parse(data, row_sep: "\r\n"))
     end
 
     def done!
-      DataFile.upsert({path: File.basename(@url), source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
-      logger.info "done! #{File.basename(@url)}"
+      DataFile.upsert_all(@datafiles, unique_by: [:source, :path])
+      datafiles = @datafiles.map { |datafile| datafile[:path] }.join ', '
+      logger.info "done! #{datafiles}"
     end
 
     ROW_TIME_FORMAT = '%Y/%m/%d %H:%M:%S'

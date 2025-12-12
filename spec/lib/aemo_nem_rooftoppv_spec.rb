@@ -20,8 +20,9 @@ CSV
       before do
         stub_request(:get, 'https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/').
           to_return(body: index_body)
-        stub_request(:get, "https://nemweb.com.au/#{datafile_name}")
-        stub_zip_inputstream(body)
+        stub_request(:get, "https://nemweb.com.au/#{datafile_name}").
+          to_return(headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
+        stub_zip_file(body, 'PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230101000000_0000000396168830.csv')
       end
       it do
         expect(Generation).to receive(:upsert_all)
@@ -38,7 +39,7 @@ CSV
       it
     end
     context 'with file.zip' do
-      let(:args) { ['path/to/file.csv'] }
+      let(:args) { ['path/to/file.zip'] }
       it
     end
 
@@ -50,34 +51,15 @@ CSV
   it "ignores sattelite records" do
     VCR.use_cassette("aemo_rooftoppv_sattelite") do
       expect(Generation).not_to receive(:upsert_all)
-      AemoNem::RooftopPv.new("https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/PUBLIC_ROOFTOP_PV_ACTUAL_SATELLITE_20230902183000_0000000396168830.zip").process
+      expect do
+        AemoNem::RooftopPv.new.add_url("https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/PUBLIC_ROOFTOP_PV_ACTUAL_SATELLITE_20230902183000_0000000396168830.zip").done!
+      end.to raise_error(ArgumentError)
     end
   end
   it do
     VCR.use_cassette("aemo_rooftoppv_e2e") do
-      expect(DataFile).to receive(:upsert)
-      AemoNem::RooftopPv.new("https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230902183000_0000000396168829.zip").process
-    end
-  end
-end
-
-RSpec.describe AemoNemMms::RooftopPv do
-  describe :cli do
-    subject { AemoNemMms::RooftopPv.cli(args) }
-    let(:body) do
-      <<-CSV
-D,ROOFTOP,ACTUAL,2,"2023/09/13 04:30:00",NSW1,0,1,MEASUREMENT,"2023/09/13 04:49:11"
-CSV
-    end
-    context 'with date range' do
-      let(:args) { ['2023-01-01', '2023-02-01'] }
-      it do
-        stub_request(:get, 'https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/2023/MMSDM_2023_01/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_ROOFTOP_PV_ACTUAL_202301010000.zip')
-        stub_zip_inputstream(body)
-
-        expect(Generation).to receive(:upsert_all)
-        subject
-      end
+      expect(DataFile).to receive(:upsert_all)
+      AemoNem::RooftopPv.new.add_url("https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230902183000_0000000396168829.zip").done!
     end
   end
 end

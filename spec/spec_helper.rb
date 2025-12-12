@@ -40,5 +40,5 @@ RSpec.configure do |config|
       example.run
     end
   end
-  config.include Helpers::ZipInputStream
+  config.include Helpers::ZipFile
 end

@@ -101,59 +101,59 @@ module Out2
     include SemanticLogger::Loggable
 
     def self.run(data, from, to, source_id)
+      return if data.empty?
       raise unless from && to
       updated_rows = nil
-      if data.present?
-        preprocess_data(data, source_id)
-        #require 'pry' ; binding.pry
 
-        start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-        if data.length > 100_000
-          begin
-            #GenerationUnit.disable_compression_policy!
-            #GenerationUnit.hypertable.chunks.where(range_start: ..to, range_end: from..).each &:decompress!
+      preprocess_data(data, source_id)
+      #require 'pry' ; binding.pry
 
-            conn = ActiveRecord::Base.connection
-            tmptable = "generation_unit_copy_#{source_id}"
-            conn.create_table tmptable, id: false, temporary: true do |t|
-              t.integer :unit_id, limit: 2, null: false
-              t.timestamptz :time, null: false
-              t.integer :value, null: false
-            end
+      start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      if data.length > 100_000
+        begin
+          #GenerationUnit.disable_compression_policy!
+          #GenerationUnit.hypertable.chunks.where(range_start: ..to, range_end: from..).each &:decompress!
 
-            raw_conn = conn.raw_connection
-            enco = PG::TextEncoder::CopyRow.new
-            raw_conn.copy_data "COPY #{tmptable} FROM STDIN", enco do
-              data.each do |row|
-                raw_conn.put_copy_data([row[:unit_id], row[:time], row[:value].round])
-              end
-            end
-            r = conn.execute <<~SQL
-              INSERT INTO generation_unit (unit_id, time, value)
-              SELECT unit_id, time, value
-              FROM #{tmptable} g
-              WHERE NOT EXISTS (
-                    SELECT 1 FROM generation_unit g2
-                    WHERE g.unit_id=g2.unit_id AND g.time=g2.time AND g.value=g2.value AND
-                          time BETWEEN (SELECT MIN(time) FROM #{tmptable}) AND (SELECT MAX(time) FROM #{tmptable})
-              )
-              ON CONFLICT (unit_id, time)
-                DO UPDATE set value = EXCLUDED.value
-            SQL
-            updated_rows = r.cmd_tuples
-            conn.drop_table tmptable
-          ensure
-            #GenerationUnit.enable_compression_policy!
+          conn = ActiveRecord::Base.connection
+          tmptable = "generation_unit_copy_#{source_id}"
+          conn.create_table tmptable, id: false, temporary: true do |t|
+            t.integer :unit_id, limit: 2, null: false
+            t.timestamptz :time, null: false
+            t.integer :value, null: false
           end
-        else
-          data.each_slice(1_000_000) do |data2|
-            r = ::GenerationUnit.upsert_all(data2)
+
+          raw_conn = conn.raw_connection
+          enco = PG::TextEncoder::CopyRow.new
+          raw_conn.copy_data "COPY #{tmptable} FROM STDIN", enco do
+            data.each do |row|
+              raw_conn.put_copy_data([row[:unit_id], row[:time], row[:value].round])
+            end
           end
-          updated_rows = r.try(:length).to_i
+          r = conn.execute <<~SQL
+            INSERT INTO generation_unit (unit_id, time, value)
+            SELECT unit_id, time, value
+            FROM #{tmptable} g
+            WHERE NOT EXISTS (
+                  SELECT 1 FROM generation_unit g2
+                  WHERE g.unit_id=g2.unit_id AND g.time=g2.time AND g.value=g2.value AND
+                        time BETWEEN (SELECT MIN(time) FROM #{tmptable}) AND (SELECT MAX(time) FROM #{tmptable})
+            )
+            ON CONFLICT (unit_id, time)
+              DO UPDATE set value = EXCLUDED.value
+          SQL
+          updated_rows = r.cmd_tuples
+          conn.drop_table tmptable
+        ensure
+          #GenerationUnit.enable_compression_policy!
         end
-        duration = 1_000.0 * (Process.clock_gettime(Process::CLOCK_MONOTONIC) - start)
-        logger.measure_info("updated #{updated_rows} out of #{data.length} rows for range #{from} - #{to}", duration:)
+      else
+        data.each_slice(1_000_000) do |data2|
+          r = ::GenerationUnit.upsert_all(data2)
+        end
+        updated_rows = r.try(:length).to_i
       end
+      duration = 1_000.0 * (Process.clock_gettime(Process::CLOCK_MONOTONIC) - start)
+      logger.measure_info("updated #{updated_rows} out of #{data.length} rows for range #{from} - #{to}", duration:)
     end
   end
 

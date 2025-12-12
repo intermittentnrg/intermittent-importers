@@ -12,14 +12,20 @@ module AemoWem
         from = Chronic.parse(args.shift).to_date
         to = Chronic.parse(args.shift).to_date
         cli_range(from...to).each do |date|
-          self.new(date).process
+          self.new.add_date(date).done!
         end
       elsif args.present?
+        target = self.new
         args.each do |path|
-          self.new(path).process
+          target.add_file(path)
         end
+        target.done!
       else
-        self.each &:process
+        target = self.new
+        self.each do |url|
+          target.add_url(url)
+        end
+        target.done!
       end
     end
 
@@ -31,17 +37,14 @@ module AemoWem
       url =~ /.csv$/i
     end
 
-    def initialize(file_or_date)
-      if file_or_date.is_a? Date
-        super(file_or_date.strftime(self.class::URL_FORMAT))
-      elsif file_or_date =~ /^https?:/
-        super(file_or_date)
-      else
-        super(File.open(file_or_date, 'r'), file_or_date)
-      end
+    def add_date date
+      add_url(date.strftime(self.class::URL_FORMAT))
     end
 
-    def parse_time_from_filename
+    def parse_filename! name
+      @from = Time.strptime(File.basename(name), self.class::FILE_FORMAT)
+      @from = TZ.local_to_utc(@from)
+      @to = @from + 1.year
     end
 
     def parse_time(s)
@@ -60,6 +63,7 @@ module AemoWem
     TIME_FORMAT = '%Y-%m-%dT%H:%M:%S%:z'
 
     def initialize(file_or_date)
+      @r = []
       @from = parse_time_from_filename(file_or_date)
       @to = @from + 1.day
       @units = {}
@@ -84,23 +88,24 @@ module AemoWem
                                      find_or_create_by!(internal_id: unit_internal_id)
     end
 
-    def process
-      json = FastJsonparser.parse(fetch, symbolize_keys: false)
-      r = json['data']['facilityScadaDispatchIntervals'].map do |row|
+    def add_buffer2 data
+      add_json(FastJsonparser.parse(data, symbolize_keys: false))
+    end
+
+    def add_json json
+      json['data']['facilityScadaDispatchIntervals'].each do |row|
         time = Time.strptime(row['dispatchInterval'], TIME_FORMAT)
         time = TZ.local_to_utc(time)
         unit = parse_unit(row['code'])
         # seems to be MWh per 5 minutes
         value = row['quantity']*1000*12
 
-        {time:, unit_id: unit.id, value:}
+        @r << {time:, unit_id: unit.id, value:}
       end
-
-      Out2::Unit.run(r, @from, @to, self.class.source_id)
-      done!
     end
 
     def done!
+      Out2::Unit.run(@r, @from, @to, self.class.source_id)
       GenerationUnit.aggregate_to_generation(@from, @to, "a.source='aemo' AND a.id=#{@area_id}")
       super
     end
@@ -118,23 +123,21 @@ module AemoWem
       range.select { |d| d.day==1 }
     end
 
-    def initialize(file_or_date)
-      if file_or_date.is_a? Date
-        @from = file_or_date.to_time
-        @from = TZ.local_to_utc(@from)
-      else
-        @from = parse_time_from_filename(file_or_date)
-      end
-      @to = @from + 1.month if @from
-      @units = {}
+    def initialize
+      super
+      @r = []
       @default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
       @area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
-      super
+      @units = {}
     end
 
-    def parse_time_from_filename(file)
-      time = Time.strptime(File.basename(file), FILE_FORMAT)
-      TZ.local_to_utc(time)
+    def parse_filename! name
+      from = Time.strptime(File.basename(name), FILE_FORMAT)
+      raise ArgumentError, "invalid filename: #{name} doesn't match #{FILE_FORMAT}" unless from
+      from = TZ.local_to_utc(from)
+      to = from + 1.month
+      @from = [from, @from].compact.min
+      @to = [to, @to].compact.max
     end
 
     def parse_unit(unit_internal_id)
@@ -144,12 +147,10 @@ module AemoWem
                                      find_or_create_by!(internal_id: unit_internal_id)
     end
 
-    def process
-      all = csv
-      all.shift
+    def add_csv csv
       dups = Set.new
-      r = logger.benchmark_info("parse csv") do
-        all.map do |row|
+      logger.benchmark_info("parse csv") do
+        csv[1..].each do |row|
           # Trading Date
           # Interval Number
           # Trading Interval
@@ -168,17 +169,14 @@ module AemoWem
           k = [time,unit_id]
           binding.pry if dups.include? k
           dups << k
-          {time:, unit_id:, value:}
+          @r << {time:, unit_id:, value:}
         end
       end
-      r.compact!
-      #require 'pry' ; binding.pry
-
-      Out2::Unit.run(r, @from, @to, self.class.source_id)
-      done!
     end
 
     def done!
+      return if @r.empty?
+      Out2::Unit.run(@r, @from, @to, self.class.source_id)
       GenerationUnit.aggregate_to_generation(@from, @to, "a.source='aemo' AND a.id=#{@area_id}")
       super
     end
@@ -196,10 +194,13 @@ module AemoWem
       url =~ /.json$/i
     end
 
-    def process_file(body)
+    def add_buffer2 data
+      add_json(FastJsonparser.parse(data, symbolize_keys: false))
+    end
+
+    def add_json(json)
       #require 'pry';binding.pry
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
-      json = FastJsonparser.parse(fetch, symbolize_keys: false)
       r = json['data']['data'].map do |row|
         time = Time.strptime(row['dispatchInterval'], TIME_FORMAT)
         time = TZ.local_to_utc(time)
@@ -225,9 +226,12 @@ module AemoWem
       url =~ /.zip$/i
     end
 
-    def process
+    def add_buffer2 data
+      add_json(FastJsonparser.parse(data, symbolize_keys: false))
+    end
+
+    def add_json json
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
-      json = FastJsonparser.parse(fetch, symbolize_keys: false)
       if json.is_a?(Array) && json.length == 1
         json = json.first
       end
@@ -249,18 +253,20 @@ module AemoWem
     include SemanticLogger::Loggable
 
     URL = 'https://data.wa.aemo.com.au/datafiles/balancing-summary/'
-    URL_FORMAT = 'https://data.wa.aemo.com.au/datafiles/balancing-summary/balancing-summary-%Y.csv'
+    FILE_FORMAT = 'balancing-summary-%Y.csv'
+    URL_FORMAT = URL+FILE_FORMAT
 
     # FIXME: set @from and @to
 
-    def process
-      area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
-      all = csv
-      all.shift
-      load_r = []
-      price_r = []
+    def initialize
+      super
+      @load_r = []
+      @price_r = []
+    end
 
-      all.each do |row|
+    def add_csv csv
+      area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
+      csv[1..].each do |row|
         #Trading Date
         #Interval Number
         #Trading Interval
@@ -275,14 +281,16 @@ module AemoWem
         price = row[8].to_f*100
         #Extracted At
 
-        load_r << {time:, area_id:, value: load}
-        price_r << {time:, area_id:, value: price}
+        @load_r << {time:, area_id:, value: load}
+        @price_r << {time:, area_id:, value: price}
       end
       #require 'pry' ; binding.pry
+    end
 
-      Out2::Load.run(load_r, @from, @to, self.class.source_id)
-      Out2::Price.run(price_r, @from, @to, self.class.source_id)
-      done!
+    def done!
+      Out2::Load.run(@load_r, @from, @to, self.class.source_id)
+      Out2::Price.run(@price_r, @from, @to, self.class.source_id)
+      super
     end
   end
 
@@ -292,28 +300,26 @@ module AemoWem
     URL = "https://data.wa.aemo.com.au/public/infographic/neartime/pulse.csv"
 
     def self.cli(args)
-      if args.length > 1
-        $stderr.puts "#{$0} [file.csv]"
-        exit 1
+      if args.empty?
+        self.new.add_url(URL).done!
+      else
+        target = self.new
+        args.each do |path|
+          target.add_file(path)
+        end
+        target.done!
       end
-      self.new(*args).process
     end
 
-    def initialize(url_or_path = URL)
-      super(url_or_path)
+    def parse_filename! name
     end
-
     #def parse_time s
     #  TZ.local_to_utc(Time.strptime(s, "%m/%d/%Y %H:%M:%S"))
     #end
 
-    def process
+    def add_csv csv
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
-      load_r = []
-      price_r = []
-      all = csv
-      all.shift
-      all.each do |row|
+      csv[1..].each do |row|
         # TRADING_DAY_INTERVAL
         time = parse_time(row[0])
         # FORECAST_EOI_MW
@@ -333,14 +339,9 @@ module AemoWem
         #CONS_OUTAGE_MW
         #AS_AT
 
-        load_r << {time:, area_id:, value: load}
-        price_r << {time:, area_id:, value: price}
+        @load_r << {time:, area_id:, value: load}
+        @price_r << {time:, area_id:, value: price}
       end
-      #require 'pry' ; binding.pry
-
-      Out2::Load.run(load_r, @from, @to, self.class.source_id)
-      Out2::Price.run(price_r, @from, @to, self.class.source_id)
-      done!
     end
   end
 
@@ -351,21 +352,13 @@ module AemoWem
     FILE_FORMAT = 'distributed-pv-%Y.csv'
     URL_FORMAT = URL+FILE_FORMAT
 
-    def initialize(file_or_date)
-      if file_or_date.is_a? Date
-        @from = file_or_date.to_time
-      else
-        @from = Time.strptime(File.basename(file_or_date), FILE_FORMAT)
-      end
-      @from = TZ.local_to_utc(@from)
-      @to = @from + 1.year
+    def initialize
       super
+      @r = []
     end
 
-    def process
-      all = csv
-      all.shift
-      r = all.map do |row|
+    def add_csv csv
+      csv[1..].each do |row|
         #Trading Date
         #Interval Number
         #Trading Interval
@@ -373,15 +366,12 @@ module AemoWem
         #Estimated DPV Generation (MW)
         value = row[3].to_f*1000
         #Extracted At
-        {time:, country: 'WEM', production_type: 'solar_rooftop', value:}
+        @r << {time:, country: 'WEM', production_type: 'solar_rooftop', value:}
       end
-      #require 'pry' ; binding.pry
-
-      Out2::Generation.run(r, @from, @to, self.class.source_id)
-      done!
     end
 
     def done!
+      Out2::Generation.run(@r, @from, @to, self.class.source_id)
       Generation.aggregate_rooftoppv_to_capture(@from, @to, "a.code='WEM'")
       super
     end
@@ -393,22 +383,27 @@ module AemoWem
     URL = 'https://wa.aemo.com.au/aemo/data/wa/infographic/dpvopdemand/distributed-pv_opdemand.csv'
 
     def self.cli(args)
-      if args.length > 1
-        $stderr.puts "#{$0} [file.csv]"
-        exit 1
+      if args.empty?
+        self.new.add_url(URL).done!
+      else
+        target = self.new
+        args.each do |path|
+          target.add_file(path)
+        end
+        target.done!
       end
-      self.new(*args).process
     end
 
-    def initialize(url_or_path = URL)
-      super(url_or_path)
+    def initialize
+      super
+      @r = []
     end
 
-    def process
-      r = []
-      all = csv
-      all.shift
-      all.each do |row|
+    def parse_filename! name
+    end
+
+    def add_csv csv
+      csv[1..].each do |row|
         #Trading Interval
         time = parse_time(row[0])
         #Interval Number
@@ -416,17 +411,14 @@ module AemoWem
         value = row[2].to_f*1000
         #Operational Demand (MW)
         #Extracted At
-        r << {time:, country: 'WEM', production_type: 'solar_rooftop', value:}
+        @r << {time:, country: 'WEM', production_type: 'solar_rooftop', value:}
       end
-      @from = r.first[:time]
-      @to = r.last[:time]
-      #require 'pry' ; binding.pry
-
-      Out2::Generation.run(r, @from, @to, self.class.source_id)
-      done!
+      @from = @r.first[:time]
+      @to = @r.last[:time]
     end
 
     def done!
+      Out2::Generation.run(@r, @from, @to, self.class.source_id)
       Generation.aggregate_rooftoppv_to_capture(@from, @to, "a.code='WEM'")
       super
     end
@@ -437,11 +429,17 @@ module AemoWem
 
     URL = 'https://data.wa.aemo.com.au/datafiles/historical-balancing-prices/pre-balancing-market-data.csv'
 
-    def process
+    def initialize
+      super
+      @r = []
+    end
+
+    def parse_filename! name
+    end
+
+    def add_csv csv
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
-      all = csv
-      all.shift
-      r = all.map do |row|
+      csv[1..].each do |row|
         #Trade Date
         #Delivery Date
         #Delivery Hour
@@ -454,12 +452,13 @@ module AemoWem
         #UDAP Price Per MWh
         #DDAP Price Per MWh
         #Extracted At
-        {area_id:, time:, value:}
+        @r << {area_id:, time:, value:}
       end
-      #require 'pry' ; binding.pry
+    end
 
-      Out2::Price.run(r, @from, @to, self.class.source_id)
-      done!
+    def done!
+      Out2::Price.run(@r, @from, @to, self.class.source_id)
+      super
     end
   end
 end

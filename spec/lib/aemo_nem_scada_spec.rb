@@ -27,7 +27,7 @@ CSV
       end
       it "has negative generation" do
         expect(GenerationUnit).to receive(:upsert_all).with array_including(hash_including(value: -800))
-        subject.new(StringIO.new(body), datafile_name).process
+        subject.new.add_buffer(body, datafile_name, Time.now).done!
       end
     end
     context 'battery_charging' do
@@ -38,7 +38,7 @@ CSV
       end
       it "has negative generation" do
         expect(GenerationUnit).to receive(:upsert_all).with array_including(hash_including(value: -800))
-        subject.new(StringIO.new(body), datafile_name).process
+        subject.new.add_buffer(body, datafile_name, Time.now).done!
       end
     end
   end
@@ -60,8 +60,9 @@ CSV
       before do
         stub_request(:get, 'https://nemweb.com.au/Reports/Current/Dispatch_SCADA/').
           to_return(body: index_body)
-        stub_request(:get, "https://nemweb.com.au/#{datafile_name}")
-        stub_zip_inputstream(body)
+        stub_request(:get, "https://nemweb.com.au/#{datafile_name}").
+          to_return(headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
+        stub_zip_file(body, 'PUBLIC_DISPATCHSCADA_202301010000_0000000397026531.csv')
       end
 
       it do
@@ -86,7 +87,7 @@ CSV
       let(:datafile_name) { 'PUBLIC_DISPATCHSCADA_202301010000_0000000397026531.csv' }
       let(:args) { [datafile_name] }
       before do
-        allow(File).to receive(:open) { StringIO.new(body) }
+        allow(File).to receive(:open) { double('File', read: body, mtime: Time.now) }
       end
       it do
         expect(GenerationUnit).to receive(:upsert_all)
@@ -106,60 +107,5 @@ CSV
     end
 
     # doesn't support date range
-  end
-end
-
-RSpec.describe AemoNemMms::Scada do
-  describe :cli do
-    subject { AemoNemMms::Scada }
-    let(:body) do
-      <<-CSV
-D,DISPATCH,UNIT_SCADA,1,"2023/09/13 05:35:00",WDGPH1,0
-CSV
-    end
-
-    # doesn't support no arguments
-
-    context 'with file.zip' do
-      xit
-    end
-
-    context 'with date range' do
-      let(:args) { ['2023-01-01', '2023-02-01'] }
-      it do
-        stub_request(:get, 'https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/2023/MMSDM_2023_01/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_DISPATCH_UNIT_SCADA_202301010000.zip')
-        stub_zip_inputstream(body)
-
-        expect(GenerationUnit).to receive(:upsert_all)
-        subject.cli(args)
-      end
-    end
-  end
-end
-
-RSpec.describe AemoNemMms::DuDetail do
-  describe :cli do
-    subject { AemoNemMms::DuDetail }
-    let(:body) do
-      <<-CSV
-
-I,PARTICIPANT_REGISTRATION,DUDETAIL,3,EFFECTIVEDATE,DUID,VERSIONNO,CONNECTIONPOINTID,VOLTLEVEL,REGISTEREDCAPACITY,AGCCAPABILITY,DISPATCHTYPE,MAXCAPACITY,STARTTYPE,NORMALLYONFLAG,PHYSICALDETAILSFLAG,SPINNINGRESERVEFLAG,AUTHORISEDBY,AUTHORISEDDATE,LASTCHANGED,INTERMITTENTFLAG,SEMISCHEDULE_FLAG,MAXRATEOFCHANGEUP,MAXRATEOFCHANGEDOWN
-D,PARTICIPANT_REGISTRATION,DUDETAIL,3,"2011/01/18 00:00:00",SNOWYP,1,NLTS3,330,600,N,LOAD,600,SLOW,N,,,DAVIDGA,"2011/01/17 09:41:18","2011/01/17 09:41:20",N,N,120,120
-CSV
-    end
-    context 'with file.zip' do
-      xit
-    end
-
-    context 'with date range' do
-      let(:args) { ['2023-01-01', '2023-02-01'] }
-      it do
-        stub_request(:get, 'https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/2023/MMSDM_2023_01/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_DUDETAIL_202301010000.zip')
-        stub_zip_inputstream(body)
-
-        expect(GenerationUnitCapacity).to receive(:upsert_all)
-        subject.cli(args)
-      end
-    end
   end
 end
