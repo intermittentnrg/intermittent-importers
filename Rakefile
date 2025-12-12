@@ -152,11 +152,14 @@ end
 # end
 
 pump_task :tohoku, Tohoku::Juyo
-loop_task :ons, Ons
-loop_task :taipower, Taipower::Generation
+desc 'Refresh ONS'
+task(:ons) { Ons.refresh }
+desc 'Refresh Taipower'
+task(:taipower) { Taipower::Generation.refresh }
 namespace :aeso do
   task all: [:generation, :price]
-  loop_task :generation, Aeso::Generation
+  desc 'Refresh AESO'
+  task(:generation) { Aeso::Generation.refresh }
   loop_task :price, Aeso::Price
 end
 

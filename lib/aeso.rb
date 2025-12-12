@@ -26,11 +26,10 @@ module Aeso
 
     def self.cli(args)
       if args.empty?
-        each &:process
+        self.refresh
       else
-        args.each do |f|
-          #puts f
-          self.new(f).process
+        args.each do |file|
+          self.new.add_file(file).done!
         end
       end
     end
@@ -40,80 +39,79 @@ module Aeso
     QUEUE_REGION = 'us-east-2'
     include AwsSqs
 
-    def initialize(file_or_body)
-      @file_or_body = file_or_body
+    def initialize
+      super
+      @r_load = []
+      @r_gen = {}
+      @r_tran = []
+      @r_unit = []
     end
 
-    def process
-      if @file_or_body.start_with? 'Current Supply Demand Report'
-        chunks = @file_or_body.split("\r\n\r\n")
-      elsif File.exist? @file_or_body
-        chunks = File.read(@file_or_body).split("\r\n\r\n")
-      else
-        logger.error("Failed processing #{@file_or_body}")
+    def add_file path
+      add_buffer(File.read(path))
+
+      self
+    end
+
+    def add_buffer body
+      unless body.start_with? 'Current Supply Demand Report'
+        logger.error("Failed processing #{body}")
         return
       end
+      chunks = body.split("\r\n\r\n")
 
       time = Time.strptime(chunks[1].strip, '"Last Update : %B %d, %Y %H:%M"')
       time = TZ.local_to_utc(time)
-      @from = time
-      @to = time + 1.minute
+      @from = [time, @from].compact.min
+      @to = [time + 1.minute, @to].compact.max
 
       # summary
       csv = FastestCSV.parse(chunks[2])
       raise unless csv[2][0] == 'Alberta Internal Load (AIL)'
       value = csv[2][1].to_f*1000
-      r_load = [
-        {time:, country: 'CA-AB', value:}
-      ]
+      @r_load << {time:, country: 'CA-AB', value:}
 
-      r_gen = {}
       csv = FastestCSV.parse(chunks[3])
       csv.each do |row|
         production_type = PT_MAP[row[0]] || row[0].downcase.gsub(/ /, '_')
         next if production_type == 'total'
         value = row[2].to_f*1000
 
-        r_gen[production_type] ||= {
+        k = [time, production_type]
+        @r_gen[k] ||= {
           time:,
           country: 'CA-AB',
           production_type: production_type,
           value: 0
         }
-        r_gen[production_type][:value] += value
+        @r_gen[k][:value] += value
       end
 
       #transmission
       csv = FastestCSV.parse(chunks[4])
-      r_tran = []
       csv.each do |row|
         next if row[0] == 'TOTAL'
 
         #0: PATH
         #1: ACTUAL FLOW
         value = -row[1].to_f*1000
-        r_tran << {time:, from_area: 'CA-AB', to_area: row[0], value:}
+        @r_tran << {time:, from_area: 'CA-AB', to_area: row[0], value:}
       end
 
       #units
-      r_unit = process_units(time, :fossil_gas, chunks[5]) +
-               process_units(time, :hydro, chunks[6]) +
-               process_units(time, :battery, chunks[7]) +
-               process_units(time, :solar, chunks[8]) +
-               process_units(time, :wind, chunks[9]) +
-               process_units(time, :other, chunks[10]) +
-               process_units(time, :dual_fuel, chunks[11]) +
-               process_units(time, :fossil_coal, chunks[12])
+      process_units(time, :fossil_gas, chunks[5])
+      process_units(time, :hydro, chunks[6])
+      process_units(time, :battery, chunks[7])
+      process_units(time, :solar, chunks[8])
+      process_units(time, :wind, chunks[9])
+      process_units(time, :other, chunks[10])
+      process_units(time, :dual_fuel, chunks[11])
+      process_units(time, :fossil_coal, chunks[12])
       #require 'pry' ; binding.pry
-
-      ::Out2::Load.run(r_load, @from, @to, self.class.source_id)
-      ::Out2::Generation.run(r_gen.values, @from, @to, self.class.source_id)
-      ::Out2::Unit.run(r_unit, @from, @to, self.class.source_id)
-      ::Out2::Transmission.run(r_tran, @from, @to, self.class.source_id)
     end
 
     def process_units time, production_type, chunk
-      return [] if chunk.blank?
+      return if chunk.blank?
       r = []
       csv = FastestCSV.parse chunk
       csv.each do |row|
@@ -127,10 +125,15 @@ module Aeso
         #2: TNG - Total Net Generation
         value = row[2].to_f*1000
         #3: DCR - Dispatched (and Accepted) Contingency Reserve
-        r << {time:, country: 'CA-AB', production_type:, unit:, value:}
+        @r_unit << {time:, country: 'CA-AB', production_type:, unit:, value:}
       end
+    end
 
-      r
+    def done!
+      ::Out2::Load.run(@r_load, @from, @to, self.class.source_id)
+      ::Out2::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
+      ::Out2::Transmission.run(@r_tran, @from, @to, self.class.source_id)
+      ::Out2::Unit.run(@r_unit, @from, @to, self.class.source_id)
     end
   end
 

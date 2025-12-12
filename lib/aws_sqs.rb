@@ -6,10 +6,11 @@ module AwsSqs
   end
 
   module ClassMethods
-    def each
+    def refresh
       sqs = Aws::SQS::Client.new(region: self::QUEUE_REGION)
       receipt_handles = []
       start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      target = self.new
       loop do
         result = sqs.receive_message({
                                        queue_url: self::QUEUE_URL,
@@ -19,7 +20,7 @@ module AwsSqs
                                      })
         result.messages.each do |message|
           body = message.body
-          yield new(body)
+          target.add_buffer(body)
 
           receipt_handles << message.receipt_handle
         end
@@ -29,19 +30,21 @@ module AwsSqs
 
         break if result.messages.length <10
       end
+      target.done!
       i=0
-      receipt_handles.each_slice(10) do |batch|
-        sqs.delete_message_batch({
-                                   queue_url: self::QUEUE_URL,
-                                   entries: batch.map do |receipt_handle|
-                                     {
-                                       id: (i += 1).to_s,
-                                       receipt_handle:
-                                     }
-                                   end
-                                 })
+      logger.benchmark_info "deleted #{receipt_handles.length} from SQS" do
+        receipt_handles.each_slice(10) do |batch|
+          sqs.delete_message_batch({
+                                    queue_url: self::QUEUE_URL,
+                                    entries: batch.map do |receipt_handle|
+                                      {
+                                        id: (i += 1).to_s,
+                                        receipt_handle:
+                                      }
+                                    end
+                                  })
+        end
       end
-      logger.info "deleted #{receipt_handles.length} from SQS"
     end
   end
 end

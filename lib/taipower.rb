@@ -14,11 +14,10 @@ module Taipower
 
     def self.cli(args)
       if args.empty?
-        each &:process
+        self.refresh
       else
         args.each do |f|
-          #puts f
-          self.new(f).process
+          self.new.add_file(f).done!
         end
       end
     end
@@ -27,10 +26,6 @@ module Taipower
     QUEUE_URL = ENV['TAIPOWER_QUEUE_URL']
     QUEUE_REGION = 'ap-east-1'
     include AwsSqs
-
-    def initialize(file_or_body)
-      @file_or_body = file_or_body
-    end
 
     PT_MAP = {
       "NUCLEAR" => :nuclear,
@@ -50,19 +45,27 @@ module Taipower
       "ENERGYSTORAGESYSTEMLOAD" => :storage
     }
 
-    def process
-      if @file_or_body[0] == '{'
-        json = FastJsonparser.parse(@file_or_body, symbolize_keys: false)
-      else
-        json = FastJsonparser.load(@file_or_body, symbolize_keys: false)
-      end
-
-      time = Time.strptime(json[''], '%Y-%m-%d %H:%M')
-      time = TZ.local_to_utc(time)
-      @from = time
-      @to = time + 10.minutes
+    def initialize
+      super
       @r_gen = {}
       @r_units = {}
+    end
+
+    def add_file file
+      add_json FastJsonparser.load(file, symbolize_keys: false)
+
+      self
+    end
+
+    def add_buffer body
+      add_json FastJsonparser.parse(body, symbolize_keys: false)
+    end
+
+    def add_json json
+      time = Time.strptime(json[''], '%Y-%m-%d %H:%M')
+      time = TZ.local_to_utc(time)
+      @from = [time, @from].compact.min
+      @to = [time + 10.minute, @to].compact.max
       json['dataset'].each do |row|
         #0:fueltype
         row[0] =~ %r|<b>(.*)</b>|
@@ -108,6 +111,9 @@ module Taipower
         end
       end
       #require 'pry' ; binding.pry
+    end
+
+    def done!
       Out2::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
       Out2::Unit.run(@r_units.values, @from, @to, self.class.source_id)
     end
