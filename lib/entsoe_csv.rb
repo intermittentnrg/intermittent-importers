@@ -187,7 +187,7 @@ module EntsoeCsv
               unit.name = unit_name
               unit.production_type = production_type
               unit.area = ::Area.find_by(
-                code: AREA_CODE_OVERRIDE[area_code] || area_code,
+                internal_id: AREA_CODE_OVERRIDE[area_code] || area_code,
                 source: self.class.source_id
               )
               raise "Missing area #{area_code} / #{row}" unless unit.area
