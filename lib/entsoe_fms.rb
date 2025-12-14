@@ -36,7 +36,10 @@ class EntsoeFms
     def self.each
       res = @@faraday.post('/listFolder', {
         path: self::DIR,
-        sorterList: [],
+        sorterList: [{
+          key: 'periodCovered.from',
+          ascending: false
+        }],
         pageInfo: {
           pageIndex: 0,
           pageSize: 5000
