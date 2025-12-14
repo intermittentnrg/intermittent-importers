@@ -67,20 +67,3 @@ CSV
     end
   end
 end
-
-RSpec.describe EntsoeCsv::CapacityCSV do
-  subject { EntsoeCsv::CapacityCSV }
-  let(:datafile_name) { '2023_01_InstalledGenerationCapacityAggregated_14.1.A.csv' }
-  let(:body) do
-    <<-CSV
-DateTime	ResolutionCode	AreaCode	AreaTypeCode	AreaName	MapCode	ProductionType	AggregatedInstalledCapacity	DeletedFlag	UpdateTime
-2023	CET	P1Y	10Y1001A1001A83F	Germany (DE)	CTY	DE	Wind Onshore	57589.55	2025-09-02 06:43:41
-CSV
-  end
-  describe '#points_capacities' do
-    it "provides expected value" do
-      expect(::Capacity).to receive(:upsert_all).with(array_including(hash_including(value: 57589550)))
-      subject.new(StringIO.new(body), datafile_name, Time.new(2023,1,1)).process
-    end
-  end
-end

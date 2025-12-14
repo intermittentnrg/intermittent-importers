@@ -300,59 +300,6 @@ module EntsoeCsv
     end
   end
 
-  class CapacityCSV < BaseFastestCSV
-    include SemanticLogger::Loggable
-
-    TIME_FORMAT = '%Y %Z'
-    def parse_filename
-      #sets @from and @to
-    end
-    def parse_time(s)
-      return @last_t if @last_s == s
-
-      @last_s = s
-      @last_t = DateTime.strptime(s, self.class::TIME_FORMAT).to_time
-    end
-
-    def points_capacity
-      r = {}
-      logger.benchmark_info("csv parse") do
-        csv.each do |row|
-          #0: Year
-          #1: TimeZone
-          time = parse_time("#{row[0]} #{row[1]}")
-          #2: ResolutionCode
-          raise row[2] unless row[2] == 'P1Y'
-          #3: AreaCode
-          next if row[5] == 'CTA'
-          area_id = parse_area(row[3])
-          #4: AreaDisplayName
-          #5: AreaTypeCode
-          #6: AreaMapCode
-          #7: ProductionType
-          production_type = parse_production_type(row[7])
-
-          #8: AggregatedInstalledCapacity[MW]
-          value = row[8].to_f*1000
-
-          #9: UpdateTime(UTC)
-          k = [area_id,production_type,time]
-          if r[k] && r[k][:value] != value
-            logger.warn("#{time} #{row[:area_internal_id]} #{row[:area_name]} different values #{r[k][:value]} != #{value}")
-          end
-          r[k] = {time:, area_id:, production_type:, value:}
-        end
-      end
-      #require 'pry' ; binding.pry
-
-      r.values
-    end
-    def process
-      Out2::Capacity.run(points_capacity, nil, nil, self.class.source_id)
-      done!
-    end
-  end
-
   class UnitCapacityCSV < BaseFastestCSV
     include SemanticLogger::Loggable
 
