@@ -107,12 +107,10 @@ module Aeso
       process_units(time, :other, chunks[10])
       process_units(time, :dual_fuel, chunks[11])
       process_units(time, :fossil_coal, chunks[12])
-      #require 'pry' ; binding.pry
     end
 
     def process_units time, production_type, chunk
       return if chunk.blank?
-      r = []
       csv = FastestCSV.parse chunk
       csv.each do |row|
         next if row.length == 1
@@ -138,33 +136,39 @@ module Aeso
   end
 
   class GenerationHistory < Base
-    def self.cli args
+    include SemanticLogger::Loggable
+
+    def self.cli(args)
       args.each do |file|
-        self.new(file).process
-      end
-    end
-
-    def initialize file
-      @file = file
-    end
-
-    def process
-      if @file =~ /\.zip$/
-        zip = Zip::InputStream.new(@file)
-        while zip.get_next_entry
-          body = zip.read
-          process_file(body)
-        end
+        self.new.add_file(file).done!
       end
     end
 
     TZ_MST = TZInfo::Timezone.get('MST')
-    def process_file body
-      r = []
-      r_cap = []
-      csv = FastestCSV.parse body, row_sep: "\r\n"
+
+    def initialize
+      super
+      @r = []
+      @r_cap = []
+    end
+
+    def add_file(path)
+      if path =~ /\.zip$/
+        Zip::InputStream.open(path) do |zip|
+          while entry = zip.get_next_entry
+            add_buffer(zip.read)
+          end
+        end
+      else
+        add_buffer(File.read(path))
+      end
+      self
+    end
+
+    def add_buffer(body)
+      csv = FastestCSV.parse(body, row_sep: "\r\n")
       country = 'CA-AB'
-      csv.shift
+      csv.shift # Skip header
       csv.each do |row|
         #0: Date (MST)
         time = Time.strptime(row[0], '%Y-%m-%d %H:%M')
@@ -184,15 +188,19 @@ module Aeso
         #9: Sub Fuel Type
         #10: Planning Area
         #11: Region
-        r << {time:, country:, production_type:, unit:, value:}
-        r_cap << {time:, country:, production_type:, unit:, value: cap}
+        @r << {time:, country:, production_type:, unit:, value:}
+        @r_cap << {time:, country:, production_type:, unit:, value: cap}
       end
-      #require 'pry' ; binding.pry
-      from = r.first[:time]
-      to = r.last[:time]
 
-      ::Out2::Unit.run(r, from, to, self.class.source_id)
-      ::Out2::UnitCapacity.run(r_cap, from, to, self.class.source_id)
+      self
+    end
+
+    def done!
+      from = @r.first[:time]
+      to = @r.last[:time]
+
+      ::Out2::Unit.run(@r, from, to, self.class.source_id)
+      ::Out2::UnitCapacity.run(@r_cap, from, to, self.class.source_id)
     end
   end
 
@@ -244,7 +252,6 @@ module Aeso
         value = row['pool_price'].to_f*100
         r << {time:, country: 'CA-AB', value:}
       end
-      #require 'pry' ; binding.pry
 
       Out2::Price.run(r, r.first[:time], r.last[:time], self.class.source_id)
     end
