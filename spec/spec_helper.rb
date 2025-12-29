@@ -24,6 +24,7 @@ VCR.configure do |config|
   config.filter_sensitive_data('<TOKEN>') { ENV['ENTSOE_TOKEN'] }
   config.filter_sensitive_data('<EIA_TOKEN>') { ENV['EIA_TOKEN'] }
   config.filter_sensitive_data('<ELEXON_TOKEN>') { ENV['ELEXON_TOKEN'] }
+  config.filter_sensitive_data('<AESO_PRIMARY_KEY>') { ENV['AESO_PRIMARY_KEY'] }
 end
 
 Dir["./spec/support/**/*.rb"].each { |f| require f }

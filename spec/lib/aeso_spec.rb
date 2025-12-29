@@ -30,3 +30,19 @@ RSpec.describe Aeso::Generation do
     end
   end
 end
+
+RSpec.describe Aeso::Price do
+  describe :cli do
+    it 'processes price data end-to-end', :vcr do
+      VCR.use_cassette('aeso_price_2023_09') do
+        expect(Out::Price).to receive(:run) do |points, from, to, source|
+          expect(points.length).to eq(48)
+          expect(points.first[:country]).to eq('CA-AB')
+          expect(source).to eq('aeso')
+        end
+
+        Aeso::Price.cli(['2023-09-01', '2023-09-02'])
+      end
+    end
+  end
+end

@@ -2,6 +2,7 @@ require 'fastest_csv'
 require 'fast_jsonparser'
 require 'chronic'
 require 'zip'
+require 'faraday'
 
 module Aeso
   class Base
@@ -207,6 +208,8 @@ module Aeso
   class Price < Base
     include SemanticLogger::Loggable
 
+    URL = 'https://apimgw.aeso.ca/public/poolprice-api/v1.1/price/poolPrice'
+
     def self.cli args
       if args.length == 0 || args.length > 2
         $stderr.puts "#{$0}: <from> [to]"
@@ -214,7 +217,8 @@ module Aeso
       end
       from = Chronic.parse(args[0]).to_date
       to = Chronic.parse(args[1]).to_date if args[1]
-      self.new(from, to).process
+
+      self.new.add_date_range(from, to).done!
     end
 
     def self.each
@@ -223,37 +227,50 @@ module Aeso
       from = TZ.utc_to_local(from).to_date
       to = Time.now.in_time_zone(TZ).to_date
 
-      self.new(from, to).process
+      self.new.add_date_range(from, to).done!
     end
 
-    def initialize from, to
-      @from = from
-      @to = to
+    def initialize
+      @r = []
     end
 
-    URL = 'https://api.aeso.ca/report/v1.1/price/poolPrice'
-    def process
-      from = @from.strftime('%Y-%m-%d')
-      to = @to.strftime('%Y-%m-%d') if @to.present?
+    def add_date_range(from, to)
       res = logger.benchmark_info("#{URL} #{from} #{to}") do
-        Faraday.get(URL, startDate: from, endDate: to) do |req|
-          req.headers['X-API-Key'] = ENV['AESO_TOKEN']
+        Faraday.get(URL, startDate: from.strftime('%Y-%m-%d'), endDate: to.strftime('%Y-%m-%d')) do |req|
+          req.headers['Api-Key'] = ENV['AESO_PRIMARY_KEY']
         end
       end
-      json = FastJsonparser.parse(res.body, symbolize_keys: false)
+
+      add_buffer(res.body)
+    end
+
+    def add_file path
+      add_buffer(File.read(path))
+    end
+
+    def add_buffer body
+      json = FastJsonparser.parse(body, symbolize_keys: false)
       raise json['message'] if json['message']
       unless json['return'] && json['return']['Pool Price Report'].present?
         require 'pry' ; binding.pry
       end
-      r = []
+
       json['return']['Pool Price Report'].each do |row|
         next if row['pool_price'].blank?
         time = Time.strptime(row['begin_datetime_utc'], '%Y-%m-%d %H:%M')
         value = row['pool_price'].to_f*100
-        r << {time:, country: 'CA-AB', value:}
+        @r << {time:, country: 'CA-AB', value:}
       end
 
-      Out2::Price.run(r, r.first[:time], r.last[:time], self.class.source_id)
+      self
+    end
+
+    def done!
+      return if @r.empty?
+
+      from = @r.first[:time]
+      to = @r.last[:time]
+      Out2::Price.run(@r, from, to, self.class.source_id)
     end
   end
 end

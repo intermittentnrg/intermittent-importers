@@ -1,0 +1,93 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://apimgw.aeso.ca/public/poolprice-api/v1.1/price/poolPrice?endDate=2023-09-02&startDate=2023-09-01
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.11
+      Api-Key:
+      - "<AESO_PRIMARY_KEY>"
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 30 Dec 2025 21:52:53 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Pragma:
+      - no-cache
+      Transfer-Encoding:
+      - chunked
+      Request-Context:
+      - appId=cid-v1:5c95216f-cab6-4517-8145-36ba1b83111f
+      Set-Cookie:
+      - AESO-Cookie=!UVYi61/muv+GFVPSLU3CWBXGJAxKwDSLOS1fRk+eeneddo4ghEUAPXhDp+IKdvfb6pJt23fBaoUmlAY=;
+        path=/; Httponly; Secure
+    body:
+      encoding: UTF-8
+      string: '{"timestamp":"2025-12-30 21:52:54.084+0000","responseCode":"200","return":{"Pool
+        Price Report":[{"begin_datetime_utc":"2023-09-01 06:00","begin_datetime_mpt":"2023-09-01
+        00:00","pool_price":"181.09","forecast_pool_price":"152.60","rolling_30day_avg":"189.67"},{"begin_datetime_utc":"2023-09-01
+        07:00","begin_datetime_mpt":"2023-09-01 01:00","pool_price":"146.24","forecast_pool_price":"139.21","rolling_30day_avg":"189.80"},{"begin_datetime_utc":"2023-09-01
+        08:00","begin_datetime_mpt":"2023-09-01 02:00","pool_price":"141.72","forecast_pool_price":"139.21","rolling_30day_avg":"189.90"},{"begin_datetime_utc":"2023-09-01
+        09:00","begin_datetime_mpt":"2023-09-01 03:00","pool_price":"89.11","forecast_pool_price":"78.74","rolling_30day_avg":"189.93"},{"begin_datetime_utc":"2023-09-01
+        10:00","begin_datetime_mpt":"2023-09-01 04:00","pool_price":"94.83","forecast_pool_price":"65.12","rolling_30day_avg":"189.94"},{"begin_datetime_utc":"2023-09-01
+        11:00","begin_datetime_mpt":"2023-09-01 05:00","pool_price":"214.68","forecast_pool_price":"172.79","rolling_30day_avg":"189.98"},{"begin_datetime_utc":"2023-09-01
+        12:00","begin_datetime_mpt":"2023-09-01 06:00","pool_price":"248.96","forecast_pool_price":"220.45","rolling_30day_avg":"190.11"},{"begin_datetime_utc":"2023-09-01
+        13:00","begin_datetime_mpt":"2023-09-01 07:00","pool_price":"58.88","forecast_pool_price":"68.53","rolling_30day_avg":"190.12"},{"begin_datetime_utc":"2023-09-01
+        14:00","begin_datetime_mpt":"2023-09-01 08:00","pool_price":"57.79","forecast_pool_price":"157.06","rolling_30day_avg":"190.11"},{"begin_datetime_utc":"2023-09-01
+        15:00","begin_datetime_mpt":"2023-09-01 09:00","pool_price":"252.18","forecast_pool_price":"184.75","rolling_30day_avg":"190.35"},{"begin_datetime_utc":"2023-09-01
+        16:00","begin_datetime_mpt":"2023-09-01 10:00","pool_price":"227.29","forecast_pool_price":"432.28","rolling_30day_avg":"190.59"},{"begin_datetime_utc":"2023-09-01
+        17:00","begin_datetime_mpt":"2023-09-01 11:00","pool_price":"71.53","forecast_pool_price":"63.20","rolling_30day_avg":"190.61"},{"begin_datetime_utc":"2023-09-01
+        18:00","begin_datetime_mpt":"2023-09-01 12:00","pool_price":"196.82","forecast_pool_price":"58.99","rolling_30day_avg":"190.79"},{"begin_datetime_utc":"2023-09-01
+        19:00","begin_datetime_mpt":"2023-09-01 13:00","pool_price":"207.53","forecast_pool_price":"403.28","rolling_30day_avg":"190.84"},{"begin_datetime_utc":"2023-09-01
+        20:00","begin_datetime_mpt":"2023-09-01 14:00","pool_price":"321.71","forecast_pool_price":"430.90","rolling_30day_avg":"191.14"},{"begin_datetime_utc":"2023-09-01
+        21:00","begin_datetime_mpt":"2023-09-01 15:00","pool_price":"61.95","forecast_pool_price":"62.16","rolling_30day_avg":"191.09"},{"begin_datetime_utc":"2023-09-01
+        22:00","begin_datetime_mpt":"2023-09-01 16:00","pool_price":"57.64","forecast_pool_price":"59.41","rolling_30day_avg":"191.02"},{"begin_datetime_utc":"2023-09-01
+        23:00","begin_datetime_mpt":"2023-09-01 17:00","pool_price":"51.91","forecast_pool_price":"52.01","rolling_30day_avg":"190.35"},{"begin_datetime_utc":"2023-09-02
+        00:00","begin_datetime_mpt":"2023-09-01 18:00","pool_price":"52.82","forecast_pool_price":"50.23","rolling_30day_avg":"189.60"},{"begin_datetime_utc":"2023-09-02
+        01:00","begin_datetime_mpt":"2023-09-01 19:00","pool_price":"81.07","forecast_pool_price":"62.15","rolling_30day_avg":"189.41"},{"begin_datetime_utc":"2023-09-02
+        02:00","begin_datetime_mpt":"2023-09-01 20:00","pool_price":"83.72","forecast_pool_price":"403.28","rolling_30day_avg":"189.40"},{"begin_datetime_utc":"2023-09-02
+        03:00","begin_datetime_mpt":"2023-09-01 21:00","pool_price":"51.87","forecast_pool_price":"53.72","rolling_30day_avg":"189.36"},{"begin_datetime_utc":"2023-09-02
+        04:00","begin_datetime_mpt":"2023-09-01 22:00","pool_price":"44.46","forecast_pool_price":"47.80","rolling_30day_avg":"189.32"},{"begin_datetime_utc":"2023-09-02
+        05:00","begin_datetime_mpt":"2023-09-01 23:00","pool_price":"34.61","forecast_pool_price":"33.71","rolling_30day_avg":"189.29"},{"begin_datetime_utc":"2023-09-02
+        06:00","begin_datetime_mpt":"2023-09-02 00:00","pool_price":"25.10","forecast_pool_price":"29.95","rolling_30day_avg":"189.26"},{"begin_datetime_utc":"2023-09-02
+        07:00","begin_datetime_mpt":"2023-09-02 01:00","pool_price":"9.33","forecast_pool_price":"8.78","rolling_30day_avg":"189.21"},{"begin_datetime_utc":"2023-09-02
+        08:00","begin_datetime_mpt":"2023-09-02 02:00","pool_price":"14.78","forecast_pool_price":"18.68","rolling_30day_avg":"189.17"},{"begin_datetime_utc":"2023-09-02
+        09:00","begin_datetime_mpt":"2023-09-02 03:00","pool_price":"13.24","forecast_pool_price":"7.11","rolling_30day_avg":"189.13"},{"begin_datetime_utc":"2023-09-02
+        10:00","begin_datetime_mpt":"2023-09-02 04:00","pool_price":"6.08","forecast_pool_price":"0.00","rolling_30day_avg":"189.08"},{"begin_datetime_utc":"2023-09-02
+        11:00","begin_datetime_mpt":"2023-09-02 05:00","pool_price":"0.14","forecast_pool_price":"0.00","rolling_30day_avg":"189.00"},{"begin_datetime_utc":"2023-09-02
+        12:00","begin_datetime_mpt":"2023-09-02 06:00","pool_price":"17.14","forecast_pool_price":"14.77","rolling_30day_avg":"188.95"},{"begin_datetime_utc":"2023-09-02
+        13:00","begin_datetime_mpt":"2023-09-02 07:00","pool_price":"23.59","forecast_pool_price":"19.69","rolling_30day_avg":"188.92"},{"begin_datetime_utc":"2023-09-02
+        14:00","begin_datetime_mpt":"2023-09-02 08:00","pool_price":"19.11","forecast_pool_price":"19.52","rolling_30day_avg":"188.89"},{"begin_datetime_utc":"2023-09-02
+        15:00","begin_datetime_mpt":"2023-09-02 09:00","pool_price":"18.89","forecast_pool_price":"13.71","rolling_30day_avg":"188.85"},{"begin_datetime_utc":"2023-09-02
+        16:00","begin_datetime_mpt":"2023-09-02 10:00","pool_price":"26.29","forecast_pool_price":"23.21","rolling_30day_avg":"188.83"},{"begin_datetime_utc":"2023-09-02
+        17:00","begin_datetime_mpt":"2023-09-02 11:00","pool_price":"43.74","forecast_pool_price":"46.25","rolling_30day_avg":"188.79"},{"begin_datetime_utc":"2023-09-02
+        18:00","begin_datetime_mpt":"2023-09-02 12:00","pool_price":"47.40","forecast_pool_price":"48.83","rolling_30day_avg":"188.76"},{"begin_datetime_utc":"2023-09-02
+        19:00","begin_datetime_mpt":"2023-09-02 13:00","pool_price":"51.31","forecast_pool_price":"50.53","rolling_30day_avg":"188.77"},{"begin_datetime_utc":"2023-09-02
+        20:00","begin_datetime_mpt":"2023-09-02 14:00","pool_price":"64.00","forecast_pool_price":"52.15","rolling_30day_avg":"188.79"},{"begin_datetime_utc":"2023-09-02
+        21:00","begin_datetime_mpt":"2023-09-02 15:00","pool_price":"134.79","forecast_pool_price":"65.28","rolling_30day_avg":"188.91"},{"begin_datetime_utc":"2023-09-02
+        22:00","begin_datetime_mpt":"2023-09-02 16:00","pool_price":"196.48","forecast_pool_price":"290.38","rolling_30day_avg":"189.08"},{"begin_datetime_utc":"2023-09-02
+        23:00","begin_datetime_mpt":"2023-09-02 17:00","pool_price":"129.87","forecast_pool_price":"257.00","rolling_30day_avg":"189.18"},{"begin_datetime_utc":"2023-09-03
+        00:00","begin_datetime_mpt":"2023-09-02 18:00","pool_price":"59.60","forecast_pool_price":"51.56","rolling_30day_avg":"189.20"},{"begin_datetime_utc":"2023-09-03
+        01:00","begin_datetime_mpt":"2023-09-02 19:00","pool_price":"122.88","forecast_pool_price":"60.46","rolling_30day_avg":"189.29"},{"begin_datetime_utc":"2023-09-03
+        02:00","begin_datetime_mpt":"2023-09-02 20:00","pool_price":"119.23","forecast_pool_price":"420.44","rolling_30day_avg":"189.36"},{"begin_datetime_utc":"2023-09-03
+        03:00","begin_datetime_mpt":"2023-09-02 21:00","pool_price":"90.13","forecast_pool_price":"156.48","rolling_30day_avg":"189.37"},{"begin_datetime_utc":"2023-09-03
+        04:00","begin_datetime_mpt":"2023-09-02 22:00","pool_price":"51.56","forecast_pool_price":"69.25","rolling_30day_avg":"189.37"},{"begin_datetime_utc":"2023-09-03
+        05:00","begin_datetime_mpt":"2023-09-02 23:00","pool_price":"48.01","forecast_pool_price":"46.43","rolling_30day_avg":"189.36"}]}}'
+  recorded_at: Tue, 30 Dec 2025 21:52:54 GMT
+recorded_with: VCR 6.2.0

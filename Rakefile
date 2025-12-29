@@ -160,7 +160,7 @@ namespace :aeso do
   task all: [:generation, :price]
   desc 'Refresh AESO'
   task(:generation) { Aeso::Generation.refresh }
-  loop_task :price, Aeso::Price
+  chain_task :price, Aeso::Price
 end
 
 
