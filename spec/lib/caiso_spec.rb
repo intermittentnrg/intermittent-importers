@@ -26,9 +26,9 @@ RSpec.describe Caiso::FuelSource do
       let(:current_time) { Time.new(2023,1,1,6) }
       it do
         req = stub_request(:get, 'https://www.caiso.com/outlook/history/20221231/fuelsource.csv').
-                to_return(body: '\n')
+                to_return(body: "Time,Solar,Wind,Geothermal,Biomass,Biogas,Small hydro,Coal,Nuclear,Natural Gas,Large Hydro,Batteries,Imports,Other\r\n")
         allow(Time).to receive(:strptime)
-        subject.parsers_each(&:fetch)
+        subject.parsers_each {}
         expect(req).to have_been_requested
       end
     end
@@ -39,7 +39,7 @@ RSpec.describe Caiso::Load do
   subject { Caiso::Load }
   context do
     around(:example) { |ex| VCR.use_cassette("caiso_load_#{date}", &ex) }
-    subject(:e) { Caiso::Load.new(date) }
+    subject(:e) { Caiso::Load.new.add_date(date) }
 
     before do
       datafile = double('DataFile')
@@ -49,13 +49,13 @@ RSpec.describe Caiso::Load do
     end
     describe 'dst 2019-03-10' do
       subject(:date) { Date.new(2019,3,10) }
-      it("has 23h*5m datapoints") { expect(e.points_load).to have(23*12).items }
+      it("has 23h*5m datapoints") { expect(e.instance_variable_get(:@r_load)).to have(23*12).items }
     end
 
     describe 'dst 2019-11-03' do
       subject(:date) { Date.new(2019,11,3) }
       # should be 25 but netdemand.csv/website is retarded. OK.
-      it("has 24h*5m datapoints") { expect(e.points_load).to have(24*12).items }
+      it("has 24h*5m datapoints") { expect(e.instance_variable_get(:@r_load)).to have(24*12).items }
     end
   end
 
@@ -70,9 +70,9 @@ RSpec.describe Caiso::Load do
       let(:current_time) { Time.new(2023,1,1,6) }
       it do
         req = stub_request(:get, 'https://www.caiso.com/outlook/history/20221231/netdemand.csv').
-                to_return(body: '\n')
+                to_return(body: "Time,Hour ahead forecast,Current demand,Net demand\r\n")
         allow(Time).to receive(:strptime)
-        subject.parsers_each(&:fetch)
+        subject.parsers_each {}
         expect(req).to have_been_requested
       end
     end

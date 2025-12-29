@@ -26,37 +26,34 @@ module Caiso
       from = Chronic.parse(args.shift).to_date
       to = Chronic.parse(args.shift).to_date
 
+      e = self.new
       (from...to).each do |time|
-        e = self.new(time)
-        e.process
+        e.add_date(time)
       rescue EmptyError
         logger.warn "EmptyError #{time}"
       end
+      e.done!
     end
 
-    def initialize(date)
+    def add_date(date)
       @date = date
       @time = @date.to_time
       @from = TZ.local_to_utc(@time) { |periods| periods.first }
       @to = @from + 1.day
-    end
+      @url = date.strftime(self.class::URL_FORMAT)
 
-    def fetch
       last_modified = DataFile.last_modified(@url, self.class.source_id)
-      @csv = logger.benchmark_info(@url) do
-        @res = @@faraday.get(@url) do |req|
-          req.headers['If-Modified-Since'] = last_modified if last_modified
-        end
-        FastestCSV.parse(@res.body, row_sep: "\r\n")
+      res = @@faraday.get(@url) do |req|
+        req.headers['If-Modified-Since'] = last_modified if last_modified
       end
-      if @res.status == 304 || @res.headers['content-type'] =~ /^text\/html/
+
+      if res.status == 304 || res.headers['content-type'] =~ /^text\/html/
         raise EmptyError
       end
-      #require 'pry' ; binding.pry
-      @filedate = Time.strptime(@res.headers['Last-Modified'], HTTP_DATE_FORMAT)
-      @fields = @csv.shift
 
-      raise EmptyError unless @fields.first
+      @filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
+
+      add_buffer(res.body)
     end
 
     def parse_time(row)
@@ -78,7 +75,7 @@ module Caiso
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
       (from.to_date..to.to_date).each do |date|
-        yield self.new date
+        yield self.new.add_date(date)
       end
     end
 
@@ -101,20 +98,24 @@ module Caiso
     FUEL_KEYS = FUELS.keys
     FUEL_VALUES = FUELS.values
 
-    def initialize(date)
-      super
-      #current: /outlook/current/fuelsource.csv
-      @url = "https://www.caiso.com/outlook/history/#{date.strftime('%Y%m%d')}/fuelsource.csv"
+    def initialize
+      @r_gen = []
+      @r_trans = []
     end
 
-    def process
+    URL_FORMAT = "https://www.caiso.com/outlook/history/%Y%m%d/fuelsource.csv"
+
+    def add_buffer(body)
+      @csv = FastestCSV.parse(body, row_sep: "\r\n")
+      @fields = @csv.shift
+
+      # Handle empty data
+      raise EmptyError if @fields.empty? || @fields.first.to_s.strip == '' || @fields.first == "\n"
+
       from_area_id = Area.where(source: self.class.source_id, code: 'CAISO').pluck(:id).first
       to_area_id = Area.where(source: self.class.source_id, code: 'other').pluck(:id).first
 
-      fetch
       raise @fields.inspect unless @fields.map(&:downcase) == FUEL_KEYS.map(&:downcase)
-      r_gen = []
-      r_trans = []
       last_time = @from
       @csv.each do |row|
         next if row[1..].compact.blank?
@@ -128,14 +129,14 @@ module Caiso
           production_type = FUEL_VALUES[i]
           value = (value.to_f*1000).to_i
           if production_type == 'import'
-            r_trans << {
+            @r_trans << {
               time:,
               from_area_id:,
               to_area_id:,
               value:
             }
           else
-            r_gen << {
+            @r_gen << {
               time:,
               production_type:,
               value:,
@@ -144,17 +145,23 @@ module Caiso
           end
         end
       end
-      #require 'pry' ; binding.pry
 
-      r_gen = Validate.validate_generation(r_gen, self.class.source_id)
+      self
+    end
+
+    def done!
+      return if @r_gen.empty? && @r_trans.empty?
+
+      r_gen = Validate.validate_generation(@r_gen, self.class.source_id)
       ::Out2::Generation.run(r_gen, @from, @to, self.class.source_id)
-      ::Out2::Transmission.run(r_trans, @from, @to, self.class.source_id)
+      ::Out2::Transmission.run(@r_trans, @from, @to, self.class.source_id)
+
+      super
     end
   end
 
   class Load < Base
     include SemanticLogger::Loggable
-    include Out::Load
 
     FIELDS = ["Time", "Hour ahead forecast", "Current demand", "Net demand"]
 
@@ -163,20 +170,24 @@ module Caiso
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
       (from.to_date..to.to_date).each do |date|
-        yield self.new date
+        yield self.new.add_date(date)
       end
     end
 
-    def initialize(date)
-      super
-      #current: /outlook/current/netdemand.csv
-      @url = "https://www.caiso.com/outlook/history/#{date.strftime('%Y%m%d')}/netdemand.csv"
+    def initialize
+      @r_load = []
     end
 
-    def points_load
-      fetch
-      raise @fields.inspect unless @fields[0, FIELDS.length].map(&:downcase) == FIELDS.map(&:downcase)
-      r = []
+    URL_FORMAT = "https://www.caiso.com/outlook/history/%Y%m%d/netdemand.csv"
+
+    def add_buffer(body)
+      @csv = FastestCSV.parse(body, row_sep: "\r\n")
+      @fields = @csv.shift
+
+      # Handle empty data
+      raise EmptyError if @fields.empty? || @fields.first.to_s.strip == '' || @fields.first == "\n"
+
+      raise @fields.inspect unless @fields.map(&:downcase) == FIELDS.map(&:downcase)
       last_time = @from
       @csv.each do |row|
         next if row[1..].compact.blank?
@@ -185,15 +196,23 @@ module Caiso
         last_time = time
 
         value = (row[2].to_f*1000).to_i
-        r << {
+        @r_load << {
           time:,
           value:,
           country: 'CAISO'
         }
       end
-      #require 'pry' ; binding.pry
 
-      Validate::validate_load(r, self.class.source_id)
+      self
+    end
+
+    def done!
+      return if @r_load.empty?
+
+      r_load = Validate::validate_load(@r_load, self.class.source_id)
+      Out2::Load.run(r_load, @from, @to, self.class.source_id)
+
+      super
     end
   end
 end
