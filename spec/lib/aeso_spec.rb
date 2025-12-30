@@ -46,3 +46,41 @@ RSpec.describe Aeso::Price do
     end
   end
 end
+
+RSpec.describe Aeso::GenerationHistory do
+  subject { Aeso::GenerationHistory }
+
+  let :csv_content do
+    <<-CSV
+Date (MST),Date (MPT),Asset Short Name,Asset Name,Asset Grouping,Volume,Maximum Capability,System Capability,Fuel Type,Sub Fuel Type,Planning Area,Region\r
+2025-06-30 23:00:00,2025-07-01 00:00:00,ACD1,ACD1 Big Sky Solar,ACD1,10.5,140.0,140.0,SOLAR,SOLAR,48,South\r
+    CSV
+  end
+
+  let(:zip_file_path) { 'test-generation-history.zip' }
+  let(:zip_data) { create_zip_file(csv_content, 'generation-history.csv') }
+
+  describe :cli do
+    it 'processes generation history data from zip' do
+      allow(Zip::InputStream).to receive(:open).with(zip_file_path).and_yield(
+        Zip::InputStream.new(zip_data)
+      )
+
+      expect(Out::Unit).to receive(:run).with(
+        [{country: 'CA-AB', production_type: 'solar', time: kind_of(Time), unit: 'ACD1', value: 10500}],
+        kind_of(Time),
+        kind_of(Time),
+        'aeso'
+      )
+
+      expect(Out::UnitCapacity).to receive(:run).with(
+        [{country: 'CA-AB', production_type: 'solar', time: kind_of(Time), unit: 'ACD1', value: 140000}],
+        kind_of(Time),
+        kind_of(Time),
+        'aeso'
+      )
+
+      subject.cli([zip_file_path])
+    end
+  end
+end
