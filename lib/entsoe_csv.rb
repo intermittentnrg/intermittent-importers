@@ -216,11 +216,10 @@ module EntsoeCsv
 
   class LoadCSV < BaseFastestCSV
     include SemanticLogger::Loggable
-    include Out::Load
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-    def points_load
+    def process
       r = {}
       logger.benchmark_info("csv parse") do
         csv
@@ -249,7 +248,8 @@ module EntsoeCsv
       end
       #require 'pry' ; binding.pry
 
-      Validate::validate_load(r.values, self.class.source_id)
+      r = Validate::validate_load(r.values, self.class.source_id)
+      Out2::Load.run(r, @from, @to, self.class.source_id)
     end
   end
 
@@ -366,7 +366,6 @@ module EntsoeCsv
 
   class TransmissionCSV < BaseFastestCSV
     include SemanticLogger::Loggable
-    include Out::Transmission
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -387,7 +386,7 @@ module EntsoeCsv
       'CTY' => :country,
       'BZN' => :zone,
     }
-    def points
+    def process
       r = {}
       logger.benchmark_info("csv parse") do
         csv.each do |row|
@@ -427,7 +426,7 @@ module EntsoeCsv
       end
       #require 'pry' ; binding.pry
 
-      r.values
+      Out2::Transmission.run(r.values, @from, @to, self.class.source_id)
     end
   end
 end
