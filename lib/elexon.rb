@@ -53,7 +53,6 @@ module Elexon
     include SemanticLogger::Loggable
     def self.parsers_each
       ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
-        from2 = from
         from = from.in_time_zone(self::TZ).to_datetime
         to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
         to = to.in_time_zone(self::TZ).to_datetime
@@ -159,7 +158,6 @@ module Elexon
 
     def self.parsers_each
       ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
-        from2 = from
         from = from.in_time_zone(self::TZ).to_datetime
         to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
         to = to.in_time_zone(self::TZ).to_datetime
@@ -230,7 +228,21 @@ module Elexon
   # maximum data output range of 7 days
   class Load < BaseCSV
     include SemanticLogger::Loggable
-    include Out::Load
+
+    def self.parsers_each
+      ::Load.joins(:area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+        from = from.in_time_zone(self::TZ).to_datetime
+        to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
+        to = to.in_time_zone(self::TZ).to_datetime
+        SemanticLogger.tagged(country) do
+          (from..to).each do |date|
+            yield self.new date
+          rescue EmptyError
+            logger.warn "Empty response #{date}"
+          end
+        end
+      end
+    end
 
     def self.cli(args)
       if args.length != 2
@@ -252,7 +264,7 @@ module Elexon
       @options[:from] = date.strftime(DATE_FORMAT)
       @options[:to] = (date + 1.day).strftime(DATE_FORMAT)
     end
-    def points_load
+    def process
       r = {}
       fetch
       @csv.shift #skip header
@@ -267,14 +279,14 @@ module Elexon
         r[time] ||= {time:, country: 'GB', value:}
       end
       #require 'pry' ; binding.pry
-      Validate.validate_load(r.values, self.class.source_id)
+      r = Validate.validate_load(r.values, self.class.source_id)
+      Out2::Load.run(r, @from, @to, self.class.source_id)
     end
   end
 
   # https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/B1610
   class Unit < BaseCSV
     include SemanticLogger::Loggable
-    include Out::Unit
 
     def self.cli(args)
       if args.length != 2
