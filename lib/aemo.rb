@@ -48,6 +48,10 @@ module Aemo
     end
 
     HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
+    def add(input)
+      add_url(input)
+    end
+
     def add_url url
       last_modified = DataFile.last_modified(url, self.class.source_id)
       res = logger.benchmark_info("Fetch #{url}") do

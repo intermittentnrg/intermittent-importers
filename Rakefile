@@ -38,6 +38,19 @@ def loop_task(name, clazz)
   end
 end
 
+def chain_task(name, clazz)
+  desc "Run refresh task with chaining API"
+  task name do |t|
+    SemanticLogger.tagged(task: t.to_s) do
+      clazz.each do |arg|
+        clazz.new.add(arg).done!
+      end
+    rescue
+      @logger.error "Exception", $!
+    end
+  end
+end
+
 def oneshot_task(name, clazz)
   desc "Run refresh task"
   task name do |t|
@@ -109,21 +122,21 @@ namespace :aemo do
   namespace :nem do
     desc "Run refresh tasks"
     task all: [:trading, :dispatch, :scada, :rooftoppv, :causer_pays]
-    loop_task :trading, AemoNem::Trading
-    loop_task :dispatch, AemoNem::Dispatch
-    loop_task :scada, AemoNem::Scada
-    loop_task :rooftoppv, AemoNem::RooftopPv
-    loop_task :causer_pays, AemoNem::CauserPays
+    chain_task :trading, AemoNem::Trading
+    chain_task :dispatch, AemoNem::Dispatch
+    chain_task :scada, AemoNem::Scada
+    chain_task :rooftoppv, AemoNem::RooftopPv
+    chain_task :causer_pays, AemoNem::CauserPays
   end
   namespace :wem do
     desc "Run refresh tasks"
     task all: [:balancing, :scada, :scada_reform, :distributed_pv, :reference_trading_price, :operational_demand]
-    loop_task :scada_reform, AemoWem::ScadaReform
-    loop_task :reference_trading_price, AemoWem::ReferenceTradingPrice
-    loop_task :operational_demand, AemoWem::OperationalDemand
-    loop_task :scada, AemoWem::Scada
-    loop_task :distributed_pv, AemoWem::DistributedPv
-    #loop_task :balancing, AemoWem::Balancing
+    chain_task :scada_reform, AemoWem::ScadaReform
+    chain_task :reference_trading_price, AemoWem::ReferenceTradingPrice
+    chain_task :operational_demand, AemoWem::OperationalDemand
+    chain_task :scada, AemoWem::Scada
+    chain_task :distributed_pv, AemoWem::DistributedPv
+    #chain_task :balancing, AemoWem::Balancing
     oneshot_task :balancing, AemoWem::BalancingLive
   end
 end

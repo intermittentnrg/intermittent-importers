@@ -115,8 +115,8 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
       let(:datafile_exists) { true }
       it "ignores old file" do
         target = subject.new
-        subject.each do |url|
-          target.add_url(url)
+        subject.each do |arg|
+          target.add(arg)
         end
         target.done!
         expect(WebMock).not_to have_requested(:get, datafile_url)
@@ -127,8 +127,8 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
       let(:datafile_exists) { false }
       it "fetches updated file" do
         target = subject.new
-        subject.each do |url|
-          target.add_url(url)
+        subject.each do |arg|
+          target.add(arg)
         end
         target.done!
         expect(WebMock).to have_requested(:get, datafile_url)

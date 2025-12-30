@@ -22,8 +22,8 @@ module AemoWem
         target.done!
       else
         target = self.new
-        self.each do |url|
-          target.add_url(url)
+        self.each do |arg|
+          target.add(arg)
         end
         target.done!
       end
