@@ -3,7 +3,7 @@ require './spec/spec_helper'
 def test_calculates_range
   context 'has range' do
     it "calculates from and to range" do
-      expect(Out2::Unit).to receive(:run).with(anything, Time.new(2022, 12, 31, 16, 0), Time.new(2023, 1, 31, 16, 0), 'aemo')
+      expect(Out::Unit).to receive(:run).with(anything, Time.new(2022, 12, 31, 16, 0), Time.new(2023, 1, 31, 16, 0), 'aemo')
       subject.cli(args)
     end
     it "calls GenerationUnit.aggregate_to_generation with correct args" do
@@ -160,7 +160,7 @@ CSV
       expect(File).to receive(:open) { double('File', read: body, mtime: Time.now) }
     end
     it do
-      expect(Out2::Price).to receive(:run).with(array_including(hash_including(value:-7219)), anything, anything, 'aemo')
+      expect(Out::Price).to receive(:run).with(array_including(hash_including(value:-7219)), anything, anything, 'aemo')
       subject.new.add_file('balancing-summary-2025.csv').done!
     end
   end
@@ -250,7 +250,7 @@ CSV
       expect(File).to receive(:open) { double('File', read: body, mtime: Time.now) }
     end
     it do
-      expect(Out2::Price).to receive(:run).with(array_including(hash_including(value:7439)), anything, anything, 'aemo')
+      expect(Out::Price).to receive(:run).with(array_including(hash_including(value:7439)), anything, anything, 'aemo')
       subject.new.add_file('file.csv').done!
     end
   end

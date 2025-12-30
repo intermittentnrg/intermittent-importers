@@ -7,19 +7,19 @@ RSpec.describe Taipower::Generation do
   end
 
   before(:each) do
-    Out2::Unit.class_variable_set(:@@units, {})
+    Out::Unit.class_variable_set(:@@units, {})
   end
 
   describe :cli do
     it do
-      expect(Out2::Generation).to receive(:run).with(array_including(hash_including(production_type: :hydro)), anything, anything, 'taipower')
+      expect(Out::Generation).to receive(:run).with(array_including(hash_including(production_type: :hydro)), anything, anything, 'taipower')
       subject.cli([path])
     end
   end
 
   describe :refresh do
     it do
-      expect(Out2::Generation).to receive(:run).with(array_including(hash_including(production_type: :hydro)), anything, anything, 'taipower')
+      expect(Out::Generation).to receive(:run).with(array_including(hash_including(production_type: :hydro)), anything, anything, 'taipower')
 
       sqs = double('SQS')
       result = double('SQS::result')

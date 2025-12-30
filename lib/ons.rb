@@ -85,8 +85,8 @@ class Ons
   end
 
   def done!
-    Out2::Load.run(@r_load.values, @from, @to, self.class.source_id)
-    Out2::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
-    Out2::Transmission.run(@r_trans.values, @from, @to, self.class.source_id)
+    Out::Load.run(@r_load.values, @from, @to, self.class.source_id)
+    Out::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
+    Out::Transmission.run(@r_trans.values, @from, @to, self.class.source_id)
   end
 end

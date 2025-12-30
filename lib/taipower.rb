@@ -114,8 +114,8 @@ module Taipower
     end
 
     def done!
-      Out2::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
-      Out2::Unit.run(@r_units.values, @from, @to, self.class.source_id)
+      Out::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
+      Out::Unit.run(@r_units.values, @from, @to, self.class.source_id)
     end
   end
 
@@ -309,7 +309,7 @@ module Taipower
         r << {time:, country:, production_type:, unit: 'Solar power', value: row[70].to_f*10000}
       end
       require 'pry' ; binding.pry
-      Out2::Unit.run(r, nil, nil, self.class.source_id)
+      Out::Unit.run(r, nil, nil, self.class.source_id)
     end
   end
 end

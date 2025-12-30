@@ -105,7 +105,7 @@ module AemoWem
     end
 
     def done!
-      Out2::Unit.run(@r, @from, @to, self.class.source_id)
+      Out::Unit.run(@r, @from, @to, self.class.source_id)
       GenerationUnit.aggregate_to_generation(@from, @to, "a.source='aemo' AND a.id=#{@area_id}")
       super
     end
@@ -176,7 +176,7 @@ module AemoWem
 
     def done!
       return if @r.empty?
-      Out2::Unit.run(@r, @from, @to, self.class.source_id)
+      Out::Unit.run(@r, @from, @to, self.class.source_id)
       GenerationUnit.aggregate_to_generation(@from, @to, "a.source='aemo' AND a.id=#{@area_id}")
       super
     end
@@ -209,7 +209,7 @@ module AemoWem
         {time:, area_id:, value:}
       end
 
-      Out2::Load.run(r, @from, @to, self.class.source_id)
+      Out::Load.run(r, @from, @to, self.class.source_id)
       done!
     end
   end
@@ -243,7 +243,7 @@ module AemoWem
         {time:, area_id:, value:}
       end
 
-      Out2::Price.run(r, @from, @to, self.class.source_id)
+      Out::Price.run(r, @from, @to, self.class.source_id)
       done!
     end
   end
@@ -288,8 +288,8 @@ module AemoWem
     end
 
     def done!
-      Out2::Load.run(@load_r, @from, @to, self.class.source_id)
-      Out2::Price.run(@price_r, @from, @to, self.class.source_id)
+      Out::Load.run(@load_r, @from, @to, self.class.source_id)
+      Out::Price.run(@price_r, @from, @to, self.class.source_id)
       super
     end
   end
@@ -371,7 +371,7 @@ module AemoWem
     end
 
     def done!
-      Out2::Generation.run(@r, @from, @to, self.class.source_id)
+      Out::Generation.run(@r, @from, @to, self.class.source_id)
       Generation.aggregate_rooftoppv_to_capture(@from, @to, "a.code='WEM'")
       super
     end
@@ -418,7 +418,7 @@ module AemoWem
     end
 
     def done!
-      Out2::Generation.run(@r, @from, @to, self.class.source_id)
+      Out::Generation.run(@r, @from, @to, self.class.source_id)
       Generation.aggregate_rooftoppv_to_capture(@from, @to, "a.code='WEM'")
       super
     end
@@ -457,7 +457,7 @@ module AemoWem
     end
 
     def done!
-      Out2::Price.run(@r, @from, @to, self.class.source_id)
+      Out::Price.run(@r, @from, @to, self.class.source_id)
       super
     end
   end

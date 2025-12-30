@@ -81,7 +81,7 @@ module Eskom
       @to = r.last[:time]
       #require 'pry' ; binding.pry
 
-      Out2::Load.run(r, @from, @to, self.class.source_id)
+      Out::Load.run(r, @from, @to, self.class.source_id)
       done!
     end
   end
@@ -137,7 +137,7 @@ module Eskom
       @to = r.last[:time]
       #require 'pry' ; binding.pry
 
-      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      Out::Generation.run(r, @from, @to, self.class.source_id)
       done!
     end
   end
@@ -200,9 +200,9 @@ module Eskom
       @from = r_load.first[:time]
       @to = r_load.last[:time]
 
-      Out2::Generation.run(r_gen, @from, @to, self.class.source_id)
-      Out2::Load.run(r_load, @from, @to, self.class.source_id)
-      #Out2::Transmission.run(r_tran, @from, @to, self.class.source_id)
+      Out::Generation.run(r_gen, @from, @to, self.class.source_id)
+      Out::Load.run(r_load, @from, @to, self.class.source_id)
+      #Out::Transmission.run(r_tran, @from, @to, self.class.source_id)
     end
   end
 end

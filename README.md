@@ -105,7 +105,7 @@ The system includes several key components:
 
 ## Output Formats
 
-Data can be processed into various formats through the `Out2` module:
+Data can be processed into various formats through the `Out` module:
 
 - Generation data by fuel type
 - Unit capacity and details

@@ -72,7 +72,7 @@ module NationalGridEso
       @to = r.last[:time]
 
       #require 'pry' ; binding.pry
-      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      Out::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 
@@ -132,7 +132,7 @@ module NationalGridEso
       @from = r.first[:time]
       @to = r.last[:time]
 
-      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      Out::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 

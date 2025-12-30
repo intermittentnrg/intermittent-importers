@@ -8,14 +8,14 @@ RSpec.describe Ons do
 
   describe :cli do
     it do
-      expect(Out2::Generation).to receive(:run).with(array_including(hash_including(production_type: 'hydro')), anything, anything, 'ons')
+      expect(Out::Generation).to receive(:run).with(array_including(hash_including(production_type: 'hydro')), anything, anything, 'ons')
       subject.cli([path])
     end
   end
 
   describe :refresh do
     it do
-      expect(Out2::Generation).to receive(:run).with(array_including(hash_including(production_type: 'hydro')), anything, anything, 'ons')
+      expect(Out::Generation).to receive(:run).with(array_including(hash_including(production_type: 'hydro')), anything, anything, 'ons')
 
       sqs = double('SQS')
       result = double('SQS::result')

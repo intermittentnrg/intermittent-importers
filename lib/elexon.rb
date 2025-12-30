@@ -147,8 +147,8 @@ module Elexon
       end
 
       r_gen = Validate.validate_generation(r_gen, self.class.source_id)
-      Out2::Generation.run(r_gen, @from, @to, self.class.source_id)
-      Out2::Transmission.run(r_tran.values, @from, @to, self.class.source_id)
+      Out::Generation.run(r_gen, @from, @to, self.class.source_id)
+      Out::Transmission.run(r_tran.values, @from, @to, self.class.source_id)
     end
   end
 
@@ -219,7 +219,7 @@ module Elexon
 
       r = Validate.validate_generation(r.values, self.class.source_id)
 
-      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      Out::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 
@@ -280,7 +280,7 @@ module Elexon
       end
       #require 'pry' ; binding.pry
       r = Validate.validate_load(r.values, self.class.source_id)
-      Out2::Load.run(r, @from, @to, self.class.source_id)
+      Out::Load.run(r, @from, @to, self.class.source_id)
     end
   end
 
@@ -371,7 +371,7 @@ module Elexon
     end
 
     def process
-      Out2::Unit.run(points, @from, @to, self.class.source_id)
+      Out::Unit.run(points, @from, @to, self.class.source_id)
     end
   end
 
@@ -434,7 +434,7 @@ module Elexon
     end
 
     def process
-      Out2::Capacity.run(points_capacity, nil, nil, self.class.source_id)
+      Out::Capacity.run(points_capacity, nil, nil, self.class.source_id)
     end
   end
 
@@ -522,7 +522,7 @@ module Elexon
     end
 
     def process
-      Out2::UnitCapacity.run(points_unit_capacity, nil, nil, self.class.source_id)
+      Out::UnitCapacity.run(points_unit_capacity, nil, nil, self.class.source_id)
     end
   end
 

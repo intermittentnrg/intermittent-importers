@@ -76,7 +76,7 @@ module AemoNem
       end
     end
     def done!
-      Out2::Price.run(@r, @from, @to, self.class.source_id)
+      Out::Price.run(@r, @from, @to, self.class.source_id)
       super
     end
   end
@@ -285,8 +285,8 @@ module AemoNem
     end
 
     def done!
-      Out2::Transmission.run(@r_tran.values, @from, @to, self.class.source_id)
-      Out2::Load.run(@r_gen.values, @from, @to, self.class.source_id)
+      Out::Transmission.run(@r_tran.values, @from, @to, self.class.source_id)
+      Out::Load.run(@r_gen.values, @from, @to, self.class.source_id)
       super
     end
   end
@@ -362,7 +362,7 @@ module AemoNem
     end
 
     def done!
-      Out2::UnitHires.run(@r, @from, @to, self.class.source_id)
+      Out::UnitHires.run(@r, @from, @to, self.class.source_id)
       super
     end
   end
@@ -422,7 +422,7 @@ module AemoNem
 
     def done!
       return if @r.empty?
-      Out2::Unit.run(@r, @from, @to, self.class.source_id)
+      Out::Unit.run(@r, @from, @to, self.class.source_id)
       GenerationUnit.aggregate_to_generation(@from, @to, "a.source='aemo' AND a.code<>'WEM'")
       super
     end
@@ -483,7 +483,7 @@ module AemoNem
       #require 'pry' ; binding.pry
     end
     def done!
-      Out2::UnitCapacity.run(@r.values, @from, @to, self.class.source_id)
+      Out::UnitCapacity.run(@r.values, @from, @to, self.class.source_id)
       super
     end
   end
@@ -525,7 +525,7 @@ module AemoNem
     end
 
     def done!
-      Out2::Generation.run(@r, @from, @to, self.class.source_id)
+      Out::Generation.run(@r, @from, @to, self.class.source_id)
       Generation.aggregate_rooftoppv_to_capture(@from, @to, "a.code <> 'WEM'")
       super
     end

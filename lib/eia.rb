@@ -119,7 +119,7 @@ module Eia
       #require 'pry' ; binding.pry
 
       r = Validate.validate_load(r, self.class.source_id)
-      Out2::Load.run(r, @from, @to, self.class.source_id)
+      Out::Load.run(r, @from, @to, self.class.source_id)
     end
   end
 
@@ -222,7 +222,7 @@ module Eia
       #require 'pry' ; binding.pry
 
       r = Validate.validate_generation(r.values, self.class.source_id)
-      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      Out::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 
@@ -324,7 +324,7 @@ module Eia
       @to = r.values.max { |a,b| a[:time]<=>b[:time] }[:time]
       #require 'pry' ; binding.pry
 
-      Out2::Transmission.run(r.values, @from, @to, self.class.source_id)
+      Out::Transmission.run(r.values, @from, @to, self.class.source_id)
     end
   end
 end

@@ -46,13 +46,13 @@ CSV
       end
     end
     it do
-      expect(Out2::Price).to receive(:run).with(array_including(hash_including(:time => Time.new(2023,8,30,8))), anything, anything, anything)
+      expect(Out::Price).to receive(:run).with(array_including(hash_including(:time => Time.new(2023,8,30,8))), anything, anything, anything)
       subject
     end
 
     context 'NSW1' do
       it "has expected price" do
-        expect(Out2::Price).to receive(:run).with(array_including(hash_including(value: 29999)), anything, anything, anything)
+        expect(Out::Price).to receive(:run).with(array_including(hash_including(value: 29999)), anything, anything, anything)
         subject
       end
     end

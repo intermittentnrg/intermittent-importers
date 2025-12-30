@@ -29,7 +29,7 @@ CSV
         subject.cli(args)
       end
       it do
-        expect(Out2::Generation).to receive(:run).with(anything, Time.new(2022,12,31,14,0), Time.new(2022,12,31,14,5), 'aemo')
+        expect(Out::Generation).to receive(:run).with(anything, Time.new(2022,12,31,14,0), Time.new(2022,12,31,14,5), 'aemo')
         subject.cli(args)
       end
     end

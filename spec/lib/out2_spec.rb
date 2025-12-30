@@ -1,6 +1,6 @@
 require './spec/spec_helper'
 
-RSpec.describe Out2::UnitCapacity do
+RSpec.describe Out::UnitCapacity do
   it "deduplicates capacity data" do
 
     guc = double('guc')
@@ -14,11 +14,11 @@ RSpec.describe Out2::UnitCapacity do
       {unit_id: 544, time: Time.parse('2024-07-01 02:00:00'), value:4000000}
     ]
     expect(GenerationUnitCapacity).to receive(:upsert_all).with([data.last])
-    Out2::UnitCapacity.run(data, nil, nil, 'entsoe')
+    Out::UnitCapacity.run(data, nil, nil, 'entsoe')
   end
 end
 
-RSpec.describe Out2::Transmission do
+RSpec.describe Out::Transmission do
   describe 'creates AreasAreas mapping when missing' do
     let(:from) { Time.parse '2024-01-01 00:00' }
     let(:to) { Time.parse '2024-01-01 02:00' }
@@ -38,7 +38,7 @@ RSpec.describe Out2::Transmission do
           value: 1000
         }
       ]
-      Out2::Transmission.run(data, from, to, source_id)
+      Out::Transmission.run(data, from, to, source_id)
       expect(AreasArea.where(from_area:, to_area:).count).to equal 1
     end
   end

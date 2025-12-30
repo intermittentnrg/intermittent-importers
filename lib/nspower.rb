@@ -84,11 +84,11 @@ module Nspower
     def process
       # Process load data
       load_data = Validate.validate_load(points_load, self.class.source_id)
-      Out2::Load.run(load_data, @from, @to, self.class.source_id)
+      Out::Load.run(load_data, @from, @to, self.class.source_id)
 
       # Process generation data
       gen_data = Validate.validate_generation(points_generation, self.class.source_id)
-      Out2::Generation.run(gen_data, @from, @to, self.class.source_id)
+      Out::Generation.run(gen_data, @from, @to, self.class.source_id)
     end
   end
 end

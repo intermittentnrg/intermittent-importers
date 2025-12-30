@@ -100,7 +100,7 @@ class Ree
       end
       #require 'pry' ; binding.pry
 
-      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      Out::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 end

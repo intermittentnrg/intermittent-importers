@@ -78,8 +78,8 @@ module Tohoku
       @to = @from + 1.day
       #require 'pry' ; binding.pry
 
-      Out2::Generation.run(r, @from, @to, self.class.source_id)
-      Out2::Load.run(r_load, @from, @to, self.class.source_id)
+      Out::Generation.run(r, @from, @to, self.class.source_id)
+      Out::Load.run(r_load, @from, @to, self.class.source_id)
       done!
     end
   end

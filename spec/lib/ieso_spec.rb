@@ -157,7 +157,7 @@ RSpec.describe Ieso::PriceYear do
   let(:date) { Date.new(2023,1,1) }
   context '#process' do
     it do
-      expect(Out2::Price).to receive(:run).with(array_including(hash_including(value: 1442)), anything, anything, anything)
+      expect(Out::Price).to receive(:run).with(array_including(hash_including(value: 1442)), anything, anything, anything)
       subject.new(date).process
     end
   end

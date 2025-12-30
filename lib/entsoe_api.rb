@@ -135,7 +135,7 @@ module EntsoeApi
     def process
       r = Validate.validate_generation(points, self.class.source_id)
 
-      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      Out::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 
@@ -187,7 +187,7 @@ module EntsoeApi
       }
     end
     def process
-      Out2::Unit.run(points, @from, @to, self.class.source_id)
+      Out::Unit.run(points, @from, @to, self.class.source_id)
     end
   end
 
@@ -219,7 +219,7 @@ module EntsoeApi
       }
     end
     def process
-      Out2::Load.run(points_load, @from, @to, self.class.source_id)
+      Out::Load.run(points_load, @from, @to, self.class.source_id)
     end
   end
 
@@ -271,7 +271,7 @@ module EntsoeApi
       }
     end
     def process
-      ::Out2::Price.run(points, @from, @to, self.class.source_id)
+      ::Out::Price.run(points, @from, @to, self.class.source_id)
     end
   end
 
@@ -322,7 +322,7 @@ module EntsoeApi
       }
     end
     def process
-      Out2::Transmission.run(points, @from, @to, self.class.source_id)
+      Out::Transmission.run(points, @from, @to, self.class.source_id)
     end
   end
 

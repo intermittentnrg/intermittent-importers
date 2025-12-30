@@ -57,7 +57,7 @@ module Cammesa
   #     @from = r.first[:time]
   #     @to = r.last[:time]
 
-  #     Out2::Generation.run(r, @from, @to, self.class.source_id)
+  #     Out::Generation.run(r, @from, @to, self.class.source_id)
   #   end
   # end
 
@@ -124,7 +124,7 @@ module Cammesa
       @from = r.first[:time]
       @to = r.last[:time]
 
-      Out2::Generation.run(r, @from, @to, self.class.source_id)
+      Out::Generation.run(r, @from, @to, self.class.source_id)
     end
   end
 
@@ -287,9 +287,9 @@ module Cammesa
       @from = r_gen.first[:time]
       @to = r_gen.last[:time]
 
-      Out2::Generation.run(r_gen, @from, @to, self.class.source_id)
-      Out2::Load.run(r_load, @from, @to, self.class.source_id)
-      Out2::Transmission.run(r_trans, @from, @to, self.class.source_id)
+      Out::Generation.run(r_gen, @from, @to, self.class.source_id)
+      Out::Load.run(r_load, @from, @to, self.class.source_id)
+      Out::Transmission.run(r_trans, @from, @to, self.class.source_id)
     end
   end
 end
