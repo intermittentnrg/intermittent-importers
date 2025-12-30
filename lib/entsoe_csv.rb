@@ -2,7 +2,7 @@ require 'zip'
 require 'fastest_csv'
 
 module EntsoeCsv
-  class BaseFastestCSV
+  class Base
     def self.source_id
       "entsoe"
     end
@@ -96,7 +96,7 @@ module EntsoeCsv
     end
   end
 
-  class GenerationCSV < BaseFastestCSV
+  class Generation < Base
     include SemanticLogger::Loggable
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -140,7 +140,7 @@ module EntsoeCsv
     end
   end
 
-  class UnitCSV < BaseFastestCSV
+  class Unit < Base
     include SemanticLogger::Loggable
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -214,7 +214,7 @@ module EntsoeCsv
     end
   end
 
-  class LoadCSV < BaseFastestCSV
+  class Load < Base
     include SemanticLogger::Loggable
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -253,7 +253,7 @@ module EntsoeCsv
     end
   end
 
-  class PriceCSV < BaseFastestCSV
+  class Price < Base
     include SemanticLogger::Loggable
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -300,7 +300,7 @@ module EntsoeCsv
     end
   end
 
-  class UnitCapacityCSV < BaseFastestCSV
+  class UnitCapacity < Base
     include SemanticLogger::Loggable
 
     def self.cli(args)
@@ -310,7 +310,7 @@ module EntsoeCsv
       end
 
       args.each do |file|
-        e = EntsoeCsv::UnitCapacityCSV.new(file)
+        e = EntsoeCsv::UnitCapacity.new(file)
         e.process
       end
     end
@@ -364,7 +364,7 @@ module EntsoeCsv
     end
   end
 
-  class TransmissionCSV < BaseFastestCSV
+  class Transmission < Base
     include SemanticLogger::Loggable
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -376,7 +376,7 @@ module EntsoeCsv
       end
 
       args.each do |file|
-        e = EntsoeCsv::TransmissionCSV.new(file)
+        e = EntsoeCsv::Transmission.new(file)
         e.process
       end
     end

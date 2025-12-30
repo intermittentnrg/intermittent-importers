@@ -1,9 +1,9 @@
 require './spec/spec_helper'
 
-RSpec.describe EntsoeCsv::GenerationCSV do
+RSpec.describe EntsoeCsv::Generation do
   describe 'zip' do
     subject(:e) do
-      EntsoeCsv::GenerationCSV.new('2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.zip')
+      EntsoeCsv::Generation.new('2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.zip')
     end
     before do
       expect(File).to receive(:mtime) { nil }
@@ -20,8 +20,8 @@ RSpec.describe EntsoeCsv::GenerationCSV do
   end
 end
 
-RSpec.describe EntsoeCsv::UnitCSV do
-  subject { EntsoeCsv::UnitCSV }
+RSpec.describe EntsoeCsv::Unit do
+  subject { EntsoeCsv::Unit }
   let(:body) do
     <<-CSV
 DateTime(UTC)	ResolutionCode	AreaCode	AreaDisplayName	AreaTypeCode	AreaMapCode	GenerationUnitCode	GenerationUnitName	GenerationUnitType	ActualGenerationOutput[MW]	ActualConsumption[MW]	UpdateTime(UTC)
@@ -36,8 +36,8 @@ CSV
   end
 end
 
-RSpec.describe EntsoeCsv::LoadCSV do
-  subject { EntsoeCsv::LoadCSV }
+RSpec.describe EntsoeCsv::Load do
+  subject { EntsoeCsv::Load }
   let(:body) do
     <<-CSV
 DateTime	ResolutionCode	AreaCode	AreaTypeCode	AreaName	MapCode	TotalLoadValue	UpdateTime
@@ -50,8 +50,8 @@ DateTime	ResolutionCode	AreaCode	AreaTypeCode	AreaName	MapCode	TotalLoadValue	Up
   end
 end
 
-RSpec.describe EntsoeCsv::PriceCSV do
-  subject { EntsoeCsv::PriceCSV }
+RSpec.describe EntsoeCsv::Price do
+  subject { EntsoeCsv::Price }
   let(:body) do
     <<-CSV
 InstanceCode	DateTime(UTC)	ResolutionCode	AreaCode	AreaDisplayName	AreaTypeCode	MapCode	ContractType	Sequence	Price[Currency/MWh]	Currency	UpdateTime(UTC)

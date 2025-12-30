@@ -79,42 +79,42 @@ class EntsoeFms
   class Generation < Base
     include SemanticLogger::Loggable
 
-    TARGET = EntsoeCsv::GenerationCSV
+    TARGET = EntsoeCsv::Generation
     DIR = '/TP_export/AggregatedGenerationPerType_16.1.B_C_r3/'
   end
 
   class Unit < Base
     include SemanticLogger::Loggable
 
-    TARGET = EntsoeCsv::UnitCSV
+    TARGET = EntsoeCsv::Unit
     DIR = '/TP_export/ActualGenerationOutputPerGenerationUnit_16.1.A_r3/'
   end
 
   class Load < Base
     include SemanticLogger::Loggable
 
-    TARGET = EntsoeCsv::LoadCSV
+    TARGET = EntsoeCsv::Load
     DIR = '/TP_export/ActualTotalLoad_6.1.A_r3/'
   end
 
   class Price < Base
     include SemanticLogger::Loggable
 
-    TARGET = EntsoeCsv::PriceCSV
+    TARGET = EntsoeCsv::Price
     DIR = '/TP_export/EnergyPrices_12.1.D_r3/'
   end
 
   class Transmission < Base
     include SemanticLogger::Loggable
 
-    TARGET = EntsoeCsv::TransmissionCSV
+    TARGET = EntsoeCsv::Transmission
     DIR = '/TP_export/PhysicalFlows_12.1.G_r3/'
   end
 
   class UnitCapacity < Base
     include SemanticLogger::Loggable
 
-    TARGET = EntsoeCsv::UnitCapacityCSV
+    TARGET = EntsoeCsv::UnitCapacity
     DIR = '/TP_export/InstalledCapacityProductionUnit_14.1.B/'
   end
 end
