@@ -61,7 +61,7 @@ namespace :ieso do
   loop_task :unit, Ieso::Unit
   loop_task :load, Ieso::Load
   loop_task :price, Ieso::Price
-  pump_task :intertie, Ieso::Intertie
+  loop_task :intertie, Ieso::Intertie
 end
 
 namespace :eia do

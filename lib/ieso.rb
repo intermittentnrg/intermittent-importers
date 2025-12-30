@@ -119,7 +119,6 @@ module Ieso
 
   class Load < BaseDirectory
     include SemanticLogger::Loggable
-    include Out::Load
 
     URL = 'https://reports-public.ieso.ca/public/RealtimeConstTotals/'
     #URL_FORMAT = URL + 'PUB_RealtimeConstTotals_%Y%m%d%H.csv'
@@ -133,7 +132,7 @@ module Ieso
       url =~ /PUB_RealtimeConstTotals_\d+\.csv/
     end
 
-    def points_load
+    def process
       fetch
       csv = FastestCSV.parse(@body)
       date = csv[0][1]
@@ -163,13 +162,13 @@ module Ieso
       end
       #require 'pry' ; binding.pry
 
-      r
+      r = Validate.validate_load(r, self.class.source_id)
+      Out2::Load.run(r, @from, @to, self.class.source_id)
     end
   end
 
   class LoadYear < Base
     include SemanticLogger::Loggable
-    include Out::Load
 
     URL_FORMAT = 'https://reports-public.ieso.ca/public/Demand/PUB_Demand_%Y.csv'
     PERIOD = 1.year
@@ -185,7 +184,7 @@ module Ieso
       e.process
     end
 
-    def points_load
+    def process
       fetch
       r = []
       CSV.parse(@body, skip_lines: /^(\\|Date)/, headers: false) do |row|
@@ -207,7 +206,8 @@ module Ieso
       end
       #require 'pry' ; binding.pry
 
-      r
+      r = Validate.validate_load(r, self.class.source_id)
+      Out2::Load.run(r, @from, @to, self.class.source_id)
     end
   end
 
@@ -488,7 +488,6 @@ module Ieso
 
   class Intertie < Base
     include SemanticLogger::Loggable
-    include Out::Transmission
 
     URL_FORMAT = 'https://reports-public.ieso.ca/public/IntertieScheduleFlow/PUB_IntertieScheduleFlow_%Y%m%d.xml'
     PERIOD = 1.day
@@ -509,7 +508,7 @@ module Ieso
       "PQ.X2Y" => ["CA-ON", "CA-QC"]
     }
 
-    def self.parsers_each
+    def self.each
       from = ::Transmission.joins(areas_area: :from_area).where("time > ?", 2.months.ago).where(from_area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
@@ -541,7 +540,7 @@ module Ieso
       end
     end
 
-    def points
+    def process
       fetch
       doc = Ox.load(@body, mode: :hash_no_attrs)[:IMODocument][:IMODocBody]
       date = Time.strptime(doc[:Date], '%Y-%m-%d')
@@ -560,13 +559,12 @@ module Ieso
       end
       #require 'pry' ; binding.pry
 
-      r.values
+      Out2::Transmission.run(r.values, @from, @to, self.class.source_id)
     end
   end
 
   class IntertieYear < Base
     include SemanticLogger::Loggable
-    include Out::Transmission
 
     URL_FORMAT = 'https://reports-public.ieso.ca/public/IntertieScheduleFlowYear/PUB_IntertieScheduleFlowYear_%Y.csv'
     PERIOD = 1.year
@@ -596,7 +594,7 @@ module Ieso
       end
     end
 
-    def points
+    def process
       fetch
       csv = FastestCSV.parse(@body)
       r = {}
@@ -626,7 +624,7 @@ module Ieso
       end
       #require 'pry' ; binding.pry
 
-      r.values
+      Out2::Transmission.run(r.values, @from, @to, self.class.source_id)
     end
   end
 end

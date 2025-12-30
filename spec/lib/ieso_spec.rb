@@ -165,8 +165,40 @@ end
 
 RSpec.describe Ieso::Intertie do
   subject { Ieso::Intertie }
+
+  around(:example) { |ex| VCR.use_cassette('ieso_intertie_20250930', &ex) }
+
+  context '#cli end-to-end test' do
+    it 'should process date and call Out::Transmission.run with correct data structure' do
+      # Expect Out::Transmission.run to be called with the processed data
+      expect(Out::Transmission).to receive(:run) do |points, from, to, source|
+        expect(points.length).to eq(1152)
+        expect(points.first[:from_area]).to eq('CA-ON')
+        expect(points.first[:to_area]).to eq('CA-MB')
+        expect(source).to eq('ieso')
+      end
+
+      subject.cli(['2025-09-30'])
+    end
+  end
 end
 
 RSpec.describe Ieso::IntertieYear do
   subject { Ieso::IntertieYear }
+
+  around(:example) { |ex| VCR.use_cassette('ieso_intertie_year_2023', &ex) }
+
+  context '#cli end-to-end test' do
+    it 'should process date range and call Out::Transmission.run with correct data structure' do
+      # Expect Out::Transmission.run to be called with the processed data
+      expect(Out::Transmission).to receive(:run) do |points, from, to, source|
+        expect(points.length).to eq(35040)
+        expect(points.first[:from_area]).to eq('CA-ON')
+        expect(points.first[:to_area]).to eq('CA-MB')
+        expect(source).to eq('ieso')
+      end
+
+      subject.cli(['2023-01-01', '2023-01-03'])
+    end
+  end
 end
