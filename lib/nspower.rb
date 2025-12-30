@@ -9,8 +9,6 @@ module Nspower
 
   class Combined < Base
     include SemanticLogger::Loggable
-    include Out::Generation
-    include Out::Load
 
     def initialize
       load_url = "https://www.nspower.ca/library/CurrentLoad/CurrentLoad.json"
@@ -84,8 +82,13 @@ module Nspower
     end
 
     def process
-      process_load
-      process_generation
+      # Process load data
+      load_data = Validate.validate_load(points_load, self.class.source_id)
+      Out2::Load.run(load_data, @from, @to, self.class.source_id)
+
+      # Process generation data
+      gen_data = Validate.validate_generation(points_generation, self.class.source_id)
+      Out2::Generation.run(gen_data, @from, @to, self.class.source_id)
     end
   end
 end
