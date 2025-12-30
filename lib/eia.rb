@@ -43,7 +43,6 @@ module Eia
 
   class Load < Base
     include SemanticLogger::Loggable
-    include Out::Load
 
     URL = "https://api.eia.gov/v2/electricity/rto/region-data/data/"
     QUERY_PARAMS = {}
@@ -67,7 +66,7 @@ module Eia
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
       (from.to_date..to.to_date).each do |date|
-        yield self.new from: date, to: date + 1.day
+        yield self.new(from: date, to: date + 1.day)
       end
     end
 
@@ -102,7 +101,7 @@ module Eia
       end
     end
 
-    def points_load
+    def process
       r = []
       @res.each do |res|
         res['response']['data'].each do |row|
@@ -119,7 +118,8 @@ module Eia
       @to = r.max { |a,b| a[:time]<=>b[:time] }[:time]
       #require 'pry' ; binding.pry
 
-      Validate.validate_load(r, self.class.source_id)
+      r = Validate.validate_load(r, self.class.source_id)
+      Out2::Load.run(r, @from, @to, self.class.source_id)
     end
   end
 
@@ -157,7 +157,7 @@ module Eia
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
       (from.to_date..to.to_date).each do |date|
-        yield self.new from: date, to: date + 1.day
+        yield self.new(from: date, to: date + 1.day)
       end
     end
 
@@ -228,7 +228,6 @@ module Eia
 
   class Interchange < Base
     include SemanticLogger::Loggable
-    include Out::Transmission
 
     URL = "https://api.eia.gov/v2/electricity/rto/interchange-data/data/"
 
@@ -260,7 +259,7 @@ module Eia
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
       (from.to_date..to.to_date).each do |date|
-        yield self.new from: date, to: date + 1.day
+        yield self.new(from: date, to: date + 1.day)
       end
     end
 
@@ -296,7 +295,7 @@ module Eia
       end
     end
 
-    def points
+    def process
       r = {}
       @res.each do |res|
         res['response']['data'].each do |row|
@@ -320,12 +319,12 @@ module Eia
           }
         end
       end
-      return [] if r.empty?
+      return if r.empty?
       @from = r.values.min { |a,b| a[:time]<=>b[:time] }[:time]
       @to = r.values.max { |a,b| a[:time]<=>b[:time] }[:time]
       #require 'pry' ; binding.pry
 
-      r.values
+      Out2::Transmission.run(r.values, @from, @to, self.class.source_id)
     end
   end
 end
