@@ -143,7 +143,6 @@ module EntsoeApi
   #https://web-api.tp.entsoe.eu/api?documentType=A73&processType=A16&in_Domain=10YBE----------2&periodStart=202308152200&periodEnd=202308162200
   class Unit < Base
     include SemanticLogger::Loggable
-    include Out::Unit
 
     def initialize(area, **kwargs)
       super(**kwargs)
@@ -187,13 +186,15 @@ module EntsoeApi
         value: p.locate('quantity/^String').first.to_i*1000
       }
     end
+    def process
+      Out2::Unit.run(points, @from, @to, self.class.source_id)
+    end
   end
 
   #6.1.A Actual Total Load
   #https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10YCZ-CEPS-----N&periodStart=202303030000&periodEnd=202303060000
   class Load < Base
     include SemanticLogger::Loggable
-    include Out::Load
 
     def initialize(country:, **kwargs)
       super(**kwargs)
@@ -216,6 +217,9 @@ module EntsoeApi
         time: @time,
         value: p.locate('quantity/^String').first.to_i*1000
       }
+    end
+    def process
+      Out2::Load.run(points_load, @from, @to, self.class.source_id)
     end
   end
 
@@ -275,7 +279,6 @@ module EntsoeApi
   #https://web-api.tp.entsoe.eu/api?documentType=A11&out_Domain=10YDE-RWENET---I&in_Domain=10YBE----------2&periodStart=202308232200&periodEnd=202308242200
   class Transmission < Base
     include SemanticLogger::Loggable
-    include Out::Transmission
 
     def initialize(from_area:, to_area:, **kwargs)
       super(**kwargs)
@@ -317,6 +320,9 @@ module EntsoeApi
         to_area: @to_area,
         value: p.locate('quantity/^String').first.to_i*1000
       }
+    end
+    def process
+      Out2::Transmission.run(points, @from, @to, self.class.source_id)
     end
   end
 
