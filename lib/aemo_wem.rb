@@ -62,23 +62,21 @@ module AemoWem
     FILE_FORMAT = 'FacilityScada_%Y%m%d.zip'
     TIME_FORMAT = '%Y-%m-%dT%H:%M:%S%:z'
 
-    def initialize(file_or_date)
+    def initialize
+      super
       @r = []
-      @from = parse_time_from_filename(file_or_date)
-      @to = @from + 1.day
       @units = {}
       @default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
       @area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
-      super
     end
 
     def self.select_file? url
       url =~ /.zip$/i
     end
 
-    def parse_time_from_filename(file)
-      time = Time.strptime(File.basename(file), FILE_FORMAT)
-      TZ.local_to_utc(time)
+    def parse_filename! name
+      super
+      @to = @from + 1.day
     end
 
     def parse_unit(unit_internal_id)
@@ -132,12 +130,8 @@ module AemoWem
     end
 
     def parse_filename! name
-      from = Time.strptime(File.basename(name), FILE_FORMAT)
-      raise ArgumentError, "invalid filename: #{name} doesn't match #{FILE_FORMAT}" unless from
-      from = TZ.local_to_utc(from)
-      to = from + 1.month
-      @from = [from, @from].compact.min
-      @to = [to, @to].compact.max
+      super
+      @to = @from + 1.month
     end
 
     def parse_unit(unit_internal_id)

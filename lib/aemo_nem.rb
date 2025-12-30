@@ -299,10 +299,7 @@ module AemoNem
     #ELEMENTS_URL = 'http://www.nemweb.com.au/Reports/Current/Causer_Pays_Elements/'
 
 
-    def initialize(url_or_io, name_if_io = nil)
-      unless @from
-        parse_filename!(name_if_io || url_or_io)
-      end
+    def initialize
       super
     end
 

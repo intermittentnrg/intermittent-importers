@@ -93,8 +93,6 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
 
       test_calculates_range
     end
-
-    #it { require 'pry' ; binding.pry }
   end
 
   describe :each do
