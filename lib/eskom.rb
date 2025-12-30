@@ -57,11 +57,10 @@ module Eskom
 
   class Demand < Base
     include SemanticLogger::Loggable
-    include Out::Load
 
     URL_FORMAT = 'https://www.eskom.co.za/dataportal/wp-content/uploads/%Y/%m/System_hourly_actual_and_forecasted_demand.csv'
 
-    def points_load
+    def process
       fetch
       r = []
       logger.benchmark_info('csv parse') do
@@ -82,7 +81,8 @@ module Eskom
       @to = r.last[:time]
       #require 'pry' ; binding.pry
 
-      r
+      Out2::Load.run(r, @from, @to, self.class.source_id)
+      done!
     end
   end
 
