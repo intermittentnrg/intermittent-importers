@@ -17,13 +17,14 @@ CSV
         HTML
       end
       let(:datafile_name) { 'PUBLIC_TRADINGIS_202511272330_0000000491329282.zip' }
-      it do
+      let(:zip_body) { create_zip_file(body, 'PUBLIC_TRADINGIS_202511272330_0000000491329282.csv') }
+      before do
         stub_request(:get, 'https://nemweb.com.au/Reports/Current/TradingIS_Reports/').
           to_return(body: index_body)
         stub_request(:get, 'https://nemweb.com.au/PUBLIC_TRADINGIS_202511272330_0000000491329282.zip').
-          to_return(headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
-        stub_zip_file(body, 'PUBLIC_TRADINGIS_202511272330_0000000491329282.csv')
-
+          to_return(body: zip_body.string, headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
+      end
+      it do
         expect(Price).to receive(:upsert_all)
         subject
       end

@@ -2,20 +2,13 @@ require './spec/spec_helper'
 
 RSpec.describe EntsoeCsv::Generation do
   describe 'zip' do
-    subject(:e) do
-      EntsoeCsv::Generation.new('2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.zip')
-    end
+    let(:zip_content) { create_zip_file("", '2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.csv') }
+    subject(:e) { EntsoeCsv::Generation.new(zip_content, '2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.zip', nil, true) }
+
     before do
-      expect(File).to receive(:mtime) { nil }
-
-      zip_file = double('zip_file')
-      expect(Zip::File).to receive(:open) { zip_file }
-      expect(zip_file).to receive(:first) { zip_file }
-      expect(zip_file).to receive(:get_input_stream) { zip_file }
-      expect(zip_file).to receive(:gets).and_return("\n", nil)
-
       expect(DataFile).to receive(:upsert)
     end
+
     it { e.process }
   end
 end

@@ -17,12 +17,13 @@ CSV
         HTML
       end
       let(:datafile_name) { 'PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230101000000_0000000396168830.zip' }
+      let(:zip_body) { create_zip_file(body, 'PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230101000000_0000000396168830.csv') }
+
       before do
         stub_request(:get, 'https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/').
           to_return(body: index_body)
         stub_request(:get, "https://nemweb.com.au/#{datafile_name}").
-          to_return(headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
-        stub_zip_file(body, 'PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230101000000_0000000396168830.csv')
+          to_return(body: zip_body.string, headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
       end
       it do
         expect(Generation).to receive(:upsert_all)

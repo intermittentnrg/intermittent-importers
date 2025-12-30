@@ -57,12 +57,13 @@ CSV
 <pre><A HREF="/public/public-data/datafiles/">[To Parent Directory]</A><br><br> Sunday, August 21, 2022  1:02 AM      1684350 <A HREF=\"/#{datafile_name}\"></A>
         HTML
       end
+      let(:zip_body) { create_zip_file(body, 'PUBLIC_DISPATCHSCADA_202301010000_0000000397026531.csv') }
+
       before do
         stub_request(:get, 'https://nemweb.com.au/Reports/Current/Dispatch_SCADA/').
           to_return(body: index_body)
         stub_request(:get, "https://nemweb.com.au/#{datafile_name}").
-          to_return(headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
-        stub_zip_file(body, 'PUBLIC_DISPATCHSCADA_202301010000_0000000397026531.csv')
+          to_return(body: zip_body.string, headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
       end
 
       it do

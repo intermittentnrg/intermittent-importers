@@ -8,14 +8,14 @@ def test_archive(index_name, archive_name = '123.zip', datafile_name = '123_456.
       HTML
     end
 
-    it do
+    let(:zip_body) { create_zip_file('', datafile_name) }
+    before do
       stub_request(:get, "https://nemweb.com.au/Reports/ARCHIVE/#{index_name}/").
         to_return(body: index_body)
-
       stub_request(:get, "https://nemweb.com.au/#{archive_name}").
-        to_return(headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
-      stub_zip_file('', datafile_name)
-
+        to_return(body: zip_body.string, headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
+    end
+    it do
       target = double(subject)
       expect(target).to receive(:add_buffer)
       expect(target).to receive(:done!)
@@ -26,9 +26,9 @@ def test_archive(index_name, archive_name = '123.zip', datafile_name = '123_456.
 
   context "with file.zip" do
     it do
-      file = double('File')
-      expect(File).to receive(:open) { file }
-      stub_zip_file('', datafile_name)
+      file = create_zip_file('', datafile_name)
+      allow(file).to receive(:size) { file.string.bytesize }
+      expect(File).to receive(:open).with('file.zip') { file }
 
       target = double(subject)
       expect(target).to receive(:add_buffer)
