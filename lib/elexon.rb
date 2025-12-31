@@ -51,7 +51,7 @@ module Elexon
   # https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/FUELINST
   class Fuelinst < BaseCSV
     include SemanticLogger::Loggable
-    def self.parsers_each
+    def self.each
       ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
         from = from.in_time_zone(self::TZ).to_datetime
         to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
@@ -156,7 +156,7 @@ module Elexon
   class Generation < BaseCSV
     include SemanticLogger::Loggable
 
-    def self.parsers_each
+    def self.each
       ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
         from = from.in_time_zone(self::TZ).to_datetime
         to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
@@ -229,7 +229,7 @@ module Elexon
   class Load < BaseCSV
     include SemanticLogger::Loggable
 
-    def self.parsers_each
+    def self.each
       ::Load.joins(:area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
         from = from.in_time_zone(self::TZ).to_datetime
         to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min

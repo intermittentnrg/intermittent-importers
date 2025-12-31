@@ -22,7 +22,7 @@ module Tohoku
       end
     end
 
-    def self.parsers_each
+    def self.each
       from = ::Generation.joins(:areas_production_type => :area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")

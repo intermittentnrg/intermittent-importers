@@ -6,7 +6,7 @@ RSpec.describe Elexon::Generation do
   describe :cli do
   end
 
-  describe :parsers_each do
+  describe :each do
     around(:example) { |ex| Timecop.freeze(current_time, &ex) }
     let(:current_time) { Time.new(2023,1,1) }
     let(:datapoint_time) { Time.new(2023,1,1) }
@@ -22,7 +22,7 @@ RSpec.describe Elexon::Generation do
       # FIXME don't call for tomorrow
       expect(parser).to receive(:process).twice
       expect(subject).to receive(:new).twice { parser }
-      subject.parsers_each &:process
+      subject.each &:process
     end
   end
 end
@@ -45,7 +45,7 @@ FUELINST,2023-01-02T00:30:00Z,2023-01-02T00:25:00Z,2023-01-02,1,NUCLEAR,5723
     end
   end
 
-  describe :parsers_each do
+  describe :each do
     around(:example) { |ex| Timecop.freeze(current_time, &ex) }
     let(:current_time) { Time.new(2023,1,1) }
     let(:datapoint_time) { Time.new(2023,1,1) }
@@ -61,7 +61,7 @@ FUELINST,2023-01-02T00:30:00Z,2023-01-02T00:25:00Z,2023-01-02,1,NUCLEAR,5723
       # FIXME don't call for tomorrow
       expect(parser).to receive(:process).twice
       expect(subject).to receive(:new).twice { parser }
-      subject.parsers_each &:process
+      subject.each &:process
     end
   end
 end
@@ -84,7 +84,7 @@ RSpec.describe Elexon::Load do
       # FIXME don't call for tomorrow
       expect(parser).to receive(:process).twice
       expect(subject).to receive(:new).twice { parser }
-      subject.parsers_each &:process
+      subject.each &:process
     end
   end
 end

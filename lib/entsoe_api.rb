@@ -228,7 +228,7 @@ module EntsoeApi
   class Price < Base
     include SemanticLogger::Loggable
 
-    def self.parsers_each
+    def self.each
       ::Price.joins(:area).group(:'area.code').where("time > ?", 6.month.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
         SemanticLogger.tagged(country) do
           from = from.to_datetime

@@ -16,17 +16,6 @@ end
 
 ActiveSupport.on_load(:active_record) { extend Timescaledb::ActsAsHypertable }
 
-def pump_task(name, source)
-  desc "Run refresh task"
-  task name do |t|
-    SemanticLogger.tagged(task: t.to_s) do
-      Pump::Process.new(source).run
-    rescue
-      @logger.error "Exception", $!
-    end
-  end
-end
-
 def loop_task(name, clazz)
   desc "Run refresh task"
   task name do |t|
@@ -97,13 +86,13 @@ end
 namespace :elexon do
   desc "Run refresh tasks"
   task all: [:fuelinst, :load, :unit]
-  pump_task :fuelinst, Elexon::Fuelinst
-  pump_task :load, Elexon::Load
+  loop_task :fuelinst, Elexon::Fuelinst
+  loop_task :load, Elexon::Load
   loop_task :unit, Elexon::Unit
-  pump_task :generation, Elexon::Generation
+  loop_task :generation, Elexon::Generation
 end
 
-pump_task :nationalgrideso, NationalGridEso::DemandLive
+loop_task :nationalgrideso, NationalGridEso::DemandLive
 
 namespace :entsoe do
   desc "Run refresh tasks"
@@ -112,7 +101,7 @@ namespace :entsoe do
   loop_task :unit, EntsoeFms::Unit
   loop_task :load, EntsoeFms::Load
   loop_task :price, EntsoeFms::Price
-  pump_task :price_api, EntsoeApi::Price
+  loop_task :price_api, EntsoeApi::Price
   loop_task :transmission, EntsoeFms::Transmission
 end
 
@@ -147,7 +136,7 @@ namespace :eskom do
   oneshot_task :demand, Eskom::Demand
 end
 
-pump_task :ree, Ree::Generation
+loop_task :ree, Ree::Generation
 
 desc "Run refresh tasks"
 task :hydroquebec do |t|
@@ -164,7 +153,7 @@ end
 #   logger.error "Exception", $!
 # end
 
-pump_task :tohoku, Tohoku::Juyo
+loop_task :tohoku, Tohoku::Juyo
 desc 'Refresh ONS'
 task(:ons) { Ons.refresh }
 desc 'Refresh Taipower'
@@ -179,8 +168,8 @@ end
 
 namespace :cammesa do
   task all: [:renovables, :programacion_diaria]
-  pump_task :renovables, Cammesa::Renovables
-  pump_task :programacion_diaria, Cammesa::ProgramacionDiaria
+  loop_task :renovables, Cammesa::Renovables
+  loop_task :programacion_diaria, Cammesa::ProgramacionDiaria
 end
 
 desc 'Export areas to test/fixtures/areas.yml'

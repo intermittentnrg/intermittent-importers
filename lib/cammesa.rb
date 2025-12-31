@@ -65,11 +65,11 @@ module Cammesa
   class Renovables < Base
     include SemanticLogger::Loggable
 
-    def self.parsers_each
+    def self.each
       from = ::Generation.joins(:areas_production_type => [:area, :production_type]).where("time > ?", 2.months.ago).where(area: {source: self.source_id}, production_type: {name: ['wind','solar']}).pluck(Arel.sql("LAST(time, time)")).first
       from = TZ.utc_to_local(from).to_date
       (from..Date.today).each do |date|
-        new(date).process
+        yield self.new(date)
       end
     end
 
@@ -160,11 +160,11 @@ module Cammesa
     FILE_FORMAT = 'PD%y%m%d.zip'
 
 
-    def self.parsers_each
+    def self.each
       from = ::Generation.joins(:areas_production_type => [:area, :production_type]).where("time > ?", 2.months.ago).where(area: {source: self.source_id}, production_type: {name: ['thermal','nuclear','hydro']}).pluck(Arel.sql("LAST(time, time)")).first
       from = TZ.utc_to_local(from).to_date
       (from..Date.today).each do |date|
-        new(date).process
+        yield self.new(date)
       end
     end
 
