@@ -36,6 +36,8 @@ module Eskom
         end
         if res.status == 304 #Not Modified
           raise EmptyError
+        elsif res.status == 404 #Not Found
+          raise EmptyError
         end
         @filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
         @csv = FastestCSV.parse(res.body, row_sep: "\r\n")

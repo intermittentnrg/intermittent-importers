@@ -20,6 +20,14 @@ CSV
       end
     end
 
+    context 'with 404 response' do
+      it 'raises EmptyError' do
+        stub_request(:get, 'https://www.eskom.co.za/dataportal/wp-content/uploads/2023/10/System_hourly_actual_and_forecasted_demand.csv').
+          to_return(status: 404)
+        expect { subject.cli([]) }.to raise_error(EmptyError)
+      end
+    end
+
     context 'with .csv argument' do
       xit do
         subject.cli(['file.csv'])
@@ -44,6 +52,14 @@ CSV
           to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
         expect(::Generation).to receive(:upsert_all)
         subject.cli([])
+      end
+    end
+
+    context 'with 404 response' do
+      it 'raises EmptyError' do
+        stub_request(:get, 'https://www.eskom.co.za/dataportal/wp-content/uploads/2023/10/Station_Build_Up.csv').
+          to_return(status: 404)
+        expect { subject.cli([]) }.to raise_error(EmptyError)
       end
     end
 
