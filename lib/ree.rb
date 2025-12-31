@@ -14,8 +14,7 @@ class Ree
       to = Chronic.parse(args.shift).to_date
 
       (from...to).each do |time|
-        e = self.new(time)
-        e.process
+        self.new.add_date(time).done!
       end
     end
 
@@ -27,7 +26,7 @@ class Ree
         to = to.in_time_zone(self::TZ).to_datetime
         SemanticLogger.tagged(country) do
           (from..to).each do |date|
-            yield self.new date
+            yield date
           rescue EmptyError
             logger.warn "Empty response #{date}"
           end
@@ -39,23 +38,13 @@ class Ree
     def self.source_id
       "ree"
     end
-    def initialize(date)
-      @from = date - 6.hours
-      @to = date + 1.day
-      @options = {}
-      @options[:curva] = "LZ_FV5M"
-      @options[:fecha] = date.strftime('%Y-%m-%d')
-      @system = "Canarias"
-      url = "https://demanda.ree.es/WSvisionaMoviles#{@system}Rest/resources/demandaGeneracion#{@system}"
-      @res = logger.benchmark_info(url) do
-        HTTParty.get(
-          url,
-          query: @options,
-          #debug_output: $stdout
-        )
-      end
-      #require 'pry' ; binding.pry
+
+    def initialize
+      @r = []
+      @from = nil
+      @to = nil
     end
+
     PRODUCTION_TYPES = {
       'die' => 'fossil_oil',
       'gas' => 'fossil_gas',
@@ -70,10 +59,33 @@ class Ree
       'efl' => false, # exchange ??
       'dem' => false, #FIXME demand
     }
-    def process
-      r = []
-      json = JSON.parse(@res.body.gsub(/^\w+\(|[^}]+$/,'\1'))
-      raise @res.body unless json["valoresHorariosGeneracion"]
+
+    def add(date)
+      add_date(date)
+    end
+
+    def add_date(date)
+      @from = date - 6.hours
+      @to = date + 1.day
+      @options = {}
+      @options[:curva] = "LZ_FV5M"
+      @options[:fecha] = date.strftime('%Y-%m-%d')
+      @system = "Canarias"
+      url = "https://demanda.ree.es/WSvisionaMoviles#{@system}Rest/resources/demandaGeneracion#{@system}"
+      @res = logger.benchmark_info(url) do
+        HTTParty.get(
+          url,
+          query: @options,
+          #debug_output: $stdout
+        )
+      end
+
+      add_buffer(@res.body)
+    end
+
+    def add_buffer(body)
+      json = JSON.parse(body.gsub(/^\w+\(|[^}]+$/, '\1'))
+      raise body unless json["valoresHorariosGeneracion"]
       json["valoresHorariosGeneracion"].each do |row|
         leap = 0
         time = row.delete("ts")
@@ -90,7 +102,7 @@ class Ree
         row.each do |k,value|
           raise k if PRODUCTION_TYPES[k].nil?
           next if PRODUCTION_TYPES[k] == false
-          r << {
+          @r << {
             time: time,
             country: 'ES-CN-FVLZ',
             production_type: PRODUCTION_TYPES[k],
@@ -98,9 +110,14 @@ class Ree
           }
         end
       end
-      #require 'pry' ; binding.pry
 
-      Out::Generation.run(r, @from, @to, self.class.source_id)
+      self
+    end
+
+    def done!
+      return if @r.empty?
+
+      Out::Generation.run(@r, @from, @to, self.class.source_id)
     end
   end
 end

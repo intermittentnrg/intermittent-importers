@@ -136,7 +136,7 @@ namespace :eskom do
   oneshot_task :demand, Eskom::Demand
 end
 
-loop_task :ree, Ree::Generation
+chain_task :ree, Ree::Generation
 
 desc "Run refresh tasks"
 task :hydroquebec do |t|
