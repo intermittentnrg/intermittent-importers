@@ -1,4 +1,6 @@
 require 'chronic'
+require 'faraday'
+require 'csv'
 
 module Tohoku
   class Juyo
@@ -41,7 +43,7 @@ module Tohoku
       @url = "https://setsuden.nw.tohoku-epco.co.jp/common/demand/juyo_02_#{@from.strftime('%Y%m%d')}.csv"
       last_modified = DataFile.last_modified(@url, self.class.source_id)
       logger.benchmark_info(@url) do
-        res = Faraday.get(@url, debug_output: $stdout) do |req|
+        res = Faraday.get(@url) do |req|
           req.headers['If-Modified-Since'] = last_modified if last_modified
         end
         if res.status == 304 #Not Modified
