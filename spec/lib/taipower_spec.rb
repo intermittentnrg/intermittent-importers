@@ -34,3 +34,5 @@ RSpec.describe Taipower::Generation do
     end
   end
 end
+
+
