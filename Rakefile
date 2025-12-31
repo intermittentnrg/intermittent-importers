@@ -153,7 +153,7 @@ end
 #   logger.error "Exception", $!
 # end
 
-loop_task :tohoku, Tohoku::Juyo
+chain_task :tohoku, Tohoku::Juyo
 desc 'Refresh ONS'
 task(:ons) { Ons.refresh }
 desc 'Refresh Taipower'
