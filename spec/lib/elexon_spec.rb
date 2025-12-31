@@ -4,25 +4,23 @@ require 'timecop'
 RSpec.describe Elexon::Generation do
   subject { Elexon::Generation }
   describe :cli do
-  end
+    it 'processes generation data end-to-end' do
+      csv_body = <<-CSV
+Dataset,DocumentId,DocumentRevisionNumber,PublishTime,BusinessType,PsrType,Quantity,StartTime,SettlementDate,SettlementPeriod\r
+AGPT,NGET-EMFIP-AGPT-06417742,1,2023-01-01T23:59:09Z,Solar generation,Solar,1000.000,2023-01-01T22:30:00Z,2023-01-01,46\r
+AGPT,NGET-EMFIP-AGPT-06417742,1,2023-01-01T23:59:09Z,Production,Wind,2000.000,2023-01-01T22:30:00Z,2023-01-01,46\r
+CSV
 
-  describe :each do
-    around(:example) { |ex| Timecop.freeze(current_time, &ex) }
-    let(:current_time) { Time.new(2023,1,1) }
-    let(:datapoint_time) { Time.new(2023,1,1) }
-    before do
-      areas = Area.find_by! internal_id: 'GB', source: 'elexon'
-      production_type = ProductionType.find_by! name: 'wind'
-      apt = areas.areas_production_type.find_by!(production_type:)
-      apt.generation.create(time: datapoint_time, value: 1000)
-    end
+      stub_request(:get, 'https://data.elexon.co.uk/bmrs/api/v1/datasets/AGPT?format=csv&publishDateTimeFrom=2023-01-01%2000:00&publishDateTimeTo=2023-01-02%2000:00').
+        to_return(body: csv_body)
 
-    it do
-      parser = double('Elexon::Generation')
-      # FIXME don't call for tomorrow
-      expect(parser).to receive(:process).twice
-      expect(subject).to receive(:new).twice { parser }
-      subject.each &:process
+      expect(Out::Generation).to receive(:run) do |points, from, to, source|
+        expect(points.length).to eq(2)
+        expect(points.first[:country]).to eq('GB_B1620')
+        expect(source).to eq('elexon')
+      end
+
+      subject.cli(['2023-01-01', '2023-01-02'])
     end
   end
 end
@@ -30,61 +28,58 @@ end
 RSpec.describe Elexon::Fuelinst do
   subject { Elexon::Fuelinst }
   describe :cli do
-    let(:body) do
-      <<-CSV
-FUELINST,2023-01-02T00:30:00Z,2023-01-02T00:25:00Z,2023-01-02,1,NUCLEAR,5723
-      CSV
-    end
-    context 'single date as argument' do
-      it do
-        stub_request(:get, 'https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELINST?format=csv&settlementDateFrom=2023-01-01&settlementDateTo=2023-01-02').
-          to_return(body:)
-        expect(::Generation).to receive(:upsert_all)
-        subject.cli(['2023-01-01','2023-01-02'])
+    it 'processes fuelinst data end-to-end' do
+      csv_body = <<-CSV
+Dataset,PublishTime,StartTime,SettlementDate,SettlementPeriod,FuelType,Generation\r
+FUELINST,2023-07-19T23:00:00Z,2023-07-19T22:55:00Z,2023-07-19,48,BIOMASS,1902\r
+FUELINST,2023-07-19T23:00:00Z,2023-07-19T22:55:00Z,2023-07-19,48,CCGT,13259\r
+FUELINST,2023-07-19T23:00:00Z,2023-07-19T22:55:00Z,2023-07-19,48,INTELEC,126\r
+FUELINST,2023-07-19T23:00:00Z,2023-07-19T22:55:00Z,2023-07-19,48,INTFR,403\r
+CSV
+
+      stub_request(:get, 'https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELINST?format=csv&settlementDateFrom=2023-07-18&settlementDateTo=2023-07-19').
+        to_return(body: csv_body)
+
+      expect(Out::Generation).to receive(:run) do |points, from, to, source|
+        expect(points.length).to eq(2)
+        expect(points.first[:country]).to eq('GB')
+        expect(source).to eq('elexon')
       end
-    end
-  end
 
-  describe :each do
-    around(:example) { |ex| Timecop.freeze(current_time, &ex) }
-    let(:current_time) { Time.new(2023,1,1) }
-    let(:datapoint_time) { Time.new(2023,1,1) }
-    before do
-      area = Area.find_by! code: 'GB', source: 'elexon'
-      production_type = ProductionType.find_by! name: 'wind'
-      apt = AreasProductionType.find_by!(area:, production_type:)
-      apt.generation.create time: datapoint_time, value: 1000
-    end
+      expect(Out::Transmission).to receive(:run) do |points, from, to, source|
+        expect(points.length).to eq(1)
+        expect(points.first[:from_area]).to eq('GB')
+        expect(points.first[:to_area]).to eq('FR')
+        expect(source).to eq('elexon')
+      end
 
-    it do
-      parser = double('Elexon::FuelInst')
-      # FIXME don't call for tomorrow
-      expect(parser).to receive(:process).twice
-      expect(subject).to receive(:new).twice { parser }
-      subject.each &:process
+      subject.cli(['2023-07-18', '2023-07-19'])
     end
   end
 end
 
 RSpec.describe Elexon::Load do
   subject { Elexon::Load }
-  describe :cli
+  describe :cli do
+    it 'processes load data end-to-end' do
+      csv_body = <<-CSV
+PublishTime,StartTime,SettlementDate,SettlementPeriod,Quantity\r
+2023-07-19T01:55:08Z,2023-07-19T00:00:00Z,2023-07-19,3,19999.000\r
+2023-07-19T01:25:09Z,2023-07-18T23:30:00Z,2023-07-19,2,20610.000\r
+2023-07-19T00:55:08Z,2023-07-18T23:00:00Z,2023-07-19,1,21424.000\r
+2023-07-19T00:25:09Z,2023-07-18T22:30:00Z,2023-07-18,48,24137.000\r
+CSV
 
-  describe :parsers_each do
-    around(:example) { |ex| Timecop.freeze(current_time, &ex) }
-    let(:current_time) { Time.new(2023,1,1) }
-    let(:datapoint_time) { Time.new(2023,1,1) }
-    before do
-      areas = Area.find_by! code: 'GB', source: 'elexon'
-      areas.load.create time: datapoint_time, value: 10000000
-    end
+      stub_request(:get, 'https://data.elexon.co.uk/bmrs/api/v1/demand/actual/total?format=csv&from=2023-07-18&to=2023-07-19').
+        to_return(body: csv_body)
 
-    it do
-      parser = double('Elexon::Load')
-      # FIXME don't call for tomorrow
-      expect(parser).to receive(:process).twice
-      expect(subject).to receive(:new).twice { parser }
-      subject.each &:process
+      expect(Out::Load).to receive(:run) do |points, from, to, source|
+        expect(points.length).to eq(4)
+        expect(points.first[:country]).to eq('GB')
+        expect(source).to eq('elexon')
+      end
+
+      subject.cli(['2023-07-18', '2023-07-19'])
     end
   end
 end
@@ -103,6 +98,7 @@ CSV
     stub_request(:get, %r|https://data\.elexon\.co\.uk/bmrs/api/v1/datasets/B1610\?format=csv&settlementDate=2023-09-01&settlementPeriod=\d+|).
       to_return(body:)
   end
+
   describe :cli do
     context 'with date range and unit' do
       let(:args) { ['2023-09-01', '2023-09-02'] }
