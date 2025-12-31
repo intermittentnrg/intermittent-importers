@@ -90,8 +90,8 @@ oneshot_task :ercot, Ercot::Generation
 namespace :caiso do
   desc "Run refresh tasks"
   task all: [:fuelsource, :load]
-  pump_task :fuelsource, Caiso::FuelSource
-  pump_task :load, Caiso::Load
+  chain_task :fuelsource, Caiso::FuelSource
+  chain_task :load, Caiso::Load
 end
 
 namespace :elexon do

@@ -56,6 +56,10 @@ module Caiso
       add_buffer(res.body)
     end
 
+    def add(date)
+      add_date(date)
+    end
+
     def parse_time(row)
       time = @date.to_time + Time.strptime(row[0], '%H:%M').seconds_since_midnight.seconds
 
@@ -70,12 +74,12 @@ module Caiso
   class FuelSource < Base
     include SemanticLogger::Loggable
 
-    def self.parsers_each
+    def self.each
       from = ::Generation.joins(:areas_production_type => :area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
       (from.to_date..to.to_date).each do |date|
-        yield self.new.add_date(date)
+        yield date
       end
     end
 
@@ -106,8 +110,8 @@ module Caiso
     URL_FORMAT = "https://www.caiso.com/outlook/history/%Y%m%d/fuelsource.csv"
 
     def add_buffer(body)
-      @csv = FastestCSV.parse(body, row_sep: "\r\n")
-      @fields = @csv.shift
+      csv = FastestCSV.parse(body, row_sep: "\r\n")
+      @fields = csv.shift
 
       # Handle empty data
       raise EmptyError if @fields.empty? || @fields.first.to_s.strip == '' || @fields.first == "\n"
@@ -117,7 +121,7 @@ module Caiso
 
       raise @fields.inspect unless @fields.map(&:downcase) == FUEL_KEYS.map(&:downcase)
       last_time = @from
-      @csv.each do |row|
+      csv.each do |row|
         next if row[1..].compact.blank?
         time = parse_time(row)
         next if time < last_time
@@ -165,12 +169,12 @@ module Caiso
 
     FIELDS = ["Time", "Hour ahead forecast", "Current demand", "Net demand"]
 
-    def self.parsers_each
+    def self.each
       from = ::Load.joins(:area).where("time > ?", 2.months.ago).where(area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
       (from.to_date..to.to_date).each do |date|
-        yield self.new.add_date(date)
+        yield date
       end
     end
 
@@ -181,15 +185,15 @@ module Caiso
     URL_FORMAT = "https://www.caiso.com/outlook/history/%Y%m%d/netdemand.csv"
 
     def add_buffer(body)
-      @csv = FastestCSV.parse(body, row_sep: "\r\n")
-      @fields = @csv.shift
+      csv = FastestCSV.parse(body, row_sep: "\r\n")
+      @fields = csv.shift
 
       # Handle empty data
       raise EmptyError if @fields.empty? || @fields.first.to_s.strip == '' || @fields.first == "\n"
 
-      raise @fields.inspect unless @fields.map(&:downcase) == FIELDS.map(&:downcase)
+      raise @fields.inspect unless @fields[0..3].map(&:downcase) == FIELDS.map(&:downcase)
       last_time = @from
-      @csv.each do |row|
+      csv.each do |row|
         next if row[1..].compact.blank?
         time = parse_time(row)
         next if time < last_time

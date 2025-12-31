@@ -13,7 +13,7 @@ RSpec.describe Caiso::FuelSource do
       end
     end
   end
-  describe :parsers_each do
+  describe :each do
     around(:example) { |ex| Timecop.freeze(current_time, &ex) }
     let(:datapoint_time) { subject::TZ.local_to_utc(Time.new(2022,12,31,22)) }
     before do
@@ -28,7 +28,9 @@ RSpec.describe Caiso::FuelSource do
         req = stub_request(:get, 'https://www.caiso.com/outlook/history/20221231/fuelsource.csv').
                 to_return(body: "Time,Solar,Wind,Geothermal,Biomass,Biogas,Small hydro,Coal,Nuclear,Natural Gas,Large Hydro,Batteries,Imports,Other\r\n")
         allow(Time).to receive(:strptime)
-        subject.parsers_each {}
+        subject.each do |date|
+          subject.new.add(date).done!
+        end
         expect(req).to have_been_requested
       end
     end
@@ -59,7 +61,7 @@ RSpec.describe Caiso::Load do
     end
   end
 
-  describe :parsers_each do
+  describe :each do
     around(:example) { |ex| Timecop.freeze(current_time, &ex) }
     let(:datapoint_time) { subject::TZ.local_to_utc(Time.new(2022,12,31,22)) }
     before do
@@ -72,7 +74,9 @@ RSpec.describe Caiso::Load do
         req = stub_request(:get, 'https://www.caiso.com/outlook/history/20221231/netdemand.csv').
                 to_return(body: "Time,Hour ahead forecast,Current demand,Net demand\r\n")
         allow(Time).to receive(:strptime)
-        subject.parsers_each {}
+        subject.each do |date|
+          subject.new.add(date).done!
+        end
         expect(req).to have_been_requested
       end
     end
