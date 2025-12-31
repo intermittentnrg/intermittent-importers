@@ -59,7 +59,7 @@ module AemoWem
     include SemanticLogger::Loggable
 
     URL = 'http://data.wa.aemo.com.au/public/market-data/wemde/facilityScada/previous/'
-    FILE_FORMAT = 'FacilityScada_%Y%m%d.zip'
+    FILE_FORMAT = 'SCADA_%Y-%m-%d.json'
     TIME_FORMAT = '%Y-%m-%dT%H:%M:%S%:z'
 
     def initialize
