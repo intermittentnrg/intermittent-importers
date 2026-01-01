@@ -80,9 +80,9 @@ end
 namespace :eia do
   desc "Run refresh tasks"
   task all: [:generation, :load, :interchange]
-  loop_task :generation, Eia::Generation
-  loop_task :load, Eia::Load
-  loop_task :interchange, Eia::Interchange
+  chain_task :generation, Eia::Generation
+  chain_task :load, Eia::Load
+  chain_task :interchange, Eia::Interchange
 end
 
 oneshot_task :ercot, Ercot::Generation

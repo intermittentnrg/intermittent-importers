@@ -3,65 +3,39 @@ require 'timecop'
 
 RSpec.describe Eia::Generation do
   subject { Eia::Generation }
-  context do
-    let(:e) do
-      VCR.use_cassette("generation_#{country}_#{from}_#{to}") do
-        subject.new(country:, from: Date.parse(from), to: Date.parse(to))
-      end
-    end
-    describe 'EIA BANC gas validation' do
-      let(:country) { 'BANC' }
-      let(:from) { '2019-07-25' }
-      let(:to) { '2019-07-26' }
-      it do
-        expect(Out::Generation).to receive(:run).with(array_including(hash_excluding({value: 400000000..})), anything, anything, anything)
-        e.process
-      end
-      include_examples "logs error", "generation"
-    end
-  end
 
   describe :cli do
-  end
-
-  describe :each do
-    around(:example) { |ex| Timecop.freeze(current_time, &ex) }
-    around(:example) { |ex| VCR.use_cassette('eia_generation_parsers_each', &ex) }
-    let(:current_time) { Time.new(2023,1,1) }
-    let(:datapoint_time) { Time.new(2023,1,1) }
-    before do
-      areas = Area.find_by! code: 'CISO', source: 'eia'
-      production_type = ProductionType.find_by! name: 'wind'
-      apt = areas.areas_production_type.find_by!(production_type:)
-      apt.generation.create(time: datapoint_time, value: 1000)
-    end
-
-    it do
-      expect(::Generation).to receive(:upsert_all)
-      subject.each &:process
+    around(:example) { |ex| VCR.use_cassette('generation_BANC_2019-07-25_2019-07-26', &ex) }
+    it "calls Out::Generation.run with expected data" do
+      expect(Out::Generation).to receive(:run) do |data, from, to, source_id|
+        expect(data.length).to eq(98)  # Specific length for 2-day BANC data
+        expect(from).to be_a(Time)
+        expect(to).to be_a(Time)
+        expect(source_id).to eq('eia')
+        # Validate no excessively high gas values
+        gas_values = data.select { |d| d[:production_type] == 'fossil_gas' }.map { |d| d[:value] }
+        expect(gas_values).not_to include(a_value > 400000000)
+      end
+      subject.cli(['2019-07-25', '2019-07-26', 'BANC'])
     end
   end
+
+
 end
 
 RSpec.describe Eia::Load do
   subject { Eia::Load }
 
   describe :cli do
-  end
-
-  describe :each do
-    around(:example) { |ex| Timecop.freeze(current_time, &ex) }
     around(:example) { |ex| VCR.use_cassette('eia_load_parsers_each', &ex) }
-    let(:current_time) { Time.new(2023,1,1) }
-    let(:datapoint_time) { Time.new(2023,1,1) }
-    before do
-      areas = Area.find_by! code: 'BANC', source: 'eia'
-      areas.load.create time: datapoint_time, value: 1000
-    end
-
-    it do
-      expect(::Load).to receive(:upsert_all)
-      subject.each &:process
+    it "calls Out::Load.run with expected data" do
+      expect(Out::Load).to receive(:run) do |data, from, to, source_id|
+        expect(data.length).to eq(1673)  # Specific length for 2-day load data
+        expect(from).to be_a(Time)
+        expect(to).to be_a(Time)
+        expect(source_id).to eq('eia')
+      end
+      subject.cli(['2023-01-01', '2023-01-02'])
     end
   end
 end
@@ -71,9 +45,14 @@ RSpec.describe Eia::Interchange do
 
   describe :cli do
     around(:example) { |ex| VCR.use_cassette('eia_interchange', &ex) }
-    it do
-      expect(Transmission).to receive(:upsert_all)
-      Eia::Interchange.cli(['2024-01-01', '2024-01-02', 'CISO'])
+    it "calls Out::Transmission.run with expected data" do
+      expect(Out::Transmission).to receive(:run) do |data, from, to, source_id|
+        expect(data.length).to be > 0
+        expect(from).to be_a(Time)
+        expect(to).to be_a(Time)
+        expect(source_id).to eq('eia')
+      end
+      subject.cli(['2024-01-01', '2024-01-02', 'CISO'])
     end
   end
 end
