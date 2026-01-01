@@ -16,11 +16,13 @@ CSV
         stub_request(:get, 'https://www.eskom.co.za/dataportal/wp-content/uploads/2023/10/System_hourly_actual_and_forecasted_demand.csv').
           to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
         expect(::Load).to receive(:upsert_all)
-        expect(DataFile).to receive(:upsert).with(
-          hash_including(
-            path: 'System_hourly_actual_and_forecasted_demand.csv',
-            source: 'eskom',
-            updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Eskom::Demand::HTTP_DATE_FORMAT)
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              path: 'System_hourly_actual_and_forecasted_demand.csv',
+              source: 'eskom',
+              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Eskom::Base::HTTP_DATE_FORMAT)
+            )
           ),
           unique_by: [:source, :path]
         )
@@ -59,11 +61,13 @@ CSV
         stub_request(:get, 'https://www.eskom.co.za/dataportal/wp-content/uploads/2023/10/Station_Build_Up.csv').
           to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
         expect(::Generation).to receive(:upsert_all)
-        expect(DataFile).to receive(:upsert).with(
-          hash_including(
-            path: 'Station_Build_Up.csv',
-            source: 'eskom',
-            updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Eskom::Generation::HTTP_DATE_FORMAT)
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              path: 'Station_Build_Up.csv',
+              source: 'eskom',
+              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Eskom::Base::HTTP_DATE_FORMAT)
+            )
           ),
           unique_by: [:source, :path]
         )

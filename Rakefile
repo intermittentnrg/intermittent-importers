@@ -51,6 +51,17 @@ def oneshot_task(name, clazz)
   end
 end
 
+def oneshot_chain_task(name, clazz)
+  desc "Run refresh task"
+  task name do |t|
+    SemanticLogger.tagged(task: t.to_s) do
+      clazz.new.add_url.done!
+    rescue
+      @logger.error "Exception", $!
+    end
+  end
+end
+
 task :ping do |t|
   SemanticLogger.tagged(task: t.to_s) { logger.info "ping" }
 end
@@ -132,8 +143,8 @@ end
 
 namespace :eskom do
   task all: [:generation, :demand]
-  oneshot_task :generation, Eskom::Generation
-  oneshot_task :demand, Eskom::Demand
+  oneshot_chain_task :generation, Eskom::Generation
+  oneshot_chain_task :demand, Eskom::Demand
 end
 
 chain_task :ree, Ree::Generation
