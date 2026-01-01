@@ -48,6 +48,15 @@ CSV
     end
     it do
       expect(Out::Price).to receive(:run).with(array_including(hash_including(:time => Time.new(2023,8,30,8))), anything, anything, anything)
+      expect(DataFile).to receive(:upsert_all).with(
+        array_including(
+          hash_including(
+            source: 'aemo',
+            updated_at: Time.strptime('Wed, 30 Aug 2023 17:55:08 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+          )
+        ),
+        unique_by: [:source, :path]
+      )
       subject
     end
 

@@ -17,7 +17,8 @@ CSV
         HTML
       end
       let(:datafile_name) { 'PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230101000000_0000000396168830.zip' }
-      let(:zip_body) { create_zip_file(body, 'PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230101000000_0000000396168830.csv') }
+      let(:mtime) { Zip::DOSTime.new(2025,12,10,9,6,43) }
+      let(:zip_body) { create_zip_file(body, 'PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_20230101000000_0000000396168830.csv', mtime) }
 
       before do
         stub_request(:get, 'https://nemweb.com.au/Reports/Current/ROOFTOP_PV/ACTUAL/').
@@ -27,6 +28,15 @@ CSV
       end
       it do
         expect(Generation).to receive(:upsert_all)
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              source: 'aemo',
+              updated_at: Time.strptime('Wed, 10 Dec 2025 09:06:43 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+            )
+          ),
+          unique_by: [:source, :path]
+        )
         subject.cli(args)
       end
       it do

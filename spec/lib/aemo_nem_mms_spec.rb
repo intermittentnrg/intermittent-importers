@@ -13,13 +13,23 @@ CSV
     end
     context 'with date range' do
       let(:args) { ['2023-01-01', '2023-02-01'] }
-      let(:zip_body) { create_zip_file(body, 'PUBLIC_DVD_ROOFTOP_PV_ACTUAL_202301010000.zip') }
-      
+      let(:mtime) { Zip::DOSTime.new(2025,12,10,9,6,43) }
+      let(:zip_body) { create_zip_file(body, 'PUBLIC_DVD_ROOFTOP_PV_ACTUAL_202301010000.zip', mtime) }
+
       it do
         stub_request(:get, 'https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/2023/MMSDM_2023_01/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_ROOFTOP_PV_ACTUAL_202301010000.zip').
           to_return(body: zip_body.string, headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
 
         expect(Generation).to receive(:upsert_all)
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              source: 'aemo',
+              updated_at: Time.strptime('Wed, 10 Dec 2025 09:06:43 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+            )
+          ),
+          unique_by: [:source, :path]
+        )
         subject
       end
     end
@@ -42,13 +52,23 @@ CSV
 
     context 'with date range' do
       let(:args) { ['2023-01-01', '2023-02-01'] }
-      let(:zip_body) { create_zip_file(body, 'PUBLIC_DVD_DUDETAIL_202301010000.zip') }
-      
+      let(:mtime) { Zip::DOSTime.new(2025,12,10,9,6,43) }
+      let(:zip_body) { create_zip_file(body, 'PUBLIC_DVD_DUDETAIL_202301010000.zip', mtime) }
+
       it do
         stub_request(:get, 'https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/2023/MMSDM_2023_01/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_DUDETAIL_202301010000.zip').
           to_return(body: zip_body.string, headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
 
         expect(GenerationUnitCapacity).to receive(:upsert_all)
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              source: 'aemo',
+              updated_at: Time.strptime('Wed, 10 Dec 2025 09:06:43 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+            )
+          ),
+          unique_by: [:source, :path]
+        )
         subject.cli(args)
       end
     end
@@ -72,13 +92,23 @@ CSV
 
     context 'with date range' do
       let(:args) { ['2023-01-01', '2023-02-01'] }
-      let(:zip_body) { create_zip_file(body, 'PUBLIC_DVD_DISPATCH_UNIT_SCADA_202301010000.zip') }
-      
+      let(:mtime) { Zip::DOSTime.new(2025,12,10,9,6,43) }
+      let(:zip_body) { create_zip_file(body, 'PUBLIC_DVD_DISPATCH_UNIT_SCADA_202301010000.zip', mtime) }
+
       it do
         stub_request(:get, 'https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/2023/MMSDM_2023_01/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_DISPATCH_UNIT_SCADA_202301010000.zip').
           to_return(body: zip_body.string, headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
 
         expect(GenerationUnit).to receive(:upsert_all)
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              source: 'aemo',
+              updated_at: Time.strptime('Wed, 10 Dec 2025 09:06:43 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+            )
+          ),
+          unique_by: [:source, :path]
+        )
         subject.cli(args)
       end
     end

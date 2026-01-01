@@ -1,4 +1,5 @@
 require 'fast_jsonparser'
+require 'faraday'
 
 class EntsoeFms
 

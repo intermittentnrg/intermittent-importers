@@ -8,7 +8,8 @@ def test_archive(index_name, archive_name = '123.zip', datafile_name = '123_456.
       HTML
     end
 
-    let(:zip_body) { create_zip_file('', datafile_name) }
+    let(:mtime) { Zip::DOSTime.new(2025,12,10,9,6,43) }
+    let(:zip_body) { create_zip_file('', datafile_name, mtime) }
     before do
       stub_request(:get, "https://nemweb.com.au/Reports/ARCHIVE/#{index_name}/").
         to_return(body: index_body)
@@ -19,6 +20,15 @@ def test_archive(index_name, archive_name = '123.zip', datafile_name = '123_456.
       target = double(subject)
       expect(target).to receive(:add_buffer)
       expect(target).to receive(:done!)
+      expect(DataFile).to receive(:upsert_all).with(
+        array_including(
+          hash_including(
+            source: 'aemo',
+            updated_at: Time.strptime('Wed, 10 Dec 2025 09:06:43 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+          )
+        ),
+        unique_by: [:source, :path]
+      )
       expect(subject::TARGET).to receive(:new) { target }
       subject.cli([])
     end

@@ -57,7 +57,8 @@ CSV
 <pre><A HREF="/public/public-data/datafiles/">[To Parent Directory]</A><br><br> Sunday, August 21, 2022  1:02 AM      1684350 <A HREF=\"/#{datafile_name}\"></A>
         HTML
       end
-      let(:zip_body) { create_zip_file(body, 'PUBLIC_DISPATCHSCADA_202301010000_0000000397026531.csv') }
+      let(:mtime) { Zip::DOSTime.new(2025,12,10,9,6,43) }
+      let(:zip_body) { create_zip_file(body, 'PUBLIC_DISPATCHSCADA_202301010000_0000000397026531.csv', mtime) }
 
       before do
         stub_request(:get, 'https://nemweb.com.au/Reports/Current/Dispatch_SCADA/').
@@ -68,6 +69,15 @@ CSV
 
       it do
         expect(GenerationUnit).to receive(:upsert_all)
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              source: 'aemo',
+              updated_at: Time.strptime('Wed, 10 Dec 2025 09:06:43 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+            )
+          ),
+          unique_by: [:source, :path]
+        )
         subject.cli(args)
       end
 

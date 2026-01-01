@@ -5,11 +5,16 @@ RSpec.describe EntsoeCsv::Generation do
     let(:zip_content) { create_zip_file("", '2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.csv') }
     subject(:e) { EntsoeCsv::Generation.new(zip_content, '2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.zip', nil, true) }
 
-    before do
-      expect(DataFile).to receive(:upsert)
+    it do
+      expect(DataFile).to receive(:upsert).with(
+        hash_including(
+          path: '2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.zip',
+          source: 'entsoe'
+        ),
+        unique_by: [:source, :path]
+      )
+      e.process
     end
-
-    it { e.process }
   end
 end
 
@@ -25,6 +30,13 @@ CSV
   end
   it "deduplicates capacity data" do
     expect(GenerationUnit).to receive(:upsert_all)
+    expect(DataFile).to receive(:upsert).with(
+      hash_including(
+        path: '2024_07_ActualGenerationOutputPerGenerationUnit_16.1.A_r2.1.csv',
+        source: 'entsoe'
+      ),
+      unique_by: [:source, :path]
+    )
     subject.new(StringIO.new(body), '2024_07_ActualGenerationOutputPerGenerationUnit_16.1.A_r2.1.csv', Time.new(2024,7,2)).process
   end
 end
@@ -39,6 +51,13 @@ DateTime	ResolutionCode	AreaCode	AreaTypeCode	AreaName	MapCode	TotalLoadValue	Up
   end
   it do
     expect(Load).to receive(:upsert_all)
+    expect(DataFile).to receive(:upsert).with(
+      hash_including(
+        path: '2024_05_ActualTotalLoad_6.1.A.csv',
+        source: 'entsoe'
+      ),
+      unique_by: [:source, :path]
+    )
     subject.new(StringIO.new(body), '2024_05_ActualTotalLoad_6.1.A.csv', Time.new(2024,5,2)).process
   end
 end
@@ -56,6 +75,13 @@ CSV
     end
     it do
       expect(Price).to receive(:upsert_all).with(array_including(hash_including(value: 9329)))
+      expect(DataFile).to receive(:upsert).with(
+        hash_including(
+          path: '2023_09_EnergyPrices_12.1.D_r3.csv',
+          source: 'entsoe'
+        ),
+        unique_by: [:source, :path]
+      )
       subject.new(StringIO.new(body), '2023_09_EnergyPrices_12.1.D_r3.csv', Time.new(2023,9,2)).process
     end
   end

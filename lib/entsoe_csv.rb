@@ -211,6 +211,7 @@ module EntsoeCsv
       end
 
       Out::Unit.run(r.values, @from, @to, self.class.source_id)
+      done!
     end
   end
 
@@ -250,6 +251,7 @@ module EntsoeCsv
 
       r = Validate::validate_load(r.values, self.class.source_id)
       Out::Load.run(r, @from, @to, self.class.source_id)
+      done!
     end
   end
 

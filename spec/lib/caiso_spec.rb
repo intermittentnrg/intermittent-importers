@@ -9,6 +9,14 @@ RSpec.describe Caiso::FuelSource do
       let(:args) { ['2023-01-01', '2023-01-02'] }
       it do
         expect(Generation).to receive(:upsert_all)
+        expect(DataFile).to receive(:upsert).with(
+          hash_including(
+            path: 'https://www.caiso.com/outlook/history/20230101/fuelsource.csv',
+            source: 'caiso',
+            updated_at: Time.strptime('Wed, 04 Jan 2023 12:03:19 GMT', Caiso::FuelSource::HTTP_DATE_FORMAT)
+          ),
+          unique_by: [:source, :path]
+        )
         subject.cli(args)
       end
     end

@@ -202,3 +202,30 @@ RSpec.describe Ieso::IntertieYear do
     end
   end
 end
+
+RSpec.describe Ieso::Unit do
+  subject { Ieso::Unit }
+
+  around(:example) { |ex| VCR.use_cassette('ieso_unit', &ex) }
+
+  context '#process end-to-end test' do
+    it 'should process file and call DataFile.upsert with correct parameters' do
+      # Expect DataFile.upsert to be called with correct parameters
+      expect(DataFile).to receive(:upsert).with(
+        hash_including(
+          path: 'PUB_GenOutputCapability_20230901.xml',
+          source: 'ieso',
+          updated_at: Time.strptime('Sat, 02 Sep 2023 05:17:16 GMT', Ieso::Base::HTTP_DATE_FORMAT)
+        ),
+        unique_by: [:source, :path]
+      )
+
+      subject.new('https://reports-public.ieso.ca/public/GenOutputCapability/PUB_GenOutputCapability_20230901.xml').process
+    end
+  end
+end
+
+# Note: Ieso::Load and Ieso::Price tests are not implemented because:
+# - Ieso::Load uses RealtimeConstTotals CSV files which may not be available
+# - Ieso::Price (HOEP) source is no longer receiving data
+# When these data sources become available, tests should follow the same pattern as Ieso::Unit
