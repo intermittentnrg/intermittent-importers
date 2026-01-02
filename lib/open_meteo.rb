@@ -9,57 +9,85 @@ class OpenMeteo
 
   def self.cli(args)
     unless args.length == 3
-      $stderr.puts "#{$0} <location_id> <start_date> <end_date>"
+      $stderr.puts "#{$0} <location_id> <from> <to>"
       exit 1
     end
     location = Location.find args[0].to_i
-    start_date = Chronic.parse args[1]
-    end_date = Chronic.parse args[2]
-    OpenMeteo.new(location, start_date, end_date).process
+    from = Chronic.parse args[1]
+    to = Chronic.parse args[2]
+    new.add_date_range(from, to, location).done!
   end
 
-  def initialize(location, start_date, end_date, hourly = 'temperature_2m')
-    @location, @start_date, @end_date, @hourly = location, start_date, end_date, hourly
+  def self.each
+    # Get all locations that have temperature data
+    Location.joins(:temperatures).distinct.pluck(:id).each do |location_id|
+      location = Location.find(location_id)
+      # Get the most recent temperature for this location
+      last_temp = Temperature.where(location_id:).maximum(:time)
+
+      if last_temp
+        from = last_temp.in_time_zone(TZInfo::Timezone.get('UTC')).to_datetime
+        to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
+
+        SemanticLogger.tagged(location.name) do
+          (from.to_date..to.to_date).each do |date|
+            yield date
+          end
+        end
+      end
+    end
   end
 
-  def fetch
+  def initialize
+    @r = []
+    @datafiles = []
+  end
+
+  def add(date)
+    add_date(date)
+  end
+
+  def add_date(date)
+    add_date_range(date, date + 1.day)
+  end
+
+  def add_date_range(from, to, location, hourly = 'temperature_2m')
     res = Faraday.get(
       URL,
       {
-        latitude: @location.point.x,
-        longitude: @location.point.y,
-        start_date: @start_date.to_date,
-        end_date: @end_date.to_date,
-        hourly: @hourly
+        latitude: location.point.x,
+        longitude: location.point.y,
+        start_date: from.to_date,
+        end_date: to.to_date,
+        hourly: hourly
       }
     )
-    @res = FastJsonparser.parse(res.body)
-    #require 'pry' ; binding.pry
-    if @res[:error]
-      raise @res[:reason]
+
+    json = FastJsonparser.parse(res.body)
+    if json[:error]
+      raise json[:reason]
     end
 
-    res
+    add_json(json, location)
   end
 
-  def points
-    fetch
-    r = []
-    @res[:hourly][:time].each_with_index do |time, i|
+  def add_json(json, location)
+    json[:hourly][:time].each_with_index do |time, i|
       time = Time.strptime(time, TIME_FORMAT)
-      value = @res[:hourly][:temperature_2m][i]
+      value = json[:hourly][:temperature_2m][i]
       next if value.nil?
-      r << {time:, value:, location_id: @location.id}
-    end
-    #require 'pry' ; binding.pry
 
-    r
+      @r << {time:, value:, location_id: location.id}
+    end
+
+    self
   end
 
-  def process
+  def done!
+    return if @r.empty?
+
     logger.benchmark_info("upsert") do
-      Temperature.upsert_all(points)
+      Temperature.upsert_all(@r)
     end
   end
 end
-
