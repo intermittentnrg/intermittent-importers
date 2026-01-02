@@ -103,7 +103,10 @@ CSV
     context 'with date range and unit' do
       let(:args) { ['2023-09-01', '2023-09-02'] }
       it do
-        expect(::GenerationUnit).to receive(:upsert_all).at_least(:once)
+        expect(Out::Unit).to receive(:run) do |points, from, to, source|
+          expect(points.length).to eq(1)
+          expect(source).to eq('elexon')
+        end
         subject.cli(args)
       end
     end
@@ -119,8 +122,8 @@ CSV
 
   describe :each do
     around(:example) { |ex| Timecop.freeze(current_time, &ex) }
+    let(:unit) { Unit.find_by!(internal_id: unit_id) }
     before do
-      unit = Unit.find_by!(internal_id: unit_id)
       GenerationUnit.create(unit:, time:, value: 100)
     end
 
@@ -130,7 +133,6 @@ CSV
     context "does nothing if data is fresh" do
       let(:time) { Time.new(2026,11,27) }
       it do
-        expect(Elexon::Unit).not_to receive(:new)
         expect { |b|
           subject.each(&b)
         }.not_to yield_with_args
@@ -141,16 +143,9 @@ CSV
       let!(:parser) { double('Elexon::Unit') }
       let(:time) { Time.new(2016,11,27) }
       it do
-        parser = double('Elexon::Unit')
-        (1..50).each do |period|
-          expect(Elexon::Unit).to receive(:new).with(Time.new(2016,11,27), period) { parser }
-        end
-        (1..50).each do |period|
-          expect(Elexon::Unit).to receive(:new).with(Time.new(2016,11,28), period) { parser }
-        end
         expect { |b|
           subject.each(&b)
-        }.to yield_successive_args(*[parser]*50*2)
+        }.to yield_successive_args(Date.new(2016,11,27), Date.new(2016,11,28))
       end
     end
   end

@@ -28,71 +28,36 @@ module Elexon
   end
 
   class BaseCSV < Base
-    def initialize(date_or_io)
-      if date_or_io.is_a? Date
-        date = date_or_io
-        @options = {}
-        @options[:format] = 'csv'
-      else
-        @csv = FastestCSV.read(date_or_io, row_sep: "\r\n")
-      end
+    def initialize
+      @options = {}
+      @options[:format] = 'csv'
     end
 
-    def fetch
-      return if @csv
+    def add(date)
+      add_date(date)
+    end
 
-      logger.benchmark_info(@url) do
-        res = @@faraday.get(@url, @options)
-        @csv = FastestCSV.parse(res.body, row_sep: "\r\n")
+    def add_date(date)
+      add_date_range(date, date + 1.day)
+    end
+
+    def add_url(url, options = {})
+      @url = url
+      @options.merge!(options)
+      res = logger.benchmark_info(url) do
+        @@faraday.get(url, @options)
       end
+      csv = FastestCSV.parse(res.body, row_sep: "\r\n")
+
+      add_csv(csv)
     end
   end
 
   # https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/FUELINST
   class Fuelinst < BaseCSV
     include SemanticLogger::Loggable
-    def self.each
-      ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
-        from = from.in_time_zone(self::TZ).to_datetime
-        to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
-        to = to.in_time_zone(self::TZ).to_datetime
-        SemanticLogger.tagged(country) do
-          (from..to).each do |date|
-            yield self.new date
-          rescue EmptyError
-            logger.warn "Empty response #{date}"
-          end
-        end
-      end
-    end
 
-    def self.cli(args)
-      if args.length == 1 && args.first.include?('.')
-        self.new(args.first).process
-      elsif args.length < 2
-        $stderr.puts "#{$0} <from> <to>"
-        exit 1
-      else
-        from = Chronic.parse(args.shift).to_date
-        to = Chronic.parse(args.shift).to_date
-
-        (from...to).each do |time|
-          e = self.new(time, time + 1.day)
-          e.process
-        rescue EmptyError
-          logger.warn "EmptyError #{time}"
-        end
-      end
-    end
-
-    def initialize(from_or_path, to = nil)
-      super(from_or_path)
-      @from = from_or_path
-      @to = to || @from + 1.day
-      @url = "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELINST"
-      @options[:settlementDateFrom] = @from.strftime('%Y-%m-%d')
-      @options[:settlementDateTo] = @to.strftime('%Y-%m-%d')
-    end
+    URL = 'https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELINST'
 
     FUEL_MAP = {
       'BIOMASS' => 'biomass',
@@ -119,11 +84,58 @@ module Elexon
       'INTNSL' => 'NO',
       'INTVKL' => 'DK'
     }
-    def process
-      r_gen = []
-      r_tran = {}
-      fetch
-      @csv.each do |row|
+
+    def initialize
+      super
+      @r_gen = []
+      @r_tran = {}
+    end
+
+    def self.cli(args)
+      if args.length == 1 && args.first.include?('.')
+        self.new.add_file(args.first).done!
+      elsif args.length < 2
+        $stderr.puts "#{$0} <from> <to>"
+        exit 1
+      else
+        from = Chronic.parse(args.shift).to_date
+        to = Chronic.parse(args.shift).to_date
+
+        (from...to).each do |time|
+          self.new.add_date(time).done!
+        rescue EmptyError
+          logger.warn "EmptyError #{time}"
+        end
+      end
+    end
+
+    def self.each
+      ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+        from = from.in_time_zone(self::TZ).to_datetime
+        to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
+        to = to.in_time_zone(self::TZ).to_datetime
+        SemanticLogger.tagged(country) do
+          (from..to).each do |date|
+            yield date
+          rescue EmptyError
+            logger.warn "Empty response #{date}"
+          end
+        end
+      end
+    end
+
+    def add_date_range(from, to)
+      @from = from
+      @to = to
+      options = {
+        settlementDateFrom: from.strftime('%Y-%m-%d'),
+        settlementDateTo: to.strftime('%Y-%m-%d')
+      }
+      add_url(URL, options)
+    end
+
+    def add_csv(csv)
+      csv.each do |row|
         #0 Dataset
         next unless row[0] == 'FUELINST'
         #1 PublishTime
@@ -136,19 +148,25 @@ module Elexon
         value = row[6].to_i*1000
 
         if production_type = FUEL_MAP[row[5]]
-          r_gen << {country: 'GB', time:, value:, production_type: FUEL_MAP[row[5]]}
+          @r_gen << {country: 'GB', time:, value:, production_type: FUEL_MAP[row[5]]}
         elsif to_area = TRAN_MAP[row[5]]
           k = [time,to_area]
-          r_tran[k] ||= {time:, from_area: 'GB', to_area:, value: 0}
-          r_tran[k][:value] += value
+          @r_tran[k] ||= {time:, from_area: 'GB', to_area:, value: 0}
+          @r_tran[k][:value] += value
         else
           raise row.inspect
         end
       end
 
-      r_gen = Validate.validate_generation(r_gen, self.class.source_id)
-      Out::Generation.run(r_gen, @from, @to, self.class.source_id)
-      Out::Transmission.run(r_tran.values, @from, @to, self.class.source_id)
+      self
+    end
+
+    def done!
+      return if @r_gen.empty? && @r_tran.empty?
+
+      @r_gen = Validate.validate_generation(@r_gen, self.class.source_id)
+      Out::Generation.run(@r_gen, @from, @to, self.class.source_id)
+      Out::Transmission.run(@r_tran.values, @from, @to, self.class.source_id)
     end
   end
 
@@ -156,19 +174,12 @@ module Elexon
   class Generation < BaseCSV
     include SemanticLogger::Loggable
 
-    def self.each
-      ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
-        from = from.in_time_zone(self::TZ).to_datetime
-        to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
-        to = to.in_time_zone(self::TZ).to_datetime
-        SemanticLogger.tagged(country) do
-          (from..to).each do |date|
-            yield self.new date
-          rescue EmptyError
-            logger.warn "Empty response #{date}"
-          end
-        end
-      end
+    URL = 'https://data.elexon.co.uk/bmrs/api/v1/datasets/AGPT'
+    DATETIME_FORMAT = '%Y-%m-%d %H:%M'
+
+    def initialize
+      super
+      @r = {}
     end
 
     def self.cli(args)
@@ -180,25 +191,37 @@ module Elexon
       to = Chronic.parse(args.shift).to_date
 
       (from...to).each do |date|
-        e = Elexon::Generation.new(date)
-        e.process
+        self.new.add_date(date).done!
       end
     end
 
-    DATETIME_FORMAT = '%Y-%m-%d %H:%M'
-    def initialize(date)
-      super
-      @url = 'https://data.elexon.co.uk/bmrs/api/v1/datasets/AGPT'
-      @from = date
-      @to = date + 1.day
-      @options[:publishDateTimeFrom] = @from.strftime(DATETIME_FORMAT)
-      @options[:publishDateTimeTo] = @to.strftime(DATETIME_FORMAT)
+    def self.each
+      ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+        from = from.in_time_zone(self::TZ).to_datetime
+        to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
+        to = to.in_time_zone(self::TZ).to_datetime
+        SemanticLogger.tagged(country) do
+          (from..to).each do |date|
+            yield date
+          rescue EmptyError
+            logger.warn "Empty response #{date}"
+          end
+        end
+      end
     end
 
-    def process
-      r = {}
-      fetch
-      @csv.each do |row|
+    def add_date_range(from, to)
+      @from = from
+      @to = to
+      options = {
+        publishDateTimeFrom: @from.strftime(DATETIME_FORMAT),
+        publishDateTimeTo: @to.strftime(DATETIME_FORMAT)
+      }
+      add_url(URL, options)
+    end
+
+    def add_csv(csv)
+      csv.each do |row|
         #0 Dataset
         next unless row[0] == 'AGPT'
         #1 DocumentId
@@ -214,12 +237,18 @@ module Elexon
         #8 SettlementDate
         #9 SettlementPeriod
         k=[time,production_type]
-        r[k] ||= {country: 'GB_B1620', production_type:, time:, value:}
+        @r[k] ||= {country: 'GB_B1620', production_type:, time:, value:}
       end
 
-      r = Validate.validate_generation(r.values, self.class.source_id)
+      self
+    end
 
-      Out::Generation.run(r, @from, @to, self.class.source_id)
+    def done!
+      return if @r.empty?
+
+      @r = Validate.validate_generation(@r.values, self.class.source_id)
+
+      Out::Generation.run(@r, @from, @to, self.class.source_id)
     end
   end
 
@@ -229,19 +258,11 @@ module Elexon
   class Load < BaseCSV
     include SemanticLogger::Loggable
 
-    def self.each
-      ::Load.joins(:area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
-        from = from.in_time_zone(self::TZ).to_datetime
-        to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
-        to = to.in_time_zone(self::TZ).to_datetime
-        SemanticLogger.tagged(country) do
-          (from..to).each do |date|
-            yield self.new date
-          rescue EmptyError
-            logger.warn "Empty response #{date}"
-          end
-        end
-      end
+    URL = 'https://data.elexon.co.uk/bmrs/api/v1/demand/actual/total'
+
+    def initialize
+      super
+      @r = {}
     end
 
     def self.cli(args)
@@ -253,22 +274,38 @@ module Elexon
       to = Chronic.parse(args.shift).to_date
 
       (from...to).each do |time|
-        e = Elexon::Load.new(time)
-        e.process
+        self.new.add_date(time).done!
       end
     end
 
-    def initialize(date)
-      super
-      @url = 'https://data.elexon.co.uk/bmrs/api/v1/demand/actual/total'
-      @options[:from] = date.strftime(DATE_FORMAT)
-      @options[:to] = (date + 1.day).strftime(DATE_FORMAT)
+    def self.each
+      ::Load.joins(:area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+        from = from.in_time_zone(self::TZ).to_datetime
+        to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
+        to = to.in_time_zone(self::TZ).to_datetime
+        SemanticLogger.tagged(country) do
+          (from..to).each do |date|
+            yield date
+          rescue EmptyError
+            logger.warn "Empty response #{date}"
+          end
+        end
+      end
     end
-    def process
-      r = {}
-      fetch
-      @csv.shift #skip header
-      @csv.each do |row|
+
+    def add_date_range(from, to)
+      @from = from
+      @to = to
+      options = {
+        from: @from.strftime(DATE_FORMAT),
+        to: @to.strftime(DATE_FORMAT)
+      }
+      add_url(URL, options)
+    end
+
+    def add_csv(csv)
+      csv.shift #skip header
+      csv.each do |row|
         #0 PublishTime
         #1 StartTime
         time = Time.strptime(row[1], TIME_FORMAT)
@@ -276,17 +313,35 @@ module Elexon
         #3 SettlementPeriod
         #4 Quantity
         value = (row[4].to_f*1000).to_i
-        r[time] ||= {time:, country: 'GB', value:}
+        @r[time] ||= {time:, country: 'GB', value:}
       end
-      #require 'pry' ; binding.pry
-      r = Validate.validate_load(r.values, self.class.source_id)
-      Out::Load.run(r, @from, @to, self.class.source_id)
+
+      self
+    end
+
+    def done!
+      return if @r.empty?
+
+      @r = Validate.validate_load(@r.values, self.class.source_id)
+      Out::Load.run(@r, @from, @to, self.class.source_id)
     end
   end
 
   # https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/B1610
   class Unit < BaseCSV
     include SemanticLogger::Loggable
+
+    URL = 'https://data.elexon.co.uk/bmrs/api/v1/datasets/B1610'
+
+    @@units = {}
+    def self.clear_cache!
+      @@units = {}
+    end
+
+    def initialize
+      super
+      @r = {}
+    end
 
     def self.cli(args)
       if args.length != 2
@@ -296,51 +351,43 @@ module Elexon
       from = Chronic.parse(args.shift).to_date
       to = Chronic.parse(args.shift).to_date
 
-      (from...to).each do |date|
-        begin
-          (1..50).each do |period|
-            Elexon::Unit.new(date, period).process
-          end
-        rescue EmptyError
-          logger.warn "EmptyError #{time}"
-        end
-      end
+      self.new.add_date_range(from, to).done!
+    rescue EmptyError
+      logger.warn "EmptyError #{from} to #{to}"
     end
 
     def self.each
       from =::GenerationUnit.joins(:unit => :area).where("area.source" => self.source_id).where("time > ?", 2.months.ago).maximum(:time)
       from = from.to_date
       (from..5.business_days.ago).each do |date|
-        (1..50).each do |period|
-          yield self.new(date, period)
-        end
+        yield date
       rescue EmptyError
         logger.warn "Empty response #{date}"
       end
     end
 
-    def initialize(date, period)
-      super(date)
-      @from = date
-      @to = date.tomorrow
-      @url = 'https://data.elexon.co.uk/bmrs/api/v1/datasets/B1610'
-      @options[:settlementDate] = date.strftime('%Y-%m-%d')
-      @options[:settlementPeriod] = period
-      #@options[:NGCBMUnitID] = unit
+    def add_date_range(from, to)
+      @from = from
+      @to = to
+      # Loop through all dates in the range
+      (from...to).each do |date|
+        # Loop through all 50 periods for each date
+        (1..50).each do |period|
+          options = {
+            settlementDate: date.strftime('%Y-%m-%d'),
+            settlementPeriod: period
+          }
+          add_url(URL, options)
+        end
+      end
+
+      self
     end
 
-    @@units = {}
-    def self.clear_cache!
-      @@units = {}
-    end
-
-    def points
-      fetch
-      #require 'pry' ; binding.pry
+    def add_csv(csv)
       area = Area.find_by(code: 'GB', source: 'elexon')
       default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
-      r = {}
-      @csv.each do |row|
+      csv.each do |row|
         #0 Dataset
         next unless row[0] == 'B1610'
         #1 PsrType
@@ -360,18 +407,19 @@ module Elexon
         value = row[7].to_f*1000*2
 
         k = [unit.id, time]
-        if r[k] && r[k][:value] != value
+        if @r[k] && @r[k][:value] != value
           require 'pry' ; binding.pry
         end
-        r[k] = {unit_id: unit.id, time:, value:}
+        @r[k] = {unit_id: unit.id, time:, value:}
       end
-      #binding.irb
 
-      r.values
+      self
     end
 
-    def process
-      Out::Unit.run(points, @from, @to, self.class.source_id)
+    def done!
+      return if @r.empty?
+
+      Out::Unit.run(@r.values, @from, @to, self.class.source_id)
     end
   end
 
@@ -380,21 +428,25 @@ module Elexon
     include SemanticLogger::Loggable
     include CliMixin::Yearly
 
-    def initialize(date)
-      @url = 'https://data.elexon.co.uk/bmrs/api/v1/datasets/IGCA'
-      @from = date
-      @to = date + 1.year
+    URL = 'https://data.elexon.co.uk/bmrs/api/v1/datasets/IGCA'
+
+    def initialize
       super
+      @r = []
     end
 
-    def points_capacity
+    def add_date_range(from, to)
+      @from = from
+      @to = to
+      add_url(URL)
+    end
+
+    def add_csv(csv)
       area = Area.find_by(code: 'GB_B1620', source: 'elexon')
       area_id = area.id
 
-      fetch
-      5.times { @csv.shift }
-      r = []
-      @csv.each do |row|
+      csv.shift 5
+      csv.each do |row|
         #0:Document Type
         next unless row[0] == 'Installed generation per type'
 
@@ -426,15 +478,16 @@ module Elexon
         #9:Document ID
         #10:Document RevNum
 
-        r << {area_id:, production_type:, time:, value:}
+        @r << {area_id:, production_type:, time:, value:}
       end
-      require 'pry' ; binding.pry
 
-      r
+      self
     end
 
-    def process
-      Out::Capacity.run(points_capacity, nil, nil, self.class.source_id)
+    def done!
+      return if @r.empty?
+
+      Out::Capacity.run(@r, nil, nil, self.class.source_id)
     end
   end
 
@@ -443,19 +496,24 @@ module Elexon
     include SemanticLogger::Loggable
     include CliMixin::Yearly
 
-    def initialize(date)
-      @url = 'https://data.elexon.co.uk/bmrs/api/v1/datasets/IGCPU'
+    URL = 'https://data.elexon.co.uk/bmrs/api/v1/datasets/IGCPU'
+
+    def initialize
       super
+      @r = {}
     end
 
-    def points_unit_capacity
+    def add_date_range(from, to)
+      @from = from
+      @to = to
+      add_url(URL)
+    end
+
+    def add_csv(csv)
       area = Area.find_by(code: 'GB', source: 'elexon')
 
-      fetch
-      @csv.shift
-      r = {}
-      #r = []
-      @csv.each do |row|
+      csv.shift
+      csv.each do |row|
         #Document Type
         next unless row[0] == 'Configuration document'
 
@@ -511,18 +569,19 @@ module Elexon
 
         #Decommissioning Date
         k = [unit.id, time]
-        if r[k]
+        if @r[k]
           require 'pry' ; binding.pry
         end
-        r[k] = {unit_id: unit.id, time:, value:}
+        @r[k] = {unit_id: unit.id, time:, value:}
       end
-      #require 'pry' ; binding.pry
 
-      r.values
+      self
     end
 
-    def process
-      Out::UnitCapacity.run(points_unit_capacity, nil, nil, self.class.source_id)
+    def done!
+      return if @r.empty?
+
+      Out::UnitCapacity.run(@r.values, nil, nil, self.class.source_id)
     end
   end
 
