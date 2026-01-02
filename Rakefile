@@ -179,8 +179,8 @@ end
 
 namespace :cammesa do
   task all: [:renovables, :programacion_diaria]
-  loop_task :renovables, Cammesa::Renovables
-  loop_task :programacion_diaria, Cammesa::ProgramacionDiaria
+  chain_task :renovables, Cammesa::Renovables
+  chain_task :programacion_diaria, Cammesa::ProgramacionDiaria
 end
 
 desc 'Export areas to test/fixtures/areas.yml'
