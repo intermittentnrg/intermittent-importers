@@ -16,17 +16,6 @@ end
 
 ActiveSupport.on_load(:active_record) { extend Timescaledb::ActsAsHypertable }
 
-def loop_task(name, clazz)
-  desc "Run refresh task"
-  task name do |t|
-    SemanticLogger.tagged(task: t.to_s) do
-      clazz.each &:process
-    rescue
-      @logger.error "Exception", $!
-    end
-  end
-end
-
 def chain_task(name, clazz)
   desc "Run refresh task with chaining API"
   task name do |t|
