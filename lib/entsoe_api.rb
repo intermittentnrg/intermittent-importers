@@ -2,29 +2,37 @@
 require 'faraday/retry'
 require 'faraday/gzip'
 require 'ox'
+require 'chronic'
 
 module EntsoeApi
   DEFAULT_START = DateTime.parse('2014-01-01')
 
   class Base
+    include SemanticLogger::Loggable
     TZ = TZInfo::Timezone.get('UTC')
+
     def self.source_id
       "entsoe"
     end
 
-    def initialize from: DateTime.now.beginning_of_day, to: DateTime.now.beginning_of_hour, psr_type: nil
-      from = from.strftime('%Y%m%d%H%M') unless from.is_a? String
-      to = to.strftime('%Y%m%d%H%M') unless to.is_a? String
-      @from = from
-      @to = to
-      @options = {securityToken: ENV['ENTSOE_TOKEN']}
-      @options[:psrType] = psr_type if psr_type.present?
-      @options[:periodStart] = from
-      @options[:periodEnd] = to
+    def initialize
+      @r = []
     end
 
-    def fetch
-      res = logger.benchmark_info("https://web-api.tp.entsoe.eu/api #{@from} #{@to}") do
+    def add(args)
+      add_date_range(*args)
+    end
+
+    def add_date(date)
+      add_date_range(date, date + 1.day)
+    end
+
+    def add_date_range(from, to)
+      @options[:securityToken] = ENV['ENTSOE_TOKEN']
+      @options[:periodStart] = from.strftime('%Y%m%d%H%M')
+      @options[:periodEnd] = to.strftime('%Y%m%d%H%M')
+
+      res = logger.benchmark_info("https://web-api.tp.entsoe.eu/api #{from.strftime('%Y-%m-%d')} #{to.strftime('%Y-%m-%d')}") do
         faraday = Faraday.new(request: {timeout: 600}) do |f|
           f.request :retry, {
             retry_statuses: [500, 502],
@@ -37,27 +45,30 @@ module EntsoeApi
         end
         faraday.get('https://web-api.tp.entsoe.eu/api', @options)
       end
-      #puts res.body
-      @doc = logger.benchmark_info("xml parse") do
+
+      doc = logger.benchmark_info("xml parse") do
         Ox.parse(res.body)
       end
 
-      code, reason = @doc.locate("*/Reason/*/^String")
+      code, reason = doc.locate("*/Reason/*/^String")
       if reason.present?
         raise EmptyError if reason =~ /No matching data found/
         raise reason
       end
+
+      parse_response(doc)
+
+      self
     end
 
-    def points_selector
-      @doc.locate('*/TimeSeries').each do |ts|
+    def points_selector(doc)
+      doc.locate('*/TimeSeries').each do |ts|
         @country = ts.locate('outBiddingZone_Domain.mRID').first.text
         yield ts
       end
     end
-    def points
-      r=[]
-      points_selector do |ts|
+    def parse_response(doc)
+      points_selector(doc) do |ts|
         #unless ts.locate('inBiddingZone_Domain.mRID').first
         #  require 'pry' ; binding.pry
         #end
@@ -77,19 +88,16 @@ module EntsoeApi
           if gapfill && @last_position && @last_position + 1 != @position
             ((@last_position+1)...@position).each do |gap_position|
               time = start + (gap_position * resolution).minutes
-              gap_point = r.last.dup
+              gap_point = @r.last.dup
               gap_point[:time] = time
-              r << gap_point
+              @r << gap_point
             end
           end
           @last_position = @position
-          @last_time = @time
-          r << point(p)
+          @r << point(p)
         end
       end
       #require 'pry' ; binding.pry
-
-      r
     end
 
     def point(p)
@@ -100,13 +108,6 @@ module EntsoeApi
         value: p.locate('quantity/^String').first.to_i*1000
       }
     end
-
-    def last_time
-      unless @last_time
-        require 'pry' ; binding.pry
-      end
-      @last_time
-    end
   end
 
   #16.1.B&C Actual Generation per Production Type
@@ -114,28 +115,48 @@ module EntsoeApi
   class Generation < Base
     include SemanticLogger::Loggable
 
-    def initialize(country: nil, **kwargs)
-      super(**kwargs)
-      @country = country
-      @process_type = :realised
+    def self.cli(args)
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+      countries = args
+      countries = COUNTRIES.keys if countries.empty?
+      countries.each do |country|
+        new.add_date_range(from, to, country).done!
+      end
+    end
+
+    def self.each
+      ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from2|
+        from = from2.in_time_zone(self::TZ).to_datetime
+        to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
+        to = to.in_time_zone(self::TZ).to_datetime
+        SemanticLogger.tagged(country) do
+          yield [from, to, country]
+        end
+      end
+    end
+
+    def add_date_range(from, to, country)
+      @options = {}
       @options[:documentType] = 'A75'
       @options[:processType] = PROCESS_TYPES[:realised]
       @options[:in_Domain] = COUNTRIES[country.to_sym]
-      fetch
+      super(from, to)
     end
 
-    def points_selector
-      @doc.locate('*/TimeSeries').each do |ts|
+    def points_selector(doc)
+      doc.locate('*/TimeSeries').each do |ts|
         next if ts.locate('outBiddingZone_Domain.mRID').first
         @country = ts.locate('inBiddingZone_Domain.mRID').first.text
         yield ts
       end
     end
 
-    def process
-      r = Validate.validate_generation(points, self.class.source_id)
-
-      Out::Generation.run(r, @from, @to, self.class.source_id)
+    def done!
+      @from = @r.min { |a,b| a[:time] <=> b[:time] }[:time]
+      @to = @r.max { |a,b| a[:time] <=> b[:time] }[:time]
+      @r = Validate.validate_generation(@r, self.class.source_id)
+      Out::Generation.run(@r, @from, @to, self.class.source_id)
     end
   end
 
@@ -144,17 +165,36 @@ module EntsoeApi
   class Unit < Base
     include SemanticLogger::Loggable
 
-    def initialize(area, **kwargs)
-      super(**kwargs)
-      @area = area
+    def self.each
+      from =::GenerationUnit.joins(:unit => :area).where("area.source" => self.source_id).where("time > ?", 2.months.ago).maximum(:time)
+      from = from.to_datetime
+      to = [from + 1.year, DateTime.now.beginning_of_hour].min
+      (from..to).each do |date|
+        yield [from, to, country]
+      rescue EmptyError
+        logger.warn "Empty response #{date}"
+      end
+    end
+
+    def self.cli(args)
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+      area_codes = args
+      area_codes.each do |area_code|
+        area = Area.find_by!(code: area_code, source: self.source_id)
+        new.add_date_range(from, to, area).done!
+      end
+    end
+
+    def add_date_range(from, to, area)
+      @options = {}
       @options[:documentType] = 'A73'
       @options[:processType] = PROCESS_TYPES[:realised]
       @options[:in_Domain] = area.internal_id
-      fetch
+      super(from, to)
     end
-    def points
-      r=[]
-      points_selector do |ts|
+    def parse_response(doc)
+      points_selector(doc) do |ts|
         next if ts.locate('outBiddingZone_Domain.mRID').first
 
         start = Time.strptime(ts.locate('Period/timeInterval/start/^String').first, '%Y-%m-%dT%H:%M%z')
@@ -172,12 +212,9 @@ module EntsoeApi
         data = ts.locate('Period/Point').each do |p|
           @time = start + ((p.locate('position/^String').first.to_i - 1) * resolution).minutes
           @last_time = @time
-          r << point(p)
+          @r << point(p)
         end
       end
-      #require 'pry' ; binding.pry
-
-      r
     end
     def point(p)
       {
@@ -186,8 +223,10 @@ module EntsoeApi
         value: p.locate('quantity/^String').first.to_i*1000
       }
     end
-    def process
-      Out::Unit.run(points, @from, @to, self.class.source_id)
+    def done!
+      @from = @r.min { |a,b| a[:time] <=> b[:time] }[:time]
+      @to = @r.max { |a,b| a[:time] <=> b[:time] }[:time]
+      Out::Unit.run(@r, @from, @to, self.class.source_id)
     end
   end
 
@@ -196,20 +235,33 @@ module EntsoeApi
   class Load < Base
     include SemanticLogger::Loggable
 
-    def initialize(country:, **kwargs)
-      super(**kwargs)
-      @country = country
-      @process_type = :realised
+    def self.each
+      ::Load.joins(:area).group(:'area.code').where("time > ?", 12.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+        from = from.in_time_zone(self::TZ).to_datetime
+        to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
+        to = to.in_time_zone(self::TZ).to_datetime
+        SemanticLogger.tagged(country) do
+          yield [from, to, country]
+        end
+      end
+    end
+
+    def self.cli(args)
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+      countries = args
+      countries = COUNTRIES.keys if countries.empty?
+      countries.each do |country|
+        new.add_date_range(from, to, country).done!
+      end
+    end
+
+    def add_date_range(from, to, country)
+      @options = {}
       @options[:documentType] = 'A65'
       @options[:processType] = PROCESS_TYPES[:realised]
       @options[:outBiddingZone_Domain] = COUNTRIES[country.to_sym]
-      fetch
-    end
-    def points_load
-      data = points
-      data.each { |p| p.except!(:process_type, :production_type) }
-
-      Validate.validate_load(data, self.class.source_id)
+      super(from, to)
     end
     def point(p)
       {
@@ -218,13 +270,18 @@ module EntsoeApi
         value: p.locate('quantity/^String').first.to_i*1000
       }
     end
-    def process
-      Out::Load.run(points_load, @from, @to, self.class.source_id)
+    def done!
+      @r.each { |p| p.except!(:process_type, :production_type) }
+      @from = @r.min { |a,b| a[:time] <=> b[:time] }[:time]
+      @to = @r.max { |a,b| a[:time] <=> b[:time] }[:time]
+      @r = @r.each { |p| p.except!(:process_type, :production_type) }
+      @r = Validate.validate_load(@r, self.class.source_id)
+      Out::Load.run(@r, @from, @to, self.class.source_id)
     end
   end
 
   #12.1.D Energy Prices
-  #https://web-api.tp.entsoe.eu/api?documentType=A44&periodStart=202407272200&periodEnd=202407282200&out_Domain=10YAT-APG------L&in_Domain=10YAT-APG------L
+  # https://documenter.getpostman.com/view/7009892/2s93JtP3F6#3b383df0-ada2-49fe-9a50-98b1bb201c6b
   class Price < Base
     include SemanticLogger::Loggable
 
@@ -238,24 +295,33 @@ module EntsoeApi
             next
           end
 
-          yield self.new(country: country, from: from, to: to)
+          yield [from, to, country]
         end
       end
     end
 
-    def initialize(country:, **kwargs)
-      super(**kwargs)
+    def self.cli(args)
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+      countries = args
+      countries = COUNTRIES.keys if countries.empty?
+      countries.each do |country|
+        new.add_date_range(from, to, country).done!
+      end
+    end
+
+    def add_date_range(from, to, country)
       @country = country
+      @options = {}
       @options[:documentType] = 'A44'
       #@options['contract_MarketAgreement.type'] = 'A01'
       internal_id = Area.where(source: self.class.source_id, code: country).pluck(:internal_id).first
       @options[:in_domain] = @options[:out_Domain] = internal_id
-      fetch
-      @first_s = nil
+      super(from, to)
     end
 
-    def points_selector
-      @doc.locate('*/TimeSeries').each do |ts|
+    def points_selector(doc)
+      doc.locate('*/TimeSeries').each do |ts|
         s = ts.locate('contract_MarketAgreement.type/^String')
         next unless s == ['A01'] #Day ahead
         s = ts.locate('classificationSequence_AttributeInstanceComponent.position/^String')
@@ -270,8 +336,10 @@ module EntsoeApi
         value: p.locate('price.amount/^String').first.to_f*100
       }
     end
-    def process
-      ::Out::Price.run(points, @from, @to, self.class.source_id)
+    def done!
+      @from = @r.min { |a,b| a[:time] <=> b[:time] }[:time]
+      @to = @r.max { |a,b| a[:time] <=> b[:time] }[:time]
+      Out::Price.run(@r, @from, @to, self.class.source_id)
     end
   end
 
@@ -280,34 +348,61 @@ module EntsoeApi
   class Transmission < Base
     include SemanticLogger::Loggable
 
-    def initialize(from_area:, to_area:, **kwargs)
-      super(**kwargs)
-      @from_area, @to_area = from_area, to_area
+    def self.each
+      ::Transmission.joins(:from_area)
+          .joins('INNER JOIN "areas" "to_area" ON "to_area"."id" = "transmission"."to_area_id"')
+          .group(:'from_area.code', :'to_area.code')
+          .where("time > ?", 12.months.ago)
+          .where(from_area: {source: self.source_id})
+          .pluck(:'from_area.code', :'to_area.code', Arel.sql("LAST(time, time)"))
+          .each do |from_area, to_area, from|
+            from = from.to_datetime
+            to = [from + 1.year, DateTime.now.beginning_of_hour].min
+            SemanticLogger.tagged("#{from_area} > #{to_area}") do
+              yield [from, to, from_area, to_area]
+            end
+          end
+    end
+
+    def self.cli(args)
+      if args.length < 4
+        $stderr.puts "Usage: #{$0} <from> <to> <from_area> <to_area>"
+        exit 1
+      end
+
+      from = Chronic.parse(args.shift).to_date
+      to = Chronic.parse(args.shift).to_date
+      from_area = args.shift
+      to_area = args.shift
+
+      new.add_date_range(from, to, from_area, to_area).done!
+    end
+
+    def add_date_range(from, to, from_area, to_area)
+      @options = {}
       @options[:documentType] = 'A11'
       @options[:out_Domain] = COUNTRIES[from_area.to_sym]
       @options[:in_Domain] = COUNTRIES[to_area.to_sym]
-      #puts @options.inspect
-      fetch
+      super(from, to)
     end
 
-    def points_selector
-      @doc.locate('*/TimeSeries').each do |ts|
+    def points_selector(doc)
+      doc.locate('*/TimeSeries').each do |ts|
         @from_area = ts.locate('out_Domain.mRID').first.text
         @to_area = ts.locate('in_Domain.mRID').first.text
         yield ts
       end
     end
 
-    # def points
-    #   r=[]
-    #   points_selector do |ts|
+    # def parse_response(doc)
+    #   points_selector(doc) do |ts|
     #     start = DateTime.strptime(ts.locate('Period/timeInterval/start/^String').first, '%Y-%m-%dT%H:%M%z')
     #     resolution = ts.locate('Period/resolution/^String').first.match(/^PT(\d+)M$/) { |m| m[1].to_i }
 
     #     data = ts.locate('Period/Point') do |p|
     #       @time = start + ((p.locate('position/^String').first.to_i - 1) * resolution).minutes
     #       @last_time = @time
-    #       r << point(p)
+    #       @r << point(p)
     #     end
     #   end
 
@@ -321,8 +416,10 @@ module EntsoeApi
         value: p.locate('quantity/^String').first.to_i*1000
       }
     end
-    def process
-      Out::Transmission.run(points, @from, @to, self.class.source_id)
+    def done!
+      @from = @r.min { |a,b| a[:time] <=> b[:time] }[:time]
+      @to = @r.max { |a,b| a[:time] <=> b[:time] }[:time]
+      Out::Transmission.run(@r, @from, @to, self.class.source_id)
     end
   end
 

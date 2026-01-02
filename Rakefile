@@ -112,7 +112,7 @@ namespace :entsoe do
   loop_task :unit, EntsoeFms::Unit
   loop_task :load, EntsoeFms::Load
   loop_task :price, EntsoeFms::Price
-  loop_task :price_api, EntsoeApi::Price
+  chain_task :price_api, EntsoeApi::Price
   loop_task :transmission, EntsoeFms::Transmission
 end
 
