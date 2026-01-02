@@ -12,7 +12,22 @@ CSV
       it do
         stub_request(:get, 'https://reports-public.ieso.ca/public/Demand/PUB_Demand_2023.csv').
           to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
-        expect(::Load).to receive(:upsert_all)
+        expect(Out::Load).to receive(:run) do |points, from, to, source|
+          expect(points.length).to eq(1)
+          expect(points.first[:country]).to eq('CA-ON')
+          expect(points.first[:value]).to eq(15130000)
+          expect(source).to eq('ieso')
+        end
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              path: 'PUB_Demand_2023.csv',
+              source: 'ieso',
+              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Ieso::Base::HTTP_DATE_FORMAT)
+            )
+          ),
+          unique_by: [:source, :path]
+        )
         subject.cli(['2023-10-01'])
       end
     end
@@ -37,7 +52,21 @@ Delivery Date,Generator,Fuel Type,Measurement,Hour 1,Hour 2,Hour 3,Hour 4,Hour 5
       it do
         stub_request(:get, 'https://reports-public.ieso.ca/public/GenOutputCapabilityMonth/PUB_GenOutputCapabilityMonth_202310.csv').
           to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
-        expect(::GenerationUnit).to receive(:upsert_all)
+        expect(Out::Unit).to receive(:run) do |points, from, to, source|
+          expect(points.length).to eq(24)
+          expect(points.first[:value]).to eq(4000)
+          expect(source).to eq('ieso')
+        end
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              path: 'PUB_GenOutputCapabilityMonth_202310.csv',
+              source: 'ieso',
+              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Ieso::Base::HTTP_DATE_FORMAT)
+            )
+          ),
+          unique_by: [:source, :path]
+        )
         subject.cli(['2023-10-01'])
       end
     end
@@ -51,96 +80,29 @@ end
 
 RSpec.describe Ieso::GenerationMonth do
   subject { Ieso::GenerationMonth }
-  let(:body) do
-    # needs 2x HourlyData and 2x FuelTotal for correct hash to be produced
-    <<-XML
-<Document>
-    <DocBody>
-        <DeliveryYear>2023</DeliveryYear>
-        <DailyData>
-            <Day>2023-01-01</Day>
-            <HourlyData>
-                <Hour>1</Hour>
-                <FuelTotal>
-                    <Fuel>NUCLEAR</Fuel>
-                    <EnergyValue>
-                        <OutputQuality>0</OutputQuality>
-                        <Output>9977</Output>
-                    </EnergyValue>
-                </FuelTotal>
-                <FuelTotal>
-                    <Fuel>GAS</Fuel>
-                    <EnergyValue>
-                        <OutputQuality>-3</OutputQuality>
-                        <Output>130</Output>
-                    </EnergyValue>
-                </FuelTotal>
-            </HourlyData>
-            <HourlyData>
-                <Hour>2</Hour>
-                <FuelTotal>
-                    <Fuel>NUCLEAR</Fuel>
-                    <EnergyValue>
-                        <OutputQuality>0</OutputQuality>
-                        <Output>9993</Output>
-                    </EnergyValue>
-                </FuelTotal>
-                <FuelTotal>
-                    <Fuel>GAS</Fuel>
-                    <EnergyValue>
-                        <OutputQuality>-3</OutputQuality>
-                        <Output>130</Output>
-                    </EnergyValue>
-                </FuelTotal>
-            </HourlyData>
-        </DailyData>
-        <DailyData>
-            <Day>2023-01-02</Day>
-            <HourlyData>
-                <Hour>1</Hour>
-                <FuelTotal>
-                    <Fuel>NUCLEAR</Fuel>
-                    <EnergyValue>
-                        <OutputQuality>0</OutputQuality>
-                        <Output>10009</Output>
-                    </EnergyValue>
-                </FuelTotal>
-                <FuelTotal>
-                    <Fuel>GAS</Fuel>
-                    <EnergyValue>
-                        <OutputQuality>-3</OutputQuality>
-                        <Output>131</Output>
-                    </EnergyValue>
-                </FuelTotal>
-            </HourlyData>
-            <HourlyData>
-                <Hour>2</Hour>
-                <FuelTotal>
-                    <Fuel>NUCLEAR</Fuel>
-                    <EnergyValue>
-                        <OutputQuality>0</OutputQuality>
-                        <Output>10016</Output>
-                    </EnergyValue>
-                </FuelTotal>
-                <FuelTotal>
-                    <Fuel>GAS</Fuel>
-                    <EnergyValue>
-                        <OutputQuality>-3</OutputQuality>
-                        <Output>131</Output>
-                    </EnergyValue>
-                </FuelTotal>
-            </HourlyData>
-        </DailyData>
-    </DocBody>
-</Document>
-XML
-  end
+  let(:body) { File.read('spec/fixtures/ieso_generation_month.xml') }
   context :cli do
     context 'with date' do
       it do
         stub_request(:get, 'https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_2023.xml').
         to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
-        expect(Generation).to receive(:upsert_all)
+        expect(Out::Generation).to receive(:run) do |points, from, to, source|
+          expect(points.length).to eq(8)
+          expect(points.first[:country]).to eq('CA-ON')
+          expect(points.first[:production_type]).to eq('nuclear')
+          expect(points.first[:value]).to eq(9977000.0)
+          expect(source).to eq('ieso')
+        end
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              path: 'PUB_GenOutputbyFuelHourly_2023.xml',
+              source: 'ieso',
+              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Ieso::Base::HTTP_DATE_FORMAT)
+            )
+          ),
+          unique_by: [:source, :path]
+        )
         subject.cli(['2023-10-01'])
       end
     end
@@ -155,10 +117,23 @@ RSpec.describe Ieso::PriceYear do
   subject { Ieso::PriceYear }
   around(:example) { |ex| VCR.use_cassette('ieso_price_year', &ex) }
   let(:date) { Date.new(2023,1,1) }
-  context '#process' do
-    it do
-      expect(Out::Price).to receive(:run).with(array_including(hash_including(value: 1442)), anything, anything, anything)
-      subject.new(date).process
+  context 'cli' do
+    it 'processes year data' do
+      expect(Out::Price).to receive(:run) do |points, from, to, source|
+        expect(points.length).to eq(6264)
+        expect(points.first[:value]).to eq(1442)
+        expect(source).to eq('ieso')
+      end
+      expect(DataFile).to receive(:upsert_all).with(
+        array_including(
+          hash_including(
+            path: match(/PUB_PriceHOEPPredispOR_\d{4}.csv/),
+            source: 'ieso'
+          )
+        ),
+        unique_by: [:source, :path]
+      )
+      subject.cli([date.to_s])
     end
   end
 end
@@ -178,6 +153,16 @@ RSpec.describe Ieso::Intertie do
         expect(source).to eq('ieso')
       end
 
+      expect(DataFile).to receive(:upsert_all).with(
+        array_including(
+          hash_including(
+            path: match(/PUB_IntertieScheduleFlow_\d{8}\.xml/),
+            source: 'ieso'
+          )
+        ),
+        unique_by: [:source, :path]
+      )
+
       subject.cli(['2025-09-30'])
     end
   end
@@ -186,19 +171,51 @@ end
 RSpec.describe Ieso::IntertieYear do
   subject { Ieso::IntertieYear }
 
-  around(:example) { |ex| VCR.use_cassette('ieso_intertie_year_2023', &ex) }
+  let(:csv_body) do
+    <<-CSV
+\\Yearly Intertie Schedule and Flow Report,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+\\Created at 2026-01-01 08:01:44,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+\\For 2025,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,MANITOBA,MANITOBA,MANITOBA,MANITOBA SK,MANITOBA SK,MANITOBA SK,MICHIGAN,MICHIGAN,MICHIGAN,MINNESOTA,MINNESOTA,MINNESOTA,NEW-YORK,NEW-YORK,NEW-YORK,PQ.AT,PQ.AT,PQ.AT,PQ.B5D.B31L,PQ.B5D.B31L,PQ.B5D.B31L,PQ.D4Z,PQ.D4Z,PQ.D4Z,PQ.D5A,PQ.D5A,PQ.D5A,PQ.H4Z,PQ.H4Z,PQ.H4Z,PQ.H9A,PQ.H9A,PQ.H9A,PQ.P33C,PQ.P33C,PQ.P33C,PQ.Q4C,PQ.Q4C,PQ.Q4C,PQ.X2Y,PQ.X2Y,PQ.X2Y,Total,Total,Total
+Date,Hour,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow
+2025-01-01,1,85,0,-86,0,0,20,0,712,544,0,50,44,0,1600,1698,9,1131,1121,0,0,348,0,0,2,0,0,0,0,9,16,0,0,0,0,0,1,0,0,135,0,0,0,94,3502,3843
+2025-01-01,2,85,0,-88,0,0,19,0,902,711,0,24,21,0,1600,1733,9,1239,1232,0,0,348,0,0,2,0,0,0,0,9,12,0,0,0,0,0,1,0,0,136,0,0,0,94,3774,4127
+2025-01-01,3,85,41,-44,0,0,19,0,1194,1043,0,46,42,0,1600,1683,9,1239,1234,0,0,349,0,0,2,0,0,0,0,9,11,0,0,0,0,0,1,0,0,136,0,0,0,94,4129,4476
+    CSV
+  end
 
   context '#cli end-to-end test' do
     it 'should process date range and call Out::Transmission.run with correct data structure' do
+      # Stub the HTTP request
+      stub_request(:get, 'https://reports-public.ieso.ca/public/IntertieScheduleFlowYear/PUB_IntertieScheduleFlowYear_2025.csv')
+        .to_return(
+          body: csv_body,
+          headers: {
+            'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT',
+            'Content-Type' => 'text/csv'
+          }
+        )
+
       # Expect Out::Transmission.run to be called with the processed data
       expect(Out::Transmission).to receive(:run) do |points, from, to, source|
-        expect(points.length).to eq(35040)
+        expect(points.length).to eq(12)
         expect(points.first[:from_area]).to eq('CA-ON')
         expect(points.first[:to_area]).to eq('CA-MB')
         expect(source).to eq('ieso')
       end
 
-      subject.cli(['2023-01-01', '2023-01-03'])
+      expect(DataFile).to receive(:upsert_all).with(
+        array_including(
+          hash_including(
+            path: 'PUB_IntertieScheduleFlowYear_2025.csv',
+            source: 'ieso',
+            updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Ieso::Base::HTTP_DATE_FORMAT)
+          )
+        ),
+        unique_by: [:source, :path]
+      )
+
+      subject.cli(['2025-01-01'])
     end
   end
 end
@@ -208,19 +225,22 @@ RSpec.describe Ieso::Unit do
 
   around(:example) { |ex| VCR.use_cassette('ieso_unit', &ex) }
 
-  context '#process end-to-end test' do
-    it 'should process file and call DataFile.upsert with correct parameters' do
+  context 'add_date' do
+    it 'processes date and calls DataFile.upsert_all with correct parameters' do
       # Expect DataFile.upsert to be called with correct parameters
-      expect(DataFile).to receive(:upsert).with(
-        hash_including(
-          path: 'PUB_GenOutputCapability_20230901.xml',
-          source: 'ieso',
-          updated_at: Time.strptime('Sat, 02 Sep 2023 05:17:16 GMT', Ieso::Base::HTTP_DATE_FORMAT)
+      expect(DataFile).to receive(:upsert_all).with(
+        array_including(
+          hash_including(
+            path: 'PUB_GenOutputCapability_20230901.xml',
+            source: 'ieso',
+            updated_at: Time.strptime('Sat, 02 Sep 2023 05:17:16 GMT', Ieso::Base::HTTP_DATE_FORMAT)
+          )
         ),
         unique_by: [:source, :path]
       )
 
-      subject.new('https://reports-public.ieso.ca/public/GenOutputCapability/PUB_GenOutputCapability_20230901.xml').process
+      date = Date.new(2023, 9, 1)
+      subject.new.add_date(date).done!
     end
   end
 end

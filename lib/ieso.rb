@@ -8,6 +8,8 @@ require 'csv'
 
 module Ieso
   class Base
+    include SemanticLogger::Loggable
+
     HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
     TZ = TZInfo::Timezone.get('EST')
     FUEL_MAP = {
@@ -35,41 +37,46 @@ module Ieso
       #f.response :logger #, logger
     end
 
-    def initialize(date_or_path)
-      @from = date_or_path
-      if date_or_path.is_a? Date
-        if self.class::PERIOD == 1.year
-          @from = @from.beginning_of_year
-        elsif self.class::PERIOD == 1.month
-          @from = @from.beginning_of_month
-        end
-        @to = @from + self.class::PERIOD
-      end
+    def initialize
+      @datafiles = []
     end
 
-    def fetch
-      if @from.is_a? Date
-        @url = @from.strftime(self.class::URL_FORMAT)
-        last_modified = DataFile.last_modified(@url, self.class.source_id)
-        res = logger.benchmark_info(@url) do
-          @@faraday.get(@url) do |req|
-            req.headers['If-Modified-Since'] = last_modified if last_modified
-          end
+    def add_date(date)
+      @from = date
+      @to = @from + self.class::PERIOD
+      url = @from.strftime(self.class::URL_FORMAT)
+      add_url(url)
+      self
+    end
+
+    def add_url(url)
+      last_modified = DataFile.last_modified(url, self.class.source_id)
+      res = logger.benchmark_info(url) do
+        @@faraday.get(url) do |req|
+          req.headers['If-Modified-Since'] = last_modified if last_modified
         end
-        if res.status == 304 || !res.success?
-          raise EmptyError
-        end
-        @body = res.body
-        @filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
-      else
-        @body = File.read(@from)
       end
+      if res.status == 304 || !res.success?
+        raise EmptyError
+      end
+      body = res.body
+      updated_at = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
+      @datafiles << {path: File.basename(url), source: self.class.source_id, updated_at:}
+      add_buffer(body)
+      self
+    end
+
+    def add_file(path)
+      body = File.read(path)
+      updated_at = File.mtime(path)
+      @datafiles << {path: File.basename(path), source: self.class.source_id, updated_at:}
+      add_buffer(body)
+      self
     end
 
     def done!
-      return unless @url
-      DataFile.upsert({path: File.basename(@url), source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
-      logger.info "done! #{File.basename(@url)}"
+      DataFile.upsert_all(@datafiles, unique_by: [:source, :path])
+      self
     end
 
     def parse_unit(unit_internal_id, production_type_name)
@@ -80,9 +87,46 @@ module Ieso
         unit.production_type = ProductionType.find_by!(name: production_type_name)
       end
     end
+
+    def self.cli(args)
+      case args.length
+      when 1
+        if File.exist?(args[0])
+          # Single file
+          self.new.add_file(args[0]).done!
+        else
+          # Single date
+          date = Chronic.parse(args[0]).to_date
+          self.new.add_date(date).done!
+        end
+      when 2
+        # Date range
+        from = Chronic.parse(args.shift).to_date
+        to = Chronic.parse(args.shift).to_date
+        period = self::PERIOD
+
+        (from...to).each do |date|
+          # Filter dates based on PERIOD
+          if period == 1.year
+            next unless date.day == 1 && date.month == 1
+          elsif period == 1.month
+            next unless date.day == 1
+          end
+
+          self.new.add_date(date).done!
+        rescue EmptyError
+          logger.warn "EmptyError #{date}"
+        end
+      else
+        $stderr.puts "#{$0} <from> <to>"
+        $stderr.puts "#{$0} <date_or_path>"
+        exit 1
+      end
+    end
   end
 
   class BaseDirectory < Base
+    include SemanticLogger::Loggable
     INDEX_TIME_FORMAT = '%d-%b-%Y %H:%M'
 
     def self.each
@@ -102,18 +146,12 @@ module Ieso
           logger.debug "already processed #{File.basename(url)}"
           next
         end
-        yield self.new(url)
+        yield url
       end
     end
 
-    def initialize(url)
-      @url = url
-    end
-
-    def fetch
-      res = @@faraday.get(@url)
-      @filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
-      @body = res.body
+    def add(url)
+      add_url(url)
     end
   end
 
@@ -124,20 +162,19 @@ module Ieso
     #URL_FORMAT = URL + 'PUB_RealtimeConstTotals_%Y%m%d%H.csv'
     #PERIOD = 5.minutes
 
-    def self.cli(args)
-      raise 'FIXME'
+    def initialize
+      super
+      @r = []
     end
 
     def self.select_file? url
       url =~ /PUB_RealtimeConstTotals_\d+\.csv/
     end
 
-    def process
-      fetch
-      csv = FastestCSV.parse(@body)
+    def add_buffer(body)
+      csv = FastestCSV.parse(body)
       date = csv[0][1]
 
-      r = []
       csv[4..].each do |row|
         #0:Hour
         hour = row[0].to_i - 1
@@ -154,7 +191,7 @@ module Ieso
         #Total LOAD
         #Total LOSS
 
-        r << {
+        @r << {
           time:,
           country: 'CA-ON',
           value:
@@ -162,8 +199,15 @@ module Ieso
       end
       #require 'pry' ; binding.pry
 
-      r = Validate.validate_load(r, self.class.source_id)
-      Out::Load.run(r, @from, @to, self.class.source_id)
+      self
+    end
+
+    def done!
+      return if @r.empty?
+
+      @r = Validate.validate_load(@r, self.class.source_id)
+      Out::Load.run(@r, @from, @to, self.class.source_id)
+      super
     end
   end
 
@@ -173,21 +217,13 @@ module Ieso
     URL_FORMAT = 'https://reports-public.ieso.ca/public/Demand/PUB_Demand_%Y.csv'
     PERIOD = 1.year
 
-    def self.cli(args)
-      if args.length != 1
-        $stderr.puts "#{$0} <year>"
-        exit 1
-      end
-      year = Chronic.parse(args.shift).to_date
-
-      e = self.new year
-      e.process
+    def initialize
+      super
+      @r = []
     end
 
-    def process
-      fetch
-      r = []
-      CSV.parse(@body, skip_lines: /^(\\|Date)/, headers: false) do |row|
+    def add_buffer(body)
+      CSV.parse(body, skip_lines: /^(\\|Date)/, headers: false) do |row|
         #0:Date
         date = row[0]
         #1:Hour
@@ -198,62 +234,39 @@ module Ieso
         value = row[2].to_i*1000
         #3: Ontario Demand
 
-        r << {
+        @r << {
           time:,
           country: 'CA-ON',
           value:
         }
       end
-      #require 'pry' ; binding.pry
+      self
+    end
 
-      r = Validate.validate_load(r, self.class.source_id)
-      Out::Load.run(r, @from, @to, self.class.source_id)
+    def done!
+      return if @r.empty?
+
+      @r = Validate.validate_load(@r, self.class.source_id)
+      Out::Load.run(@r, @from, @to, self.class.source_id)
+      super
     end
   end
 
   class UnitMonth < Base
     include SemanticLogger::Loggable
 
-    def self.cli(args)
-      case args.length
-      when 2
-        from = Chronic.parse(args.shift).to_date
-        to = Chronic.parse(args.shift).to_date
-        (from...to).each do |date|
-          next unless date.day == 1
-          new(date).process
-        rescue EmptyError
-          logger.warn "EmptyError #{date}"
-        end
-      when 1
-        if File.exist? args[0]
-          new(args[0]).process
-        else
-          new(Chronic.parse(args[0]).to_date).process
-        end
-      else
-        $stderr.puts "#{$0} <from> <to>"
-        $stderr.puts "#{$0} <date_or_path>"
-        exit 1
-      end
-    end
-
     URL_FORMAT = 'https://reports-public.ieso.ca/public/GenOutputCapabilityMonth/PUB_GenOutputCapabilityMonth_%Y%m.csv'
     PERIOD = 1.month
 
-    def initialize(date)
+    def initialize
       super
       @units = {}
+      @r = []
     end
 
-    def process
-      fetch
-      @from = TZ.utc_to_local(@from.to_time.beginning_of_month)
-      @to = @from + 1.month
-
-      r = []
+    def add_buffer(body)
       logger.benchmark_info("csv parse") do
-        csv = FastestCSV.parse(@body)
+        csv = FastestCSV.parse(body)
         csv[4..].each do |row|
           #0:Delivery Date
           date = Time.strptime(row[0], '%Y-%m-%d')
@@ -274,45 +287,46 @@ module Ieso
             time = date + hour.to_i.hours
             time = TZ.local_to_utc(time)
             value = value.to_i*1000
-            r << {time:, unit_id: unit.id, value:}
+            @r << {time:, unit_id: unit.id, value:}
           end
         end
       end
-      #require 'pry' ; binding.pry
+      self
+    end
 
-      Out::Unit.run(r, @from, @to, self.class.source_id)
+    def done!
+      return if @r.empty?
+
+      Out::Unit.run(@r, @from, @to, self.class.source_id)
+      super
     end
   end
 
   class Unit < BaseDirectory
     include SemanticLogger::Loggable
 
-    def self.cli(args)
-      raise 'FIXME'
-    end
-
     URL = 'https://reports-public.ieso.ca/public/GenOutputCapability/'
-    #PERIOD = 1.day
+    URL_FORMAT = URL + 'PUB_GenOutputCapability_%Y%m%d.xml'
+    PERIOD = 1.day
+
+    def initialize
+      super
+      @units = {}
+      @r_unit = []
+      @r_gen = {}
+    end
 
     def self.select_file? url
       url =~ /PUB_GenOutputCapability_\d+\.xml/
     end
 
-    def initialize(url)
-      super
-      @units = {}
-    end
-
-    def process
-      fetch
-      doc = Ox.load(@body, mode: :hash_no_attrs)[:IMODocument][:IMODocBody]
+    def add_buffer(body)
+      doc = Ox.load(body, mode: :hash_no_attrs)[:IMODocument][:IMODocBody]
       date = Time.strptime(doc[:Date], '%Y-%m-%d')
       base_time = TZ.local_to_utc(date.to_time)
       @from = base_time
       @to = @from + 1.day
       fuel_sums = {}
-      r_unit = []
-      r_gen = {}
       doc[:Generators][:Generator].each do |g|
         unit_internal_id = g[:GeneratorName]
         type = FUEL_MAP[g[:FuelType]]
@@ -325,16 +339,25 @@ module Ieso
           out_sum[time] ||= 0
           out_sum[time] += value
           k = [time,type]
-          r_gen[k] ||= {country: 'CA-ON', production_type: type, time: time, value: 0}
-          r_gen[k][:value] += value
-          r_unit << {time:, unit_id: unit.id, value:}
+          @r_gen[k] ||= {country: 'CA-ON', production_type: type, time: time, value: 0}
+          @r_gen[k][:value] += value
+          @r_unit << {time:, unit_id: unit.id, value:}
         end
       end
       #require 'pry' ; binding.pry
 
-      Out::Unit.run(r_unit, @from, @to, self.class.source_id)
-      Out::Generation.run(r_gen.values, @from, @to, self.class.source_id)
-      done!
+      self
+    end
+
+    def done!
+      return if @r_unit.empty? && @r_gen.empty?
+
+      @from = [@r_unit.min { |a,b| a[:time] <=> b[:time] }[:time], @r_gen.values.min { |a,b| a[:time] <=> b[:time] }[:time]].min
+      @to = [@r_unit.max { |a,b| a[:time] <=> b[:time] }[:time], @r_gen.values.max { |a,b| a[:time] <=> b[:time] }[:time]].max
+
+      Out::Unit.run(@r_unit, @from, @to, self.class.source_id)
+      Out::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
+      super
     end
   end
 
@@ -344,36 +367,13 @@ module Ieso
     URL_FORMAT = 'https://reports-public.ieso.ca/public/GenOutputbyFuelHourly/PUB_GenOutputbyFuelHourly_%Y.xml'
     PERIOD = 1.year
 
-    def self.cli(args)
-      case args.length
-      when 2
-        from = Chronic.parse(args.shift).to_date
-        to = Chronic.parse(args.shift).to_date
-        (from...to).each do |date|
-          next unless date.day == 1 && date.month == 1
-          new(date).process
-        rescue EmptyError
-          logger.warn "EmptyError #{date}"
-        end
-      when 1
-        if File.exist? args[0]
-          new(args[0]).process
-        else
-          new(Chronic.parse(args[0]).to_date).process
-        end
-      else
-        $stderr.puts "#{$0} <from> <to>"
-        $stderr.puts "#{$0} <date>"
-        $stderr.puts "#{$0} <path>"
-        exit 1
-      end
+    def initialize
+      super
+      @r = []
     end
 
-    def process
-      #@to = @from.end_of_year
-      fetch
-      r = []
-      doc = Ox.load(@body, mode: :hash_no_attrs)[:Document][:DocBody]
+    def add_buffer(body)
+      doc = Ox.load(body, mode: :hash_no_attrs)[:Document][:DocBody]
       @from = Time.strptime(doc[:DeliveryYear], '%Y')
       @from = TZ.local_to_utc(@from)
       @to = @from + 1.year
@@ -385,14 +385,19 @@ module Ieso
             time = TZ.local_to_utc(time)
             production_type = FUEL_MAP[fuel_data[:Fuel]]
             value = fuel_data[:EnergyValue][:Output].to_f*1000
-            r << {country: 'CA-ON', time:, production_type:, value:}
+            @r << {country: 'CA-ON', time:, production_type:, value:}
           end
         end
       end
-      #require 'pry' ; binding.pry
+      self
+    end
 
-      Out::Generation.run(r, @from, @to, self.class.source_id)
-      done!
+    def done!
+      return if @r.empty?
+
+      @r = Validate.validate_generation(@r, self.class.source_id)
+      Out::Generation.run(@r, @from, @to, self.class.source_id)
+      super
     end
   end
 
@@ -403,59 +408,56 @@ module Ieso
     #URL_FORMAT = 'https://reports-public.ieso.ca/public/DispUnconsHOEP/PUB_DispUnconsHOEP_%Y%m%d.csv'
     #PERIOD = 1.day
 
-    def self.cli(args)
-      raise 'FIXME'
+    def initialize
+      super
+      @r = []
     end
 
     def self.select_file? url
       url =~ /PUB_DispUnconsHOEP_\d+\.csv/
     end
 
-    def process
-      fetch
-      csv = FastestCSV.parse(@body)
+    def add_buffer(body)
+      csv = FastestCSV.parse(body)
       date = csv[0][1]
 
-      r = []
       base_time = TZ.local_to_utc(date.to_time)
       csv[4..].each do |row|
         #0:Hour
         hour = row[0].to_i - 1
         time = base_time + hour.hours
         #1:Price
-        r << {
+        @r << {
           time:,
           value: row[1].to_f*100,
           country: 'CA-ON'
         }
       end
 
-      ::Out::Price.run(r, @from, @to, self.class.source_id)
-      done!
+      self
+    end
+
+    def done!
+      return if @r.empty?
+
+      ::Out::Price.run(@r, @from, @to, self.class.source_id)
+      super
     end
   end
 
   class PriceYear < Base
     include SemanticLogger::Loggable
 
-    def self.cli(args)
-      if args.length != 1
-        $stderr.puts "#{$0} <year>"
-        exit 1
-      end
-      year = Chronic.parse(args.shift).to_date
-
-      e = self.new(year)
-      e.process
-    end
-
     URL_FORMAT = 'https://reports-public.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_%Y.csv'
     PERIOD = 1.year
 
-    def process
-      fetch
-      r = []
-      csv = FastestCSV.parse(@body)
+    def initialize
+      super
+      @r = []
+    end
+
+    def add_buffer(body)
+      csv = FastestCSV.parse(body)
       csv[4..].each do |row|
         #0:Date
         date = row[0]
@@ -473,16 +475,20 @@ module Ieso
         #OR 10 Min non-sync
         #OR 30 Min
 
-        r << {
+        @r << {
           time:,
           value:,
           country: 'CA-ON'
         }
       end
-      #require 'pry' ; binding.pry
+      self
+    end
 
-      ::Out::Price.run(r, @from, @to, self.class.source_id)
-      done!
+    def done!
+      return if @r.empty?
+
+      ::Out::Price.run(@r, @from, @to, self.class.source_id)
+      super
     end
   end
 
@@ -513,38 +519,18 @@ module Ieso
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
       (from.to_date..to.to_date).each do |date|
-        yield self.new date
+        yield date
       end
     end
 
-    def self.cli(args)
-      case args.length
-      when 2
-        from = Chronic.parse(args.shift).to_date
-        to = Chronic.parse(args.shift).to_date
-        (from...to).each do |date|
-          new(date).process
-        rescue EmptyError
-          logger.warn "EmptyError #{date}"
-        end
-      when 1
-        if File.exist?(args[0])
-          self.new(args[0]).process
-        else
-          date = Chronic.parse(args[0]).to_date
-          self.new(date).process
-        end
-      else
-        $stderr.puts "#{$0}: date(year)"
-        exit
-      end
+    def add(date)
+      add_date(date)
     end
 
-    def process
-      fetch
-      doc = Ox.load(@body, mode: :hash_no_attrs)[:IMODocument][:IMODocBody]
+    def add_buffer(body)
+      doc = Ox.load(body, mode: :hash_no_attrs)[:IMODocument][:IMODocBody]
       date = Time.strptime(doc[:Date], '%Y-%m-%d')
-      r = {}
+      @r = {}
       doc[:IntertieZone].each do |zone|
         fromto = MAP_EXCHANGE[zone[:IntertieZoneName]]
         zone[:Actuals][:Actual].each do |row|
@@ -553,13 +539,20 @@ module Ieso
           value = row[:Flow].to_f*1000
 
           k = fromto+[time]
-          r[k] ||= {time:, from_area: fromto[0], to_area: fromto[1], value: 0}
-          r[k][:value] -= value
+          @r[k] ||= {time:, from_area: fromto[0], to_area: fromto[1], value: 0}
+          @r[k][:value] -= value
         end
       end
       #require 'pry' ; binding.pry
 
-      Out::Transmission.run(r.values, @from, @to, self.class.source_id)
+      self
+    end
+
+    def done!
+      return if @r.empty?
+
+      Out::Transmission.run(@r.values, @from, @to, self.class.source_id)
+      super
     end
   end
 
@@ -570,34 +563,13 @@ module Ieso
     PERIOD = 1.year
     MAP_EXCHANGE = Intertie::MAP_EXCHANGE
 
-    def self.cli(args)
-      case args.length
-      when 2
-        from = Chronic.parse(args.shift).to_date
-        to = Chronic.parse(args.shift).to_date
-        (from...to).each do |date|
-          next unless date.month == 1 && date.day == 1
-          new(date).process
-        rescue EmptyError
-          logger.warn "EmptyError #{date}"
-        end
-      when 1
-        if File.exist?(args[0])
-          self.new(args[0]).process
-        else
-          date = Chronic.parse(args[0]).to_date
-          self.new(date).process
-        end
-      else
-        $stderr.puts "#{$0}: date(year)"
-        exit
-      end
+    def initialize
+      super
+      @r = {}
     end
 
-    def process
-      fetch
-      csv = FastestCSV.parse(@body)
-      r = {}
+    def add_buffer(body)
+      csv = FastestCSV.parse(body)
       h_zone = csv[3]
       h = csv[4]
 
@@ -617,14 +589,21 @@ module Ieso
           end
 
           k = fromto+[time]
-          r[k] ||= {time:, from_area: fromto[0], to_area: fromto[1], value: 0}
-          r[k][:value] -= value
+          @r[k] ||= {time:, from_area: fromto[0], to_area: fromto[1], value: 0}
+          @r[k][:value] -= value
           i += 3
         end
       end
       #require 'pry' ; binding.pry
 
-      Out::Transmission.run(r.values, @from, @to, self.class.source_id)
+      self
+    end
+
+    def done!
+      return if @r.empty?
+
+      Out::Transmission.run(@r.values, @from, @to, self.class.source_id)
+      super
     end
   end
 end

@@ -71,10 +71,10 @@ multitask all: ['entsoe:all', 'aemo:all', 'ieso:all', 'eia:all', :ercot, 'caiso:
 namespace :ieso do
   desc "Run refresh tasks"
   task all: [:unit, :load, :price, :intertie]
-  loop_task :unit, Ieso::Unit
-  loop_task :load, Ieso::Load
-  loop_task :price, Ieso::Price
-  loop_task :intertie, Ieso::Intertie
+  chain_task :unit, Ieso::Unit
+  chain_task :load, Ieso::Load
+  chain_task :price, Ieso::Price
+  chain_task :intertie, Ieso::Intertie
 end
 
 namespace :eia do
