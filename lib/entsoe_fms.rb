@@ -34,7 +34,7 @@ class EntsoeFms
       @@token
     end
 
-    def self.each
+    def self.refresh
       res = @@faraday.post('/listFolder', {
         path: self::DIR,
         sorterList: [{

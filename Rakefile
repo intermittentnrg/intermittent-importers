@@ -108,12 +108,17 @@ loop_task :nationalgrideso, NationalGridEso::DemandLive
 namespace :entsoe do
   desc "Run refresh tasks"
   task all: [:generation, :unit, :load, :price, :transmission]
-  loop_task :generation, EntsoeFms::Generation
-  loop_task :unit, EntsoeFms::Unit
-  loop_task :load, EntsoeFms::Load
-  loop_task :price, EntsoeFms::Price
+  desc "Refresh ENTSO-E FMS Generation"
+  task(:generation) { EntsoeFms::Generation.refresh }
+  desc "Refresh ENTSO-E FMS Unit"
+  task(:unit) { EntsoeFms::Unit.refresh }
+  desc "Refresh ENTSO-E FMS Load"
+  task(:load) { EntsoeFms::Load.refresh }
+  desc "Refresh ENTSO-E FMS Price"
+  task(:price) { EntsoeFms::Price.refresh }
   chain_task :price_api, EntsoeApi::Price
-  loop_task :transmission, EntsoeFms::Transmission
+  desc "Refresh ENTSO-E FMS Transmission"
+  task(:transmission) { EntsoeFms::Transmission.refresh }
 end
 
 namespace :aemo do

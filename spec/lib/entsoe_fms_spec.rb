@@ -1,7 +1,7 @@
 require './spec/spec_helper'
 
 RSpec.describe EntsoeFms::Generation do
-  describe :each do
+  describe :refresh do
     let(:file_list_response) do
       {
         'contentItemList' => [
@@ -47,16 +47,16 @@ RSpec.describe EntsoeFms::Generation do
     it 'processes files with correct parameters' do
       # Stub the target processor to avoid actual processing
       target_instance = double('EntsoeCsv::Generation')
-      expect(EntsoeCsv::Generation).to receive(:new).with(
-        kind_of(StringIO),
+      expect(EntsoeCsv::Generation).to receive(:new).and_return(target_instance)
+      expect(target_instance).to receive(:add_buffer).with(
+        kind_of(String),
         'test_file.zip',
-        expected_time,
-        true
+        expected_time
       ).and_return(target_instance)
-      expect(target_instance).to receive(:process)
+      expect(target_instance).to receive(:done!)
 
       # Call the class method
-      EntsoeFms::Generation.each
+      EntsoeFms::Generation.refresh
     end
   end
 end
