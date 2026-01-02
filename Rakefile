@@ -103,7 +103,7 @@ namespace :elexon do
   chain_task :generation, Elexon::Generation
 end
 
-loop_task :nationalgrideso, NationalGridEso::DemandLive
+chain_task :nationalgrideso, NationalGridEso::DemandLive
 
 namespace :entsoe do
   desc "Run refresh tasks"

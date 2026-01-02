@@ -30,121 +30,159 @@ module NationalGridEso
       # 1200/2/24=25 days
 
       from = Chronic.parse(args[0])
-      new(from).process
+      new.add_from_date(from).done!
     end
 
     def self.each
       sql = "SELECT MAX(time) FROM generation_data WHERE areas_production_type_id IN(SELECT id FROM areas_production_types WHERE source_area_id=(SELECT id FROM areas WHERE source='nationalgrideso' LIMIT 1));"
       r = Generation.connection.exec_query(sql)
       from = r[0]["max"]
-      yield self.new(from)
+      yield from
     end
 
+    def initialize
+      @r = []
+    end
 
-    def initialize(from)
-      @from = from
+    def add(date)
+      add_from_date(date)
+    end
+
+    def add_from_date(from)
       url = 'https://api.neso.energy/api/3/action/datastore_search_sql'
       options = {}
       options[:sql] = %Q{SELECT * FROM "177f6fa4-ae49-4182-81ea-0c6b35f26ca6" WHERE "SETTLEMENT_DATE" >= '#{from}' AND "SETTLEMENT_DATE" <= '#{TZ.now}' AND "FORECAST_ACTUAL_INDICATOR" = 'A'}
       options[:records_format] = 'csv'
-      fetch(url, options)
+
+      add_url(url, options)
     end
 
-    def fetch(url, options={})
+    def add_url(url, options={})
       res = logger.benchmark_info(url) do
         @@faraday.get(url, options)
       end
       @json = logger.benchmark_info("parse csv") do
         FastJsonparser.parse(res.body)
       end
+
+      add_csv(@json[:result][:records])
     end
 
-    def process
-      r = []
-      @json[:result][:records].each do |row|
+    def add_csv(csv)
+      csv.each do |row|
         next if row[:FORECAST_ACTUAL_INDICATOR] == 'F'
         date = TZ.strptime(row[:SETTLEMENT_DATE], '%Y-%m-%d')
         time = date + row[:SETTLEMENT_PERIOD].to_i*30.minutes
-        r << {country: 'GB', production_type: 'wind_embedded', time:, value: row[:EMBEDDED_WIND_GENERATION].to_f*1000}
-        r << {country: 'GB', production_type: 'solar_embedded', time:, value: row[:EMBEDDED_SOLAR_GENERATION].to_f*1000}
-        r << {country: 'GB', production_type: 'hydro_pumped_storage_charging', time:, value: -row[:PUMP_STORAGE_PUMPING].to_f*1000}
+        @r << {country: 'GB', production_type: 'wind_embedded', time:, value: row[:EMBEDDED_WIND_GENERATION].to_f*1000}
+        @r << {country: 'GB', production_type: 'solar_embedded', time:, value: row[:EMBEDDED_SOLAR_GENERATION].to_f*1000}
+        @r << {country: 'GB', production_type: 'hydro_pumped_storage_charging', time:, value: -row[:PUMP_STORAGE_PUMPING].to_f*1000}
       end
-      @to = r.last[:time]
+      self
+    end
 
-      #require 'pry' ; binding.pry
-      Out::Generation.run(r, @from, @to, self.class.source_id)
+    def done!
+      return if @r.empty?
+
+      @from = @r.first[:time]
+      @to = @r.last[:time]
+
+      @r = Validate.validate_generation(@r, self.class.source_id)
+      Out::Generation.run(@r, @from, @to, self.class.source_id)
     end
   end
 
   class Demand < Base
     include SemanticLogger::Loggable
 
+    def self.cli(args)
+      if args.length != 0
+        $stderr.puts "#{$0}"
+        exit 1
+      end
+      new.add().done!
+    end
+
     def self.parsers_each
       yield self.new
     end
+
     def initialize
-      # From https://www.nationalgrideso.com/data-portal/daily-demand-update
-      url = "https://api.nationalgrideso.com/dataset/7a12172a-939c-404c-b581-a6128b74f588/resource/177f6fa4-ae49-4182-81ea-0c6b35f26ca6/download/demanddataupdate.csv"
-      fetch(url)
+      @r = {}
     end
 
-    def fetch(url, options={})
+    def add
+      url = "https://api.nationalgrideso.com/dataset/7a12172a-939c-404c-b581-a6128b74f588/resource/177f6fa4-ae49-4182-81ea-0c6b35f26ca6/download/demanddataupdate.csv"
+      add_url(url)
+      self
+    end
+
+    def add_url(url, options={})
       res = logger.benchmark_info(url) do
         @@faraday.get(url, options)
       end
       @csv = logger.benchmark_info("parse csv") do
         FastestCSV.parse(res.body)
       end
+      add_csv(@csv)
+      self
     end
 
     DATE_FORMATS = {
       /\d{4}-\d{2}-\d{2}/ => '%Y-%m-%d %Z',
       /\d{2}-.{3}-\d{4}/ => '%d-%b-%Y %Z'
     }
-    def points_generation
-      r = {}
-      headers = @csv[0].each_with_index.to_h.symbolize_keys!
-      date_format = DATE_FORMATS.find { |rx, _| rx.match(@csv[1][0]) }[1]
-      @csv[1..].each do |row|
+
+    def add_csv(csv)
+      headers = csv[0].each_with_index.to_h.symbolize_keys!
+      date_format = DATE_FORMATS.find { |rx, _| rx.match(csv[1][0]) }[1]
+      csv[1..].each do |row|
         time = (Time.strptime("#{row[0]} UTC", date_format) + (row[1].to_i * 30).minutes)
 
-        r[[time, :wind_embedded]] = {
+        @r[[time, :wind_embedded]] = {
           country: 'GB',
           production_type: 'wind_embedded',
           time: time,
           value: row[headers[:EMBEDDED_WIND_GENERATION]].to_f*1000
         }
-        r[[time, :solar_embedded]] = {
+        @r[[time, :solar_embedded]] = {
           country: 'GB',
           production_type: 'solar_embedded',
           time: time,
           value: row[headers[:EMBEDDED_SOLAR_GENERATION]].to_f*1000
         }
-        r[[time, :hydro_pumped_storage]] = {
+        @r[[time, :hydro_pumped_storage]] = {
           country: 'GB',
           production_type: 'hydro_pumped_storage_charging',
-          time:,
+          time: time,
           value: -row[headers[:PUMP_STORAGE_PUMPING]].to_f*1000
         }
       end
-      #require 'pry' ; binding.pry
-      r = r.values
-      @from = r.first[:time]
-      @to = r.last[:time]
+      self
+    end
 
-      Out::Generation.run(r, @from, @to, self.class.source_id)
+    def done!
+      return if @r.empty?
+
+      @from = @r.values.first[:time]
+      @to = @r.values.last[:time]
+
+      @r = Validate.validate_generation(@r.values, self.class.source_id)
+      Out::Generation.run(@r, @from, @to, self.class.source_id)
     end
   end
 
   class HistoricalDemand < Demand
-    def self.parsers_each
+    def self.each
       URLS.each do |url|
-        yield self.new(url)
+        yield url
       end
     end
-    def initialize(url)
-      fetch(url)
+
+    def add(url)
+      add_url(url)
+      self
     end
+
     URLS = %w[
       https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/bf5ab335-9b40-4ea4-b93a-ab4af7bce003/download/demanddata.csv
     ]
