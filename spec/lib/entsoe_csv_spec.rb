@@ -1,19 +1,32 @@
 require './spec/spec_helper'
 
 RSpec.describe EntsoeCsv::Generation do
+  subject { EntsoeCsv::Generation.new }
   describe 'zip' do
-    let(:zip_content) { create_zip_file("", '2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.csv') }
-    subject(:e) { EntsoeCsv::Generation.new(zip_content, '2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.zip', nil, true) }
+    let(:body) do
+      <<-CSV
+DateTime(UTC)	ResolutionCode	AreaCode	AreaDisplayName	AreaTypeCode	AreaMapCode	ProductionType	ActualGenerationOutput[MW]	ActualConsumption[MW]	UpdateTime(UTC)
+2023-09-01 00:00:00	PT15M	10YAT-APG------L	Austria (AT)	BZN/CTA/CTY	AT	Biomass	120.0	0.0	2025-10-12 15:41:35
+2023-09-01 00:15:00	PT15M	10YAT-APG------L	Austria (AT)	BZN/CTA/CTY	AT	Biomass	120.0	0.0	2025-10-12 15:41:35
+      CSV
+    end
 
     it do
-      expect(DataFile).to receive(:upsert).with(
-        hash_including(
+      expect(Out::Generation).to receive(:run) do |data, from, to, source_id|
+        expect(data.length).to eq(2)
+        expect(from).to be_a(Date)
+        expect(to).to be_a(Date)
+        expect(source_id).to eq('entsoe')
+      end
+
+      expect(DataFile).to receive(:upsert_all).with(
+        [hash_including(
           path: '2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.zip',
           source: 'entsoe'
-        ),
+        )],
         unique_by: [:source, :path]
       )
-      e.process
+      subject.add_buffer(body, '2023_09_ActualGenerationOutputPerGenerationUnit_16.1.A.zip', Time.new(2023,9,1)).done!
     end
   end
 end
@@ -30,14 +43,14 @@ CSV
   end
   it "deduplicates capacity data" do
     expect(GenerationUnit).to receive(:upsert_all)
-    expect(DataFile).to receive(:upsert).with(
-      hash_including(
+    expect(DataFile).to receive(:upsert_all).with(
+      [hash_including(
         path: '2024_07_ActualGenerationOutputPerGenerationUnit_16.1.A_r2.1.csv',
         source: 'entsoe'
-      ),
+      )],
       unique_by: [:source, :path]
     )
-    subject.new(StringIO.new(body), '2024_07_ActualGenerationOutputPerGenerationUnit_16.1.A_r2.1.csv', Time.new(2024,7,2)).process
+    subject.new.add_buffer(body, '2024_07_ActualGenerationOutputPerGenerationUnit_16.1.A_r2.1.csv', Time.new(2024,7,2)).done!
   end
 end
 
@@ -51,14 +64,14 @@ DateTime	ResolutionCode	AreaCode	AreaTypeCode	AreaName	MapCode	TotalLoadValue	Up
   end
   it do
     expect(Load).to receive(:upsert_all)
-    expect(DataFile).to receive(:upsert).with(
-      hash_including(
+    expect(DataFile).to receive(:upsert_all).with(
+      [hash_including(
         path: '2024_05_ActualTotalLoad_6.1.A.csv',
         source: 'entsoe'
-      ),
+      )],
       unique_by: [:source, :path]
     )
-    subject.new(StringIO.new(body), '2024_05_ActualTotalLoad_6.1.A.csv', Time.new(2024,5,2)).process
+    subject.new.add_buffer(body, '2024_05_ActualTotalLoad_6.1.A.csv', Time.new(2024,5,2)).done!
   end
 end
 
@@ -75,14 +88,39 @@ CSV
     end
     it do
       expect(Price).to receive(:upsert_all).with(array_including(hash_including(value: 9329)))
-      expect(DataFile).to receive(:upsert).with(
-        hash_including(
+      expect(DataFile).to receive(:upsert_all).with(
+        [hash_including(
           path: '2023_09_EnergyPrices_12.1.D_r3.csv',
           source: 'entsoe'
-        ),
+        )],
         unique_by: [:source, :path]
       )
-      subject.new(StringIO.new(body), '2023_09_EnergyPrices_12.1.D_r3.csv', Time.new(2023,9,2)).process
+      subject.new.add_buffer(body, '2023_09_EnergyPrices_12.1.D_r3.csv', Time.new(2023,9,2)).done!
     end
   end
+end
+
+RSpec.describe EntsoeCsv::Transmission do
+  subject { EntsoeCsv::Transmission }
+  let(:body) do
+    <<-CSV
+DateTime(UTC)	ResolutionCode	OutAreaCode	OutAreaDisplayName	OutAreaTypeCode	OutAreaMapCode	InAreaCode	InAreaDisplayName	InAreaTypeCode	InAreaMapCode	Flow[MW]	UpdateTime(UTC)
+2023-09-01 00:00:00	PT60M	10YFR-RTE------C	France (FR)	BZN	FR	10YBE----------2	Belgium (BE)	BZN	BE	1234.56	2023-09-01 01:00:00
+CSV
+  end
+  it "parses transmission data" do
+    expect(Transmission).to receive(:upsert_all)
+    expect(DataFile).to receive(:upsert_all).with(
+      [hash_including(
+        path: '2023_09_PhysicalFlows_12.1.G.csv',
+        source: 'entsoe'
+      )],
+      unique_by: [:source, :path]
+    )
+    subject.new.add_buffer(body, '2023_09_PhysicalFlows_12.1.G.csv', Time.new(2023,9,1)).done!
+  end
+end
+
+RSpec.describe EntsoeCsv::UnitCapacity do
+  subject { EntsoeCsv::UnitCapacity }
 end

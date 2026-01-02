@@ -3,44 +3,62 @@ require 'fastest_csv'
 
 module EntsoeCsv
   class Base
+    include SemanticLogger::Loggable
+
     def self.source_id
       "entsoe"
     end
 
-    def initialize(file_or_io, name_if_io = nil, time_if_io = nil, zip = false)
-      @areas = {}
-      if file_or_io.is_a?(String) # url
-        raise if name_if_io || time_if_io
-        logger.info "Processing #{file_or_io}"
-
-        @filename = File.basename(file_or_io)
-        @filedate = File.mtime(file_or_io)
-
-        if @filename =~ /\.zip$/i
-          zip_file = Zip::File.open(file_or_io)
-          @file = zip_file.first.get_input_stream
-        else
-          @file = File.new(file_or_io, 'r')
-        end
-      else
-        @filename = name_if_io
-        @filedate = time_if_io
-
-        if zip || @filename =~ /\.zip$/i
-          zip = Zip::File.open_buffer(file_or_io) do |io|
-            @file = StringIO.new(io.entries.first.get_input_stream.read)
-          end
-        else
-          @file = file_or_io
-        end
+    def self.cli(args)
+      if args.empty?
+        $stderr.puts "#{$0} [file ...]"
+        exit 1
       end
-      #require 'pry' ; binding.pry
 
-      parse_filename
+      args.each do |file|
+        new.add_file(file).done!
+      end
     end
 
-    def parse_filename
-      m = /^(\d{4})_(\d{2})_/.match(@filename)
+    def initialize
+      @areas = {}
+      @datafiles = []
+      @r = {}
+    end
+
+    def add_file(path)
+      name = File.basename(path)
+      time = File.mtime(path)
+
+      if name =~ /\.zip$/i
+        zip_file = Zip::File.open(path)
+        body = zip_file.first.get_input_stream.read
+      else
+        body = File.read(path)
+      end
+
+      add_buffer(body, name, time)
+    end
+
+    def add_buffer(body, name, time)
+      logger.info "Processing #{name}"
+
+      parse_filename(name)
+      csv = FastestCSV.parse(body, col_sep: "\t", skip_header: true)
+      add_csv(csv)
+
+      @datafiles << {path: name, source: self.class.source_id, updated_at: time}
+
+      self
+    end
+
+    def done!
+      DataFile.upsert_all(@datafiles, unique_by: [:source, :path])
+      logger.info "done! \#{\@datafiles.last[:path]}"
+    end
+
+    def parse_filename(name)
+      m = /^(\d{4})_(\d{2})_/.match(name)
       @from = Date.new m[1].to_i, m[2].to_i
       @to = @from + 1.month
     end
@@ -86,14 +104,6 @@ module EntsoeCsv
       value.to_i
     end
 
-    def csv
-      FastestCSV.new(@file, col_sep: "\t", skip_header: true) #.enum_for(:each)
-    end
-
-    def done!
-      DataFile.upsert({path: @filename, source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
-      logger.info "done! #{@filename}"
-    end
   end
 
   class Generation < Base
@@ -101,8 +111,7 @@ module EntsoeCsv
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-    def process
-      r = {}
+    def add_csv(csv)
       logger.benchmark_info("csv parse") do
         csv.each do |row|
           next if row[4] == 'CTA'
@@ -126,17 +135,20 @@ module EntsoeCsv
           #area_code = row[:area_code]
 
           k = [time,country,production_type]
-          if r[k] && r[k][:value] != value
-            logger.warn("#{country} different values #{r[k][:value]} != #{value}")
+          if @r[k] && @r[k][:value] != value
+            logger.warn("#{country} different values #{@r[k][:value]} != #{value}")
           end
-          r[k] = {time:, country:, production_type:, value:}
+          @r[k] = {time:, country:, production_type:, value:}
         end
       end
-      #require 'pry';binding.pry
+    end
 
-      r = Validate.validate_generation(r.values, self.class.source_id)
+    def done!
+      return if @r.empty?
+
+      r = Validate.validate_generation(@r.values, self.class.source_id)
       Out::Generation.run(r, @from, @to, self.class.source_id)
-      done!
+      super
     end
   end
 
@@ -155,10 +167,8 @@ module EntsoeCsv
       'UA_BEI' => 'UA'
     }
 
-    def process
-      r = {}
+    def add_csv(csv)
       logger.benchmark_info("csv parse") do
-        csv
         units = {}
         csv.each do |row|
           #0:DateTime(UTC)
@@ -203,15 +213,19 @@ module EntsoeCsv
           end
 
           k = [time, unit_id]
-          if r[k] && value != r[k][:value]
-            logger.error "duplicate data with different output #{unit_internal_id} #{value} != #{r[k][:value]}"
+          if @r[k] && value != @r[k][:value]
+            logger.error "duplicate data with different output #{unit_internal_id} #{value} != #{@r[k][:value]}"
           end
-          r[k] = {unit_id:, time:, value:}
+          @r[k] = {unit_id:, time:, value:}
         end
       end
+    end
 
-      Out::Unit.run(r.values, @from, @to, self.class.source_id)
-      done!
+    def done!
+      return if @r.empty?
+
+      Out::Unit.run(@r.values, @from, @to, self.class.source_id)
+      super
     end
   end
 
@@ -220,10 +234,8 @@ module EntsoeCsv
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-    def process
-      r = {}
+    def add_csv(csv)
       logger.benchmark_info("csv parse") do
-        csv
         csv.each do |row|
           next if row[4] == 'CTA'
           #0:DateTime(UTC)
@@ -241,17 +253,20 @@ module EntsoeCsv
           #7:UpdateTime(UTC)
 
           k = [time,area_id]
-          if r[k] && r[k][:value] != value
-            logger.warn("#{time} #{area_name} different values #{r[k][:value]} != #{value}")
+          if @r[k] && @r[k][:value] != value
+            logger.warn("#{time} #{area_name} different values #{@r[k][:value]} != #{value}")
           end
-          r[k] = {time:, area_id:, value:}
+          @r[k] = {time:, area_id:, value:}
         end
       end
-      #require 'pry' ; binding.pry
+    end
 
-      r = Validate::validate_load(r.values, self.class.source_id)
+    def done!
+      return if @r.empty?
+
+      r = Validate::validate_load(@r.values, self.class.source_id)
       Out::Load.run(r, @from, @to, self.class.source_id)
-      done!
+      super
     end
   end
 
@@ -260,14 +275,12 @@ module EntsoeCsv
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-    def initialize(file_or_io, name_if_io = nil, time_if_io = nil, zip = false)
+    def initialize
       super
       @first_s = {}
     end
 
-    def process
-      first_s = []
-      r = {}
+    def add_csv(csv)
       logger.benchmark_info("csv parse") do
         csv.each do |row|
           #0: InstanceCode
@@ -289,33 +302,24 @@ module EntsoeCsv
           #11: UpdateTime(UTC)
 
           k = [time,area_id]
-          if r[k] && r[k][:value] != value
-            logger.warn("#{time} #{area_id} different values #{r[k][:value]} != #{value}")
+          if @r[k] && @r[k][:value] != value
+            logger.warn("#{time} #{area_id} different values #{@r[k][:value]} != #{value}")
           end
-          r[k] = {time:, area_id:, value:}
+          @r[k] = {time:, area_id:, value:}
         end
       end
-      #require 'pry' ; binding.pry
+    end
 
-      ::Out::Price.run(r.values, @from, @to, self.class.source_id)
-      done!
+    def done!
+      return if @r.empty?
+
+      ::Out::Price.run(@r.values, @from, @to, self.class.source_id)
+      super
     end
   end
 
   class UnitCapacity < Base
     include SemanticLogger::Loggable
-
-    def self.cli(args)
-      if args.empty?
-        $stderr.puts "#{$0} [file]"
-        exit 1
-      end
-
-      args.each do |file|
-        e = EntsoeCsv::UnitCapacity.new(file)
-        e.process
-      end
-    end
 
     def parse_filename
     end
@@ -324,12 +328,11 @@ module EntsoeCsv
     #EIC parent of production unit = generation unit EIC
     #Map can be found on https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
     # EIC Type Code = Resource Object W
-    def points_unit_capacity
-      r={}
+    def add_csv(csv)
       logger.benchmark_info("csv parse") do
         csv.each do |row|
           #0: EICCode
-          unit = Unit.includes(:area).where(area: {source:'entsoe'}).find_by(internal_id: row[0])
+          unit = ::Unit.includes(:area).where(area: {source:'entsoe'}).find_by(internal_id: row[0])
           unless unit
             puts "Missing #{row[6]}/#{row[1]}"
             require 'pry' ; binding.pry
@@ -349,20 +352,19 @@ module EntsoeCsv
           #10: Voltage
 
           k = [unit.id, time]
-          if r[k]
+          if @r[k]
             require 'pry' ; binding.pry
           end
-          r[k] = {unit_id: unit.id, time:, value:}
+          @r[k] = {unit_id: unit.id, time:, value:}
         end
       end
-      #require 'pry' ; binding.pry
-
-      r.values
     end
 
-    def process
-      Out::UnitCapacity.run(points_unit_capacity, @from, @to, self.class.source_id)
-      done!
+    def done!
+      return if @r.empty?
+
+      Out::UnitCapacity.run(@r.values, @from, @to, self.class.source_id)
+      super
     end
   end
 
@@ -371,25 +373,13 @@ module EntsoeCsv
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-    def self.cli(args)
-      if args.empty?
-        $stderr.puts "#{$0} [file ...]"
-        exit 1
-      end
-
-      args.each do |file|
-        e = EntsoeCsv::Transmission.new(file)
-        e.process
-      end
-    end
-
     AREA_TYPE_MAP = {
       'BZN/CTA/CTY' => :country,
       'CTY' => :country,
       'BZN' => :zone,
     }
-    def process
-      r = {}
+
+    def add_csv(csv)
       logger.benchmark_info("csv parse") do
         csv.each do |row|
           next if row[4] == 'CTA' || row[8] == 'CTA'
@@ -420,15 +410,19 @@ module EntsoeCsv
           #11:UpdateTime(UTC)
 
           k = [to_area_id,from_area_id,time]
-          if r[k] && r[k][:value] != value
-            logger.warn("#{time} #{to_area_code} - #{from_area_code} different values #{r[k][:value]} != #{value}")
+          if @r[k] && @r[k][:value] != value
+            logger.warn("#{time} #{to_area_code} - #{from_area_code} different values #{@r[k][:value]} != #{value}")
           end
-          r[k] = {time:, to_area_id:, from_area_id:, value:}
+          @r[k] = {time:, to_area_id:, from_area_id:, value:}
         end
       end
-      #require 'pry' ; binding.pry
+    end
 
-      Out::Transmission.run(r.values, @from, @to, self.class.source_id)
+    def done!
+      return if @r.empty?
+
+      Out::Transmission.run(@r.values, @from, @to, self.class.source_id)
+      super
     end
   end
 end
