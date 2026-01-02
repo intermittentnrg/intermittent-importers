@@ -13,6 +13,7 @@ else
 end
 
 require 'rails'
+ActiveSupport.cache_format_version = 7.1
 require 'semantic_logger'
 SemanticLogger.default_level = :info
 SemanticLogger.application = Rails.env.to_s
