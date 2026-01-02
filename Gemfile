@@ -89,7 +89,7 @@ gem "x", "~> 0.14.1"
 gem 'minisky', '~> 0.5.0'
 
 group :test do
-  gem 'rspec'
+  gem 'rspec-rails'
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'
   gem 'simplecov', require: false
