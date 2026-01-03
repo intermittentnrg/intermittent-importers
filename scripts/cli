@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+# Universal CLI entrypoint - call cli on any class
+
+require './lib/init'
+require './lib/activerecord-connect'
+
+if ARGV.empty?
+  puts "Usage: #{$0} <ClassName> [args...]"
+  puts "Example: #{$0} AemoNem::Trading 2023-01-01 2023-01-02"
+  exit 1
+end
+
+class_name = ARGV.shift
+klass = Object.const_get(class_name)
+klass.cli(ARGV)
