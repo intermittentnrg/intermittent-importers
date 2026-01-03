@@ -1,10 +1,9 @@
-require 'aws-sdk-sqs'
 require 'fast_jsonparser'
 require 'chronic'
 require 'faraday/net_http_persistent'
 require 'zip'
-require 'mdb'
 require 'tzinfo'
+require 'fastest_csv'
 
 module Cammesa
   class Base
@@ -93,6 +92,14 @@ module Cammesa
     URL = 'https://api.cammesa.com/pub-svc/public/findAttachmentByNemoId'
     FILE_FORMAT = 'PD%y%m%d.zip'
 
+    FIELDS = ['TIPO', 'RGE', 'VARIABLE', 'H01', 'H02', 'H03', 'H04', 'H05', 'H06', 'H07', 'H08', 'H09', 'H10', 'H11', 'H12', 'H13', 'H14', 'H15', 'H16', 'H17', 'H18', 'H19', 'H20', 'H21', 'H22', 'H23', 'H24']
+
+    PT_MAP = {
+      'Nuclear' => :nuclear,
+      'Termica' => :thermal,
+      'Ren Hidro >50MW' => :hydro,
+      'Ren ley 26190' => :hydro
+    }
 
     def self.each
       from = ::Generation.joins(:areas_production_type => [:area, :production_type]).where("time > ?", 2.months.ago).where(area: {source: self.source_id}, production_type: {name: ['thermal','nuclear','hydro']}).pluck(Arel.sql("LAST(time, time)")).first
@@ -103,6 +110,9 @@ module Cammesa
     end
 
     def self.cli(args)
+      save_zip = args.include?('--download') || args.include?('-d')
+      args.reject! { |a| a == '--download' || a == '-d' }
+
       if File.exist? args.first
         args.each do |arg|
           new.add_file(arg).done!
@@ -111,16 +121,17 @@ module Cammesa
         from = Chronic.parse(args.shift).to_date
         to = Chronic.parse(args.shift).to_date
         (from...to).each do |date|
-          new.add_date(date).done!
+          new.add_date(date, save_zip).done!
         end
       end
     end
 
     def initialize
       super
-      @r_gen = []
-      @r_load = []
-      @r_trans = []
+      @r_gen = {}
+      @r_load = {}
+      @r_trans = {}
+      @zip_buffer = nil
     end
 
     @@faraday = Faraday.new do |f|
@@ -128,7 +139,7 @@ module Cammesa
       #f.response :logger, logger
     end
 
-    def add_date(date)
+    def add_date(date, save_zip = false)
       url = date.strftime(LOOKUP_URL)
       r = logger.benchmark_info(url) do
         @@faraday.get(url)
@@ -148,11 +159,20 @@ module Cammesa
       r2 = logger.benchmark_info(URL) do
         @@faraday.get(URL, params)
       end
-      # path = "data/cammesa/#{row[:adjuntos].first[:id]}"
-      # File.binwrite(path, r2.body)
-      # puts path
 
-      add_buffer(r2.body, date)
+      @zip_buffer = r2.body
+      save_zip(date) if save_zip
+
+      add_buffer(@zip_buffer, date)
+      self
+    end
+
+    def save_zip(date)
+      filename = date.strftime('PD%y%m%d.zip')
+      path = "data/cammesa/#{filename}"
+      FileUtils.mkdir_p('data/cammesa')
+      File.binwrite(path, @zip_buffer)
+      logger.info "Saved #{path}"
       self
     end
 
@@ -162,71 +182,70 @@ module Cammesa
       self
     end
 
-    FUEL_MAP = {
-      'BO' => 'hydro_pumped_storage_charging',
-      'EX' => 'export',
-      'NE' => 'demand',
-      # 'PE' => 'losses',
-      # 'DE' => 'deficit',
-      'HI' => 'hydro',
-      'IM' => 'import',
-      'NU' => 'nuclear',
-      'TE' => 'thermal'
-    }
-
     def add_buffer(body, date)
       country = 'AR'
 
       logger.benchmark_info("parse") do
-        zip = Zip::InputStream.new(body)
-        while entry = zip.get_next_entry
-          case entry.name
-          when /\.MDB$/
-            f = Tempfile.new(entry.name, binmode: true)
-            f.write(zip.read)
-            mdb = Mdb.open(f.path)
-            balance = mdb[:BALANCE]
-            balance.select { |row| row[:RGE] == 'TOT' }.each do |row|
-              production_type = FUEL_MAP[row[:COD]]
-              next unless production_type
-              row.each do |col,value|
-                next unless col =~ /^H(\d\d)/
-                h = $1.to_i - 1
-                time = date + h.hours
-                time = TZ.utc_to_local(time)
-                value = value.to_f*1000
-                value = -value if row[:COD] == 'BO'
+        zip = Zip::File.open_buffer(body)
+        zip.each do |entry|
+          if entry.name =~ /BALANCE\.csv$/
+            csv_data = entry.get_input_stream.read
+            csv_data = csv_data.force_encoding('UTF-8')
+            csv_data = csv_data.sub(/\uFEFF/, '') if csv_data.bytes.first == 0xEF && csv_data.bytes[1] == 0xBB && csv_data.bytes[2] == 0xBF
 
-                case row[:COD]
-                when 'NE'
-                  @r_load << {country:, time:, value:}
-                when 'IM'
-                  @r_trans << {time:, from_area: country, to_area: 'other', value:}
-                when 'EX'
-                  @r_trans << {time:, from_area: 'other', to_area: country, value:}
-                else
-                  @r_gen << {country:, production_type:, time:, value:}
+            csv = FastestCSV.parse(csv_data, col_sep: ',', row_sep: "\r\n")
+            fields = csv.shift
+            unless fields.map(&:upcase) == self.class::FIELDS
+              raise "Unexpected header format: #{actual_fields.join(', ')}"
+            end
+
+            csv.each do |row|
+              region = row[1]
+              type = row[2]
+
+              # Process hourly data
+              24.times do |h|
+                value = row[h + 3].to_f * 1000
+                time = date.to_time + h.hours
+                time = TZ.utc_to_local(time)
+
+                case type
+                when 'Demanda Neta'
+                  @r_load[time] ||= {country:, time:, value: 0}
+                  @r_load[time][:value] += value
+                when 'Perdidas'
+                  # Skip
+                when 'Nuclear', 'Termica', 'Ren Hidro >50MW', 'Ren ley 26190'
+                  production_type = PT_MAP[type]
+                  key = [time, production_type]
+                  @r_gen[key] ||= {country:, production_type:, time:, value: 0}
+                  @r_gen[key][:value] += value
+                when 'Importacion'
+                  key = [time, 'import']
+                  @r_trans[key] ||= {time:, from_area: 'AR', to_area: 'other', value: 0}
+                  @r_trans[key][:value] += value
+                when 'Exportacion'
+                  key = [time, 'export']
+                  @r_trans[key] ||= {time:, from_area: 'other', to_area: 'AR', value: 0}
+                  @r_trans[key][:value] += value
                 end
               end
-              #binding.irb
             end
-            f.close
-            f.unlink
-            #binding.irb
           end
         end
+        zip.close
       end
-      #binding.irb
+      self
     end
 
     def done!
       return if @r_gen.blank?
-      @from = @r_gen.first[:time]
-      @to = @r_gen.last[:time]
+      @from = @r_gen.values.first[:time]
+      @to = @r_gen.values.last[:time]
 
-      Out::Generation.run(@r_gen, @from, @to, self.class.source_id)
-      Out::Load.run(@r_load, @from, @to, self.class.source_id)
-      Out::Transmission.run(@r_trans, @from, @to, self.class.source_id)
+      Out::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
+      Out::Load.run(@r_load.values, @from, @to, self.class.source_id)
+      Out::Transmission.run(@r_trans.values, @from, @to, self.class.source_id)
     end
   end
 end
