@@ -1,4 +1,4 @@
-require 'httparty'
+require 'faraday'
 module Opennem
   class Base
     def self.source_id
@@ -144,12 +144,7 @@ module Opennem
       }
       url = "https://api.opennem.org.au/stats/power/network/fueltech/#{network}/#{region}"
       @res = logger.benchmark_info(url) do
-        HTTParty.get(
-          url,
-          query: query,
-          timeout: 180,
-          #debug_output: $stdout
-        )
+        Faraday.get(url, query)
       end
     end
   end
@@ -166,12 +161,7 @@ module Opennem
       }
       url = "https://api.opennem.org.au/stats/price/#{network}/#{region}"
       @res = logger.benchmark_info(url) do
-        HTTParty.get(
-          url,
-          query: query,
-          timeout: 180,
-          #debug_output: $stdout
-        )
+        Faraday.get(url, query)
       end
     end
   end
@@ -186,11 +176,7 @@ module Opennem
       network, region = country.split(/-/)
       url = "https://data.opennem.org.au/v3/stats/historic/weekly/#{network}/#{region}/year/#{date.strftime('%Y')}/week/#{date.strftime('%U').to_i + 1}.json"
       @res = logger.benchmark_info(url) do
-        HTTParty.get(
-          url,
-          timeout: 180,
-          #debug_output: $stdout
-        )
+        Faraday.get(url)
       end
     end
   end
@@ -203,7 +189,7 @@ module Opennem
     def initialize
       url = "https://data.opennem.org.au/v3/clients/em/latest.json"
       @res = logger.benchmark_info(url) do
-        HTTParty.get(url)
+        Faraday.get(url)
       end
       @from = @res['data'][0]['history']['start']
       @to = @res['data'][0]['history']['last']
@@ -218,7 +204,7 @@ module Opennem
       network, region = country.split(/-/)
       url = "https://data.opennem.org.au/v3/stats/au/#{network}/#{region}/power/7d.json"
       @res = logger.benchmark_info(url) do
-        HTTParty.get(url)
+        Faraday.get(url)
       end
       @from = @res['data'][0]['history']['start']
       @to = @res['data'][0]['history']['last']

@@ -1,4 +1,4 @@
-require 'httparty'
+require 'faraday'
 
 module Nspower
   class Base
@@ -13,20 +13,12 @@ module Nspower
     def initialize
       load_url = "https://www.nspower.ca/library/CurrentLoad/CurrentLoad.json"
       @load = logger.benchmark_info(load_url) do
-        HTTParty.get(
-          load_url,
-          query: {contentType: :csv},
-          #debug_output: $stdout
-        )
+        Faraday.get(load_url, {contentType: :csv})
       end
 
       gen_url = "https://www.nspower.ca/library/CurrentLoad/CurrentMix.json"
       @gen = logger.benchmark_info(gen_url) do
-        HTTParty.get(
-          gen_url,
-          query: {contentType: :csv},
-          #debug_output: $stdout
-        )
+        Faraday.get(gen_url, {contentType: :csv})
       end
 
       @from = Time.at(@load.first['datetime'][6...-5].to_i)

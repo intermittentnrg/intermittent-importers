@@ -1,5 +1,5 @@
 require 'date'
-require 'httparty'
+require 'faraday'
 require 'active_support'
 require 'active_support/core_ext'
 
@@ -25,11 +25,8 @@ module Eirgrid
         datefrom: @from.strftime("%d-%B-%Y %H:%M"),
         dateto: @to.strftime("%d-%B-%Y %H:%M")
       }
-      @res = HTTParty.get(
-        "https://www.smartgriddashboard.com/DashboardService.svc/data",
-        query: @options,
-        #debug_output: $stdout
-      )
+
+      @res = Faraday.get("https://www.smartgriddashboard.com/DashboardService.svc/data", @options)
     end
 
     def points

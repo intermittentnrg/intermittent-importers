@@ -1,4 +1,4 @@
-require 'httparty'
+require 'faraday'
 module HydroQuebec
   class Base
     def self.source_id
@@ -12,10 +12,7 @@ module HydroQuebec
       url = "https://www.hydroquebec.com/data/documents-donnees/donnees-ouvertes/json/production.json"
 
       res = logger.benchmark_info(url) do
-        HTTParty.get(
-          url,
-          #debug_output: $stdout
-        )
+        Faraday.get(url)
       end
 
       @json = JSON.parse(res.body)

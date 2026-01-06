@@ -1,5 +1,5 @@
-require 'httparty'
 require 'chronic'
+require 'faraday'
 
 class Ree
   class Generation
@@ -73,11 +73,7 @@ class Ree
       @system = "Canarias"
       url = "https://demanda.ree.es/WSvisionaMoviles#{@system}Rest/resources/demandaGeneracion#{@system}"
       @res = logger.benchmark_info(url) do
-        HTTParty.get(
-          url,
-          query: @options,
-          #debug_output: $stdout
-        )
+        Faraday.get(url, @options)
       end
 
       add_buffer(@res.body)

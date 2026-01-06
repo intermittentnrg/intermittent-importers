@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'faraday'
 
 module Nyiso
   class Base
@@ -24,7 +25,7 @@ module Nyiso
   end
   class Generation
     def initialize
-      HTTParty.get("http://mis.nyiso.com/public/csv/rtfuelmix/#{date.strftime('%Y%m%d')}rtfuelmix.csv")
+      Faraday.get("http://mis.nyiso.com/public/csv/rtfuelmix/#{date.strftime('%Y%m%d')}rtfuelmix.csv")
     end
   end
   class GenerationMonth < Base
