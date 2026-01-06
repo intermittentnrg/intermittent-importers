@@ -242,21 +242,20 @@ module EntsoeCsv
           time = parse_time(row[0])
           #1:ResolutionCode
           #2:AreaCode
-          area_id = parse_area(row[2])
+          country = row[2]
           #3:AreaDisplayName
           area_name = row[3]
           #4:AreaTypeCode
           #5:AreaMapCode
-          area_code = row[5]
           #6:TotalLoad[MW]
           value = row[6].to_f*1000
           #7:UpdateTime(UTC)
 
-          k = [time,area_id]
+          k = [time,country]
           if @r[k] && @r[k][:value] != value
             logger.warn("#{time} #{area_name} different values #{@r[k][:value]} != #{value}")
           end
-          @r[k] = {time:, area_id:, value:}
+          @r[k] = {time:, country:, value:}
         end
       end
     end

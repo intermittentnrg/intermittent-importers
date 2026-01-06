@@ -181,7 +181,7 @@ module Out
       raise unless data
       data.each do |p|
         k = [source_id, p[:country]]
-        p[:area_id] = (@@areas[k] ||= ::Area.where(source: source_id, code: p[:country]).pluck(:id).first) if p[:country]
+        p[:area_id] = (@@areas[k] ||= ::Area.where(source: source_id, internal_id: p[:country]).pluck(:id).first) if p[:country]
         p.delete :country
       end
 

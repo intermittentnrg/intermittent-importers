@@ -271,10 +271,8 @@ module EntsoeApi
       }
     end
     def done!
-      @r.each { |p| p.except!(:process_type, :production_type) }
       @from = @r.min { |a,b| a[:time] <=> b[:time] }[:time]
       @to = @r.max { |a,b| a[:time] <=> b[:time] }[:time]
-      @r = @r.each { |p| p.except!(:process_type, :production_type) }
       @r = Validate.validate_load(@r, self.class.source_id)
       Out::Load.run(@r, @from, @to, self.class.source_id)
     end
