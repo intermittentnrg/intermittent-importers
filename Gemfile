@@ -59,3 +59,5 @@ group :test do
   gem 'vcr'
   gem 'webmock'
 end
+
+gem "roo", "~> 2.10"
