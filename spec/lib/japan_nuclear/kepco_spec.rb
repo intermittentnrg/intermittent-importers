@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe JapanNuclear::Kepco do
   subject { JapanNuclear::Kepco }

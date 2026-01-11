@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe 'capture price calculations' do
   let(:area) { Area.find_by!(code: 'SA1', region: 'australia', source: 'aemo', type: 'region') }

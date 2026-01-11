@@ -1,4 +1,4 @@
-require './spec/spec_helper'
+require 'rails_helper'
 
 RSpec.describe Out::UnitCapacity do
   it "deduplicates capacity data" do

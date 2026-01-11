@@ -1,4 +1,4 @@
-require './spec/spec_helper'
+require 'rails_helper'
 require 'timecop'
 
 RSpec.describe Eia::Generation do

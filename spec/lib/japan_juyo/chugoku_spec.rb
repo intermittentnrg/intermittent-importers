@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe JapanJuyo::Chugoku do
   subject { JapanJuyo::Chugoku }

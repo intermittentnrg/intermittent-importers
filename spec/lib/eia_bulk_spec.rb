@@ -1,4 +1,4 @@
-require './spec/spec_helper'
+require 'rails_helper'
 
 RSpec.describe 'EiaBulk' do
   let(:sample_txt_path) { './spec/fixtures/eia_bulk_sample.txt' }

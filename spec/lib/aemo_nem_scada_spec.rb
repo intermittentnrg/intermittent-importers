@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './spec/spec_helper'
+require 'rails_helper'
 
 def test_calculate_range
   context 'has range' do

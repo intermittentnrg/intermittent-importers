@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe JapanJuyo::Chuden do
   subject { JapanJuyo::Chuden }

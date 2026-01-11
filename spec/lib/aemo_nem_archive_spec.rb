@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './spec/spec_helper'
+require 'rails_helper'
 
 def test_archive(index_name, archive_name = '123.zip', datafile_name = '123_456.zip')
   context 'without argument' do

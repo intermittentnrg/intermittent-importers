@@ -1,4 +1,4 @@
-require './spec/spec_helper'
+require 'rails_helper'
 
 RSpec.describe Load do
   describe '.enable_compression_policy!' do

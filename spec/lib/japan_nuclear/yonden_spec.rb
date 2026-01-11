@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe JapanNuclear::Yonden do
   subject { JapanNuclear::Yonden }
