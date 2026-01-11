@@ -15,7 +15,10 @@ RSpec.describe Aeso::Generation do
 
   describe :refresh do
     it do
-      expect(Out::Generation).to receive(:run).with(array_including(hash_including(production_type: 'hydro', value: 118000)), anything, anything, 'aeso')
+      expect(Out::Generation).to receive(:run) do |points, from, to, source|
+        expect(points).to include(hash_including(production_type: 'hydro', value: 118000))
+        expect(source).to eq 'aeso'
+      end
 
       sqs = double('SQS')
       result = double('SQS::result')
