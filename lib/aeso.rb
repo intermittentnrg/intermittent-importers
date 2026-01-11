@@ -42,10 +42,10 @@ module Aeso
 
     def initialize
       super
-      @r_load = []
+      @r_load = {}
       @r_gen = {}
-      @r_tran = []
-      @r_unit = []
+      @r_tran = {}
+      @r_unit = {}
     end
 
     def add_file path
@@ -70,7 +70,7 @@ module Aeso
       csv = FastestCSV.parse(chunks[2])
       raise unless csv[2][0] == 'Alberta Internal Load (AIL)'
       value = csv[2][1].to_f*1000
-      @r_load << {time:, country: 'CA-AB', value:}
+      @r_load[time] = {time:, country: 'CA-AB', value:}
 
       csv = FastestCSV.parse(chunks[3])
       csv.each do |row|
@@ -96,7 +96,7 @@ module Aeso
         #0: PATH
         #1: ACTUAL FLOW
         value = -row[1].to_f*1000
-        @r_tran << {time:, from_area: 'CA-AB', to_area: row[0], value:}
+        @r_tran[time] = {time:, from_area: 'CA-AB', to_area: row[0], value:}
       end
 
       #units
@@ -124,15 +124,16 @@ module Aeso
         #2: TNG - Total Net Generation
         value = row[2].to_f*1000
         #3: DCR - Dispatched (and Accepted) Contingency Reserve
-        @r_unit << {time:, country: 'CA-AB', production_type:, unit:, value:}
+        k = [time, unit]
+        @r_unit[k] = {time:, country: 'CA-AB', production_type:, unit:, value:}
       end
     end
 
     def done!
-      ::Out::Load.run(@r_load, @from, @to, self.class.source_id)
-      ::Out::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
-      ::Out::Transmission.run(@r_tran, @from, @to, self.class.source_id)
-      ::Out::Unit.run(@r_unit, @from, @to, self.class.source_id)
+      Out::Load.run(@r_load.values, @from, @to, self.class.source_id)
+      Out::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
+      Out::Transmission.run(@r_tran.values, @from, @to, self.class.source_id)
+      Out::Unit.run(@r_unit.values, @from, @to, self.class.source_id)
     end
   end
 
