@@ -131,7 +131,8 @@ namespace :aemo do
     chain_task :scada, AemoWem::Scada
     chain_task :distributed_pv, AemoWem::DistributedPv
     #chain_task :balancing, AemoWem::Balancing
-    oneshot_task :balancing, AemoWem::BalancingLive
+    desc "Refresh AEMO WEM BalancingLive"
+    task(:balancing) { AemoWem::BalancingLive.refresh }
   end
 end
 

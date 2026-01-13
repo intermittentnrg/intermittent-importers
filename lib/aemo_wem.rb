@@ -295,7 +295,7 @@ module AemoWem
 
     def self.cli(args)
       if args.empty?
-        self.new.add_url(URL).done!
+        refresh
       else
         target = self.new
         args.each do |path|
@@ -305,6 +305,9 @@ module AemoWem
       end
     end
 
+    def self.refresh
+      self.new.add_url(URL).done!
+    end
     def parse_filename! name
     end
     #def parse_time s
