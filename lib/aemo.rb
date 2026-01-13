@@ -81,7 +81,7 @@ module Aemo
           raise 'FIXME' unless zip.count == 1
           zip_entry = zip.entries.first
           data = zip_entry.get_input_stream.read
-          name = zip_entry.name
+          # name = zip_entry.name
           date = zip_entry.mtime
         end
       end

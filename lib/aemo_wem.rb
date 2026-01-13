@@ -212,8 +212,8 @@ module AemoWem
     include SemanticLogger::Loggable
 
     URL = 'http://data.wa.aemo.com.au/public/market-data/wemde/referenceTradingPrice/previous/'
-    FILE_FORMAT = 'ReferenceTradingPrice_%Y%m%d.zip'
-    URL_FORMAT = URL+FILE_FORMAT
+    FILE_FORMAT = 'ReferenceTradingPrice_%Y%m%d'
+    URL_FORMAT = URL+FILE_FORMAT+".zip"
     TIME_FORMAT = '%Y-%m-%dT%H:%M:%S%:z'
 
     def self.select_file? url
