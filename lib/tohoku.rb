@@ -78,6 +78,9 @@ module Tohoku
       end
 
       self
+    rescue
+      logger.error("body=#{body}")
+      raise
     end
 
     def done!
