@@ -40,6 +40,27 @@ class GenerationUnit < ActiveRecord::Base
       logger.info "#{r.cmd_tuples} rows affected"
 
       r
+    rescue ActiveRecord::NotNullViolation
+      sql = <<~SQL
+        SELECT
+          DISTINCT area_id, production_type_id, pt.name
+        FROM generation_unit g
+        INNER JOIN units u ON(unit_id=u.id)
+        INNER JOIN areas A ON(area_id=a.id)
+        INNER JOIN production_types pt ON (production_type_id=pt.id)
+        LEFT JOIN areas_production_types apt USING(area_id, production_type_id)
+        WHERE
+          apt.id IS NULL AND
+          g.time >= '#{from}' AND g.time < '#{to}' AND
+          #{where}
+      SQL
+      # require 'pry' ; binding.pry
+      r = connection.execute sql
+      r.each do |row|
+        logger.warn("Created new apt for area_id #{row['area_id']} pt #{row['name']}")
+        AreasProductionType.create!(area_id: row['area_id'], source_area_id: row['area_id'], production_type_id: row['production_type_id'])
+      end
+      retry
     end
     Generation.aggregate_to_capture(from, to, where)
   end
