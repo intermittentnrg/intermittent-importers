@@ -69,7 +69,7 @@ class EntsoeFms
         raise "Download failed: #{content_res.status}" unless content_res.success?
 
         data = StringIO.new(content_res.body)
-        self::TARGET.new.add_buffer(data.read, file['name'], time).done!
+        self::TARGET.new.add_buffer(data.read, file['name'], time, true).done!
       end
 
       logger.info "Skipped #{skipped.length} existing files"

@@ -51,7 +51,8 @@ RSpec.describe EntsoeFms::Generation do
       expect(target_instance).to receive(:add_buffer).with(
         kind_of(String),
         'test_file.zip',
-        expected_time
+        expected_time,
+        true
       ).and_return(target_instance)
       expect(target_instance).to receive(:done!)
 

@@ -29,21 +29,21 @@ module EntsoeCsv
     def add_file(path)
       name = File.basename(path)
       time = File.mtime(path)
+      body = File.read(path)
 
-      if name =~ /\.zip$/i
-        zip_file = Zip::File.open(path)
-        body = zip_file.first.get_input_stream.read
-      else
-        body = File.read(path)
-      end
-
-      add_buffer(body, name, time)
+      add_buffer(body, name, time, name =~ /\.zip$/i)
     end
 
-    def add_buffer(body, name, time)
+    def add_buffer(body, name, time, zip = false)
       logger.info "Processing #{name}"
 
       parse_filename(name)
+
+      if zip
+        zip_file = Zip::File.open_buffer(body)
+        body = zip_file.first.get_input_stream.read
+      end
+
       csv = FastestCSV.parse(body, col_sep: "\t", skip_header: true)
       add_csv(csv)
 
