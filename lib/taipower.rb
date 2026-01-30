@@ -49,6 +49,7 @@ module Taipower
       super
       @r_gen = {}
       @r_units = {}
+      @dups = Set.new
     end
 
     def add_file file
@@ -64,6 +65,12 @@ module Taipower
     def add_json json
       time = Time.strptime(json[''], '%Y-%m-%d %H:%M')
       time = TZ.local_to_utc(time)
+      if @dups.include? time
+        logger.warn "Skipping duplicate in batch #{time}"
+        return
+      end
+      @dups << time
+
       @from = [time, @from].compact.min
       @to = [time + 10.minute, @to].compact.max
       json['dataset'].each do |row|

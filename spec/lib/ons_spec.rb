@@ -14,17 +14,21 @@ RSpec.describe Ons do
   end
 
   describe :refresh do
+    let(:sqs) { double('SQS') }
+    let(:result) { double('SQS::result') }
+    let(:message) { double('SQS::message', body: File.read(path), receipt_handle: '123') }
+    let(:messages) { [message, message] }
+    let(:delete_result) { double('SQS::delete_message_batch result', length: 0) }
+    before do
+      allow(Aws::SQS::Client).to receive(:new) { sqs }
+      allow(sqs).to receive(:receive_message) { result }
+      allow(result).to receive(:messages) { messages }
+      expect(sqs).to receive(:delete_message_batch) { delete_result }
+    end
     it do
-      expect(Out::Generation).to receive(:run).with(array_including(hash_including(production_type: 'hydro')), anything, anything, 'ons')
-
-      sqs = double('SQS')
-      result = double('SQS::result')
-      message = double('SQS::message', body: File.read(path), receipt_handle: '123')
-      messages = [message]
-      expect(Aws::SQS::Client).to receive(:new) { sqs }
-      expect(sqs).to receive(:receive_message) { result }
-      expect(result).to receive(:messages).at_least(:once) { messages }
-      expect(sqs).to receive(:delete_message_batch) { double('SQS::delete_message_batch result', length: 0) }
+      expect(Out::Generation).to receive(:run) do |points, from, to, source|
+        expect(points).to include(hash_including(production_type: 'hydro', value: 2755747.5599999996, country: 'BR-NE'))
+      end
 
       subject.refresh
     end

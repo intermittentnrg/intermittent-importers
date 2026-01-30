@@ -26,6 +26,7 @@ class Ons
     @r_load = {}
     @r_gen = {}
     @r_trans = {}
+    @dups = Set.new
   end
 
   REGIONS = {
@@ -56,6 +57,12 @@ class Ons
     end
 
     time = Time.strptime(json['Data'], '%Y-%m-%dT%H:%M:%S%:z')
+    if @dups.include? time
+      logger.warn "Skipping duplicate in batch #{time}"
+      return
+    end
+    @dups << time
+
     @from = [time, @from].compact.min
     @to = [time + 1.minute, @to].compact.max
 

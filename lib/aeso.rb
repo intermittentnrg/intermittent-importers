@@ -46,6 +46,7 @@ module Aeso
       @r_gen = {}
       @r_tran = {}
       @r_unit = {}
+      @dups = Set.new
     end
 
     def add_file path
@@ -63,6 +64,12 @@ module Aeso
 
       time = Time.strptime(chunks[1].strip, '"Last Update : %B %d, %Y %H:%M"')
       time = TZ.local_to_utc(time)
+      if @dups.include? time
+        logger.warn "Skipping duplicate in batch #{time}"
+        return
+      end
+      @dups << time
+
       @from = [time, @from].compact.min
       @to = [time + 1.minute, @to].compact.max
 
