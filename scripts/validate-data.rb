@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-require './lib/init'
-require './lib/activerecord-connect'
+require_relative "../config/environment"
 
 Validate.validate_data_cli(ARGV)

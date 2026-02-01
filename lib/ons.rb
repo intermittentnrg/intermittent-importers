@@ -92,8 +92,9 @@ class Ons
   end
 
   def done!
+    r_gen = Validate.validate_generation(@r_gen.values, self.class.source_id)
+    Out::Generation.run(r_gen, @from, @to, self.class.source_id)
     Out::Load.run(@r_load.values, @from, @to, self.class.source_id)
-    Out::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
     Out::Transmission.run(@r_trans.values, @from, @to, self.class.source_id)
   end
 end

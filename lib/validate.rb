@@ -77,27 +77,19 @@ class Validate
   def self.validate_data(delete=false, filters = [])
     RULES.each do |source, areas|
       areas.each do |area_code, production_types|
-        area = Area.find_by(source: area_code, code: area_code, enabled: true)
+        area = Area.where(source: source, enabled: true)
+        area = area.where(code: area_code) if area_code != 'all'
 
         production_types.each do |production_type_name, rules|
           next unless filters.empty? || filters.any? do |filter|
             "#{source}/#{area_code}/#{production_type_name}".include? filter
           end
           if production_type_name == "load"
-            query = Load
-            if area
-              query = query.where(area_id: area.id)
-            else
-              query = query.joins(:area).where("area.region" => region)
-            end
+            query = Load.where(area:)
           else
             production_type = ProductionType.find_by(name: production_type_name)
             raise production_type_name unless production_type
-            if area
-              apt_ids = area.areas_production_type.where(production_type:).pluck(:id)
-            else
-              apt_ids = production_type.areas_production_type.joins(:area).where("area.region" => region).pluck(:id)
-            end
+            apt_ids = AreasProductionType.where(area:, production_type:).pluck(:id)
             query = Generation.where(areas_production_type_id: apt_ids)
           end
 
@@ -106,7 +98,7 @@ class Validate
             #puts query.to_sql
             query_count = query.count
             if query_count > 0
-              puts "#{region} #{area_code}/#{production_type_name} #{query_count} invalid records"
+              puts "#{source} #{area_code}/#{production_type_name} #{query_count} invalid records"
               pp query
               #require 'pry' ; binding.pry
               if delete
