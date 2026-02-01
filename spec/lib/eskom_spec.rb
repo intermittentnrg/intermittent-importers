@@ -90,3 +90,72 @@ CSV
     end
   end
 end
+
+RSpec.describe Eskom::DataRequest do
+  subject { Eskom::DataRequest.new }
+
+  describe '#initialize' do
+    it 'creates a Faraday connection' do
+      expect(subject.instance_variable_get(:@conn)).to be_a(Faraday::Connection)
+    end
+  end
+
+  describe '#submit_request' do
+    let(:form_html) { File.read('spec/fixtures/eskom-datarequest.html') }
+    let(:options) do
+      {
+        first_name: 'John',
+        last_name: 'Doe',
+        email: 'john@example.com',
+        institution: 'Test Institute',
+        purpose: 'Test purposes',
+        start_date: '2023-01-01',
+        end_date: '2023-01-31'
+      }
+    end
+
+    before do
+      allow(Faraday).to receive(:get).and_return(double(success?: true, body: form_html))
+    end
+
+    it 'submits form data with all required checkboxes' do
+      stub_request(:post, %r{/cf-api/})
+        .to_return(status: 200, body: '{"success":true}')
+
+      response = subject.submit_request(options)
+
+      expect(response.status).to eq(200)
+
+      assert_requested(:post, %r{/cf-api/}) do |req|
+        body = URI.decode_www_form(req.body).to_h
+
+        checkboxes_on = body.select { |k, v| v == 'on' }
+
+        expect(checkboxes_on.size).to be >= 16, "Expected at least 16 checkboxes to be submitted, got #{checkboxes_on.size}"
+
+        expect(body['fld_8510825']).to eq('John')
+        expect(body['fld_9768035']).to eq('Doe')
+        expect(body['fld_2337893']).to eq('john@example.com')
+        expect(body['fld_7053797']).to eq('john@example.com')
+        expect(body['fld_2546748']).to eq('Test Institute')
+      end
+    end
+  end
+
+  describe '.cli' do
+    it 'submits default request with no arguments' do
+      allow(Date).to receive(:today).and_return(Date.new(2023, 6, 15))
+      mock_request = double('request', submit_request: double('response', status: 200, body: '{"success":true}'))
+      allow(Eskom::DataRequest).to receive(:new).and_return(mock_request)
+
+      expect(mock_request).to receive(:submit_request).with(
+        hash_including(
+          start_date: '2023-05-01',
+          end_date: '2023-05-31'
+        )
+      )
+
+      described_class.cli([])
+    end
+  end
+end

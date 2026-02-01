@@ -1,5 +1,6 @@
 require 'faraday'
 require 'fastest_csv'
+require 'nokogiri'
 
 module Eskom
   class Base
@@ -247,6 +248,138 @@ module Eskom
       #Out::Transmission.run(@r_tran, @from, @to, self.class.source_id)
       DataFile.upsert_all(@datafiles, unique_by: [:source, :path])
       logger.info "done! #{@datafiles.map { |df| df[:path] }.join(', ')}"
+    end
+  end
+
+  class DataRequest
+    include SemanticLogger::Loggable
+
+    FORM_URL = 'https://www.eskom.co.za/dataportal/data-request-form/'
+
+    REQUIRED_CHECKBOXES = [
+      'RSA Contracted Demand',
+      'Thermal Generation',
+      'Eskom OCGT SCO',
+      'Eskom Gas SCO',
+      'Hydro Water SCO',
+      'Pumped Water SCO Pumping',
+      'Nuclear Generation',
+      'Eskom Gas Generation',
+      'Eskom OCGT Generation',
+      'Dispatchable IPP OCGT',
+      'Hydro Water Generation',
+      'Pumped Water Generation',
+      'Wind',
+      'PV',
+      'CSP',
+      'Other RE'
+    ].freeze
+
+    def initialize
+      @conn = Faraday.new do |f|
+        f.request :url_encoded
+        f.response :logger, logger
+      end
+    end
+
+    def submit_request(options = {})
+      logger.info "Parsing Eskom data request form from #{FORM_URL}"
+
+      response = Faraday.get(FORM_URL)
+      unless response.success?
+        raise "Failed to fetch form page: #{response.status}"
+      end
+
+      doc = Nokogiri::HTML(response.body)
+
+      doc.css('script[type="text/html"]').each { |script| script.replace(script.text) }
+
+      form = doc.at_css('form.caldera_forms_form')
+
+      unless form
+        raise "Could not find data request form on page"
+      end
+
+      api_url = form['data-request']
+
+      defaults = {
+        first_name: 'John',
+        last_name: 'Doe',
+        email: 'john.doe@example.com',
+        institution: 'Research Institute',
+        purpose: 'Research purposes',
+        start_date: '2021-04-01',
+        end_date: '2021-04-30'
+      }
+
+      options = defaults.merge(options)
+
+      params = {}
+
+      form.css('input[type="hidden"]').each do |input|
+        params[input['name']] = input['value']
+      end
+
+      REQUIRED_CHECKBOXES.each do |checkbox_label|
+        input = doc.at_css(%{label:contains("#{checkbox_label}") input[type="checkbox"]})
+        raise "Could not find checkbox for '#{checkbox_label}' in form" unless input
+        params[input['name']] = 'on'
+      end
+
+      at_css = ->(css) {
+        input = doc.at_css(css)
+        raise "Could not find element with CSS: #{css}" unless input
+        input
+      }
+
+      params[at_css.('label:contains("First Name") ~ div input')['name']] = options[:first_name]
+      params[at_css.('label:contains("Last Name") ~ div input')['name']] = options[:last_name]
+      params[at_css.('label:contains("Email *") ~ div input[type="email"]')['name']] = options[:email]
+      params[at_css.('label:contains("Confirm Email") ~ div input[type="email"]')['name']] = options[:email]
+      params[at_css.('label:contains("Institution") ~ div input')['name']] = options[:institution]
+      params[at_css.('label:contains("Purpose of this request") ~ div select')['name']] = options[:purpose]
+      params[at_css.('label:contains("Start Date") ~ div input')['name']] = options[:start_date]
+      params[at_css.('label:contains("End Date") ~ div input')['name']] = options[:end_date]
+      params[at_css.('input[type="radio"][data-label="I accept"]')['name']] = 'I accept'
+
+      logger.info "Submitting Eskom data request to #{api_url}"
+
+      response = @conn.post(api_url) do |req|
+        req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        req.headers['Referer'] = FORM_URL
+        req.headers['Origin'] = 'https://www.eskom.co.za'
+        req.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        req.body = params.to_query
+      end
+
+      logger.info "Response status: #{response.status}"
+
+      response
+    end
+
+    def self.cli(args)
+      if args.length == 0
+        # Default request - get last month's data
+        start_date = (Date.today << 1).strftime('%Y-%m-01')
+        end_date = (Date.today << 1).end_of_month.strftime('%Y-%m-%d')
+
+        request = new
+        response = request.submit_request(
+          first_name: 'Data',
+          last_name: 'Request',
+          email: 'data-request@example.com',
+          start_date:,
+          end_date:
+        )
+
+        puts "Submitted Eskom data request for #{start_date} to #{end_date}"
+        puts "Response status: #{response.status}"
+        puts "Response body: #{response.body}"
+
+      else
+        $stderr.puts "Usage: #{$0} [no arguments for default request]"
+        exit
+      end
     end
   end
 end
