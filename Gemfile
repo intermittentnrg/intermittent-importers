@@ -61,3 +61,4 @@ end
 
 gem "roo", "~> 2.10"
 gem 'rtesseract', '~> 3.1'
+gem 'faraday-cookie_jar', '~> 0.0.8'

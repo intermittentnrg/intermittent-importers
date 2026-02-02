@@ -56,7 +56,7 @@ task :ping do |t|
 end
 
 desc "Run all refresh tasks"
-multitask all: ['entsoe:all', 'aemo:all', 'ieso:all', 'eia:all', :ercot, 'caiso:all', 'elexon:all', :nationalgrideso, :ree, 'aeso:all', :hydroquebec, 'japan_juyo:all', 'japan_nuclear:all', 'eskom:all', :ons, 'cammesa:all', :taipower]
+multitask all: ['entsoe:all', 'aemo:all', 'ieso:all', 'eia:all', :ercot, 'caiso:all', 'elexon:all', :nationalgrideso, :ree, 'aeso:all', :hydroquebec, 'japan_juyo:all', 'japan_nuclear:all', :kpx, 'eskom:all', :ons, 'cammesa:all', :taipower]
 namespace :ieso do
   desc "Run refresh tasks"
   task all: [:unit, :load, :price, :intertie]
@@ -172,6 +172,8 @@ namespace :japan_nuclear do
   oneshot_chain_task :kyuden, JapanNuclear::Kyuden
   oneshot_chain_task :yonden, JapanNuclear::Yonden
 end
+
+oneshot_chain_task :kpx, Kpx::Generation
 
 desc 'Refresh ONS'
 task(:ons) { Ons.refresh }
