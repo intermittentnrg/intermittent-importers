@@ -131,7 +131,6 @@ module Cammesa
       @r_gen = {}
       @r_load = {}
       @r_trans = {}
-      @zip_buffer = nil
     end
 
     @@faraday = Faraday.new do |f|
@@ -160,18 +159,18 @@ module Cammesa
         @@faraday.get(URL, params)
       end
 
-      @zip_buffer = r2.body
-      save_zip(date) if save_zip
+      zip_buffer = r2.body
+      save_zip(date, zip_buffer) if save_zip
 
-      add_buffer(@zip_buffer, date)
+      add_buffer(zip_buffer, date)
       self
     end
 
-    def save_zip(date)
+    def save_zip(date, zip_buffer)
       filename = date.strftime('PD%y%m%d.zip')
       path = "data/cammesa/#{filename}"
       FileUtils.mkdir_p('data/cammesa')
-      File.binwrite(path, @zip_buffer)
+      File.binwrite(path, zip_buffer)
       logger.info "Saved #{path}"
       self
     end
