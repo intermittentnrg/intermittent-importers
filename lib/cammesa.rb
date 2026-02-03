@@ -136,6 +136,7 @@ module Cammesa
       @r_gen = {}
       @r_load = {}
       @r_trans = {}
+      @r_units = []
     end
 
     @@faraday = Faraday.new do |f|
@@ -209,50 +210,98 @@ module Cammesa
       logger.benchmark_info('parse') do
         zip = Zip::File.open_buffer(body)
         zip.each do |entry|
-          next unless entry.name =~ /BALANCE\.csv$/
+          if entry.name =~ /BALANCE\.csv$/
 
-          csv_data = entry.get_input_stream.read
-          csv_data = csv_data.force_encoding('UTF-8')
-          if csv_data.bytes.first == 0xEF && csv_data.bytes[1] == 0xBB && csv_data.bytes[2] == 0xBF
-            csv_data = csv_data.sub(/\uFEFF/,
-                                    '')
-          end
+            csv_data = entry.get_input_stream.read
+            csv_data = csv_data.force_encoding('UTF-8')
+            if csv_data.bytes.first == 0xEF && csv_data.bytes[1] == 0xBB && csv_data.bytes[2] == 0xBF
+              csv_data = csv_data.sub(/\uFEFF/, '')
+            end
 
-          csv = FastestCSV.parse(csv_data, col_sep: ',', row_sep: "\r\n")
-          fields = csv.shift
-          unless fields.map(&:upcase) == self.class::FIELDS
-            raise "Unexpected header format: #{actual_fields.join(', ')}"
-          end
+            csv = FastestCSV.parse(csv_data, col_sep: ',', row_sep: "\r\n")
+            fields = csv.shift
+            unless fields.map(&:upcase) == self.class::FIELDS
+              raise "Unexpected header format: #{fields.join(', ')}"
+            end
 
-          csv.each do |row|
-            row[1]
-            type = row[2]
+            csv.each do |row|
+              row[1]
+              type = row[2]
 
-            # Process hourly data
-            24.times do |h|
-              value = row[h + 3].to_f * 1000
-              time = date.to_time + h.hours
-              time = TZ.utc_to_local(time)
+              # Process hourly data
+              24.times do |h|
+                value = row[h + 3].to_f * 1000
+                time = date.to_time + h.hours
+                time = TZ.utc_to_local(time)
 
-              case type
-              when 'Demanda Neta'
-                @r_load[time] ||= { country:, time:, value: 0 }
-                @r_load[time][:value] += value
-              when 'Perdidas'
-                # Skip
-              when 'Nuclear', 'Termica', 'Ren Hidro >50MW', 'Ren ley 26190'
-                production_type = PT_MAP[type]
-                key = [time, production_type]
-                @r_gen[key] ||= { country:, production_type:, time:, value: 0 }
-                @r_gen[key][:value] += value
-              when 'Importacion'
-                key = [time, 'import']
-                @r_trans[key] ||= { time:, from_area: 'AR', to_area: 'other', value: 0 }
-                @r_trans[key][:value] += value
-              when 'Exportacion'
-                key = [time, 'export']
-                @r_trans[key] ||= { time:, from_area: 'other', to_area: 'AR', value: 0 }
-                @r_trans[key][:value] += value
+                case type
+                when 'Demanda Neta'
+                  @r_load[time] ||= { country:, time:, value: 0 }
+                  @r_load[time][:value] += value
+                when 'Perdidas'
+                  # Skip
+                when 'Nuclear', 'Termica', 'Ren Hidro >50MW', 'Ren ley 26190'
+                  production_type = PT_MAP[type]
+                  key = [time, production_type]
+                  @r_gen[key] ||= { country:, production_type:, time:, value: 0 }
+                  @r_gen[key][:value] += value
+                when 'Importacion'
+                  key = [time, 'import']
+                  @r_trans[key] ||= { time:, from_area: 'AR', to_area: 'other', value: 0 }
+                  @r_trans[key][:value] += value
+                when 'Exportacion'
+                  key = [time, 'export']
+                  @r_trans[key] ||= { time:, from_area: 'other', to_area: 'AR', value: 0 }
+                  @r_trans[key][:value] += value
+                end
+              end
+            end
+          elsif entry.name =~ /VALORES_GENERADORES\.csv$/
+            # Process unit-level data
+            csv_data = entry.get_input_stream.read
+            csv_data = csv_data.force_encoding('UTF-8')
+            csv_data = csv_data.sub(/\uFEFF/, '') if csv_data.bytes.first == 0xEF && csv_data.bytes[1] == 0xBB && csv_data.bytes[2] == 0xBF
+
+            csv = FastestCSV.parse(csv_data, col_sep: ',', row_sep: "\r\n")
+            csv.shift # Skip header row
+
+            csv.each do |row|
+              region = row[0].gsub('"', '') rescue row[0] # Remove quotes if present
+              agent = row[1].gsub('"', '') rescue row[1]  # Remove quotes if present
+              unit = row[2].gsub('"', '') rescue row[2]   # Remove quotes if present
+              type = row[3].gsub('"', '') rescue row[3]   # Remove quotes if present
+
+              # Map type to production type
+              production_type = case type
+                               when 'EO' then 'wind'
+                               when 'BG' then 'biomass'
+                               when 'TV', 'HR', 'HI' then 'hydro'
+                               when 'NU' then 'nuclear'
+                               when 'DI', 'TG', 'CC' then 'thermal'
+                               when 'FV' then 'solar'
+                               else nil
+                               end
+
+              # Skip if we don't have a mapping or if this is import/export data
+              next unless production_type
+              next if type == 'Importacion'
+
+              # Process hourly data
+              24.times do |h|
+                value_str = row[h + 4]
+                # Remove quotes if present and convert to float
+                value_str = value_str.gsub('"', '') if value_str.respond_to?(:gsub)
+                value = value_str.to_f * 1000 # Convert MWh to kWh
+                time = date.to_time + h.hours
+                time = TZ.utc_to_local(time)
+
+                @r_units << {
+                  country:,
+                  unit:,
+                  production_type:,
+                  time:,
+                  value:
+                }
               end
             end
           end
@@ -271,6 +320,7 @@ module Cammesa
       Out::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
       Out::Load.run(@r_load.values, @from, @to, self.class.source_id)
       Out::Transmission.run(@r_trans.values, @from, @to, self.class.source_id)
+      Out::Unit.run(@r_units, @from, @to, self.class.source_id)
       DataFile.upsert_all(@datafiles, unique_by: %i[source path]) if @datafiles.any?
       super
     end
