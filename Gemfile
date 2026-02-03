@@ -101,6 +101,7 @@ group :test do
 end
 
 gem "roo", "~> 2.10"
+gem 'roo-xls'
 gem 'rtesseract', '~> 3.1'
 gem 'faraday-cookie_jar', '~> 0.0.8'
 

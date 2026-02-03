@@ -205,7 +205,7 @@ GEM
     jmespath (1.6.2)
     json (2.18.1)
     logger (1.7.0)
-    loofah (2.25.0)
+    loofah (2.21.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.9.0)
@@ -335,7 +335,12 @@ GEM
     roo (2.10.1)
       nokogiri (~> 1)
       rubyzip (>= 1.3.0, < 3.0.0)
-    rspec-collection_matchers (1.2.1)
+    roo-xls (2.0.0)
+      csv
+      nokogiri
+      roo (>= 2.0.0, < 4)
+      spreadsheet (>= 1.3.4, < 2)
+    rspec-collection_matchers (1.2.0)
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.13.6)
       rspec-support (~> 3.13.0)
@@ -357,6 +362,7 @@ GEM
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
     rtesseract (3.1.4)
+    ruby-ole (1.2.13.1)
     rubyzip (2.4.1)
     sawyer (0.9.3)
       addressable (>= 2.3.5)
@@ -380,13 +386,17 @@ GEM
     simplecov-html (0.13.2)
     simplecov_json_formatter (0.1.4)
     slop (4.10.1)
+    spreadsheet (1.3.4)
+      bigdecimal
+      logger
+      ruby-ole
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.2.0)
     thor (1.5.0)
-    timecop (0.9.10)
+    timecop (0.9.8)
     timeout (0.6.0)
-    timescaledb (0.3.3)
+    timescaledb (0.3.1)
       activerecord
       activesupport
       ostruct
@@ -460,6 +470,7 @@ DEPENDENCIES
   rails_semantic_logger
   rake
   roo (~> 2.10)
+  roo-xls
   rspec-collection_matchers
   rspec-rails
   rspec_junit_formatter
