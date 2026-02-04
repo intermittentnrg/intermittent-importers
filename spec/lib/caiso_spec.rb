@@ -8,12 +8,25 @@ RSpec.describe Caiso::FuelSource do
       around(:example) { |ex| VCR.use_cassette("caiso_generation", &ex) }
       let(:args) { ['2023-01-01', '2023-01-02'] }
       it do
-        expect(Generation).to receive(:upsert_all)
-        expect(DataFile).to receive(:upsert).with(
-          hash_including(
-            path: 'https://www.caiso.com/outlook/history/20230101/fuelsource.csv',
-            source: 'caiso',
-            updated_at: Time.strptime('Wed, 04 Jan 2023 12:03:19 GMT', Caiso::FuelSource::HTTP_DATE_FORMAT)
+        expect(Out::Generation).to receive(:run) do |points, from, to, source|
+          expect(points.length).to eq(3456)
+          expect(from).to be_a(Time)
+          expect(to).to be_a(Time)
+          expect(source).to eq('caiso')
+        end
+        expect(Out::Transmission).to receive(:run) do |points, from, to, source|
+          expect(points.length).to eq(288)
+          expect(from).to be_a(Time)
+          expect(to).to be_a(Time)
+          expect(source).to eq('caiso')
+        end
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              path: 'https://www.caiso.com/outlook/history/20230101/fuelsource.csv',
+              source: 'caiso',
+              updated_at: Time.strptime('Wed, 04 Jan 2023 12:03:19 GMT', Caiso::FuelSource::HTTP_DATE_FORMAT)
+            )
           ),
           unique_by: [:source, :path]
         )
@@ -66,6 +79,27 @@ RSpec.describe Caiso::Load do
       subject(:date) { Date.new(2019,11,3) }
       # should be 25 but netdemand.csv/website is retarded. OK.
       it("has 24h*5m datapoints") { expect(e.instance_variable_get(:@r_load)).to have(24*12).items }
+    end
+
+    describe 'upserts datafile on done!' do
+      subject(:date) { Date.new(2019,3,10) }
+      it do
+        expect(Out::Load).to receive(:run) do |points, from, to, source|
+          expect(points.length).to eq(23*12)
+          expect(from).to be_a(Time)
+          expect(to).to be_a(Time)
+          expect(source).to eq('caiso')
+        end
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              source: 'caiso'
+            )
+          ),
+          unique_by: [:source, :path]
+        )
+        e.done!
+      end
     end
   end
 

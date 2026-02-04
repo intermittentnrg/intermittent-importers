@@ -18,6 +18,10 @@ module Caiso
 
     HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
 
+    def initialize
+      @datafiles = []
+    end
+
     def self.cli(args)
       if args.length != 2
         $stderr.puts "#{$0} <from> <to>"
@@ -40,10 +44,10 @@ module Caiso
       @time = @date.to_time
       @from = TZ.local_to_utc(@time) { |periods| periods.first }
       @to = @from + 1.day
-      @url = date.strftime(self.class::URL_FORMAT)
+      url = date.strftime(self.class::URL_FORMAT)
 
-      last_modified = DataFile.last_modified(@url, self.class.source_id)
-      res = @@faraday.get(@url) do |req|
+      last_modified = DataFile.last_modified(url, self.class.source_id)
+      res = @@faraday.get(url) do |req|
         req.headers['If-Modified-Since'] = last_modified if last_modified
       end
 
@@ -51,9 +55,12 @@ module Caiso
         raise EmptyError
       end
 
-      @filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
+      filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
 
       add_buffer(res.body)
+      @datafiles << {path: url, source: self.class.source_id, updated_at: filedate}
+
+      self
     end
 
     def add(date)
@@ -66,8 +73,8 @@ module Caiso
       TZ.local_to_utc(time) { |periods| periods.first }
     end
     def done!
-      DataFile.upsert({path: @url, source: self.class.source_id, updated_at: @filedate}, unique_by: [:source, :path])
-      logger.info "done! #{@url}"
+      DataFile.upsert_all(@datafiles, unique_by: [:source, :path])
+      logger.info "done! #{@datafiles.map { |df| df[:path] }.join(', ')}"
     end
   end
 
@@ -103,6 +110,7 @@ module Caiso
     FUEL_VALUES = FUELS.values
 
     def initialize
+      super
       @r_gen = []
       @r_trans = []
     end
@@ -179,6 +187,7 @@ module Caiso
     end
 
     def initialize
+      super
       @r_load = []
     end
 
