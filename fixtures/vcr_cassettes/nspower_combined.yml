@@ -1,0 +1,518 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.nspower.ca/library/CurrentLoad/CurrentLoad.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.14.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 25 Feb 2026 23:51:47 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2270'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - max-age=2678400
+      Last-Modified:
+      - Tue, 23 Jan 2024 19:05:59 GMT
+      Accept-Ranges:
+      - bytes
+      Etag:
+      - '"eadbb6332f4eda1:0"'
+      Server:
+      - Microsoft-IIS/10.0
+      Cross-Origin-Embedder-Policy:
+      - unsafe-none
+      Cross-Origin-Opener-Policy:
+      - unsafe-none
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Permissions-Policy:
+      - accelerometer=(self), ambient-light-sensor=(self), autoplay=(self), battery=(self),
+        camera=(self), cross-origin-isolated=(self), display-capture=(self), document-domain=(self),
+        encrypted-media=(self), execution-while-not-rendered=(self), execution-while-out-of-viewport=(self),
+        fullscreen=(self), geolocation=(self), gyroscope=(self), keyboard-map=(self),
+        magnetometer=(self), microphone=(self), midi=(self), navigation-override=(self),
+        payment=(self), picture-in-picture=(self), publickey-credentials-get=(self),
+        screen-wake-lock=(self), sync-xhr=(self), usb=(self), web-share=(self), xr-spatial-tracking=(self)
+      Referrer-Policy:
+      - no-referrer-when-downgrade
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Access-Control-Allow-Origin:
+      - http://localhost:3000
+      X-Powered-By:
+      - ASP.NET
+    body:
+      encoding: UTF-8
+      string: |
+        [
+            {
+                "datetime":  "\/Date(1705950000000)\/",
+                "Base Load":  0
+            },
+            {
+                "datetime":  "\/Date(1705953600000)\/",
+                "Base Load":  1666.23
+            },
+            {
+                "datetime":  "\/Date(1705957200000)\/",
+                "Base Load":  1776.76
+            },
+            {
+                "datetime":  "\/Date(1705960800000)\/",
+                "Base Load":  1763.15
+            },
+            {
+                "datetime":  "\/Date(1705964400000)\/",
+                "Base Load":  1725.04
+            },
+            {
+                "datetime":  "\/Date(1705968000000)\/",
+                "Base Load":  1679.81
+            },
+            {
+                "datetime":  "\/Date(1705971600000)\/",
+                "Base Load":  1600.21
+            },
+            {
+                "datetime":  "\/Date(1705975200000)\/",
+                "Base Load":  1500.51
+            },
+            {
+                "datetime":  "\/Date(1705978800000)\/",
+                "Base Load":  1455.92
+            },
+            {
+                "datetime":  "\/Date(1705982400000)\/",
+                "Base Load":  1410.65
+            },
+            {
+                "datetime":  "\/Date(1705986000000)\/",
+                "Base Load":  1362.76
+            },
+            {
+                "datetime":  "\/Date(1705989600000)\/",
+                "Base Load":  1331.33
+            },
+            {
+                "datetime":  "\/Date(1705993200000)\/",
+                "Base Load":  1315.9
+            },
+            {
+                "datetime":  "\/Date(1705996800000)\/",
+                "Base Load":  1315.99
+            },
+            {
+                "datetime":  "\/Date(1706000400000)\/",
+                "Base Load":  1366.13
+            },
+            {
+                "datetime":  "\/Date(1706004000000)\/",
+                "Base Load":  1490.64
+            },
+            {
+                "datetime":  "\/Date(1706007600000)\/",
+                "Base Load":  1598.92
+            },
+            {
+                "datetime":  "\/Date(1706011200000)\/",
+                "Base Load":  1632.48
+            },
+            {
+                "datetime":  "\/Date(1706014800000)\/",
+                "Base Load":  1602.2
+            },
+            {
+                "datetime":  "\/Date(1706018400000)\/",
+                "Base Load":  1557.95
+            },
+            {
+                "datetime":  "\/Date(1706022000000)\/",
+                "Base Load":  1535.91
+            },
+            {
+                "datetime":  "\/Date(1706025600000)\/",
+                "Base Load":  1531.61
+            },
+            {
+                "datetime":  "\/Date(1706029200000)\/",
+                "Base Load":  1520.48
+            },
+            {
+                "datetime":  "\/Date(1706032800000)\/",
+                "Base Load":  1520.83
+            },
+            {
+                "datetime":  "\/Date(1706036400000)\/",
+                "Base Load":  1529.48
+            }
+        ]
+  recorded_at: Wed, 25 Feb 2026 23:51:47 GMT
+- request:
+    method: get
+    uri: https://www.nspower.ca/library/CurrentLoad/CurrentMix.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.14.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 25 Feb 2026 23:51:47 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '7042'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - max-age=2678400
+      Last-Modified:
+      - Tue, 23 Jan 2024 19:06:19 GMT
+      Accept-Ranges:
+      - bytes
+      Etag:
+      - '"4971803f2f4eda1:0"'
+      Server:
+      - Microsoft-IIS/10.0
+      Cross-Origin-Embedder-Policy:
+      - unsafe-none
+      Cross-Origin-Opener-Policy:
+      - unsafe-none
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Permissions-Policy:
+      - accelerometer=(self), ambient-light-sensor=(self), autoplay=(self), battery=(self),
+        camera=(self), cross-origin-isolated=(self), display-capture=(self), document-domain=(self),
+        encrypted-media=(self), execution-while-not-rendered=(self), execution-while-out-of-viewport=(self),
+        fullscreen=(self), geolocation=(self), gyroscope=(self), keyboard-map=(self),
+        magnetometer=(self), microphone=(self), midi=(self), navigation-override=(self),
+        payment=(self), picture-in-picture=(self), publickey-credentials-get=(self),
+        screen-wake-lock=(self), sync-xhr=(self), usb=(self), web-share=(self), xr-spatial-tracking=(self)
+      Referrer-Policy:
+      - no-referrer-when-downgrade
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Access-Control-Allow-Origin:
+      - http://localhost:3000
+      X-Powered-By:
+      - ASP.NET
+    body:
+      encoding: UTF-8
+      string: |
+        [
+            {
+                "datetime":  "\/Date(1705950000000)\/",
+                "Solid Fuel":  48.7,
+                "HFO/Natural Gas":  6.31,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  4.97,
+                "Biomass":  0,
+                "Hydro":  30.13,
+                "Wind":  7.11,
+                "Imports":  2.76
+            },
+            {
+                "datetime":  "\/Date(1705953600000)\/",
+                "Solid Fuel":  46.21,
+                "HFO/Natural Gas":  6.38,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  4.74,
+                "Biomass":  0,
+                "Hydro":  31.45,
+                "Wind":  8.6,
+                "Imports":  2.62
+            },
+            {
+                "datetime":  "\/Date(1705957200000)\/",
+                "Solid Fuel":  44.23,
+                "HFO/Natural Gas":  6.2,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  4.64,
+                "Biomass":  0,
+                "Hydro":  30.7,
+                "Wind":  11.49,
+                "Imports":  2.72
+            },
+            {
+                "datetime":  "\/Date(1705960800000)\/",
+                "Solid Fuel":  44.18,
+                "HFO/Natural Gas":  6.06,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  5.97,
+                "Biomass":  0,
+                "Hydro":  29.18,
+                "Wind":  13.93,
+                "Imports":  0.68
+            },
+            {
+                "datetime":  "\/Date(1705964400000)\/",
+                "Solid Fuel":  43.78,
+                "HFO/Natural Gas":  8.4,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  5.99,
+                "Biomass":  0,
+                "Hydro":  24.67,
+                "Wind":  16.44,
+                "Imports":  0.7
+            },
+            {
+                "datetime":  "\/Date(1705968000000)\/",
+                "Solid Fuel":  44.26,
+                "HFO/Natural Gas":  7.77,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  5.95,
+                "Biomass":  0,
+                "Hydro":  23.38,
+                "Wind":  18.03,
+                "Imports":  0.6
+            },
+            {
+                "datetime":  "\/Date(1705971600000)\/",
+                "Solid Fuel":  44.86,
+                "HFO/Natural Gas":  7.06,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  4.69,
+                "Biomass":  0,
+                "Hydro":  22.5,
+                "Wind":  20.25,
+                "Imports":  0.62
+            },
+            {
+                "datetime":  "\/Date(1705975200000)\/",
+                "Solid Fuel":  44.66,
+                "HFO/Natural Gas":  6.3,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  5.66,
+                "Biomass":  0,
+                "Hydro":  20.27,
+                "Wind":  22.46,
+                "Imports":  0.65
+            },
+            {
+                "datetime":  "\/Date(1705978800000)\/",
+                "Solid Fuel":  38.53,
+                "HFO/Natural Gas":  6.19,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  4.68,
+                "Biomass":  0,
+                "Hydro":  27.19,
+                "Wind":  22.82,
+                "Imports":  0.58
+            },
+            {
+                "datetime":  "\/Date(1705982400000)\/",
+                "Solid Fuel":  35,
+                "HFO/Natural Gas":  6.66,
+                "CT\u0027s":  0,
+                "LM 6000\u0027s":  4.93,
+                "Biomass":  0,
+                "Hydro":  29.87,
+                "Wind":  23,
+                "Imports":  0.54
+            },
+            {
+                "datetime":  "\/Date(1705986000000)\/",
+                "Solid Fuel":  34.17,
+                "HFO/Natural Gas":  6.57,
+                "CT\u0027s":  0,
+                "LM 6000\u0027s":  5.17,
+                "Biomass":  0,
+                "Hydro":  30.53,
+                "Wind":  23.52,
+                "Imports":  0.03
+            },
+            {
+                "datetime":  "\/Date(1705989600000)\/",
+                "Solid Fuel":  33.69,
+                "HFO/Natural Gas":  6.7,
+                "CT\u0027s":  0,
+                "LM 6000\u0027s":  5.35,
+                "Biomass":  0,
+                "Hydro":  31.65,
+                "Wind":  22.58,
+                "Imports":  0.02
+            },
+            {
+                "datetime":  "\/Date(1705993200000)\/",
+                "Solid Fuel":  31.45,
+                "HFO/Natural Gas":  7.09,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  5.4,
+                "Biomass":  0,
+                "Hydro":  32.49,
+                "Wind":  23.55,
+                "Imports":  0.01
+            },
+            {
+                "datetime":  "\/Date(1705996800000)\/",
+                "Solid Fuel":  28.17,
+                "HFO/Natural Gas":  7.89,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  5.66,
+                "Biomass":  0,
+                "Hydro":  33.23,
+                "Wind":  25.03,
+                "Imports":  0
+            },
+            {
+                "datetime":  "\/Date(1706000400000)\/",
+                "Solid Fuel":  26.62,
+                "HFO/Natural Gas":  8.73,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  6.35,
+                "Biomass":  0,
+                "Hydro":  33.44,
+                "Wind":  24.78,
+                "Imports":  0.07
+            },
+            {
+                "datetime":  "\/Date(1706004000000)\/",
+                "Solid Fuel":  28.16,
+                "HFO/Natural Gas":  6.3,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  6.68,
+                "Biomass":  0,
+                "Hydro":  33.39,
+                "Wind":  25.34,
+                "Imports":  0.12
+            },
+            {
+                "datetime":  "\/Date(1706007600000)\/",
+                "Solid Fuel":  35.78,
+                "HFO/Natural Gas":  3.66,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  6.5,
+                "Biomass":  0,
+                "Hydro":  31.37,
+                "Wind":  22.44,
+                "Imports":  0.24
+            },
+            {
+                "datetime":  "\/Date(1706011200000)\/",
+                "Solid Fuel":  42.9,
+                "HFO/Natural Gas":  3.29,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  6.48,
+                "Biomass":  0,
+                "Hydro":  28.22,
+                "Wind":  18.32,
+                "Imports":  0.77
+            },
+            {
+                "datetime":  "\/Date(1706014800000)\/",
+                "Solid Fuel":  44.15,
+                "HFO/Natural Gas":  3.02,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  5.79,
+                "Biomass":  0,
+                "Hydro":  25.91,
+                "Wind":  18.92,
+                "Imports":  2.2
+            },
+            {
+                "datetime":  "\/Date(1706018400000)\/",
+                "Solid Fuel":  43.56,
+                "HFO/Natural Gas":  3.01,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  5.27,
+                "Biomass":  0,
+                "Hydro":  25.71,
+                "Wind":  20.63,
+                "Imports":  1.81
+            },
+            {
+                "datetime":  "\/Date(1706022000000)\/",
+                "Solid Fuel":  39.16,
+                "HFO/Natural Gas":  3.17,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  4.55,
+                "Biomass":  0,
+                "Hydro":  26.79,
+                "Wind":  23.48,
+                "Imports":  2.85
+            },
+            {
+                "datetime":  "\/Date(1706025600000)\/",
+                "Solid Fuel":  36.09,
+                "HFO/Natural Gas":  3.39,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  5.23,
+                "Biomass":  0,
+                "Hydro":  27.47,
+                "Wind":  25.24,
+                "Imports":  2.57
+            },
+            {
+                "datetime":  "\/Date(1706029200000)\/",
+                "Solid Fuel":  32.47,
+                "HFO/Natural Gas":  3.81,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  6.67,
+                "Biomass":  0,
+                "Hydro":  27.81,
+                "Wind":  26.21,
+                "Imports":  3.04
+            },
+            {
+                "datetime":  "\/Date(1706032800000)\/",
+                "Solid Fuel":  33.89,
+                "HFO/Natural Gas":  4.52,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  6.46,
+                "Biomass":  0,
+                "Hydro":  27.72,
+                "Wind":  26.71,
+                "Imports":  0.7
+            },
+            {
+                "datetime":  "\/Date(1706036400000)\/",
+                "Solid Fuel":  37.87,
+                "HFO/Natural Gas":  3.52,
+                "CT\u0027s":  0.01,
+                "LM 6000\u0027s":  4.97,
+                "Biomass":  0,
+                "Hydro":  27.44,
+                "Wind":  26.11,
+                "Imports":  0.08
+            }
+        ]
+  recorded_at: Wed, 25 Feb 2026 23:51:47 GMT
+recorded_with: VCR 6.4.0
