@@ -1,34 +1,29 @@
-require 'open-uri'
 require 'faraday'
+require 'csv'
+require 'zip'
+require 'chronic'
+require 'tzinfo'
 
 module Nyiso
   class Base
+    TZ = TZInfo::Timezone.get('America/New_York')
+    URL_FORMAT = 'http://mis.nyiso.com/public/csv/rtfuelmix/%Y%m%drtfuelmix_csv.zip'
     def self.source_id
-      "nyiso"
+      'nyiso'
     end
-    def points
-      r = []
-      fuel_sums.each do |type, v|
-        v.each do |time, value|
-          r << {
-            time: time,
-            production_type: type,
-            country: 'US-NY',
-            value: value
-          }
-        end
-      end
 
-      #require 'pry' ; binding.pry
-      r
-    end
-  end
-  class Generation
     def initialize
-      Faraday.get("http://mis.nyiso.com/public/csv/rtfuelmix/#{date.strftime('%Y%m%d')}rtfuelmix.csv")
+      @r = []  # Array for data storage
+      @from = nil
+      @to = nil
+    end
+
+    def done!
+      Out::Generation.run(@r, @from, @to, self.class.source_id)
     end
   end
-  class GenerationMonth < Base
+
+  class Generation < Base
     FUEL_MAP = {
       'Dual Fuel' => 'fossil_gas',
       'Natural Gas' => 'fossil_gas',
@@ -38,27 +33,62 @@ module Nyiso
       'Wind' => 'wind_onshore',
       'Hydro' => 'hydro_run-of-river_and_poundage',
     }
-    def initialize(date)
-      @uri = URI.open("http://mis.nyiso.com/public/csv/rtfuelmix/#{date.strftime('%Y%m%d')}rtfuelmix_csv.zip")
-      @zip = Zip::File.open_buffer(@uri)
+
+    def self.cli(args)
+      raise "Arguments required" if args.empty?
+      date = Chronic.parse(args[0]).to_date
+      new.add_date(date).done!
     end
-    def fuel_sums
-      fuel_sums = {}
-      @zip.entries.each do |f|
-        f.get_input_stream do |io|
-          CSV.new(io, skip_lines: /^Time Stamp/).each do |row|
-            time = DateTime.strptime(row[0]+row[1], '%m/%d/%Y %H:%M:%S%Z')
-            type = FUEL_MAP[row[2]]
-            value = row[3].to_f
-            out_sum = fuel_sums[type] ||= {}
-            out_sum[time] ||= 0.0
-            out_sum[time] += value
-            #require 'pry' ; binding.pry
-          end
+
+    def add_date(date)
+      @date = date
+      @from = TZ.local_to_utc(date.to_time)
+      @to = @from + 1.day
+
+      url = date.strftime(URL_FORMAT)
+
+      response = Faraday.get(url)
+      raise "Failed to fetch data: #{response.status}" unless response.success?
+
+      Zip::File.open_buffer(response.body) do |zip_file|
+        zip_file.each do |entry|
+          next if entry.directory?
+          add_buffer(entry.get_input_stream.read)
         end
       end
 
-      fuel_sums
+      self
+    end
+
+    def add_buffer(body)
+      csv = CSV.parse(body, headers: true)
+
+      csv.each do |row|
+        time_str = row['Time Stamp']
+        timezone = row['Time Zone']
+        type_name = row['Fuel Category']
+        value = row['Gen MW'].to_f * 1000
+
+        # Skip if any required fields are missing
+        next unless time_str && type_name && !value.nil?
+
+        # Parse time and convert to UTC
+        time = DateTime.strptime(time_str, '%m/%d/%Y %H:%M:%S')
+        # The timezone in the data is EST/EDT, but we need to handle it properly
+        # We'll use the timezone info from the TZ constant
+        utc_time = TZ.local_to_utc(time.to_time)
+
+        # Map fuel type
+        production_type = FUEL_MAP[type_name]
+        next unless production_type  # Skip unmapped fuel types
+
+        @r << {
+          time: utc_time,
+          country: 'US-NY',
+          production_type: production_type,
+          value:
+        }
+      end
     end
   end
 end
