@@ -109,22 +109,7 @@ module Cammesa
       end
     end
 
-    def self.cli(args)
-      save_zip = args.include?('--download') || args.include?('-d')
-      args.reject! { |a| a == '--download' || a == '-d' }
-
-      if File.exist? args.first
-        args.each do |arg|
-          new.add_file(arg).done!
-        end
-      else
-        from = Chronic.parse(args.shift).to_date
-        to = Chronic.parse(args.shift).to_date
-        (from...to).each do |date|
-          new.add_date(date, save_zip).done!
-        end
-      end
-    end
+    include CliMixin2::DailyWithDownload
 
     def initialize
       super

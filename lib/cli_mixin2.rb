@@ -46,4 +46,88 @@ module CliMixin2
       end
     end
   end
+
+  module SnapshotWithDownload
+    def self.included(base)
+      base.extend ClassMethods
+    end
+
+    module ClassMethods
+      def cli(args)
+        save_zip = args.include?('--download') || args.include?('-d')
+        args.reject! { |a| a == '--download' || a == '-d' }
+
+        if args.length != 0
+          $stderr.puts "#{$0}"
+          $stderr.puts "Use -d or --download to save ZIP files"
+          exit 1
+        end
+        new.add(save_zip).done!
+      end
+    end
+  end
+
+  module DailyWithDownload
+    def self.included(base)
+      base.extend ClassMethods
+    end
+
+    module ClassMethods
+      def cli(args)
+        save_zip = args.include?('--download') || args.include?('-d')
+        args.reject! { |a| a == '--download' || a == '-d' }
+
+        if File.exist?(args.first)
+          args.each do |arg|
+            new.add_file(arg).done!
+          end
+        else
+          case args.length
+          when 1
+            date = Chronic.parse(args[0]).to_date
+            new.add_date(date, save_zip).done!
+          when 2
+            from = Chronic.parse(args.shift).to_date
+            to = Chronic.parse(args.shift).to_date
+            (from...to).each do |date|
+              new.add_date(date, save_zip).done!
+            end
+          end
+        end
+      end
+    end
+  end
+
+  module MonthlyWithDownload
+    def self.included(base)
+      base.extend ClassMethods
+    end
+
+    module ClassMethods
+      def cli(args)
+        save_zip = args.include?('--download') || args.include?('-d')
+        args.reject! { |a| a == '--download' || a == '-d' }
+
+        if args.any? && File.exist?(args.first)
+          args.each do |file|
+            new.add_file(file).done!
+          end
+        elsif args.length == 1
+          date = Chronic.parse(args.shift).to_date
+          new.add_date(date, save_zip).done!
+        elsif args.length == 2
+          from = Chronic.parse(args.shift).to_date
+          to = Chronic.parse(args.shift).to_date
+          (from..to).each do |date|
+            next unless date.day == 1  # Only first day of month
+            new.add_date(date, save_zip).done!
+          end
+        else
+          $stderr.puts "#{$0} [file1.zip file2.zip ...] | [date] | [from to]"
+          $stderr.puts "Use -d or --download to save ZIP files"
+          exit 1
+        end
+      end
+    end
+  end
 end

@@ -18,32 +18,7 @@ class Cenace
     'cenace'
   end
 
-  def self.cli(args)
-    # Check for download flag
-    save_zip = args.include?('--download') || args.include?('-d')
-    args.reject! { |a| a == '--download' || a == '-d' }
-
-    if args.any? && File.exist?(args.first)
-      args.each do |file|
-        new.add_file(file).done!
-      end
-    elsif args.length == 1
-      # Single date
-      date = Chronic.parse(args.shift).to_date
-      new.add_date(date, save_zip).done!
-    elsif args.length == 2
-      from = Chronic.parse(args.shift).to_date
-      to = Chronic.parse(args.shift).to_date
-      (from..to).each do |date|
-        next unless date.day == 1  # Only first day of month
-        new.add_date(date, save_zip).done!
-      end
-    else
-      $stderr.puts "#{$0} [file1.zip file2.zip ...] | [date] | [from to]"
-      $stderr.puts "Use -d or --download to save ZIP files"
-      exit 1
-    end
-  end
+  include CliMixin2::MonthlyWithDownload
 
   def initialize
     @r = []
