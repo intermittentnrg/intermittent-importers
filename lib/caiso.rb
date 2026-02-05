@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'faraday/net_http_persistent'
-# require 'faraday/gzip'
+require 'zip'
 require 'fastest_csv'
 require 'chronic'
 
@@ -235,6 +235,100 @@ module Caiso
       Out::Load.run(r_load, @from, @to, self.class.source_id)
 
       super
+    end
+  end
+
+  class Price
+    include SemanticLogger::Loggable
+
+    SOURCE_ID = 'caiso'
+    TZ = TZInfo::Timezone.get('US/Pacific')
+    URL = 'https://oasis.caiso.com/oasisapi/SingleZip'
+
+    def initialize
+      @faraday = Faraday.new do |f|
+        f.response :raise_error
+      end
+      @r_price = []
+      @from = nil
+      @to = nil
+    end
+
+    def self.cli(args)
+      raise 'Arguments required' if args.empty?
+
+      from = Chronic.parse(args[0]).to_date
+      to = Chronic.parse(args[1] || args[0]).to_date
+      new.add_date_range(from, to).done!
+    end
+
+    def add_date_range(from, to)
+      @from = TZ.local_to_utc(from.to_time) { |periods| periods.first }
+      @to = TZ.local_to_utc(to.to_time) { |periods| periods.first } + 1.day
+
+      startdatetime = @from.strftime('%Y%m%dT%H:%M-0000')
+      enddatetime = @to.strftime('%Y%m%dT%H:%M-0000')
+
+      params = {
+        queryname: 'PRC_LMP',
+        version: 12,
+        resultformat: 6,
+        market_run_id: 'DAM',
+        node: 'TH_SP15_GEN-APND',
+        startdatetime: startdatetime,
+        enddatetime: enddatetime
+      }
+
+      url = "#{self.class::URL}?#{URI.encode_www_form(params)}"
+
+      res = @faraday.get(url)
+
+      raise EmptyError if res.headers['content-type'] =~ %r{^text/html}
+
+      add_buffer(res.body)
+
+      self
+    end
+
+    def add_buffer(body)
+      Zip::File.open_buffer(body) do |zip_file|
+        zip_file.each do |entry|
+          next if entry.directory?
+
+          csv_content = entry.get_input_stream.read
+          parse_csv(csv_content)
+        end
+      end
+
+      self
+    end
+
+    def parse_csv(csv)
+      rows = FastestCSV.parse(csv)
+      headers = rows.shift
+
+      time_idx = headers.index('INTERVALSTARTTIME_GMT')
+      lmp_type_idx = headers.index('LMP_TYPE')
+      mw_idx = headers.index('MW')
+
+      raise 'Missing expected columns' unless time_idx && lmp_type_idx && mw_idx
+
+      rows.each do |row|
+        next unless row[lmp_type_idx] == 'LMP'
+
+        time = Time.parse(row[time_idx]).utc
+        price = (row[mw_idx].to_f * 1_000).to_i
+
+        @r_price << { time:, country: 'CAISO', value: price }
+      end
+
+      self
+    end
+
+    def done!
+      return if @r_price.empty?
+
+      Out::Price.run(@r_price, @from, @to, self.class::SOURCE_ID)
     end
   end
 end

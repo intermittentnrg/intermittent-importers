@@ -1,0 +1,46 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://oasis.caiso.com/oasisapi/SingleZip?enddatetime=20230103T08:00-0000&market_run_id=DAM&node=TH_SP15_GEN-APND&queryname=PRC_LMP&resultformat=6&startdatetime=20230101T08:00-0000&version=12
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.11
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Disposition:
+      - inline; filename=20230101_20230103_PRC_LMP_DAM_20260207_12_17_12_v12.zip;
+      Content-Type:
+      - application/x-zip-compressed
+      Date:
+      - Sat, 07 Feb 2026 20:17:12 GMT
+      Keep-Alive:
+      - timeout=60
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - BIGipServerprod-oasisapi-int=3230996396.12878.0000; path=/; Httponly; Secure
+      - TS01438ccb=014824d35f9b57a0a28dc9b5180795972349a0d5a41f8f31f041834397b0cb99be2dc0a167bf0c4b57aecfc41dcfc0e9e7f4b3ffb1;
+        Path=/; Domain=.oasis.caiso.com
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+  recorded_at: Sat, 07 Feb 2026 20:17:12 GMT
+recorded_with: VCR 6.2.0

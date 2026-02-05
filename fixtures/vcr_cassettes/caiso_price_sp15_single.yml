@@ -1,0 +1,46 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://oasis.caiso.com/oasisapi/SingleZip?enddatetime=20230102T08:00-0000&market_run_id=DAM&node=TH_SP15_GEN-APND&queryname=PRC_LMP&resultformat=6&startdatetime=20230101T08:00-0000&version=12
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.11
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Disposition:
+      - inline; filename=20230101_20230102_PRC_LMP_DAM_20260207_13_11_05_v12.zip;
+      Content-Type:
+      - application/x-zip-compressed
+      Date:
+      - Sat, 07 Feb 2026 21:11:04 GMT
+      Keep-Alive:
+      - timeout=60
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - BIGipServerprod-oasisapi-int=3230996396.10318.0000; path=/; Httponly; Secure
+      - TS01bbae0b=019d5a8e0cfb7122f81825ecb5869fad73681f70542a5edf0e5feb0df7c9ee23249419a55639eb089e64b9da651dbecc33d082f3a83bfce0ee441c5d68bebe90eb0c72cff2;
+        Path=/; Domain=.oasis.caiso.com
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+  recorded_at: Sat, 07 Feb 2026 21:11:05 GMT
+recorded_with: VCR 6.2.0

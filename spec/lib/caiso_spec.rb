@@ -124,3 +124,80 @@ RSpec.describe Caiso::Load do
     end
   end
 end
+
+RSpec.describe Caiso::Price do
+  subject { Caiso::Price }
+  describe :cli do
+    context 'with date range' do
+      around(:example) { |ex| VCR.use_cassette("caiso_price_sp15", &ex) }
+      let(:args) { ['2023-01-01', '2023-01-02'] }
+      it do
+        expect(Out::Price).to receive(:run) do |points, from, to, source|
+          expect(points.length).to eq(48)
+          expect(from).to be_a(Time)
+          expect(to).to be_a(Time)
+          expect(source).to eq('caiso')
+          expect(points.first[:country]).to eq('CAISO')
+          expect(points.first[:value]).to be_an(Integer)
+        end
+        subject.cli(args)
+      end
+    end
+
+    context 'with single date' do
+      around(:example) { |ex| VCR.use_cassette("caiso_price_sp15_single", &ex) }
+      let(:args) { ['2023-01-01'] }
+      it do
+        expect(Out::Price).to receive(:run) do |points, from, to, source|
+          expect(points.length).to eq(24)
+          expect(source).to eq('caiso')
+        end
+        subject.cli(args)
+      end
+    end
+  end
+
+  describe :add_date_range do
+    around(:example) { |ex| VCR.use_cassette("caiso_price_sp15", &ex) }
+    subject(:e) { Caiso::Price.new.add_date_range(Date.new(2023, 1, 1), Date.new(2023, 1, 2)) }
+
+    it 'parses LMP prices from ZIP/XML response for date range' do
+      expect(e.instance_variable_get(:@r_price)).to have(48).items
+    end
+
+    it 'converts $/MWh to cents' do
+      prices = e.instance_variable_get(:@r_price)
+      prices.each do |price|
+        expect(price[:value]).to be_an(Integer)
+        expect(price[:value]).to be > 0
+      end
+    end
+
+    it 'sets valid UTC timestamps' do
+      prices = e.instance_variable_get(:@r_price)
+      prices.each do |price|
+        expect(price[:time]).to be_a(Time)
+        expect(price[:time].utc?).to be true
+      end
+    end
+  end
+
+  describe :done! do
+    around(:example) { |ex| VCR.use_cassette("caiso_price_sp15", &ex) }
+    subject(:e) { Caiso::Price.new.add_date_range(Date.new(2023, 1, 1), Date.new(2023, 1, 2)) }
+
+    it 'sends data to Out::Price' do
+      expect(Out::Price).to receive(:run) do |points, from, to, source|
+        expect(points.length).to eq(48)
+        expect(source).to eq('caiso')
+      end
+      e.done!
+    end
+
+    it 'does not call Out::Price if data is empty' do
+      empty_price = Caiso::Price.new
+      expect(Out::Price).not_to receive(:run)
+      empty_price.done!
+    end
+  end
+end
