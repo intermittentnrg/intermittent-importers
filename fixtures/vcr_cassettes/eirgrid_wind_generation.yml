@@ -1,0 +1,117 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.smartgriddashboard.com/DashboardService.svc/csv?area=windactual&datefrom=15-Jan-2025%2000:00&dateto=15-Jan-2025%2023:59&region=ALL
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.14.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 25 Feb 2026 23:17:16 GMT
+      Content-Type:
+      - application/CSV
+      Content-Length:
+      - '4282'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - public, max-age=300
+      Content-Disposition:
+      - attachment;filename=WindGeneration_15.Jan.2025.00.00_15.Jan.2025.23.59.csv
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Content-Security-Policy:
+      - block-all-mixed-content; base-uri 'self'; frame-ancestors 'self'; form-action
+        'self'; object-src 'none';
+      Referrer-Policy:
+      - no-referrer-when-downgrade
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Feature-Policy:
+      - microphone 'none'; geolocation 'none'
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Expect-Ct:
+      - max-age=86400, enforce
+      X-Azure-Ref:
+      - 20260225T231716Z-15bc6f9c547bz2cvhC1STO3za4000000040g0000000008u2
+      X-Fd-Int-Roxy-Purgeid:
+      - '0'
+      X-Cache:
+      - TCP_HIT
+      X-Cache-Info:
+      - L1_T2
+      Accept-Ranges:
+      - bytes
+    body:
+      encoding: UTF-8
+      string: "DATE & TIME, FORECAST WIND(MW),  ACTUAL WIND(MW), REGION\r\n15 January
+        2025 00:00,2272,1947,All Island\r\n15 January 2025 00:15,2275,2010,All Island\r\n15
+        January 2025 00:30,2278,2093,All Island\r\n15 January 2025 00:45,2280,2115,All
+        Island\r\n15 January 2025 01:00,2283,2142,All Island\r\n15 January 2025 01:15,2302,2095,All
+        Island\r\n15 January 2025 01:30,2320,2140,All Island\r\n15 January 2025 01:45,2339,2041,All
+        Island\r\n15 January 2025 02:00,2357,2013,All Island\r\n15 January 2025 02:15,2371,2013,All
+        Island\r\n15 January 2025 02:30,2384,2053,All Island\r\n15 January 2025 02:45,2397,2010,All
+        Island\r\n15 January 2025 03:00,2411,1919,All Island\r\n15 January 2025 03:15,2395,1933,All
+        Island\r\n15 January 2025 03:30,2380,1913,All Island\r\n15 January 2025 03:45,2364,1865,All
+        Island\r\n15 January 2025 04:00,2348,1869,All Island\r\n15 January 2025 04:15,2351,1875,All
+        Island\r\n15 January 2025 04:30,2354,1749,All Island\r\n15 January 2025 04:45,2357,1774,All
+        Island\r\n15 January 2025 05:00,2359,1866,All Island\r\n15 January 2025 05:15,2365,1926,All
+        Island\r\n15 January 2025 05:30,2371,1955,All Island\r\n15 January 2025 05:45,2377,1948,All
+        Island\r\n15 January 2025 06:00,2411,1983,All Island\r\n15 January 2025 06:15,2426,2118,All
+        Island\r\n15 January 2025 06:30,2442,2178,All Island\r\n15 January 2025 06:45,2457,2198,All
+        Island\r\n15 January 2025 07:00,2473,2285,All Island\r\n15 January 2025 07:15,2460,2393,All
+        Island\r\n15 January 2025 07:30,2446,2473,All Island\r\n15 January 2025 07:45,2433,2500,All
+        Island\r\n15 January 2025 08:00,2420,2423,All Island\r\n15 January 2025 08:15,2422,2475,All
+        Island\r\n15 January 2025 08:30,2425,2499,All Island\r\n15 January 2025 08:45,2428,2527,All
+        Island\r\n15 January 2025 09:00,2431,2549,All Island\r\n15 January 2025 09:15,2461,2600,All
+        Island\r\n15 January 2025 09:30,2490,2671,All Island\r\n15 January 2025 09:45,2520,2607,All
+        Island\r\n15 January 2025 10:00,2550,2600,All Island\r\n15 January 2025 10:15,2571,2628,All
+        Island\r\n15 January 2025 10:30,2592,2435,All Island\r\n15 January 2025 10:45,2614,2468,All
+        Island\r\n15 January 2025 11:00,2635,2441,All Island\r\n15 January 2025 11:15,2622,2425,All
+        Island\r\n15 January 2025 11:30,2610,2242,All Island\r\n15 January 2025 11:45,2598,2205,All
+        Island\r\n15 January 2025 12:00,2632,2145,All Island\r\n15 January 2025 12:15,2615,2140,All
+        Island\r\n15 January 2025 12:30,2598,2179,All Island\r\n15 January 2025 12:45,2581,2125,All
+        Island\r\n15 January 2025 13:00,2564,2133,All Island\r\n15 January 2025 13:15,2546,2130,All
+        Island\r\n15 January 2025 13:30,2528,2067,All Island\r\n15 January 2025 13:45,2510,2044,All
+        Island\r\n15 January 2025 14:00,2493,2105,All Island\r\n15 January 2025 14:15,2471,2127,All
+        Island\r\n15 January 2025 14:30,2449,2119,All Island\r\n15 January 2025 14:45,2427,2160,All
+        Island\r\n15 January 2025 15:00,2406,2105,All Island\r\n15 January 2025 15:15,2393,1997,All
+        Island\r\n15 January 2025 15:30,2379,2152,All Island\r\n15 January 2025 15:45,2366,2079,All
+        Island\r\n15 January 2025 16:00,2353,2029,All Island\r\n15 January 2025 16:15,2302,2060,All
+        Island\r\n15 January 2025 16:30,2251,2087,All Island\r\n15 January 2025 16:45,2200,2163,All
+        Island\r\n15 January 2025 17:00,2149,2130,All Island\r\n15 January 2025 17:15,2155,2232,All
+        Island\r\n15 January 2025 17:30,2161,2275,All Island\r\n15 January 2025 17:45,2168,2208,All
+        Island\r\n15 January 2025 18:00,2333,2259,All Island\r\n15 January 2025 18:15,2344,2292,All
+        Island\r\n15 January 2025 18:30,2356,2482,All Island\r\n15 January 2025 18:45,2367,2493,All
+        Island\r\n15 January 2025 19:00,2379,2484,All Island\r\n15 January 2025 19:15,2379,2399,All
+        Island\r\n15 January 2025 19:30,2380,2424,All Island\r\n15 January 2025 19:45,2380,2393,All
+        Island\r\n15 January 2025 20:00,2381,2348,All Island\r\n15 January 2025 20:15,2370,2415,All
+        Island\r\n15 January 2025 20:30,2359,2404,All Island\r\n15 January 2025 20:45,2348,2416,All
+        Island\r\n15 January 2025 21:00,2337,2457,All Island\r\n15 January 2025 21:15,2303,2442,All
+        Island\r\n15 January 2025 21:30,2269,2340,All Island\r\n15 January 2025 21:45,2234,2394,All
+        Island\r\n15 January 2025 22:00,2200,2381,All Island\r\n15 January 2025 22:15,2181,2380,All
+        Island\r\n15 January 2025 22:30,2162,2405,All Island\r\n15 January 2025 22:45,2143,2391,All
+        Island\r\n15 January 2025 23:00,2124,2451,All Island\r\n15 January 2025 23:15,2142,2521,All
+        Island\r\n15 January 2025 23:30,2160,2608,All Island\r\n15 January 2025 23:45,2178,2670,All
+        Island\r\n"
+  recorded_at: Wed, 25 Feb 2026 23:17:16 GMT
+recorded_with: VCR 6.4.0

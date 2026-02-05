@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://reports.sem-o.com/api/v1/dynamic/BM-026?EndTime=%3C2025-11-26T00:00&StartTime=%3E=2025-11-25T00:00&page_size=500
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.14.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 25 Feb 2026 23:43:55 GMT
+      Server:
+      - Apache
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubdomains;
+      Cache-Control:
+      - no-cache, private
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Content-Security-Policy:
+      - default-src 'self';
+      Content-Length:
+      - '433'
+      Content-Type:
+      - application/json
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+    body:
+      encoding: UTF-8
+      string: '{"pagination":{"pageSize":500,"currentPage":1,"totalItems":2,"totalPages":1},"items":[{"TradeDate":"2025-11-26","StartTime":"2025-11-25T23:00:00","EndTime":"2025-11-25T23:30:00","NetImbalanceVolume":12.134,"ImbalanceSettlementPrice":450.75999999999999},{"TradeDate":"2025-11-26","StartTime":"2025-11-25T23:30:00","EndTime":"2025-11-26T00:00:00","NetImbalanceVolume":21.675999999999998,"ImbalanceSettlementPrice":464.75999999999999}]}'
+  recorded_at: Wed, 25 Feb 2026 23:43:55 GMT
+recorded_with: VCR 6.4.0
