@@ -60,3 +60,4 @@ group :test do
 end
 
 gem "roo", "~> 2.10"
+gem 'rtesseract', '~> 3.1'

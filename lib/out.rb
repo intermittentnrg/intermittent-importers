@@ -102,7 +102,7 @@ module Out
 
     def self.run(data, from, to, source_id)
       return if data.empty?
-      raise unless from && to
+      # raise unless from && to
       updated_rows = nil
 
       preprocess_data(data, source_id)

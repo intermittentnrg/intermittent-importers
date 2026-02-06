@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.kyuden.co.jp/php/nuclear/sendai/rename.php?A=s_power.fdat&B=ncp_state.fdat&_=1520532401043
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.11
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html; charset=Shift_JIS
+      Server:
+      - Scutum
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Fri, 06 Feb 2026 10:32:21 GMT
+      Content-Length:
+      - '282'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        c19wb3dlcl8xZ291a2k9OTUuOCZzX3Bvd2VyXzJnb3VraT2S6Ir6jJ+NuJKGJiZnX3N0YXRlMT2CUYJPglCCVJROglOMjoJRglaT+olek12PSZe5Jmdfc3RhdGUyPYJRgk+CUIJYlE6CU4yOgliT+olek12PSZe5Jmdfc3RhdGUzPZLKj+2JXpNdkoYmZ19zdGF0ZTQ9ksqP7Ylek12ShiZzX3N0YXRlMT2Syo/tiV6TXZKGJnNfc3RhdGUyPZHmMjiJ8ZLoivqMn424koYmJmxhc3R1cGRhdGU9MjAyNpROMoyONpP6IDE5jp4zMJWqJndpbmRfc3A9Mi44bS9zJndpbmRfcGM9Mi44bS9zJndpbmQ9Mi44bS9z
+  recorded_at: Fri, 06 Feb 2026 10:32:21 GMT
+- request:
+    method: get
+    uri: https://www.kyuden.co.jp/php/nuclear/genkai/rename.php?A=g_power.fdat&B=ncp_state.fdat&_=1520532904073
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.11
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html; charset=Shift_JIS
+      Server:
+      - Scutum
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Fri, 06 Feb 2026 10:32:21 GMT
+      Content-Length:
+      - '326'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        Z19wb3dlcl8xZ291a2k9iV6TXY9Jl7kmZ19wb3dlcl8yZ291a2k9iV6TXY9Jl7kmZ19wb3dlcl8zZ291a2k9MTIwLjgmZ19wb3dlcl80Z291a2k9MTE5LjkmJmdfc3RhdGUxPYJRgk+CUIJUlE6CU4yOglGCVpP6iV6TXY9Jl7kmZ19zdGF0ZTI9glGCT4JQgliUToJTjI6CWJP6iV6TXY9Jl7kmZ19zdGF0ZTM9ksqP7Ylek12ShiZnX3N0YXRlND2Syo/tiV6TXZKGJnNfc3RhdGUxPZLKj+2JXpNdkoYmc19zdGF0ZTI9keYyOInxkuiK+oyfjbiShiYmbGFzdHVwZGF0ZT0yMDI2lE4yjI42k/ogMTmOnjMwlaomd2luZF9zcD01LjVtL3Mmd2luZF9wYz01LjVtL3Mmd2luZD01LjVtL3M=
+  recorded_at: Fri, 06 Feb 2026 10:32:21 GMT
+recorded_with: VCR 6.2.0
