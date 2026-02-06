@@ -5,7 +5,7 @@ RSpec.describe Eia::Generation do
   subject { Eia::Generation }
 
   describe :cli do
-    around(:example) { |ex| VCR.use_cassette('generation_BANC_2019-07-25_2019-07-26', &ex) }
+    around(:example) { |ex| VCR.use_cassette('eia_generation_BANC_2019-07-25_2019-07-26', &ex) }
     it "calls Out::Generation.run with expected data" do
       expect(Out::Generation).to receive(:run) do |data, from, to, source_id|
         expect(data.length).to eq(98)  # Specific length for 2-day BANC data
