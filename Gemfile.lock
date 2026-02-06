@@ -222,6 +222,7 @@ GEM
       rexml
       simplecov (~> 0.19)
     simplecov-html (0.13.2)
+    simplecov-lcov (0.9.0)
     simplecov_json_formatter (0.1.4)
     slop (4.10.1)
     stringio (3.1.7)
@@ -288,6 +289,7 @@ DEPENDENCIES
   semantic_logger
   simplecov
   simplecov-cobertura
+  simplecov-lcov
   timecop
   timescaledb
   vcr

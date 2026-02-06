@@ -11,9 +11,7 @@ require './lib/activerecord-connect'
 
 if ENV.fetch('COVERAGE', false)
   require 'simplecov'
-  require 'simplecov-cobertura'
-  SimpleCov.start
-  SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+  # Configuration is in .simplecov file
 end
 
 SemanticLogger.default_level = :warn
