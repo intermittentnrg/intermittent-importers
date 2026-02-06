@@ -9,10 +9,12 @@ ENV['RAILS_ENV']='test'
 require './lib/init'
 require './lib/activerecord-connect'
 
-require 'simplecov'
-require 'simplecov-cobertura'
-SimpleCov.start
-SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+if ENV.fetch('COVERAGE', false)
+  require 'simplecov'
+  require 'simplecov-cobertura'
+  SimpleCov.start
+  SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+end
 
 SemanticLogger.default_level = :warn
 
