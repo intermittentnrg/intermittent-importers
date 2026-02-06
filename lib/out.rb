@@ -8,7 +8,7 @@ module Out
     @@apts = {}
     def self.run(data, from, to, source_id)
       raise unless data
-      raise unless from && to
+      # raise unless from && to
       data.each do |p|
         raise :area_id if p[:area_id]
         raise :production_type_id if p[:production_type_id]

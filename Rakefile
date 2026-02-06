@@ -44,7 +44,7 @@ def oneshot_chain_task(name, clazz)
   desc "Run refresh task"
   task name do |t|
     SemanticLogger.tagged(task: t.to_s) do
-      clazz.new.add_url.done!
+      clazz.new.add.done!
     rescue
       @logger.error "Exception", $!
     end
@@ -56,7 +56,7 @@ task :ping do |t|
 end
 
 desc "Run all refresh tasks"
-multitask all: ['entsoe:all', 'aemo:all', 'ieso:all', 'eia:all', :ercot, 'caiso:all', 'elexon:all', :nationalgrideso, :ree, 'aeso:all', :hydroquebec, :tohoku, 'eskom:all', :ons, 'cammesa:all', :taipower]
+multitask all: ['entsoe:all', 'aemo:all', 'ieso:all', 'eia:all', :ercot, 'caiso:all', 'elexon:all', :nationalgrideso, :ree, 'aeso:all', :hydroquebec, 'japan_juyo:all', 'eskom:all', :ons, 'cammesa:all', :taipower]
 namespace :ieso do
   desc "Run refresh tasks"
   task all: [:unit, :load, :price, :intertie]
@@ -159,7 +159,20 @@ end
 #   logger.error "Exception", $!
 # end
 
-chain_task :tohoku, Tohoku::Juyo
+namespace :japan_juyo do
+  task all: [:tohoku, :hepco, :rikuden, :okiden, :chugoku, :kyuden, :tepco, :chuden, :yonden, :kepco]
+  chain_task :tohoku, JapanJuyo::Tohoku
+  chain_task :hepco, JapanJuyo::Hepco
+  chain_task :rikuden, JapanJuyo::Rikuden
+  chain_task :okiden, JapanJuyo::Okiden
+  chain_task :chugoku, JapanJuyo::Chugoku
+  chain_task :kyuden, JapanJuyo::Kyuden
+  oneshot_chain_task :tepco, JapanJuyo::Tepco
+  oneshot_chain_task :chuden, JapanJuyo::Chuden
+  oneshot_chain_task :yonden, JapanJuyo::Yonden
+  oneshot_chain_task :kepco, JapanJuyo::Kepco
+end
+
 desc 'Refresh ONS'
 task(:ons) { Ons.refresh }
 desc 'Refresh Taipower'

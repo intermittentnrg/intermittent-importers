@@ -22,6 +22,10 @@ module Eskom
       time = TZ.local_to_utc(time)
     end
 
+    def add
+      add_url
+    end
+
     def add_url
       url = Date.today.strftime(self.class::URL_FORMAT)
       last_modified = DataFile.last_modified(url, self.class.source_id)
