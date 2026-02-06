@@ -312,7 +312,7 @@ module EntsoeApi
       @country = country
       @options = {}
       @options[:documentType] = 'A44'
-      #@options['contract_MarketAgreement.type'] = 'A01'
+      @options['contract_MarketAgreement.type'] = 'A01'
       internal_id = Area.where(source: self.class.source_id, code: country).pluck(:internal_id).first
       @options[:in_domain] = @options[:out_Domain] = internal_id
       super(from, to)
@@ -321,7 +321,7 @@ module EntsoeApi
     def points_selector(doc)
       doc.locate('*/TimeSeries').each do |ts|
         s = ts.locate('contract_MarketAgreement.type/^String')
-        next unless s == ['A01'] #Day ahead
+        raise unless s == ['A01'] #Day ahead
         s = ts.locate('classificationSequence_AttributeInstanceComponent.position/^String')
         next unless s == ['1'] || s.empty?
         yield ts

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://web-api.tp.entsoe.eu/api?documentType=A44&in_domain=10Y1001A1001A44P&out_Domain=10Y1001A1001A44P&periodEnd=202101020000&periodStart=202101010000&securityToken=<TOKEN>
+    uri: https://web-api.tp.entsoe.eu/api?contract_MarketAgreement.type=A01&documentType=A44&in_domain=10Y1001A1001A44P&out_Domain=10Y1001A1001A44P&periodEnd=202101020000&periodStart=202101010000&securityToken=<TOKEN>
     body:
       encoding: US-ASCII
       string: ''
@@ -19,7 +19,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 29 Nov 2025 18:31:38 GMT
+      - Fri, 06 Feb 2026 12:10:42 GMT
       Content-Type:
       - text/xml
       Transfer-Encoding:
@@ -41,14 +41,14 @@ http_interactions:
       string: |-
         <?xml version="1.0" encoding="utf-8"?>
           <Publication_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-3:publicationdocument:7:3">
-            <mRID>2b697255589a4b14b126eb36ae47a28a</mRID>
+            <mRID>184186525b2f49eb843a7099c4a8d022</mRID>
             <revisionNumber>1</revisionNumber>
             <type>A44</type>
             <sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
             <sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
             <receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
             <receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>
-            <createdDateTime>2025-11-29T18:31:38Z</createdDateTime>
+            <createdDateTime>2026-02-06T12:10:42Z</createdDateTime>
             <period.timeInterval>
               <start>2020-12-31T23:00Z</start>
               <end>2021-01-02T23:00Z</end>
@@ -282,5 +282,5 @@ http_interactions:
                   </Period>
               </TimeSeries>
           </Publication_MarketDocument>
-  recorded_at: Sat, 29 Nov 2025 18:31:40 GMT
+  recorded_at: Fri, 06 Feb 2026 12:10:42 GMT
 recorded_with: VCR 6.2.0
