@@ -1,5 +1,9 @@
-*~
+tmp/
+data/
+log/
+.bundle/
 .env*
+*~
 *.rbe
 *.csv
 *.svg

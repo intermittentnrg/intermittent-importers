@@ -1,5 +1,10 @@
-docker/
-backup/
+tmp/
 data/
+log/
+.bundle/
+.git/
 .env*
+data*
+tmp*
+render*
 Jenkinsfile*
