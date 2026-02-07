@@ -93,7 +93,6 @@ module NationalGridEso
       @from = @r.first[:time]
       @to = @r.last[:time]
 
-      @r = Validate.validate_generation(@r, self.class.source_id)
       Out::Generation.run(@r, @from, @to, self.class.source_id)
     end
   end
@@ -173,8 +172,7 @@ module NationalGridEso
       @from = @r.values.first[:time]
       @to = @r.values.last[:time]
 
-      @r = Validate.validate_generation(@r.values, self.class.source_id)
-      Out::Generation.run(@r, @from, @to, self.class.source_id)
+      Out::Generation.run(@r.values, @from, @to, self.class.source_id)
     end
   end
 

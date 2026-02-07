@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+require './lib/init'
+require './lib/activerecord-connect'
+
+# Usage: scripts/validate-data [--delete] ClassName [filter...]
+
+delete = ARGV.delete('--delete')
+class_name = ARGV.shift
+
+unless class_name
+  puts "Usage: #{$0} [--delete] ClassName [filter...]"
+  puts "Example: #{$0} Eia::Load"
+  exit 1
+end
+
+klass = Object.const_get(class_name)
+
+source = klass.respond_to?(:source_id) ? klass.source_id : nil
+unless source
+  puts "#{class_name} has no source_id method"
+  exit 1
+end
+
+if klass.const_defined?(:VALIDATION_GEN)
+  Validate.check_db_gen(klass::VALIDATION_GEN, source, delete:, filter: ARGV)
+end
+
+if klass.const_defined?(:VALIDATION_LOAD)
+  Validate.check_db_load(klass::VALIDATION_LOAD, source, delete:, filter: ARGV)
+end

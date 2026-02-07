@@ -3,198 +3,112 @@
 class Validate
   include SemanticLogger::Loggable
 
-  RULES = YAML.load_file('validate.yaml').with_indifferent_access
-  def self.validate_generation(points, source)
-    return points unless RULES[source]
-
-    areas = {}
+  def self.validate_generation(points, rules)
+    return points unless rules
 
     logger.benchmark_info('validate generation') do
       points.select! do |p|
-        area_where = Area
-        area_where = area_where.where(source:) if source
-        raise p.inspect unless p[:country]
+        area_code = area_for(p[:country])&.code
 
-        area = areas[p[:country]] ||= area_where.find_by(internal_id: p[:country])
-
-        raise p.inspect unless area
-
-        rule = RULES[source][area.code].try(:[], p[:production_type]) || {}
-        rule_all = RULES[source]['all'].try(:[], p[:production_type]) || {}
+        rule = rules.dig(area_code, p[:production_type]) || {}
+        rule_all = rules.dig('all', p[:production_type]) || {}
 
         min = rule[:min] || rule_all[:min]
         max = rule[:max] || rule_all[:max]
 
-        r = (min.nil? && max.nil?) || (min...max).include?(p[:value])
-        logger.warn 'skipped invalid generation', generation: p unless r
+        valid = if min && max
+                  (min...max).include?(p[:value])
+                elsif min
+                  p[:value] >= min
+                elsif max
+                  p[:value] < max
+                else
+                  true
+                end
 
-        r
+        logger.warn 'skipped invalid value', area: area_code, type: p[:production_type], value: p[:value] unless valid
+        valid
       end
     end
-
     points
   end
 
-  def self.validate_load(points, source)
-    return points unless RULES[source]
-
-    areas = {}
+  def self.validate_load(points, rules)
+    return points unless rules
 
     logger.benchmark_info('validate load') do
       points.select! do |p|
-        area_where = Area
-        area_where = area_where.where(source:) if source
-        if p[:country]
-          area = areas[p[:country]] ||= area_where.find_by(internal_id: p[:country])
-        elsif p[:area_id]
-          area = areas[p[:area_id]] ||= area_where.find p[:area_id]
-        else
-          raise p.inspect
-        end
-        raise p.inspect unless area
+        area_code = area_for(p[:country])&.code
 
-        rule = RULES[source][area.code].try(:[], :load) || {}
-        rule_all = RULES[source]['all'].try(:[], :load) || {}
+        rule = rules[area_code] || {}
+        rule_all = rules['all'] || {}
 
         min = rule[:min] || rule_all[:min]
         max = rule[:max] || rule_all[:max]
 
-        r = (min.nil? && max.nil?) || (min...max).include?(p[:value])
-        logger.warn 'skipped invalid load', load: p unless r
+        valid = if min && max
+                  (min...max).include?(p[:value])
+                elsif min
+                  p[:value] >= min
+                elsif max
+                  p[:value] < max
+                else
+                  true
+                end
 
-        r
+        logger.warn 'skipped invalid load', area: area_code, value: p[:value] unless valid
+        valid
       end
     end
-
     points
   end
 
-  def self.validate_data_cli(args)
-    delete = false
-    if args.first == '--delete'
-      delete = true
-      args.shift
-    end
-    Validate.validate_data(delete, args)
-  end
+  def self.check_db_gen(rules, source, delete:, filter:)
+    rules.each do |area_code, area_rules|
+      next if area_code == 'all'
 
-  def self.validate_data(delete = false, filters = [])
-    RULES.each do |source, areas|
-      areas.each do |area_code, production_types|
-        area = Area.where(source: source, enabled: true)
-        area = area.where(code: area_code) if area_code != 'all'
+      area = Area.where(source:, code: area_code, enabled: true)
 
-        production_types.each do |production_type_name, rules|
-          next unless filters.empty? || filters.any? do |filter|
-            "#{source}/#{area_code}/#{production_type_name}".include? filter
-          end
+      area_rules.each do |production_type_name, r|
+        next unless r[:min] || r[:max]
+        next unless filter.empty? || filter.any? { |f| "#{source}/#{area_code}/#{production_type_name}".include?(f) }
 
-          if production_type_name == 'load'
-            query = Load.where(area:)
-          else
-            production_type = ProductionType.find_by(name: production_type_name)
-            raise production_type_name unless production_type
+        production_type = ProductionType.find_by!(name: production_type_name)
+        apt_ids = production_type.areas_production_type.where(area:).pluck(:id)
+        query = Generation.where(areas_production_type_id: apt_ids)
 
-            apt_ids = AreasProductionType.where(area:, production_type:).pluck(:id)
-            query = Generation.where(areas_production_type_id: apt_ids)
-          end
+        query = query.where.not(value: r[:min]...r[:max])
+        count = query.count
 
-          next unless rules[:min] || rules[:max]
-
-          query = query.where.not(value: rules[:min]...rules[:max])
-          # puts query.to_sql
-          query_count = query.count
-          if query_count.positive?
-            puts "#{source} #{area_code}/#{production_type_name} #{query_count} invalid records"
-            pp query
-            # require 'pry' ; binding.pry
-            if delete
-              logger.warn 'DELETE'
-              query.delete_all
-            end
-          else
-            logger.info "#{region} #{area_code}/#{production_type_name} GOOD"
-          end
+        if count > 0
+          puts "#{source} #{area_code}/#{production_type_name}: #{count} invalid records"
+          query.delete_all if delete
         end
       end
     end
   end
 
-  def self.check_constraints
-    gen_check_constraints = Hash[ActiveRecord::Base.connection.check_constraints(:generation_data).map do |c|
-      [c.options[:name], c.expression]
-    end]
-    load_check_constraints = Hash[ActiveRecord::Base.connection.check_constraints(:load).map do |c|
-      [c.options[:name], c.expression]
-    end]
+  def self.check_db_load(rules, source, delete:, filter:)
+    rules.each do |area_code, r|
+      next if area_code == 'all'
+      next unless r[:min] || r[:max]
+      next unless filter.empty? || filter.any? { |f| "#{source}/#{area_code}/load".include?(f) }
 
-    RULES.each do |region, areas|
-      areas.each do |area_code, production_types|
-        area_code = area_code.split(%r{/})
-        if area_code[1]
-          area = Area.find_by(region: region, code: area_code, source: area_code[1], enabled: true)
-        elsif area_code[0] != 'all'
-          area = Area.find_by(region: region, code: area_code, enabled: true)
-        end
-        area_code = area_code[0]
+      area = Area.where(source:, code: area_code, enabled: true)
+      query = Load.where(area:)
 
-        production_types.each do |production_type_name, rules|
-          if production_type_name == 'load'
-            check_constraints = load_check_constraints
-            table = :load
-            name = "auto_#{region}_#{area_code}".downcase
-            if area
-              expression = "area_id = #{area.id}"
-            else
-              area_ids = Area.where(region:).pluck(:id)
-              expression = "(area_id = ANY (ARRAY[#{area_ids.join(', ')}]))"
-            end
-          else # generation
-            check_constraints = gen_check_constraints
-            table = :generation_data
-            production_type = ProductionType.find_by!(name: production_type_name)
-            if area
-              apt = production_type.areas_production_type.find_by!(area:)
-              expression = "areas_production_type_id = #{apt.id}"
-            else
-              apts = production_type.areas_production_type.joins(:area).where('area.region': region).all
-              expression = "(areas_production_type_id = ANY (ARRAY[#{apts.map(&:id).join(', ')}]))"
-            end
-            name = "auto_#{region}_#{area_code}_#{production_type_name.gsub(/-/, '_')}".downcase
-          end
-          if rules[:min]
-            rules[:min] = "'#{rules[:min]}'::integer" if rules[:min].negative?
-            expression = if rules[:max]
-                           "NOT (#{expression} AND (value < #{rules[:min]} OR value >= #{rules[:max]}))"
-                         else
-                           "NOT (#{expression} AND value < #{rules[:min]})"
-                         end
-          elsif rules[:max]
-            expression = "NOT (#{expression} AND value >= #{rules[:max]})"
-          end
-          ActiveRecord::Base.connection.change_table(table) do |t|
-            # TODO: use has_check_constraint?
-            if check_constraints[name] && expression == check_constraints[name]
-              logger.debug("#{table} #{name} GOOD")
-              check_constraints.delete(name)
-              next
-            elsif check_constraints[name] && expression != check_constraints[name]
-              # require 'pry' ; binding.pry
-              logger.info("remove_check_constraint #{table} #{name} #{check_constraints[name]}")
-              t.remove_check_constraint(name: name)
-            end
-            logger.info("add_check_constraint #{table} #{name} #{expression}")
-            t.check_constraint(expression, name: name)
-            check_constraints.delete(name)
-          end
-        end
+      query = query.where.not(value: r[:min]...r[:max])
+      count = query.count
+
+      if count > 0
+        puts "#{source} #{area_code}/load: #{count} invalid records"
+        query.delete_all if delete
       end
     end
-    logger.warn("Unmanaged generation check constraints: #{gen_check_constraints.keys}")
-    pp gen_check_constraints
-    logger.warn("Unmanaged load check constraints: #{load_check_constraints.keys}")
-    pp load_check_constraints
   end
 
-  def self.has_check_constraint?; end
+  def self.area_for(internal_id)
+    @areas ||= {}
+    @areas[internal_id] ||= Area.find_by(internal_id:)
+  end
 end

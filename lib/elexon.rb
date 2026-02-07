@@ -9,6 +9,7 @@ require 'business_time'
 module Elexon
   class Base
     TZ = TZInfo::Timezone.get('UTC')
+
     @@faraday = Faraday.new do |f|
       f.adapter :net_http_persistent
       # f.request :retry, {
@@ -57,6 +58,10 @@ module Elexon
   # https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/FUELINST
   class Fuelinst < BaseCSV
     include SemanticLogger::Loggable
+
+    VALIDATION_GEN = {
+      all: { nuclear: { min: 2_000_000, max: 9_000_000 } }
+    }.with_indifferent_access
 
     URL = 'https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELINST'
 
@@ -168,7 +173,7 @@ module Elexon
     def done!
       return if @r_gen.empty? && @r_tran.empty?
 
-      @r_gen = Validate.validate_generation(@r_gen, self.class.source_id)
+      @r_gen = Validate.validate_generation(@r_gen, self.class::VALIDATION_GEN)
       Out::Generation.run(@r_gen, @from, @to, self.class.source_id)
       Out::Transmission.run(@r_tran.values, @from, @to, self.class.source_id)
     end
@@ -177,6 +182,8 @@ module Elexon
   # https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/AGPT
   class Generation < BaseCSV
     include SemanticLogger::Loggable
+
+    VALIDATION_GEN = Fuelinst::VALIDATION_GEN
 
     URL = 'https://data.elexon.co.uk/bmrs/api/v1/datasets/AGPT'
     DATETIME_FORMAT = '%Y-%m-%d %H:%M'
@@ -253,7 +260,7 @@ module Elexon
     def done!
       return if @r.empty?
 
-      @r = Validate.validate_generation(@r.values, self.class.source_id)
+      @r = Validate.validate_generation(@r.values, self.class::VALIDATION_GEN)
 
       Out::Generation.run(@r, @from, @to, self.class.source_id)
     end
@@ -264,6 +271,10 @@ module Elexon
   # maximum data output range of 7 days
   class Load < BaseCSV
     include SemanticLogger::Loggable
+
+    VALIDATION_LOAD = {
+      all: { min: 10_000_000 }
+    }.with_indifferent_access
 
     URL = 'https://data.elexon.co.uk/bmrs/api/v1/demand/actual/total'
 
@@ -331,7 +342,7 @@ module Elexon
     def done!
       return if @r.empty?
 
-      @r = Validate.validate_load(@r.values, self.class.source_id)
+      @r = Validate.validate_load(@r.values, self.class::VALIDATION_LOAD)
       Out::Load.run(@r, @from, @to, self.class.source_id)
     end
   end

@@ -46,6 +46,12 @@ module Eia
   class Load < Base
     include SemanticLogger::Loggable
 
+    VALIDATION_LOAD = {
+      all: { min: 1000, max: 800_000_000 },
+      AZPS: { max: 10_000_000 },
+      BANC: { max: 10_000_000 }
+    }.with_indifferent_access
+
     URL = 'https://api.eia.gov/v2/electricity/rto/region-data/data/'
 
     def initialize
@@ -132,13 +138,34 @@ module Eia
       @from = @r_load.min { |a, b| a[:time] <=> b[:time] }[:time]
       @to = @r_load.max { |a, b| a[:time] <=> b[:time] }[:time]
 
-      @r_load = Validate.validate_load(@r_load, self.class.source_id)
+      @r_load = Validate.validate_load(@r_load, self.class::VALIDATION_LOAD)
       Out::Load.run(@r_load, @from, @to, self.class.source_id)
     end
   end
 
   class Generation < Base
     include SemanticLogger::Loggable
+
+    VALIDATION_GEN = {
+      all: {
+        hydro: { max: 100_000_000 },
+        wind: { min: -10_000_000, max: 100_000_000 },
+        fossil_gas: { min: -10_000_000, max: 400_000_000 },
+        solar: { min: -1_000_000 },
+        other: { max: 20_000_000 }
+      },
+      AVRN: { wind: { min: -800_000, max: 3_000_000 } },
+      AVA: { other: { max: 9_000_000 } },
+      AZPS: { nuclear: { max: 0 }, other: { max: 600_000 } },
+      BANC: { hydro: { max: 10_000_000 } },
+      FMPP: { fossil_oil: { max: 10_000_000 } },
+      FPC: { solar: { max: 3_000_000 } },
+      ISNE: { nuclear: { min: 1 } },
+      PACE: { wind: { max: 3_000_000 } },
+      PJM: { nuclear: { max: 36_000_000 } },
+      SRP: { fossil_gas: { max: 30_000_000 } },
+      WALC: { fossil_gas: { max: 2_777_000 }, hydro: { min: -10_000_000, max: 10_000_000 } }
+    }.with_indifferent_access
 
     URL = 'https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/'
 
@@ -248,7 +275,7 @@ module Eia
       @from = @r_gen.values.min { |a, b| a[:time] <=> b[:time] }[:time]
       @to = @r_gen.values.max { |a, b| a[:time] <=> b[:time] }[:time]
 
-      @r_gen = Validate.validate_generation(@r_gen.values, self.class.source_id)
+      @r_gen = Validate.validate_generation(@r_gen.values, self.class::VALIDATION_GEN)
       Out::Generation.run(@r_gen, @from, @to, self.class.source_id)
     end
   end

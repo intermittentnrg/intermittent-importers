@@ -96,14 +96,14 @@ module Grafanimate
       t = @from
       while t <= @to
         @driver.execute_script <<-JS
-          __grafanaSceneContext.state.$timeRange.setState({ from: '#{t.strftime(TIME_FORMAT)}', to: '#{(t+15.minute).strftime(TIME_FORMAT)}' });
+          __grafanaSceneContext.state.$timeRange.setState({ from: '#{t.strftime(TIME_FORMAT)}', to: '#{(t+self.class::STEP).strftime(TIME_FORMAT)}' });
           __grafanaSceneContext.state.$timeRange.onRefresh();
         JS
         sleep 0.1
         wait_multiple
         screenshot(t)
 
-        t += 15.minutes
+        t += self.class::STEP
       end
     end
   end
@@ -112,11 +112,12 @@ module Grafanimate
     include SemanticLogger::Loggable
 
     URL = "http://grafana.monitoring/d/fa529e06-ff34-415d-adf1-dde1a6f28350/prices-plotly-map?orgId=1&var-region=europe&var-area=All&var-scale_max=300&var-min_interval=5m&var-frame_duration=150&kiosk"
+    STEP = 15.minutes
     CROP = 'crop=1074:953:104:175'
     def initialize
       tz = TZInfo::Timezone.get('Europe/Berlin')
       from = tz.local_to_utc(1.day.from_now.beginning_of_day)
-      to = tz.local_to_utc(2.days.from_now.beginning_of_day - 15.minutes)
+      to = tz.local_to_utc(2.days.from_now.beginning_of_day - self.class::STEP)
       super(URL, from, to)
     end
   end
@@ -133,10 +134,13 @@ module Grafanimate
   end
 
   class NuclearMap < Base
-    URL = "http://grafana.monitoring/d/adk4o41xfjncwb/generation-of-peak-plotly-map?from=now-30d&to=now&orgId=1&var-region=argentina&var-region=brazil&var-region=canada&var-region=europe&var-region=south_africa&var-region=taiwan&var-region=usa&var-area=All&var-production_type=14&var-min_interval=1h&var-colorscale=Electric"
+    include SemanticLogger::Loggable
+
+    URL = "http://grafana.monitoring/d/adk4o41xfjncwb/generation-of-peak-plotly-map?from=now-1M/Md&to=now-1M/M&orgId=1&var-region=argentina&var-region=brazil&var-region=canada&var-region=europe&var-region=mexico&var-region=south_africa&var-region=taiwan&var-region=usa&var-area=All&var-production_type=14&var-min_interval=1h&var-colorscale=Electric"
+    STEP = 1.hour
     CROP = 'crop=1074:953:104:52'
     def initialize
-     super(URL, 1.day.ago.beginning_of_day, Date.tomorrow - 1.hour)
+      super(URL, 1.month.ago.beginning_of_month, Time.now.beginning_of_month - 1.hour)
     end
   end
 end

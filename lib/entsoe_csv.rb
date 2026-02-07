@@ -133,6 +133,33 @@ module EntsoeCsv
   class Generation < Base
     include SemanticLogger::Loggable
 
+    VALIDATION_GEN = {
+      all: {
+        solar: { max: 100_000_000 },
+        hydro_pumped_storage: { min: -100_000_000 },
+        hydro_run_of_river_and_poundage: { min: -100_000_000 },
+        hydro_water_reservoir: { min: -100_000_000 }
+      },
+      AT: {
+        hydro_pumped_storage: { min: -10_000_000 },
+        hydro_run_of_river_and_poundage: { min: -1_000_000 },
+        hydro_water_reservoir: { min: -1_000_000 }
+      },
+      DK: {
+        fossil_gas: { max: 2_000_000 },
+        fossil_oil: { max: 400_000 },
+        fossil_hard_coal: { max: 3_000_000 },
+        wind_onshore: { max: 6_000_000 },
+        waste: { max: 262_000 }
+      },
+      FR: { nuclear: { min: 15_000_000 } },
+      NO: { wind_onshore: { max: 10_000_000 } },
+      RS: {
+        hydro_run_of_river_and_poundage: { max: 5_000_000 },
+        hydro_pumped_storage: { max: 3_000_000 }
+      }
+    }.with_indifferent_access
+
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
     def add_row(row)
@@ -162,7 +189,7 @@ module EntsoeCsv
     end
 
     def flush
-      r = Validate.validate_generation(@r.values, self.class.source_id)
+      r = Validate.validate_generation(@r.values, self.class::VALIDATION_GEN)
       Out::Generation.run(r, @from, @to, self.class.source_id)
       @r = {}
     end
@@ -246,6 +273,11 @@ module EntsoeCsv
   class Load < Base
     include SemanticLogger::Loggable
 
+    VALIDATION_LOAD = {
+      all: { min: 1000, max: 600_000_000 },
+      BA: { max: 2_800_000 }
+    }.with_indifferent_access
+
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
     def add_row(row)
@@ -272,7 +304,7 @@ module EntsoeCsv
     end
 
     def flush
-      r = Validate.validate_load(@r.values, self.class.source_id)
+      r = Validate.validate_load(@r.values, self.class::VALIDATION_LOAD)
       Out::Load.run(r, @from, @to, self.class.source_id)
       @r = {}
     end

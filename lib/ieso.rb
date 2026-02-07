@@ -208,7 +208,6 @@ module Ieso
     def done!
       return if @r.empty?
 
-      @r = Validate.validate_load(@r, self.class.source_id)
       Out::Load.run(@r, @from, @to, self.class.source_id)
       super
     end
@@ -249,7 +248,6 @@ module Ieso
     def done!
       return if @r.empty?
 
-      @r = Validate.validate_load(@r, self.class.source_id)
       Out::Load.run(@r, @from, @to, self.class.source_id)
       super
     end
@@ -403,7 +401,6 @@ module Ieso
     def done!
       return if @r.empty?
 
-      @r = Validate.validate_generation(@r, self.class.source_id)
       Out::Generation.run(@r, @from, @to, self.class.source_id)
       super
     end

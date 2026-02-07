@@ -168,8 +168,7 @@ module Caiso
     def done!
       return if @r_gen.empty? && @r_trans.empty?
 
-      r_gen = Validate.validate_generation(@r_gen, self.class.source_id)
-      ::Out::Generation.run(r_gen, @from, @to, self.class.source_id)
+      ::Out::Generation.run(@r_gen, @from, @to, self.class.source_id)
       ::Out::Transmission.run(@r_trans, @from, @to, self.class.source_id)
 
       super
@@ -178,6 +177,10 @@ module Caiso
 
   class Load < Base
     include SemanticLogger::Loggable
+
+    VALIDATION_LOAD = {
+      all: { min: 1000 }
+    }.with_indifferent_access
 
     FIELDS = ['Time', 'Hour ahead forecast', 'Current demand', 'Net demand'].freeze
 
@@ -228,7 +231,7 @@ module Caiso
     def done!
       return if @r_load.empty?
 
-      r_load = Validate.validate_load(@r_load, self.class.source_id)
+      r_load = Validate.validate_load(@r_load, self.class::VALIDATION_LOAD)
       Out::Load.run(r_load, @from, @to, self.class.source_id)
 
       super

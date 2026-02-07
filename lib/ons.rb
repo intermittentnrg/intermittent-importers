@@ -9,6 +9,10 @@ class Ons
     'ons'
   end
 
+  VALIDATION_GEN = {
+    'BR-CS': { nuclear: { max: 3_000_000 } }
+  }.with_indifferent_access
+
   def self.cli(args)
     if args.empty?
       refresh
@@ -95,7 +99,7 @@ class Ons
   end
 
   def done!
-    r_gen = Validate.validate_generation(@r_gen.values, self.class.source_id)
+    r_gen = Validate.validate_generation(@r_gen.values, self.class::VALIDATION_GEN)
     Out::Generation.run(r_gen, @from, @to, self.class.source_id)
     Out::Load.run(@r_load.values, @from, @to, self.class.source_id)
     Out::Transmission.run(@r_trans.values, @from, @to, self.class.source_id)

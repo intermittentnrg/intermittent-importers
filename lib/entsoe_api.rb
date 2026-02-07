@@ -127,6 +127,7 @@ module EntsoeApi
         new.add_date_range(from, to, country).done!
       end
     end
+    VALIDATION_GEN = EntsoeCsv::Generation::VALIDATION_GEN
 
     def self.each
       ::Generation.joins(areas_production_type: :area).group(:'area.code').where('time > ?', 2.months.ago).where(area: { source: source_id }).pluck(
@@ -161,7 +162,7 @@ module EntsoeApi
     def done!
       @from = @r.min { |a, b| a[:time] <=> b[:time] }[:time]
       @to = @r.max { |a, b| a[:time] <=> b[:time] }[:time]
-      @r = Validate.validate_generation(@r, self.class.source_id)
+      @r = Validate.validate_generation(@r, self.class::VALIDATION_GEN)
       Out::Generation.run(@r, @from, @to, self.class.source_id)
     end
   end
@@ -245,6 +246,8 @@ module EntsoeApi
   class Load < Base
     include SemanticLogger::Loggable
 
+    VALIDATION_LOAD = EntsoeCsv::Load::VALIDATION_LOAD
+
     def self.each
       ::Load.joins(:area).group(:'area.code').where('time > ?', 12.months.ago).where(area: { source: source_id }).pluck(
         :'area.code', Arel.sql('LAST(time, time)')
@@ -287,7 +290,7 @@ module EntsoeApi
     def done!
       @from = @r.min { |a, b| a[:time] <=> b[:time] }[:time]
       @to = @r.max { |a, b| a[:time] <=> b[:time] }[:time]
-      @r = Validate.validate_load(@r, self.class.source_id)
+      @r = Validate.validate_load(@r, self.class::VALIDATION_LOAD)
       Out::Load.run(@r, @from, @to, self.class.source_id)
     end
   end
