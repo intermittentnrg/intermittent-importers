@@ -144,14 +144,7 @@ end
 
 chain_task :ree, Ree::Generation
 
-desc "Run refresh tasks"
-task :hydroquebec do |t|
-  SemanticLogger.tagged(task: t.to_s) do
-    HydroQuebec::Generation.new.process
-  rescue
-    logger.error "Exception", $!
-  end
-end
+oneshot_chain_task :hydroquebec, HydroQuebec::Generation
 
 # task :nspower do
 #   Nspower::Combined.new.process
