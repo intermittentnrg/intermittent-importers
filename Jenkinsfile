@@ -66,10 +66,10 @@ spec:
           sh 'cd /app ; RAILS_ENV=test rake db:migrate'
           try {
             sh "cd /app ; COVERAGE=true CI=true rspec spec -f d --format RspecJunitFormatter --out ${env.WORKSPACE}/rspec.xml"
-            sh "cd /app ; cp -rv coverage app lib spec ${env.WORKSPACE}"
           } finally {
             junit allowEmptyResults: true, testResults: 'rspec.xml'
-            recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'coverage/coverage.xml']])
+            sh "cd /app ; cp -rv coverage app lib spec ${env.WORKSPACE}"
+            recordCoverage sourceDirectories: [[path: '.']], tools: [[parser: 'COBERTURA', pattern: 'coverage/coverage.xml']]
           }
         }
       }
