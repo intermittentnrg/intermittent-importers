@@ -1,20 +1,22 @@
+# frozen_string_literal: true
+
 require './spec/spec_helper'
 
 RSpec.describe Validate do
   before(:each) do
     # Create test area with a source that exists in enum but doesn't have specific rules in validate.yaml
-    @area = Area.find_or_create_by!(source: 'caiso', code: 'TEST', internal_id: 'TEST', region: 'usa', type: 'zone', enabled: true)
+    @area = Area.find_or_create_by!(source: 'caiso', code: 'TEST', internal_id: 'TEST', region: 'usa', type: 'zone',
+                                    enabled: true)
 
     # Stub the RULES constant directly
     stub_const('Validate::RULES',
-      {
-        'caiso' => {
-          'TEST' => {
-            'solar' => { min: 0, max: 1000 }
-          }
-        }
-      }.with_indifferent_access
-    )
+               {
+                 'caiso' => {
+                   'TEST' => {
+                     'solar' => { min: 0, max: 1000 }
+                   }
+                 }
+               }.with_indifferent_access)
   end
 
   describe '.validate_generation' do
@@ -35,22 +37,21 @@ RSpec.describe Validate do
     before(:each) do
       # Add load rules to the stubbed RULES
       stub_const('Validate::RULES',
-        {
-          'caiso' => {
-            'TEST' => {
-              'solar' => { min: 0, max: 1000 },
-              'load' => { min: 1000, max: 10000 }
-            }
-          }
-        }.with_indifferent_access
-      )
+                 {
+                   'caiso' => {
+                     'TEST' => {
+                       'solar' => { min: 0, max: 1000 },
+                       'load' => { min: 1000, max: 10_000 }
+                     }
+                   }
+                 }.with_indifferent_access)
     end
 
     it 'filters out load values outside the specified range' do
       points = [
         { country: 'TEST', value: 5000, time: Time.now },
-        { country: 'TEST', value: 500, time: Time.now },   # Should be filtered out (min: 1000)
-        { country: 'TEST', value: 10000, time: Time.now }  # Should be filtered out (max: 10000, range is exclusive)
+        { country: 'TEST', value: 500, time: Time.now }, # Should be filtered out (min: 1000)
+        { country: 'TEST', value: 10_000, time: Time.now } # Should be filtered out (max: 10000, range is exclusive)
       ]
 
       result = described_class.validate_load(points, 'caiso')

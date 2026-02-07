@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'faraday/net_http_persistent'
 require 'faraday/retry'
 require 'faraday/gzip'
@@ -13,16 +15,16 @@ module Ieso
     HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
     TZ = TZInfo::Timezone.get('EST')
     FUEL_MAP = {
-      "NUCLEAR" => "nuclear",
-      "GAS" => "fossil_gas",
-      "HYDRO" => "hydro",
-      "WIND" => "wind_onshore",
-      "SOLAR" => "solar",
-      "BIOFUEL" => "biomass",
-      "OTHER" => "other",
-    }
+      'NUCLEAR' => 'nuclear',
+      'GAS' => 'fossil_gas',
+      'HYDRO' => 'hydro',
+      'WIND' => 'wind_onshore',
+      'SOLAR' => 'solar',
+      'BIOFUEL' => 'biomass',
+      'OTHER' => 'other'
+    }.freeze
     def self.source_id
-      "ieso"
+      'ieso'
     end
 
     @@faraday = Faraday.new do |f|
@@ -34,7 +36,7 @@ module Ieso
         max: 5
       }
       f.request :gzip
-      #f.response :logger #, logger
+      # f.response :logger #, logger
     end
 
     def initialize
@@ -56,12 +58,11 @@ module Ieso
           req.headers['If-Modified-Since'] = last_modified if last_modified
         end
       end
-      if res.status == 304 || !res.success?
-        raise EmptyError
-      end
+      raise EmptyError if res.status == 304 || !res.success?
+
       body = res.body
       updated_at = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
-      @datafiles << {path: File.basename(url), source: self.class.source_id, updated_at:}
+      @datafiles << { path: File.basename(url), source: self.class.source_id, updated_at: }
       add_buffer(body)
       self
     end
@@ -69,13 +70,13 @@ module Ieso
     def add_file(path)
       body = File.read(path)
       updated_at = File.mtime(path)
-      @datafiles << {path: File.basename(path), source: self.class.source_id, updated_at:}
+      @datafiles << { path: File.basename(path), source: self.class.source_id, updated_at: }
       add_buffer(body)
       self
     end
 
     def done!
-      DataFile.upsert_all(@datafiles, unique_by: [:source, :path])
+      DataFile.upsert_all(@datafiles, unique_by: %i[source path])
       self
     end
 
@@ -93,11 +94,11 @@ module Ieso
       when 1
         if File.exist?(args[0])
           # Single file
-          self.new.add_file(args[0]).done!
+          new.add_file(args[0]).done!
         else
           # Single date
           date = Chronic.parse(args[0]).to_date
-          self.new.add_date(date).done!
+          new.add_date(date).done!
         end
       when 2
         # Date range
@@ -113,13 +114,13 @@ module Ieso
             next unless date.day == 1
           end
 
-          self.new.add_date(date).done!
+          new.add_date(date).done!
         rescue EmptyError
           logger.warn "EmptyError #{date}"
         end
       else
-        $stderr.puts "#{$0} <from> <to>"
-        $stderr.puts "#{$0} <date_or_path>"
+        warn "#{$PROGRAM_NAME} <from> <to>"
+        warn "#{$PROGRAM_NAME} <date_or_path>"
         exit 1
       end
     end
@@ -134,15 +135,17 @@ module Ieso
       http = @@faraday.get(self::URL)
       rows = http.body.split(/\n/)
       raise 'no entries' if rows.empty?
+
       rows.each do |row|
         m = row.match(%r|<a href="(.*?)">.*</a>\s{2,}(.*?)\s{2,}|)
         next unless m
         next unless select_file?(m[1])
+
         url = self::URL + m[1]
         time = Time.strptime(m[2].strip, self::INDEX_TIME_FORMAT)
         time = self::TZ.local_to_utc(time)
 
-        if DataFile.where(updated_at: time...Float::INFINITY, path: File.basename(url), source: self.source_id).exists?
+        if DataFile.where(updated_at: time...Float::INFINITY, path: File.basename(url), source: source_id).exists?
           logger.debug "already processed #{File.basename(url)}"
           next
         end
@@ -159,15 +162,15 @@ module Ieso
     include SemanticLogger::Loggable
 
     URL = 'https://reports-public.ieso.ca/public/RealtimeConstTotals/'
-    #URL_FORMAT = URL + 'PUB_RealtimeConstTotals_%Y%m%d%H.csv'
-    #PERIOD = 5.minutes
+    # URL_FORMAT = URL + 'PUB_RealtimeConstTotals_%Y%m%d%H.csv'
+    # PERIOD = 5.minutes
 
     def initialize
       super
       @r = []
     end
 
-    def self.select_file? url
+    def self.select_file?(url)
       url =~ /PUB_RealtimeConstTotals_\d+\.csv/
     end
 
@@ -176,20 +179,20 @@ module Ieso
       date = csv[0][1]
 
       csv[4..].each do |row|
-        #0:Hour
+        # 0:Hour
         hour = row[0].to_i - 1
-        #1:Period
+        # 1:Period
         minute = (row[1].to_i - 1) * 5
         time = Time.strptime "#{date} #{hour} #{minute}", '%Y%m%d %H %M'
         time = TZ.local_to_utc(time)
-        #2:Total Energy / Market Demand
-        value = row[2].to_i*1000
-        #Total 10S
-        #Total 10N
-        #Total 30R
-        #Total DISP LOAD
-        #Total LOAD
-        #Total LOSS
+        # 2:Total Energy / Market Demand
+        value = row[2].to_i * 1000
+        # Total 10S
+        # Total 10N
+        # Total 30R
+        # Total DISP LOAD
+        # Total LOAD
+        # Total LOSS
 
         @r << {
           time:,
@@ -197,7 +200,7 @@ module Ieso
           value:
         }
       end
-      #require 'pry' ; binding.pry
+      # require 'pry' ; binding.pry
 
       self
     end
@@ -224,15 +227,15 @@ module Ieso
 
     def add_buffer(body)
       CSV.parse(body, skip_lines: /^(\\|Date)/, headers: false) do |row|
-        #0:Date
+        # 0:Date
         date = row[0]
-        #1:Hour
+        # 1:Hour
         hour = row[1].to_i - 1
         time = Time.strptime("#{date} #{hour}", '%Y-%m-%d %H')
         time = TZ.local_to_utc(time)
-        #2:Market Demand
-        value = row[2].to_i*1000
-        #3: Ontario Demand
+        # 2:Market Demand
+        value = row[2].to_i * 1000
+        # 3: Ontario Demand
 
         @r << {
           time:,
@@ -265,29 +268,30 @@ module Ieso
     end
 
     def add_buffer(body)
-      logger.benchmark_info("csv parse") do
+      logger.benchmark_info('csv parse') do
         csv = FastestCSV.parse(body)
         csv[4..].each do |row|
-          #0:Delivery Date
+          # 0:Delivery Date
           date = Time.strptime(row[0], '%Y-%m-%d')
-          #1:Generator
+          # 1:Generator
           unit_internal_id = row[1]
-          #2:Fuel Type
+          # 2:Fuel Type
           type = FUEL_MAP[row[2]]
-          #3:Measurement
+          # 3:Measurement
           measurement = row[3]
-          next unless measurement == "Output"
+          next unless measurement == 'Output'
 
           unit = parse_unit(unit_internal_id, type)
 
-          #4..:Hour X
+          # 4..:Hour X
           hours = row[4..]
           hours.each_with_index do |value, hour|
             next if value.nil?
+
             time = date + hour.to_i.hours
             time = TZ.local_to_utc(time)
-            value = value.to_i*1000
-            @r << {time:, unit_id: unit.id, value:}
+            value = value.to_i * 1000
+            @r << { time:, unit_id: unit.id, value: }
           end
         end
       end
@@ -306,7 +310,7 @@ module Ieso
     include SemanticLogger::Loggable
 
     URL = 'https://reports-public.ieso.ca/public/GenOutputCapability/'
-    URL_FORMAT = URL + 'PUB_GenOutputCapability_%Y%m%d.xml'
+    URL_FORMAT = "#{URL}PUB_GenOutputCapability_%Y%m%d.xml".freeze
     PERIOD = 1.day
 
     def initialize
@@ -316,7 +320,7 @@ module Ieso
       @r_gen = {}
     end
 
-    def self.select_file? url
+    def self.select_file?(url)
       url =~ /PUB_GenOutputCapability_\d+\.xml/
     end
 
@@ -335,16 +339,16 @@ module Ieso
         out_sum = fuel_sums[type] ||= {}
         g[:Outputs][:Output].each do |o|
           time = base_time + (o[:Hour].to_i - 1).hours
-          value = o[:EnergyMW].to_i*1000
+          value = o[:EnergyMW].to_i * 1000
           out_sum[time] ||= 0
           out_sum[time] += value
-          k = [time,type]
-          @r_gen[k] ||= {country: 'CA-ON', production_type: type, time: time, value: 0}
+          k = [time, type]
+          @r_gen[k] ||= { country: 'CA-ON', production_type: type, time: time, value: 0 }
           @r_gen[k][:value] += value
-          @r_unit << {time:, unit_id: unit.id, value:}
+          @r_unit << { time:, unit_id: unit.id, value: }
         end
       end
-      #require 'pry' ; binding.pry
+      # require 'pry' ; binding.pry
 
       self
     end
@@ -352,8 +356,12 @@ module Ieso
     def done!
       return if @r_unit.empty? && @r_gen.empty?
 
-      @from = [@r_unit.min { |a,b| a[:time] <=> b[:time] }[:time], @r_gen.values.min { |a,b| a[:time] <=> b[:time] }[:time]].min
-      @to = [@r_unit.max { |a,b| a[:time] <=> b[:time] }[:time], @r_gen.values.max { |a,b| a[:time] <=> b[:time] }[:time]].max
+      @from = [@r_unit.min { |a, b| a[:time] <=> b[:time] }[:time], @r_gen.values.min do |a, b|
+        a[:time] <=> b[:time]
+      end[:time]].min
+      @to = [@r_unit.max { |a, b| a[:time] <=> b[:time] }[:time], @r_gen.values.max do |a, b|
+        a[:time] <=> b[:time]
+      end[:time]].max
 
       Out::Unit.run(@r_unit, @from, @to, self.class.source_id)
       Out::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
@@ -384,8 +392,8 @@ module Ieso
             time = date + (hourly_data[:Hour].to_i - 1).hours
             time = TZ.local_to_utc(time)
             production_type = FUEL_MAP[fuel_data[:Fuel]]
-            value = fuel_data[:EnergyValue][:Output].to_f*1000
-            @r << {country: 'CA-ON', time:, production_type:, value:}
+            value = fuel_data[:EnergyValue][:Output].to_f * 1000
+            @r << { country: 'CA-ON', time:, production_type:, value: }
           end
         end
       end
@@ -405,15 +413,15 @@ module Ieso
     include SemanticLogger::Loggable
 
     URL = 'https://reports-public.ieso.ca/public/DispUnconsHOEP/'
-    #URL_FORMAT = 'https://reports-public.ieso.ca/public/DispUnconsHOEP/PUB_DispUnconsHOEP_%Y%m%d.csv'
-    #PERIOD = 1.day
+    # URL_FORMAT = 'https://reports-public.ieso.ca/public/DispUnconsHOEP/PUB_DispUnconsHOEP_%Y%m%d.csv'
+    # PERIOD = 1.day
 
     def initialize
       super
       @r = []
     end
 
-    def self.select_file? url
+    def self.select_file?(url)
       url =~ /PUB_DispUnconsHOEP_\d+\.csv/
     end
 
@@ -423,13 +431,13 @@ module Ieso
 
       base_time = TZ.local_to_utc(date.to_time)
       csv[4..].each do |row|
-        #0:Hour
+        # 0:Hour
         hour = row[0].to_i - 1
         time = base_time + hour.hours
-        #1:Price
+        # 1:Price
         @r << {
           time:,
-          value: row[1].to_f*100,
+          value: row[1].to_f * 100,
           country: 'CA-ON'
         }
       end
@@ -459,21 +467,21 @@ module Ieso
     def add_buffer(body)
       csv = FastestCSV.parse(body)
       csv[4..].each do |row|
-        #0:Date
+        # 0:Date
         date = row[0]
-        #1:Hour
+        # 1:Hour
         hour = row[1].to_i - 1
 
         time = Time.strptime("#{date} #{hour}", '%Y-%m-%d %H')
         time = TZ.local_to_utc(time)
-        #2:HOEP
-        value = row[2].to_f*100
-        #Hour 1 Predispatch
-        #Hour 2 Predispatch
-        #Hour 3 Predispatch
-        #OR 10 Min Sync
-        #OR 10 Min non-sync
-        #OR 30 Min
+        # 2:HOEP
+        value = row[2].to_f * 100
+        # Hour 1 Predispatch
+        # Hour 2 Predispatch
+        # Hour 3 Predispatch
+        # OR 10 Min Sync
+        # OR 10 Min non-sync
+        # OR 30 Min
 
         @r << {
           time:,
@@ -498,29 +506,28 @@ module Ieso
     URL_FORMAT = 'https://reports-public.ieso.ca/public/IntertieScheduleFlow/PUB_IntertieScheduleFlow_%Y%m%d.xml'
     PERIOD = 1.day
     MAP_EXCHANGE = {
-      "MANITOBA" => ["CA-ON", "CA-MB"],
-      "MANITOBA SK" => ["CA-ON", "CA-MB"],
-      "MICHIGAN" => ["CA-ON", "US-MISO"],
-      "MINNESOTA" => ["CA-ON", "US-MISO"],
-      "NEW-YORK" => ["CA-ON", "US-NYISO"],
-      "PQ.AT" => ["CA-ON", "CA-QC"],
-      "PQ.B5D.B31L" => ["CA-ON", "CA-QC"],
-      "PQ.D4Z" => ["CA-ON", "CA-QC"],
-      "PQ.D5A" => ["CA-ON", "CA-QC"],
-      "PQ.H4Z" => ["CA-ON", "CA-QC"],
-      "PQ.H9A" => ["CA-ON", "CA-QC"],
-      "PQ.P33C" => ["CA-ON", "CA-QC"],
-      "PQ.Q4C" => ["CA-ON", "CA-QC"],
-      "PQ.X2Y" => ["CA-ON", "CA-QC"]
-    }
+      'MANITOBA' => %w[CA-ON CA-MB],
+      'MANITOBA SK' => %w[CA-ON CA-MB],
+      'MICHIGAN' => %w[CA-ON US-MISO],
+      'MINNESOTA' => %w[CA-ON US-MISO],
+      'NEW-YORK' => %w[CA-ON US-NYISO],
+      'PQ.AT' => %w[CA-ON CA-QC],
+      'PQ.B5D.B31L' => %w[CA-ON CA-QC],
+      'PQ.D4Z' => %w[CA-ON CA-QC],
+      'PQ.D5A' => %w[CA-ON CA-QC],
+      'PQ.H4Z' => %w[CA-ON CA-QC],
+      'PQ.H9A' => %w[CA-ON CA-QC],
+      'PQ.P33C' => %w[CA-ON CA-QC],
+      'PQ.Q4C' => %w[CA-ON CA-QC],
+      'PQ.X2Y' => %w[CA-ON CA-QC]
+    }.freeze
 
-    def self.each
-      from = ::Transmission.joins(areas_area: :from_area).where("time > ?", 2.months.ago).where(from_area: {source: self.source_id}).maximum(:time).in_time_zone(self::TZ)
+    def self.each(&block)
+      from = ::Transmission.joins(areas_area: :from_area).where('time > ?',
+                                                                2.months.ago).where(from_area: { source: source_id }).maximum(:time).in_time_zone(self::TZ)
       to = Time.now.in_time_zone(self::TZ)
       logger.info("Refresh from #{from}")
-      (from.to_date..to.to_date).each do |date|
-        yield date
-      end
+      (from.to_date..to.to_date).each(&block)
     end
 
     def add(date)
@@ -536,14 +543,14 @@ module Ieso
         zone[:Actuals][:Actual].each do |row|
           time = date + (row[:Hour].to_i - 1).hours + (row[:Interval].to_i - 1) * 5.minutes
           time = TZ.local_to_utc(time)
-          value = row[:Flow].to_f*1000
+          value = row[:Flow].to_f * 1000
 
-          k = fromto+[time]
-          @r[k] ||= {time:, from_area: fromto[0], to_area: fromto[1], value: 0}
+          k = fromto + [time]
+          @r[k] ||= { time:, from_area: fromto[0], to_area: fromto[1], value: 0 }
           @r[k][:value] -= value
         end
       end
-      #require 'pry' ; binding.pry
+      # require 'pry' ; binding.pry
 
       self
     end
@@ -577,24 +584,26 @@ module Ieso
         date = Time.strptime(row[0], '%Y-%m-%d')
         time = date + (row[1].to_i - 1).hours
         time = TZ.local_to_utc(time)
-        i=4
+        i = 4
         while h_zone[i]
           raise h[i].inspect if h[i] != 'Flow'
           break if h_zone[i] == 'Total'
+
           fromto = MAP_EXCHANGE[h_zone[i]]
-          value = row[i].to_f*1000
+          value = row[i].to_f * 1000
 
           unless fromto
-            require 'pry' ; binding.pry
+            require 'pry'
+            binding.pry
           end
 
-          k = fromto+[time]
-          @r[k] ||= {time:, from_area: fromto[0], to_area: fromto[1], value: 0}
+          k = fromto + [time]
+          @r[k] ||= { time:, from_area: fromto[0], to_area: fromto[1], value: 0 }
           @r[k][:value] -= value
           i += 3
         end
       end
-      #require 'pry' ; binding.pry
+      # require 'pry' ; binding.pry
 
       self
     end

@@ -1,4 +1,5 @@
-# coding: utf-8
+# frozen_string_literal: true
+
 require 'faraday/retry'
 require 'faraday/gzip'
 require 'ox'
@@ -12,7 +13,7 @@ module EntsoeApi
     TZ = TZInfo::Timezone.get('UTC')
 
     def self.source_id
-      "entsoe"
+      'entsoe'
     end
 
     def initialize
@@ -33,26 +34,27 @@ module EntsoeApi
       @options[:periodEnd] = to.strftime('%Y%m%d%H%M')
 
       res = logger.benchmark_info("https://web-api.tp.entsoe.eu/api #{from.strftime('%Y-%m-%d')} #{to.strftime('%Y-%m-%d')}") do
-        faraday = Faraday.new(request: {timeout: 600}) do |f|
+        faraday = Faraday.new(request: { timeout: 600 }) do |f|
           f.request :retry, {
             retry_statuses: [500, 502],
             interval: 1,
             backoff_factor: 2,
             max: 5
           }
-          #f.request :gzip
-          #f.response :logger, logger
+          # f.request :gzip
+          # f.response :logger, logger
         end
         faraday.get('https://web-api.tp.entsoe.eu/api', @options)
       end
 
-      doc = logger.benchmark_info("xml parse") do
+      doc = logger.benchmark_info('xml parse') do
         Ox.parse(res.body)
       end
 
-      code, reason = doc.locate("*/Reason/*/^String")
+      _, reason = doc.locate('*/Reason/*/^String')
       if reason.present?
         raise EmptyError if reason =~ /No matching data found/
+
         raise reason
       end
 
@@ -67,13 +69,14 @@ module EntsoeApi
         yield ts
       end
     end
+
     def parse_response(doc)
       points_selector(doc) do |ts|
-        #unless ts.locate('inBiddingZone_Domain.mRID').first
+        # unless ts.locate('inBiddingZone_Domain.mRID').first
         #  require 'pry' ; binding.pry
-        #end
+        # end
 
-        #2020-12-31T23:00Z
+        # 2020-12-31T23:00Z
         start = Time.strptime(ts.locate('Period/timeInterval/start/^String').first, '%Y-%m-%dT%H:%M%z')
         resolution = ts.locate('Period/resolution/^String').first.match(/^PT(\d+)M$/) { |m| m[1].to_i }
         gapfill = ts.locate('curveType/^String').first == 'A03'
@@ -81,12 +84,12 @@ module EntsoeApi
         psr = ts.locate('MktPSRType/psrType/^String').first
         @production_type = PARAMETER_DESC[psr.to_sym].downcase.tr_s(' ', '_') if psr
 
-        data = ts.locate('Period/Point').each do |p|
+        ts.locate('Period/Point').each do |p|
           @position = (p.locate('position/^String').first.to_i - 1)
           @time = start + (@position * resolution).minutes
 
           if gapfill && @last_position && @last_position + 1 != @position
-            ((@last_position+1)...@position).each do |gap_position|
+            ((@last_position + 1)...@position).each do |gap_position|
               time = start + (gap_position * resolution).minutes
               gap_point = @r.last.dup
               gap_point[:time] = time
@@ -97,7 +100,7 @@ module EntsoeApi
           @r << point(p)
         end
       end
-      #require 'pry' ; binding.pry
+      # require 'pry' ; binding.pry
     end
 
     def point(p)
@@ -105,13 +108,13 @@ module EntsoeApi
         country: @country,
         production_type: @production_type,
         time: @time,
-        value: p.locate('quantity/^String').first.to_i*1000
+        value: p.locate('quantity/^String').first.to_i * 1000
       }
     end
   end
 
-  #16.1.B&C Actual Generation per Production Type
-  #GET /api?documentType=A75&processType=A16&psrType=B02&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
+  # 16.1.B&C Actual Generation per Production Type
+  # GET /api?documentType=A75&processType=A16&psrType=B02&in_Domain=10YCZ-CEPS-----N&periodStart=201512312300&periodEnd=201612312300
   class Generation < Base
     include SemanticLogger::Loggable
 
@@ -126,7 +129,9 @@ module EntsoeApi
     end
 
     def self.each
-      ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from2|
+      ::Generation.joins(areas_production_type: :area).group(:'area.code').where('time > ?', 2.months.ago).where(area: { source: source_id }).pluck(
+        :'area.code', Arel.sql('LAST(time, time)')
+      ).each do |country, from2|
         from = from2.in_time_zone(self::TZ).to_datetime
         to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
         to = to.in_time_zone(self::TZ).to_datetime
@@ -147,26 +152,28 @@ module EntsoeApi
     def points_selector(doc)
       doc.locate('*/TimeSeries').each do |ts|
         next if ts.locate('outBiddingZone_Domain.mRID').first
+
         @country = ts.locate('inBiddingZone_Domain.mRID').first.text
         yield ts
       end
     end
 
     def done!
-      @from = @r.min { |a,b| a[:time] <=> b[:time] }[:time]
-      @to = @r.max { |a,b| a[:time] <=> b[:time] }[:time]
+      @from = @r.min { |a, b| a[:time] <=> b[:time] }[:time]
+      @to = @r.max { |a, b| a[:time] <=> b[:time] }[:time]
       @r = Validate.validate_generation(@r, self.class.source_id)
       Out::Generation.run(@r, @from, @to, self.class.source_id)
     end
   end
 
-  #16.1.A Actual Generation per Generation Unit
-  #https://web-api.tp.entsoe.eu/api?documentType=A73&processType=A16&in_Domain=10YBE----------2&periodStart=202308152200&periodEnd=202308162200
+  # 16.1.A Actual Generation per Generation Unit
+  # https://web-api.tp.entsoe.eu/api?documentType=A73&processType=A16&in_Domain=10YBE----------2&periodStart=202308152200&periodEnd=202308162200
   class Unit < Base
     include SemanticLogger::Loggable
 
     def self.each
-      from =::GenerationUnit.joins(:unit => :area).where("area.source" => self.source_id).where("time > ?", 2.months.ago).maximum(:time)
+      from = ::GenerationUnit.joins(unit: :area).where('area.source' => source_id).where('time > ?',
+                                                                                         2.months.ago).maximum(:time)
       from = from.to_datetime
       to = [from + 1.year, DateTime.now.beginning_of_hour].min
       (from..to).each do |date|
@@ -181,7 +188,7 @@ module EntsoeApi
       to = Chronic.parse(args.shift).to_date
       area_codes = args
       area_codes.each do |area_code|
-        area = Area.find_by!(code: area_code, source: self.source_id)
+        area = Area.find_by!(code: area_code, source: source_id)
         new.add_date_range(from, to, area).done!
       end
     end
@@ -193,6 +200,7 @@ module EntsoeApi
       @options[:in_Domain] = area.internal_id
       super(from, to)
     end
+
     def parse_response(doc)
       points_selector(doc) do |ts|
         next if ts.locate('outBiddingZone_Domain.mRID').first
@@ -209,34 +217,38 @@ module EntsoeApi
         @unit.area ||= @area
         @unit.save
 
-        data = ts.locate('Period/Point').each do |p|
+        ts.locate('Period/Point').each do |p|
           @time = start + ((p.locate('position/^String').first.to_i - 1) * resolution).minutes
           @last_time = @time
           @r << point(p)
         end
       end
     end
+
     def point(p)
       {
         time: @time,
         unit_id: @unit.id,
-        value: p.locate('quantity/^String').first.to_i*1000
+        value: p.locate('quantity/^String').first.to_i * 1000
       }
     end
+
     def done!
-      @from = @r.min { |a,b| a[:time] <=> b[:time] }[:time]
-      @to = @r.max { |a,b| a[:time] <=> b[:time] }[:time]
+      @from = @r.min { |a, b| a[:time] <=> b[:time] }[:time]
+      @to = @r.max { |a, b| a[:time] <=> b[:time] }[:time]
       Out::Unit.run(@r, @from, @to, self.class.source_id)
     end
   end
 
-  #6.1.A Actual Total Load
-  #https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10YCZ-CEPS-----N&periodStart=202303030000&periodEnd=202303060000
+  # 6.1.A Actual Total Load
+  # https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10YCZ-CEPS-----N&periodStart=202303030000&periodEnd=202303060000
   class Load < Base
     include SemanticLogger::Loggable
 
     def self.each
-      ::Load.joins(:area).group(:'area.code').where("time > ?", 12.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+      ::Load.joins(:area).group(:'area.code').where('time > ?', 12.months.ago).where(area: { source: source_id }).pluck(
+        :'area.code', Arel.sql('LAST(time, time)')
+      ).each do |country, from|
         from = from.in_time_zone(self::TZ).to_datetime
         to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
         to = to.in_time_zone(self::TZ).to_datetime
@@ -263,33 +275,37 @@ module EntsoeApi
       @options[:outBiddingZone_Domain] = COUNTRIES[country.to_sym]
       super(from, to)
     end
+
     def point(p)
       {
         country: @country,
         time: @time,
-        value: p.locate('quantity/^String').first.to_i*1000
+        value: p.locate('quantity/^String').first.to_i * 1000
       }
     end
+
     def done!
-      @from = @r.min { |a,b| a[:time] <=> b[:time] }[:time]
-      @to = @r.max { |a,b| a[:time] <=> b[:time] }[:time]
+      @from = @r.min { |a, b| a[:time] <=> b[:time] }[:time]
+      @to = @r.max { |a, b| a[:time] <=> b[:time] }[:time]
       @r = Validate.validate_load(@r, self.class.source_id)
       Out::Load.run(@r, @from, @to, self.class.source_id)
     end
   end
 
-  #12.1.D Energy Prices
+  # 12.1.D Energy Prices
   # https://documenter.getpostman.com/view/7009892/2s93JtP3F6#3b383df0-ada2-49fe-9a50-98b1bb201c6b
   class Price < Base
     include SemanticLogger::Loggable
 
     def self.each
-      ::Price.joins(:area).group(:'area.code').where("time > ?", 6.month.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+      ::Price.joins(:area).group(:'area.code').where('time > ?', 6.month.ago).where(area: { source: source_id }).pluck(
+        :'area.code', Arel.sql('LAST(time, time)')
+      ).each do |country, from|
         SemanticLogger.tagged(country) do
           from = from.to_datetime
           to = [from + 1.year, DateTime.tomorrow.to_datetime.beginning_of_hour].min
           if from.to_date == to
-            logger.warn "data is up to date"
+            logger.warn 'data is up to date'
             next
           end
 
@@ -321,50 +337,54 @@ module EntsoeApi
     def points_selector(doc)
       doc.locate('*/TimeSeries').each do |ts|
         s = ts.locate('contract_MarketAgreement.type/^String')
-        raise unless s == ['A01'] #Day ahead
+        raise unless s == ['A01'] # Day ahead
+
         s = ts.locate('classificationSequence_AttributeInstanceComponent.position/^String')
         next unless s == ['1'] || s.empty?
+
         yield ts
       end
     end
+
     def point(p)
       {
         country: @country,
         time: @time,
-        value: p.locate('price.amount/^String').first.to_f*100
+        value: p.locate('price.amount/^String').first.to_f * 100
       }
     end
+
     def done!
-      @from = @r.min { |a,b| a[:time] <=> b[:time] }[:time]
-      @to = @r.max { |a,b| a[:time] <=> b[:time] }[:time]
+      @from = @r.min { |a, b| a[:time] <=> b[:time] }[:time]
+      @to = @r.max { |a, b| a[:time] <=> b[:time] }[:time]
       Out::Price.run(@r, @from, @to, self.class.source_id)
     end
   end
 
-  #12.1.G Cross-Border Physical Flows
-  #https://web-api.tp.entsoe.eu/api?documentType=A11&out_Domain=10YDE-RWENET---I&in_Domain=10YBE----------2&periodStart=202308232200&periodEnd=202308242200
+  # 12.1.G Cross-Border Physical Flows
+  # https://web-api.tp.entsoe.eu/api?documentType=A11&out_Domain=10YDE-RWENET---I&in_Domain=10YBE----------2&periodStart=202308232200&periodEnd=202308242200
   class Transmission < Base
     include SemanticLogger::Loggable
 
     def self.each
       ::Transmission.joins(:from_area)
-          .joins('INNER JOIN "areas" "to_area" ON "to_area"."id" = "transmission"."to_area_id"')
-          .group(:'from_area.code', :'to_area.code')
-          .where("time > ?", 12.months.ago)
-          .where(from_area: {source: self.source_id})
-          .pluck(:'from_area.code', :'to_area.code', Arel.sql("LAST(time, time)"))
-          .each do |from_area, to_area, from|
-            from = from.to_datetime
-            to = [from + 1.year, DateTime.now.beginning_of_hour].min
-            SemanticLogger.tagged("#{from_area} > #{to_area}") do
-              yield [from, to, from_area, to_area]
-            end
-          end
+                    .joins('INNER JOIN "areas" "to_area" ON "to_area"."id" = "transmission"."to_area_id"')
+                    .group(:'from_area.code', :'to_area.code')
+                    .where('time > ?', 12.months.ago)
+                    .where(from_area: { source: source_id })
+                    .pluck(:'from_area.code', :'to_area.code', Arel.sql('LAST(time, time)'))
+                    .each do |from_area, to_area, from|
+                      from = from.to_datetime
+                      to = [from + 1.year, DateTime.now.beginning_of_hour].min
+                      SemanticLogger.tagged("#{from_area} > #{to_area}") do
+                        yield [from, to, from_area, to_area]
+                      end
+                    end
     end
 
     def self.cli(args)
       if args.length < 4
-        $stderr.puts "Usage: #{$0} <from> <to> <from_area> <to_area>"
+        warn "Usage: #{$PROGRAM_NAME} <from> <to> <from_area> <to_area>"
         exit 1
       end
 
@@ -411,12 +431,13 @@ module EntsoeApi
         time: @time,
         from_area: @from_area,
         to_area: @to_area,
-        value: p.locate('quantity/^String').first.to_i*1000
+        value: p.locate('quantity/^String').first.to_i * 1000
       }
     end
+
     def done!
-      @from = @r.min { |a,b| a[:time] <=> b[:time] }[:time]
-      @to = @r.max { |a,b| a[:time] <=> b[:time] }[:time]
+      @from = @r.min { |a, b| a[:time] <=> b[:time] }[:time]
+      @to = @r.max { |a, b| a[:time] <=> b[:time] }[:time]
       Out::Transmission.run(@r, @from, @to, self.class.source_id)
     end
   end
@@ -425,17 +446,17 @@ module EntsoeApi
     current: 'A18',
     intraday: 'A40',
     dayahead: 'A01',
-    realised: 'A16',
-  }
+    realised: 'A16'
+  }.freeze
 
   COUNTRIES = {
     'AL': '10YAL-KESH-----5',
     'AT': '10YAT-APG------L',
-    #'AX': '10Y1001A1001A46L',  # for price only; Åland has SE-SE3 area price
+    # 'AX': '10Y1001A1001A46L',  # for price only; Åland has SE-SE3 area price
     'BA': '10YBA-JPCC-----D',
     'BE': '10YBE----------2',
     'BG': '10YCA-BULGARIA-R',
-    #'BY': '10Y1001A1001A51S',
+    # 'BY': '10Y1001A1001A51S',
     'CH': '10YCH-SWISSGRIDZ',
     'CZ': '10YCZ-CEPS-----N',
     'CY': '10YCY-1001A0003J',
@@ -448,9 +469,9 @@ module EntsoeApi
     'ES': '10YES-REE------0',
     'FI': '10YFI-1--------U',
     'FR': '10YFR-RTE------C',
-    #'GB': '10Y1001A1001A92E',
+    # 'GB': '10Y1001A1001A92E',
     'GB': '10YGB----------A', # exited dataset in 2021
-    #'GB-NIR': '10Y1001A1001A016',
+    # 'GB-NIR': '10Y1001A1001A016',
     'GE': '10Y1001A1001B012',
     'GR': '10YGR-HTSO-----Y',
     'HR': '10YHR-HEP------M',
@@ -474,7 +495,7 @@ module EntsoeApi
     'MD': '10Y1001A1001A990',
     'ME': '10YCS-CG-TSO---S',
     'MK': '10YMK-MEPSO----8', # has bad load data
-    #'MT': '10Y1001A1001A93C',
+    # 'MT': '10Y1001A1001A93C',
     'NL': '10YNL----------L',
     'NO': '10YNO-0--------C',
     'NO1': '10YNO-1--------2',
@@ -486,8 +507,8 @@ module EntsoeApi
     'PT': '10YPT-REN------W',
     'RO': '10YRO-TEL------P',
     'RS': '10YCS-SERBIATSOV',
-    #'RU': '10Y1001A1001A49F',
-    #'RU-KGD': '10Y1001A1001A50U',
+    # 'RU': '10Y1001A1001A49F',
+    # 'RU-KGD': '10Y1001A1001A50U',
     'SE': '10YSE-1--------K',
     'SE1': '10Y1001A1001A44P',
     'SE2': '10Y1001A1001A45N',
@@ -495,10 +516,10 @@ module EntsoeApi
     'SE4': '10Y1001A1001A47J',
     'SI': '10YSI-ELES-----O',
     'SK': '10YSK-SEPS-----K',
-    #'TR': '10YTR-TEIAS----W',
+    # 'TR': '10YTR-TEIAS----W',
     'UA': '10YUA-WEPS-----0',
     'XK': '10Y1001C--00100H'
-  }
+  }.freeze
   PARAMETER_DESC = {
     'B01': 'Biomass',
     'B02': 'Fossil Brown coal/Lignite',
@@ -519,7 +540,7 @@ module EntsoeApi
     'B17': 'Waste',
     'B18': 'Wind Offshore',
     'B19': 'Wind Onshore',
-    'B20': 'Other',
-  }
+    'B20': 'Other'
+  }.freeze
   DOMAIN_MAPPINGS = COUNTRIES
 end

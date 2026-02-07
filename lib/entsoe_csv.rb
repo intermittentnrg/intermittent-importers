@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'zip'
 require 'fastest_csv'
 
@@ -6,12 +8,12 @@ module EntsoeCsv
     include SemanticLogger::Loggable
 
     def self.source_id
-      "entsoe"
+      'entsoe'
     end
 
     def self.cli(args)
       if args.empty?
-        $stderr.puts "#{$0} [file ...]"
+        warn "#{$PROGRAM_NAME} [file ...]"
         exit 1
       end
 
@@ -46,14 +48,14 @@ module EntsoeCsv
         csv = FastestCSV.parse(body, col_sep: "\t", skip_header: true)
         add_csv(csv)
 
-        @datafiles << {path: name, source: self.class.source_id, updated_at: time}
+        @datafiles << { path: name, source: self.class.source_id, updated_at: time }
       end
 
       self
     end
 
     def done!
-      DataFile.upsert_all(@datafiles, unique_by: [:source, :path])
+      DataFile.upsert_all(@datafiles, unique_by: %i[source path])
       logger.info "done! \#{\@datafiles.last[:path]}"
     end
 
@@ -65,9 +67,9 @@ module EntsoeCsv
 
     PT_MAP = {
       'energy_storage' => 'storage'
-    }
+    }.freeze
     def parse_production_type(s)
-      pt = s.strip.gsub(/ /,'_').downcase
+      pt = s.strip.gsub(/ /, '_').downcase
 
       PT_MAP[pt] || pt
     end
@@ -84,11 +86,11 @@ module EntsoeCsv
       area_id = @areas[s] ||= ::Area.where(internal_id: s, source: self.class.source_id).pluck(:id).first
       unless area_id
         area = Area.new({
-                          internal_id: s,
-                          region: 'europe',
-                          source: self.class.source_id,
-                          enabled: false
-                        }.merge(fields))
+          internal_id: s,
+          region: 'europe',
+          source: self.class.source_id,
+          enabled: false
+        }.merge(fields))
         require 'pry' ; binding.pry
         area.save!
         area_id = @areas[s] = area.id
@@ -98,12 +100,11 @@ module EntsoeCsv
     end
 
     def parse_value(s, s_neg = nil)
-      value = (s.to_f*1000)
-      value -= (s_neg.to_f*1000) if s_neg
+      value = (s.to_f * 1000)
+      value -= (s_neg.to_f * 1000) if s_neg
 
       value.to_i
     end
-
   end
 
   class Generation < Base
@@ -112,33 +113,31 @@ module EntsoeCsv
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
     def add_csv(csv)
-      logger.benchmark_info("csv parse") do
+      logger.benchmark_info('csv parse') do
         csv.each do |row|
           next if row[4] == 'CTA'
 
-          #0:DateTime(UTC)
+          # 0:DateTime(UTC)
           time = parse_time(row[0])
-          #1:ResolutionCode
-          #2:AreaCode
+          # 1:ResolutionCode
+          # 2:AreaCode
           country = row[2]
-          #3:AreaDisplayName
-          #4:AreaTypeCode
-          #5:AreaMapCode
-          #6:ProductionType
+          # 3:AreaDisplayName
+          # 4:AreaTypeCode
+          # 5:AreaMapCode
+          # 6:ProductionType
           production_type = parse_production_type(row[6])
-          #7:ActualGenerationOutput[MW]
-          #8:ActualConsumption[MW]
-          #9:UpdateTime(UTC)
+          # 7:ActualGenerationOutput[MW]
+          # 8:ActualConsumption[MW]
+          # 9:UpdateTime(UTC)
           value = parse_value(row[7], row[8])
-          #9:UpdateTime
+          # 9:UpdateTime
 
-          #area_code = row[:area_code]
+          # area_code = row[:area_code]
 
-          k = [time,country,production_type]
-          if @r[k] && @r[k][:value] != value
-            logger.warn("#{country} different values #{@r[k][:value]} != #{value}")
-          end
-          @r[k] = {time:, country:, production_type:, value:}
+          k = [time, country, production_type]
+          logger.warn("#{country} different values #{@r[k][:value]} != #{value}") if @r[k] && @r[k][:value] != value
+          @r[k] = { time:, country:, production_type:, value: }
         end
       end
     end
@@ -165,30 +164,30 @@ module EntsoeCsv
       'NIE' => 'GB',
       'UA_IPS' => 'UA',
       'UA_BEI' => 'UA'
-    }
+    }.freeze
 
     def add_csv(csv)
-      logger.benchmark_info("csv parse") do
+      logger.benchmark_info('csv parse') do
         units = {}
         csv.each do |row|
-          #0:DateTime(UTC)
+          # 0:DateTime(UTC)
           time = parse_time(row[0])
-          #1:ResolutionCode
-          #2:AreaCode
+          # 1:ResolutionCode
+          # 2:AreaCode
           area_code = row[2]
-          #3:AreaDisplayName
-          #4:AreaTypeCode
-          #5:AreaMapCode
-          #6:GenerationUnitCode
+          # 3:AreaDisplayName
+          # 4:AreaTypeCode
+          # 5:AreaMapCode
+          # 6:GenerationUnitCode
           unit_internal_id = row[6]
-          #7:GenerationUnitName
+          # 7:GenerationUnitName
           unit_name = row[7].force_encoding('UTF-8')
-          #8:GenerationUnitType
+          # 8:GenerationUnitType
           production_type = parse_production_type(row[8])
-          #9:ActualGenerationOutput[MW]
-          #10:ActualConsumption[MW]
+          # 9:ActualGenerationOutput[MW]
+          # 10:ActualConsumption[MW]
           value = parse_value(row[9], row[10])
-          #11:UpdateTime(UTC)
+          # 11:UpdateTime(UTC)
 
           unit_id = units[unit_internal_id]
           unless unit_id
@@ -216,7 +215,7 @@ module EntsoeCsv
           if @r[k] && value != @r[k][:value]
             logger.error "duplicate data with different output #{unit_internal_id} #{value} != #{@r[k][:value]}"
           end
-          @r[k] = {unit_id:, time:, value:}
+          @r[k] = { unit_id:, time:, value: }
         end
       end
     end
@@ -235,27 +234,28 @@ module EntsoeCsv
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
     def add_csv(csv)
-      logger.benchmark_info("csv parse") do
+      logger.benchmark_info('csv parse') do
         csv.each do |row|
           next if row[4] == 'CTA'
-          #0:DateTime(UTC)
-          time = parse_time(row[0])
-          #1:ResolutionCode
-          #2:AreaCode
-          country = row[2]
-          #3:AreaDisplayName
-          area_name = row[3]
-          #4:AreaTypeCode
-          #5:AreaMapCode
-          #6:TotalLoad[MW]
-          value = row[6].to_f*1000
-          #7:UpdateTime(UTC)
 
-          k = [time,country]
+          # 0:DateTime(UTC)
+          time = parse_time(row[0])
+          # 1:ResolutionCode
+          # 2:AreaCode
+          country = row[2]
+          # 3:AreaDisplayName
+          area_name = row[3]
+          # 4:AreaTypeCode
+          # 5:AreaMapCode
+          # 6:TotalLoad[MW]
+          value = row[6].to_f * 1000
+          # 7:UpdateTime(UTC)
+
+          k = [time, country]
           if @r[k] && @r[k][:value] != value
             logger.warn("#{time} #{area_name} different values #{@r[k][:value]} != #{value}")
           end
-          @r[k] = {time:, country:, value:}
+          @r[k] = { time:, country:, value: }
         end
       end
     end
@@ -263,7 +263,7 @@ module EntsoeCsv
     def done!
       return if @r.empty?
 
-      r = Validate::validate_load(@r.values, self.class.source_id)
+      r = Validate.validate_load(@r.values, self.class.source_id)
       Out::Load.run(r, @from, @to, self.class.source_id)
       super
     end
@@ -280,31 +280,32 @@ module EntsoeCsv
     end
 
     def add_csv(csv)
-      logger.benchmark_info("csv parse") do
+      logger.benchmark_info('csv parse') do
         csv.each do |row|
-          #0: InstanceCode
-          #1: DateTime(UTC)
+          # 0: InstanceCode
+          # 1: DateTime(UTC)
           time = parse_time(row[1])
-          #2: ResolutionCode
-          #3: AreaCode
+          # 2: ResolutionCode
+          # 3: AreaCode
           area_id = parse_area(row[3])
-          #4: AreaDisplayName
-          #5: AreaTypeCode
-          #6: MapCode
-          #7: ContractType
+          # 4: AreaDisplayName
+          # 5: AreaTypeCode
+          # 6: MapCode
+          # 7: ContractType
           next unless row[7] == 'Day-ahead'
-          #8: Sequence
+          # 8: Sequence
           next unless row[8].blank? || row[8] == '1'
-          #9; Price[Currency/MWh]
-          value = row[9].to_f*100
-          #10: Currency
-          #11: UpdateTime(UTC)
 
-          k = [time,area_id]
+          # 9; Price[Currency/MWh]
+          value = row[9].to_f * 100
+          # 10: Currency
+          # 11: UpdateTime(UTC)
+
+          k = [time, area_id]
           if @r[k] && @r[k][:value] != value
             logger.warn("#{time} #{area_id} different values #{@r[k][:value]} != #{value}")
           end
-          @r[k] = {time:, area_id:, value:}
+          @r[k] = { time:, area_id:, value: }
         end
       end
     end
@@ -320,41 +321,41 @@ module EntsoeCsv
   class UnitCapacity < Base
     include SemanticLogger::Loggable
 
-    def parse_filename
-    end
+    def parse_filename; end
 
-    #Production and Generation units have different EIC codes making the output of this small
-    #EIC parent of production unit = generation unit EIC
-    #Map can be found on https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+    # Production and Generation units have different EIC codes making the output of this small
+    # EIC parent of production unit = generation unit EIC
+    # Map can be found on https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
     # EIC Type Code = Resource Object W
     def add_csv(csv)
-      logger.benchmark_info("csv parse") do
+      logger.benchmark_info('csv parse') do
         csv.each do |row|
-          #0: EICCode
-          unit = ::Unit.includes(:area).where(area: {source:'entsoe'}).find_by(internal_id: row[0])
+          # 0: EICCode
+          unit = ::Unit.includes(:area).where(area: { source: 'entsoe' }).find_by(internal_id: row[0])
           unless unit
             puts "Missing #{row[6]}/#{row[1]}"
             require 'pry' ; binding.pry
           end
           next unless unit
-          #1: Name
-          #2: ValidFrom
+
+          # 1: Name
+          # 2: ValidFrom
           time = parse_time(row[2])
-          #3: ValidTo
-          #4: Status
-          #5: Type
-          #6: Location
-          #7: InstalledCapacity
-          value = row[7].to_f*1000
-          #8: ControlArea
-          #9: BiddingZone
-          #10: Voltage
+          # 3: ValidTo
+          # 4: Status
+          # 5: Type
+          # 6: Location
+          # 7: InstalledCapacity
+          value = row[7].to_f * 1000
+          # 8: ControlArea
+          # 9: BiddingZone
+          # 10: Voltage
 
           k = [unit.id, time]
           if @r[k]
             require 'pry' ; binding.pry
           end
-          @r[k] = {unit_id: unit.id, time:, value:}
+          @r[k] = { unit_id: unit.id, time:, value: }
         end
       end
     end
@@ -375,44 +376,44 @@ module EntsoeCsv
     AREA_TYPE_MAP = {
       'BZN/CTA/CTY' => :country,
       'CTY' => :country,
-      'BZN' => :zone,
-    }
+      'BZN' => :zone
+    }.freeze
 
     def add_csv(csv)
-      logger.benchmark_info("csv parse") do
+      logger.benchmark_info('csv parse') do
         csv.each do |row|
           next if row[4] == 'CTA' || row[8] == 'CTA'
 
-          #0:DateTime(UTC)
+          # 0:DateTime(UTC)
           time = parse_time(row[0])
-          #1:ResolutionCode
-          #2:OutAreaCode
+          # 1:ResolutionCode
+          # 2:OutAreaCode
           to_area_internal_id = row[2]
-          #3:OutAreaDisplayName
-          #4:OutAreaTypeCode
+          # 3:OutAreaDisplayName
+          # 4:OutAreaTypeCode
           to_area_type = AREA_TYPE_MAP[row[4]]
-          #5:OutAreaMapCode
+          # 5:OutAreaMapCode
           to_area_code = row[5]
-          to_area_id = parse_area(to_area_internal_id, {type: to_area_type, code: to_area_code})
+          to_area_id = parse_area(to_area_internal_id, { type: to_area_type, code: to_area_code })
 
-          #6:InAreaCode
+          # 6:InAreaCode
           from_area_internal_id = row[6]
-          #7:InAreaDisplayName
-          #8:InAreaTypeCode
+          # 7:InAreaDisplayName
+          # 8:InAreaTypeCode
           from_area_type = AREA_TYPE_MAP[row[8]]
-          #9:InAreaMapCode
+          # 9:InAreaMapCode
           from_area_code = row[9]
-          from_area_id = parse_area(from_area_internal_id, {type: from_area_type, code: from_area_code})
+          from_area_id = parse_area(from_area_internal_id, { type: from_area_type, code: from_area_code })
 
-          #10:Flow[MW]
-          value = (row[10].to_f*1000).to_i
-          #11:UpdateTime(UTC)
+          # 10:Flow[MW]
+          value = (row[10].to_f * 1000).to_i
+          # 11:UpdateTime(UTC)
 
-          k = [to_area_id,from_area_id,time]
+          k = [to_area_id, from_area_id, time]
           if @r[k] && @r[k][:value] != value
             logger.warn("#{time} #{to_area_code} - #{from_area_code} different values #{@r[k][:value]} != #{value}")
           end
-          @r[k] = {time:, to_area_id:, from_area_id:, value:}
+          @r[k] = { time:, to_area_id:, from_area_id:, value: }
         end
       end
     end

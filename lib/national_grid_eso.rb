@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'faraday/follow_redirects'
 require 'fastest_csv'
 require 'fast_jsonparser'
@@ -9,11 +11,11 @@ module NationalGridEso
     include SemanticLogger::Loggable
 
     def self.source_id
-      "nationalgrideso"
+      'nationalgrideso'
     end
     @@faraday = Faraday.new do |f|
       f.response :follow_redirects
-      #f.response :logger, logger
+      # f.response :logger, logger
     end
   end
 
@@ -21,11 +23,11 @@ module NationalGridEso
     include SemanticLogger::Loggable
 
     def self.cli(args)
-      if args.length == 0
-        $stderr.puts "#{$0} <from>"
+      if args.empty?
+        warn "#{$PROGRAM_NAME} <from>"
         exit 1
       end
-      #FIXME max 25 days
+      # FIXME: max 25 days
       # 1200 row limit
       # 1200/2/24=25 days
 
@@ -36,7 +38,7 @@ module NationalGridEso
     def self.each
       sql = "SELECT MAX(time) FROM generation_data WHERE areas_production_type_id IN(SELECT id FROM areas_production_types WHERE source_area_id=(SELECT id FROM areas WHERE source='nationalgrideso' LIMIT 1));"
       r = Generation.connection.exec_query(sql)
-      from = r[0]["max"]
+      from = r[0]['max']
       yield from
     end
 
@@ -51,17 +53,18 @@ module NationalGridEso
     def add_from_date(from)
       url = 'https://api.neso.energy/api/3/action/datastore_search_sql'
       options = {}
-      options[:sql] = %Q{SELECT * FROM "177f6fa4-ae49-4182-81ea-0c6b35f26ca6" WHERE "SETTLEMENT_DATE" >= '#{from}' AND "SETTLEMENT_DATE" <= '#{TZ.now}' AND "FORECAST_ACTUAL_INDICATOR" = 'A'}
+      options[:sql] =
+        %(SELECT * FROM "177f6fa4-ae49-4182-81ea-0c6b35f26ca6" WHERE "SETTLEMENT_DATE" >= '#{from}' AND "SETTLEMENT_DATE" <= '#{TZ.now}' AND "FORECAST_ACTUAL_INDICATOR" = 'A')
       options[:records_format] = 'csv'
 
       add_url(url, options)
     end
 
-    def add_url(url, options={})
+    def add_url(url, options = {})
       res = logger.benchmark_info(url) do
         @@faraday.get(url, options)
       end
-      @json = logger.benchmark_info("parse csv") do
+      @json = logger.benchmark_info('parse csv') do
         FastJsonparser.parse(res.body)
       end
 
@@ -71,11 +74,15 @@ module NationalGridEso
     def add_csv(csv)
       csv.each do |row|
         next if row[:FORECAST_ACTUAL_INDICATOR] == 'F'
+
         date = TZ.strptime(row[:SETTLEMENT_DATE], '%Y-%m-%d')
-        time = date + row[:SETTLEMENT_PERIOD].to_i*30.minutes
-        @r << {country: 'GB', production_type: 'wind_embedded', time:, value: row[:EMBEDDED_WIND_GENERATION].to_f*1000}
-        @r << {country: 'GB', production_type: 'solar_embedded', time:, value: row[:EMBEDDED_SOLAR_GENERATION].to_f*1000}
-        @r << {country: 'GB', production_type: 'hydro_pumped_storage_charging', time:, value: -row[:PUMP_STORAGE_PUMPING].to_f*1000}
+        time = date + row[:SETTLEMENT_PERIOD].to_i * 30.minutes
+        @r << { country: 'GB', production_type: 'wind_embedded', time:,
+                value: row[:EMBEDDED_WIND_GENERATION].to_f * 1000 }
+        @r << { country: 'GB', production_type: 'solar_embedded', time:,
+                value: row[:EMBEDDED_SOLAR_GENERATION].to_f * 1000 }
+        @r << { country: 'GB', production_type: 'hydro_pumped_storage_charging', time:,
+                value: -row[:PUMP_STORAGE_PUMPING].to_f * 1000 }
       end
       self
     end
@@ -95,15 +102,15 @@ module NationalGridEso
     include SemanticLogger::Loggable
 
     def self.cli(args)
-      if args.length != 0
-        $stderr.puts "#{$0}"
+      unless args.empty?
+        warn $PROGRAM_NAME
         exit 1
       end
-      new.add().done!
+      new.add.done!
     end
 
     def self.parsers_each
-      yield self.new
+      yield new
     end
 
     def initialize
@@ -111,16 +118,16 @@ module NationalGridEso
     end
 
     def add
-      url = "https://api.nationalgrideso.com/dataset/7a12172a-939c-404c-b581-a6128b74f588/resource/177f6fa4-ae49-4182-81ea-0c6b35f26ca6/download/demanddataupdate.csv"
+      url = 'https://api.nationalgrideso.com/dataset/7a12172a-939c-404c-b581-a6128b74f588/resource/177f6fa4-ae49-4182-81ea-0c6b35f26ca6/download/demanddataupdate.csv'
       add_url(url)
       self
     end
 
-    def add_url(url, options={})
+    def add_url(url, options = {})
       res = logger.benchmark_info(url) do
         @@faraday.get(url, options)
       end
-      @csv = logger.benchmark_info("parse csv") do
+      @csv = logger.benchmark_info('parse csv') do
         FastestCSV.parse(res.body)
       end
       add_csv(@csv)
@@ -130,7 +137,7 @@ module NationalGridEso
     DATE_FORMATS = {
       /\d{4}-\d{2}-\d{2}/ => '%Y-%m-%d %Z',
       /\d{2}-.{3}-\d{4}/ => '%d-%b-%Y %Z'
-    }
+    }.freeze
 
     def add_csv(csv)
       headers = csv[0].each_with_index.to_h.symbolize_keys!
@@ -142,19 +149,19 @@ module NationalGridEso
           country: 'GB',
           production_type: 'wind_embedded',
           time: time,
-          value: row[headers[:EMBEDDED_WIND_GENERATION]].to_f*1000
+          value: row[headers[:EMBEDDED_WIND_GENERATION]].to_f * 1000
         }
         @r[[time, :solar_embedded]] = {
           country: 'GB',
           production_type: 'solar_embedded',
           time: time,
-          value: row[headers[:EMBEDDED_SOLAR_GENERATION]].to_f*1000
+          value: row[headers[:EMBEDDED_SOLAR_GENERATION]].to_f * 1000
         }
         @r[[time, :hydro_pumped_storage]] = {
           country: 'GB',
           production_type: 'hydro_pumped_storage_charging',
           time: time,
-          value: -row[headers[:PUMP_STORAGE_PUMPING]].to_f*1000
+          value: -row[headers[:PUMP_STORAGE_PUMPING]].to_f * 1000
         }
       end
       self
@@ -172,10 +179,8 @@ module NationalGridEso
   end
 
   class HistoricalDemand < Demand
-    def self.each
-      URLS.each do |url|
-        yield url
-      end
+    def self.each(&block)
+      URLS.each(&block)
     end
 
     def add(url)
@@ -185,15 +190,15 @@ module NationalGridEso
 
     URLS = %w[
       https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/bf5ab335-9b40-4ea4-b93a-ab4af7bce003/download/demanddata.csv
-    ]
-      # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/bb44a1b5-75b1-4db2-8491-257f23385006/download/demanddata_2022.csv
-      # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/18c69c42-f20d-46f0-84e9-e279045befc6/download/demanddata_2021.csv
-      # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/33ba6857-2a55-479f-9308-e5c4c53d4381/download/demanddata_2020.csv
-      # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/dd9de980-d724-415a-b344-d8ae11321432/download/demanddata_2019.csv
-      # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/fcb12133-0db0-4f27-a4a5-1669fd9f6d33/download/demanddata_2018.csv
-      # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/2f0f75b8-39c5-46ff-a914-ae38088ed022/download/demanddata_2017.csv
-      # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/3bb75a28-ab44-4a0b-9b1c-9be9715d3c44/download/demanddata_2016.csv
-      # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/cc505e45-65ae-4819-9b90-1fbb06880293/download/demanddata_2015.csv
-      # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/b9005225-49d3-40d1-921c-03ee2d83a2ff/download/demanddata_2014.csv
+    ].freeze
+    # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/bb44a1b5-75b1-4db2-8491-257f23385006/download/demanddata_2022.csv
+    # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/18c69c42-f20d-46f0-84e9-e279045befc6/download/demanddata_2021.csv
+    # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/33ba6857-2a55-479f-9308-e5c4c53d4381/download/demanddata_2020.csv
+    # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/dd9de980-d724-415a-b344-d8ae11321432/download/demanddata_2019.csv
+    # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/fcb12133-0db0-4f27-a4a5-1669fd9f6d33/download/demanddata_2018.csv
+    # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/2f0f75b8-39c5-46ff-a914-ae38088ed022/download/demanddata_2017.csv
+    # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/3bb75a28-ab44-4a0b-9b1c-9be9715d3c44/download/demanddata_2016.csv
+    # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/cc505e45-65ae-4819-9b90-1fbb06880293/download/demanddata_2015.csv
+    # https://api.nationalgrideso.com/dataset/8f2fe0af-871c-488d-8bad-960426f24601/resource/b9005225-49d3-40d1-921c-03ee2d83a2ff/download/demanddata_2014.csv
   end
 end

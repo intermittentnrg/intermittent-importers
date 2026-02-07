@@ -1,4 +1,5 @@
-# coding: utf-8
+# frozen_string_literal: true
+
 require 'faraday/retry'
 require 'faraday/net_http_persistent'
 require 'fastest_csv'
@@ -20,7 +21,7 @@ module Elexon
     end
 
     def self.source_id
-      "elexon"
+      'elexon'
     end
 
     DATE_FORMAT = '%Y-%m-%d'
@@ -70,7 +71,7 @@ module Elexon
       'OTHER' => 'other',
       'PS' => 'hydro_pumped_storage',
       'WIND' => 'wind'
-    }
+    }.freeze
     TRAN_MAP = {
       'INTELE' => 'FR',
       'INTELEC' => 'FR',
@@ -83,7 +84,7 @@ module Elexon
       'INTNEM' => 'BE',
       'INTNSL' => 'NO',
       'INTVKL' => 'DK'
-    }
+    }.freeze
 
     def initialize
       super
@@ -93,16 +94,16 @@ module Elexon
 
     def self.cli(args)
       if args.length == 1 && args.first.include?('.')
-        self.new.add_file(args.first).done!
+        new.add_file(args.first).done!
       elsif args.length < 2
-        $stderr.puts "#{$0} <from> <to>"
+        warn "#{$PROGRAM_NAME} <from> <to>"
         exit 1
       else
         from = Chronic.parse(args.shift).to_date
         to = Chronic.parse(args.shift).to_date
 
         (from...to).each do |time|
-          self.new.add_date(time).done!
+          new.add_date(time).done!
         rescue EmptyError
           logger.warn "EmptyError #{time}"
         end
@@ -110,7 +111,9 @@ module Elexon
     end
 
     def self.each
-      ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+      ::Generation.joins(areas_production_type: :area).group(:'area.code').where('time > ?', 2.months.ago).where(area: { source: source_id }).pluck(
+        :'area.code', Arel.sql('LAST(time, time)')
+      ).each do |country, from|
         from = from.in_time_zone(self::TZ).to_datetime
         to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
         to = to.in_time_zone(self::TZ).to_datetime
@@ -136,22 +139,23 @@ module Elexon
 
     def add_csv(csv)
       csv.each do |row|
-        #0 Dataset
+        # 0 Dataset
         next unless row[0] == 'FUELINST'
-        #1 PublishTime
-        #2 StartTime
-        time = Time.strptime(row[2], TIME_FORMAT)
-        #3 SettlementDate
-        #4 SettlementPeriod
-        #5 FuelType
-        #6 Generation
-        value = row[6].to_i*1000
 
-        if production_type = FUEL_MAP[row[5]]
-          @r_gen << {country: 'GB', time:, value:, production_type: FUEL_MAP[row[5]]}
-        elsif to_area = TRAN_MAP[row[5]]
-          k = [time,to_area]
-          @r_tran[k] ||= {time:, from_area: 'GB', to_area:, value: 0}
+        # 1 PublishTime
+        # 2 StartTime
+        time = Time.strptime(row[2], TIME_FORMAT)
+        # 3 SettlementDate
+        # 4 SettlementPeriod
+        # 5 FuelType
+        # 6 Generation
+        value = row[6].to_i * 1000
+
+        if FUEL_MAP[row[5]]
+          @r_gen << { country: 'GB', time:, value:, production_type: FUEL_MAP[row[5]] }
+        elsif (to_area = TRAN_MAP[row[5]])
+          k = [time, to_area]
+          @r_tran[k] ||= { time:, from_area: 'GB', to_area:, value: 0 }
           @r_tran[k][:value] += value
         else
           raise row.inspect
@@ -184,19 +188,21 @@ module Elexon
 
     def self.cli(args)
       if args.length != 2
-        $stderr.puts "#{$0} <from> <to>"
+        warn "#{$PROGRAM_NAME} <from> <to>"
         exit 1
       end
       from = Chronic.parse(args.shift).to_date
       to = Chronic.parse(args.shift).to_date
 
       (from...to).each do |date|
-        self.new.add_date(date).done!
+        new.add_date(date).done!
       end
     end
 
     def self.each
-      ::Generation.joins(:areas_production_type => :area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+      ::Generation.joins(areas_production_type: :area).group(:'area.code').where('time > ?', 2.months.ago).where(area: { source: source_id }).pluck(
+        :'area.code', Arel.sql('LAST(time, time)')
+      ).each do |country, from|
         from = from.in_time_zone(self::TZ).to_datetime
         to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
         to = to.in_time_zone(self::TZ).to_datetime
@@ -222,22 +228,23 @@ module Elexon
 
     def add_csv(csv)
       csv.each do |row|
-        #0 Dataset
+        # 0 Dataset
         next unless row[0] == 'AGPT'
-        #1 DocumentId
-        #2 DocumentRevisionNumber
-        #3 PublishTime
-        #4 BusinessType
-        #5 PsrType
+
+        # 1 DocumentId
+        # 2 DocumentRevisionNumber
+        # 3 PublishTime
+        # 4 BusinessType
+        # 5 PsrType
         production_type = row[5].downcase.tr_s(' ', '_')
-        #6 Quantity
-        value = row[6].to_f*1000
-        #7 StartTime
+        # 6 Quantity
+        value = row[6].to_f * 1000
+        # 7 StartTime
         time = Time.strptime(row[7], TIME_FORMAT)
-        #8 SettlementDate
-        #9 SettlementPeriod
-        k=[time,production_type]
-        @r[k] ||= {country: 'GB_B1620', production_type:, time:, value:}
+        # 8 SettlementDate
+        # 9 SettlementPeriod
+        k = [time, production_type]
+        @r[k] ||= { country: 'GB_B1620', production_type:, time:, value: }
       end
 
       self
@@ -267,19 +274,21 @@ module Elexon
 
     def self.cli(args)
       if args.length != 2
-        $stderr.puts "#{$0} <from> <to>"
+        warn "#{$PROGRAM_NAME} <from> <to>"
         exit 1
       end
       from = Chronic.parse(args.shift).to_date
       to = Chronic.parse(args.shift).to_date
 
       (from...to).each do |time|
-        self.new.add_date(time).done!
+        new.add_date(time).done!
       end
     end
 
     def self.each
-      ::Load.joins(:area).group(:'area.code').where("time > ?", 2.months.ago).where(area: {source: self.source_id}).pluck(:'area.code', Arel.sql("LAST(time, time)")).each do |country, from|
+      ::Load.joins(:area).group(:'area.code').where('time > ?', 2.months.ago).where(area: { source: source_id }).pluck(
+        :'area.code', Arel.sql('LAST(time, time)')
+      ).each do |country, from|
         from = from.in_time_zone(self::TZ).to_datetime
         to = [from + 1.year, DateTime.tomorrow.beginning_of_day].min
         to = to.in_time_zone(self::TZ).to_datetime
@@ -304,16 +313,16 @@ module Elexon
     end
 
     def add_csv(csv)
-      csv.shift #skip header
+      csv.shift # skip header
       csv.each do |row|
-        #0 PublishTime
-        #1 StartTime
+        # 0 PublishTime
+        # 1 StartTime
         time = Time.strptime(row[1], TIME_FORMAT)
-        #2 SettlementDate
-        #3 SettlementPeriod
-        #4 Quantity
-        value = (row[4].to_f*1000).to_i
-        @r[time] ||= {time:, country: 'GB', value:}
+        # 2 SettlementDate
+        # 3 SettlementPeriod
+        # 4 Quantity
+        value = (row[4].to_f * 1000).to_i
+        @r[time] ||= { time:, country: 'GB', value: }
       end
 
       self
@@ -345,19 +354,20 @@ module Elexon
 
     def self.cli(args)
       if args.length != 2
-        $stderr.puts "#{$0} <from> <to>"
+        warn "#{$PROGRAM_NAME} <from> <to>"
         exit 1
       end
       from = Chronic.parse(args.shift).to_date
       to = Chronic.parse(args.shift).to_date
 
-      self.new.add_date_range(from, to).done!
+      new.add_date_range(from, to).done!
     rescue EmptyError
       logger.warn "EmptyError #{from} to #{to}"
     end
 
     def self.each
-      from =::GenerationUnit.joins(:unit => :area).where("area.source" => self.source_id).where("time > ?", 2.months.ago).maximum(:time)
+      from = ::GenerationUnit.joins(unit: :area).where('area.source' => source_id).where('time > ?',
+                                                                                         2.months.ago).maximum(:time)
       from = from.to_date
       (from..5.business_days.ago).each do |date|
         yield date
@@ -388,29 +398,31 @@ module Elexon
       area = Area.find_by(code: 'GB', source: 'elexon')
       default_production_type_id = ProductionType.where(name: 'other').pluck(:id).first
       csv.each do |row|
-        #0 Dataset
+        # 0 Dataset
         next unless row[0] == 'B1610'
-        #1 PsrType
+        # 1 PsrType
         next unless row[1] == 'Generation'
-        #2 BmUnit
+        # 2 BmUnit
         next unless row[3]
+
         unit_internal_id = row[3]
-        unit = @@units[unit_internal_id] ||= area.units.
-                                               create_with(production_type_id: default_production_type_id).
-                                               find_or_create_by(internal_id: unit_internal_id)
-        #3 NationalGridBmUnitId
-        #4 SettlementDate
-        #5 SettlementPeriod
-        #6 HalfHourEndTime
+        unit = @@units[unit_internal_id] ||= area.units
+                                                 .create_with(production_type_id: default_production_type_id)
+                                                 .find_or_create_by(internal_id: unit_internal_id)
+        # 3 NationalGridBmUnitId
+        # 4 SettlementDate
+        # 5 SettlementPeriod
+        # 6 HalfHourEndTime
         time = (Time.strptime("#{row[4]} UTC", '%Y-%m-%d %Z') + (row[5].to_i * 30).minutes)
-        #7 Quantity
-        value = row[7].to_f*1000*2
+        # 7 Quantity
+        value = row[7].to_f * 1000 * 2
 
         k = [unit.id, time]
         if @r[k] && @r[k][:value] != value
-          require 'pry' ; binding.pry
+          require 'pry'
+          binding.pry
         end
-        @r[k] = {unit_id: unit.id, time:, value:}
+        @r[k] = { unit_id: unit.id, time:, value: }
       end
 
       self
@@ -447,38 +459,39 @@ module Elexon
 
       csv.shift 5
       csv.each do |row|
-        #0:Document Type
+        # 0:Document Type
         next unless row[0] == 'Installed generation per type'
 
-        #1:Business Type
+        # 1:Business Type
         next unless row[1] == 'Installed generation'
 
-        #2:Process Type
+        # 2:Process Type
         next unless row[2] == 'Year ahead'
 
-        #3:Time Series ID
-        #4:Quantity
-        value = row[4].to_f*1000
+        # 3:Time Series ID
+        # 4:Quantity
+        value = row[4].to_f * 1000
 
-        #5:Resolution
+        # 5:Resolution
         next unless row[5] == 'P1Y'
 
-        #6:Year
+        # 6:Year
         time = Time.strptime(row[6], '%Y')
 
-        #7:Power System Resource  Type
-        production_type = row[7].gsub(/ /,'_').downcase
+        # 7:Power System Resource  Type
+        production_type = row[7].gsub(/ /, '_').downcase
         # missing/no generation data:
         next if production_type == 'other_renewable'
 
-        #8:Active Flag
+        # 8:Active Flag
         unless row[8] == 'Y'
-          require 'pry' ; binding.pry
+          require 'pry'
+          binding.pry
         end
-        #9:Document ID
-        #10:Document RevNum
+        # 9:Document ID
+        # 10:Document RevNum
 
-        @r << {area_id:, production_type:, time:, value:}
+        @r << { area_id:, production_type:, time:, value: }
       end
 
       self
@@ -514,28 +527,29 @@ module Elexon
 
       csv.shift
       csv.each do |row|
-        #Document Type
+        # Document Type
         next unless row[0] == 'Configuration document'
 
-        #Business Type
+        # Business Type
         next unless row[1] == 'Production unit'
 
-        #Process Type
-        #Time Series ID
-        #Power System Resource Type
-        production_type_name = row[4].gsub(/ /,'_').downcase
+        # Process Type
+        # Time Series ID
+        # Power System Resource Type
+        production_type_name = row[4].gsub(/ /, '_').downcase
 
-        #Year
-        #time = Time.strptime(row[5], '%Y')
+        # Year
+        # time = Time.strptime(row[5], '%Y')
 
-        #BM Unit ID
-        #Registered Resource EIC Code
-        #Voltage limit
-        #9:Nominal
-        value = row[9].to_f*1000
+        # BM Unit ID
+        # Registered Resource EIC Code
+        # Voltage limit
+        # 9:Nominal
+        value = row[9].to_f * 1000
 
-        #10:NGC BM Unit ID
+        # 10:NGC BM Unit ID
         next if row[10] == 'NA'
+
         unit = area.units.find_by(internal_id: row[10])
         unless unit
           production_type = ProductionType.find_by! name: production_type_name
@@ -546,7 +560,7 @@ module Elexon
 
           logger.info "New #{production_type_name} unit #{row[10]}"
           unit = area.units.create!(internal_id: row[10], production_type:)
-          #require 'pry' ; binding.pry
+          # require 'pry' ; binding.pry
         end
         if production_type_name != 'generation' && unit.production_type.name != production_type_name
           production_type = ProductionType.find_by name: production_type_name
@@ -554,25 +568,27 @@ module Elexon
           unit.save!
           puts "#{unit.name} #{unit.internal_id} current=#{unit.production_type.name} != api=#{production_type_name}"
         end
-        #next unless unit
-        #create_with(production_type_id: default_production_type_id).
+        # next unless unit
+        # create_with(production_type_id: default_production_type_id).
 
-        #Registered Resource Name
-        #12:Active Flag
+        # Registered Resource Name
+        # 12:Active Flag
         unless row[12] == 'Y'
-          require 'pry' ; binding.pry
+          require 'pry'
+          binding.pry
         end
 
-        #Document ID
-        #Implementation Date
+        # Document ID
+        # Implementation Date
         time = Time.strptime(row[14], '%Y-%m-%d')
 
-        #Decommissioning Date
+        # Decommissioning Date
         k = [unit.id, time]
         if @r[k]
-          require 'pry' ; binding.pry
+          require 'pry'
+          binding.pry
         end
-        @r[k] = {unit_id: unit.id, time:, value:}
+        @r[k] = { unit_id: unit.id, time:, value: }
       end
 
       self

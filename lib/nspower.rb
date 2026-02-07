@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'faraday'
 
 module Nspower
   class Base
     def self.source_id
-      "nspower"
+      'nspower'
     end
   end
 
@@ -11,24 +13,24 @@ module Nspower
     include SemanticLogger::Loggable
 
     def initialize
-      load_url = "https://www.nspower.ca/library/CurrentLoad/CurrentLoad.json"
+      load_url = 'https://www.nspower.ca/library/CurrentLoad/CurrentLoad.json'
       @load = logger.benchmark_info(load_url) do
-        Faraday.get(load_url, {contentType: :csv})
+        Faraday.get(load_url, { contentType: :csv })
       end
 
-      gen_url = "https://www.nspower.ca/library/CurrentLoad/CurrentMix.json"
+      gen_url = 'https://www.nspower.ca/library/CurrentLoad/CurrentMix.json'
       @gen = logger.benchmark_info(gen_url) do
-        Faraday.get(gen_url, {contentType: :csv})
+        Faraday.get(gen_url, { contentType: :csv })
       end
 
       @from = Time.at(@load.first['datetime'][6...-5].to_i)
       @to = Time.at(@load.last['datetime'][6...-5].to_i)
-      #require 'pry' ; binding.pry
+      # require 'pry' ; binding.pry
     end
     GEN_MAPPINGS = {
-      "Solid Fuel" => :coal,
-      "HFO/Natural Gas" => :fossil_gas
-    }
+      'Solid Fuel' => :coal,
+      'HFO/Natural Gas' => :fossil_gas
+    }.freeze
 
     def points_load
       @load_r = {}
@@ -40,7 +42,7 @@ module Nspower
           value: row['Base Load']
         }
       end
-      #require 'pry' ; binding.pry
+      # require 'pry' ; binding.pry
 
       @load_r.values
     end
@@ -51,14 +53,14 @@ module Nspower
         time = Time.at(row.delete('datetime')[6...-5].to_i)
 
         load = @load_r[time][:value]
-        row.delete "Imports"
+        row.delete 'Imports'
         r << {
           time: time,
           country: 'CA-NS',
           production_type: :fossil_hard_coal,
-          value: load * (row.delete("Solid Fuel") + row.delete("CT's") + row.delete("LM 6000's")) / 100.0
+          value: load * (row.delete('Solid Fuel') + row.delete("CT's") + row.delete("LM 6000's")) / 100.0
         }
-        row.each do |k,v|
+        row.each do |k, v|
           production_type = GEN_MAPPINGS[k] || k.downcase
           r << {
             time: time,
@@ -68,7 +70,7 @@ module Nspower
           }
         end
       end
-      #require 'pry' ; binding.pry
+      # require 'pry' ; binding.pry
 
       r
     end

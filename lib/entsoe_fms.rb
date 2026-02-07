@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require 'fast_jsonparser'
 require 'faraday'
 
 class EntsoeFms
-
   class Base
     @@faraday_auth = Faraday.new('https://keycloak.tp.entsoe.eu') do |f|
       f.request :url_encoded
@@ -11,7 +12,7 @@ class EntsoeFms
     @@faraday = Faraday.new('https://fms.tp.entsoe.eu') do |f|
       f.request :authorization, 'Bearer', -> { token }
       f.request :json
-      #f.response :logger, nil, { bodies: true, log_level: :debug }
+      # f.response :logger, nil, { bodies: true, log_level: :debug }
     end
 
     @@token = nil
@@ -19,12 +20,13 @@ class EntsoeFms
 
     def self.token
       return @@token if @@token && @@token_expires_at > Time.now + 60
+
       response = @@faraday_auth.post('/realms/tp/protocol/openid-connect/token', {
-        client_id: 'tp-fms-public',
-        grant_type: 'password',
-        username: ENV['ENTSOE_USER'],
-        password: ENV['ENTSOE_PASSWORD']
-      })
+                                       client_id: 'tp-fms-public',
+                                       grant_type: 'password',
+                                       username: ENV['ENTSOE_USER'],
+                                       password: ENV['ENTSOE_PASSWORD']
+                                     })
 
       raise "Token request failed: #{response.status}" unless response.success?
 
@@ -36,16 +38,16 @@ class EntsoeFms
 
     def self.refresh
       res = @@faraday.post('/listFolder', {
-        path: self::DIR,
-        sorterList: [{
-          key: 'periodCovered.from',
-          ascending: false
-        }],
-        pageInfo: {
-          pageIndex: 0,
-          pageSize: 5000
-        }
-      })
+                             path: self::DIR,
+                             sorterList: [{
+                               key: 'periodCovered.from',
+                               ascending: false
+                             }],
+                             pageInfo: {
+                               pageIndex: 0,
+                               pageSize: 5000
+                             }
+                           })
       raise "Folder listing failed: #{res.status}" unless res.success?
 
       files = FastJsonparser.parse(res.body, symbolize_keys: false)['contentItemList']
@@ -61,11 +63,11 @@ class EntsoeFms
 
         content_res = logger.benchmark_info "Downloading #{file['name']}" do
           @@faraday.post('/downloadFileContent', {
-            topLevelFolder: 'TP_export',
-            folder: self::DIR,
-            filename: file['name'],
-            downloadAsZip: true
-          })
+                           topLevelFolder: 'TP_export',
+                           folder: self::DIR,
+                           filename: file['name'],
+                           downloadAsZip: true
+                         })
         end
 
         self::TARGET.new.add_buffer(content_res.body, file['name'], time, true).done!
@@ -74,7 +76,6 @@ class EntsoeFms
       logger.info "Skipped #{skipped.length} existing files"
     end
   end
-
 
   class Generation < Base
     include SemanticLogger::Loggable
