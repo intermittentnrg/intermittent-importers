@@ -48,7 +48,7 @@ RSpec.describe EntsoeFms::Generation do
       # Stub the target processor to avoid actual processing
       target_instance = double('EntsoeCsv::Generation')
       expect(EntsoeCsv::Generation).to receive(:new).and_return(target_instance)
-      expect(target_instance).to receive(:add_buffer).with(
+      expect(target_instance).to receive(:add_file).with(
         kind_of(String),
         'test_file.zip',
         expected_time,

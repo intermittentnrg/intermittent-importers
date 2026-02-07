@@ -2,6 +2,7 @@
 
 require 'fast_jsonparser'
 require 'faraday'
+require 'zip'
 
 class EntsoeFms
   class Base
@@ -61,16 +62,23 @@ class EntsoeFms
           next
         end
 
-        content_res = logger.benchmark_info "Downloading #{file['name']}" do
-          @@faraday.post('/downloadFileContent', {
-                           topLevelFolder: 'TP_export',
-                           folder: self::DIR,
-                           filename: file['name'],
-                           downloadAsZip: true
-                         })
+        Tempfile.create([file['name'], '.zip']) do |zip_tmp|
+          zip_tmp.binmode
+          logger.benchmark_info "Downloading #{file['name']}" do
+            @@faraday.post('/downloadFileContent', {
+                             topLevelFolder: 'TP_export',
+                             folder: self::DIR,
+                             filename: file['name'],
+                             downloadAsZip: true
+                           }) do |req|
+              req.options.on_data = proc do |chunk, _overall_received_bytes, _env|
+                zip_tmp.write(chunk)
+              end
+            end
+          end
+          zip_tmp.rewind
+          self::TARGET.new.add_file(zip_tmp.path, file['name'], time, true).done!
         end
-
-        self::TARGET.new.add_buffer(content_res.body, file['name'], time, true).done!
       end
 
       logger.info "Skipped #{skipped.length} existing files"
