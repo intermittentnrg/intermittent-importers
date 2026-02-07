@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AemoNemArchive
   class Archive < ::AemoNem::Base
     HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
@@ -11,7 +13,7 @@ module AemoNemArchive
           end
         end
         last_modified = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
-        @datafiles << {path: File.basename(file), updated_at: last_modified, source: self.class.source_id}
+        @datafiles << { path: File.basename(file), updated_at: last_modified, source: self.class.source_id }
         file = StringIO.new(res.body)
       end
 
@@ -25,7 +27,6 @@ module AemoNemArchive
         zip.entries.each do |zip_entry|
           datafile = datafiles[zip_entry.name]
           if datafile.present? && datafile.updated_at >= zip_entry.time
-          #if datafile.present?
             logger.info "already processed #{zip_entry.name}"
             next
           end
@@ -40,11 +41,11 @@ module AemoNemArchive
     def self.cli(args)
       if args.present?
         args.each do |path|
-          self.new(File.open(path)).done!
+          new(File.open(path)).done!
         end
       else
-        self.each do |url|
-          self.new(url).done!
+        each do |url|
+          new(url).done!
         end
       end
     end
@@ -77,7 +78,7 @@ module AemoNemArchive
     URL = 'https://nemweb.com.au/Reports/ARCHIVE/ROOFTOP_PV/ACTUAL/'
     TARGET = AemoNem::RooftopPv
 
-    def self.select_file? url
+    def self.select_file?(url)
       super && url =~ /PUBLIC_ROOFTOP_PV_ACTUAL_MEASUREMENT_/
     end
   end
