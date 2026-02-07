@@ -35,19 +35,19 @@ module EntsoeCsv
     end
 
     def add_buffer(body, name, time, zip = false)
-      logger.info "Processing #{name}"
+      logger.benchmark_info "Processing #{name}" do
+        parse_filename(name)
 
-      parse_filename(name)
+        if zip
+          zip_file = Zip::File.open_buffer(body)
+          body = zip_file.first.get_input_stream.read
+        end
 
-      if zip
-        zip_file = Zip::File.open_buffer(body)
-        body = zip_file.first.get_input_stream.read
+        csv = FastestCSV.parse(body, col_sep: "\t", skip_header: true)
+        add_csv(csv)
+
+        @datafiles << {path: name, source: self.class.source_id, updated_at: time}
       end
-
-      csv = FastestCSV.parse(body, col_sep: "\t", skip_header: true)
-      add_csv(csv)
-
-      @datafiles << {path: name, source: self.class.source_id, updated_at: time}
 
       self
     end

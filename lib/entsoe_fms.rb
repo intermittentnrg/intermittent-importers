@@ -59,17 +59,16 @@ class EntsoeFms
           next
         end
 
-        logger.info "Downloading #{file['name']}"
-        content_res = @@faraday.post('/downloadFileContent', {
-          topLevelFolder: 'TP_export',
-          folder: self::DIR,
-          filename: file['name'],
-          downloadAsZip: true
-        })
-        raise "Download failed: #{content_res.status}" unless content_res.success?
+        content_res = logger.benchmark_info "Downloading #{file['name']}" do
+          @@faraday.post('/downloadFileContent', {
+            topLevelFolder: 'TP_export',
+            folder: self::DIR,
+            filename: file['name'],
+            downloadAsZip: true
+          })
+        end
 
-        data = StringIO.new(content_res.body)
-        self::TARGET.new.add_buffer(data.read, file['name'], time, true).done!
+        self::TARGET.new.add_buffer(content_res.body, file['name'], time, true).done!
       end
 
       logger.info "Skipped #{skipped.length} existing files"
