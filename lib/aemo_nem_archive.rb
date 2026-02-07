@@ -4,11 +4,12 @@ module AemoNemArchive
   class Archive < ::AemoNem::Base
     HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
     def initialize(file)
+      super()
       @datafiles = []
       if file.is_a? String
         last_modified = DataFile.last_modified(file, self.class.source_id)
         res = logger.benchmark_info("Fetch #{file}") do
-          @@faraday.get(file) do |req|
+          @faraday.get(file) do |req|
             req.headers['If-Modified-Since'] = last_modified if last_modified
           end
         end

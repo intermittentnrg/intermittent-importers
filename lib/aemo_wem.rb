@@ -10,12 +10,6 @@ module AemoWem
   class Base
     include SemanticLogger::Loggable
 
-    @@faraday = Faraday.new do |f|
-      f.adapter :net_http_persistent
-      f.response :raise_error
-      # f.response :logger, logger
-    end
-
     def self.source_id
       'aemo'
     end
@@ -26,7 +20,7 @@ module AemoWem
 
     def self.each
       logger.info("Fetch #{self::URL}")
-      res = @@faraday.get(self::URL)
+      res = Faraday.get(self::URL)
 
       res.body.split(/<br>/).each do |row|
         m = row.match(/(.*)\s+\d+\s+<A HREF="(.*?)"/)
@@ -49,6 +43,10 @@ module AemoWem
 
     def initialize
       @datafiles = []
+      @faraday = Faraday.new do |f|
+        f.adapter :net_http_persistent
+        f.response :raise_error
+      end
     end
 
     HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
@@ -59,7 +57,7 @@ module AemoWem
     def add_url(url)
       last_modified = DataFile.last_modified(url, self.class.source_id)
       res = logger.benchmark_info("Fetch #{url}") do
-        @@faraday.get(url) do |req|
+        @faraday.get(url) do |req|
           req.headers['If-Modified-Since'] = last_modified if last_modified
         end
       end
