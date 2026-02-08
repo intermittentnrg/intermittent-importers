@@ -1,22 +1,25 @@
+# frozen_string_literal: true
+
+require 'English'
 require 'zip'
 require 'fast_jsonparser'
 
 module EiaBulk
   class Base
     def self.source_id
-      "eia"
+      'eia'
     end
 
     def self.cli(args)
-      if args.length < 1
-        $stderr.puts "#{$0}: <file>"
+      if args.empty?
+        warn "#{$PROGRAM_NAME}: <file>"
         return
       end
 
       new(*args).process
     end
 
-    def initialize(path, filter=nil)
+    def initialize(path, filter = nil)
       if path =~ /\.zip$/i
         zip_file = Zip::File.open(path)
         @file = zip_file.first.get_input_stream
@@ -27,11 +30,11 @@ module EiaBulk
 
       super()
 
-      ActiveRecord::Base.connection.create_enum :eia_bulk_area, Area.where(source:'eia').order(:code).pluck(:code)
+      ActiveRecord::Base.connection.create_enum :eia_bulk_area, Area.where(source: 'eia').order(:code).pluck(:code)
     end
 
     def parse_time(t)
-      "#{t[0,4]}-#{t[4,2]}-#{t[6,5]}:00Z"
+      "#{t[0, 4]}-#{t[4, 2]}-#{t[6, 5]}:00Z"
     end
 
     def process
@@ -40,10 +43,13 @@ module EiaBulk
       conn.copy_data "COPY #{self.class::BULK_TABLE} FROM STDIN", enco do
         @file.each_line do |line|
           next if line[0] == '\r'
+
           m = line.match(/"series_id":"(.*?)"/)
           next unless m
+
           @series = m[1]
-          next unless @series.include?(@filter) if @filter
+          next if @filter && @filter && !@series.include?(@filter)
+
           process_line(line) { |row| conn.put_copy_data(row) }
         end
       end
@@ -56,7 +62,7 @@ module EiaBulk
         logger.benchmark_info("decompress chunk #{chunk.chunk_name}") do
           chunk.decompress!
         rescue ActiveRecord::StatementInvalid
-          raise unless $!.cause.is_a? PG::DuplicateObject
+          raise unless $ERROR_INFO.cause.is_a? PG::DuplicateObject
         end
         logger.benchmark_info("INSERT SELECT BETWEEN #{chunk.range_start} AND #{chunk.range_end}") do
           ActiveRecord::Base.connection.execute copy_sql(chunk.range_start, chunk.range_end)
@@ -77,12 +83,14 @@ module EiaBulk
 
     V_USA = Validate::RULES['eia']
     V_USA_ALL = V_USA['all']
-    BULK_TABLE = "eia_bulk_generation"
+    BULK_TABLE = 'eia_bulk_generation'
     TARGET_MODEL = ::Generation
 
     def initialize(*args)
       super
-      ActiveRecord::Base.connection.create_enum :eia_bulk_production_type, %w[fossil_gas fossil_hard_coal fossil_oil hydro nuclear other solar wind unknown]
+      ActiveRecord::Base.connection.create_enum :eia_bulk_production_type,
+                                                %w[fossil_gas fossil_hard_coal fossil_oil hydro nuclear other solar
+                                                   wind unknown]
       ActiveRecord::Base.connection.create_table BULK_TABLE, id: false, temporary: true do |t|
         t.timestamptz :time, null: false
         t.column :area, :eia_bulk_area, null: false
@@ -92,13 +100,13 @@ module EiaBulk
     end
 
     def process_line(line)
-      series = @series.split /\./
+      series = @series.split(/\./)
       # 0   1        2  3   4
       # EBA.US48-ALL.NG.H
       # EBA.CISO-ALL.NG.SUN.H
-      return unless series.length == 5 #skip generation without fuel type
+      return unless series.length == 5 # skip generation without fuel type
       return unless series[2] == 'NG' # net generation
-      return unless series[4] == 'H' #timezone
+      return unless series[4] == 'H' # timezone
 
       logger.benchmark_info "series #{@series}" do
         json = FastJsonparser.parse(line, symbolize_keys: false)
@@ -107,17 +115,18 @@ module EiaBulk
 
         production_type = Eia::Base::FUEL_MAP[series[3]]
 
-        r = json['data'].each do |p|
+        json['data'].each do |p|
           next nil unless p[1]
+
           time = parse_time(p[0])
-          value = (p[1].to_i*1000)
+          value = (p[1].to_i * 1000)
           v1 = V_USA[country].try(:[], production_type) || {}
           v2 = V_USA_ALL.try(:[], production_type) || {}
-          min = v1[:min]||v2[:min]
-          max = v1[:max]||v2[:max]
+          min = v1[:min] || v2[:min]
+          max = v1[:max] || v2[:max]
           next unless (min...max).include?(value)
 
-          yield [time,country,production_type,value]
+          yield [time, country, production_type, value]
         end
       end
     end
@@ -145,7 +154,7 @@ module EiaBulk
 
     V_USA = Validate::RULES['eia']
     V_USA_ALL = V_USA['all']
-    BULK_TABLE = "eia_bulk_demand"
+    BULK_TABLE = 'eia_bulk_demand'
     TARGET_MODEL = Load
 
     def initialize(*args)
@@ -160,26 +169,28 @@ module EiaBulk
     def process_line(line)
       # 0   1      2 3
       # EBA.SW-ALL.D.H
-      series = @series.split /\./
+      series = @series.split(/\./)
       return unless series[2] == 'D'
       return unless series[3] == 'H'
+
       country, country_suffix = series[1].split(/-/)
       return if country_suffix != 'ALL'
 
       logger.benchmark_info "series #{@series}" do
         json = FastJsonparser.parse(line, symbolize_keys: false)
-        r = json['data'].each do |p|
+        json['data'].each do |p|
           next nil unless p[1]
-          value = (p[1].to_i*1000)
+
+          value = (p[1].to_i * 1000)
           time = parse_time(p[0])
 
           v1 = V_USA[country].try(:[], 'load') || {}
           v2 = V_USA_ALL.try(:[], 'load') || {}
-          min = v1[:min]||v2[:min]
-          max = v1[:max]||v2[:max]
+          min = v1[:min] || v2[:min]
+          max = v1[:max] || v2[:max]
           next unless (min...max).include?(value)
 
-          yield [time,country,value]
+          yield [time, country, value]
         end
       end
     end
@@ -198,7 +209,7 @@ module EiaBulk
   class Interchange < Base
     include SemanticLogger::Loggable
 
-    BULK_TABLE = "eia_bulk_interchange"
+    BULK_TABLE = 'eia_bulk_interchange'
     TARGET_MODEL = Transmission
 
     def initialize(*args)
@@ -214,26 +225,28 @@ module EiaBulk
     def process_line(line)
       # 0   1         2  3
       # EBA.CISO-AZPS.ID.H
-      series = @series.split /\./
+      series = @series.split(/\./)
       return unless series[2] == 'ID'
       return unless series[3] == 'H'
       raise series.inspect unless series.length == 4
+
       from_area, to_area = series[1].split(/-/)
 
       logger.benchmark_info "series #{@series}" do
         json = FastJsonparser.parse(line, symbolize_keys: false)
 
-        #from, to = parse_from_to(json)
+        # from, to = parse_from_to(json)
 
-        r = json['data'].each do |p|
+        json['data'].each do |p|
           next nil unless p[1]
+
           time = parse_time(p[0])
           # invert value. export need to be measured as drain on from_area, but EIA measures output to to_area
-          value = -(p[1].to_i*1000)
-          value = [value, -2147483648].max
-          value = [value, 2147483647].min
+          value = -(p[1].to_i * 1000)
+          value = [value, -2_147_483_648].max
+          value = [value, 2_147_483_647].min
 
-          yield [time,from_area,to_area,value]
+          yield [time, from_area, to_area, value]
         end
       end
     end
