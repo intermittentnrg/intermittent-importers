@@ -66,6 +66,12 @@ class Ons
       logger.warn "Skipping duplicate in batch #{time}"
       return
     end
+
+    if invalid_document?(json)
+      logger.warn "Rejecting invalid document at #{time}"
+      return
+    end
+
     @dups << time
 
     @from = [time, @from].compact.min
@@ -103,5 +109,16 @@ class Ons
     Out::Generation.run(r_gen, @from, @to, self.class.source_id)
     Out::Load.run(@r_load.values, @from, @to, self.class.source_id)
     Out::Transmission.run(@r_trans.values, @from, @to, self.class.source_id)
+  end
+
+  private
+
+  def invalid_document?(json)
+    REGIONS.each_value do |key|
+      row = json[key]
+      g = row['geracao']
+      return true if g['total']&.negative?
+    end
+    false
   end
 end
