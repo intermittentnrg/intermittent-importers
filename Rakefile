@@ -29,6 +29,17 @@ def chain_task(name, clazz)
   end
 end
 
+def refresh_task(name, clazz)
+  desc "Run refresh task"
+  task name do |t|
+    SemanticLogger.tagged(task: t.to_s) do
+      clazz.refresh
+    rescue
+      @logger.error "Exception", $!
+    end
+  end
+end
+
 def oneshot_task(name, clazz)
   desc "Run refresh task"
   task name do |t|
@@ -97,17 +108,12 @@ chain_task :nationalgrideso, NationalGridEso::DemandLive
 namespace :entsoe do
   desc "Run refresh tasks"
   task all: [:generation, :unit, :load, :price, :transmission]
-  desc "Refresh ENTSO-E FMS Generation"
-  task(:generation) { EntsoeFms::Generation.refresh }
-  desc "Refresh ENTSO-E FMS Unit"
-  task(:unit) { EntsoeFms::Unit.refresh }
-  desc "Refresh ENTSO-E FMS Load"
-  task(:load) { EntsoeFms::Load.refresh }
-  desc "Refresh ENTSO-E FMS Price"
-  task(:price) { EntsoeFms::Price.refresh }
+  refresh_task :generation, EntsoeFms::Generation
+  refresh_task :unit, EntsoeFms::Unit
+  refresh_task :load, EntsoeFms::Load
+  refresh_task :price, EntsoeFms::Price
   chain_task :price_api, EntsoeApi::Price
-  desc "Refresh ENTSO-E FMS Transmission"
-  task(:transmission) { EntsoeFms::Transmission.refresh }
+  refresh_task :transmission, EntsoeFms::Transmission
 end
 
 namespace :aemo do
@@ -131,8 +137,7 @@ namespace :aemo do
     chain_task :scada, AemoWem::Scada
     chain_task :distributed_pv, AemoWem::DistributedPv
     #chain_task :balancing, AemoWem::Balancing
-    desc "Refresh AEMO WEM BalancingLive"
-    task(:balancing) { AemoWem::BalancingLive.refresh }
+    refresh_task :balancing, AemoWem::BalancingLive
   end
 end
 
@@ -175,14 +180,11 @@ end
 
 oneshot_chain_task :kpx, Kpx::Generation
 
-desc 'Refresh ONS'
-task(:ons) { Ons.refresh }
-desc 'Refresh Taipower'
-task(:taipower) { Taipower::Generation.refresh }
+refresh_task :ons, Ons
+refresh_task :taipower, Taipower::Generation
 namespace :aeso do
   task all: [:generation, :price]
-  desc 'Refresh AESO'
-  task(:generation) { Aeso::Generation.refresh }
+  refresh_task :generation, Aeso::Generation
   chain_task :price, Aeso::Price
 end
 
