@@ -15,10 +15,12 @@ module Ercot
     include SemanticLogger::Loggable
 
     def self.cli(args)
+      raise 'At most one argument allowed' if args.size > 1
+
       if args[0]
-        new(args[0]).process
+        new.add_file(args[0]).done!
       else
-        new.process
+        new.add.done!
       end
     end
 
@@ -34,23 +36,28 @@ module Ercot
     }.freeze
     # URL = 'https://www.ercot.com/api/1/services/read/dashboards/fuel-mix.json'
     URL = 'https://nfqqioz1r2.execute-api.us-east-2.amazonaws.com/dev/KNputxby5cAFWSDYDbjgWbLDcPr78B68'
-    def initialize(path = nil)
-      @path = path
+
+    def initialize
+      @r = []
+      @from = nil
+      @to = nil
     end
 
-    def process
-      if @path
-        json = FastJsonparser.load(@path)
-      else
-        faraday = Faraday.new do |f|
-          f.response :follow_redirects
-        end
-        res = faraday.get(URL) do |request|
-          request.headers['x-api-key'] = ENV['ERCOT_PROXY_API_KEY']
-        end
-        json = FastJsonparser.parse(res.body)
+    def add
+      faraday = Faraday.new do |f|
+        f.response :follow_redirects
       end
-      r = []
+      res = faraday.get(URL) do |request|
+        request.headers['x-api-key'] = ENV['ERCOT_PROXY_API_KEY']
+      end
+      add_json(FastJsonparser.parse(res.body))
+    end
+
+    def add_file(path)
+      add_json(FastJsonparser.load(path))
+    end
+
+    def add_json(json)
       json[:data].each_value do |date_group|
         date_group.each do |time, production_type_group|
           time = Time.strptime(time.to_s, '%Y-%m-%d %H:%M:%S')
@@ -58,14 +65,17 @@ module Ercot
           production_type_group.each do |production_type_name, data|
             value = data[:gen] * 1000
             production_type = FUEL_MAP[production_type_name]
-            r << { country: 'ERCOT', production_type:, time:, value: }
+            @r << { country: 'ERCOT', production_type:, time:, value: }
           end
         end
       end
-      @from = r.first[:time]
-      @to = r.last[:time]
+      @from = @r.first[:time]
+      @to = @r.last[:time]
+      self
+    end
 
-      Out::Generation.run(r, @from, @to, self.class.source_id)
+    def done!
+      Out::Generation.run(@r, @from, @to, self.class.source_id)
     end
   end
 end

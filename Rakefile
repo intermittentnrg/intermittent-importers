@@ -43,17 +43,6 @@ def refresh_task(name, clazz)
   end
 end
 
-def oneshot_task(name, clazz)
-  desc "Run refresh task"
-  task name do |t|
-    SemanticLogger.tagged(task: t.to_s) do
-      clazz.new.process
-    rescue
-      @logger.error "Exception", $!
-    end
-  end
-end
-
 def oneshot_chain_task(name, clazz)
   desc 'Run refresh task'
   task name do |t|
@@ -89,7 +78,7 @@ namespace :eia do
   chain_task :interchange, Eia::Interchange
 end
 
-oneshot_task :ercot, Ercot::Generation
+oneshot_chain_task :ercot, Ercot::Generation
 
 namespace :caiso do
   desc 'Run refresh tasks'
