@@ -6,6 +6,10 @@
 require 'English'
 require_relative "config/application"
 
+# Load Rails environment to ensure all models and lib classes are autoloaded
+ActiveSupport.on_load(:before_initialize) { config.eager_load = false }
+Rails.application.require_environment!
+
 Rails.application.load_tasks
 
 @logger = logger = SemanticLogger['Rakefile']
