@@ -55,6 +55,99 @@ DateTime(UTC)	ResolutionCode	AreaCode	AreaDisplayName	AreaTypeCode	AreaMapCode	G
     subject.new.add_buffer(body, '2024_07_ActualGenerationOutputPerGenerationUnit_16.1.A_r2.1.csv',
                            Time.new(2024, 7, 2)).done!
   end
+
+  describe 'unit name tracking' do
+    let(:area) { Area.find_by(internal_id: '10YAT-APG------L', source: 'entsoe') }
+    let(:production_type) { ProductionType.find_by!(name: 'hydro_pumped_storage') }
+    let!(:unit) do
+      Unit.create!(internal_id: 'TEST-UNIT-1', name: 'Old Name', production_type: production_type, area: area)
+    end
+
+    it 'tracks new name when time is newer' do
+      importer = subject.new
+      importer.instance_variable_set(:@from, Date.new(2024, 7, 1))
+      importer.instance_variable_set(:@to, Date.new(2024, 8, 1))
+
+      row = ['2024-07-01 12:00:00', 'PT60M', '10YAT-APG------L', 'Austria', 'BZN', 'AT', 'TEST-UNIT-1', 'New Name',
+             'Hydro Pumped Storage', '100.0', '', '']
+      importer.add_row(row)
+
+      expect(importer.instance_variable_get(:@unit_names_to_save)).to include([unit.id,
+                                                                               'New Name'] => Time.new(2024, 7, 1, 12,
+                                                                                                       0, 0))
+    end
+
+    it 'does not track name when time is older than existing' do
+      existing_time = Time.new(2024, 8, 1, 12, 0, 0)
+      UnitName.create!(unit: unit, name: 'New Name', updated_at: existing_time)
+
+      importer = subject.new
+      importer.instance_variable_set(:@from, Date.new(2024, 7, 1))
+      importer.instance_variable_set(:@to, Date.new(2024, 8, 1))
+
+      row = ['2024-07-01 12:00:00', 'PT60M', '10YAT-APG------L', 'Austria', 'BZN', 'AT', 'TEST-UNIT-1', 'New Name',
+             'Hydro Pumped Storage', '100.0', '', '']
+      importer.add_row(row)
+
+      expect(importer.instance_variable_get(:@unit_names_to_save)).to be_empty
+    end
+
+    it 'tracks name when time is newer than existing' do
+      existing_time = Time.new(2024, 6, 1, 12, 0, 0)
+      UnitName.create!(unit: unit, name: 'New Name', updated_at: existing_time)
+
+      importer = subject.new
+      importer.instance_variable_set(:@from, Date.new(2024, 7, 1))
+      importer.instance_variable_set(:@to, Date.new(2024, 8, 1))
+
+      row = ['2024-07-01 12:00:00', 'PT60M', '10YAT-APG------L', 'Austria', 'BZN', 'AT', 'TEST-UNIT-1', 'New Name',
+             'Hydro Pumped Storage', '100.0', '', '']
+      importer.add_row(row)
+
+      expect(importer.instance_variable_get(:@unit_names_to_save)).to include([unit.id,
+                                                                               'New Name'] => Time.new(2024, 7, 1, 12,
+                                                                                                       0, 0))
+    end
+  end
+
+  describe 'unit production type tracking' do
+    let(:area) { Area.find_by(internal_id: '10YAT-APG------L', source: 'entsoe') }
+    let(:production_type) { ProductionType.find_by!(name: 'hydro_pumped_storage') }
+    let!(:unit) do
+      Unit.create!(internal_id: 'TEST-UNIT-2', name: 'Test Unit', production_type: production_type, area: area)
+    end
+
+    it 'tracks new production type when time is newer' do
+      importer = subject.new
+      importer.instance_variable_set(:@from, Date.new(2024, 7, 1))
+      importer.instance_variable_set(:@to, Date.new(2024, 8, 1))
+
+      row = ['2024-07-01 12:00:00', 'PT60M', '10YAT-APG------L', 'Austria', 'BZN', 'AT', 'TEST-UNIT-2', 'Test Unit',
+             'Fossil Hard Coal', '100.0', '', '']
+      importer.add_row(row)
+
+      expect(importer.instance_variable_get(:@unit_production_types_to_save)).to include([unit.id,
+                                                                                          :fossil_hard_coal] => Time.new(
+                                                                                            2024, 7, 1, 12, 0, 0
+                                                                                          ))
+    end
+
+    it 'does not track production type when time is older than existing' do
+      other_production_type = ProductionType.find_by!(name: 'fossil_hard_coal')
+      existing_time = Time.new(2024, 8, 1, 12, 0, 0)
+      UnitProductionType.create!(unit: unit, production_type: other_production_type, updated_at: existing_time)
+
+      importer = subject.new
+      importer.instance_variable_set(:@from, Date.new(2024, 7, 1))
+      importer.instance_variable_set(:@to, Date.new(2024, 8, 1))
+
+      row = ['2024-07-01 12:00:00', 'PT60M', '10YAT-APG------L', 'Austria', 'BZN', 'AT', 'TEST-UNIT-2', 'Test Unit',
+             'Fossil Hard Coal', '100.0', '', '']
+      importer.add_row(row)
+
+      expect(importer.instance_variable_get(:@unit_production_types_to_save)).to be_empty
+    end
+  end
 end
 
 RSpec.describe EntsoeCsv::Load do

@@ -213,6 +213,10 @@ module EntsoeCsv
     def initialize
       super
       @units = {}
+      @existing_unit_names = {}
+      @existing_unit_production_types = {}
+      @unit_names_to_save = {}
+      @unit_production_types_to_save = {}
     end
 
     def add_row(row)
@@ -227,7 +231,7 @@ module EntsoeCsv
       # 6:GenerationUnitCode
       unit_internal_id = row[6]
       # 7:GenerationUnitName
-      unit_name = row[7].force_encoding('UTF-8')
+      unit_name = row[7]
       # 8:GenerationUnitType
       production_type = parse_production_type(row[8])
       # 9:ActualGenerationOutput[MW]
@@ -237,24 +241,32 @@ module EntsoeCsv
 
       unit_id = @units[unit_internal_id]
       unless unit_id
-        production_type = ProductionType.find_by!(name: production_type)
-        unit = ::Unit.find_or_create_by!(internal_id: unit_internal_id) do |unit|
-          unit.name = unit_name
-          unit.production_type = production_type
-          unit.area = ::Area.find_by(
+        pt = ProductionType.find_by!(name: production_type)
+        unit = ::Unit.find_or_create_by!(internal_id: unit_internal_id) do |u|
+          u.name = unit_name
+          u.production_type = pt
+          u.area = ::Area.find_by(
             internal_id: AREA_CODE_OVERRIDE[area_code] || area_code,
             source: self.class.source_id
           )
-          raise "Missing area #{area_code} / #{row}" unless unit.area
+          raise "Missing area #{area_code} / #{row}" unless u.area
         end
         unit_id = @units[unit_internal_id] = unit.id
 
-        if unit.name != unit_name
-          logger.warn "#{unit.internal_id} Mismatched name old #{unit.name.inspect} != new #{unit_name.inspect}"
+        unit.unit_names.each { |un| @existing_unit_names[[unit_id, un.name]] = un.updated_at }
+        unit.unit_production_types.includes(:production_type).each do |upt|
+          @existing_unit_production_types[[unit_id, upt.production_type.name.to_sym]] = upt.updated_at
         end
-        if unit.production_type != production_type
-          logger.warn "#{unit.name} #{unit.internal_id} Mismatched production_type: old #{unit.production_type.name} != new #{production_type.name}"
-        end
+      end
+
+      key = [unit_id, unit_name]
+      if time > (@existing_unit_names[key] || Time.at(0)) && time > (@unit_names_to_save[key] || Time.at(0))
+        @unit_names_to_save[key] = time
+      end
+
+      key = [unit_id, production_type.to_sym]
+      if time > (@existing_unit_production_types[key] || Time.at(0)) && time > (@unit_production_types_to_save[key] || Time.at(0))
+        @unit_production_types_to_save[key] = time
       end
 
       k = [time, unit_internal_id]
@@ -262,6 +274,52 @@ module EntsoeCsv
         logger.error "duplicate data with different output #{unit_internal_id} #{value} != #{@r[k][:value]}"
       end
       @r[k] = { unit_id:, time:, value: }
+    end
+
+    def done!
+      persist_unit_tracking
+      super
+    end
+
+    def persist_unit_tracking
+      return if @unit_names_to_save.empty? && @unit_production_types_to_save.empty?
+
+      unit_ids = (@unit_names_to_save.keys | @unit_production_types_to_save.keys).map(&:first).uniq
+
+      if @unit_names_to_save.any?
+        ::UnitName.upsert_all(
+          @unit_names_to_save.map { |(unit_id, name), updated_at| { unit_id:, name:, updated_at: } },
+          unique_by: %i[unit_id name]
+        )
+      end
+
+      if @unit_production_types_to_save.any?
+        pt_names = @unit_production_types_to_save.keys.map(&:last).map(&:to_s)
+        pt_ids_by_name = ProductionType.where(name: pt_names).pluck(:name, :id).to_h
+        ::UnitProductionType.upsert_all(
+          @unit_production_types_to_save.map do |(unit_id, pt_name), updated_at|
+            { unit_id:, production_type_id: pt_ids_by_name[pt_name.to_s], updated_at: }
+          end,
+          unique_by: %i[unit_id production_type_id]
+        )
+      end
+
+      return if Rails.env.production?
+
+      unit_ids.each do |unit_id|
+        unit = ::Unit.find(unit_id)
+        latest_name = ::UnitName.where(unit_id:).order(updated_at: :desc).first
+        if latest_name && latest_name.name != unit.name
+          logger.info "#{unit.internal_id} Updating name #{unit.name.inspect} -> #{latest_name.name.inspect}"
+          unit.update!(name: latest_name.name)
+        end
+
+        latest_pt = ::UnitProductionType.where(unit_id:).order(updated_at: :desc).first
+        if latest_pt && latest_pt.production_type_id != unit.production_type_id
+          logger.info "#{unit.internal_id} Updating production_type #{unit.production_type.name} -> #{latest_pt.production_type.name}"
+          unit.update!(production_type_id: latest_pt.production_type_id)
+        end
+      end
     end
 
     def flush
