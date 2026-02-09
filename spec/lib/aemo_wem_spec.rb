@@ -1,13 +1,17 @@
+# frozen_string_literal: true
+
 require './spec/spec_helper'
 
 def test_calculates_range
   context 'has range' do
-    it "calculates from and to range" do
-      expect(Out::Unit).to receive(:run).with(anything, Time.new(2022, 12, 31, 16, 0), Time.new(2023, 1, 31, 16, 0), 'aemo')
+    it 'calculates from and to range' do
+      expect(Out::Unit).to receive(:run).with(anything, Time.new(2022, 12, 31, 16, 0), Time.new(2023, 1, 31, 16, 0),
+                                              'aemo')
       subject.cli(args)
     end
-    it "calls GenerationUnit.aggregate_to_generation with correct args" do
-      expect(GenerationUnit).to receive(:aggregate_to_generation).with(Time.new(2022, 12, 31, 16, 0), Time.new(2023, 1, 31, 16, 0), anything)
+    it 'calls GenerationUnit.aggregate_to_generation with correct args' do
+      expect(GenerationUnit).to receive(:aggregate_to_generation).with(Time.new(2022, 12, 31, 16, 0),
+                                                                       Time.new(2023, 1, 31, 16, 0), anything)
       subject.cli(args)
     end
   end
@@ -33,10 +37,10 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
       let(:args) { [] }
 
       before do
-        stub_request(:get, index_url).
-          to_return(body: index_body)
-        stub_request(:get, "https://data.wa.aemo.com.au/#{datafile_name}").
-          to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
+        stub_request(:get, index_url)
+          .to_return(body: index_body)
+        stub_request(:get, "https://data.wa.aemo.com.au/#{datafile_name}")
+          .to_return(body:, headers: { 'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT' })
       end
 
       it do
@@ -44,11 +48,11 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
         subject.cli(args)
       end
 
-      it "to aggregate to generation" do
+      it 'to aggregate to generation' do
         Generation.uncached do
-          expect {
+          expect do
             subject.cli(args)
-          }.to change { Generation.count }.by(1)
+          end.to change { Generation.count }.by(1)
         end
       end
 
@@ -73,18 +77,18 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
       before do
         allow(File).to receive(:open) { double('File', read: body, mtime: Time.now) }
       end
-      it "raises ArgumentError" do
-        expect {
+      it 'raises ArgumentError' do
+        expect do
           subject.cli(args)
-        }.to raise_error(ArgumentError)
+        end.to raise_error(ArgumentError)
       end
     end
 
     context 'with date range' do
-      let(:args) { ['2023-01-01', '2023-02-01'] }
+      let(:args) { %w[2023-01-01 2023-02-01] }
       before do
-        stub_request(:get, 'https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/facility-scada-2023-01.csv').
-          to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
+        stub_request(:get, 'https://data.wa.aemo.com.au/public/public-data/datafiles/facility-scada/facility-scada-2023-01.csv')
+          .to_return(body:, headers: { 'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT' })
       end
       it do
         expect(GenerationUnit).to receive(:upsert_all)
@@ -99,12 +103,12 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
     let(:datafile_url) { "#{subject::URL_BASE}/#{datafile_name}" }
 
     before do
-      stub_request(:get, index_url).
-        to_return(body: index_body)
-      stub_request(:get, datafile_url).
-        to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
+      stub_request(:get, index_url)
+        .to_return(body: index_body)
+      stub_request(:get, datafile_url)
+        .to_return(body:, headers: { 'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT' })
 
-      index_datafile_time = Time.new(2023,1,23,11,9) - 10.hours
+      index_datafile_time = Time.new(2023, 1, 23, 11, 9) - 10.hours
       datafile = double('DataFile')
       expect(datafile).to receive(:exists?) { datafile_exists }
       allow(DataFile).to receive(:last_modified)
@@ -113,7 +117,7 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
 
     context 'when file old' do
       let(:datafile_exists) { true }
-      it "ignores old file" do
+      it 'ignores old file' do
         target = subject.new
         subject.each do |arg|
           target.add(arg)
@@ -125,7 +129,7 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
 
     context 'when file is newer' do
       let(:datafile_exists) { false }
-      it "fetches updated file" do
+      it 'fetches updated file' do
         target = subject.new
         subject.each do |arg|
           target.add(arg)
@@ -150,7 +154,7 @@ RSpec.describe AemoWem::Balancing do
     <<-CSV
 Trading Date,Interval Number,Trading Interval,Load Forecast (MW),Forecast As At,Scheduled Generation (MW),Non-Scheduled Generation (MW),Total Generation (MW),Final Price ($/MWh),Extracted At\r
 "2023-01-01",1,2023-01-01 08:00:00,998.59,2023-01-01 07:23:08,756.291,292.584,1048.875,-72.19,"2023-09-12 23:30:16"
-CSV
+    CSV
   end
 
   describe '#points_price' do
@@ -158,7 +162,8 @@ CSV
       expect(File).to receive(:open) { double('File', read: body, mtime: Time.now) }
     end
     it do
-      expect(Out::Price).to receive(:run).with(array_including(hash_including(value:-7219)), anything, anything, 'aemo')
+      expect(Out::Price).to receive(:run).with(array_including(hash_including(value: -7219)), anything, anything,
+                                               'aemo')
       subject.new.add_file('balancing-summary-2025.csv').done!
     end
   end
@@ -168,10 +173,10 @@ CSV
       let(:args) { [] }
 
       it do
-        stub_request(:get, 'https://data.wa.aemo.com.au/datafiles/balancing-summary/').
-          to_return(body: index_body)
-        stub_request(:get, "https://data.wa.aemo.com.au/#{datafile_name}").
-          to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
+        stub_request(:get, 'https://data.wa.aemo.com.au/datafiles/balancing-summary/')
+          .to_return(body: index_body)
+        stub_request(:get, "https://data.wa.aemo.com.au/#{datafile_name}")
+          .to_return(body:, headers: { 'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT' })
 
         expect(Price).to receive(:upsert_all)
         expect(Load).to receive(:upsert_all)
@@ -195,17 +200,17 @@ CSV
     end
 
     context 'with date range' do
-      let(:args) { ['2023-01-01', '2024-01-01'] }
+      let(:args) { %w[2023-01-01 2024-01-01] }
       it do
-        stub_request(:get, 'https://data.wa.aemo.com.au/datafiles/balancing-summary/balancing-summary-2023.csv').
-          to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
+        stub_request(:get, 'https://data.wa.aemo.com.au/datafiles/balancing-summary/balancing-summary-2023.csv')
+          .to_return(body:, headers: { 'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT' })
         expect(Price).to receive(:upsert_all)
         expect(Load).to receive(:upsert_all)
         subject.cli(args)
       end
     end
 
-    #it { require 'pry' ; binding.pry }
+    # it { require 'pry' ; binding.pry }
   end
 end
 
@@ -216,14 +221,13 @@ RSpec.describe AemoWem::BalancingLive do
     <<-CSV
 TRADING_DAY_INTERVAL,FORECAST_EOI_MW,FORECAST_MW,PRICE,FORECAST_NSG_MW,ACTUAL_NSG_MW,ACTUAL_TOTAL_GENERATION,RTD_TOTAL_GENERATION,RTD_TOTAL_SPINNING_RESERVE,LFAS_UP_REQUIREMENT_MW,TOTAL_OUTAGE_MW,PLANNED_OUTAGE_MW,FORCED_OUTAGE_MW,CONS_OUTAGE_MW,AS_AT\r
 2023-09-12 02:00:00,1725.011,1689.752,74.39,72.703,24.85,1738.366,,,65,564.9,270.6,294.3,0,"2023-09-14 02:00:00"
-CSV
+    CSV
   end
   describe :cli do
-
     context 'without argument' do
       it do
-        stub_request(:get, 'https://data.wa.aemo.com.au/public/infographic/neartime/pulse.csv').
-          to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
+        stub_request(:get, 'https://data.wa.aemo.com.au/public/infographic/neartime/pulse.csv')
+          .to_return(body:, headers: { 'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT' })
         expect(Price).to receive(:upsert_all)
         expect(Load).to receive(:upsert_all)
         subject.cli([])
@@ -248,7 +252,7 @@ CSV
       expect(File).to receive(:open) { double('File', read: body, mtime: Time.now) }
     end
     it do
-      expect(Out::Price).to receive(:run).with(array_including(hash_including(value:7439)), anything, anything, 'aemo')
+      expect(Out::Price).to receive(:run).with(array_including(hash_including(value: 7439)), anything, anything, 'aemo')
       subject.new.add_file('file.csv').done!
     end
   end
@@ -272,10 +276,10 @@ Trading Date,Interval Number,Trading Interval,Estimated DPV Generation (MW),Extr
     context 'without argument' do
       let(:args) { [] }
       before do
-        stub_request(:get, 'https://data.wa.aemo.com.au/public/public-data/datafiles/distributed-pv/').
-          to_return(body: index_body)
-        stub_request(:get, 'https://data.wa.aemo.com.au/distributed-pv-2003.csv').
-          to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
+        stub_request(:get, 'https://data.wa.aemo.com.au/public/public-data/datafiles/distributed-pv/')
+          .to_return(body: index_body)
+        stub_request(:get, 'https://data.wa.aemo.com.au/distributed-pv-2003.csv')
+          .to_return(body:, headers: { 'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT' })
       end
       it do
         expect(Generation).to receive(:upsert_all)
@@ -298,10 +302,10 @@ Trading Date,Interval Number,Trading Interval,Estimated DPV Generation (MW),Extr
     end
 
     context 'with date range' do
-      let(:args) { ['2023-01-01', '2024-01-01'] }
+      let(:args) { %w[2023-01-01 2024-01-01] }
       it do
-        stub_request(:get, 'https://data.wa.aemo.com.au/public/public-data/datafiles/distributed-pv/distributed-pv-2023.csv').
-          to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
+        stub_request(:get, 'https://data.wa.aemo.com.au/public/public-data/datafiles/distributed-pv/distributed-pv-2023.csv')
+          .to_return(body:, headers: { 'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT' })
         expect(Generation).to receive(:upsert_all)
         subject.cli(args)
       end
@@ -316,13 +320,13 @@ RSpec.describe AemoWem::DistributedPvLive do
 Trading Interval,Interval Number,Estimated DPV Generation (MW),Operational Demand (MW),Extracted At\r
 2023-09-28 08:00:00,1,756.5242,1717.85,"2023-10-03 10:46:08"\r
 2023-09-28 08:30:00,2,796.4536,1720.714,
-CSV
+    CSV
   end
   describe :cli do
     context 'without argument' do
       it do
-        stub_request(:get, 'https://wa.aemo.com.au/aemo/data/wa/infographic/dpvopdemand/distributed-pv_opdemand.csv').
-          to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
+        stub_request(:get, 'https://wa.aemo.com.au/aemo/data/wa/infographic/dpvopdemand/distributed-pv_opdemand.csv')
+          .to_return(body:, headers: { 'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT' })
         expect(Generation).to receive(:upsert_all)
         subject.cli([])
       end
@@ -337,7 +341,7 @@ RSpec.describe AemoWem::BalancingHistoric do
     <<-CSV
 Trade Date,Delivery Date,Delivery Hour,Delivery Interval,MCAP Price Per MWh,UDAP Price Per MWh,DDAP Price Per MWh,Extracted At\r
 "2006-09-21","2006-09-21",8,1,153.73,76.86,199.85,"2022-01-19 15:15:47"
-CSV
+    CSV
   end
   describe :cli do
     context 'with filename.csv' do
@@ -346,7 +350,7 @@ CSV
         expect(File).to receive(:open) { double('File', read: body, mtime: Time.now) }
       end
       it do
-        expect(Price).to receive(:upsert_all).with([{area_id: 321, time: Time.new(2006,9,21), value:"153.73"}])
+        expect(Price).to receive(:upsert_all).with([{ area_id: 321, time: Time.new(2006, 9, 21), value: '153.73' }])
         subject.cli(args)
       end
     end

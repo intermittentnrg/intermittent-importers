@@ -1,20 +1,22 @@
+# frozen_string_literal: true
+
 require './spec/spec_helper'
 
 def test_archive(index_name, archive_name = '123.zip', datafile_name = '123_456.zip')
-  context "without argument" do
+  context 'without argument' do
     let(:index_body) do
       <<-HTML
 <pre><A HREF="/public/public-data/datafiles/">[To Parent Directory]</A><br><br> Sunday, August 21, 2022  1:02 AM      1684350 <A HREF=\"/#{archive_name}\"></A>
       HTML
     end
 
-    let(:mtime) { Zip::DOSTime.new(2025,12,10,9,6,43) }
+    let(:mtime) { Zip::DOSTime.new(2025, 12, 10, 9, 6, 43) }
     let(:zip_body) { create_zip_file('', datafile_name, mtime) }
     before do
-      stub_request(:get, "https://nemweb.com.au/Reports/ARCHIVE/#{index_name}/").
-        to_return(body: index_body)
-      stub_request(:get, "https://nemweb.com.au/#{archive_name}").
-        to_return(body: zip_body.string, headers: {last_modified: "Wed, 10 Dec 2025 09:06:43 GMT"})
+      stub_request(:get, "https://nemweb.com.au/Reports/ARCHIVE/#{index_name}/")
+        .to_return(body: index_body)
+      stub_request(:get, "https://nemweb.com.au/#{archive_name}")
+        .to_return(body: zip_body.string, headers: { last_modified: 'Wed, 10 Dec 2025 09:06:43 GMT' })
     end
     it do
       target = double(subject)
@@ -27,14 +29,14 @@ def test_archive(index_name, archive_name = '123.zip', datafile_name = '123_456.
             updated_at: Time.strptime('Wed, 10 Dec 2025 09:06:43 GMT', '%a, %d %b %Y %H:%M:%S GMT')
           )
         ),
-        unique_by: [:source, :path]
+        unique_by: %i[source path]
       )
       expect(subject::TARGET).to receive(:new) { target }
       subject.cli([])
     end
   end
 
-  context "with file.zip" do
+  context 'with file.zip' do
     it do
       file = create_zip_file('', datafile_name)
       allow(file).to receive(:size) { file.string.bytesize }
