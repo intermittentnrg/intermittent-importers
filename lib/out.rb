@@ -31,7 +31,7 @@ module Out
       updated_rows = nil
       if data.present?
         start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-        if data.length > 100_000
+        if data.length >= 100_000
           conn = ActiveRecord::Base.connection
           tmptable = "generation_copy_#{source_id}"
           conn.create_table tmptable, id: false, temporary: true do |t|
@@ -109,7 +109,7 @@ module Out
       #require 'pry' ; binding.pry
 
       start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-      if data.length > 100_000
+      if data.length >= 100_000
         begin
           #GenerationUnit.disable_compression_policy!
           #GenerationUnit.hypertable.chunks.where(range_start: ..to, range_end: from..).each &:decompress!
