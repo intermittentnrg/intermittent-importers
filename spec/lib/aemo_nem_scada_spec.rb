@@ -30,7 +30,8 @@ D,DISPATCH,UNIT_SCADA,1,"2023/09/13 05:35:00",SNOWYP,0.80
         CSV
       end
       it 'has negative generation' do
-        expect(GenerationUnit).to receive(:upsert_all).with array_including(hash_including(value: -800))
+        expect(Out::Unit).to receive(:run).with(array_including(hash_including(value: -800)), anything, anything,
+                                                anything)
         subject.new.add_buffer(body, datafile_name, Time.now).done!
       end
     end
@@ -41,7 +42,8 @@ D,DISPATCH,UNIT_SCADA,1,"2023/09/13 05:35:00",HPRL1,0.80
         CSV
       end
       it 'has negative generation' do
-        expect(GenerationUnit).to receive(:upsert_all).with array_including(hash_including(value: -800))
+        expect(Out::Unit).to receive(:run).with(array_including(hash_including(value: -800)), anything, anything,
+                                                anything)
         subject.new.add_buffer(body, datafile_name, Time.now).done!
       end
     end
@@ -72,7 +74,7 @@ D,DISPATCH,UNIT_SCADA,1,"2023/01/01 00:00:00",WDGPH1,0
       end
 
       it do
-        expect(GenerationUnit).to receive(:upsert_all)
+        expect(Out::Unit).to receive(:run)
         expect(DataFile).to receive(:upsert_all).with(
           array_including(
             hash_including(
@@ -105,7 +107,7 @@ D,DISPATCH,UNIT_SCADA,1,"2023/01/01 00:00:00",WDGPH1,0
         allow(File).to receive(:open) { double('File', read: body, mtime: Time.now) }
       end
       it do
-        expect(GenerationUnit).to receive(:upsert_all)
+        expect(Out::Unit).to receive(:run)
         subject.cli(args)
       end
       test_calculate_range

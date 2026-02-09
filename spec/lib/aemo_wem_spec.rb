@@ -44,7 +44,7 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
       end
 
       it do
-        expect(GenerationUnit).to receive(:upsert_all)
+        expect(Out::Unit).to receive(:run)
         subject.cli(args)
       end
 
@@ -65,7 +65,7 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
         expect(File).to receive(:open) { double('File', read: body, mtime: Time.now) }
       end
       it do
-        expect(GenerationUnit).to receive(:upsert_all)
+        expect(Out::Unit).to receive(:run)
         subject.cli(args)
       end
 
@@ -91,7 +91,7 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
           .to_return(body:, headers: { 'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT' })
       end
       it do
-        expect(GenerationUnit).to receive(:upsert_all)
+        expect(Out::Unit).to receive(:run)
         subject.cli(args)
       end
 

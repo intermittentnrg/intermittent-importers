@@ -44,7 +44,7 @@ DateTime(UTC)	ResolutionCode	AreaCode	AreaDisplayName	AreaTypeCode	AreaMapCode	G
     CSV
   end
   it 'deduplicates capacity data' do
-    expect(GenerationUnit).to receive(:upsert_all)
+    expect(Out::Unit).to receive(:run)
     expect(DataFile).to receive(:upsert_all).with(
       [hash_including(
         path: '2024_07_ActualGenerationOutputPerGenerationUnit_16.1.A_r2.1.csv',

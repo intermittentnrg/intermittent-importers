@@ -116,19 +116,18 @@ module Out
       return if data.empty?
 
       # raise unless from && to
-      updated_rows = nil
 
       preprocess_data(data, source_id)
-      # require 'pry' ; binding.pry
 
       start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-      if data.length >= 100_000
 
+      conn = ActiveRecord::Base.connection
+      tmptable = "generation_unit_copy_#{source_id}_#{start.to_i}"
+
+      begin
         # GenerationUnit.disable_compression_policy!
         # GenerationUnit.hypertable.chunks.where(range_start: ..to, range_end: from..).each &:decompress!
 
-        conn = ActiveRecord::Base.connection
-        tmptable = "generation_unit_copy_#{source_id}"
         conn.create_table tmptable, id: false, temporary: true do |t|
           t.integer :unit_id, limit: 2, null: false
           t.timestamptz :time, null: false
@@ -142,29 +141,23 @@ module Out
             raw_conn.put_copy_data([row[:unit_id], row[:time], row[:value].round])
           end
         end
+
         r = conn.execute <<~SQL
           INSERT INTO generation_unit (unit_id, time, value)
           SELECT unit_id, time, value
-          FROM #{tmptable} g
-          WHERE NOT EXISTS (
-                SELECT 1 FROM generation_unit g2
-                WHERE g.unit_id=g2.unit_id AND g.time=g2.time AND g.value=g2.value AND
-                      time BETWEEN (SELECT MIN(time) FROM #{tmptable}) AND (SELECT MAX(time) FROM #{tmptable})
-          )
+          FROM #{tmptable}
           ON CONFLICT (unit_id, time)
-            DO UPDATE set value = EXCLUDED.value
+            DO UPDATE SET value = EXCLUDED.value
+            WHERE generation_unit.value IS DISTINCT FROM EXCLUDED.value
         SQL
+
+
         updated_rows = r.cmd_tuples
-        conn.drop_table tmptable
-
-      # GenerationUnit.enable_compression_policy!
-
-      else
-        data.each_slice(1_000_000) do |data2|
-          r = ::GenerationUnit.upsert_all(data2)
-        end
-        updated_rows = r.try(:length).to_i
+      ensure
+        # GenerationUnit.enable_compression_policy!
+        conn.drop_table(tmptable, if_exists: true)
       end
+
       duration = 1_000.0 * (Process.clock_gettime(Process::CLOCK_MONOTONIC) - start)
       logger.measure_info("updated #{updated_rows} out of #{data.length} rows for range #{from} - #{to}", duration:)
     end

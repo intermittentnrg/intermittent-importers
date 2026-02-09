@@ -101,7 +101,7 @@ D,DISPATCH,UNIT_SCADA,1,"2023/09/13 05:35:00",WDGPH1,0
         stub_request(:get, 'https://nemweb.com.au/Data_Archive/Wholesale_Electricity/MMSDM/2023/MMSDM_2023_01/MMSDM_Historical_Data_SQLLoader/DATA/PUBLIC_DVD_DISPATCH_UNIT_SCADA_202301010000.zip')
           .to_return(body: zip_body.string, headers: { last_modified: 'Wed, 10 Dec 2025 09:06:43 GMT' })
 
-        expect(GenerationUnit).to receive(:upsert_all)
+        expect(Out::Unit).to receive(:run)
         expect(DataFile).to receive(:upsert_all).with(
           array_including(
             hash_including(
