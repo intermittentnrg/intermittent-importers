@@ -27,6 +27,7 @@ module EntsoeCsv
       @areas = {}
       @datafiles = []
       @r = {}
+      @production_type_cache = {}
     end
 
     def add_file(path, name = nil, time = nil, zip = false)
@@ -91,9 +92,10 @@ module EntsoeCsv
       'energy_storage' => 'storage'
     }.freeze
     def parse_production_type(s)
-      pt = s.strip.gsub(/ /, '_').downcase
-
-      PT_MAP[pt] || pt
+      @production_type_cache[s] ||= begin
+        pt = s.strip.gsub(/ /, '_').downcase
+        PT_MAP[pt] || pt
+      end
     end
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S.%L'
