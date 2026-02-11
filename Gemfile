@@ -102,3 +102,8 @@ end
 gem "roo", "~> 2.10"
 gem 'rtesseract', '~> 3.1'
 gem 'faraday-cookie_jar', '~> 0.0.8'
+
+gem 'stimulus-rails'
+gem 'propshaft'
+
+gem 'importmap-rails', '~> 2.2'
