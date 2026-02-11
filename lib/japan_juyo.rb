@@ -91,6 +91,11 @@ module JapanJuyo
       header = csv[self.class::HEADER_ROW]
       rows = csv[self.class::DATA_START_ROW...self.class::DATA_END_ROW]
 
+      if header.nil?
+        logger.error "Unexpected CSV format from #{self.class::URL_FORMAT}. First 500 chars: #{body[0..500]}. CSV has #{csv.size} rows, expected header at row #{self.class::HEADER_ROW}"
+        raise ArgumentError, 'Empty CSV or invalid format'
+      end
+
       validate_header!(header)
 
       rows.each do |row|
