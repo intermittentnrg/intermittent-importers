@@ -36,6 +36,7 @@ module Ieso
         max: 5
       }
       f.request :gzip
+      f.response :raise_error
       # f.response :logger #, logger
     end
 
@@ -58,7 +59,11 @@ module Ieso
           req.headers['If-Modified-Since'] = last_modified if last_modified
         end
       end
-      raise EmptyError if res.status == 304 || !res.success?
+
+      if res.status == 304
+        logger.warn "304 Not Modified #{url}"
+        return self
+      end
 
       body = res.body
       updated_at = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)

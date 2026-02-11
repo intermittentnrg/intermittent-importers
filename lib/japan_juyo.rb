@@ -54,7 +54,10 @@ module JapanJuyo
         end
       end
 
-      raise EmptyError if res.status == 304 # Not Modified
+      if res.status == 304
+        logger.warn "304 Not Modified #{url}"
+        return self
+      end
 
       if res.headers['Last-Modified']
         filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)

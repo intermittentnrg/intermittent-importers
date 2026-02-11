@@ -53,7 +53,12 @@ module Caiso
         req.headers['If-Modified-Since'] = last_modified if last_modified
       end
 
-      raise EmptyError if res.status == 304 || res.headers['content-type'] =~ %r{^text/html}
+      raise EmptyError if res.headers['content-type'] =~ %r{^text/html}
+
+      if res.status == 304
+        logger.warn "304 Not Modified #{url}"
+        return self
+      end
 
       filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
 

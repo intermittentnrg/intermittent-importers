@@ -32,14 +32,15 @@ module Eskom
       url = Date.today.strftime(self.class::URL_FORMAT)
       last_modified = DataFile.last_modified(url, self.class.source_id)
       res = logger.benchmark_info(url) do
-        Faraday.get(url) do |req|
+        Faraday.new do |f|
+          f.response :raise_error
+        end.get(url) do |req|
           req.headers['If-Modified-Since'] = last_modified if last_modified
         end
       end
       if res.status == 304 # Not Modified
-        raise EmptyError
-      elsif res.status == 404 # Not Found
-        raise EmptyError
+        logger.warn "304 Not Modified #{url}"
+        return self
       end
 
       filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)

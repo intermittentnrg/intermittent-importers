@@ -33,16 +33,16 @@ DateTimeKey,Residual Forecast,RSA Contracted Forecast,Residual Demand,RSA Contra
     end
 
     context 'with 404 response' do
-      it 'raises EmptyError' do
+      it 'raises Faraday::ResourceNotFound' do
         stub_request(:get, 'https://www.eskom.co.za/dataportal/wp-content/uploads/2023/10/System_hourly_actual_and_forecasted_demand.csv')
           .to_return(status: 404)
-        expect { subject.cli([]) }.to raise_error(EmptyError)
+        expect { subject.cli([]) }.to raise_error(Faraday::ResourceNotFound)
       end
-    end
 
-    context 'with .csv argument' do
-      xit do
-        subject.cli(['file.csv'])
+      context 'with .csv argument' do
+        xit do
+          subject.cli(['file.csv'])
+        end
       end
     end
   end
@@ -78,10 +78,10 @@ Date_Time_Hour_Beginning,Thermal_Gen_Excl_Pumping_and_SCO,Eskom_OCGT_SCO_Pumping
     end
 
     context 'with 404 response' do
-      it 'raises EmptyError' do
+      it 'raises error' do
         stub_request(:get, 'https://www.eskom.co.za/dataportal/wp-content/uploads/2023/10/Station_Build_Up.csv')
           .to_return(status: 404)
-        expect { subject.cli([]) }.to raise_error(EmptyError)
+        expect { subject.cli([]) }.to raise_error(Faraday::ResourceNotFound)
       end
     end
 

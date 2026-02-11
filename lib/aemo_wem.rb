@@ -61,7 +61,10 @@ module AemoWem
           req.headers['If-Modified-Since'] = last_modified if last_modified
         end
       end
-      raise EmptyError if res.status == 304 # Not Modified
+      if res.status == 304
+        logger.warn "304 Not Modified #{url}"
+        return self
+      end
 
       last_modified = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
       add_buffer(res.body, url, last_modified)
