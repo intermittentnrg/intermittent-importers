@@ -37,6 +37,7 @@ module Taipower
       'LNG' => :fossil_gas,
       'IPPLNG' => :fossil_gas,
       'OIL' => :fossil_oil,
+      'FUELOIL' => :fossil_oil,
       'DIESEL' => :fossil_oil_diesel,
       'HYDRO' => :hydro,
       'WIND' => :wind,
