@@ -99,7 +99,7 @@ module AemoWem
     end
 
     def add_buffer2(data)
-      add_csv(FastestCSV.parse(data, row_sep: "\r\n"))
+      add_csv(FastestCSV.parse(data))
     end
 
     def done!
@@ -152,6 +152,7 @@ module AemoWem
 
     def parse_filename!(name)
       @from = Time.strptime(File.basename(name), self.class::FILE_FORMAT)
+
       @from = TZ.local_to_utc(@from)
       @to = @from + 1.year
     end
@@ -251,7 +252,6 @@ module AemoWem
     end
 
     def add_csv(csv)
-      dups = Set.new
       logger.benchmark_info('parse csv') do
         csv[1..].each do |row|
           # Trading Date
@@ -269,16 +269,12 @@ module AemoWem
           # puts row.inspect if row[7].blank?
 
           k = [time, unit_id]
-          binding.pry if dups.include? k
-          dups << k
           @r << { time:, unit_id:, value: }
         end
       end
     end
 
     def done!
-      return if @r.empty?
-
       Out::Unit.run(@r, @from, @to, self.class.source_id)
       GenerationUnit.aggregate_to_generation(@from, @to, "a.source='aemo' AND a.id=#{@area_id}")
       super
@@ -302,7 +298,6 @@ module AemoWem
     end
 
     def add_json(json)
-      # require 'pry';binding.pry
       area_id = Area.where(code: 'WEM', type: 'region', source: self.class.source_id).pluck(:id).first
       r = json['data']['data'].map do |row|
         time = Time.strptime(row['dispatchInterval'], TIME_FORMAT)

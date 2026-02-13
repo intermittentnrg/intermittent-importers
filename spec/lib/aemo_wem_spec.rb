@@ -28,7 +28,7 @@ RSpec.describe AemoWem::Scada do
   end
   let(:body) do
     <<-CSV
-Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Energy Generated (MWh),EOI Quantity (MW),Extracted At\r
+Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Energy Generated (MWh),EOI Quantity (MW),Extracted At
 "2023-01-01",1,2023-01-01 08:00:00,"WPGENER","ALBANY_WF1",3.021,7.159,"2023-01-02 23:35:00"
     CSV
   end
@@ -41,10 +41,22 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
           .to_return(body: index_body)
         stub_request(:get, "https://data.wa.aemo.com.au/#{datafile_name}")
           .to_return(body:, headers: { 'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT' })
+        allow(DataFile).to receive(:where).and_return(double(exists?: false))
+        allow(DataFile).to receive(:last_modified)
       end
 
       it do
         expect(Out::Unit).to receive(:run)
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              source: 'aemo',
+              path: datafile_name,
+              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+            )
+          ),
+          unique_by: %i[source path]
+        )
         subject.cli(args)
       end
 
@@ -61,11 +73,22 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
 
     context 'with facility-scada-yyyy-mm.csv' do
       let(:args) { ['xyz/facility-scada-2023-01.csv'] }
+      let(:mtime) { Time.now }
       before do
-        expect(File).to receive(:open) { double('File', read: body, mtime: Time.now) }
+        expect(File).to receive(:open) { double('File', read: body, mtime:) }
       end
       it do
         expect(Out::Unit).to receive(:run)
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              source: 'aemo',
+              path: datafile_name,
+              updated_at: mtime
+            )
+          ),
+          unique_by: %i[source path]
+        )
         subject.cli(args)
       end
 
@@ -92,6 +115,16 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
       end
       it do
         expect(Out::Unit).to receive(:run)
+        expect(DataFile).to receive(:upsert_all).with(
+          array_including(
+            hash_including(
+              source: 'aemo',
+              path: datafile_name,
+              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+            )
+          ),
+          unique_by: %i[source path]
+        )
         subject.cli(args)
       end
 
@@ -118,11 +151,9 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
     context 'when file old' do
       let(:datafile_exists) { true }
       it 'ignores old file' do
-        target = subject.new
         subject.each do |arg|
-          target.add(arg)
+          subject.new.add(arg).done!
         end
-        target.done!
         expect(WebMock).not_to have_requested(:get, datafile_url)
       end
     end
@@ -130,11 +161,9 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
     context 'when file is newer' do
       let(:datafile_exists) { false }
       it 'fetches updated file' do
-        target = subject.new
         subject.each do |arg|
-          target.add(arg)
+          subject.new.add(arg).done!
         end
-        target.done!
         expect(WebMock).to have_requested(:get, datafile_url)
       end
     end
