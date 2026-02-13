@@ -4,14 +4,12 @@ require 'rspec/collection_matchers'
 require 'webmock/rspec'
 require 'vcr'
 
-require File.expand_path('../config/environment', __dir__)
-
 if ENV.fetch('COVERAGE', false)
   require 'simplecov'
   # Configuration is in .simplecov file
 end
 
-SemanticLogger.default_level = :warn
+# SemanticLogger.default_level = :warn
 
 ENV['ENTSOE_TOKEN'] ||= 'DUMMYTOKEN'
 VCR.configure do |config|
