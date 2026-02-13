@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'rspec'
+require 'rspec/core'
 require 'rspec/collection_matchers'
 require 'webmock/rspec'
 require 'vcr'
