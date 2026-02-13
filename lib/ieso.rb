@@ -523,6 +523,11 @@ module Ieso
       'PQ.X2Y' => %w[CA-ON CA-QC]
     }.freeze
 
+    def initialize
+      super
+      @r = {}
+    end
+
     def self.each(&block)
       from = ::Transmission.joins(areas_area: :from_area).where('time > ?',
                                                                 2.months.ago).where(from_area: { source: source_id }).maximum(:time).in_time_zone(self::TZ)
