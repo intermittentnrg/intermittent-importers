@@ -108,11 +108,11 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
       stub_request(:get, datafile_url)
         .to_return(body:, headers: { 'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT' })
 
-      index_datafile_time = Time.new(2023, 1, 23, 11, 9) - 10.hours
+      index_datafile_time = subject::TZ.local_to_utc(Time.strptime('1/23/2023 11:09 AM', subject::INDEX_TIME_FORMAT))
       datafile = double('DataFile')
       expect(datafile).to receive(:exists?) { datafile_exists }
       allow(DataFile).to receive(:last_modified)
-      expect(DataFile).to receive(:where).with(hash_including(updated_at: index_datafile_time...Float::INFINITY)) { datafile }
+      expect(DataFile).to receive(:where).with(hash_including(updated_at: index_datafile_time..)) { datafile }
     end
 
     context 'when file old' do

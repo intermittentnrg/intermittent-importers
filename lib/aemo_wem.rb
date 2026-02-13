@@ -31,7 +31,7 @@ module AemoWem
         time = Time.strptime(m[1].strip, self::INDEX_TIME_FORMAT)
         time = self::TZ.local_to_utc(time)
 
-        if DataFile.where(updated_at: time...Float::INFINITY, path: File.basename(url), source: source_id).exists?
+        if DataFile.where(updated_at: time.., path: File.basename(url), source: source_id).exists?
           logger.debug "already processed #{File.basename(url)}"
           next
         end
