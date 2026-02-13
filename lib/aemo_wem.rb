@@ -267,8 +267,6 @@ module AemoWem
           value = row[6].to_f * 1000
           # Extracted At
           # puts row.inspect if row[7].blank?
-          next if row[2] == '2018-10-12 08:00:00' && row[3] == 'WPGENER' && row[4] == 'ALBANY_WF1'
-          next if row[2] == '2018-10-12 08:00:00' && row[3] == 'WPGENER' && row[4] == 'GRASMERE_WF1'
 
           k = [time, unit_id]
           binding.pry if dups.include? k
