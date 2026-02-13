@@ -12,7 +12,6 @@ module Eskom
       'eskom'
     end
 
-    HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
     def initialize
@@ -43,7 +42,7 @@ module Eskom
         return self
       end
 
-      filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
+      filedate = Time.httpdate(res.headers['Last-Modified'])
       add_buffer(res.body, url, filedate)
     end
 

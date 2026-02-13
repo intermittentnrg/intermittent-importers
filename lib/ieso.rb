@@ -12,7 +12,6 @@ module Ieso
   class Base
     include SemanticLogger::Loggable
 
-    HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
     TZ = TZInfo::Timezone.get('EST')
     FUEL_MAP = {
       'NUCLEAR' => 'nuclear',
@@ -66,7 +65,7 @@ module Ieso
       end
 
       body = res.body
-      updated_at = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
+      updated_at = Time.httpdate(res.headers['Last-Modified'])
       @datafiles << { path: File.basename(url), source: self.class.source_id, updated_at: }
       add_buffer(body)
       self

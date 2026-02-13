@@ -10,9 +10,9 @@ CSV
   context :cli do
     context 'with date' do
       it do
-        stub_request(:get, 'https://reports-public.ieso.ca/public/Demand/PUB_Demand_2023.csv').
-          to_return(body:, headers: {'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT'})
-        expect(Out::Load).to receive(:run) do |points, from, to, source|
+        stub_request(:get, 'https://reports-public.ieso.ca/public/Demand/PUB_Demand_2023.csv')
+          .to_return(body:, headers: { 'Last-Modified' => 'Mon, 08 Feb 2023 13:36:56 GMT' })
+        expect(Out::Load).to receive(:run) do |points, _from, _to, source|
           expect(points.length).to eq(1)
           expect(points.first[:country]).to eq('CA-ON')
           expect(points.first[:value]).to eq(15130000)
@@ -23,7 +23,7 @@ CSV
             hash_including(
               path: 'PUB_Demand_2023.csv',
               source: 'ieso',
-              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Ieso::Base::HTTP_DATE_FORMAT)
+              updated_at: Time.httpdate('Mon, 08 Feb 2023 13:36:56 GMT')
             )
           ),
           unique_by: [:source, :path]
@@ -62,7 +62,7 @@ Delivery Date,Generator,Fuel Type,Measurement,Hour 1,Hour 2,Hour 3,Hour 4,Hour 5
             hash_including(
               path: 'PUB_GenOutputCapabilityMonth_202310.csv',
               source: 'ieso',
-              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Ieso::Base::HTTP_DATE_FORMAT)
+              updated_at: Time.httpdate('Mon, 08 Feb 2023 13:36:56 GMT')
             )
           ),
           unique_by: [:source, :path]
@@ -98,7 +98,7 @@ RSpec.describe Ieso::GenerationMonth do
             hash_including(
               path: 'PUB_GenOutputbyFuelHourly_2023.xml',
               source: 'ieso',
-              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Ieso::Base::HTTP_DATE_FORMAT)
+              updated_at: Time.httpdate('Mon, 08 Feb 2023 13:36:56 GMT')
             )
           ),
           unique_by: [:source, :path]
@@ -209,7 +209,7 @@ Date,Hour,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,Exp,Flow,Imp,E
           hash_including(
             path: 'PUB_IntertieScheduleFlowYear_2025.csv',
             source: 'ieso',
-            updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Ieso::Base::HTTP_DATE_FORMAT)
+            updated_at: Time.httpdate('Mon, 08 Feb 2023 13:36:56 GMT')
           )
         ),
         unique_by: [:source, :path]
@@ -233,7 +233,7 @@ RSpec.describe Ieso::Unit do
           hash_including(
             path: 'PUB_GenOutputCapability_20230901.xml',
             source: 'ieso',
-            updated_at: Time.strptime('Sat, 02 Sep 2023 05:17:16 GMT', Ieso::Base::HTTP_DATE_FORMAT)
+            updated_at: Time.httpdate('Sat, 02 Sep 2023 05:17:16 GMT')
           )
         ),
         unique_by: [:source, :path]

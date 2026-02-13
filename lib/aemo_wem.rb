@@ -49,7 +49,6 @@ module AemoWem
       end
     end
 
-    HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
     def add(input)
       add_url(input)
     end
@@ -66,7 +65,7 @@ module AemoWem
         return self
       end
 
-      last_modified = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
+      last_modified = Time.httpdate(res.headers['Last-Modified'])
       add_buffer(res.body, url, last_modified)
 
       self

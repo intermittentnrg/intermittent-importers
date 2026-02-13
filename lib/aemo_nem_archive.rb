@@ -2,7 +2,6 @@
 
 module AemoNemArchive
   class Archive < ::AemoNem::Base
-    HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
     def initialize(file)
       super()
       @datafiles = []
@@ -13,7 +12,7 @@ module AemoNemArchive
             req.headers['If-Modified-Since'] = last_modified if last_modified
           end
         end
-        last_modified = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
+        last_modified = Time.httpdate(res.headers['Last-Modified'])
         @datafiles << { path: File.basename(file), updated_at: last_modified, source: self.class.source_id }
         file = StringIO.new(res.body)
       end

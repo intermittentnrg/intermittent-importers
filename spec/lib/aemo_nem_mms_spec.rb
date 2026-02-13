@@ -27,7 +27,7 @@ D,ROOFTOP,ACTUAL,2,"2023/09/13 04:30:00",NSW1,0,1,MEASUREMENT,"2023/09/13 04:49:
           array_including(
             hash_including(
               source: 'aemo',
-              updated_at: Time.strptime('Wed, 10 Dec 2025 09:06:43 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+              updated_at: Time.httpdate('Wed, 10 Dec 2025 09:06:43 GMT')
             )
           ),
           unique_by: %i[source path]
@@ -66,7 +66,7 @@ D,PARTICIPANT_REGISTRATION,DUDETAIL,3,"2011/01/18 00:00:00",SNOWYP,1,NLTS3,330,6
           array_including(
             hash_including(
               source: 'aemo',
-              updated_at: Time.strptime('Wed, 10 Dec 2025 09:06:43 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+              updated_at: Time.httpdate('Wed, 10 Dec 2025 09:06:43 GMT')
             )
           ),
           unique_by: %i[source path]
@@ -106,7 +106,7 @@ D,DISPATCH,UNIT_SCADA,1,"2023/09/13 05:35:00",WDGPH1,0
           array_including(
             hash_including(
               source: 'aemo',
-              updated_at: Time.strptime('Wed, 10 Dec 2025 09:06:43 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+              updated_at: Time.httpdate('Wed, 10 Dec 2025 09:06:43 GMT')
             )
           ),
           unique_by: %i[source path]

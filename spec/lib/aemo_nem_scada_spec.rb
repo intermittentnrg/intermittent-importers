@@ -79,7 +79,7 @@ D,DISPATCH,UNIT_SCADA,1,"2023/01/01 00:00:00",WDGPH1,0
           array_including(
             hash_including(
               source: 'aemo',
-              updated_at: Time.strptime('Wed, 10 Dec 2025 09:06:43 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+              updated_at: Time.httpdate('Wed, 10 Dec 2025 09:06:43 GMT')
             )
           ),
           unique_by: %i[source path]

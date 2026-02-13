@@ -12,7 +12,6 @@ module JapanJuyo
     include SemanticLogger::Loggable
 
     TZ = TZInfo::Timezone.get('Asia/Tokyo')
-    HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
 
     # Default row indices for CSV parsing (2nd table with 5-minute data)
     HEADER_ROW = 54
@@ -60,7 +59,7 @@ module JapanJuyo
       end
 
       if res.headers['Last-Modified']
-        filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
+        filedate = Time.httpdate(res.headers['Last-Modified'])
         @datafiles << { path: File.basename(url), source: self.class.source_id, updated_at: filedate }
       end
 

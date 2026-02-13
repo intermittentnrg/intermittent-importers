@@ -23,7 +23,7 @@ DateTimeKey,Residual Forecast,RSA Contracted Forecast,Residual Demand,RSA Contra
             hash_including(
               path: 'System_hourly_actual_and_forecasted_demand.csv',
               source: 'eskom',
-              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Eskom::Base::HTTP_DATE_FORMAT)
+              updated_at: Time.httpdate('Mon, 08 Feb 2023 13:36:56 GMT')
             )
           ),
           unique_by: %i[source path]
@@ -68,7 +68,7 @@ Date_Time_Hour_Beginning,Thermal_Gen_Excl_Pumping_and_SCO,Eskom_OCGT_SCO_Pumping
             hash_including(
               path: 'Station_Build_Up.csv',
               source: 'eskom',
-              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', Eskom::Base::HTTP_DATE_FORMAT)
+              updated_at: Time.httpdate('Mon, 08 Feb 2023 13:36:56 GMT')
             )
           ),
           unique_by: %i[source path]

@@ -52,7 +52,7 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
             hash_including(
               source: 'aemo',
               path: datafile_name,
-              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+              updated_at: Time.httpdate('Mon, 08 Feb 2023 13:36:56 GMT')
             )
           ),
           unique_by: %i[source path]
@@ -120,7 +120,7 @@ Trading Date,Interval Number,Trading Interval,Participant Code,Facility Code,Ene
             hash_including(
               source: 'aemo',
               path: datafile_name,
-              updated_at: Time.strptime('Mon, 08 Feb 2023 13:36:56 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+              updated_at: Time.httpdate('Mon, 08 Feb 2023 13:36:56 GMT')
             )
           ),
           unique_by: %i[source path]

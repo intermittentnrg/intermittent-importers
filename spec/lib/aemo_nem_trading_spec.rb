@@ -55,7 +55,7 @@ D,TRADING,PRICE,3,"2023/09/13 05:30:00",1,SA1,66,129.96,0,0,"2023/09/13 05:25:02
         array_including(
           hash_including(
             source: 'aemo',
-            updated_at: Time.strptime('Wed, 30 Aug 2023 17:55:08 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+            updated_at: Time.httpdate('Wed, 30 Aug 2023 17:55:08 GMT')
           )
         ),
         unique_by: %i[source path]

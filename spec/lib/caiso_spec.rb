@@ -25,7 +25,7 @@ RSpec.describe Caiso::FuelSource do
             hash_including(
               path: 'https://www.caiso.com/outlook/history/20230101/fuelsource.csv',
               source: 'caiso',
-              updated_at: Time.strptime('Wed, 04 Jan 2023 12:03:19 GMT', Caiso::FuelSource::HTTP_DATE_FORMAT)
+              updated_at: Time.httpdate('Wed, 04 Jan 2023 12:03:19 GMT')
             )
           ),
           unique_by: [:source, :path]
@@ -46,9 +46,9 @@ RSpec.describe Caiso::FuelSource do
     context "refreshes previous day if data missing" do
       let(:current_time) { Time.new(2023,1,1,6) }
       it do
-        req = stub_request(:get, 'https://www.caiso.com/outlook/history/20221231/fuelsource.csv').
-                to_return(body: "Time,Solar,Wind,Geothermal,Biomass,Biogas,Small hydro,Coal,Nuclear,Natural Gas,Large Hydro,Batteries,Imports,Other\r\n")
-        allow(Time).to receive(:strptime)
+        req = stub_request(:get, 'https://www.caiso.com/outlook/history/20221231/fuelsource.csv')
+              .to_return(body: "Time,Solar,Wind,Geothermal,Biomass,Biogas,Small hydro,Coal,Nuclear,Natural Gas,Large Hydro,Batteries,Imports,Other\r\n")
+        allow(Time).to receive(:httpdate)
         subject.each do |date|
           subject.new.add(date).done!
         end
@@ -113,9 +113,9 @@ RSpec.describe Caiso::Load do
     context "refreshes previous day if data missing" do
       let(:current_time) { Time.new(2023,1,1,6) }
       it do
-        req = stub_request(:get, 'https://www.caiso.com/outlook/history/20221231/netdemand.csv').
-                to_return(body: "Time,Hour ahead forecast,Current demand,Net demand\r\n")
-        allow(Time).to receive(:strptime)
+        req = stub_request(:get, 'https://www.caiso.com/outlook/history/20221231/netdemand.csv')
+              .to_return(body: "Time,Hour ahead forecast,Current demand,Net demand\r\n")
+        allow(Time).to receive(:httpdate)
         subject.each do |date|
           subject.new.add(date).done!
         end

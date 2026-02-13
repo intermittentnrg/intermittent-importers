@@ -18,8 +18,6 @@ module Caiso
       # f.response :logger #, logger
     end
 
-    HTTP_DATE_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
-
     def initialize
       @datafiles = []
     end
@@ -60,7 +58,7 @@ module Caiso
         return self
       end
 
-      filedate = Time.strptime(res.headers['Last-Modified'], HTTP_DATE_FORMAT)
+      filedate = Time.httpdate(res.headers['Last-Modified'])
 
       add_buffer(res.body)
       @datafiles << { path: url, source: self.class.source_id, updated_at: filedate }

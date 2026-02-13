@@ -26,7 +26,7 @@ def test_archive(index_name, archive_name = '123.zip', datafile_name = '123_456.
         array_including(
           hash_including(
             source: 'aemo',
-            updated_at: Time.strptime('Wed, 10 Dec 2025 09:06:43 GMT', '%a, %d %b %Y %H:%M:%S GMT')
+            updated_at: Time.httpdate('Wed, 10 Dec 2025 09:06:43 GMT')
           )
         ),
         unique_by: %i[source path]
