@@ -1,0 +1,1 @@
+RubyVM::YJIT.enable
