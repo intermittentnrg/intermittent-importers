@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'capture price calculations' do
@@ -14,34 +16,34 @@ RSpec.describe 'capture price calculations' do
         AVG(GREATEST(0,g.value)) AS kwh_generated,
         AVG(LEAST(0,g.value)) AS kwh_consumed,
 
-	AVG(g.value) AS kwh,
+        AVG(g.value) AS kwh,
         AVG(GREATEST(0,g.value)) AS kwh_generated,
         AVG(LEAST(0,g.value)) AS kwh_consumed,
 
-	AVG(p.value::bigint*g.value) AS revenue,
+        AVG(p.value::bigint*g.value) AS revenue,
         AVG(p.value::bigint*GREATEST(0,g.value)) AS revenue_generated,
         AVG(p.value::bigint*LEAST(0,g.value)) AS revenue_consumed
       FROM generation g
       INNER JOIN prices p ON(g.time=p.time)
-      WHERE g.area_id=#{area.id} AND g.time BETWEEN '#{time}' AND '#{time + period*period_steps}'
+      WHERE g.area_id=#{area.id} AND g.time BETWEEN '#{time}' AND '#{time + period * period_steps}'
       GROUP BY 1
     SQL
     r.to_a
   end
   let(:first) { r.first }
-  let(:time) { Time.new(2023,1,1) }
+  let(:time) { Time.new(2023, 1, 1) }
   let(:period) { 5.minutes }
   let(:period_steps) { 12 }
 
   before do
     apt.generation.insert_all(
       period_steps.times.map do |i|
-        {value: kwh.is_a?(Array) ? kwh[i] : kwh, time: time + i*period}
+        { value: kwh.is_a?(Array) ? kwh[i] : kwh, time: time + i * period }
       end
     )
     area.prices.insert_all(
       period_steps.times.map do |i|
-        {value: price.is_a?(Array) ? price[i] : price, time: time + i*period}
+        { value: price.is_a?(Array) ? price[i] : price, time: time + i * period }
       end
     )
   end
@@ -50,36 +52,36 @@ RSpec.describe 'capture price calculations' do
     let(:kwh) { 1000 }
     let(:price) { 10 }
     it { expect(first['kwh']).to eq 1000 }
-    it { expect(first['revenue']).to eq 10000 }
+    it { expect(first['revenue']).to eq 10_000 }
     xit { expect(first['capture_price']).to eq 10 }
   end
   context 'with negative output and price' do
     let(:kwh) { -1000 }
     let(:price) { -10 }
-    it { expect(first['revenue']).to eq 10000 }
+    it { expect(first['revenue']).to eq 10_000 }
   end
   context 'with positive output and negative price' do
     let(:kwh) { 1000 }
     let(:price) { -10 }
-    it { expect(first['revenue']).to eq -10000 }
+    it { expect(first['revenue']).to eq(-10_000) }
   end
   context 'with negative output and positive price' do
     let(:kwh) { -1000 }
     let(:price) { 10 }
-    it { expect(first['revenue']).to eq -10000 }
+    it { expect(first['revenue']).to eq(-10_000) }
   end
-  context "mixed values" do
-    let(:kwh) { [1000,1000,1000,1000,1000,1000,-1000,-1000,-1000,-1000,-1000,-1000] }
+  context 'mixed values' do
+    let(:kwh) { [1000, 1000, 1000, 1000, 1000, 1000, -1000, -1000, -1000, -1000, -1000, -1000] }
     let(:price) { 10 }
     it { expect(first['revenue']).to eq 0 }
-    #it { require 'pry' ; binding.pry }
+    # it { require 'pry' ; binding.pry }
     it { expect(first['kwh']).to eq 0 }
     it { expect(first['kwh_generated']).to eq 500 }
-    it { expect(first['kwh_consumed']).to eq -500 }
+    it { expect(first['kwh_consumed']).to eq(-500) }
     xit { expect(first['capture_price']).to eq 0 }
   end
   context 'extreme result' do
-    let(:kwh) { [2000,-1000] }
+    let(:kwh) { [2000, -1000] }
     let(:price) { 10 }
     let(:period_steps) { 2 }
     let(:period) { 30.minutes }
