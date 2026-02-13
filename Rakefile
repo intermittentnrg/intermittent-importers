@@ -57,7 +57,7 @@ end
 
 desc 'Run all refresh tasks'
 multitask all: ['entsoe:all', 'aemo:all', 'ieso:all', 'eia:all', :ercot, 'caiso:all', 'elexon:all', :nationalgrideso,
-                :ree, 'aeso:all', :hydroquebec, 'japan_juyo:all', 'japan_nuclear:all', :kpx, 'eskom:all', :ons, 'cammesa:all', :taipower]
+                :ree, 'aeso:all', :hydroquebec, 'japan_juyo:all', 'japan_nuclear:all', :kpx, 'eskom:all', :ons, 'cammesa:all', :taipower, :enec]
 namespace :ieso do
   desc 'Run refresh tasks'
   task all: %i[unit load price intertie]
@@ -183,6 +183,8 @@ namespace :cammesa do
   chain_task :renovables, Cammesa::Renovables
   chain_task :programacion_diaria, Cammesa::ProgramacionDiaria
 end
+
+oneshot_chain_task :enec, Enec
 
 desc 'Export areas to test/fixtures/areas.yml'
 task :fixtures_areas do
