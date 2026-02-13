@@ -69,6 +69,8 @@ module JapanJuyo
     end
 
     def done!
+      return logger.info('no changes') if @datafiles.empty?
+
       Out::Generation.run(@r, @from, @to, self.class.source_id)
       Out::Load.run(@r_load, @from, @to, self.class.source_id)
 
