@@ -58,7 +58,7 @@ gem 'activesupport'
 gem 'dotenv-rails'
 gem 'rake'
 
-gem 'semantic_logger'
+gem 'rails_semantic_logger'
 gem 'elasticsearch'
 
 gem 'octokit'
