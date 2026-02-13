@@ -16,10 +16,10 @@ module EiaBulk
         return
       end
 
-      new.add_file(args[0], args[1]).done!
+      new.add_file(args[0], filter: args[1]).done!
     end
 
-    def add_file(path, filter = nil)
+    def add_file(path, filter: nil)
       setup_database
 
       file = if path =~ /\.zip$/i
@@ -61,7 +61,7 @@ module EiaBulk
       ActiveRecord::Base.connection.drop_enum :eia_bulk_area
     end
 
-    def done! ; end
+    def done!; end
 
     def parse_time(t)
       "#{t[0, 4]}-#{t[4, 2]}-#{t[6, 5]}:00Z"

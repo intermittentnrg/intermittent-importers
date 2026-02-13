@@ -30,7 +30,7 @@ module EntsoeCsv
       @production_type_cache = {}
     end
 
-    def add_file(path, name = nil, time = nil, zip = false)
+    def add_file(path, name: nil, time: nil, zip: false)
       name ||= File.basename(path)
       time ||= File.mtime(path)
       tmp = nil

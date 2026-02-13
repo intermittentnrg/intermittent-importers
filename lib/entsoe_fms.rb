@@ -77,7 +77,7 @@ class EntsoeFms
             end
           end
           zip_tmp.rewind
-          self::TARGET.new.add_file(zip_tmp.path, file['name'], time, true).done!
+          self::TARGET.new.add_file(zip_tmp.path, name: file['name'], time: time, zip: true).done!
         end
       end
 

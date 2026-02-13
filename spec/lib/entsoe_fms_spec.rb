@@ -50,9 +50,9 @@ RSpec.describe EntsoeFms::Generation do
       expect(EntsoeCsv::Generation).to receive(:new).and_return(target_instance)
       expect(target_instance).to receive(:add_file).with(
         kind_of(String),
-        'test_file.zip',
-        expected_time,
-        true
+        name: 'test_file.zip',
+        time: expected_time,
+        zip: true
       ).and_return(target_instance)
       expect(target_instance).to receive(:done!)
 
