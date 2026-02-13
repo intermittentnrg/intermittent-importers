@@ -3,13 +3,14 @@ require 'rspec/core'
 require 'rspec/collection_matchers'
 require 'webmock/rspec'
 require 'vcr'
+require 'semantic_logger'
 
 if ENV.fetch('COVERAGE', false)
   require 'simplecov'
   # Configuration is in .simplecov file
 end
 
-# SemanticLogger.default_level = :warn
+SemanticLogger.default_level = :warn
 
 ENV['ENTSOE_TOKEN'] ||= 'DUMMYTOKEN'
 VCR.configure do |config|
