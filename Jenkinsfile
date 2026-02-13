@@ -65,7 +65,7 @@ spec:
         timeout(time: 10, unit: 'MINUTES') {
           sh 'cd /app ; RAILS_ENV=test rake db:migrate'
           try {
-            sh "cd /app ; COVERAGE=true CI=true rspec spec -f d --format RspecJunitFormatter --out ${env.WORKSPACE}/rspec.xml"
+            sh "cd /app ; RAILS_ENV=test COVERAGE=true CI=true rspec spec -f d --format RspecJunitFormatter --out ${env.WORKSPACE}/rspec.xml"
           } finally {
             junit allowEmptyResults: true, testResults: 'rspec.xml'
             sh "cd /app ; cp -rv coverage app lib spec ${env.WORKSPACE}"
