@@ -36,6 +36,7 @@ class Cenace
     @r = []
     @datafiles = []
     @faraday = Faraday.new do |f|
+      f.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
       f.response :raise_error
     end
   end
@@ -86,7 +87,11 @@ class Cenace
     encoded_data = post_data_with_tokens.map do |k, v|
       "#{URI.encode_www_form_component(k)}=#{URI.encode_www_form_component(v.to_s)}"
     end.join('&')
-    response = @faraday.post(URL, encoded_data)
+    response = @faraday.post(URL, encoded_data) do |req|
+      req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+      req.headers['Referer'] = URL
+      req.headers['Origin'] = 'https://www.cenace.gob.mx'
+    end
 
     # Validate response content type
     if expected_content_type == 'text/html' && !response.headers['content-type']&.include?('text/html') && !response.headers['content-type']&.include?('application/json')
