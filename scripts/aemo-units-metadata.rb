@@ -3,8 +3,8 @@
 # This script parses the NEM Generation Information Excel file
 # to extract all units with their fuel types
 
-require './lib/init'
-require './lib/activerecord-connect'
+require_relative "../config/application"
+Rails.application.require_environment!
 require 'roo'
 
 # Excel file path

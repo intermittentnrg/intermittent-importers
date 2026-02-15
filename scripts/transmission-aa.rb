@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-require './lib/init'
-require './lib/activerecord-connect'
+require_relative "../config/application"
+Rails.application.require_environment!
 ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 conn = ActiveRecord::Base.connection

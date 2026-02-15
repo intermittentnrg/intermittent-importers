@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-require './lib/init'
-require './lib/activerecord-connect'
+require_relative "../config/application"
+Rails.application.require_environment!
 require 'minisky'
 
 social_thread = SocialThread.find_or_create_by(id: 2)

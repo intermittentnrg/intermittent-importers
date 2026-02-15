@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-require './lib/init'
-require './lib/activerecord-connect'
+require_relative "../config/application"
+Rails.application.require_environment!
 require 'chronic'
 
 ActiveRecord::Base.logger = Logger.new(STDOUT)

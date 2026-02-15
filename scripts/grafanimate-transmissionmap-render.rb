@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
-require './lib/init'
+require_relative "../config/application"
+Rails.application.require_environment!
 
 Grafanimate::TransmissionMap.render

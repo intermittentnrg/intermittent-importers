@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # coding: utf-8
-require './lib/init'
-require './lib/activerecord-connect'
+require_relative "../config/application"
+Rails.application.require_environment!
 require 'fast_jsonparser'
 
 #url = "https://raw.githubusercontent.com/opennem/opennem/master/opennem/data/stations.json"

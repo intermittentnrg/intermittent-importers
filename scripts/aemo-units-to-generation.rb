@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # coding: utf-8
-require './lib/init'
-require './lib/activerecord-connect'
+require_relative "../config/application"
+Rails.application.require_environment!
 require 'chronic'
 
 unless ARGV.length==3

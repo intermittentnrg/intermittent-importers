@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 # Universal CLI entrypoint - call cli on any class
 
-require './lib/init'
-require './lib/activerecord-connect'
+require_relative "../config/application"
+Rails.application.require_environment!
 
 if ARGV.empty?
   puts "Usage: #{$0} <ClassName> [args...]"
