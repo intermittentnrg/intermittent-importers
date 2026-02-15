@@ -52,6 +52,7 @@ gem 'faraday-http-cache'
 
 gem 'net-sftp'
 gem 'aws-sdk-sqs'
+gem 'aws-sdk-lambda'
 
 gem 'zeitwerk'
 gem 'activesupport'
