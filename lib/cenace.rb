@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fastest_csv'
 require 'zip'
 require 'date'
@@ -34,7 +36,7 @@ class Cenace
     body = File.read(path)
     logger.info "Processing #{name}"
     add_buffer(body)
-    @datafiles << {path: name, source: self.class.source_id, updated_at: time}
+    @datafiles << { path: name, source: self.class.source_id, updated_at: time }
     self
   end
 
@@ -67,14 +69,16 @@ class Cenace
     }.merge(post_data)
 
     # URL-encode and submit
-    encoded_data = post_data_with_tokens.map { |k, v| "#{URI.encode_www_form_component(k)}=#{URI.encode_www_form_component(v.to_s)}" }.join('&')
+    encoded_data = post_data_with_tokens.map do |k, v|
+      "#{URI.encode_www_form_component(k)}=#{URI.encode_www_form_component(v.to_s)}"
+    end.join('&')
     response = @faraday.post(URL, encoded_data)
 
     # Validate response content type
     if expected_content_type == 'text/html' && !response.headers['content-type']&.include?('text/html') && !response.headers['content-type']&.include?('application/json')
       raise "Expected HTML or JSON response, got: #{response.headers['content-type']}"
     elsif expected_content_type == 'text/csv' && response.headers['content-type']&.include?('text/html')
-      raise "Cenace returned an error page"
+      raise 'Cenace returned an error page'
     end
 
     # Update tokens if HTML or JSON response
@@ -106,8 +110,8 @@ class Cenace
     @viewstate = extract_token.call('__VIEWSTATE')
     @viewstate_generator = extract_token.call('__VIEWSTATEGENERATOR')
     @event_validation = extract_token.call('__EVENTVALIDATION')
-    raise "Missing ViewState" unless @viewstate
-    raise "Missing EventValidation" unless @event_validation
+    raise 'Missing ViewState' unless @viewstate
+    raise 'Missing EventValidation' unless @event_validation
   end
 
   # Extract current month date from the page
@@ -115,9 +119,7 @@ class Cenace
     month_text = @doc.css('table#ctl00_ContentPlaceHolder1_GridRadResultado_ctl00 > tbody > tr td:first-child').text
     month_match = month_text.match(/([A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+)\s+(\d{4})/)
 
-    unless month_match
-      raise "Could not find month and year in month_text: #{month_text}"
-    end
+    raise "Could not find month and year in month_text: #{month_text}" unless month_match
 
     file_month_name = month_match[1]
     file_year = month_match[2].to_i
@@ -128,11 +130,9 @@ class Cenace
     Date.new(file_year, file_month_num, 1)
   end
 
-  def add_date(date, save_zip = false)
+  def add_date(date, _save_zip = false)
     date = Date.new(date.year, date.month, 1)
-    if date < Date.new(2016, 4, 1)
-      raise "Date cannot be before 2016-04-01"
-    end
+    raise 'Date cannot be before 2016-04-01' if date < Date.new(2016, 4, 1)
 
     # Step 1: Fetch initial page
     fetch_page
@@ -156,7 +156,8 @@ class Cenace
       min_date = Date.new(min_date_array[0][0], min_date_array[0][1], min_date_array[0][2])
 
       date_selection_data = {
-        'ctl00_ContentPlaceHolder1_FechaConsulta_AD': [[min_date, 4, 30], [date.year, date.month, date.day], [date.year, date.month, date.day]].to_json,
+        'ctl00_ContentPlaceHolder1_FechaConsulta_AD': [[min_date, 4, 30], [date.year, date.month, date.day],
+                                                       [date.year, date.month, date.day]].to_json,
         'ctl00$ContentPlaceHolder1$FechaConsulta': date.strftime('%Y-%m-%d'),
         'ctl00_ContentPlaceHolder1_FechaConsulta_dateInput_ClientState': {
           enabled: true,
@@ -187,7 +188,7 @@ class Cenace
 
     # Process CSV and track file
     add_buffer(response.body)
-    @datafiles << {path: "cenace_#{date.strftime('%Y%m%d')}.csv", source: self.class.source_id, updated_at: Time.now}
+    @datafiles << { path: "cenace_#{date.strftime('%Y%m%d')}.csv", source: self.class.source_id, updated_at: Time.now }
 
     self
   end
@@ -197,7 +198,7 @@ class Cenace
     'Enero' => 1, 'Febrero' => 2, 'Marzo' => 3, 'Abril' => 4,
     'Mayo' => 5, 'Junio' => 6, 'Julio' => 7, 'Agosto' => 8,
     'Septiembre' => 9, 'Octubre' => 10, 'Noviembre' => 11, 'Diciembre' => 12
-  }
+  }.freeze
 
   def add_csv(csv)
     # Skip header rows (8 lines: 6 descriptive + 2 column headers)
@@ -240,6 +241,6 @@ class Cenace
     @to = @r.max { |a, b| a[:time] <=> b[:time] }[:time]
 
     Out::Generation.run(@r, @from, @to, self.class.source_id)
-    DataFile.upsert_all(@datafiles, unique_by: [:source, :path]) unless @datafiles.empty?
+    DataFile.upsert_all(@datafiles, unique_by: %i[source path]) unless @datafiles.empty?
   end
 end
