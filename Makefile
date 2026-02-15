@@ -100,5 +100,5 @@ help:
 
 geojson:
 	npm install -g @mapbox/geojson-rewind
-	curl https://raw.githubusercontent.com/electricitymaps/electricitymaps-contrib/refs/heads/master/web/geo/world.geojson -o world.geojson
-	node_modules/.bin/geojson-rewind world.gejson > world-rewound.geojson
+	curl https://raw.githubusercontent.com/electricitymaps/electricitymaps-contrib/refs/heads/master/geo/world.geojson -o tmp/world.geojson
+	node_modules/.bin/geojson-rewind tmp/world.geojson > public/world-rewound.geojson
