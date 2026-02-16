@@ -172,6 +172,7 @@ oneshot_chain_task :kpx, Kpx::Generation
 
 refresh_task :ons, Ons
 refresh_task :taipower, Taipower
+refresh_task :enec, Enec
 namespace :aeso do
   task all: %i[generation price]
   refresh_task :generation, Aeso::Generation
@@ -183,8 +184,6 @@ namespace :cammesa do
   chain_task :renovables, Cammesa::Renovables
   chain_task :programacion_diaria, Cammesa::ProgramacionDiaria
 end
-
-oneshot_chain_task :enec, Enec
 
 desc 'Export areas to test/fixtures/areas.yml'
 task :fixtures_areas do
