@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe Taipower::Generation do
-  subject { Taipower::Generation }
+RSpec.describe Taipower do
+  subject { Taipower }
   let :path do
     'spec/fixtures/taipower.json'
   end
@@ -12,7 +14,8 @@ RSpec.describe Taipower::Generation do
 
   describe :cli do
     it do
-      expect(Out::Generation).to receive(:run).with(array_including(hash_including(production_type: :hydro)), anything, anything, 'taipower')
+      expect(Out::Generation).to receive(:run).with(array_including(hash_including(production_type: :hydro)),
+                                                    anything, anything, 'taipower')
       subject.cli([path])
     end
   end
@@ -31,9 +34,9 @@ RSpec.describe Taipower::Generation do
       expect(sqs).to receive(:delete_message_batch) { delete_result }
     end
     it do
-      expect(Out::Generation).to receive(:run) do |points, from, to, source|
+      expect(Out::Generation).to receive(:run) do |points, _from, _to, source|
         expect(points.length).to eq(10)
-        expect(points).to include(hash_including(production_type: :fossil_coal, value: 6069400, country: 'TW'))
+        expect(points).to include(hash_including(production_type: :fossil_coal, value: 6_069_400, country: 'TW'))
         expect(source).to eq('taipower')
       end
 
@@ -41,5 +44,3 @@ RSpec.describe Taipower::Generation do
     end
   end
 end
-
-

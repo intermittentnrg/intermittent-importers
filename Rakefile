@@ -171,7 +171,7 @@ end
 oneshot_chain_task :kpx, Kpx::Generation
 
 refresh_task :ons, Ons
-refresh_task :taipower, Taipower::Generation
+refresh_task :taipower, Taipower
 namespace :aeso do
   task all: %i[generation price]
   refresh_task :generation, Aeso::Generation
