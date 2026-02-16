@@ -28,6 +28,7 @@ module EntsoeCsv
       @datafiles = []
       @r = {}
       @production_type_cache = {}
+      @time_cache = {}
     end
 
     def add_file(path, name: nil, time: nil, zip: false)
@@ -100,10 +101,7 @@ module EntsoeCsv
 
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S.%L'
     def parse_time(s)
-      return @last_t if @last_s == s
-
-      @last_s = s
-      @last_t = Time.strptime(s, self.class::TIME_FORMAT)
+      @time_cache[s] ||= Time.strptime(s, self.class::TIME_FORMAT)
     end
 
     def parse_area(s, fields = {})
@@ -243,10 +241,9 @@ module EntsoeCsv
 
       unit_id = @units[unit_internal_id]
       unless unit_id
-        pt = ProductionType.find_by!(name: production_type)
         unit = ::Unit.find_or_create_by!(internal_id: unit_internal_id) do |u|
           u.name = unit_name
-          u.production_type = pt
+          u.production_type_id = ProductionType.where(name: production_type).pluck(:id)
           u.area = ::Area.find_by(
             internal_id: AREA_CODE_OVERRIDE[area_code] || area_code,
             source: self.class.source_id
