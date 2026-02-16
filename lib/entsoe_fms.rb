@@ -6,6 +6,9 @@ require 'zip'
 
 class EntsoeFms
   class Base
+    include SemanticLogger::Loggable
+    include CliMixin2::MonthlyWithDownload
+
     @@faraday_auth = Faraday.new('https://keycloak.tp.entsoe.eu') do |f|
       f.request :url_encoded
       f.response :json
@@ -13,7 +16,6 @@ class EntsoeFms
     @@faraday = Faraday.new('https://fms.tp.entsoe.eu') do |f|
       f.request :authorization, 'Bearer', -> { token }
       f.request :json
-      # f.response :logger, nil, { bodies: true, log_level: :debug }
     end
 
     @@token = nil
@@ -62,27 +64,41 @@ class EntsoeFms
           next
         end
 
-        Tempfile.create([file['name'], '.zip']) do |zip_tmp|
-          zip_tmp.binmode
-          logger.benchmark_info "Downloading #{file['name']}" do
-            @@faraday.post('/downloadFileContent', {
-                             topLevelFolder: 'TP_export',
-                             folder: self::DIR,
-                             filename: file['name'],
-                             downloadAsZip: true
-                           }) do |req|
-              req.options.on_data = proc do |chunk, _overall_received_bytes, _env|
-                zip_tmp.write(chunk)
-              end
-            end
-          end
-          zip_tmp.rewind
-          self::TARGET.new.add_file(zip_tmp.path, name: file['name'], time: time, zip: true).done!
-        end
+        add_file(file['name'], time:)
       end
 
       logger.info "Skipped #{skipped.length} existing files"
     end
+
+    def add_date(date, save_file: false)
+      add_file(date.strftime(self.class::FILE_FORMAT), save_file:)
+    end
+
+    def add_file(file_name, time: nil, save_file: false)
+      Tempfile.create([file_name, '.zip']) do |zip_tmp|
+        zip_tmp.binmode
+        logger.benchmark_info "Downloading #{file_name}" do
+          @@faraday.post('/downloadFileContent', {
+                           topLevelFolder: 'TP_export',
+                           folder: self.class::DIR,
+                           filename: file_name,
+                           downloadAsZip: true
+                         }) do |req|
+            req.options.on_data = proc do |chunk, _overall_received_bytes, _env|
+              zip_tmp.write(chunk)
+            end
+          end
+        end
+        zip_tmp.rewind
+        self.class::TARGET.new.add_file(zip_tmp.path, name: file_name, time:, zip: true).done!
+        if save_file
+          FileUtils.mkdir_p('data/entsoe')
+          File.rename(zip_tmp.path, "data/entsoe/#{file_name.gsub(/\.csv$/, '.zip')}")
+        end
+      end
+    end
+
+    def done!; end
   end
 
   class Generation < Base
@@ -90,6 +106,7 @@ class EntsoeFms
 
     TARGET = EntsoeCsv::Generation
     DIR = '/TP_export/AggregatedGenerationPerType_16.1.B_C_r3/'
+    FILE_FORMAT = '%Y_%m_AggregatedGenerationPerType_16.1.B_C_r3.csv'
   end
 
   class Unit < Base
@@ -97,6 +114,7 @@ class EntsoeFms
 
     TARGET = EntsoeCsv::Unit
     DIR = '/TP_export/ActualGenerationOutputPerGenerationUnit_16.1.A_r3/'
+    FILE_FORMAT = '%Y_%m_ActualGenerationOutputPerGenerationUnit_16.1.A_r3.csv'
   end
 
   class Load < Base
@@ -104,6 +122,7 @@ class EntsoeFms
 
     TARGET = EntsoeCsv::Load
     DIR = '/TP_export/ActualTotalLoad_6.1.A_r3/'
+    FILE_FORMAT = '%Y_%m_ActualTotalLoad_6.1.A_r3.csv'
   end
 
   class Price < Base
@@ -111,6 +130,7 @@ class EntsoeFms
 
     TARGET = EntsoeCsv::Price
     DIR = '/TP_export/EnergyPrices_12.1.D_r3/'
+    FILE_FORMAT = '%Y_%m_EnergyPrices_12.1.D_r3.csv'
   end
 
   class Transmission < Base
@@ -118,6 +138,7 @@ class EntsoeFms
 
     TARGET = EntsoeCsv::Transmission
     DIR = '/TP_export/PhysicalFlows_12.1.G_r3/'
+    FILE_FORMAT = '%Y_%m_PhysicalFlows_12.1.G_r3.csv'
   end
 
   class UnitCapacity < Base
@@ -125,5 +146,6 @@ class EntsoeFms
 
     TARGET = EntsoeCsv::UnitCapacity
     DIR = '/TP_export/InstalledCapacityProductionUnit_14.1.B/'
+    FILE_FORMAT = '%Y_%m_InstalledCapacityProductionUnit_14.1.B.csv'
   end
 end
