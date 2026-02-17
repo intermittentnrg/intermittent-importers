@@ -231,6 +231,8 @@ module EntsoeCsv
     end
 
     def add_row(row)
+      return if row[4] == 'CTA'
+
       # 0:DateTime(UTC)
       time = parse_time(row[0])
       # 1:ResolutionCode
