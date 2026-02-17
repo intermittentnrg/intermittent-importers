@@ -6,10 +6,26 @@ require 'faraday/net_http_persistent'
 require 'zip'
 require 'tzinfo'
 require 'fastest_csv'
+require_relative 'lambda_adapter'
 
 module Cammesa
   class Base
     TZ = TZInfo::Timezone.get('America/Sao_Paulo')
+
+    def faraday_get(url, params = nil)
+      @faraday ||= Faraday.new do |f|
+        f.adapter :net_http_persistent do |http|
+          http.idle_timeout = 10
+        end
+      end
+      @faraday.get(url, params)
+    rescue Faraday::TimeoutError
+      @faraday = Faraday.new do |f|
+        f.adapter :lambda_adapter, function_name: 'proxy', region: 'sa-east-1'
+      end
+      @faraday.get(url, params)
+    end
+
     def self.source_id
       'cammesa'
     end
@@ -29,12 +45,7 @@ module Cammesa
     end
 
     def done!
-      unless @r.empty?
-        @from = @r.min { |a, b| a[:time] <=> b[:time] }[:time]
-        @to = @r.max { |a, b| a[:time] <=> b[:time] }[:time]
-        Out::Generation.run(@r, @from, @to, self.class.source_id)
-      end
-      DataFile.upsert_all(@datafiles, unique_by: %i[source path])
+      @faraday&.close
     end
   end
 
@@ -52,9 +63,6 @@ module Cammesa
 
     URL = 'https://cdsrenovables.cammesa.com/exhisto/RenovablesService/GetChartTotalTRDataSource/'
     URL_TIME_FORMAT = '%d-%m-%Y'
-    @@faraday = Faraday.new do |f|
-      f.adapter :net_http_persistent
-    end
 
     def self.cli(args)
       from = Chronic.parse(args.shift).to_date
@@ -66,7 +74,7 @@ module Cammesa
 
     def add_date(date)
       url = date.strftime(URL_TIME_FORMAT)
-      response = @@faraday.get(URL, { desde: url, hasta: url })
+      response = faraday_get(URL, { desde: url, hasta: url })
       r = FastJsonparser.parse(response.body, symbolize_keys: false)
       raise EmptyError if r.is_a?(Hash) && r['status'] == 'NOT_FOUND'
 
@@ -83,6 +91,15 @@ module Cammesa
         @r << { time:, country:, production_type: 'solar', value: row['fotovoltaica'].to_f * 1000 }
         @r << { time:, country:, production_type: 'wind', value: row['eolica'].to_f * 1000 }
       end
+    end
+
+    def done!
+      unless @r.empty?
+        @from = @r.min { |a, b| a[:time] <=> b[:time] }[:time]
+        @to = @r.max { |a, b| a[:time] <=> b[:time] }[:time]
+        Out::Generation.run(@r, @from, @to, self.class.source_id)
+      end
+      super
     end
   end
 
@@ -129,7 +146,7 @@ module Cammesa
     def add_date(date, save_zip = false)
       url = date.strftime(LOOKUP_URL)
       r = logger.benchmark_info(url) do
-        @@faraday.get(url)
+        faraday_get(url)
       end
       json = FastJsonparser.parse(r.body)
       json = json.select { |row| row[:adjuntos].first[:id] =~ /^PD\d{6}\.zip$/ }
@@ -137,20 +154,37 @@ module Cammesa
       # binding.irb unless json.length == 1
       row = json.last
 
-      binding.irb unless row[:adjuntos].length == 1
+      if row[:adjuntos].length != 1
+        filenames = row[:adjuntos].map { |a| a[:id] }.join(', ')
+        logger.error "Expected 1 attachment, found #{row[:adjuntos].length}: #{filenames}"
+      end
+
+      filename = row[:adjuntos].first[:id]
+      version_time = Time.strptime(row[:version], '%Y-%m-%dT%H:%M:%S.%L%z')
+
+      # Skip if already downloaded this version
+      if DataFile.where(source: self.class.source_id, path: filename)
+                 .where('updated_at >= ?', version_time).exists?
+        logger.info "Skipping #{filename}, already have version from #{version_time}"
+        return self
+      end
+
       params = {
         attachmentId: row[:adjuntos].first[:id],
         docId: row[:id],
         nemo: row[:nemo]
       }
       r2 = logger.benchmark_info(URL) do
-        @@faraday.get(URL, params)
+        faraday_get(URL, params)
       end
 
       zip_buffer = r2.body
       save_zip(date, zip_buffer) if save_zip
 
       add_buffer(zip_buffer, date)
+
+      @datafiles << { source: self.class.source_id, path: filename, updated_at: version_time }
+
       self
     end
 
@@ -237,6 +271,8 @@ module Cammesa
       Out::Generation.run(@r_gen.values, @from, @to, self.class.source_id)
       Out::Load.run(@r_load.values, @from, @to, self.class.source_id)
       Out::Transmission.run(@r_trans.values, @from, @to, self.class.source_id)
+      DataFile.upsert_all(@datafiles, unique_by: %i[source path]) if @datafiles.any?
+      super
     end
   end
 end
