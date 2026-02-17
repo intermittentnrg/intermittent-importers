@@ -70,8 +70,8 @@ module Caiso
       add_date(date)
     end
 
-    def parse_time(row)
-      time = @date.to_time + Time.strptime(row[0], '%H:%M').seconds_since_midnight.seconds
+    def parse_time(value)
+      time = @date.to_time + Time.strptime(value, '%H:%M').seconds_since_midnight.seconds
 
       TZ.local_to_utc(time, &:first)
     end
@@ -136,10 +136,25 @@ module Caiso
       csv.each do |row|
         next if row[1..].compact.blank?
 
-        time = parse_time(row)
+        # 0:Time
+        time = parse_time(row[0])
         next if time < last_time
 
         last_time = time
+
+        # 1:Solar
+        # 2:Wind
+        # 3:Geothermal
+        # 4:Biomass
+        # 5:Biogas
+        # 6:Small hydro
+        # 7:Coal
+        # 8:Nuclear
+        # 9:Natural Gas
+        # 10:Large Hydro
+        # 11:Batteries
+        # 12:Imports
+        # 13:Other
 
         row.each_with_index do |value, i|
           next if i.zero?
@@ -213,14 +228,19 @@ module Caiso
 
       last_time = @from
       csv.each do |row|
-        next if row[1..].compact.blank?
+        next if row[2].blank?
 
-        time = parse_time(row)
+        # 0:Time
+        time = parse_time(row[0])
         next if time < last_time
 
         last_time = time
-
+        # 1:Hour ahead forecast
+        # 2:Current demand
         value = (row[2].to_f * 1000).to_i
+
+        # 3:Net demand
+
         @r_load << {
           time:,
           value:,
