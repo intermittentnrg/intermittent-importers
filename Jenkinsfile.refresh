@@ -26,7 +26,7 @@ spec:
       }
       if (env.BRANCH_NAME == 'master') {
         stage('refresh') {
-          sh 'sh -c \'pgsync --from ${PGDATABASE} --to ${PGSYNC_TO} --to-safe --schemas intermittency --overwrite units,areas_production_types\''
+          sh 'sh -c \'pgsync --from ${PGDATABASE} --to ${PGSYNC_TO} --to-safe --schemas intermittency --overwrite areas,units,areas_production_types\''
         }
       }
     }
