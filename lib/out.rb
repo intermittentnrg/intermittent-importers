@@ -119,6 +119,14 @@ module Out
 
       preprocess_data(data, source_id)
 
+      # ENTSO-E: skip unchanged units based on data hash
+      # NOTE: Only works when all data for time range is passed (no batching)
+      # Set SKIP_FILTER=1 to disable filtering (useful for initial imports)
+      if source_id == 'entsoe' && from && to && !ENV['SKIP_FILTER']
+        data = logger.benchmark_info('filter_unchanged_units') { filter_unchanged_units(data, source_id, from, to) }
+        return if data.empty?
+      end
+
       start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
       conn = ActiveRecord::Base.connection
@@ -151,7 +159,6 @@ module Out
             WHERE generation_unit.value IS DISTINCT FROM EXCLUDED.value
         SQL
 
-
         updated_rows = r.cmd_tuples
       ensure
         # GenerationUnit.enable_compression_policy!
@@ -160,6 +167,53 @@ module Out
 
       duration = 1_000.0 * (Process.clock_gettime(Process::CLOCK_MONOTONIC) - start)
       logger.measure_info("updated #{updated_rows} out of #{data.length} rows for range #{from} - #{to}", duration:)
+    end
+
+    def self.filter_unchanged_units(data, source_id, from, to)
+      return data unless source_id == 'entsoe' && from && to
+      return data if data.empty?
+
+      require 'digest/md5'
+
+      total_rows = data.length
+
+      # Hash format must match PostgreSQL's array_agg(...)::text format:
+      # - extract(epoch from time)::text gives 6 decimal places (e.g., 1735689600.000000)
+      # - array_agg wraps result in curly braces: {value1,value2}
+      unit_hashes = data.group_by { |r| r[:unit_id] }.transform_values do |rows|
+        # Pre-compute formatted time strings once, then sort
+        # Format: "epoch:value" where epoch has 6 decimal places
+        formatted = rows.map { |r| format('%.6f:%d', r[:time].to_f, r[:value].to_i) }
+        formatted.sort!
+        inner = formatted.join(',')
+        Digest::MD5.hexdigest("{#{inner}}")
+      end
+
+      csv_unit_ids = unit_hashes.keys
+      total_units = csv_unit_ids.length
+
+      conn = ActiveRecord::Base.connection
+      hash_sql = <<~SQL
+        SELECT unit_id, md5(array_agg(extract(epoch from time)::text || ':' || value::text ORDER BY extract(epoch from time)::text, value::text)::text) as hash
+        FROM generation_unit
+        WHERE time BETWEEN '#{from}' AND '#{to}'
+        AND unit_id IN (#{csv_unit_ids.join(',')})
+        GROUP BY unit_id
+      SQL
+      existing_hashes = conn.execute(hash_sql).each_with_object({}) do |row, h|
+        h[row['unit_id'].to_i] = row['hash']
+      end
+
+      unchanged_unit_ids = Set.new(unit_hashes.select { |uid, h| existing_hashes[uid] == h }.keys)
+      changed_unit_ids = Set.new(unit_hashes.reject { |uid, h| existing_hashes[uid] == h }.keys)
+
+      unchanged_rows = data.count { |r| unchanged_unit_ids.include?(r[:unit_id]) }
+
+      logger.info "filter_unchanged_units: #{unchanged_rows}/#{total_rows} rows from #{unchanged_unit_ids.length}/#{total_units} units unchanged"
+
+      return [] if changed_unit_ids.empty?
+
+      data.select { |r| changed_unit_ids.include?(r[:unit_id]) }
     end
   end
 

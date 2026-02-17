@@ -72,9 +72,8 @@ DateTime(UTC)	ResolutionCode	AreaCode	AreaDisplayName	AreaTypeCode	AreaMapCode	G
              'Hydro Pumped Storage', '100.0', '', '']
       importer.add_row(row)
 
-      expect(importer.instance_variable_get(:@unit_names_to_save)).to include([unit.id,
-                                                                               'New Name'] => Time.new(2024, 7, 1, 12,
-                                                                                                       0, 0))
+      expect(importer.instance_variable_get(:@unit_names_to_save)).to include("#{unit.id}:New Name" => Time.new(2024, 7, 1, 12,
+                                                                                                                0, 0))
     end
 
     it 'does not track name when time is older than existing' do
@@ -104,9 +103,8 @@ DateTime(UTC)	ResolutionCode	AreaCode	AreaDisplayName	AreaTypeCode	AreaMapCode	G
              'Hydro Pumped Storage', '100.0', '', '']
       importer.add_row(row)
 
-      expect(importer.instance_variable_get(:@unit_names_to_save)).to include([unit.id,
-                                                                               'New Name'] => Time.new(2024, 7, 1, 12,
-                                                                                                       0, 0))
+      expect(importer.instance_variable_get(:@unit_names_to_save)).to include("#{unit.id}:New Name" => Time.new(2024, 7, 1, 12,
+                                                                                                                0, 0))
     end
   end
 
@@ -126,10 +124,9 @@ DateTime(UTC)	ResolutionCode	AreaCode	AreaDisplayName	AreaTypeCode	AreaMapCode	G
              'Fossil Hard Coal', '100.0', '', '']
       importer.add_row(row)
 
-      expect(importer.instance_variable_get(:@unit_production_types_to_save)).to include([unit.id,
-                                                                                          :fossil_hard_coal] => Time.new(
-                                                                                            2024, 7, 1, 12, 0, 0
-                                                                                          ))
+      expect(importer.instance_variable_get(:@unit_production_types_to_save)).to include("#{unit.id}:fossil_hard_coal" => Time.new(
+        2024, 7, 1, 12, 0, 0
+      ))
     end
 
     it 'does not track production type when time is older than existing' do

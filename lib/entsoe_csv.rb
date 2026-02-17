@@ -6,7 +6,6 @@ require 'fastest_csv'
 module EntsoeCsv
   class Base
     include SemanticLogger::Loggable
-    BATCH_SIZE = 500_000
 
     def self.source_id
       'entsoe'
@@ -54,7 +53,6 @@ module EntsoeCsv
         logger.benchmark_info("csv parse #{path}") do
           FastestCSV.foreach(path, col_sep: "\t", skip_header: true) do |row|
             add_row(row)
-            flush if @r.size >= self.class::BATCH_SIZE
           end
         end
         tmp.unlink if zip
@@ -217,6 +215,19 @@ module EntsoeCsv
       @existing_unit_production_types = {}
       @unit_names_to_save = {}
       @unit_production_types_to_save = {}
+
+      ::Unit.joins(:area).where(area: { source: self.class.source_id }).pluck(:internal_id,
+                                                                              :id).each do |internal_id, id|
+        @units[internal_id] = id
+      end
+
+      unit_ids = @units.values.uniq
+      return if unit_ids.empty?
+
+      ::UnitName.where(unit_id: unit_ids).each { |un| @existing_unit_names["#{un.unit_id}:#{un.name}"] = un.updated_at }
+      ::UnitProductionType.includes(:production_type).where(unit_id: unit_ids).each do |upt|
+        @existing_unit_production_types["#{upt.unit_id}:#{upt.production_type.name}"] = upt.updated_at
+      end
     end
 
     def add_row(row)
@@ -252,23 +263,28 @@ module EntsoeCsv
         end
         unit_id = @units[unit_internal_id] = unit.id
 
-        unit.unit_names.each { |un| @existing_unit_names[[unit_id, un.name]] = un.updated_at }
+        unit.unit_names.each { |un| @existing_unit_names["#{un.unit_id}:#{un.name}"] = un.updated_at }
         unit.unit_production_types.includes(:production_type).each do |upt|
-          @existing_unit_production_types[[unit_id, upt.production_type.name.to_sym]] = upt.updated_at
+          @existing_unit_production_types["#{upt.unit_id}:#{upt.production_type.name}"] = upt.updated_at
         end
       end
 
-      key = [unit_id, unit_name]
-      if time > (@existing_unit_names[key] || Time.at(0)) && time > (@unit_names_to_save[key] || Time.at(0))
-        @unit_names_to_save[key] = time
+      # Use string keys instead of arrays for faster hash lookups
+      name_key = "#{unit_id}:#{unit_name}"
+      existing_name_time = @existing_unit_names[name_key]
+      pending_name_time = @unit_names_to_save[name_key]
+      if (!existing_name_time || time > existing_name_time) && (!pending_name_time || time > pending_name_time)
+        @unit_names_to_save[name_key] = time
       end
 
-      key = [unit_id, production_type.to_sym]
-      if time > (@existing_unit_production_types[key] || Time.at(0)) && time > (@unit_production_types_to_save[key] || Time.at(0))
-        @unit_production_types_to_save[key] = time
+      pt_key = "#{unit_id}:#{production_type}"
+      existing_pt_time = @existing_unit_production_types[pt_key]
+      pending_pt_time = @unit_production_types_to_save[pt_key]
+      if (!existing_pt_time || time > existing_pt_time) && (!pending_pt_time || time > pending_pt_time)
+        @unit_production_types_to_save[pt_key] = time
       end
 
-      k = [time, unit_internal_id]
+      k = "#{time}:#{unit_internal_id}"
       if @r[k] && value != @r[k][:value]
         logger.error "duplicate data with different output #{unit_internal_id} #{value} != #{@r[k][:value]}"
       end
@@ -283,21 +299,28 @@ module EntsoeCsv
     def persist_unit_tracking
       return if @unit_names_to_save.empty? && @unit_production_types_to_save.empty?
 
-      unit_ids = (@unit_names_to_save.keys | @unit_production_types_to_save.keys).map(&:first).uniq
+      # Keys are now strings in format "#{unit_id}:#{name}"
+      unit_ids = (@unit_names_to_save.keys + @unit_production_types_to_save.keys).map do |k|
+        k.split(':').first.to_i
+      end.uniq
 
       if @unit_names_to_save.any?
         ::UnitName.upsert_all(
-          @unit_names_to_save.map { |(unit_id, name), updated_at| { unit_id:, name:, updated_at: } },
+          @unit_names_to_save.map do |key, updated_at|
+            unit_id, name = key.split(':', 2)
+            { unit_id: unit_id.to_i, name:, updated_at: }
+          end,
           unique_by: %i[unit_id name]
         )
       end
 
       if @unit_production_types_to_save.any?
-        pt_names = @unit_production_types_to_save.keys.map(&:last).map(&:to_s)
+        pt_names = @unit_production_types_to_save.keys.map { |k| k.split(':', 2).last }
         pt_ids_by_name = ProductionType.where(name: pt_names).pluck(:name, :id).to_h
         ::UnitProductionType.upsert_all(
-          @unit_production_types_to_save.map do |(unit_id, pt_name), updated_at|
-            { unit_id:, production_type_id: pt_ids_by_name[pt_name.to_s], updated_at: }
+          @unit_production_types_to_save.map do |key, updated_at|
+            unit_id, pt_name = key.split(':', 2)
+            { unit_id: unit_id.to_i, production_type_id: pt_ids_by_name[pt_name], updated_at: }
           end,
           unique_by: %i[unit_id production_type_id]
         )
