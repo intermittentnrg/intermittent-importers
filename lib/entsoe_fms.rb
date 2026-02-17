@@ -64,17 +64,17 @@ class EntsoeFms
           next
         end
 
-        add_file(file['name'], time:)
+        new.get_file(file['name'], time:)
       end
 
       logger.info "Skipped #{skipped.length} existing files"
     end
 
     def add_date(date, save_file: false)
-      add_file(date.strftime(self.class::FILE_FORMAT), save_file:)
+      get_file(date.strftime(self.class::FILE_FORMAT), save_file:)
     end
 
-    def add_file(file_name, time: nil, save_file: false)
+    def get_file(file_name, time: nil, save_file: false)
       Tempfile.create([file_name, '.zip']) do |zip_tmp|
         zip_tmp.binmode
         logger.benchmark_info "Downloading #{file_name}" do
