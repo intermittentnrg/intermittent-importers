@@ -36,7 +36,9 @@ spec:
     node(POD_LABEL) {
       checkout scm
       container('kaniko') {
-        sh "/kaniko/executor -f Dockerfile -c . --cache=true --insecure --destination=docker-registry.docker-registry:5000/intermittency:${env.TAG} --destination=docker-registry.docker-registry:5000/intermittency:latest"
+        timeout(time: 20, unit: 'MINUTES') {
+          sh "/kaniko/executor -f Dockerfile -c . --cache=true --insecure --destination=docker-registry.docker-registry:5000/intermittency:${env.TAG} --destination=docker-registry.docker-registry:5000/intermittency:latest"
+        }
       }
     }
   }
