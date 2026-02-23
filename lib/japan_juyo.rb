@@ -65,6 +65,11 @@ module JapanJuyo
 
       save_file(res.body, url) if save_csv
 
+      if res.body.nil? || res.body.empty?
+        logger.error "Empty response body from #{url}: status=#{res.status}, content-type=#{res.headers['Content-Type']}"
+        raise ArgumentError, "Empty response body from #{url}"
+      end
+
       add_buffer(res.body)
     end
 
@@ -96,7 +101,7 @@ module JapanJuyo
       rows = csv[self.class::DATA_START_ROW...self.class::DATA_END_ROW]
 
       if header.nil?
-        logger.error "Unexpected CSV format from #{self.class::URL_FORMAT}. First 500 chars: #{body[0..500]}. CSV has #{csv.size} rows, expected header at row #{self.class::HEADER_ROW}"
+        logger.error "Unexpected CSV format from #{self.class::URL_FORMAT}. Body empty or too short: #{body.nil? ? 'nil' : body[0..500].inspect}, length=#{body&.length || 0}, CSV rows=#{csv.size}, expected header at row #{self.class::HEADER_ROW}"
         raise ArgumentError, 'Empty CSV or invalid format'
       end
 
