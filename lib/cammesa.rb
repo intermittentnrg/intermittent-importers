@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fast_jsonparser'
 require 'chronic'
 require 'faraday/net_http_persistent'
@@ -14,7 +16,7 @@ module Cammesa
 
     TIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%L%z'
     def parse_time(row)
-      time = Time.strptime(row['fecha'], TIME_FORMAT)
+      Time.strptime(row['fecha'], TIME_FORMAT)
     end
 
     def initialize
@@ -28,11 +30,11 @@ module Cammesa
 
     def done!
       unless @r.empty?
-        @from = @r.min { |a,b| a[:time] <=> b[:time] }[:time]
-        @to = @r.max { |a,b| a[:time] <=> b[:time] }[:time]
+        @from = @r.min { |a, b| a[:time] <=> b[:time] }[:time]
+        @to = @r.max { |a, b| a[:time] <=> b[:time] }[:time]
         Out::Generation.run(@r, @from, @to, self.class.source_id)
       end
-      DataFile.upsert_all(@datafiles, unique_by: [:source, :path])
+      DataFile.upsert_all(@datafiles, unique_by: %i[source path])
     end
   end
 
@@ -40,12 +42,12 @@ module Cammesa
   class Renovables < Base
     include SemanticLogger::Loggable
 
-    def self.each
-      from = ::Generation.joins(:areas_production_type => [:area, :production_type]).where("time > ?", 2.months.ago).where(area: {source: self.source_id}, production_type: {name: ['wind','solar']}).pluck(Arel.sql("LAST(time, time)")).first
+    def self.each(&block)
+      from = ::Generation.joins(areas_production_type: %i[area production_type]).where('time > ?', 2.months.ago).where(
+        area: { source: source_id }, production_type: { name: %w[wind solar] }
+      ).pluck(Arel.sql('LAST(time, time)')).first
       from = TZ.utc_to_local(from).to_date
-      (from..Date.today).each do |date|
-        yield date
-      end
+      (from..Date.today).each(&block)
     end
 
     URL = 'https://cdsrenovables.cammesa.com/exhisto/RenovablesService/GetChartTotalTRDataSource/'
@@ -64,11 +66,10 @@ module Cammesa
 
     def add_date(date)
       url = date.strftime(URL_TIME_FORMAT)
-      response = @@faraday.get(URL, {desde: url, hasta: url})
+      response = @@faraday.get(URL, { desde: url, hasta: url })
       r = FastJsonparser.parse(response.body, symbolize_keys: false)
-      if r.is_a?(Hash) && r['status'] == 'NOT_FOUND'
-        raise EmptyError
-      end
+      raise EmptyError if r.is_a?(Hash) && r['status'] == 'NOT_FOUND'
+
       add_json(r)
       self
     end
@@ -77,10 +78,10 @@ module Cammesa
       country = 'AR'
       json.each do |row|
         time = Time.strptime(row['momento'], TIME_FORMAT)
-        @r << {time:, country:, production_type: 'biomass', value: row['biocombustible'].to_f*1000}
-        @r << {time:, country:, production_type: 'hydro_small', value: row['hidraulica'].to_f*1000}
-        @r << {time:, country:, production_type: 'solar', value: row['fotovoltaica'].to_f*1000}
-        @r << {time:, country:, production_type: 'wind', value: row['eolica'].to_f*1000}
+        @r << { time:, country:, production_type: 'biomass', value: row['biocombustible'].to_f * 1000 }
+        @r << { time:, country:, production_type: 'hydro_small', value: row['hidraulica'].to_f * 1000 }
+        @r << { time:, country:, production_type: 'solar', value: row['fotovoltaica'].to_f * 1000 }
+        @r << { time:, country:, production_type: 'wind', value: row['eolica'].to_f * 1000 }
       end
     end
   end
@@ -92,21 +93,23 @@ module Cammesa
     URL = 'https://api.cammesa.com/pub-svc/public/findAttachmentByNemoId'
     FILE_FORMAT = 'PD%y%m%d.zip'
 
-    FIELDS = ['TIPO', 'RGE', 'VARIABLE', 'H01', 'H02', 'H03', 'H04', 'H05', 'H06', 'H07', 'H08', 'H09', 'H10', 'H11', 'H12', 'H13', 'H14', 'H15', 'H16', 'H17', 'H18', 'H19', 'H20', 'H21', 'H22', 'H23', 'H24']
+    FIELDS = %w[TIPO RGE VARIABLE H01 H02 H03 H04 H05 H06 H07 H08 H09 H10 H11
+                H12 H13 H14 H15 H16 H17 H18 H19 H20 H21 H22 H23 H24].freeze
 
     PT_MAP = {
       'Nuclear' => :nuclear,
       'Termica' => :thermal,
       'Ren Hidro >50MW' => :hydro,
       'Ren ley 26190' => :hydro
-    }
+    }.freeze
 
-    def self.each
-      from = ::Generation.joins(:areas_production_type => [:area, :production_type]).where("time > ?", 2.months.ago).where(area: {source: self.source_id}, production_type: {name: ['thermal','nuclear','hydro']}).pluck(Arel.sql("LAST(time, time)")).first
+    def self.each(&block)
+      from = ::Generation.joins(areas_production_type: %i[area production_type]).where('time > ?', 2.months.ago).where(
+        area: { source: source_id }, production_type: { name: %w[thermal nuclear
+                                                                 hydro] }
+      ).pluck(Arel.sql('LAST(time, time)')).first
       from = TZ.utc_to_local(from).to_date
-      (from..Date.today).each do |date|
-        yield date
-      end
+      (from..Date.today).each(&block)
     end
 
     include CliMixin2::DailyWithDownload
@@ -120,7 +123,7 @@ module Cammesa
 
     @@faraday = Faraday.new do |f|
       f.adapter :net_http_persistent
-      #f.response :logger, logger
+      # f.response :logger, logger
     end
 
     def add_date(date, save_zip = false)
@@ -131,7 +134,7 @@ module Cammesa
       json = FastJsonparser.parse(r.body)
       json = json.select { |row| row[:adjuntos].first[:id] =~ /^PD\d{6}\.zip$/ }
       json.first[:adjuntos].first[:id]
-      #binding.irb unless json.length == 1
+      # binding.irb unless json.length == 1
       row = json.last
 
       binding.irb unless row[:adjuntos].length == 1
@@ -169,50 +172,53 @@ module Cammesa
     def add_buffer(body, date)
       country = 'AR'
 
-      logger.benchmark_info("parse") do
+      logger.benchmark_info('parse') do
         zip = Zip::File.open_buffer(body)
         zip.each do |entry|
-          if entry.name =~ /BALANCE\.csv$/
-            csv_data = entry.get_input_stream.read
-            csv_data = csv_data.force_encoding('UTF-8')
-            csv_data = csv_data.sub(/\uFEFF/, '') if csv_data.bytes.first == 0xEF && csv_data.bytes[1] == 0xBB && csv_data.bytes[2] == 0xBF
+          next unless entry.name =~ /BALANCE\.csv$/
 
-            csv = FastestCSV.parse(csv_data, col_sep: ',', row_sep: "\r\n")
-            fields = csv.shift
-            unless fields.map(&:upcase) == self.class::FIELDS
-              raise "Unexpected header format: #{actual_fields.join(', ')}"
-            end
+          csv_data = entry.get_input_stream.read
+          csv_data = csv_data.force_encoding('UTF-8')
+          if csv_data.bytes.first == 0xEF && csv_data.bytes[1] == 0xBB && csv_data.bytes[2] == 0xBF
+            csv_data = csv_data.sub(/\uFEFF/,
+                                    '')
+          end
 
-            csv.each do |row|
-              region = row[1]
-              type = row[2]
+          csv = FastestCSV.parse(csv_data, col_sep: ',', row_sep: "\r\n")
+          fields = csv.shift
+          unless fields.map(&:upcase) == self.class::FIELDS
+            raise "Unexpected header format: #{actual_fields.join(', ')}"
+          end
 
-              # Process hourly data
-              24.times do |h|
-                value = row[h + 3].to_f * 1000
-                time = date.to_time + h.hours
-                time = TZ.utc_to_local(time)
+          csv.each do |row|
+            row[1]
+            type = row[2]
 
-                case type
-                when 'Demanda Neta'
-                  @r_load[time] ||= {country:, time:, value: 0}
-                  @r_load[time][:value] += value
-                when 'Perdidas'
-                  # Skip
-                when 'Nuclear', 'Termica', 'Ren Hidro >50MW', 'Ren ley 26190'
-                  production_type = PT_MAP[type]
-                  key = [time, production_type]
-                  @r_gen[key] ||= {country:, production_type:, time:, value: 0}
-                  @r_gen[key][:value] += value
-                when 'Importacion'
-                  key = [time, 'import']
-                  @r_trans[key] ||= {time:, from_area: 'AR', to_area: 'other', value: 0}
-                  @r_trans[key][:value] += value
-                when 'Exportacion'
-                  key = [time, 'export']
-                  @r_trans[key] ||= {time:, from_area: 'other', to_area: 'AR', value: 0}
-                  @r_trans[key][:value] += value
-                end
+            # Process hourly data
+            24.times do |h|
+              value = row[h + 3].to_f * 1000
+              time = date.to_time + h.hours
+              time = TZ.utc_to_local(time)
+
+              case type
+              when 'Demanda Neta'
+                @r_load[time] ||= { country:, time:, value: 0 }
+                @r_load[time][:value] += value
+              when 'Perdidas'
+                # Skip
+              when 'Nuclear', 'Termica', 'Ren Hidro >50MW', 'Ren ley 26190'
+                production_type = PT_MAP[type]
+                key = [time, production_type]
+                @r_gen[key] ||= { country:, production_type:, time:, value: 0 }
+                @r_gen[key][:value] += value
+              when 'Importacion'
+                key = [time, 'import']
+                @r_trans[key] ||= { time:, from_area: 'AR', to_area: 'other', value: 0 }
+                @r_trans[key][:value] += value
+              when 'Exportacion'
+                key = [time, 'export']
+                @r_trans[key] ||= { time:, from_area: 'other', to_area: 'AR', value: 0 }
+                @r_trans[key][:value] += value
               end
             end
           end
@@ -224,6 +230,7 @@ module Cammesa
 
     def done!
       return if @r_gen.blank?
+
       @from = @r_gen.values.first[:time]
       @to = @r_gen.values.last[:time]
 
