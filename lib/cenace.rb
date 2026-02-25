@@ -20,6 +20,16 @@ class Cenace
     'cenace'
   end
 
+  def self.each
+    today = Date.today
+    return unless today.day > 15
+
+    cutoff = 1.month.ago
+    return if DataFile.where(source: source_id, updated_at: cutoff..).exists?
+
+    yield today
+  end
+
   include CliMixin2::MonthlyWithDownload
 
   def initialize
@@ -28,6 +38,10 @@ class Cenace
     @faraday = Faraday.new do |f|
       f.response :raise_error
     end
+  end
+
+  def add(date)
+    add_date(date)
   end
 
   def add_file(path)
