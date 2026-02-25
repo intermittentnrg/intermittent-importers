@@ -1,0 +1,436 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.hydroquebec.com/data/documents-donnees/donnees-ouvertes/json/production.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.7.11
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 07 Feb 2026 12:45:26 GMT
+      Last-Modified:
+      - Sat, 07 Feb 2026 12:31:09 GMT
+      Etag:
+      - '"179c1ad-2005-64a3b14937d40"'
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '8197'
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - text/plain
+      Set-Cookie:
+      - HQ01f95c27=0169ee456e5df109c1f926354d32b4438157c79aaee6806b2ce5503a27bb82ca67b3b46251182b77ebabacda0ea4d12b244cbbee42;
+        Path=/; Domain=.hydroquebec.com
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "dateStart" : "2026-02-06T00:00:00",
+          "dateEnd" : "2026-02-08T00:00:00",
+          "recentHour" : "2026-02-07T05:30:00",
+          "indexDonneePlusRecent" : 29,
+          "nbDateAvecData" : 30,
+          "details" : [ {
+            "date" : "2026-02-06T00:30:00",
+            "valeurs" : {
+              "total" : 32607.0,
+              "hydraulique" : 31086.0,
+              "eolien" : 664.0,
+              "autres" : 857.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T01:30:00",
+            "valeurs" : {
+              "total" : 32375.0,
+              "hydraulique" : 30989.0,
+              "eolien" : 532.0,
+              "autres" : 854.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T02:30:00",
+            "valeurs" : {
+              "total" : 32704.0,
+              "hydraulique" : 31323.0,
+              "eolien" : 531.0,
+              "autres" : 850.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T03:30:00",
+            "valeurs" : {
+              "total" : 31769.0,
+              "hydraulique" : 30549.0,
+              "eolien" : 371.0,
+              "autres" : 849.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T04:30:00",
+            "valeurs" : {
+              "total" : 32988.0,
+              "hydraulique" : 31844.0,
+              "eolien" : 297.0,
+              "autres" : 847.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T05:30:00",
+            "valeurs" : {
+              "total" : 34312.0,
+              "hydraulique" : 33192.0,
+              "eolien" : 274.0,
+              "autres" : 846.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T06:30:00",
+            "valeurs" : {
+              "total" : 34430.0,
+              "hydraulique" : 33329.0,
+              "eolien" : 256.0,
+              "autres" : 845.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T07:30:00",
+            "valeurs" : {
+              "total" : 34835.0,
+              "hydraulique" : 33773.0,
+              "eolien" : 217.0,
+              "autres" : 845.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T08:30:00",
+            "valeurs" : {
+              "total" : 34245.0,
+              "hydraulique" : 33240.0,
+              "eolien" : 161.0,
+              "autres" : 842.0,
+              "solaire" : 2.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T09:30:00",
+            "valeurs" : {
+              "total" : 34081.0,
+              "hydraulique" : 33046.0,
+              "eolien" : 190.0,
+              "autres" : 841.0,
+              "solaire" : 4.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T10:30:00",
+            "valeurs" : {
+              "total" : 32901.0,
+              "hydraulique" : 31866.0,
+              "eolien" : 189.0,
+              "autres" : 842.0,
+              "solaire" : 4.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T11:30:00",
+            "valeurs" : {
+              "total" : 32608.0,
+              "hydraulique" : 31639.0,
+              "eolien" : 125.0,
+              "autres" : 840.0,
+              "solaire" : 4.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T12:30:00",
+            "valeurs" : {
+              "total" : 30768.0,
+              "hydraulique" : 29797.0,
+              "eolien" : 119.0,
+              "autres" : 845.0,
+              "solaire" : 7.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T13:30:00",
+            "valeurs" : {
+              "total" : 31543.0,
+              "hydraulique" : 30594.0,
+              "eolien" : 91.0,
+              "autres" : 852.0,
+              "solaire" : 6.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T14:30:00",
+            "valeurs" : {
+              "total" : 31167.0,
+              "hydraulique" : 30214.0,
+              "eolien" : 95.0,
+              "autres" : 853.0,
+              "solaire" : 5.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T15:30:00",
+            "valeurs" : {
+              "total" : 31789.0,
+              "hydraulique" : 30833.0,
+              "eolien" : 100.0,
+              "autres" : 855.0,
+              "solaire" : 1.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T16:30:00",
+            "valeurs" : {
+              "total" : 32829.0,
+              "hydraulique" : 31747.0,
+              "eolien" : 228.0,
+              "autres" : 854.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T17:30:00",
+            "valeurs" : {
+              "total" : 33519.0,
+              "hydraulique" : 32234.0,
+              "eolien" : 425.0,
+              "autres" : 860.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T18:30:00",
+            "valeurs" : {
+              "total" : 33484.0,
+              "hydraulique" : 32146.0,
+              "eolien" : 470.0,
+              "autres" : 868.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T19:30:00",
+            "valeurs" : {
+              "total" : 33825.0,
+              "hydraulique" : 32324.0,
+              "eolien" : 635.0,
+              "autres" : 866.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T20:30:00",
+            "valeurs" : {
+              "total" : 33299.0,
+              "hydraulique" : 31727.0,
+              "eolien" : 703.0,
+              "autres" : 869.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T21:30:00",
+            "valeurs" : {
+              "total" : 32445.0,
+              "hydraulique" : 30879.0,
+              "eolien" : 701.0,
+              "autres" : 865.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T22:30:00",
+            "valeurs" : {
+              "total" : 31804.0,
+              "hydraulique" : 30240.0,
+              "eolien" : 701.0,
+              "autres" : 863.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-06T23:30:00",
+            "valeurs" : {
+              "total" : 31518.0,
+              "hydraulique" : 29954.0,
+              "eolien" : 701.0,
+              "autres" : 863.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T00:30:00",
+            "valeurs" : {
+              "total" : 32069.0,
+              "hydraulique" : 30507.0,
+              "eolien" : 701.0,
+              "autres" : 861.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T01:30:00",
+            "valeurs" : {
+              "total" : 31577.0,
+              "hydraulique" : 30393.0,
+              "eolien" : 323.0,
+              "autres" : 861.0,
+              "solaire" : 0.0,
+              "thermique" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T02:30:00",
+            "valeurs" : {
+              "total" : 31449.0,
+              "hydraulique" : 30388.0,
+              "eolien" : 200.0,
+              "autres" : 861.0,
+              "solaire" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T03:30:00",
+            "valeurs" : {
+              "total" : 31062.0,
+              "hydraulique" : 30032.0,
+              "eolien" : 169.0,
+              "autres" : 861.0,
+              "solaire" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T04:30:00",
+            "valeurs" : {
+              "total" : 31272.0,
+              "hydraulique" : 30269.0,
+              "eolien" : 142.0,
+              "autres" : 861.0,
+              "solaire" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T05:30:00",
+            "valeurs" : {
+              "total" : 31807.0,
+              "hydraulique" : 30721.0,
+              "eolien" : 225.0,
+              "autres" : 861.0,
+              "solaire" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T06:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T07:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T08:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T09:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T10:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T11:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T12:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T13:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T14:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T15:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T16:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T17:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T18:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T19:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T20:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T21:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T22:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          }, {
+            "date" : "2026-02-07T23:30:00",
+            "valeurs" : {
+              "total" : 0.0
+            }
+          } ]
+        }
+  recorded_at: Sat, 07 Feb 2026 12:45:26 GMT
+recorded_with: VCR 6.2.0
