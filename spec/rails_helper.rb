@@ -33,7 +33,7 @@ Rails.root.glob('spec/support/**/*.rb').each { |f| require f }
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
-    Rails.root.join('spec/fixtures')
+    Rails.root.join('test/fixtures')
   ]
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your

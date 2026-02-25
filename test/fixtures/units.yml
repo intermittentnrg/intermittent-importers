@@ -54,3 +54,10 @@ WDGPH1:
   production_type_id: 10
   internal_id: 14W-TZH-TU-----N
   name: Häusling
+
+taipower_coal_1:
+  id: 4329
+  area_id: 339
+  production_type_id: 44
+  internal_id: Linkou#1
+  name: Linkou#1
