@@ -1,10 +1,11 @@
 tmp/
-data/
+/data
+/data*
+!/data/nordpool-umm/stations.json
 log/
 .bundle/
 .git/
 .env*
-data*
 tmp*
 render*
 Jenkinsfile*
