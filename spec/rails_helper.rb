@@ -75,4 +75,5 @@ VCR.configure do |config|
   config.filter_sensitive_data('<EIA_TOKEN>') { ENV['EIA_TOKEN'] }
   config.filter_sensitive_data('<ELEXON_TOKEN>') { ENV['ELEXON_TOKEN'] }
   config.filter_sensitive_data('<AESO_PRIMARY_KEY>') { ENV['AESO_PRIMARY_KEY'] }
+  config.default_cassette_options = { record: ENV['CI'] ? :none : :once }
 end
