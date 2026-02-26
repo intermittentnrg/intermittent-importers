@@ -9,6 +9,9 @@ entsoe_AL:
   electricitymaps_id: AL
   location_id:
   price_area_id:
+  name: Albania
+  timezone: Europe/Tirane
+  timezone_priority: 55
 entsoe_AM-CTY:
   id: 316
   code: AM-CTY
@@ -20,6 +23,9 @@ entsoe_AM-CTY:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Asia/Yerevan
+  timezone_priority: 72
 entsoe_AT:
   id: 1
   code: AT
@@ -31,6 +37,9 @@ entsoe_AT:
   electricitymaps_id: AT
   location_id:
   price_area_id:
+  name: Austria
+  timezone: Europe/Vienna
+  timezone_priority: 2
 entsoe_AZ-CTY:
   id: 318
   code: AZ-CTY
@@ -42,6 +51,9 @@ entsoe_AZ-CTY:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Asia/Baku
+  timezone_priority: 73
 entsoe_BA:
   id: 2
   code: BA
@@ -53,6 +65,9 @@ entsoe_BA:
   electricitymaps_id: BA
   location_id:
   price_area_id:
+  name: Bosnia and Herzegovina
+  timezone: Europe/Sarajevo
+  timezone_priority: 52
 entsoe_BE:
   id: 3
   code: BE
@@ -64,6 +79,9 @@ entsoe_BE:
   electricitymaps_id: BE
   location_id:
   price_area_id:
+  name: Belgium
+  timezone: Europe/Brussels
+  timezone_priority: 16
 entsoe_BG:
   id: 4
   code: BG
@@ -75,6 +93,9 @@ entsoe_BG:
   electricitymaps_id: BG
   location_id:
   price_area_id:
+  name: Bulgaria
+  timezone: Europe/Sofia
+  timezone_priority: 42
 entsoe_BY:
   id: 308
   code: BY
@@ -86,6 +107,9 @@ entsoe_BY:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Minsk
+  timezone_priority:
 entsoe_BY|BZ:
   id: 306
   code: BY|BZ
@@ -97,6 +121,9 @@ entsoe_BY|BZ:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Minsk
+  timezone_priority:
 entsoe_CH:
   id: 5
   code: CH
@@ -108,6 +135,9 @@ entsoe_CH:
   electricitymaps_id: CH
   location_id:
   price_area_id:
+  name: Switzerland
+  timezone: Europe/Zurich
+  timezone_priority: 3
 entsoe_CY:
   id: 282
   code: CY
@@ -119,6 +149,9 @@ entsoe_CY:
   electricitymaps_id: CY
   location_id:
   price_area_id:
+  name: Cyprus
+  timezone: Asia/Nicosia
+  timezone_priority: 56
 entsoe_CZ:
   id: 6
   code: CZ
@@ -130,6 +163,9 @@ entsoe_CZ:
   electricitymaps_id: CZ
   location_id:
   price_area_id:
+  name: Czechia
+  timezone: Europe/Prague
+  timezone_priority: 5
 entsoe_DE:
   id: 7
   code: DE
@@ -141,6 +177,9 @@ entsoe_DE:
   electricitymaps_id: DE
   location_id:
   price_area_id: 52
+  name: Germany
+  timezone: Europe/Berlin
+  timezone_priority: 1
 entsoe_DE-AT-LU:
   id: 285
   code: DE-AT-LU
@@ -152,6 +191,9 @@ entsoe_DE-AT-LU:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Berlin
+  timezone_priority: 1
 entsoe_DE-LU:
   id: 52
   code: DE-LU
@@ -163,6 +205,9 @@ entsoe_DE-LU:
   electricitymaps_id: DE
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Berlin
+  timezone_priority: 1
 entsoe_DK:
   id: 8
   code: DK
@@ -174,6 +219,9 @@ entsoe_DK:
   electricitymaps_id:
   location_id: 5
   price_area_id:
+  name: Denmark
+  timezone: Europe/Copenhagen
+  timezone_priority: 23
 entsoe_DK1:
   id: 53
   code: DK1
@@ -185,6 +233,9 @@ entsoe_DK1:
   electricitymaps_id: DK-DK1
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Copenhagen
+  timezone_priority: 23
 entsoe_DK2:
   id: 54
   code: DK2
@@ -196,6 +247,9 @@ entsoe_DK2:
   electricitymaps_id: DK-DK2
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Copenhagen
+  timezone_priority: 23
 entsoe_EE:
   id: 9
   code: EE
@@ -207,6 +261,9 @@ entsoe_EE:
   electricitymaps_id: EE
   location_id:
   price_area_id:
+  name: Estonia
+  timezone: Europe/Tallinn
+  timezone_priority: 44
 entsoe_ES:
   id: 10
   code: ES
@@ -218,6 +275,9 @@ entsoe_ES:
   electricitymaps_id: ES
   location_id:
   price_area_id:
+  name: Spain
+  timezone: Europe/Madrid
+  timezone_priority: 13
 entsoe_FI:
   id: 11
   code: FI
@@ -229,6 +289,9 @@ entsoe_FI:
   electricitymaps_id: FI
   location_id:
   price_area_id:
+  name: Finland
+  timezone: Europe/Helsinki
+  timezone_priority: 24
 entsoe_FR:
   id: 12
   code: FR
@@ -240,6 +303,9 @@ entsoe_FR:
   electricitymaps_id: FR
   location_id:
   price_area_id:
+  name: France
+  timezone: Europe/Paris
+  timezone_priority: 12
 entsoe_GB:
   id: 13
   code: GB
@@ -251,6 +317,9 @@ entsoe_GB:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/London
+  timezone_priority: 11
 entsoe_GB(ElecLink):
   id: 319
   code: GB(ElecLink)
@@ -262,6 +331,9 @@ entsoe_GB(ElecLink):
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/London
+  timezone_priority: 11
 entsoe_GB(IFA)-BZN:
   id: 320
   code: GB(IFA)-BZN
@@ -273,6 +345,9 @@ entsoe_GB(IFA)-BZN:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/London
+  timezone_priority: 11
 entsoe_GB(IFA2)-BZN:
   id: 314
   code: GB(IFA2)-BZN
@@ -284,6 +359,9 @@ entsoe_GB(IFA2)-BZN:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/London
+  timezone_priority: 11
 entsoe_GB-CTY:
   id: 280
   code: GB-CTY
@@ -295,6 +373,9 @@ entsoe_GB-CTY:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/London
+  timezone_priority: 11
 entsoe_GE:
   id: 272
   code: GE
@@ -306,6 +387,9 @@ entsoe_GE:
   electricitymaps_id: GE
   location_id:
   price_area_id:
+  name: Georgia
+  timezone: Asia/Tbilisi
+  timezone_priority: 71
 entsoe_GR:
   id: 14
   code: GR
@@ -317,6 +401,9 @@ entsoe_GR:
   electricitymaps_id: GR
   location_id:
   price_area_id:
+  name: Greece
+  timezone: Europe/Athens
+  timezone_priority: 31
 entsoe_HR:
   id: 15
   code: HR
@@ -328,6 +415,9 @@ entsoe_HR:
   electricitymaps_id: HR
   location_id:
   price_area_id:
+  name: Croatia
+  timezone: Europe/Zagreb
+  timezone_priority: 9
 entsoe_HU:
   id: 16
   code: HU
@@ -339,6 +429,9 @@ entsoe_HU:
   electricitymaps_id: HU
   location_id:
   price_area_id:
+  name: Hungary
+  timezone: Europe/Budapest
+  timezone_priority: 6
 entsoe_IE:
   id: 17
   code: IE
@@ -349,18 +442,24 @@ entsoe_IE:
   type: country
   electricitymaps_id: IE
   location_id:
-  price_area_id:
+  price_area_id: 278
+  name: Ireland
+  timezone: Europe/Dublin
+  timezone_priority: 18
 entsoe_IE(SEM):
   id: 278
   code: IE(SEM)
   internal_id: 10Y1001A1001A59C
   source: entsoe
-  enabled: false
+  enabled: true
   region: europe
-  type: country
+  type: zone
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Dublin
+  timezone_priority: 18
 entsoe_IT:
   id: 18
   code: IT
@@ -372,6 +471,9 @@ entsoe_IT:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name: Italy
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-BR:
   id: 275
   code: IT-BR
@@ -383,6 +485,9 @@ entsoe_IT-BR:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-CA:
   id: 274
   code: IT-CA
@@ -394,6 +499,9 @@ entsoe_IT-CA:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-CNO:
   id: 264
   code: IT-CNO
@@ -405,6 +513,9 @@ entsoe_IT-CNO:
   electricitymaps_id: IT-CNO
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-CSO:
   id: 265
   code: IT-CSO
@@ -416,6 +527,9 @@ entsoe_IT-CSO:
   electricitymaps_id: IT-CSO
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-FO:
   id: 276
   code: IT-FO
@@ -427,6 +541,9 @@ entsoe_IT-FO:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-GR:
   id: 302
   code: IT-GR
@@ -438,6 +555,9 @@ entsoe_IT-GR:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-Malta BZN:
   id: 326
   code: IT-Malta BZN
@@ -449,6 +569,9 @@ entsoe_IT-Malta BZN:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Malta
+  timezone_priority: 32
 entsoe_IT-NO:
   id: 266
   code: IT-NO
@@ -460,6 +583,9 @@ entsoe_IT-NO:
   electricitymaps_id: IT-NO
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-North-AT:
   id: 303
   code: IT-North-AT
@@ -471,6 +597,9 @@ entsoe_IT-North-AT:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-North-CH:
   id: 300
   code: IT-North-CH
@@ -482,6 +611,9 @@ entsoe_IT-North-CH:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-North-FR:
   id: 304
   code: IT-North-FR
@@ -493,6 +625,9 @@ entsoe_IT-North-FR:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-North-SI:
   id: 301
   code: IT-North-SI
@@ -504,6 +639,9 @@ entsoe_IT-North-SI:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-PR:
   id: 277
   code: IT-PR
@@ -515,6 +653,9 @@ entsoe_IT-PR:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-Rossano:
   id: 281
   code: IT-Rossano
@@ -526,6 +667,9 @@ entsoe_IT-Rossano:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-SACOAC:
   id: 299
   code: IT-SACOAC
@@ -537,6 +681,9 @@ entsoe_IT-SACOAC:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-SACODC:
   id: 298
   code: IT-SACODC
@@ -548,6 +695,9 @@ entsoe_IT-SACODC:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-SAR:
   id: 267
   code: IT-SAR
@@ -559,6 +709,9 @@ entsoe_IT-SAR:
   electricitymaps_id: IT-SAR
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-SIC:
   id: 268
   code: IT-SIC
@@ -570,6 +723,9 @@ entsoe_IT-SIC:
   electricitymaps_id: IT-SIC
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_IT-SO:
   id: 269
   code: IT-SO
@@ -581,6 +737,9 @@ entsoe_IT-SO:
   electricitymaps_id: IT-SO
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Rome
+  timezone_priority: 14
 entsoe_LT:
   id: 19
   code: LT
@@ -592,6 +751,9 @@ entsoe_LT:
   electricitymaps_id: LT
   location_id:
   price_area_id:
+  name: Lithuania
+  timezone: Europe/Vilnius
+  timezone_priority: 46
 entsoe_LU:
   id: 20
   code: LU
@@ -603,6 +765,9 @@ entsoe_LU:
   electricitymaps_id: LU
   location_id:
   price_area_id:
+  name: Luxembourg
+  timezone: Europe/Luxembourg
+  timezone_priority: 17
 entsoe_LV:
   id: 21
   code: LV
@@ -614,6 +779,9 @@ entsoe_LV:
   electricitymaps_id: LV
   location_id:
   price_area_id:
+  name: Latvia
+  timezone: Europe/Riga
+  timezone_priority: 45
 entsoe_MD:
   id: 271
   code: MD
@@ -625,6 +793,9 @@ entsoe_MD:
   electricitymaps_id: MD
   location_id:
   price_area_id:
+  name: Moldova
+  timezone: Europe/Chisinau
+  timezone_priority: 47
 entsoe_ME:
   id: 22
   code: ME
@@ -636,6 +807,9 @@ entsoe_ME:
   electricitymaps_id: ME
   location_id:
   price_area_id:
+  name: North Macedonia
+  timezone: Europe/Podgorica
+  timezone_priority: 53
 entsoe_MK:
   id: 23
   code: MK
@@ -647,6 +821,9 @@ entsoe_MK:
   electricitymaps_id: MK
   location_id:
   price_area_id:
+  name: North Macedonia
+  timezone: Europe/Skopje
+  timezone_priority: 54
 entsoe_MT:
   id: 311
   code: MT
@@ -658,6 +835,9 @@ entsoe_MT:
   electricitymaps_id: MT
   location_id:
   price_area_id:
+  name: Malta
+  timezone: Europe/Malta
+  timezone_priority: 32
 entsoe_NL:
   id: 24
   code: NL
@@ -669,6 +849,9 @@ entsoe_NL:
   electricitymaps_id: NL
   location_id:
   price_area_id:
+  name: Netherlands
+  timezone: Europe/Amsterdam
+  timezone_priority: 15
 entsoe_NO:
   id: 25
   code: 'NO'
@@ -680,6 +863,9 @@ entsoe_NO:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name: Norway
+  timezone: Europe/Oslo
+  timezone_priority: 22
 entsoe_NO1:
   id: 41
   code: NO1
@@ -691,6 +877,9 @@ entsoe_NO1:
   electricitymaps_id: NO-NO1
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Oslo
+  timezone_priority: 22
 entsoe_NO2:
   id: 42
   code: NO2
@@ -702,6 +891,9 @@ entsoe_NO2:
   electricitymaps_id: NO-NO2
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Oslo
+  timezone_priority: 22
 entsoe_NO2NSL:
   id: 297
   code: NO2NSL
@@ -713,6 +905,9 @@ entsoe_NO2NSL:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Oslo
+  timezone_priority: 22
 entsoe_NO3:
   id: 43
   code: NO3
@@ -724,6 +919,9 @@ entsoe_NO3:
   electricitymaps_id: NO-NO3
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Oslo
+  timezone_priority: 22
 entsoe_NO4:
   id: 44
   code: NO4
@@ -735,6 +933,9 @@ entsoe_NO4:
   electricitymaps_id: NO-NO4
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Oslo
+  timezone_priority: 22
 entsoe_NO5:
   id: 45
   code: NO5
@@ -746,6 +947,9 @@ entsoe_NO5:
   electricitymaps_id: NO-NO5
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Oslo
+  timezone_priority: 22
 entsoe_PL:
   id: 26
   code: PL
@@ -757,6 +961,9 @@ entsoe_PL:
   electricitymaps_id: PL
   location_id:
   price_area_id:
+  name: Poland
+  timezone: Europe/Warsaw
+  timezone_priority: 4
 entsoe_PT:
   id: 27
   code: PT
@@ -768,6 +975,9 @@ entsoe_PT:
   electricitymaps_id: PT
   location_id:
   price_area_id:
+  name: Portugal
+  timezone: Europe/Lisbon
+  timezone_priority: 19
 entsoe_RO:
   id: 28
   code: RO
@@ -779,6 +989,9 @@ entsoe_RO:
   electricitymaps_id: RO
   location_id:
   price_area_id:
+  name: Romania
+  timezone: Europe/Bucharest
+  timezone_priority: 41
 entsoe_RS:
   id: 29
   code: RS
@@ -790,6 +1003,9 @@ entsoe_RS:
   electricitymaps_id: RS
   location_id:
   price_area_id:
+  name: Serbia
+  timezone: Europe/Belgrade
+  timezone_priority: 51
 entsoe_RU:
   id: 310
   code: RU
@@ -801,6 +1017,9 @@ entsoe_RU:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Moscow
+  timezone_priority: 61
 entsoe_RU-BZN:
   id: 313
   code: RU-BZN
@@ -812,6 +1031,9 @@ entsoe_RU-BZN:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Moscow
+  timezone_priority: 61
 entsoe_RU-KGD:
   id: 305
   code: RU-KGD
@@ -823,6 +1045,9 @@ entsoe_RU-KGD:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Kaliningrad
+  timezone_priority: 62
 entsoe_SE:
   id: 30
   code: SE
@@ -834,6 +1059,9 @@ entsoe_SE:
   electricitymaps_id:
   location_id: 1
   price_area_id:
+  name: Sweden
+  timezone: Europe/Stockholm
+  timezone_priority: 21
 entsoe_SE1:
   id: 31
   code: SE1
@@ -845,6 +1073,9 @@ entsoe_SE1:
   electricitymaps_id: SE-SE1
   location_id: 2
   price_area_id:
+  name:
+  timezone: Europe/Stockholm
+  timezone_priority: 21
 entsoe_SE2:
   id: 32
   code: SE2
@@ -856,6 +1087,9 @@ entsoe_SE2:
   electricitymaps_id: SE-SE2
   location_id: 3
   price_area_id:
+  name:
+  timezone: Europe/Stockholm
+  timezone_priority: 21
 entsoe_SE3:
   id: 33
   code: SE3
@@ -867,6 +1101,9 @@ entsoe_SE3:
   electricitymaps_id: SE-SE3
   location_id: 1
   price_area_id:
+  name:
+  timezone: Europe/Stockholm
+  timezone_priority: 21
 entsoe_SE4:
   id: 34
   code: SE4
@@ -878,6 +1115,9 @@ entsoe_SE4:
   electricitymaps_id: SE-SE4
   location_id: 4
   price_area_id:
+  name:
+  timezone: Europe/Stockholm
+  timezone_priority: 21
 entsoe_SI:
   id: 35
   code: SI
@@ -889,6 +1129,9 @@ entsoe_SI:
   electricitymaps_id: SI
   location_id:
   price_area_id:
+  name: Slovenia
+  timezone: Europe/Ljubljana
+  timezone_priority: 8
 entsoe_SK:
   id: 36
   code: SK
@@ -900,6 +1143,9 @@ entsoe_SK:
   electricitymaps_id: SK
   location_id:
   price_area_id:
+  name: Slovakia
+  timezone: Europe/Bratislava
+  timezone_priority: 7
 entsoe_TR:
   id: 309
   code: TR
@@ -911,6 +1157,9 @@ entsoe_TR:
   electricitymaps_id: TR
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Istanbul
+  timezone_priority: 63
 entsoe_UA:
   id: 284
   code: UA
@@ -922,6 +1171,9 @@ entsoe_UA:
   electricitymaps_id: UA
   location_id:
   price_area_id:
+  name: Ukraine
+  timezone: Europe/Kyiv
+  timezone_priority: 43
 entsoe_UA-BEI:
   id: 270
   code: UA-BEI
@@ -933,6 +1185,9 @@ entsoe_UA-BEI:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Kyiv
+  timezone_priority: 43
 entsoe_UA-DobTPP BZN:
   id: 325
   code: UA-DobTPP BZN
@@ -944,6 +1199,9 @@ entsoe_UA-DobTPP BZN:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Kyiv
+  timezone_priority: 43
 entsoe_UA-IPS:
   id: 283
   code: UA-IPS
@@ -955,6 +1213,9 @@ entsoe_UA-IPS:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Kyiv
+  timezone_priority: 43
 entsoe_XK:
   id: 40
   code: XK
@@ -966,6 +1227,9 @@ entsoe_XK:
   electricitymaps_id: XK
   location_id:
   price_area_id:
+  name: Kosovo
+  timezone: Europe/Belgrade
+  timezone_priority: 51
 elexon_BE:
   id: 332
   code: BE
@@ -977,6 +1241,9 @@ elexon_BE:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Brussels
+  timezone_priority: 16
 elexon_DK:
   id: 333
   code: DK
@@ -988,6 +1255,9 @@ elexon_DK:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Copenhagen
+  timezone_priority: 23
 elexon_FR:
   id: 334
   code: FR
@@ -999,6 +1269,9 @@ elexon_FR:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Paris
+  timezone_priority: 12
 elexon_GB:
   id: 260
   code: GB
@@ -1010,6 +1283,9 @@ elexon_GB:
   electricitymaps_id: GB
   location_id:
   price_area_id:
+  name: Great Britain
+  timezone: Europe/London
+  timezone_priority: 11
 elexon_GB_B1620:
   id: 37
   code: GB_B1620
@@ -1021,6 +1297,9 @@ elexon_GB_B1620:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/London
+  timezone_priority: 11
 elexon_GB_B1630:
   id: 259
   code: GB_B1630
@@ -1032,6 +1311,9 @@ elexon_GB_B1630:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/London
+  timezone_priority: 11
 elexon_IE:
   id: 335
   code: IE
@@ -1043,6 +1325,9 @@ elexon_IE:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Dublin
+  timezone_priority: 18
 elexon_NL:
   id: 336
   code: NL
@@ -1054,6 +1339,9 @@ elexon_NL:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Amsterdam
+  timezone_priority: 15
 elexon_NO:
   id: 337
   code: 'NO'
@@ -1065,6 +1353,9 @@ elexon_NO:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Oslo
+  timezone_priority: 22
 eirgrid_IE:
   id: 38
   code: IE
@@ -1076,6 +1367,9 @@ eirgrid_IE:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Dublin
+  timezone_priority: 18
 nordpool_sek_SE1:
   id: 55
   code: SE1
@@ -1087,6 +1381,9 @@ nordpool_sek_SE1:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Stockholm
+  timezone_priority: 21
 nordpool_sek_SE2:
   id: 56
   code: SE2
@@ -1098,6 +1395,9 @@ nordpool_sek_SE2:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Stockholm
+  timezone_priority: 21
 nordpool_sek_SE3:
   id: 57
   code: SE3
@@ -1109,6 +1409,9 @@ nordpool_sek_SE3:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Stockholm
+  timezone_priority: 21
 nordpool_sek_SE4:
   id: 58
   code: SE4
@@ -1120,6 +1423,9 @@ nordpool_sek_SE4:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Stockholm
+  timezone_priority: 21
 nordpool_DE:
   id: 60
   code: DE
@@ -1131,6 +1437,9 @@ nordpool_DE:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Berlin
+  timezone_priority: 1
 nordpool_DK1:
   id: 73
   code: DK1
@@ -1142,6 +1451,9 @@ nordpool_DK1:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Copenhagen
+  timezone_priority: 23
 nordpool_DK1A:
   id: 63
   code: DK1A
@@ -1153,6 +1465,9 @@ nordpool_DK1A:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Copenhagen
+  timezone_priority: 23
 nordpool_DK2:
   id: 65
   code: DK2
@@ -1164,6 +1479,9 @@ nordpool_DK2:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Copenhagen
+  timezone_priority: 23
 nordpool_EE:
   id: 77
   code: EE
@@ -1175,6 +1493,9 @@ nordpool_EE:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Tallinn
+  timezone_priority: 44
 nordpool_FI:
   id: 67
   code: FI
@@ -1186,6 +1507,9 @@ nordpool_FI:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Helsinki
+  timezone_priority: 24
 nordpool_FRE:
   id: 78
   code: FRE
@@ -1197,6 +1521,9 @@ nordpool_FRE:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Paris
+  timezone_priority: 12
 nordpool_LT:
   id: 69
   code: LT
@@ -1208,6 +1535,9 @@ nordpool_LT:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Vilnius
+  timezone_priority: 46
 nordpool_NO1:
   id: 64
   code: NO1
@@ -1219,6 +1549,9 @@ nordpool_NO1:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Oslo
+  timezone_priority: 22
 nordpool_NO2:
   id: 88
   code: NO2
@@ -1230,6 +1563,9 @@ nordpool_NO2:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Oslo
+  timezone_priority: 22
 nordpool_NO3:
   id: 71
   code: NO3
@@ -1241,6 +1577,9 @@ nordpool_NO3:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Oslo
+  timezone_priority: 22
 nordpool_NO4:
   id: 70
   code: NO4
@@ -1252,6 +1591,9 @@ nordpool_NO4:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Oslo
+  timezone_priority: 22
 nordpool_PL:
   id: 68
   code: PL
@@ -1263,6 +1605,9 @@ nordpool_PL:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Warsaw
+  timezone_priority: 4
 nordpool_PLC:
   id: 72
   code: PLC
@@ -1274,6 +1619,9 @@ nordpool_PLC:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Warsaw
+  timezone_priority: 4
 nordpool_SE:
   id: 74
   code: SE
@@ -1285,6 +1633,9 @@ nordpool_SE:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Stockholm
+  timezone_priority: 21
 nordpool_SE1:
   id: 66
   code: SE1
@@ -1296,6 +1647,9 @@ nordpool_SE1:
   electricitymaps_id:
   location_id: 2
   price_area_id:
+  name:
+  timezone: Europe/Stockholm
+  timezone_priority: 21
 nordpool_SE2:
   id: 59
   code: SE2
@@ -1307,6 +1661,9 @@ nordpool_SE2:
   electricitymaps_id:
   location_id: 3
   price_area_id:
+  name:
+  timezone: Europe/Stockholm
+  timezone_priority: 21
 nordpool_SE3:
   id: 62
   code: SE3
@@ -1318,6 +1675,9 @@ nordpool_SE3:
   electricitymaps_id:
   location_id: 1
   price_area_id:
+  name:
+  timezone: Europe/Stockholm
+  timezone_priority: 21
 nordpool_SE4:
   id: 61
   code: SE4
@@ -1329,17 +1689,289 @@ nordpool_SE4:
   electricitymaps_id:
   location_id: 4
   price_area_id:
-ree_ES-CN-FVLZ:
-  id: 89
-  code: ES-CN-FVLZ
-  internal_id: ES-CN-FVLZ
+  name:
+  timezone: Europe/Stockholm
+  timezone_priority: 21
+ree_AD:
+  id: 391
+  code: AD
+  internal_id: AD
   source: ree
-  enabled: true
-  region: canary_islands
-  type: region
+  enabled: false
+  region: europe
+  type: country
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/Andorra
+  timezone_priority: 34
+ree_ES:
+  id: 388
+  code: ES
+  internal_id: NACIONALAU
+  source: ree
+  enabled: false
+  region: europe
+  type: country
+  electricitymaps_id: ES
+  location_id:
+  price_area_id:
+  name:
+  timezone: Europe/Madrid
+  timezone_priority: 13
+ree_ES-CE:
+  id: 389
+  code: ES-CE
+  internal_id: CEUTAAU
+  source: ree
+  enabled: false
+  region: europe
+  type: region
+  electricitymaps_id: ES-CE
+  location_id:
+  price_area_id:
+  name:
+  timezone: Europe/Madrid
+  timezone_priority: 13
+ree_ES-CN:
+  id: 376
+  code: ES-CN
+  internal_id: CANARIASAU
+  source: ree
+  enabled: false
+  region: spanish_islands
+  type: region
+  electricitymaps_id: ES-CN
+  location_id:
+  price_area_id:
+  name:
+  timezone: Atlantic/Canary
+  timezone_priority: 33
+ree_ES-CN-FV:
+  id: 382
+  code: ES-CN-FV
+  internal_id: FUERTEVEAU
+  source: ree
+  enabled: false
+  region: spanish_islands
+  type: region
+  electricitymaps_id: ES-CN-FV
+  location_id:
+  price_area_id:
+  name:
+  timezone: Atlantic/Canary
+  timezone_priority: 33
+ree_ES-CN-FVLZ:
+  id: 89
+  code: ES-CN-FVLZ
+  internal_id: LZ_FVAU
+  source: ree
+  enabled: true
+  region: spanish_islands
+  type: region
+  electricitymaps_id: ES-CN-FVLZ
+  location_id:
+  price_area_id:
+  name:
+  timezone: Atlantic/Canary
+  timezone_priority: 33
+ree_ES-CN-GC:
+  id: 378
+  code: ES-CN-GC
+  internal_id: GCANARIAAU
+  source: ree
+  enabled: false
+  region: spanish_islands
+  type: region
+  electricitymaps_id: ES-CN-GC
+  location_id:
+  price_area_id:
+  name:
+  timezone: Atlantic/Canary
+  timezone_priority: 33
+ree_ES-CN-HI:
+  id: 379
+  code: ES-CN-HI
+  internal_id: EL_HIERROAU
+  source: ree
+  enabled: false
+  region: spanish_islands
+  type: region
+  electricitymaps_id: ES-CN-HI
+  location_id:
+  price_area_id:
+  name:
+  timezone: Atlantic/Canary
+  timezone_priority: 33
+ree_ES-CN-IG:
+  id: 380
+  code: ES-CN-IG
+  internal_id: LA_GOMERAAU
+  source: ree
+  enabled: false
+  region: spanish_islands
+  type: region
+  electricitymaps_id: ES-CN-IG
+  location_id:
+  price_area_id:
+  name:
+  timezone: Atlantic/Canary
+  timezone_priority: 33
+ree_ES-CN-LP:
+  id: 381
+  code: ES-CN-LP
+  internal_id: LA_PALMAAU
+  source: ree
+  enabled: false
+  region: spanish_islands
+  type: region
+  electricitymaps_id: ES-CN-LP
+  location_id:
+  price_area_id:
+  name:
+  timezone: Atlantic/Canary
+  timezone_priority: 33
+ree_ES-CN-LZ:
+  id: 383
+  code: ES-CN-LZ
+  internal_id: LANZAROTAU
+  source: ree
+  enabled: false
+  region: spanish_islands
+  type: region
+  electricitymaps_id: ES-CN-LZ
+  location_id:
+  price_area_id:
+  name:
+  timezone: Atlantic/Canary
+  timezone_priority: 33
+ree_ES-CN-TE:
+  id: 377
+  code: ES-CN-TE
+  internal_id: TENERIFEAU
+  source: ree
+  enabled: false
+  region: spanish_islands
+  type: region
+  electricitymaps_id: ES-CN-TE
+  location_id:
+  price_area_id:
+  name:
+  timezone: Atlantic/Canary
+  timezone_priority: 33
+ree_ES-IB-FO:
+  id: 384
+  code: ES-IB-FO
+  internal_id: FORMENTERAAU
+  source: ree
+  enabled: false
+  region: spanish_islands
+  type: region
+  electricitymaps_id: ES-IB-FO
+  location_id:
+  price_area_id:
+  name:
+  timezone: Europe/Madrid
+  timezone_priority: 13
+ree_ES-IB-IZ:
+  id: 385
+  code: ES-IB-IZ
+  internal_id: IBIZAAU
+  source: ree
+  enabled: false
+  region: spanish_islands
+  type: region
+  electricitymaps_id: ES-IB-IZ
+  location_id:
+  price_area_id:
+  name:
+  timezone: Europe/Madrid
+  timezone_priority: 13
+ree_ES-IB-MA:
+  id: 386
+  code: ES-IB-MA
+  internal_id: MALLORCAAU
+  source: ree
+  enabled: false
+  region: spanish_islands
+  type: region
+  electricitymaps_id: ES-IB-MA
+  location_id:
+  price_area_id:
+  name:
+  timezone: Europe/Madrid
+  timezone_priority: 13
+ree_ES-IB-ME:
+  id: 387
+  code: ES-IB-ME
+  internal_id: MENORCAAU
+  source: ree
+  enabled: false
+  region: spanish_islands
+  type: region
+  electricitymaps_id: ES-IB-ME
+  location_id:
+  price_area_id:
+  name:
+  timezone: Europe/Madrid
+  timezone_priority: 13
+ree_ES-ML:
+  id: 390
+  code: ES-ML
+  internal_id: MELILLAAU
+  source: ree
+  enabled: false
+  region: europe
+  type: region
+  electricitymaps_id: ES-ML
+  location_id:
+  price_area_id:
+  name:
+  timezone: Europe/Madrid
+  timezone_priority: 13
+ree_FR:
+  id: 394
+  code: FR
+  internal_id: FR
+  source: ree
+  enabled: false
+  region: europe
+  type: country
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+  name:
+  timezone: Europe/Paris
+  timezone_priority: 12
+ree_MA:
+  id: 392
+  code: MA
+  internal_id: MA
+  source: ree
+  enabled: false
+  region: europe
+  type: country
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+  name:
+  timezone: Africa/Casablanca
+  timezone_priority:
+ree_PT:
+  id: 393
+  code: PT
+  internal_id: PT
+  source: ree
+  enabled: false
+  region: europe
+  type: country
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+  name:
+  timezone: Europe/Lisbon
+  timezone_priority: 19
 ieso_CA-MB:
   id: 328
   code: CA-MB
@@ -1351,6 +1983,9 @@ ieso_CA-MB:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Winnipeg
+  timezone_priority: 14
 ieso_CA-ON:
   id: 90
   code: CA-ON
@@ -1362,6 +1997,9 @@ ieso_CA-ON:
   electricitymaps_id: CA-ON
   location_id:
   price_area_id:
+  name: Ontario
+  timezone: America/Toronto
+  timezone_priority: 4
 ieso_CA-QC:
   id: 331
   code: CA-QC
@@ -1373,6 +2011,9 @@ ieso_CA-QC:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Montreal
+  timezone_priority: 5
 ieso_US-MISO:
   id: 329
   code: US-MISO
@@ -1384,6 +2025,9 @@ ieso_US-MISO:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 ieso_US-NYISO:
   id: 330
   code: US-NYISO
@@ -1395,6 +2039,9 @@ ieso_US-NYISO:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 nyiso_NYISO:
   id: 91
   code: NYISO
@@ -1406,6 +2053,9 @@ nyiso_NYISO:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 caiso_CAISO:
   id: 92
   code: CAISO
@@ -1417,6 +2067,9 @@ caiso_CAISO:
   electricitymaps_id: US-CAL-CISO
   location_id:
   price_area_id:
+  name:
+  timezone: US/Pacific
+  timezone_priority: 33
 caiso_other:
   id: 340
   code: other
@@ -1428,6 +2081,9 @@ caiso_other:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: US/Pacific
+  timezone_priority: 33
 eia_AEC:
   id: 247
   code: AEC
@@ -1439,6 +2095,9 @@ eia_AEC:
   electricitymaps_id: US-SE-AEC
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eia_AECI:
   id: 132
   code: AECI
@@ -1450,6 +2109,9 @@ eia_AECI:
   electricitymaps_id: US-MIDW-AECI
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eia_AESO:
   id: 342
   code: AESO
@@ -1461,6 +2123,9 @@ eia_AESO:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Edmonton
+  timezone_priority: 13
 eia_AVA:
   id: 128
   code: AVA
@@ -1472,6 +2137,9 @@ eia_AVA:
   electricitymaps_id: US-NW-AVA
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_AVRN:
   id: 156
   code: AVRN
@@ -1483,6 +2151,9 @@ eia_AVRN:
   electricitymaps_id: US-NW-AVRN
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_AZPS:
   id: 130
   code: AZPS
@@ -1494,6 +2165,9 @@ eia_AZPS:
   electricitymaps_id: US-SW-AZPS
   location_id:
   price_area_id:
+  name:
+  timezone: America/Phoenix
+  timezone_priority: 22
 eia_BANC:
   id: 93
   code: BANC
@@ -1505,6 +2179,9 @@ eia_BANC:
   electricitymaps_id: US-CAL-BANC
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_BCHA:
   id: 350
   code: BCHA
@@ -1516,6 +2193,9 @@ eia_BCHA:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_BPAT:
   id: 153
   code: BPAT
@@ -1527,6 +2207,9 @@ eia_BPAT:
   electricitymaps_id: US-NW-BPAT
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_CAL:
   id: 117
   code: CAL
@@ -1538,6 +2221,9 @@ eia_CAL:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_CAN:
   id: 341
   code: CAN
@@ -1549,6 +2235,9 @@ eia_CAN:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_CAR:
   id: 106
   code: CAR
@@ -1560,6 +2249,9 @@ eia_CAR:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_CEN:
   id: 347
   code: CEN
@@ -1571,6 +2263,9 @@ eia_CEN:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eia_CENT:
   id: 155
   code: CENT
@@ -1582,6 +2277,9 @@ eia_CENT:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eia_CFE:
   id: 351
   code: CFE
@@ -1593,6 +2291,9 @@ eia_CFE:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Mexico_City
+  timezone_priority: 12
 eia_CHPD:
   id: 158
   code: CHPD
@@ -1604,6 +2305,9 @@ eia_CHPD:
   electricitymaps_id: US-NW-CHPD
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_CISO:
   id: 112
   code: CISO
@@ -1615,6 +2319,9 @@ eia_CISO:
   electricitymaps_id: US-CAL-CISO
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_CPLE:
   id: 151
   code: CPLE
@@ -1626,6 +2333,9 @@ eia_CPLE:
   electricitymaps_id: US-CAR-CPLE
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_CPLW:
   id: 152
   code: CPLW
@@ -1637,6 +2347,9 @@ eia_CPLW:
   electricitymaps_id: US-CAR-CPLW
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_DEAA:
   id: 163
   code: DEAA
@@ -1648,6 +2361,9 @@ eia_DEAA:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_DOPD:
   id: 150
   code: DOPD
@@ -1659,6 +2375,9 @@ eia_DOPD:
   electricitymaps_id: US-NW-DOPD
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_DUK:
   id: 143
   code: DUK
@@ -1670,6 +2389,9 @@ eia_DUK:
   electricitymaps_id: US-CAR-DUK
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_EEI:
   id: 250
   code: EEI
@@ -1681,6 +2403,9 @@ eia_EEI:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_EPE:
   id: 124
   code: EPE
@@ -1692,6 +2417,9 @@ eia_EPE:
   electricitymaps_id: US-SW-EPE
   location_id:
   price_area_id:
+  name:
+  timezone: America/Denver
+  timezone_priority: 21
 eia_ERCO:
   id: 131
   code: ERCO
@@ -1703,6 +2431,9 @@ eia_ERCO:
   electricitymaps_id: US-TEX-ERCO
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eia_FLA:
   id: 145
   code: FLA
@@ -1714,6 +2445,9 @@ eia_FLA:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_FMPP:
   id: 139
   code: FMPP
@@ -1725,6 +2459,9 @@ eia_FMPP:
   electricitymaps_id: US-FLA-FMPP
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_FPC:
   id: 122
   code: FPC
@@ -1736,6 +2473,9 @@ eia_FPC:
   electricitymaps_id: US-FLA-FPC
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_FPL:
   id: 110
   code: FPL
@@ -1747,6 +2487,9 @@ eia_FPL:
   electricitymaps_id: US-FLA-FPL
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_GCPD:
   id: 167
   code: GCPD
@@ -1758,6 +2501,9 @@ eia_GCPD:
   electricitymaps_id: US-NW-GCPD
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_GLHB:
   id: 169
   code: GLHB
@@ -1769,6 +2515,9 @@ eia_GLHB:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eia_GRID:
   id: 96
   code: GRID
@@ -1780,6 +2529,9 @@ eia_GRID:
   electricitymaps_id: US-NW-GRID
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_GRIF:
   id: 144
   code: GRIF
@@ -1791,6 +2543,9 @@ eia_GRIF:
   electricitymaps_id: US-SW-GRIF
   location_id:
   price_area_id:
+  name:
+  timezone: America/Phoenix
+  timezone_priority: 22
 eia_GRMA:
   id: 352
   code: GRMA
@@ -1802,6 +2557,9 @@ eia_GRMA:
   electricitymaps_id: US-SW-GRMA
   location_id:
   price_area_id:
+  name:
+  timezone: America/Phoenix
+  timezone_priority: 22
 eia_GVL:
   id: 157
   code: GVL
@@ -1813,6 +2571,9 @@ eia_GVL:
   electricitymaps_id: US-FLA-GVL
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_GWA:
   id: 168
   code: GWA
@@ -1824,6 +2585,9 @@ eia_GWA:
   electricitymaps_id: US-NW-GWA
   location_id:
   price_area_id:
+  name:
+  timezone: America/Denver
+  timezone_priority: 21
 eia_HGMA:
   id: 162
   code: HGMA
@@ -1835,6 +2599,9 @@ eia_HGMA:
   electricitymaps_id: US-SW-HGMA
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_HQT:
   id: 344
   code: HQT
@@ -1846,6 +2613,9 @@ eia_HQT:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_HST:
   id: 141
   code: HST
@@ -1857,6 +2627,9 @@ eia_HST:
   electricitymaps_id: US-FLA-HST
   location_id:
   price_area_id:
+  name:
+  timezone: Pacific/Honolulu
+  timezone_priority: 51
 eia_IESO:
   id: 343
   code: IESO
@@ -1868,6 +2641,9 @@ eia_IESO:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_IID:
   id: 109
   code: IID
@@ -1879,6 +2655,9 @@ eia_IID:
   electricitymaps_id: US-CAL-IID
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_IPCO:
   id: 107
   code: IPCO
@@ -1890,6 +2669,9 @@ eia_IPCO:
   electricitymaps_id: US-NW-IPCO
   location_id:
   price_area_id:
+  name:
+  timezone: America/Boise
+  timezone_priority: 23
 eia_ISNE:
   id: 111
   code: ISNE
@@ -1901,6 +2683,9 @@ eia_ISNE:
   electricitymaps_id: US-NE-ISNE
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_JEA:
   id: 97
   code: JEA
@@ -1912,6 +2697,9 @@ eia_JEA:
   electricitymaps_id: US-FLA-JEA
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_LDWP:
   id: 100
   code: LDWP
@@ -1923,6 +2711,9 @@ eia_LDWP:
   electricitymaps_id: US-CAL-LDWP
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_LGEE:
   id: 159
   code: LGEE
@@ -1934,6 +2725,9 @@ eia_LGEE:
   electricitymaps_id: US-MIDW-LGEE
   location_id:
   price_area_id:
+  name:
+  timezone: America/Kentucky/Louisville
+  timezone_priority: 3
 eia_MEX:
   id: 349
   code: MEX
@@ -1945,6 +2739,9 @@ eia_MEX:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Mexico_City
+  timezone_priority: 12
 eia_MHEB:
   id: 348
   code: MHEB
@@ -1956,6 +2753,9 @@ eia_MHEB:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_MIDA:
   id: 140
   code: MIDA
@@ -1967,6 +2767,9 @@ eia_MIDA:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Indiana/Indianapolis
+  timezone_priority: 2
 eia_MIDW:
   id: 133
   code: MIDW
@@ -1978,6 +2781,9 @@ eia_MIDW:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eia_MISO:
   id: 99
   code: MISO
@@ -1989,6 +2795,9 @@ eia_MISO:
   electricitymaps_id: US-MIDW-MISO
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eia_NBSO:
   id: 345
   code: NBSO
@@ -2000,6 +2809,9 @@ eia_NBSO:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_NE:
   id: 108
   code: NE
@@ -2011,6 +2823,9 @@ eia_NE:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_NEVP:
   id: 125
   code: NEVP
@@ -2022,6 +2837,9 @@ eia_NEVP:
   electricitymaps_id: US-NW-NEVP
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_NSB:
   id: 248
   code: NSB
@@ -2033,6 +2851,9 @@ eia_NSB:
   electricitymaps_id: US-FLA-NSB
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_NW:
   id: 105
   code: NW
@@ -2044,6 +2865,9 @@ eia_NW:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_NWMT:
   id: 120
   code: NWMT
@@ -2055,6 +2879,9 @@ eia_NWMT:
   electricitymaps_id: US-NW-NWMT
   location_id:
   price_area_id:
+  name:
+  timezone: America/Denver
+  timezone_priority: 21
 eia_NY:
   id: 135
   code: NY
@@ -2066,6 +2893,9 @@ eia_NY:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_NYIS:
   id: 95
   code: NYIS
@@ -2077,6 +2907,9 @@ eia_NYIS:
   electricitymaps_id: US-NY-NYIS
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_OVEC:
   id: 249
   code: OVEC
@@ -2088,6 +2921,9 @@ eia_OVEC:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_PACE:
   id: 136
   code: PACE
@@ -2099,6 +2935,9 @@ eia_PACE:
   electricitymaps_id: US-NW-PACE
   location_id:
   price_area_id:
+  name:
+  timezone: America/Denver
+  timezone_priority: 21
 eia_PACW:
   id: 137
   code: PACW
@@ -2110,6 +2949,9 @@ eia_PACW:
   electricitymaps_id: US-NW-PACW
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_PGE:
   id: 127
   code: PGE
@@ -2121,6 +2963,9 @@ eia_PGE:
   electricitymaps_id: US-NW-PGE
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_PJM:
   id: 118
   code: PJM
@@ -2132,6 +2977,9 @@ eia_PJM:
   electricitymaps_id: US-MIDA-PJM
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_PNM:
   id: 154
   code: PNM
@@ -2143,6 +2991,9 @@ eia_PNM:
   electricitymaps_id: US-SW-PNM
   location_id:
   price_area_id:
+  name:
+  timezone: America/Denver
+  timezone_priority: 21
 eia_PSCO:
   id: 138
   code: PSCO
@@ -2154,6 +3005,9 @@ eia_PSCO:
   electricitymaps_id: US-NW-PSCO
   location_id:
   price_area_id:
+  name:
+  timezone: America/Denver
+  timezone_priority: 21
 eia_PSEI:
   id: 149
   code: PSEI
@@ -2165,6 +3019,9 @@ eia_PSEI:
   electricitymaps_id: US-NW-PSEI
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_SC:
   id: 94
   code: SC
@@ -2176,6 +3033,9 @@ eia_SC:
   electricitymaps_id: US-CAR-SC
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_SCEG:
   id: 148
   code: SCEG
@@ -2187,6 +3047,9 @@ eia_SCEG:
   electricitymaps_id: US-CAR-SCEG
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_SCL:
   id: 147
   code: SCL
@@ -2198,6 +3061,9 @@ eia_SCL:
   electricitymaps_id: US-NW-SCL
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_SE:
   id: 129
   code: SE
@@ -2209,6 +3075,9 @@ eia_SE:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_SEC:
   id: 142
   code: SEC
@@ -2220,6 +3089,9 @@ eia_SEC:
   electricitymaps_id: US-FLA-SEC
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_SEPA:
   id: 114
   code: SEPA
@@ -2231,6 +3103,23 @@ eia_SEPA:
   electricitymaps_id: US-SE-SEPA
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
+eia_SIKE:
+  id: 374
+  code: SIKE
+  internal_id: SIKE
+  source: eia
+  enabled: true
+  region: usa
+  type: balancing_authority
+  electricitymaps_id:
+  location_id:
+  price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_SOCO:
   id: 123
   code: SOCO
@@ -2242,6 +3131,9 @@ eia_SOCO:
   electricitymaps_id: US-SE-SOCO
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_SPA:
   id: 165
   code: SPA
@@ -2253,6 +3145,9 @@ eia_SPA:
   electricitymaps_id: US-CENT-SPA
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eia_SPC:
   id: 346
   code: SPC
@@ -2264,6 +3159,9 @@ eia_SPC:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_SRP:
   id: 113
   code: SRP
@@ -2275,6 +3173,9 @@ eia_SRP:
   electricitymaps_id: US-SW-SRP
   location_id:
   price_area_id:
+  name:
+  timezone: America/Phoenix
+  timezone_priority: 22
 eia_SW:
   id: 116
   code: SW
@@ -2286,6 +3187,9 @@ eia_SW:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Phoenix
+  timezone_priority: 22
 eia_SWPP:
   id: 101
   code: SWPP
@@ -2297,6 +3201,9 @@ eia_SWPP:
   electricitymaps_id: US-CENT-SWPP
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eia_TAL:
   id: 160
   code: TAL
@@ -2308,6 +3215,9 @@ eia_TAL:
   electricitymaps_id: US-FLA-TAL
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_TEC:
   id: 102
   code: TEC
@@ -2319,6 +3229,9 @@ eia_TEC:
   electricitymaps_id: US-FLA-TEC
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 eia_TEN:
   id: 98
   code: TEN
@@ -2330,6 +3243,9 @@ eia_TEN:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eia_TEPC:
   id: 134
   code: TEPC
@@ -2341,6 +3257,9 @@ eia_TEPC:
   electricitymaps_id: US-SW-TEPC
   location_id:
   price_area_id:
+  name:
+  timezone: America/Phoenix
+  timezone_priority: 22
 eia_TEX:
   id: 119
   code: TEX
@@ -2352,6 +3271,9 @@ eia_TEX:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eia_TIDC:
   id: 166
   code: TIDC
@@ -2363,6 +3285,9 @@ eia_TIDC:
   electricitymaps_id: US-CAL-TIDC
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_TPWR:
   id: 164
   code: TPWR
@@ -2374,6 +3299,9 @@ eia_TPWR:
   electricitymaps_id: US-NW-TPWR
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_TVA:
   id: 121
   code: TVA
@@ -2385,6 +3313,9 @@ eia_TVA:
   electricitymaps_id: US-TEN-TVA
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eia_US48:
   id: 146
   code: US48
@@ -2396,6 +3327,9 @@ eia_US48:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name: USA
+  timezone: America/New_York
+  timezone_priority: 1
 eia_WACM:
   id: 103
   code: WACM
@@ -2407,6 +3341,9 @@ eia_WACM:
   electricitymaps_id: US-NW-WACM
   location_id:
   price_area_id:
+  name:
+  timezone: America/Denver
+  timezone_priority: 21
 eia_WALC:
   id: 104
   code: WALC
@@ -2418,6 +3355,9 @@ eia_WALC:
   electricitymaps_id: US-SW-WALC
   location_id:
   price_area_id:
+  name:
+  timezone: America/Phoenix
+  timezone_priority: 22
 eia_WAUW:
   id: 115
   code: WAUW
@@ -2429,6 +3369,9 @@ eia_WAUW:
   electricitymaps_id: US-NW-WAUW
   location_id:
   price_area_id:
+  name:
+  timezone: America/Los_Angeles
+  timezone_priority: 31
 eia_WWA:
   id: 161
   code: WWA
@@ -2440,6 +3383,9 @@ eia_WWA:
   electricitymaps_id: US-NW-WWA
   location_id:
   price_area_id:
+  name:
+  timezone: America/Denver
+  timezone_priority: 21
 eia_YAD:
   id: 126
   code: YAD
@@ -2451,6 +3397,9 @@ eia_YAD:
   electricitymaps_id: US-CAR-YAD
   location_id:
   price_area_id:
+  name:
+  timezone: America/New_York
+  timezone_priority: 1
 opennem_NEM-NSW1:
   id: 251
   code: NEM-NSW1
@@ -2462,6 +3411,9 @@ opennem_NEM-NSW1:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Sydney
+  timezone_priority: 1
 opennem_NEM-QLD1:
   id: 252
   code: NEM-QLD1
@@ -2473,6 +3425,9 @@ opennem_NEM-QLD1:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Brisbane
+  timezone_priority: 2
 opennem_NEM-SA1:
   id: 253
   code: NEM-SA1
@@ -2484,6 +3439,9 @@ opennem_NEM-SA1:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Adelaide
+  timezone_priority: 11
 opennem_NEM-TAS1:
   id: 254
   code: NEM-TAS1
@@ -2495,6 +3453,9 @@ opennem_NEM-TAS1:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Hobart
+  timezone_priority: 4
 opennem_NEM-VIC1:
   id: 255
   code: NEM-VIC1
@@ -2506,6 +3467,9 @@ opennem_NEM-VIC1:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Melbourne
+  timezone_priority: 3
 opennem_WEM-WEM:
   id: 256
   code: WEM-WEM
@@ -2517,6 +3481,9 @@ opennem_WEM-WEM:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Perth
+  timezone_priority: 21
 nationalgrideso_GB:
   id: 258
   code: GB
@@ -2528,6 +3495,9 @@ nationalgrideso_GB:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Europe/London
+  timezone_priority: 11
 aeso_British Columbia:
   id: 371
   code: British Columbia
@@ -2539,6 +3509,9 @@ aeso_British Columbia:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Vancouver
+  timezone_priority: 32
 aeso_CA-AB:
   id: 261
   code: CA-AB
@@ -2550,6 +3523,9 @@ aeso_CA-AB:
   electricitymaps_id: CA-AB
   location_id:
   price_area_id:
+  name:
+  timezone: America/Edmonton
+  timezone_priority: 13
 aeso_CA-AB-hourly:
   id: 370
   code: CA-AB-hourly
@@ -2561,6 +3537,9 @@ aeso_CA-AB-hourly:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Edmonton
+  timezone_priority: 13
 aeso_Montana:
   id: 372
   code: Montana
@@ -2572,6 +3551,9 @@ aeso_Montana:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Denver
+  timezone_priority: 21
 aeso_Saskatchewan:
   id: 373
   code: Saskatchewan
@@ -2583,6 +3565,9 @@ aeso_Saskatchewan:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Regina
+  timezone_priority: 15
 hydroquebec_CA-QC:
   id: 262
   code: CA-QC
@@ -2594,6 +3579,9 @@ hydroquebec_CA-QC:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Montreal
+  timezone_priority: 5
 nspower_CA-NS:
   id: 263
   code: CA-NS
@@ -2605,6 +3593,9 @@ nspower_CA-NS:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Halifax
+  timezone_priority: 6
 aemo_AU:
   id: 296
   code: AU
@@ -2616,6 +3607,9 @@ aemo_AU:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Sydney
+  timezone_priority: 1
 aemo_NSW1:
   id: 287
   code: NSW1
@@ -2627,6 +3621,9 @@ aemo_NSW1:
   electricitymaps_id: AU-NSW
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Sydney
+  timezone_priority: 1
 aemo_QLD1:
   id: 288
   code: QLD1
@@ -2638,6 +3635,9 @@ aemo_QLD1:
   electricitymaps_id: AU-QLD
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Brisbane
+  timezone_priority: 2
 aemo_SA1:
   id: 286
   code: SA1
@@ -2649,6 +3649,9 @@ aemo_SA1:
   electricitymaps_id: AU-SA
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Adelaide
+  timezone_priority: 11
 aemo_TAS1:
   id: 289
   code: TAS1
@@ -2660,6 +3663,9 @@ aemo_TAS1:
   electricitymaps_id: AU-TAS
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Hobart
+  timezone_priority: 4
 aemo_VIC1:
   id: 290
   code: VIC1
@@ -2671,6 +3677,9 @@ aemo_VIC1:
   electricitymaps_id: AU-VIC
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Melbourne
+  timezone_priority: 3
 aemo_WEM:
   id: 321
   code: WEM
@@ -2682,6 +3691,9 @@ aemo_WEM:
   electricitymaps_id: AU-WA
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Perth
+  timezone_priority: 21
 tohoku-epco_tohoku:
   id: 322
   code: tohoku
@@ -2693,6 +3705,9 @@ tohoku-epco_tohoku:
   electricitymaps_id: JP-TH
   location_id:
   price_area_id:
+  name:
+  timezone: Asia/Tokyo
+  timezone_priority: 4
 ercot_ERCOT:
   id: 323
   code: ERCOT
@@ -2704,6 +3719,9 @@ ercot_ERCOT:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Chicago
+  timezone_priority: 11
 eskom_ZA:
   id: 324
   code: ZA
@@ -2715,6 +3733,9 @@ eskom_ZA:
   electricitymaps_id: ZA
   location_id:
   price_area_id:
+  name: South Africa
+  timezone: Africa/Johannesburg
+  timezone_priority:
 aemo_cp_AU:
   id: 338
   code: AU
@@ -2726,6 +3747,9 @@ aemo_cp_AU:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Australia/Brisbane
+  timezone_priority: 2
 taipower_TW:
   id: 339
   code: TW
@@ -2737,17 +3761,23 @@ taipower_TW:
   electricitymaps_id: TW
   location_id:
   price_area_id:
+  name: Taiwan
+  timezone: Asia/Taipei
+  timezone_priority: 2
 taipower_TW-daily:
   id: 369
   code: TW-daily
   internal_id: TW-daily
   source: taipower
-  enabled: true
+  enabled: false
   region: taiwan
   type: country
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: Asia/Taipei
+  timezone_priority: 2
 ons_AR:
   id: 357
   code: AR
@@ -2759,6 +3789,9 @@ ons_AR:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Argentina/Buenos_Aires
+  timezone_priority: 1
 ons_BR-CS:
   id: 354
   code: BR-CS
@@ -2770,6 +3803,9 @@ ons_BR-CS:
   electricitymaps_id: BR-CS
   location_id:
   price_area_id:
+  name:
+  timezone: America/Sao_Paulo
+  timezone_priority: 2
 ons_BR-N:
   id: 355
   code: BR-N
@@ -2781,6 +3817,9 @@ ons_BR-N:
   electricitymaps_id: BR-N
   location_id:
   price_area_id:
+  name:
+  timezone: America/Belem
+  timezone_priority: 3
 ons_BR-NE:
   id: 356
   code: BR-NE
@@ -2792,6 +3831,9 @@ ons_BR-NE:
   electricitymaps_id: BR-NE
   location_id:
   price_area_id:
+  name:
+  timezone: America/Recife
+  timezone_priority: 4
 ons_BR-S:
   id: 353
   code: BR-S
@@ -2803,6 +3845,9 @@ ons_BR-S:
   electricitymaps_id: BR-S
   location_id:
   price_area_id:
+  name:
+  timezone: America/Sao_Paulo
+  timezone_priority: 2
 ons_PY:
   id: 358
   code: PY
@@ -2814,6 +3859,9 @@ ons_PY:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Asuncion
+  timezone_priority: 7
 ons_UY:
   id: 359
   code: UY
@@ -2825,6 +3873,9 @@ ons_UY:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Montevideo
+  timezone_priority: 5
 cammesa_AR:
   id: 360
   code: AR
@@ -2836,6 +3887,9 @@ cammesa_AR:
   electricitymaps_id: AR
   location_id:
   price_area_id:
+  name: Argentina
+  timezone: America/Argentina/Buenos_Aires
+  timezone_priority: 1
 cammesa_BOL:
   id: 367
   code: BOL
@@ -2847,6 +3901,9 @@ cammesa_BOL:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/La_Paz
+  timezone_priority: 8
 cammesa_BRA:
   id: 364
   code: BRA
@@ -2858,6 +3915,9 @@ cammesa_BRA:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Sao_Paulo
+  timezone_priority: 2
 cammesa_CHI:
   id: 365
   code: CHI
@@ -2869,6 +3929,9 @@ cammesa_CHI:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Santiago
+  timezone_priority: 6
 cammesa_PAR:
   id: 366
   code: PAR
@@ -2880,6 +3943,9 @@ cammesa_PAR:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Asuncion
+  timezone_priority: 7
 cammesa_URU:
   id: 363
   code: URU
@@ -2891,6 +3957,9 @@ cammesa_URU:
   electricitymaps_id:
   location_id:
   price_area_id:
+  name:
+  timezone: America/Montevideo
+  timezone_priority: 5
 cammesa_other:
   id: 368
   code: other
@@ -2903,6 +3972,8 @@ cammesa_other:
   location_id:
   price_area_id:
   name:
+  timezone: America/Argentina/Buenos_Aires
+  timezone_priority: 1
 cenace_MX:
   id: 375
   code: MX
@@ -2911,7 +3982,177 @@ cenace_MX:
   enabled: true
   region: mexico
   type: country
-  electricitymaps_id:
+  electricitymaps_id: MX
   location_id:
   price_area_id:
   name:
+  timezone: America/Mexico_City
+  timezone_priority: 12
+kpx_KR:
+  id: 396
+  code: KR
+  internal_id: KR
+  source: kpx
+  enabled: true
+  region: korea
+  type: country
+  electricitymaps_id: KR
+  location_id:
+  price_area_id:
+  name:
+  timezone: Asia/Seoul
+  timezone_priority: 3
+grid-india_IN:
+  id: 397
+  code: IN
+  internal_id: IN
+  source: grid-india
+  enabled: true
+  region: india
+  type: country
+  electricitymaps_id: IN
+  location_id:
+  price_area_id:
+  name:
+  timezone: Asia/Kolkata
+  timezone_priority: 1
+tepco_tokyo:
+  id: 398
+  code: tokyo
+  internal_id: tokyo
+  source: tepco
+  enabled: true
+  region: japan
+  type: region
+  electricitymaps_id: JP-TK
+  location_id:
+  price_area_id:
+  name:
+  timezone: Asia/Tokyo
+  timezone_priority: 4
+chuden_chubu:
+  id: 399
+  code: chubu
+  internal_id: chubu
+  source: chuden
+  enabled: true
+  region: japan
+  type: region
+  electricitymaps_id: JP-CB
+  location_id:
+  price_area_id:
+  name:
+  timezone: Asia/Tokyo
+  timezone_priority: 4
+hepco_hokkaido:
+  id: 400
+  code: hokkaido
+  internal_id: hokkaido
+  source: hepco
+  enabled: true
+  region: japan
+  type: region
+  electricitymaps_id: JP-HKD
+  location_id:
+  price_area_id:
+  name:
+  timezone: Asia/Tokyo
+  timezone_priority: 4
+rikuden_hokuriku:
+  id: 401
+  code: hokuriku
+  internal_id: hokuriku
+  source: rikuden
+  enabled: true
+  region: japan
+  type: region
+  electricitymaps_id: JP-HR
+  location_id:
+  price_area_id:
+  name:
+  timezone: Asia/Tokyo
+  timezone_priority: 4
+okiden_okinawa:
+  id: 402
+  code: okinawa
+  internal_id: okinawa
+  source: okiden
+  enabled: true
+  region: japan
+  type: region
+  electricitymaps_id: JP-ON
+  location_id:
+  price_area_id:
+  name:
+  timezone: Asia/Tokyo
+  timezone_priority: 4
+chugoku_chugoku:
+  id: 403
+  code: chugoku
+  internal_id: chugoku
+  source: chugoku
+  enabled: true
+  region: japan
+  type: region
+  electricitymaps_id: JP-CG
+  location_id:
+  price_area_id:
+  name:
+  timezone: Asia/Tokyo
+  timezone_priority: 4
+yonden_shikoku:
+  id: 404
+  code: shikoku
+  internal_id: shikoku
+  source: yonden
+  enabled: true
+  region: japan
+  type: region
+  electricitymaps_id: JP-SK
+  location_id:
+  price_area_id:
+  name:
+  timezone: Asia/Tokyo
+  timezone_priority: 4
+kyuden_kyushu:
+  id: 405
+  code: kyushu
+  internal_id: kyushu
+  source: kyuden
+  enabled: true
+  region: japan
+  type: region
+  electricitymaps_id: JP-KY
+  location_id:
+  price_area_id:
+  name:
+  timezone: Asia/Tokyo
+  timezone_priority: 4
+kepco_kansai:
+  id: 406
+  code: kansai
+  internal_id: kansai
+  source: kepco
+  enabled: true
+  region: japan
+  type: region
+  electricitymaps_id: JP-KN
+  location_id:
+  price_area_id:
+  name:
+  timezone: Asia/Tokyo
+  timezone_priority: 4
+enec_AE:
+  id: 408
+  code: AE
+  internal_id: AE
+  source: enec
+  enabled: true
+  region: uae
+  type: country
+  electricitymaps_id: AE
+  location_id:
+  price_area_id:
+  name:
+  timezone: Asia/Dubai
+  timezone_priority: 5
