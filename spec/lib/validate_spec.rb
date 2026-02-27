@@ -3,26 +3,23 @@
 require 'rails_helper'
 
 RSpec.describe Validate do
-  before(:each) do
-    @area = Area.find_or_create_by!(source: 'caiso', code: 'TEST', internal_id: 'TEST', region: 'usa', type: 'zone',
-                                    enabled: true)
-    @gen_rules = {
-      'TEST' => { 'solar' => { min: 0, max: 1000 } }
-    }.with_indifferent_access
-    @load_rules = {
-      'TEST' => { min: 1000, max: 10_000 }
-    }.with_indifferent_access
+  let(:area) { Area.find_by!(code: 'CAISO', source: 'caiso') }
+  let(:gen_rules) do
+    { 'CAISO' => { 'solar' => { min: 0, max: 1000 } } }.with_indifferent_access
+  end
+  let(:load_rules) do
+    { 'CAISO' => { min: 1000, max: 10_000 } }.with_indifferent_access
   end
 
   describe '.validate_generation' do
     it 'filters out values outside the specified range' do
       points = [
-        { country: 'TEST', production_type: 'solar', value: 500, time: Time.now },
-        { country: 'TEST', production_type: 'solar', value: 1000, time: Time.now },
-        { country: 'TEST', production_type: 'solar', value: -100, time: Time.now }
+        { country: 'CAISO', production_type: 'solar', value: 500, time: Time.now },
+        { country: 'CAISO', production_type: 'solar', value: 1000, time: Time.now },
+        { country: 'CAISO', production_type: 'solar', value: -100, time: Time.now }
       ]
 
-      result = described_class.validate_generation(points, @gen_rules)
+      result = described_class.validate_generation(points, gen_rules)
       expect(result).to have(1).item
       expect(result.first[:value]).to eq(500)
     end
@@ -31,12 +28,12 @@ RSpec.describe Validate do
   describe '.validate_load' do
     it 'filters out load values outside the specified range' do
       points = [
-        { country: 'TEST', value: 5000, time: Time.now },
-        { country: 'TEST', value: 500, time: Time.now },
-        { country: 'TEST', value: 10_000, time: Time.now }
+        { country: 'CAISO', value: 5000, time: Time.now },
+        { country: 'CAISO', value: 500, time: Time.now },
+        { country: 'CAISO', value: 10_000, time: Time.now }
       ]
 
-      result = described_class.validate_load(points, @load_rules)
+      result = described_class.validate_load(points, load_rules)
       expect(result).to have(1).item
       expect(result.first[:value]).to eq(5000)
     end

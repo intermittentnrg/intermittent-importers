@@ -16,10 +16,10 @@ RSpec.describe Load do
   end
 
   describe '#inspect' do
-    let(:area) { Area.find_or_create_by!(source: 'entsoe', code: 'TEST', internal_id: 'TEST', region: 'europe', type: 'zone', enabled: true) }
+    let(:area) { Area.find_by!(code: 'AT', source: 'entsoe') }
 
     it 'formats large values in GW' do
-      load = Load.create!(area: area, time: Time.now, value: 1500000)
+      load = Load.create!(area: area, time: Time.now, value: 1_500_000)
       expect(load.inspect).to match(/1\.5 GW/)
     end
 
