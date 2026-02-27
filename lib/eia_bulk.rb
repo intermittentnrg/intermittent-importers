@@ -259,12 +259,13 @@ module EiaBulk
 
     def self.copy_sql(range_start, range_end)
       <<~SQL
-        INSERT INTO transmission (from_area_id, to_area_id, time, value)
-        SELECT from_area.id,to_area.id,time-INTERVAL '1 hour' AS time,value FROM #{BULK_TABLE} ebi
+        INSERT INTO transmission_data (areas_area_id, time, value)
+        SELECT aa.id,time-INTERVAL '1 hour' AS time,value FROM #{BULK_TABLE} ebi
         LEFT JOIN areas from_area ON(ebi.from_area::text=from_area.code AND from_area.source='eia')
         LEFT JOIN areas to_area ON(ebi.to_area::text=to_area.code AND from_area.source='eia')
+        INNER JOIN areas_areas aa ON(from_area.id=from_area_id AND to_area.id=to_area_id)
         WHERE time BETWEEN '#{range_start}'::timestamptz + INTERVAL '1 hour' AND '#{range_end}'::timestamptz + INTERVAL '1 hour'
-        ON CONFLICT ON CONSTRAINT transmission_pkey DO UPDATE SET value = EXCLUDED.value WHERE transmission.value<>EXCLUDED.value
+        ON CONFLICT ON CONSTRAINT transmission_data_pkey DO UPDATE SET value = EXCLUDED.value WHERE transmission_data.value<>EXCLUDED.value
       SQL
     end
   end
