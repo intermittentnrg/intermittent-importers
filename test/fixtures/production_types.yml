@@ -78,6 +78,7 @@ fossil_hard_coal:
   name: fossil_hard_coal
   name2: 04_hard_coal
   enabled: true
+  production_type_group_id: 1
 fossil_oil:
   id: 6
   name: fossil_oil
@@ -173,6 +174,7 @@ solar:
   name: solar
   name2: '08_solar'
   enabled: true
+  production_type_group_id: 2
 solar_embedded:
   id: 37
   name: solar_embedded

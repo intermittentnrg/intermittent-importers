@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+# Production type groups for tests
+fossil_hard_coal_group:
+  id: 1
+  name: "03_coal"
+
+solar_group:
+  id: 2
+  name: "10_solar"
+
+wind_group:
+  id: 3
+  name: "09_wind"

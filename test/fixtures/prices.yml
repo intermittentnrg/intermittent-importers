@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+# Price fixtures for tests
+se_price_1:
+  area_id: 30
+  time: '2025-01-15T12:00:00Z'
+  value: 5000
+
+se_price_2:
+  area_id: 30
+  time: '2025-01-14T12:00:00Z'
+  value: 4500

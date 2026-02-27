@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+# Load fixtures for tests
+de_load_1:
+  area_id: 7
+  time: '2025-01-15T12:00:00Z'
+  value: 50000.0
+
+de_load_2:
+  area_id: 7
+  time: '2025-01-14T12:00:00Z'
+  value: 48000.0

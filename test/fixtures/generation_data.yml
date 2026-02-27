@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+# Generation data fixtures for tests - use fixed timestamps
+de_fossil_hard_coal_1:
+  areas_production_type_id: 146
+  time: '2025-01-15T12:00:00Z'
+  value: 100.0
+
+de_fossil_hard_coal_2:
+  areas_production_type_id: 146
+  time: '2025-01-14T12:00:00Z'
+  value: 120.0
+
+se_hydro_water_reservoir_1:
+  areas_production_type_id: 71
+  time: '2025-01-15T12:00:00Z'
+  value: 200.0
+
+se_hydro_water_reservoir_2:
+  areas_production_type_id: 71
+  time: '2025-01-14T12:00:00Z'
+  value: 180.0

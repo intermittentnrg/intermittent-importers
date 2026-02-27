@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+# Transmission fixtures for tests
+de_be_transmission_1:
+  areas_area_id: 694
+  time: '2025-01-15T12:00:00Z'
+  value: 100.0
+  capacity: 1000.0

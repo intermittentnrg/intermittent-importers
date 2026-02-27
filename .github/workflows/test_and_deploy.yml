@@ -37,7 +37,7 @@ jobs:
       - name: rake db:migrate db:fixtures:load
         run: |
           bundle exec rake db:create db:migrate
-          bundle exec rake db:fixtures:load FIXTURES=locations,areas,production_types,areas_production_types,units
+          bundle exec rake db:fixtures:load FIXTURES=locations,areas,production_type_groups,production_types,areas_production_types,units,generation_data,load,prices,areas_areas,transmissions
       - name: rspec
         run: |
           bundle exec rspec -f d
