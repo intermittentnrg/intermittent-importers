@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require 'faraday'
-require 'csv'
+require 'fastest_csv'
 require 'zip'
 require 'chronic'
 require 'tzinfo'
@@ -7,23 +9,7 @@ require 'tzinfo'
 module Nyiso
   class Base
     TZ = TZInfo::Timezone.get('America/New_York')
-    URL_FORMAT = 'http://mis.nyiso.com/public/csv/rtfuelmix/%Y%m%drtfuelmix_csv.zip'
-    def self.source_id
-      'nyiso'
-    end
 
-    def initialize
-      @r = []  # Array for data storage
-      @from = nil
-      @to = nil
-    end
-
-    def done!
-      Out::Generation.run(@r, @from, @to, self.class.source_id)
-    end
-  end
-
-  class Generation < Base
     FUEL_MAP = {
       'Dual Fuel' => 'fossil_gas',
       'Natural Gas' => 'fossil_gas',
@@ -31,11 +17,60 @@ module Nyiso
       'Other Fossil Fuels' => 'other',
       'Other Renewables' => 'other_renewable',
       'Wind' => 'wind_onshore',
-      'Hydro' => 'hydro_run-of-river_and_poundage',
-    }
+      'Hydro' => 'hydro_run-of-river_and_poundage'
+    }.freeze
+
+    def self.source_id
+      'nyiso'
+    end
+
+    def initialize
+      @r = []
+      @from = nil
+      @to = nil
+    end
+
+    def done!
+      Out::Generation.run(@r, @from, @to, self.class.source_id)
+    end
+
+    def parse_csv(body)
+      rows = FastestCSV.parse(body)
+      return if rows.empty?
+
+      headers = rows.shift
+      csv = rows.map { |row| Hash[headers.zip(row)] }
+
+      csv.each do |row|
+        time_str = row['Time Stamp']
+        row['Time Zone']
+        type_name = row['Fuel Category']
+        value = row['Gen MW'].to_f * 1000
+
+        next unless time_str && type_name && !value.nil?
+
+        time = DateTime.strptime(time_str, '%m/%d/%Y %H:%M:%S')
+        utc_time = TZ.local_to_utc(time.to_time)
+
+        production_type = FUEL_MAP[type_name]
+        next unless production_type
+
+        @r << {
+          time: utc_time,
+          country: 'US-NY',
+          production_type: production_type,
+          value: value
+        }
+      end
+    end
+  end
+
+  class Generation < Base
+    URL_FORMAT = 'http://mis.nyiso.com/public/csv/rtfuelmix/%Y%m%drtfuelmix.csv'
 
     def self.cli(args)
-      raise "Arguments required" if args.empty?
+      raise 'Arguments required' if args.empty?
+
       date = Chronic.parse(args[0]).to_date
       new.add_date(date).done!
     end
@@ -45,50 +80,42 @@ module Nyiso
       @from = TZ.local_to_utc(date.to_time)
       @to = @from + 1.day
 
-      url = date.strftime(URL_FORMAT)
-
-      response = Faraday.get(url)
+      response = Faraday.get(date.strftime(URL_FORMAT))
       raise "Failed to fetch data: #{response.status}" unless response.success?
 
-      Zip::File.open_buffer(response.body) do |zip_file|
-        zip_file.each do |entry|
-          next if entry.directory?
-          add_buffer(entry.get_input_stream.read)
-        end
-      end
+      parse_csv(response.body)
 
       self
     end
+  end
 
-    def add_buffer(body)
-      csv = CSV.parse(body, headers: true)
+  class GenerationHistory < Base
+    URL_FORMAT = 'http://mis.nyiso.com/public/csv/rtfuelmix/%Y%m01rtfuelmix_csv.zip'
 
-      csv.each do |row|
-        time_str = row['Time Stamp']
-        timezone = row['Time Zone']
-        type_name = row['Fuel Category']
-        value = row['Gen MW'].to_f * 1000
+    def self.cli(args)
+      raise 'Arguments required' if args.empty?
 
-        # Skip if any required fields are missing
-        next unless time_str && type_name && !value.nil?
+      date = Chronic.parse(args[0]).to_date
+      new.add_date(date).done!
+    end
 
-        # Parse time and convert to UTC
-        time = DateTime.strptime(time_str, '%m/%d/%Y %H:%M:%S')
-        # The timezone in the data is EST/EDT, but we need to handle it properly
-        # We'll use the timezone info from the TZ constant
-        utc_time = TZ.local_to_utc(time.to_time)
+    def add_date(date)
+      @date = date
+      @from = TZ.local_to_utc(date.to_time)
+      @to = @from + 1.day
 
-        # Map fuel type
-        production_type = FUEL_MAP[type_name]
-        next unless production_type  # Skip unmapped fuel types
+      response = Faraday.get(date.strftime(URL_FORMAT))
+      raise "Failed to fetch data: #{response.status}" unless response.success?
 
-        @r << {
-          time: utc_time,
-          country: 'US-NY',
-          production_type: production_type,
-          value:
-        }
+      Zip::File.open_buffer(response.body) do |zip_file|
+        csv_filename = date.strftime('%Y%m%drtfuelmix.csv')
+        entry = zip_file.find { |e| e.name == csv_filename }
+        raise "Could not find #{csv_filename} in ZIP" unless entry
+
+        parse_csv(entry.get_input_stream.read)
       end
+
+      self
     end
   end
 end
