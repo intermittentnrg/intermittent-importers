@@ -57,7 +57,7 @@ module CliMixin2
 
     module ClassMethods
       def cli(args)
-        save_zip = args.include?('--download') || args.include?('-d')
+        save_file = args.include?('--download') || args.include?('-d')
         args.reject! { |a| ['--download', '-d'].include?(a) }
 
         unless args.empty?
@@ -65,7 +65,7 @@ module CliMixin2
           warn 'Use -d or --download to save ZIP files'
           exit 1
         end
-        new.add(save_zip).done!
+        new.add(save_file:).done!
       end
     end
   end
@@ -77,7 +77,7 @@ module CliMixin2
 
     module ClassMethods
       def cli(args)
-        save_zip = args.include?('--download') || args.include?('-d')
+        save_file = args.include?('--download') || args.include?('-d')
         args.reject! { |a| ['--download', '-d'].include?(a) }
 
         if File.exist?(args.first)
@@ -88,12 +88,12 @@ module CliMixin2
           case args.length
           when 1
             date = Chronic.parse(args[0]).to_date
-            new.add_date(date, save_file: save_zip).done!
+            new.add_date(date, save_file:).done!
           when 2
             from = Chronic.parse(args.shift).to_date
             to = Chronic.parse(args.shift).to_date
             (from...to).each do |date|
-              new.add_date(date, save_file: save_zip).done!
+              new.add_date(date, save_file:).done!
             end
           end
         end
@@ -108,7 +108,7 @@ module CliMixin2
 
     module ClassMethods
       def cli(args)
-        save_zip = args.include?('--download') || args.include?('-d')
+        save_file = args.include?('--download') || args.include?('-d')
         args.reject! { |a| ['--download', '-d'].include?(a) }
 
         if args.any? && File.exist?(args.first)
@@ -117,14 +117,14 @@ module CliMixin2
           end
         elsif args.length == 1
           date = Chronic.parse(args.shift).to_date
-          new.add_date(date, save_file: save_zip).done!
+          new.add_date(date, save_file:).done!
         elsif args.length == 2
           from = Chronic.parse(args.shift).to_date
           to = Chronic.parse(args.shift).to_date
           (from..to).each do |date|
             next unless date.day == 1
 
-            new.add_date(date, save_file: save_zip).done!
+            new.add_date(date, save_file:).done!
           end
         else
           warn "#{$PROGRAM_NAME} [file1.zip file2.zip ...] | [date] | [from to]"

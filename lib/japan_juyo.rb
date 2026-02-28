@@ -39,13 +39,13 @@ module JapanJuyo
       add_date(date)
     end
 
-    def add_date(date, save_csv = false)
+    def add_date(date, save_file: false)
       @from = date
       url = date.strftime(self.class::URL_FORMAT)
-      add_url(url, save_csv)
+      add_url(url, save_file:)
     end
 
-    def add_url(url, save_csv = false)
+    def add_url(url, save_file: false)
       last_modified = DataFile.last_modified(url, self.class.source_id)
       res = logger.benchmark_info(url) do
         @faraday.get(url) do |req|
@@ -63,7 +63,7 @@ module JapanJuyo
         @datafiles << { path: File.basename(url), source: self.class.source_id, updated_at: filedate }
       end
 
-      save_file(res.body, url) if save_csv
+      save_csv_file(res.body, url) if save_file
 
       if res.body.nil? || res.body.empty?
         logger.error "Empty response body from #{url}: status=#{res.status}, content-type=#{res.headers['Content-Type']}"
@@ -85,7 +85,7 @@ module JapanJuyo
 
     private
 
-    def save_file(body, url)
+    def save_csv_file(body, url)
       dir = File.join('data', self.class.source_id)
       FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
       filepath = File.join(dir, File.basename(url))
@@ -147,8 +147,8 @@ module JapanJuyo
 
   # Snapshot-based parsers (live data only)
   module Snapshot
-    def add(save_csv = false)
-      add_url(self.class::URL, save_csv)
+    def add(save_file: false)
+      add_url(self.class::URL, save_file:)
     end
 
     def self.included(base)
@@ -170,8 +170,8 @@ module JapanJuyo
       end
     end
 
-    def add(date, save_csv = false)
-      add_date(date, save_csv)
+    def add(date, save_file: false)
+      add_date(date, save_file:)
     end
 
     def self.included(base)
