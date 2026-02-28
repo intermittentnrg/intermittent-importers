@@ -26,8 +26,8 @@ spec:
         privileged: true
       resources:
         requests:
-          memory: "3Gi"
-          cpu: "1"
+          memory: "2Gi"
+          cpu: "0.5"
         limits:
           # memory: "3Gi"
           # cpu: "2.5"
