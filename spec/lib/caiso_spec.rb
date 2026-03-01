@@ -200,4 +200,58 @@ RSpec.describe Caiso::Price do
       empty_price.done!
     end
   end
+
+  describe 'API error handling' do
+    let(:error_xml) do
+      <<~XML
+        <?xml version="1.0" encoding="UTF-8"?>
+        <m:OASISReport xmlns:m="http://www.caiso.com/soa/OASISReport_v1.xsd">
+        <m:MessageHeader>
+          <m:TimeDate>2026-03-01T01:35:03.111Z</m:TimeDate>
+          <m:Source>OASIS</m:Source>
+          <m:Version>v20131201</m:Version>
+        </m:MessageHeader>
+        <m:MessagePayload>
+        <m:RTO>
+        <m:name>CAISO</m:name>
+        <m:DISCLAIMER_ITEM>
+        <m:DISCLAIMER>The contents of these pages are subject to change without notice.</m:DISCLAIMER>
+        </m:DISCLAIMER_ITEM>
+        <m:ERROR>
+        <m:ERR_CODE>1004</m:ERR_CODE>
+        <m:ERR_DESC>Data can be requested for period of 31 days only</m:ERR_DESC>
+        </m:ERROR>
+        </m:RTO>
+        </m:MessagePayload>
+        </m:OASISReport>
+      XML
+    end
+
+    it 'handles XML error response gracefully' do
+      expect(Out::Price).not_to receive(:run)
+
+      zip_buffer = Zip::OutputStream.write_buffer do |zip|
+        zip.put_next_entry('error.xml')
+        zip.write error_xml
+      end
+      zip_buffer.rewind
+
+      price = Caiso::Price.new
+      price.add_buffer(zip_buffer.read)
+
+      expect(price.instance_variable_get(:@r_price)).to be_empty
+    end
+
+    it 'logs XML error details' do
+      zip_buffer = Zip::OutputStream.write_buffer do |zip|
+        zip.put_next_entry('error.xml')
+        zip.write error_xml
+      end
+      zip_buffer.rewind
+
+      price = Caiso::Price.new
+      expect(price.logger).to receive(:error).with('CAISO API error: 1004 - Data can be requested for period of 31 days only')
+      price.add_buffer(zip_buffer.read)
+    end
+  end
 end

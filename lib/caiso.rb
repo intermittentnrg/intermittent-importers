@@ -3,6 +3,7 @@
 require 'faraday/net_http_persistent'
 require 'zip'
 require 'fastest_csv'
+require 'ox'
 require 'chronic'
 
 module Caiso
@@ -318,7 +319,22 @@ module Caiso
         zip_file.each do |entry|
           next if entry.directory?
 
+          if entry.name.end_with?('.xml')
+            xml_content = entry.get_input_stream.read
+            xml_content.gsub!(/m:/, '')
+            doc = Ox.parse(xml_content)
+            err = doc.locate('OASISReport/MessagePayload/RTO/ERROR').first
+            if err
+              err_code = err.locate('ERR_CODE').first&.text
+              err_desc = err.locate('ERR_DESC').first&.text
+              logger.error "CAISO API error: #{err_code} - #{err_desc}"
+            end
+            return self
+          end
+
           csv_content = entry.get_input_stream.read
+          return self if csv_content.strip.empty?
+
           parse_csv(csv_content)
         end
       end
