@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'zlib'
+
 module Out
   class Base
   end
@@ -173,39 +175,69 @@ module Out
       return data unless source_id == 'entsoe' && from && to
       return data if data.empty?
 
-      require 'digest/md5'
-
       total_rows = data.length
 
-      # Hash format must match PostgreSQL's array_agg(...)::text format:
-      # - extract(epoch from time)::text gives 6 decimal places (e.g., 1735689600.000000)
-      # - array_agg wraps result in curly braces: {value1,value2}
-      unit_hashes = data.group_by { |r| r[:unit_id] }.transform_values do |rows|
-        # Pre-compute formatted time strings once, then sort
-        # Format: "epoch:value" where epoch has 6 decimal places
-        formatted = rows.map { |r| format('%.6f:%d', r[:time].to_f, r[:value].to_i) }
-        formatted.sort!
-        inner = formatted.join(',')
-        Digest::MD5.hexdigest("{#{inner}}")
-      end
-
-      csv_unit_ids = unit_hashes.keys
+      # Group CSV data by unit and compute row counts
+      csv_units = data.group_by { |r| r[:unit_id] }
+      csv_row_counts = csv_units.transform_values(&:length)
+      csv_unit_ids = csv_units.keys
       total_units = csv_unit_ids.length
 
       conn = ActiveRecord::Base.connection
-      hash_sql = <<~SQL
-        SELECT unit_id, md5(array_agg(extract(epoch from time)::text || ':' || value::text ORDER BY extract(epoch from time)::text, value::text)::text) as hash
+
+      # Phase 1: Quick filter using row counts
+      count_sql = <<~SQL
+        SELECT unit_id, count(*) as row_count
         FROM generation_unit
         WHERE time BETWEEN '#{from}' AND '#{to}'
         AND unit_id IN (#{csv_unit_ids.join(',')})
         GROUP BY unit_id
       SQL
-      existing_hashes = conn.execute(hash_sql).each_with_object({}) do |row, h|
-        h[row['unit_id'].to_i] = row['hash']
+      db_row_counts = conn.execute(count_sql).each_with_object({}) do |row, h|
+        h[row['unit_id'].to_i] = row['row_count'].to_i
       end
 
-      unchanged_unit_ids = Set.new(unit_hashes.select { |uid, h| existing_hashes[uid] == h }.keys)
-      changed_unit_ids = Set.new(unit_hashes.reject { |uid, h| existing_hashes[uid] == h }.keys)
+      # Units with different row counts are definitely changed
+      potentially_unchanged_unit_ids = csv_unit_ids.select do |uid|
+        csv_row_counts[uid] == db_row_counts[uid]
+      end
+
+      changed_by_count = csv_unit_ids - potentially_unchanged_unit_ids
+
+      # Phase 2: Compute rolling CRC32 using XOR (no string building)
+      unit_hashes = {}
+      potentially_unchanged_unit_ids.each do |uid|
+        rows = csv_units[uid]
+        # Compute XOR of individual CRC32s (order-independent, matches SQL bit_xor)
+        combined_crc = rows.map do |r|
+          Zlib.crc32(format('%.6f:%d', r[:time].to_f, r[:value].to_i))
+        end.reduce(0) { |acc, crc| acc ^ crc }
+        unit_hashes[uid] = combined_crc
+      end
+
+      if potentially_unchanged_unit_ids.any?
+        # Use rolling XOR of individual CRC32s instead of string_agg
+        # This avoids building large intermediate strings
+        hash_sql = <<~SQL
+          SELECT unit_id, bit_xor(crc32((extract(epoch from time)::text || ':' || value::text)::bytea)) as hash
+          FROM generation_unit
+          WHERE time BETWEEN '#{from}' AND '#{to}'
+          AND unit_id IN (#{potentially_unchanged_unit_ids.join(',')})
+          GROUP BY unit_id
+        SQL
+        existing_hashes = conn.execute(hash_sql).each_with_object({}) do |row, h|
+          h[row['unit_id'].to_i] = row['hash']
+        end
+
+        unchanged_by_hash = unit_hashes.select { |uid, h| existing_hashes[uid] == h }.keys
+        changed_by_hash = unit_hashes.reject { |uid, h| existing_hashes[uid] == h }.keys
+      else
+        unchanged_by_hash = []
+        changed_by_hash = []
+      end
+
+      unchanged_unit_ids = Set.new(unchanged_by_hash)
+      changed_unit_ids = Set.new(changed_by_count + changed_by_hash)
 
       unchanged_rows = data.count { |r| unchanged_unit_ids.include?(r[:unit_id]) }
 

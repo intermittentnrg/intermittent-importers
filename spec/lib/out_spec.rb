@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'zlib'
 
 RSpec.describe Out::Unit do
   describe '.filter_unchanged_units' do
@@ -54,9 +55,9 @@ RSpec.describe Out::Unit do
         GenerationUnit.create!(unit: unit1, time: time1, value: 100)
         GenerationUnit.create!(unit: unit1, time: time2, value: 200)
 
-        # Get PostgreSQL computed hash
+        # Get PostgreSQL computed hash (using XOR of CRC32s)
         pg_result = ActiveRecord::Base.connection.execute(<<~SQL)
-          SELECT unit_id, md5(array_agg(extract(epoch from time)::text || ':' || value::text ORDER BY extract(epoch from time)::text, value::text)::text) as hash
+          SELECT unit_id, bit_xor(crc32((extract(epoch from time)::text || ':' || value::text)::bytea)) as hash
           FROM generation_unit
           WHERE unit_id = #{unit1.id}
           GROUP BY unit_id
@@ -75,9 +76,9 @@ RSpec.describe Out::Unit do
       end
 
       def compute_hash(rows)
-        sorted = rows.sort_by { |r| [format('%<time>.6f', time: r[:time].to_f), r[:value].to_s] }
-        inner = sorted.map { |r| "#{format('%<time>.6f', time: r[:time].to_f)}:#{r[:value].to_i}" }.join(',')
-        Digest::MD5.hexdigest("{#{inner}}")
+        rows.map do |r|
+          Zlib.crc32(format('%.6f:%d', r[:time].to_f, r[:value].to_i))
+        end.reduce(0) { |acc, crc| acc ^ crc }
       end
 
       it 'returns empty array when all hashes match (unchanged data)' do
@@ -240,7 +241,7 @@ RSpec.describe Out::Unit do
     end
   end
 
-  describe 'md5 hash calculation' do
+  describe 'crc32 hash calculation' do
     it 'produces consistent hashes for identical data' do
       time1 = Time.parse('2025-01-01 00:00:00 UTC')
       time2 = Time.parse('2025-01-01 01:00:00 UTC')
@@ -255,13 +256,13 @@ RSpec.describe Out::Unit do
         { unit_id: 1, time: time2, value: 200 }
       ]
 
-      sorted1 = data1.sort_by { |r| [format('%<time>.6f', time: r[:time].to_f), r[:value].to_s] }
-      inner1 = sorted1.map { |r| "#{format('%<time>.6f', time: r[:time].to_f)}:#{r[:value].to_i}" }.join(',')
-      hash1 = Digest::MD5.hexdigest("{#{inner1}}")
+      hash1 = data1.map do |r|
+        Zlib.crc32(format('%.6f:%d', r[:time].to_f, r[:value]))
+      end.reduce(0) { |acc, crc| acc ^ crc }
 
-      sorted2 = data2.sort_by { |r| [format('%<time>.6f', time: r[:time].to_f), r[:value].to_s] }
-      inner2 = sorted2.map { |r| "#{format('%<time>.6f', time: r[:time].to_f)}:#{r[:value].to_i}" }.join(',')
-      hash2 = Digest::MD5.hexdigest("{#{inner2}}")
+      hash2 = data2.map do |r|
+        Zlib.crc32(format('%.6f:%d', r[:time].to_f, r[:value]))
+      end.reduce(0) { |acc, crc| acc ^ crc }
 
       expect(hash1).to eq(hash2)
     end
@@ -280,13 +281,13 @@ RSpec.describe Out::Unit do
         { unit_id: 1, time: time2, value: 999 } # Different value
       ]
 
-      sorted1 = data1.sort_by { |r| [format('%<time>.6f', time: r[:time].to_f), r[:value].to_s] }
-      inner1 = sorted1.map { |r| "#{format('%<time>.6f', time: r[:time].to_f)}:#{r[:value].to_i}" }.join(',')
-      hash1 = Digest::MD5.hexdigest("{#{inner1}}")
+      hash1 = data1.map do |r|
+        Zlib.crc32(format('%.6f:%d', r[:time].to_f, r[:value]))
+      end.reduce(0) { |acc, crc| acc ^ crc }
 
-      sorted2 = data2.sort_by { |r| [format('%<time>.6f', time: r[:time].to_f), r[:value].to_s] }
-      inner2 = sorted2.map { |r| "#{format('%<time>.6f', time: r[:time].to_f)}:#{r[:value].to_i}" }.join(',')
-      hash2 = Digest::MD5.hexdigest("{#{inner2}}")
+      hash2 = data2.map do |r|
+        Zlib.crc32(format('%.6f:%d', r[:time].to_f, r[:value]))
+      end.reduce(0) { |acc, crc| acc ^ crc }
 
       expect(hash1).not_to eq(hash2)
     end
