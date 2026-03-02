@@ -256,7 +256,7 @@ module EntsoeCsv
       unless unit_id
         unit = ::Unit.find_or_create_by!(internal_id: unit_internal_id) do |u|
           u.name = unit_name
-          u.production_type_id = ProductionType.where(name: production_type).pluck(:id)
+          u.production_type_id = ProductionType.where(name: production_type).pluck(:id).first
           u.area = ::Area.find_by(
             internal_id: AREA_CODE_OVERRIDE[area_code] || area_code,
             source: self.class.source_id

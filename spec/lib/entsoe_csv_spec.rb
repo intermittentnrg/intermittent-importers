@@ -57,7 +57,7 @@ DateTime(UTC)	ResolutionCode	AreaCode	AreaDisplayName	AreaTypeCode	AreaMapCode	G
   end
 
   describe 'unit name tracking' do
-    let(:area) { Area.find_by(internal_id: '10YAT-APG------L', source: 'entsoe') }
+    let(:area) { Area.find_by!(internal_id: '10YAT-APG------L', source: 'entsoe') }
     let(:production_type) { ProductionType.find_by!(name: 'hydro_pumped_storage') }
     let!(:unit) do
       Unit.create!(internal_id: 'TEST-UNIT-1', name: 'Old Name', production_type: production_type, area: area)
@@ -109,7 +109,7 @@ DateTime(UTC)	ResolutionCode	AreaCode	AreaDisplayName	AreaTypeCode	AreaMapCode	G
   end
 
   describe 'unit production type tracking' do
-    let(:area) { Area.find_by(internal_id: '10YAT-APG------L', source: 'entsoe') }
+    let(:area) { Area.find_by!(internal_id: '10YAT-APG------L', source: 'entsoe') }
     let(:production_type) { ProductionType.find_by!(name: 'hydro_pumped_storage') }
     let!(:unit) do
       Unit.create!(internal_id: 'TEST-UNIT-2', name: 'Test Unit', production_type: production_type, area: area)
@@ -143,6 +143,36 @@ DateTime(UTC)	ResolutionCode	AreaCode	AreaDisplayName	AreaTypeCode	AreaMapCode	G
       importer.add_row(row)
 
       expect(importer.instance_variable_get(:@unit_production_types_to_save)).to be_empty
+    end
+  end
+
+  describe 'creating new units' do
+    let(:area) { Area.find_by!(internal_id: '10YAT-APG------L', source: 'entsoe') }
+
+    it 'creates a new unit when internal_id does not exist' do
+      expect do
+        importer = subject.new
+
+        row = ['2024-07-01 12:00:00', 'PT60M', '10YAT-APG------L', 'Austria', 'BZN', 'AT', 'NEW-TEST-UNIT-123',
+               'New Test Unit', 'Hydro Pumped Storage', '100.0', '', '']
+        importer.add_row(row)
+      end.to change(Unit, :count).by(1)
+
+      new_unit = Unit.find_by(internal_id: 'NEW-TEST-UNIT-123')
+      expect(new_unit.name).to eq('New Test Unit')
+      expect(new_unit.production_type.name).to eq('hydro_pumped_storage')
+      expect(new_unit.area).to eq(area)
+    end
+
+    it 'raises an error when area is not found' do
+      importer = subject.new
+      importer.instance_variable_set(:@from, Date.new(2024, 7, 1))
+      importer.instance_variable_set(:@to, Date.new(2024, 8, 1))
+
+      row = ['2024-07-01 12:00:00', 'PT60M', 'NONEXISTENT-AREA', 'Austria', 'BZN', 'AT', 'NEW-TEST-UNIT-456',
+             'New Test Unit', 'Hydro Pumped Storage', '100.0', '', '']
+
+      expect { importer.add_row(row) }.to raise_error(/Missing area NONEXISTENT-AREA/)
     end
   end
 end
