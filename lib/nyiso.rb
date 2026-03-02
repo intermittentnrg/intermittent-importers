@@ -28,6 +28,9 @@ module Nyiso
       @r = []
       @from = nil
       @to = nil
+      @faraday = Faraday.new do |f|
+        f.response :raise_error
+      end
     end
 
     def done!
@@ -66,7 +69,8 @@ module Nyiso
   end
 
   class Generation < Base
-    URL_FORMAT = 'http://mis.nyiso.com/public/csv/rtfuelmix/%Y%m%drtfuelmix.csv'
+    URL_FORMAT_CSV = 'http://mis.nyiso.com/public/csv/rtfuelmix/%Y%m%drtfuelmix.csv'
+    URL_FORMAT_ZIP = 'http://mis.nyiso.com/public/csv/rtfuelmix/%Y%m%drtfuelmix_csv.zip'
 
     def self.cli(args)
       raise 'Arguments required' if args.empty?
@@ -80,42 +84,32 @@ module Nyiso
       @from = TZ.local_to_utc(date.to_time)
       @to = @from + 1.day
 
-      response = Faraday.get(date.strftime(URL_FORMAT))
-      raise "Failed to fetch data: #{response.status}" unless response.success?
+      response = fetch_zip_or_csv(date)
 
-      parse_csv(response.body)
+      if response.headers['content-type']&.include?('zip')
+        Zip::File.open_buffer(response.body) do |zip_file|
+          csv_filename = date.strftime('%Y%m%drtfuelmix.csv')
+          entry = zip_file.find { |e| e.name == csv_filename }
+          raise "Could not find #{csv_filename} in ZIP" unless entry
 
-      self
-    end
-  end
-
-  class GenerationHistory < Base
-    URL_FORMAT = 'http://mis.nyiso.com/public/csv/rtfuelmix/%Y%m01rtfuelmix_csv.zip'
-
-    def self.cli(args)
-      raise 'Arguments required' if args.empty?
-
-      date = Chronic.parse(args[0]).to_date
-      new.add_date(date).done!
-    end
-
-    def add_date(date)
-      @date = date
-      @from = TZ.local_to_utc(date.to_time)
-      @to = @from + 1.day
-
-      response = Faraday.get(date.strftime(URL_FORMAT))
-      raise "Failed to fetch data: #{response.status}" unless response.success?
-
-      Zip::File.open_buffer(response.body) do |zip_file|
-        csv_filename = date.strftime('%Y%m%drtfuelmix.csv')
-        entry = zip_file.find { |e| e.name == csv_filename }
-        raise "Could not find #{csv_filename} in ZIP" unless entry
-
-        parse_csv(entry.get_input_stream.read)
+          parse_csv(entry.get_input_stream.read)
+        end
+      else
+        parse_csv(response.body)
       end
 
       self
+    end
+
+    private
+
+    def fetch_zip_or_csv(date)
+      url_format = date == Date.today ? URL_FORMAT_CSV : URL_FORMAT_ZIP
+      url = date.strftime(url_format)
+      last_modified = DataFile.last_modified(url, self.class.source_id)
+      @faraday.get(url) do |req|
+        req.headers['If-Modified-Since'] = last_modified if last_modified
+      end
     end
   end
 end
