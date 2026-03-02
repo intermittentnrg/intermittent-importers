@@ -1,237 +1,294 @@
 battery:
   id: 22
   name: battery
-  name2: batteries
+  name2: 00_batteries
   enabled: true
+  production_type_group_id: 4
 battery_charging:
   id: 31
   name: battery_charging
-  name2: batteries
+  name2: 00_batteries
   enabled: true
+  production_type_group_id: 4
 biogas:
   id: 24
   name: biogas
   name2: 01_biomass_and_waste
   enabled: true
+  production_type_group_id: 5
 biomass:
   id: 1
   name: biomass
   name2: 01_biomass_and_waste
   enabled: true
+  production_type_group_id: 5
 cogeneration:
   id: 47
   name: cogeneration
   name2: 07_other
   enabled: true
+  production_type_group_id: 3
 dual_fuel:
   id: 39
   name: dual_fuel
   name2: 07_other
   enabled: true
+  production_type_group_id: 3
 fossil_brown_coal/lignite:
   id: 2
   name: fossil_brown_coal/lignite
   name2: 03_lignite
   enabled: true
+  production_type_group_id: 16
 fossil_coal:
   id: 44
   name: fossil_coal
   name2: 03_coal
   enabled: true
+  production_type_group_id: 2
 fossil_coal-derived_gas:
   id: 3
   name: fossil_coal-derived_gas
   name2: 05_gas
   enabled: true
+  production_type_group_id: 11
 fossil_gas:
   id: 4
   name: fossil_gas
   name2: 05_gas
   enabled: true
+  production_type_group_id: 11
 fossil_gas_ccgt:
   id: 29
   name: fossil_gas_ccgt
   name2: 05_gas
   enabled: true
+  production_type_group_id: 11
 fossil_gas_coal_mine_waste:
   id: 33
   name: fossil_gas_coal_mine_waste
-  name2: 07_other
+  name2: 05_gas
   enabled: true
+  production_type_group_id: 11
 fossil_gas_ocgt:
   id: 30
   name: fossil_gas_ocgt
   name2: 05_gas
   enabled: true
+  production_type_group_id: 11
 fossil_gas_reciprocating:
   id: 34
   name: fossil_gas_reciprocating
-  name2: 07_other
+  name2: 05_gas
   enabled: true
+  production_type_group_id: 11
 fossil_gas_steam:
   id: 35
   name: fossil_gas_steam
-  name2: 07_other
+  name2: 05_gas
   enabled: true
+  production_type_group_id: 11
 fossil_hard_coal:
   id: 5
   name: fossil_hard_coal
   name2: 04_hard_coal
   enabled: true
-  production_type_group_id: 1
+  production_type_group_id: 8
 fossil_oil:
   id: 6
   name: fossil_oil
   name2: 07_other
   enabled: true
+  production_type_group_id: 3
 fossil_oil_diesel:
   id: 48
   name: fossil_oil_diesel
   name2: 07_other
   enabled: true
+  production_type_group_id: 3
 fossil_oil_distillate:
   id: 32
   name: fossil_oil_distillate
   name2: 07_other
   enabled: true
+  production_type_group_id: 3
 fossil_oil_shale:
   id: 7
   name: fossil_oil_shale
   name2: 07_other
   enabled: true
+  production_type_group_id: 3
 fossil_peat:
   id: 8
   name: fossil_peat
   name2: 07_other
   enabled: true
+  production_type_group_id: 3
 geothermal:
   id: 9
   name: geothermal
-  name2: '09_other_renewable'
+  name2: '08_other_renewable'
   enabled: true
+  production_type_group_id: 13
 hydro:
   id: 23
   name: hydro
   name2: 06_hydro
   enabled: true
+  production_type_group_id: 10
 hydro_large:
   id: 41
   name: hydro_large
   name2: 06_hydro
   enabled: true
+  production_type_group_id: 10
 hydro_pumped_storage:
   id: 10
   name: hydro_pumped_storage
   name2: 06_hydro
   enabled: true
+  production_type_group_id: 10
 hydro_pumped_storage_charging:
   id: 46
   name: hydro_pumped_storage_charging
   name2: 06_hydro
   enabled: true
+  production_type_group_id: 10
 hydro_run-of-river_and_poundage:
   id: 11
   name: hydro_run-of-river_and_poundage
   name2: 06_hydro
   enabled: true
+  production_type_group_id: 10
 hydro_small:
   id: 40
   name: hydro_small
   name2: 06_hydro
   enabled: true
+  production_type_group_id: 10
 hydro_water_reservoir:
   id: 12
   name: hydro_water_reservoir
   name2: 06_hydro
   enabled: true
-load:
-  id: 50
-  name: load
-  name2: load
-  enabled: true
+  production_type_group_id: 10
 marine:
   id: 13
   name: marine
-  name2: '09_other_renewable'
+  name2: '08_other_renewable'
   enabled: true
+  production_type_group_id: 13
 nuclear:
   id: 14
   name: nuclear
   name2: 02_nuclear
   enabled: true
+  production_type_group_id: 12
 other:
   id: 15
   name: other
   name2: 07_other
   enabled: true
+  production_type_group_id: 3
 other_renewable:
   id: 16
   name: other_renewable
-  name2: '09_other_renewable'
+  name2: '08_other_renewable'
   enabled: true
+  production_type_group_id: 13
 solar:
   id: 17
   name: solar
-  name2: '08_solar'
+  name2: 11_solar
   enabled: true
-  production_type_group_id: 2
+  production_type_group_id: 7
 solar_embedded:
   id: 37
   name: solar_embedded
-  name2: '08_solar'
+  name2: 11_solar
   enabled: true
+  production_type_group_id: 7
 solar_rooftop:
   id: 28
   name: solar_rooftop
-  name2: '08_solar'
+  name2: 11_solar
   enabled: true
+  production_type_group_id: 7
 solar_thermal:
   id: 45
   name: solar_thermal
-  name2: '08_solar'
+  name2: 11_solar_thermal
   enabled: true
+  production_type_group_id: 6
 solar_utility:
   id: 27
   name: solar_utility
-  name2: '08_solar'
+  name2: 10_solar_utility
   enabled: true
+  production_type_group_id: 14
+solar_with_battery:
+  id: 51
+  name: solar_with_battery
+  name2: 11_solar
+  enabled: true
+  production_type_group_id: 7
 storage:
   id: 43
   name: storage
   name2: storage
   enabled: true
+  production_type_group_id: 9
 thermal:
   id: 38
   name: thermal
   name2: 07_other
   enabled: true
+  production_type_group_id: 3
 unknown:
   id: 49
   name: unknown
   name2: 07_other
   enabled: true
+  production_type_group_id: 3
+unknown_storage:
+  id: 52
+  name: unknown_storage
+  name2: storage
+  enabled: true
+  production_type_group_id: 9
 waste:
   id: 18
   name: waste
   name2: 01_biomass_and_waste
   enabled: true
+  production_type_group_id: 5
 wind:
   id: 25
   name: wind
   name2: '09_wind'
   enabled: true
+  production_type_group_id: 1
 wind_embedded:
   id: 36
   name: wind_embedded
   name2: '09_wind_onshore'
   enabled: true
+  production_type_group_id: 15
 wind_offshore:
   id: 19
   name: wind_offshore
-  name2: 10_wind_offshore
+  name2: '08_wind_offshore'
   enabled: true
+  production_type_group_id: 17
 wind_onshore:
   id: 20
   name: wind_onshore
   name2: '09_wind_onshore'
   enabled: true
+  production_type_group_id: 15
+wind_with_battery:
+  id: 53
+  name: wind_with_battery
+  name2: '09_wind'
+  enabled: true
+  production_type_group_id: 1
