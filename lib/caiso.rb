@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'faraday/net_http_persistent'
+require 'faraday/retry'
 require 'zip'
 require 'fastest_csv'
 require 'ox'
@@ -270,7 +271,16 @@ module Caiso
     URL = 'https://oasis.caiso.com/oasisapi/SingleZip'
 
     def initialize
-      @faraday = Faraday.new do |f|
+      @faraday = Faraday.new(request: { timeout: 120 }) do |f|
+        f.request :retry, {
+          exceptions: [
+            Faraday::TooManyRequestsError,
+            Faraday::TimeoutError
+          ],
+          interval: 1,
+          backoff_factor: 2,
+          max: 5
+        }
         f.response :raise_error
       end
       @r_price = []
@@ -283,7 +293,11 @@ module Caiso
 
       from = Chronic.parse(args[0]).to_date
       to = Chronic.parse(args[1] || args[0]).to_date
-      new.add_date_range(from, to).done!
+
+      (from..to).select { |d| d.day == 1 }.each do |date|
+        month_end = [to, (date >> 1) - 1].min
+        new.add_date_range(date, month_end).done!
+      end
     end
 
     def add_date_range(from, to)
@@ -305,7 +319,7 @@ module Caiso
 
       url = "#{self.class::URL}?#{URI.encode_www_form(params)}"
 
-      res = @faraday.get(url)
+      res = logger.benchmark_info(url) { @faraday.get(url) }
 
       raise EmptyError if res.headers['content-type'] =~ %r{^text/html}
 
