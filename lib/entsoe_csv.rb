@@ -147,8 +147,7 @@ module EntsoeCsv
         fossil_gas: { max: 2_000_000 },
         fossil_oil: { max: 400_000 },
         fossil_hard_coal: { max: 3_000_000 },
-        wind_onshore: { max: 6_000_000 },
-        waste: { max: 262_000 }
+        wind_onshore: { max: 6_000_000 }
       },
       FR: { nuclear: { min: 15_000_000 } },
       NO: { wind_onshore: { max: 10_000_000 } },
