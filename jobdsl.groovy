@@ -67,15 +67,6 @@ pipelineJob("intermittency-${BRANCH_NAME}/post-pricemap") {
   environmentVariables(TAG: TAG, BRANCH_NAME: BRANCH_NAME)
   properties {
     disableConcurrentBuilds()
-    if (BRANCH_NAME == "master") {
-      pipelineTriggers {
-        triggers {
-          cron {
-            spec('30 14 * * *')
-          }
-        }
-      }
-    }
   }
   definition {
     cpsScm {
