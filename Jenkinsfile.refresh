@@ -25,7 +25,7 @@ spec:
         sh "cd /app ; bundle exec rake -j4 all"
       }
       if (env.BRANCH_NAME == 'master') {
-        stage('refresh') {
+        stage('pgsync') {
           sh 'sh -c \'pgsync --from ${PGDATABASE} --to ${PGSYNC_TO} --to-safe --schemas intermittency --overwrite areas,units,areas_production_types\''
         }
       }
