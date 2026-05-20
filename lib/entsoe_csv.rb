@@ -88,7 +88,8 @@ module EntsoeCsv
     end
 
     PT_MAP = {
-      'energy_storage' => 'storage'
+      'energy_storage' => 'storage',
+      'hydro_run-of-river_and_poundage' => 'hydro_run-of-river_and_pondage'
     }.freeze
     def parse_production_type(s)
       @production_type_cache[s] ||= begin
