@@ -358,6 +358,7 @@ module EntsoeApi
     end
 
     def done!
+      @r.uniq!
       @from = @r.min { |a, b| a[:time] <=> b[:time] }[:time]
       @to = @r.max { |a, b| a[:time] <=> b[:time] }[:time]
       Out::Price.run(@r, @from, @to, self.class.source_id)
