@@ -10,7 +10,19 @@ class Ons
   end
 
   VALIDATION_GEN = {
+    all: {
+      hydro: { min: -5_000_000, max: 200_000_000 },
+      other: { min: -5_000_000, max: 200_000_000 },
+      wind: { min: -5_000_000, max: 200_000_000 },
+      nuclear: { min: -1_000_000, max: 200_000_000 },
+      solar: { min: -1_000_000, max: 200_000_000 }
+    },
     'BR-CS': { nuclear: { max: 3_000_000 } }
+  }.with_indifferent_access
+
+  VALIDATION_LOAD = {
+    # Net load can go negative when behind-the-meter solar exceeds demand.
+    all: { min: -5_000_000, max: 500_000_000 }
   }.with_indifferent_access
 
   def self.cli(args)
@@ -33,7 +45,6 @@ class Ons
     @r_load = {}
     @r_gen = {}
     @r_trans = {}
-    @dups = Set.new
   end
 
   REGIONS = {
@@ -62,17 +73,12 @@ class Ons
     json = FastJsonparser.parse(json['Message'], symbolize_keys: false) if json['Type'] == 'Notification'
 
     time = Time.strptime(json['Data'], '%Y-%m-%dT%H:%M:%S%:z')
-    if @dups.include? time
-      logger.warn "Skipping duplicate in batch #{time}"
-      return
-    end
 
+    # ONS republishes the same Data with corrected values; later copies overwrite below.
     if invalid_document?(json)
       logger.warn "Rejecting invalid document at #{time}"
       return
     end
-
-    @dups << time
 
     @from = [time, @from].compact.min
     @to = [time + 1.minute, @to].compact.max
@@ -83,9 +89,9 @@ class Ons
       @r_load[k] = { time:, country:, value: row['cargaVerificada'] * 1000 }
 
       g = row['geracao']
-      @r_gen[[*k, 'hydro']] =
-        { time:, country:, production_type: 'hydro',
-          value: (g['hidraulica'] + g['itaipu50HzBrasil'].to_f + g['itaipu60Hz'].to_f) * 1000 }
+      hydro = (g['hidraulica'] + g['itaipu50HzBrasil'].to_f + g['itaipu60Hz'].to_f) * 1000
+      # Negative generation is legitimate: plants can consume power while idle.
+      @r_gen[[*k, 'hydro']] = { time:, country:, production_type: 'hydro', value: hydro }
       @r_gen[[*k, 'other']] = { time:, country:, production_type: 'other', value: g['termica'] * 1000 }
       @r_gen[[*k, 'wind']] = { time:, country:, production_type: 'wind', value: g['eolica'] * 1000 }
       @r_gen[[*k, 'nuclear']] = { time:, country:, production_type: 'nuclear', value: g['nuclear'] * 1000 }
@@ -106,19 +112,17 @@ class Ons
 
   def done!
     r_gen = Validate.validate_generation(@r_gen.values, self.class::VALIDATION_GEN)
+    r_load = Validate.validate_load(@r_load.values, self.class::VALIDATION_LOAD)
     Out::Generation.run(r_gen, @from, @to, self.class.source_id)
-    Out::Load.run(@r_load.values, @from, @to, self.class.source_id)
+    Out::Load.run(r_load, @from, @to, self.class.source_id)
     Out::Transmission.run(@r_trans.values, @from, @to, self.class.source_id)
   end
 
   private
 
   def invalid_document?(json)
-    REGIONS.each_value do |key|
-      row = json[key]
-      g = row['geracao']
-      return true if g['total']&.negative?
+    REGIONS.each_value.all? do |key|
+      json[key]['geracao']['total']&.negative?
     end
-    false
   end
 end
