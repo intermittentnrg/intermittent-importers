@@ -205,6 +205,7 @@ module AemoNem
       'N-Q-MNSP1-2' => %w[NSW1 QLD1],
       'NSW1-QLD1' => %w[NSW1 QLD1],
       'NSW1-QLD1-2' => %w[NSW1 QLD1],
+      'NSW1-SA1' => %w[NSW1 SA1],
       'T-V-MNSP1' => %w[TAS1 VIC1],
       'T-V-MNSP1-2' => %w[TAS1 VIC1],
       'V-S-MNSP1' => %w[VIC1 SA1],
@@ -234,6 +235,8 @@ module AemoNem
         # 5:RUNNO
         # 6:INTERCONNECTORID
         from_area, to_area = MAPPINGS[row[6]]
+        raise "Unknown interconnector #{row[6]}" unless from_area
+
         # 7:DISPATCHINTERVAL
         # 8:INTERVENTION
         # 9:METEREDMWFLOW

@@ -394,6 +394,10 @@ module Out
         kto = [source_id, p[:to_area]]
         p[:from_area_id] ||= (@@areas[kfrom] ||= ::Area.where(source: source_id, code: p[:from_area]).pluck(:id).first)
         p[:to_area_id] ||= (@@areas[kto] ||= ::Area.where(source: source_id, code: p[:to_area]).pluck(:id).first)
+        unless p[:from_area_id] && p[:to_area_id]
+          raise "Missing Area #{p[:from_area].inspect} > #{p[:to_area].inspect} at #{p[:time]}"
+        end
+
         kaa = [source_id, p[:from_area_id], p[:to_area_id]]
         p[:areas_area_id] ||= @@aas[kaa] ||= ::AreasArea.where(
           from_area_id: p[:from_area_id],
@@ -402,7 +406,7 @@ module Out
 
         unless p[:areas_area_id]
           logger.warn("Missing AreasArea #{p.inspect}")
-          aa = AreasArea.create(from_area_id: p[:from_area_id], to_area_id: p[:to_area_id])
+          aa = AreasArea.create!(from_area_id: p[:from_area_id], to_area_id: p[:to_area_id])
           @@aas[kaa] = p[:areas_area_id] = aa.id
           #   a = ::Area.create!(source: source_id, code: p[:to_area], type: 'country', region: nil, enabled: false)
           #   p[:to_area_id] = areas[p[:to_area]] = a.id
