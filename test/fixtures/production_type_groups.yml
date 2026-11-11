@@ -1,14 +1,68 @@
-# frozen_string_literal: true
-
 # Production type groups for tests
 fossil_hard_coal_group:
   id: 1
-  name: "03_coal"
+  name: 03_coal
 
 solar_group:
   id: 2
-  name: "10_solar"
+  name: 10_solar
 
 wind_group:
   id: 3
-  name: "09_wind"
+  name: 09_wind
+
+batteries:
+  id: 4
+  name: 00_batteries
+
+biomass:
+  id: 5
+  name: 01_biomass_and_waste
+
+solar_thermal:
+  id: 6
+  name: 11_solar_thermal
+
+solar:
+  id: 7
+  name: 11_solar
+
+hard_coal:
+  id: 8
+  name: 04_hard_coal
+
+storage:
+  id: 9
+  name: storage
+
+hydro:
+  id: 10
+  name: 06_hydro
+
+gas:
+  id: 11
+  name: 05_gas
+
+nuclear:
+  id: 12
+  name: 02_nuclear
+
+other_renewable:
+  id: 13
+  name: 08_other_renewable
+
+solar_utility:
+  id: 14
+  name: 10_solar_utility
+
+wind_onshore:
+  id: 15
+  name: 09_wind_onshore
+
+lignite:
+  id: 16
+  name: 03_lignite
+
+wind_offshore:
+  id: 17
+  name: 08_wind_offshore

@@ -1740,7 +1740,7 @@ ree_ES-CN:
   internal_id: CANARIASAU
   source: ree
   enabled: false
-  region: spanish_islands
+  region: canary_islands
   type: region
   electricitymaps_id: ES-CN
   location_id:
@@ -1754,7 +1754,7 @@ ree_ES-CN-FV:
   internal_id: FUERTEVEAU
   source: ree
   enabled: false
-  region: spanish_islands
+  region: canary_islands
   type: region
   electricitymaps_id: ES-CN-FV
   location_id:
@@ -1768,7 +1768,7 @@ ree_ES-CN-FVLZ:
   internal_id: LZ_FVAU
   source: ree
   enabled: true
-  region: spanish_islands
+  region: canary_islands
   type: region
   electricitymaps_id: ES-CN-FVLZ
   location_id:
@@ -1782,7 +1782,7 @@ ree_ES-CN-GC:
   internal_id: GCANARIAAU
   source: ree
   enabled: false
-  region: spanish_islands
+  region: canary_islands
   type: region
   electricitymaps_id: ES-CN-GC
   location_id:
@@ -1796,7 +1796,7 @@ ree_ES-CN-HI:
   internal_id: EL_HIERROAU
   source: ree
   enabled: false
-  region: spanish_islands
+  region: canary_islands
   type: region
   electricitymaps_id: ES-CN-HI
   location_id:
@@ -1810,7 +1810,7 @@ ree_ES-CN-IG:
   internal_id: LA_GOMERAAU
   source: ree
   enabled: false
-  region: spanish_islands
+  region: canary_islands
   type: region
   electricitymaps_id: ES-CN-IG
   location_id:
@@ -1824,7 +1824,7 @@ ree_ES-CN-LP:
   internal_id: LA_PALMAAU
   source: ree
   enabled: false
-  region: spanish_islands
+  region: canary_islands
   type: region
   electricitymaps_id: ES-CN-LP
   location_id:
@@ -1838,7 +1838,7 @@ ree_ES-CN-LZ:
   internal_id: LANZAROTAU
   source: ree
   enabled: false
-  region: spanish_islands
+  region: canary_islands
   type: region
   electricitymaps_id: ES-CN-LZ
   location_id:
@@ -1852,7 +1852,7 @@ ree_ES-CN-TE:
   internal_id: TENERIFEAU
   source: ree
   enabled: false
-  region: spanish_islands
+  region: canary_islands
   type: region
   electricitymaps_id: ES-CN-TE
   location_id:
@@ -1866,7 +1866,7 @@ ree_ES-IB-FO:
   internal_id: FORMENTERAAU
   source: ree
   enabled: false
-  region: spanish_islands
+  region: canary_islands
   type: region
   electricitymaps_id: ES-IB-FO
   location_id:
@@ -1880,7 +1880,7 @@ ree_ES-IB-IZ:
   internal_id: IBIZAAU
   source: ree
   enabled: false
-  region: spanish_islands
+  region: canary_islands
   type: region
   electricitymaps_id: ES-IB-IZ
   location_id:
@@ -1894,7 +1894,7 @@ ree_ES-IB-MA:
   internal_id: MALLORCAAU
   source: ree
   enabled: false
-  region: spanish_islands
+  region: canary_islands
   type: region
   electricitymaps_id: ES-IB-MA
   location_id:
@@ -1908,7 +1908,7 @@ ree_ES-IB-ME:
   internal_id: MENORCAAU
   source: ree
   enabled: false
-  region: spanish_islands
+  region: canary_islands
   type: region
   electricitymaps_id: ES-IB-ME
   location_id:
