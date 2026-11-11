@@ -30,6 +30,7 @@ jobs:
           ELEXON_TOKEN: ${{ secrets.ELEXON_TOKEN }}
           ENTSOE_USER: ${{ secrets.ENTSOE_USER }}
           ENTSOE_PASSWORD: ${{ secrets.ENTSOE_PASSWORD }}
+          ENTSOE_TOKEN: ${{ secrets.ENTSOE_TOKEN }}
           ERCOT_PROXY_API_KEY: ${{ secrets.ERCOT_PROXY_API_KEY }}
           AESO_QUEUE_URL: ${{ secrets.AESO_QUEUE_URL }}
           ONS_QUEUE_URL: ${{ secrets.ONS_QUEUE_URL }}
