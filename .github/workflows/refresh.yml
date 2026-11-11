@@ -25,7 +25,7 @@ jobs:
           bundler-cache: true
       - name: rake -j4 all
         env:
-          RAILS_ENV: cloud
+          RAILS_ENV: production
           EIA_TOKEN: ${{ secrets.EIA_TOKEN }}
           ELEXON_TOKEN: ${{ secrets.ELEXON_TOKEN }}
           ENTSOE_USER: ${{ secrets.ENTSOE_USER }}

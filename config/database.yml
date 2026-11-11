@@ -14,12 +14,8 @@ default: &default
 development:
   <<: *default
 
-cloud:
-  <<: *default
-
 production:
   <<: *default
-  database: intermittency_prod
 
 test:
   <<: *default

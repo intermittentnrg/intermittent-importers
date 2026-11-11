@@ -5,7 +5,7 @@ SemanticLogger.environment = Rails.env.to_s
 SemanticLogger.add_appender(io: $stderr, formatter: :color)
 
 case Rails.env
-when 'cloud', 'test'
+when 'production', 'test'
   SemanticLogger.default_level = :warn
   # nothing
 else

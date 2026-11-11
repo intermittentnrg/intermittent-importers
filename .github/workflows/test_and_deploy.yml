@@ -56,9 +56,9 @@ jobs:
         with:
           ruby-version: 3.4.7
           bundler-cache: true
-      - name: rake db:migrate
+      - name: rake db:abort_if_pending_migrations
         env:
-          RAILS_ENV: cloud
+          RAILS_ENV: production
           PGHOST: ${{ secrets.PGHOST }}
           PGPORT: ${{ secrets.PGPORT }}
           PGUSER: ${{ secrets.PGUSER }}
@@ -67,4 +67,4 @@ jobs:
           PGSSLMODE: ${{ secrets.PGSSLMODE }}
           ES_URL: ${{ secrets.ES_URL }}
         run: |
-          bundle exec rake db:migrate
+          bundle exec rake db:abort_if_pending_migrations
