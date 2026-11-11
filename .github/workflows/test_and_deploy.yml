@@ -34,6 +34,10 @@ jobs:
         with:
           ruby-version: 3.4.7
           bundler-cache: true
+      - name: Install tesseract and imagemagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-jpn imagemagick
       - name: rake db:migrate db:fixtures:load
         run: |
           bundle exec rake db:create db:migrate
