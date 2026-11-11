@@ -37,8 +37,6 @@ end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  #gem "selenium-webdriver"
 end
 
 gem 'pry'
@@ -83,11 +81,6 @@ gem 'database_cleaner-active_record'
 gem 'timescaledb'
 
 gem 'pgsync'
-
-# Tweet screenshot
-gem 'selenium-webdriver'
-gem "x", "~> 0.14.1"
-gem 'minisky', '~> 0.5.0'
 
 group :test do
   gem 'rspec-rails'

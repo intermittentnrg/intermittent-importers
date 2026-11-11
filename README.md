@@ -41,7 +41,6 @@ Follow [@IntermittentNRG](https://x.com/IntermittentNRG) for updates.
 ### Utilities
 - 🛠️ [AWS SQS Integration](lib/aws_sqs.rb)
 - 🔄 [CLI Mixins](lib/cli_mixin.rb)
-- 🎨 [Grafana Animation](lib/grafanimate.rb)
 - ❌ [Empty Error Handler](lib/empty_error.rb)
 
 ## Contributing

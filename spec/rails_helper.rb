@@ -70,7 +70,7 @@ end
 VCR.configure do |config|
   config.cassette_library_dir = "fixtures/vcr_cassettes"
   config.hook_into :webmock
-  config.ignore_hosts '127.0.0.1', 'localhost', ENV['ES_HOST'], URI(ENV['SELENIUM_URL']).host
+  config.ignore_hosts '127.0.0.1', 'localhost', ENV['ES_HOST']
   config.filter_sensitive_data('<TOKEN>') { ENV['ENTSOE_TOKEN'] }
   config.filter_sensitive_data('<EIA_TOKEN>') { ENV['EIA_TOKEN'] }
   config.filter_sensitive_data('<ELEXON_TOKEN>') { ENV['ELEXON_TOKEN'] }
